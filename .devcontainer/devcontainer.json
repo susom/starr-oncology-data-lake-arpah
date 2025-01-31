@@ -1,0 +1,23 @@
+{
+    "name": "RStudio with renv",
+    "image": "rstudio_renv",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "quarto.quarto",
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                "reditorsupport.r"
+            ],
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    },
+    "remoteEnv": {
+        "ROOT": "TRUE"
+    },
+    "mounts": [
+        "source=${localEnv:HOME}/.config/gcloud,target=/home/rstudio/.config/gcloud,type=bind"
+    ]
+}

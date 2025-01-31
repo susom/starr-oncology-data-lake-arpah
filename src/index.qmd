@@ -1,0 +1,43 @@
+---
+title: "Demographic Metrics"
+execute:
+  echo: false
+---
+
+Below is the distribution of persons per year of birth
+
+```{r}
+
+# Load necessary libraries
+library(bigrquery)
+library(DBI)
+
+Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = "/home/rstudio/.config/gcloud/application_default_credentials.json")
+
+# Create a connection to BigQuery
+bq_auth(use_oob = FALSE)
+
+# Set your project ID
+project_id <- "som-rit-starr-training"
+
+# Create a BigQuery connection
+bq_conn <- dbConnect(
+  bigrquery::bigquery(),
+  project = project_id
+)
+
+sql_query <- readr::read_file("sql/person_metrics.sql")
+sql_query <- stringr::str_c(sql_query, collapse = " ")
+
+# Execute the query and store the result
+query_result <- dbGetQuery(bq_conn, sql_query)
+
+# Disconnect from BigQuery
+dbDisconnect(bq_conn)
+```
+
+```{r} 
+# Plot the result using plotly. The x axe is year and the y axe is number of persons
+plotly::plot_ly(query_result, x = ~birth_year, y = ~person_count, type = 'bar')
+```
+
