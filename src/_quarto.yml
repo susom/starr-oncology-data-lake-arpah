@@ -1,0 +1,22 @@
+project:
+  type: website
+
+website:
+  title: "STARR-Oncology ARPA-H "
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+
+format:
+  html:
+    theme: lux
+    css: styles.css
+    toc: true
+
+execute:
+  lib-dir: /home/rstudio/renv/library/linux-ubuntu-noble/R-4.4/aarch64-unknown-linux-gnu
+
+
+
