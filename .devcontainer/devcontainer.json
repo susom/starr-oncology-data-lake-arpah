@@ -1,6 +1,8 @@
 {
     "name": "RStudio with renv",
-    "image": "rstudio_renv",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
     "customizations": {
         "vscode": {
             "extensions": [
