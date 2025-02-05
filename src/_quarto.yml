@@ -1,13 +1,22 @@
 project:
   type: website
+  render:
+   - data_dictionary.qmd
+   - omop_data_dict/*
 
 website:
   title: "STARR-Oncology ARPA-H "
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+      - section: "Data Dictionary"
+        href: data_dictionary.qmd
+        contents: omop_data_dict/*
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+      - href: data_dictionary.qmd
+        text: "Data Dictionary"
 
 format:
   html:
@@ -17,6 +26,3 @@ format:
 
 execute:
   lib-dir: /home/rstudio/renv/library/linux-ubuntu-noble/R-4.4/aarch64-unknown-linux-gnu
-
-
-

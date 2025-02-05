@@ -1,0 +1,60 @@
+---
+title: "CONCEPT_CLASS"
+---
+
+## Description
+
+Vocabulary Tables
+
+The following columns are available in this table:
+
+
+### CONCEPT_CLASS_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A unique key for each class.
+
+
+
+### CONCEPT_CLASS_NAME
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The name describing the Concept Class, e.g. "Clinical Finding", "Ingredient", etc.
+
+
+
+### CONCEPT_CLASS_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key that refers to an identifier in the CONCEPT table for the unique Concept Class the record belongs to.
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### LOAD_ROW_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
+
+

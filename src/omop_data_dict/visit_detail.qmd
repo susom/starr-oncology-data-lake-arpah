@@ -1,0 +1,230 @@
+---
+title: "VISIT_DETAIL"
+---
+
+## Description
+
+Standard Clinical Data Table 
+
+The following columns are available in this table:
+
+
+### VISIT_DETAIL_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each Person's visit or encounter at a healthcare provider.
+
+
+
+### PERSON_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key identifier to the Person for whom the visit is recorded. The demographic details of that Person are stored in the PERSON table.
+
+
+
+### VISIT_DETAIL_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field contains a concept id representing the kind of visit detail, like inpatient or outpatient. All concepts in this field should be standard and belong to the Visit domain.
+
+
+
+### VISIT_DETAIL_START_DATE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The start date of the visit.
+
+
+
+### VISIT_DETAIL_START_DATETIME
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATETIME
+- **Description:** The date and time when the visit started. This defaults to 00:00:00 (midnight) if no time information is available. 
+
+
+
+### VISIT_DETAIL_END_DATE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The end date of the visit. If this is a one-day visit the end date should match the start date.
+
+
+
+### VISIT_DETAIL_END_DATETIME
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATETIME
+- **Description:** The date and time when the visit ended.This defaults to 00:00:00 (midnight) if no time information is available.
+
+
+
+### VISIT_DETAIL_TYPE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** Use this field to understand the provenance of the visit detail record, or where the record comes from.
+
+
+
+### PROVIDER_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the provider in the provider table who was associated with the visit.
+
+
+
+### CARE_SITE_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the care site in the care site table that was visited.
+
+
+
+### VISIT_DETAIL_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The source ID for the visit as it appears in the source data; this corresponds to the Epic Clarity pat_enc_csn_id for STARR-OMOP.
+
+
+
+### VISIT_DETAIL_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a Concept that repersents a distinct combination of the following three variables:  ADT patient class, hospital admission type, and encounter type. One or more of these variables may be null for any given visit.
+
+
+
+### ADMITTED_FROM_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The source code for the admitting source as it appears in the source data.
+
+
+
+### ADMITTED_FROM_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the predefined concept in the 'Place of Service' Vocabulary reflecting the admitting source for a visit.
+
+
+
+### DISCHARGE_TO_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The source code for the discharge disposition as it appears in the source data.
+
+
+
+### DISCHARGE_TO_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the predefined concept in the 'Place of Service' Vocabulary reflecting the discharge disposition for a visit.
+
+
+
+### PRECEDING_VISIT_DETAIL_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the VISIT_DETAIL table of the visit immediately preceding this visit
+
+
+
+### VISIT_DETAIL_PARENT_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the VISIT_DETAIL table record to represent the parent Visit Detail this Visit Detail belongs to, to allow for multiple levels of nested visits.
+
+
+
+### VISIT_OCCURRENCE_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key that refers to the record in the VISIT_OCCURRENCE table. This is a required field, because every visit_detail is associated with a visit_occurrence and cannot exist without a corresponding record in visit_occurrence
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code resposible for bringing in this row data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
+
+

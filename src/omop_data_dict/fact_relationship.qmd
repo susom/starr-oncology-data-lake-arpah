@@ -1,0 +1,90 @@
+---
+title: "FACT_RELATIONSHIP"
+---
+
+## Description
+
+Standard Clinical Data Table
+
+The following columns are available in this table:
+
+
+### DOMAIN_CONCEPT_ID_1
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The concept representing the domain of fact one, from which the corresponding table can be inferred.
+
+
+
+### FACT_ID_1
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The unique identifier in the table corresponding to the domain of fact one.
+
+
+
+### DOMAIN_CONCEPT_ID_2
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The concept representing the domain of fact two, from which the corresponding table can be inferred.
+
+
+
+### FACT_ID_2
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The unique identifier in the table corresponding to the domain of fact two.
+
+
+
+### RELATIONSHIP_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a Standard Concept ID of relationship in the Standardized Vocabularies.
+
+
+
+### TRACE_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### UNIT_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
+
+
+
+### LOAD_TABLE_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+

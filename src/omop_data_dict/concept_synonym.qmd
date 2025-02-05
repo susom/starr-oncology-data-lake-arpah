@@ -1,0 +1,60 @@
+---
+title: "CONCEPT_SYNONYM"
+---
+
+## Description
+
+Vocabulary Tables
+
+The following columns are available in this table:
+
+
+### CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the Concept in the CONCEPT table.
+
+
+
+### CONCEPT_SYNONYM_NAME
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The alternative name for the Concept.
+
+
+
+### LANGUAGE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a Concept representing the language.
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### LOAD_ROW_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
+
+

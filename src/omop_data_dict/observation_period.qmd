@@ -1,0 +1,90 @@
+---
+title: "OBSERVATION_PERIOD"
+---
+
+## Description
+
+Standard Clinical Data Table
+
+The following columns are available in this table:
+
+
+### OBSERVATION_PERIOD_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each observation period. A Person can have multiple discrete Observation Periods which are identified by the Observation_Period_Id.
+
+
+
+### PERSON_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key identifier to the person for whom the observation period is defined. The demographic details of that person are stored in the person table.
+
+
+
+### OBSERVATION_PERIOD_START_DATE
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The start date of the observation period for which data are available from the data source.
+
+
+
+### OBSERVATION_PERIOD_END_DATE
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The end date of the observation period for which data are available from the data source.
+
+
+
+### PERIOD_TYPE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field. stores the provenance of the Observation Period as in whether the period was determined from an insurance enrollment file, EHR healthcare encounters, or other sources.      
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code resposible for bringing in this row data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
+
+

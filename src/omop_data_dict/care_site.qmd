@@ -1,0 +1,100 @@
+---
+title: "CARE_SITE"
+---
+
+## Description
+
+Standarized Health System Data Tables
+
+The following columns are available in this table:
+
+
+### CARE_SITE_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each Care Site.
+
+
+
+### CARE_SITE_NAME
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The verbatim description or name of the Care Site as in data source
+
+
+
+### PLACE_OF_SERVICE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key that refers to a Place of Service Concept ID in the Standardized Vocabularies.
+
+
+
+### LOCATION_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the geographic Location in the LOCATION table, where the detailed address information is stored.
+
+
+
+### CARE_SITE_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The identifier for the Care Site in the source data, stored here for reference.
+
+
+
+### PLACE_OF_SERVICE_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The source code for the Place of Service as it appears in the source data, stored here for reference.
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced. 
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced.Is a Stanford specific column.
+
+

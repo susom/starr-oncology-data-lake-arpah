@@ -1,0 +1,100 @@
+---
+title: "METADATA"
+---
+
+## Description
+
+Standardized Metadata Table
+
+The following columns are available in this table:
+
+
+### METADATA_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** Standard concept corresponding to the OMOP version.
+
+
+
+### METADATA_TYPE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** concept_id describing the provenance of the data.
+
+
+
+### NAME
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** OMOP Version name
+
+
+
+### VALUE_AS_STRING
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** nan
+
+
+
+### VALUE_AS_CONCEPT_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** nan
+
+
+
+### METADATA_DATE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** DATE
+- **Description:** Raw clarity source date.
+
+
+
+### METADATA_DATETIME
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** DATETIME
+- **Description:** Raw clarity source datetime.
+
+
+
+### UNIT_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
+
+
+
+### LOAD_TABLE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+

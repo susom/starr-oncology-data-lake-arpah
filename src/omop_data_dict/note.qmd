@@ -1,0 +1,170 @@
+---
+title: "NOTE"
+---
+
+## Description
+
+Standard Clinical Data Table
+
+The following columns are available in this table:
+
+
+### NOTE_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each note.
+
+
+
+### PERSON_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key identifier to the Person about whom the Note was recorded. The demographic details of that Person are stored in the PERSON table.
+
+
+
+### NOTE_DATE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The date the note was recorded.
+
+
+
+### NOTE_DATETIME
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATETIME
+- **Description:** The date and time the note was recorded.
+
+
+
+### NOTE_TYPE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** Concept id that describes the provenance of the note. 
+
+
+
+### NOTE_CLASS_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the predefined Concept in the Standardized Vocabularies reflecting the HL7 LOINC Document Type Vocabulary classification of the note.
+
+
+
+### NOTE_TITLE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** In our OMOP this column ususally refers the note type. (Procedure note type, h&p etc)
+
+
+
+### NOTE_TEXT
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The content of the Note.
+
+
+
+### ENCODING_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the predefined Concept in the Standardized Vocabularies reflecting the note character encoding type
+
+
+
+### LANGUAGE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the predefined Concept in the Standardized Vocabularies reflecting the language of the note
+
+
+
+### PROVIDER_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the Provider in the PROVIDER table who took the Note.
+
+
+
+### VISIT_OCCURRENCE_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the Visit in the VISIT_OCCURRENCE table when the Note was taken.
+
+
+
+### VISIT_DETAIL_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the Visit in the VISIT_DETAIL table when the Note was taken.
+
+
+
+### NOTE_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The source value associated with the origin of the Note - In this case it often the clarity note_id (from hno_note)
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
+
+

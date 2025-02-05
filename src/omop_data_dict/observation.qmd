@@ -1,0 +1,220 @@
+---
+title: "OBSERVATION"
+---
+
+## Description
+
+Standard Clinical Data Table
+
+The following columns are available in this table:
+
+
+### OBSERVATION_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each observation.
+
+
+
+### PERSON_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key identifier to the Person about whom the observation was recorded. The demographic details of that Person are stored in the PERSON table.
+
+
+
+### OBSERVATION_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the standard observation concept identifier in the Standardized Vocabularies.
+
+
+
+### OBSERVATION_DATE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The date the observation was obtained
+
+
+
+### OBSERVATION_DATETIME
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATETIME
+- **Description:** The date and time the observation was obtained.
+
+
+
+### OBSERVATION_TYPE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field is used to determine the provenance of the Observation record, as in whether the measurement was from an EHR system, insurance claim, registry, or other sources.
+
+
+
+### VALUE_AS_NUMBER
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** FLOAT
+- **Description:** This is the numerical value of the Result of the Observation, if applicable and available. 
+
+
+
+### VALUE_AS_STRING
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** This is the categorical value of the Result of the Observation, if applicable and available
+
+
+
+### VALUE_AS_CONCEPT_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The standard concept corresponding to the value of a clinical Observation
+
+
+
+### QUALIFIER_CONCEPT_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field contains all attributes specifying the clinical fact further, such as as degrees, severities, drug-drug interaction alerts etc.
+
+
+
+### UNIT_CONCEPT_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The standard Concept in the Unit domain corresponding to the unit source value.
+
+
+
+### PROVIDER_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the provider in the PROVIDER table who was responsible for making the observation.
+
+
+
+### VISIT_OCCURRENCE_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the visit in the VISIT_OCCURRENCE table during which the observation was recorded.
+
+
+
+### VISIT_DETAIL_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the visit in the VISIT_DETAIL table during which the observation was recorded.
+
+
+
+### OBSERVATION_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The observation code as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+
+
+### OBSERVATION_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a Concept that refers to the code used in the source.
+
+
+
+### UNIT_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The source code for the unit as it appears in the source data. This code is mapped to a standard unit concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+
+
+### QUALIFIER_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The verbatim value from the source data representing the qualifier of the Observation that occurred.
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code resposible for bringing in this row data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
+
+

@@ -1,0 +1,90 @@
+---
+title: "RELATIONSHIP"
+---
+
+## Description
+
+Vocabulary Tables
+
+The following columns are available in this table:
+
+
+### RELATIONSHIP_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The type of relationship captured by the relationship record.
+
+
+
+### RELATIONSHIP_NAME
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The text that describes the relationship type.
+
+
+
+### IS_HIERARCHICAL
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Defines whether a relationship defines concepts into classes or hierarchies. Values are 1 for hierarchical relationship or 0 if not.
+
+
+
+### DEFINES_ANCESTRY
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Defines whether a hierarchical relationship contributes to the concept_ancestor table. These are subsets of the hierarchical relationships. Valid values are 1 or 0.
+
+
+
+### REVERSE_RELATIONSHIP_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The identifier for the relationship used to define the reverse relationship between two concepts.
+
+
+
+### RELATIONSHIP_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key that refers to an identifier in the CONCEPT table for the unique relationship concept.
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### LOAD_ROW_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
+
+
