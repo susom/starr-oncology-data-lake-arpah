@@ -1,0 +1,161 @@
+---
+title: "IMAGE_OCCURRENCE"
+---
+
+## Description
+
+Clinical Data Table (not yet a Standard)
+
+The following columns are available in this table:
+
+
+### IMAGE_OCCURRENCE_ID (PK)
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A system-generated unique identifier for each Image Occurrence event.
+
+
+
+### PERSON_ID (FK)
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key identifier to the Person who is subjected to the Drug. The demographic details of that Person are stored in the PERSON table.
+
+
+
+### PROCEDURE_OCCURRENCE_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The unique key is given to a procedure record for a person. Links to the Procedure_occurrence table.
+
+
+
+### VISIT_OCCURRENCE_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The unique key is given to the visit record for a person. Links to the Visit_occurrence table
+
+
+
+### ANATOMIC_SITE_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Anatomical location of the imaging procedure by the medical acquisition device (gross anatomy). It maps the ANATOMIC_SITE_SOURCE_VALUE to a Standard Concept in the Spec Anatomic Site domain. This should be coded at the lowest level of granularit
+
+
+
+### WADORS_URI
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Web Access to DICOM Objects via Restful Web Services Uniform Resource Identifer on study level
+
+
+
+### LOCAL_PATH
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Local path to the folder containing the image object file (access via a storage block
+access protocol)
+
+
+
+### IMAGE_OCCURRENCE_DATE
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** DATE
+- **Description:** The date the imaging procedure occurred
+
+
+
+### IMAGE_STUDY_UID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** DICOM Study UID(unique identifier). One study can include several series.
+
+
+
+### IMAGE_SERIES_UID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** DICOM Series UID (unique identifier).
+
+
+
+### MODALITY_SOURCE_VALUE
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A label that defines the imaging procedures and usually refers to the type of imaging device used. It is of the attributes of the DICOM file (e.g., US, CT, MR, PT, DR, CR, NM).
+
+
+
+### _ACCESSION_NUMBER
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A unique identifier assigned to a patient's specimen or procedure order when it is entered into the system. Note that accession numbers may not be unique accross departments, but are usually unique accross modalities. 
+
+
+
+### SOURCE_FLAG (STANFORD CONSTRUCT FOR TRACEABILITY.
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The primary hospital system the data is sourced from. 
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The primary starr-common table the data is sourced from. 
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+

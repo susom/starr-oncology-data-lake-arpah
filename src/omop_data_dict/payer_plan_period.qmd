@@ -1,0 +1,200 @@
+---
+title: "PAYER_PLAN_PERIOD"
+---
+
+## Description
+
+Standardized Health Economics data Table, currently empty 
+
+The following columns are available in this table:
+
+
+### PAYER_PLAN_PERIOD_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each unique combination of a Person, Payer, Plan, and Period of time.
+
+
+
+### PERSON_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The Person covered by the Plan. The demographic details of that Person are stored in the PERSON table.
+
+
+
+### PAYER_PLAN_PERIOD_START_DATE
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The start date of the payer plan period.
+
+
+
+### PAYER_PLAN_PERIOD_END_DATE
+
+
+- **Required:** Yes
+- **Contains PHI:** Yes
+- **Data Type:** DATE
+- **Description:** The end date of the payer plan period.
+
+
+
+### PAYER_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field represents the organization who reimburses the provider which administers care to the Person. This field refers to a standard Payer concept identifier in the Standarized Vocabularies.
+
+
+
+### PAYER_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The source code for the payer as it appears in the source data. Currently it is "payer_ SOPT Desc | SOPT ID | Epic Payer Name| Epic Payor ID | Epic Financial Class Name | Epic Financial Class ID". SOPT is the payer type standard that provides a mechanism for consistent reporting of payer data to public health agencies for health care services and research
+
+
+
+### PAYER_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a payer concept that refers to the code used in the source. It is the OMOP concept id corresponding to the source code.
+
+
+
+### PLAN_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key that refers to a standard plan concept identifier that represents the health benefit plan in the Standardized Vocabularies.
+
+
+
+### PLAN_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The source code for the Person's health benefit plan as it appears in the source data. Currently it is "Epic Plan Name| Epic Plan ID ".
+
+
+
+### PLAN_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a plan concept that refers to the plan code used in the source data.
+
+
+
+### SPONSOR_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key that refers to a concept identifier that represents the sponsor in the Standardized Vocabularies.
+
+
+
+### SPONSOR_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The source code for the Person's sponsor of the health plan as it appears in the source data.
+
+
+
+### SPONSOR_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a sponsor concept that refers to the sponsor code used in the source data.
+
+
+
+### FAMILY_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The source code for the Person's family as it appears in the source data.
+
+
+
+### STOP_REASON_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key that refers to a standard termination reason that represents the reason for the termination in the Standardized Vocabularies.
+
+
+
+### STOP_REASON_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The reason for stop-coverage as it appears in the source data.
+
+
+
+### STOP_REASON_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a stop-coverage concept that refers to the code used in the source
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code resposible for bringing in this row data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
+
+

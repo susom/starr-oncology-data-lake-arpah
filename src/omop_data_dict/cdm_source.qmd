@@ -1,0 +1,130 @@
+---
+title: "CDM_SOURCE"
+---
+
+## Description
+
+Standardized Metadata Table
+
+The following columns are available in this table:
+
+
+### CDM_SOURCE_NAME
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The full name of the various raw datasources,
+
+
+
+### CDM_SOURCE_ABBREVIATION
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** An abbreviation of the CDM source.
+
+
+
+### CDM_HOLDER
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The name of the organization responsible for the development of the CDM instance
+
+
+
+### SOURCE_DESCRIPTION
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Primary IRB 
+
+
+
+### SOURCE_DOCUMENTATION_REFERENCE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** URL or other external reference to location of source documentation
+
+
+
+### CDM_ETL_REFERENCE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** URL or other external reference to location of ETL specification documentation and ETL source code
+
+
+
+### SOURCE_RELEASE_DATE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** DATE
+- **Description:** The date for which the source data are most current, such as the last day of data capture
+
+
+
+### CDM_RELEASE_DATE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** DATE
+- **Description:** The date when the CDM was instantiated
+
+
+
+### CDM_VERSION
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The version of CDM used
+
+
+
+### VOCABULARY_VERSION
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The version of the vocabulary used
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+

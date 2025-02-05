@@ -1,0 +1,140 @@
+---
+title: "LOCATION"
+---
+
+## Description
+
+Standarized Health System Data Tables
+
+The following columns are available in this table:
+
+
+### LOCATION_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** No
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each geographic location.
+
+
+
+### ADDRESS_1
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The address field 1, typically used for the street address, as it appears in the source data.
+
+
+
+### ADDRESS_2
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The address field 2, typically used for additional detail such as buildings, suites, floors, as it appears in the source data.
+
+
+
+### CITY
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The city field as it appears in the source data.
+
+
+
+### STATE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The state field as it appears in the source data.
+
+
+
+### ZIP
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The 5 digit zip or postal code of the locatin address
+
+
+
+### COUNTY
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** The name of the county.
+
+
+
+### LOCATION_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The MRN|DOB of the person this location corresponds to
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### _CENSUS_BLOCK_GROUP (AVAILABLE ONLY AT STANFORD)
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The census block group as indicated by United States Census Bureau API for this address location
+
+
+
+### LATITUDE (AVAILABLE ONLY AT STANFORD)
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** FLOAT
+- **Description:** latitude of the address if available
+
+
+
+### LONGITUDE (AVAILABLE ONLY AT STANFORD)
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** FLOAT
+- **Description:** longitude of the address if available
+
+

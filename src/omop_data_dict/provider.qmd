@@ -1,0 +1,170 @@
+---
+title: "PROVIDER"
+---
+
+## Description
+
+Standarized Health System Data Tables
+
+The following columns are available in this table:
+
+
+### PROVIDER_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** No
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each Provider.
+
+
+
+### PROVIDER_NAME
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** A description of the Healthcare Provider.
+
+
+
+### NPI
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** The National Provider Identifier (NPI) of the providers in the US by the Centers for Medicare and Medicaid Services (CMS).
+
+
+
+### DEA
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** This is the identifier issued by the DEA, a US federal agency, that allows a provider to write prescriptions for controlled substances.
+
+
+
+### SPECIALTY_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** This is the CARE_SITE_ID for the location that the provider primarily practices in.
+
+
+
+### CARE_SITE_ID
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** INTEGER
+- **Description:** This field either represents the most common specialty that occurs in the data or the most specific concept that represents all specialties listed, should the provider have more than one.
+
+
+
+### YEAR_OF_BIRTH
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** INTEGER
+- **Description:** The year of birth of the Provider.
+
+
+
+### GENDER_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** No
+- **Data Type:** INTEGER
+- **Description:** The gender of the Provider.
+
+
+
+### PROVIDER_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** The identifier used for the Provider in the source data, stored here for reference.
+
+
+
+### SPECIALTY_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** The source code for the Provider specialty as it appears in the source data, stored here for reference.
+
+
+
+### SPECIALTY_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** No
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a Concept that refers to the code used in the source.
+
+
+
+### GENDER_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** The gender code for the Provider as it appears in the source data, stored here for reference.
+
+
+
+### GENDER_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** No
+- **Data Type:** INTEGER
+- **Description:** A foreign key to a Concept that refers to the code used in the source for storing the providers gender
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** Is a reference for the position in the ETL code resposible for bringing in this row data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** No
+- **Data Type:** STRING
+- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
+
+

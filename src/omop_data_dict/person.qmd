@@ -1,0 +1,230 @@
+---
+title: "PERSON"
+---
+
+## Description
+
+Standard Clinical Data Table
+
+The following columns are available in this table:
+
+
+### NAN
+
+
+- **Required:** 
+- **Contains PHI:** 
+- **Data Type:** 
+- **Description:** nan
+
+
+
+### PERSON_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A unique identifier for each person. 	
+
+
+
+### GENDER_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field is meant to capture the biological sex at birth of the Person. This field should not be used to study gender identity issues.
+
+
+
+### YEAR_OF_BIRTH
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** The year of birth of the person. For data sources with date of birth, the year is extracted. For data sources where the year of birth is not available, the approximate year of birth is derived based on any age group categorization available.
+
+
+
+### MONTH_OF_BIRTH
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** INTEGER
+- **Description:** The month of birth of the person. For data sources that provide the precise date of birth, the month is extracted and stored in this field.
+
+
+
+### DAY_OF_BIRTH
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** INTEGER
+- **Description:** The day of the month of birth of the person. For data sources that provide the precise date of birth, the day is extracted and stored in this field.
+
+
+
+### BIRTH_DATETIME
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** DATETIME
+- **Description:** The date and time of birth of the person.
+
+
+
+### RACE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field captures race or ethnic background of the person.
+
+
+
+### ETHNICITY_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** This field captures ethnicity as defined by the Office of Management and Budget (OMB) of the US Government: it distinguishes only between “Hispanic” and “Not Hispanic”. Races and ethnic backgrounds are not stored here.
+
+
+
+### LOCATION_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the place of residency for the person in the location table, where the detailed address information is stored. This field should capture the last known location of the person.
+
+
+
+### PROVIDER_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the primary care provider the person is seeing in the provider table.
+
+
+
+### CARE_SITE_ID
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the site of primary care in the care_site table, where the details of the care site are stored.
+
+
+
+### PERSON_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** An (encrypted) key derived from the person identifier in the source data. This is necessary when a use case requires a link back to the person data at the source dataset. In STARR-OMOP person_source_value is: MRN | D.O.B.
+
+
+
+### GENDER_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The source code for the gender of the person as it appears in the source data. The person’s gender is mapped to a standard gender concept in the Standardized Vocabularies; the original value is stored here for reference.
+
+
+
+### GENDER_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the gender concept that refers to the code used in the source.
+
+
+
+### RACE_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The source code for the race of the person as it appears in the source data. The person race is mapped to a standard race concept in the Standardized Vocabularies and the original value is stored here for reference.
+
+
+
+### RACE_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the race concept that refers to the code used in the source.
+
+
+
+### ETHNICITY_SOURCE_VALUE
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** The source code for the ethnicity of the person as it appears in the source data. The person ethnicity is mapped to a standard ethnicity concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+
+
+### ETHNICITY_SOURCE_CONCEPT_ID
+
+
+- **Required:** Yes
+- **Contains PHI:** 
+- **Data Type:** INTEGER
+- **Description:** A foreign key to the ethnicity concept that refers to the code used in the source.
+
+
+
+### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** Yes
+- **Data Type:** STRING
+- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
+
+
+
+### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is a reference to the position in the ETL code resposible for bringing in this row data
+
+
+
+### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
+
+
+- **Required:** No
+- **Contains PHI:** 
+- **Data Type:** STRING
+- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
+
+
