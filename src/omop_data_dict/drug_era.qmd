@@ -1,5 +1,5 @@
 ---
-title: "DRUG_ERA"
+title: "drug_era"
 ---
 
 Standardized Derived Elements
@@ -19,7 +19,7 @@ Standardized Derived Elements
 | unit_id (Stanford construct for traceability)       | STRING   |       | No         |
 | load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

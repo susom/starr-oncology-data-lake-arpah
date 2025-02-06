@@ -1,5 +1,5 @@
 ---
-title: "VOCABULARY"
+title: "vocabulary"
 ---
 
 Vocabulary Tables
@@ -16,7 +16,7 @@ Vocabulary Tables
 | load_table_id (Stanford construct for traceability) | STRING  | No    | No         |
 | load_row_id (Stanford construct for traceability)   | STRING  | No    | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

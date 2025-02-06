@@ -1,34 +1,47 @@
 project:
   type: website
   render:
+   - about.qmd
    - data_dictionary.qmd
    - omop_data_dict/*
 
 website:
-  title: "STARR-Oncology ARPA-H"
+  title: "ARPA-H"
   page-navigation: true
   back-to-top-navigation: true
   sidebar:
-  - id: omop_data_dictionary
     collapse-level: 1
     contents:
+      - text: "About"
+        href: about.qmd
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
           - section: "omop cdm"
             contents: omop_data_dict/*
-          
   navbar:
     left:
+      - text: "About"
+        href: about.qmd
       - href: data_dictionary.qmd
         text: "Data Dictionary"
+    tools:
+      - icon: github
+        href: https://github.com/susom/starr-oncology-data-lake-arpah
+  
+  page-footer: 
+    right: 
+      - text: "Report Issue"
+        href: "https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue"
+
         
 
 format:
   html:
     theme: lux
     css: styles.css
-    toc: false
+    toc: true
+    toc-depth: 5
 
 execute:
   lib-dir: /home/rstudio/renv/library/linux-ubuntu-noble/R-4.4/aarch64-unknown-linux-gnu

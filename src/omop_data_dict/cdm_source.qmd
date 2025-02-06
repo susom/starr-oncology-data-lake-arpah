@@ -1,5 +1,5 @@
 ---
-title: "CDM_SOURCE"
+title: "cdm_source"
 ---
 
 Standardized Metadata Table
@@ -21,7 +21,7 @@ Standardized Metadata Table
 | unit_id (Stanford construct for traceability)       | STRING |       | No         |
 | load_table_id (Stanford construct for traceability) | STRING |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

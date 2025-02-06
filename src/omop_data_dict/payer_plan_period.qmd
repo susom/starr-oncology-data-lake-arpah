@@ -1,5 +1,5 @@
 ---
-title: "PAYER_PLAN_PERIOD"
+title: "payer_plan_period"
 ---
 
 Standardized Health Economics data Table, currently empty 
@@ -28,7 +28,7 @@ Standardized Health Economics data Table, currently empty
 | trace_id (Stanford construct for traceability)      | STRING  | Yes   | No         |
 | load_table_id (Stanford construct for traceability) | STRING  | Yes   | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

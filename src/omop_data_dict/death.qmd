@@ -1,5 +1,5 @@
 ---
-title: "DEATH"
+title: "death"
 ---
 
 Standard Clinical Data Table
@@ -20,7 +20,7 @@ Standard Clinical Data Table
 | load_table_id (Stanford construct for traceability)        |        |       | No         |
 | _death_date_external (Stanford construct for traceability) |        | Yes   | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

@@ -1,5 +1,5 @@
 ---
-title: "PROCEDURE_OCCURRENCE"
+title: "procedure_occurrence"
 ---
 
 Standard Clinical Data Table
@@ -26,7 +26,7 @@ Standard Clinical Data Table
 | unit_id (Stanford construct for traceability)       | STRING   |       | No         |
 | load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

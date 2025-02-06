@@ -1,5 +1,5 @@
 ---
-title: "METADATA"
+title: "metadata"
 ---
 
 Standardized Metadata Table
@@ -18,7 +18,7 @@ Standardized Metadata Table
 | unit_id                  | STRING   |       | No         |
 | load_table               | STRING   |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 
