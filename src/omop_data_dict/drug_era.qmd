@@ -2,109 +2,64 @@
 title: "DRUG_ERA"
 ---
 
-## Description
-
 Standardized Derived Elements
 
-The following columns are available in this table:
+### Table Columns
+
+| field                                               | type     | phi   | required   |
+|:----------------------------------------------------|:---------|:------|:-----------|
+| drug_era_id                                         | INTEGER  |       | Yes        |
+| person_id                                           | INTEGER  |       | Yes        |
+| drug_concept_id                                     | INTEGER  |       | Yes        |
+| drug_era_start_date                                 | DATETIME | Yes   | Yes        |
+| drug_era_end_date                                   | DATETIME | Yes   | Yes        |
+| drug_exposure_count                                 | INTEGER  |       | No         |
+| gap_days                                            | INTEGER  |       | No         |
+| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
+| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### DRUG_ERA_ID
+##### drug_era_id
 
+A unique identifier for each Drug Era.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A unique identifier for each Drug Era.
+##### person_id
 
+A foreign key identifier to the Person who is subjected to the drug during the Drug Era. The demographic details of that Person are stored in the PERSON table.
 
+##### drug_concept_id
 
-### PERSON_ID
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies for the Ingredient Concept.
 
+##### drug_era_start_date
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key identifier to the Person who is subjected to the drug during the Drug Era. The demographic details of that Person are stored in the PERSON table.
+The start date for the Drug Era constructed from the individual instances of Drug Exposures. It is the start date of the very first chronologically recorded instance of conutilization of a Drug.
 
+##### drug_era_end_date
 
+The end date for the drug era constructed from the individual instance of drug exposures. It is the end date of the final continuously recorded instance of utilization of a drug.
 
-### DRUG_CONCEPT_ID
+##### drug_exposure_count
 
+The number of individual Drug Exposure occurrences used to construct the Drug Era.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies for the Ingredient Concept.
+##### gap_days
 
+The number of days that are not covered by drug_exposure records that were used to make up the era record.
 
+##### trace_id (stanford construct for traceability) 
 
-### DRUG_ERA_START_DATE
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
+##### unit_id (stanford construct for traceability) 
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The start date for the Drug Era constructed from the individual instances of Drug Exposures. It is the start date of the very first chronologically recorded instance of conutilization of a Drug.
+Is a reference for the position in the ETL code responsible for bringing in this row data
 
+##### load_table_id (stanford construct for traceability) 
 
-
-### DRUG_ERA_END_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The end date for the drug era constructed from the individual instance of drug exposures. It is the end date of the final continuously recorded instance of utilization of a drug.
-
-
-
-### DRUG_EXPOSURE_COUNT
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The number of individual Drug Exposure occurrences used to construct the Drug Era.
-
-
-
-### GAP_DAYS
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The number of days that are not covered by drug_exposure records that were used to make up the era record.
-
-
-
-### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced

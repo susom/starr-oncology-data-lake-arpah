@@ -2,129 +2,74 @@
 title: "CDM_SOURCE"
 ---
 
-## Description
-
 Standardized Metadata Table
 
-The following columns are available in this table:
+### Table Columns
+
+| field                                               | type   | phi   | required   |
+|:----------------------------------------------------|:-------|:------|:-----------|
+| cdm_source_name                                     | STRING |       | Yes        |
+| cdm_source_abbreviation                             | STRING |       | No         |
+| cdm_holder                                          | STRING |       | No         |
+| source_description                                  | STRING |       | No         |
+| source_documentation_reference                      | STRING |       | No         |
+| cdm_etl_reference                                   | STRING |       | No         |
+| source_release_date                                 | DATE   |       | No         |
+| cdm_release_date                                    | DATE   |       | No         |
+| cdm_version                                         | STRING |       | No         |
+| vocabulary_version                                  | STRING |       | No         |
+| unit_id (Stanford construct for traceability)       | STRING |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### CDM_SOURCE_NAME
+##### cdm_source_name
 
+The full name of the various raw datasources,
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The full name of the various raw datasources,
+##### cdm_source_abbreviation
 
+An abbreviation of the CDM source.
 
+##### cdm_holder
 
-### CDM_SOURCE_ABBREVIATION
+The name of the organization responsible for the development of the CDM instance
 
+##### source_description
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** An abbreviation of the CDM source.
+Primary IRB 
 
+##### source_documentation_reference
 
+URL or other external reference to location of source documentation
 
-### CDM_HOLDER
+##### cdm_etl_reference
 
+URL or other external reference to location of ETL specification documentation and ETL source code
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The name of the organization responsible for the development of the CDM instance
+##### source_release_date
 
+The date for which the source data are most current, such as the last day of data capture
 
+##### cdm_release_date
 
-### SOURCE_DESCRIPTION
+The date when the CDM was instantiated
 
+##### cdm_version
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Primary IRB 
+The version of CDM used
 
+##### vocabulary_version
 
+The version of the vocabulary used
 
-### SOURCE_DOCUMENTATION_REFERENCE
+##### unit_id (stanford construct for traceability) 
 
+Is a reference for the position in the ETL code responsible for bringing in this row level data
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** URL or other external reference to location of source documentation
+##### load_table_id (stanford construct for traceability) 
 
-
-
-### CDM_ETL_REFERENCE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** URL or other external reference to location of ETL specification documentation and ETL source code
-
-
-
-### SOURCE_RELEASE_DATE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date for which the source data are most current, such as the last day of data capture
-
-
-
-### CDM_RELEASE_DATE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date when the CDM was instantiated
-
-
-
-### CDM_VERSION
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The version of CDM used
-
-
-
-### VOCABULARY_VERSION
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The version of the vocabulary used
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced

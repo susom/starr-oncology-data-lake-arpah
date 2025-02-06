@@ -2,199 +2,109 @@
 title: "CONDITION_OCCURRENCE"
 ---
 
-## Description
-
 Standard Clinical Data Table
 
-The following columns are available in this table:
+### Table Columns
 
+| field                                               | type     | phi   | required   |
+|:----------------------------------------------------|:---------|:------|:-----------|
+| condition_occurrence_id                             | INTEGER  |       | Yes        |
+| person_id                                           | INTEGER  |       | Yes        |
+| condition_concept_id                                | INTEGER  |       | Yes        |
+| condition_start_date                                | DATE     | Yes   | No         |
+| condition_start_datetime                            | DATETIME | Yes   | Yes        |
+| condition_end_date                                  | DATE     | Yes   | No         |
+| condition_end_datetime                              | DATETIME | Yes   | No         |
+| condition_type_concept_id                           | INTEGER  |       | Yes        |
+| condition_status_concept_id                         | INTEGER  |       | Yes        |
+| stop_reason                                         | STRING   |       | No         |
+| provider_id                                         | INTEGER  |       | No         |
+| visit_occurrence_id                                 | INTEGER  |       | No         |
+| visit_detail_id                                     | INTEGER  |       | No         |
+| condition_source_value                              | STRING   |       | No         |
+| condition_source_concept_id                         | INTEGER  |       | Yes        |
+| condition_status_source_value                       | STRING   |       | No         |
+| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
+| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 
-### CONDITION_OCCURRENCE_ID
+:  {.hover .responsive}
 
+### Columns Description
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A unique identifier for each Condition Occurrence event.
 
+##### condition_occurrence_id
 
+A unique identifier for each Condition Occurrence event.
 
-### PERSON_ID
+##### person_id
 
+A foreign key identifier to the Person who is experiencing the condition. The demographic details of that Person are stored in the PERSON table.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key identifier to the Person who is experiencing the condition. The demographic details of that Person are stored in the PERSON table.
+##### condition_concept_id
 
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies belonging to the 'Condition' domain.
 
+##### condition_start_date
 
-### CONDITION_CONCEPT_ID
+The date when the instance of the Condition is recorded.
 
+##### condition_start_datetime
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies belonging to the 'Condition' domain.
+The date and time when the instance of the Condition is recorded.
 
+##### condition_end_date
 
+The date when the instance of the Condition is considered to have ended.
 
-### CONDITION_START_DATE
+##### condition_end_datetime
 
+The date when the instance of the Condition is considered to have ended.
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The date when the instance of the Condition is recorded.
+##### condition_type_concept_id
 
+This field is used to determine the provenance of the Condition record, as in whether the condition was from an EHR system, insurance claim, registry, or other sources.
 
+##### condition_status_concept_id
 
-### CONDITION_START_DATETIME
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies reflecting the point of care at which the Condition was diagnosed.
 
+##### stop_reason
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The date and time when the instance of the Condition is recorded.
+The reason that the Condition was no longer present, as indicated in the source data.
 
+##### provider_id
 
+A foreign key to the Provider in the PROVIDER table who was responsible for capturing (diagnosing) the Condition.
 
-### CONDITION_END_DATE
+##### visit_occurrence_id
 
+A foreign key to the visit in the VISIT_OCCURRENCE table during which the Condition was determined (diagnosed).
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The date when the instance of the Condition is considered to have ended.
+##### visit_detail_id
 
+A foreign key to the visit in the VISIT_DETAIL table during which the Condition was determined (diagnosed).
 
+##### condition_source_value
 
-### CONDITION_END_DATETIME
+The source code for the Condition as it appears in the source data. It is typically ICD9 or ICD10; or the dx_id if we dont have the ICD codes.
 
+##### condition_source_concept_id
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The date when the instance of the Condition is considered to have ended.
+A foreign key to a Condition Concept that refers to the code used in the source.
 
+##### condition_status_source_value
 
+The source code for the condition status as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.
 
-### CONDITION_TYPE_CONCEPT_ID
+##### trace_id (stanford construct for traceability) 
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** This field is used to determine the provenance of the Condition record, as in whether the condition was from an EHR system, insurance claim, registry, or other sources.
+##### unit_id (stanford construct for traceability) 
 
+Is a reference for the position in the ETL code responsible for bringing in this row level data
 
+##### load_table_id (stanford construct for traceability) 
 
-### CONDITION_STATUS_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies reflecting the point of care at which the Condition was diagnosed.
-
-
-
-### STOP_REASON
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The reason that the Condition was no longer present, as indicated in the source data.
-
-
-
-### PROVIDER_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Provider in the PROVIDER table who was responsible for capturing (diagnosing) the Condition.
-
-
-
-### VISIT_OCCURRENCE_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the visit in the VISIT_OCCURRENCE table during which the Condition was determined (diagnosed).
-
-
-
-### VISIT_DETAIL_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the visit in the VISIT_DETAIL table during which the Condition was determined (diagnosed).
-
-
-
-### CONDITION_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The source code for the Condition as it appears in the source data. It is typically ICD9 or ICD10; or the dx_id if we dont have the ICD codes.
-
-
-
-### CONDITION_SOURCE_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to a Condition Concept that refers to the code used in the source.
-
-
-
-### CONDITION_STATUS_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The source code for the condition status as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.
-
-
-
-### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced

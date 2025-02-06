@@ -2,149 +2,84 @@
 title: "DRUG_STRENGTH"
 ---
 
-## Description
-
 Vocabulary Tables
 
-The following columns are available in this table:
+### Table Columns
 
+| field                                               | type    | phi   | required   |
+|:----------------------------------------------------|:--------|:------|:-----------|
+| drug_concept_id                                     | INTEGER |       | Yes        |
+| ingredient_concept_id                               | INTEGER |       | Yes        |
+| amount_value                                        | FLOAT   |       | No         |
+| amount_unit_concept_id                              | INTEGER |       | No         |
+| numerator_value                                     | FLOAT   |       | No         |
+| numerator_unit_concept_id                           | INTEGER |       | No         |
+| denominator_value                                   | FLOAT   |       | No         |
+| denominator_unit_concept_id                         | INTEGER |       | No         |
+| box_size                                            | INTEGER |       | No         |
+| valid_start_date                                    | DATE    |       | Yes        |
+| valid_end_date                                      | DATE    |       | Yes        |
+| invalid_reason                                      | STRING  |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
+| load_row _id (Stanford construct for traceability)  | STRING  |       | No         |
 
-### DRUG_CONCEPT_ID
+:  {.hover .responsive}
 
+### Columns Description
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Concept in the CONCEPT table representing the identifier for Branded Drug or Clinical Drug Concept.
 
+##### drug_concept_id
 
+A foreign key to the Concept in the CONCEPT table representing the identifier for Branded Drug or Clinical Drug Concept.
 
-### INGREDIENT_CONCEPT_ID
+##### ingredient_concept_id
 
+A foreign key to the Concept in the CONCEPT table, representing the identifier for drug Ingredient Concept contained within the drug product.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Concept in the CONCEPT table, representing the identifier for drug Ingredient Concept contained within the drug product.
+##### amount_value
 
+The numeric value associated with the amount of active ingredient contained within the product.
 
+##### amount_unit_concept_id
 
-### AMOUNT_VALUE
+A foreign key to the Concept in the CONCEPT table representing the identifier for the Unit for the absolute amount of active ingredient.
 
+##### numerator_value
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** FLOAT
-- **Description:** The numeric value associated with the amount of active ingredient contained within the product.
+The numeric value associated with the concentration of the active ingredient contained in the product
 
+##### numerator_unit_concept_id
 
+A foreign key to the Concept in the CONCEPT table representing the identifier for the numerator Unit for the concentration of active ingredient.
 
-### AMOUNT_UNIT_CONCEPT_ID
+##### denominator_value
 
+The amount of total liquid (or other divisible product, such as ointment, gel, spray, etc.).
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Concept in the CONCEPT table representing the identifier for the Unit for the absolute amount of active ingredient.
+##### denominator_unit_concept_id
 
+A foreign key to the Concept in the CONCEPT table representing the identifier for the denominator Unit for the concentration of active ingredient.
 
+##### box_size
 
-### NUMERATOR_VALUE
+The number of units of Clinical of Branded Drug, or Quantified Clinical or Branded Drug contained in a box as dispensed to the patient
 
+##### valid_start_date
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** FLOAT
-- **Description:** The numeric value associated with the concentration of the active ingredient contained in the product
+The date when the Concept was first recorded. The default value is 1-Jan-1970.
 
+##### valid_end_date
 
+The date when the concept became invalid because it was deleted or superseded (updated) by a new Concept. The default value is 31-Dec-2099.
 
-### NUMERATOR_UNIT_CONCEPT_ID
+##### invalid_reason
 
+Reason the concept was invalidated. Possible values are 'D' (deleted), 'U' (replaced with an update) or NULL when valid_end_date has the default value.
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Concept in the CONCEPT table representing the identifier for the numerator Unit for the concentration of active ingredient.
+##### load_table_id (stanford construct for traceability) 
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
+##### load_row _id (stanford construct for traceability) 
 
-### DENOMINATOR_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** FLOAT
-- **Description:** The amount of total liquid (or other divisible product, such as ointment, gel, spray, etc.).
-
-
-
-### DENOMINATOR_UNIT_CONCEPT_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Concept in the CONCEPT table representing the identifier for the denominator Unit for the concentration of active ingredient.
-
-
-
-### BOX_SIZE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The number of units of Clinical of Branded Drug, or Quantified Clinical or Branded Drug contained in a box as dispensed to the patient
-
-
-
-### VALID_START_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date when the Concept was first recorded. The default value is 1-Jan-1970.
-
-
-
-### VALID_END_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date when the concept became invalid because it was deleted or superseded (updated) by a new Concept. The default value is 31-Dec-2099.
-
-
-
-### INVALID_REASON
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Reason the concept was invalidated. Possible values are 'D' (deleted), 'U' (replaced with an update) or NULL when valid_end_date has the default value.
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### LOAD_ROW _ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
-
-
+A reference to the position in the ETL code responsible for bringing in this row level data

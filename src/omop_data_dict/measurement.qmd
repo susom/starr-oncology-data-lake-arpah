@@ -2,239 +2,129 @@
 title: "MEASUREMENT"
 ---
 
-## Description
-
 Standard Clinical Data Table
 
-The following columns are available in this table:
+### Table Columns
 
+| field                                               | type     | phi   | required   |
+|:----------------------------------------------------|:---------|:------|:-----------|
+| measurement_id                                      | INTEGER  |       | Yes        |
+| person_id                                           | INTEGER  |       | Yes        |
+| measurement_concept_id                              | INTEGER  |       | Yes        |
+| measurement_date                                    | DATE     | Yes   | No         |
+| measurement_datetime                                | DATETIME | Yes   | Yes        |
+| measurement_time                                    | STRING   |       | No         |
+| measurement_type_concept_id                         | INTEGER  |       | Yes        |
+| operator_concept_id                                 | INTEGER  |       | No         |
+| value_as_number                                     | FLOAT    |       | No         |
+| value_as_concept_id                                 | INTEGER  |       | No         |
+| unit_concept_id                                     | INTEGER  |       | No         |
+| range_low                                           | FLOAT    |       | No         |
+| range_high                                          | FLOAT    |       | No         |
+| provider_id                                         | INTEGER  |       | No         |
+| visit_occurrence_id                                 | INTEGER  |       | No         |
+| visit_detail_id                                     | INTEGER  |       | No         |
+| measurement_source_value                            | STRING   | Yes   | No         |
+| measurement_source_concept_id                       | INTEGER  |       | Yes        |
+| unit_source_value                                   | STRING   |       | No         |
+| value_source_value                                  | STRING   | Yes   | No         |
+| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
+| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 
-### MEASUREMENT_ID
+:  {.hover .responsive}
 
+### Columns Description
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A unique identifier for each Measurement.
 
+##### measurement_id
 
+A unique identifier for each Measurement.
 
-### PERSON_ID
+##### person_id
 
+A foreign key identifier to the Person about whom the measurement was recorded. The demographic details of that Person are stored in the PERSON table.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key identifier to the Person about whom the measurement was recorded. The demographic details of that Person are stored in the PERSON table.
+##### measurement_concept_id
 
+The standard concept_id that the measurement_source_value maps to
 
+##### measurement_date
 
-### MEASUREMENT_CONCEPT_ID
+The date of the Measurement. If there are multiple dates in the source data associated with a record such as order_date, draw_date, and result_date, we choose the one that is closest to the date the sample was drawn from the patient.
 
+##### measurement_datetime
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The standard concept_id that the measurement_source_value maps to
+The date and time of the Measurement. 
 
+##### measurement_time
 
+The time of the Measurement. This is present for backwards compatibility and will be deprecated in an upcoming version
 
-### MEASUREMENT_DATE
+##### measurement_type_concept_id
 
+The measurement_type_concept_id that best represents the provenance of the record, for example whether it came from an EHR record or billing claim.
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The date of the Measurement. If there are multiple dates in the source data associated with a record such as order_date, draw_date, and result_date, we choose the one that is closest to the date the sample was drawn from the patient.
+##### operator_concept_id
 
+A foreign key identifier to the predefined Concept in the Standardized Vocabularies reflecting the mathematical operator that is applied to the value_as_number. Operators are <, <=, =, >=, > and these concepts belong to the 'Meas Value Operator' domain.
 
+##### value_as_number
 
-### MEASUREMENT_DATETIME
+This is the numerical value of the Result of the Measurement, if available. Note that measurements such as blood pressures will be split into their component parts i.e. one record for systolic, one record for diastolic.
 
+##### value_as_concept_id
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The date and time of the Measurement. 
+If the raw data gives a categorial result for measurements those values are captured and mapped to standard concepts in the ‘Meas Value’ domain.
 
+##### unit_concept_id
 
+A foreign key to a Standard Concept ID of Measurement Units in the Standardized Vocabularies that belong to the 'Unit' domain.
 
-### MEASUREMENT_TIME
+##### range_low
 
+The lower limit of the normal range of the Measurement result. The lower range is assumed to be of the same unit of measure as the Measurement value.
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The time of the Measurement. This is present for backwards compatibility and will be deprecated in an upcoming version
+##### range_high
 
+The upper limit of the normal range of the Measurement. The upper range is assumed to be of the same unit of measure as the Measurement value.
 
+##### provider_id
 
-### MEASUREMENT_TYPE_CONCEPT_ID
+A foreign key to the provider in the PROVIDER table who was responsible for initiating or obtaining the measurement.
 
+##### visit_occurrence_id
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The measurement_type_concept_id that best represents the provenance of the record, for example whether it came from an EHR record or billing claim.
+A foreign key to the Visit in the VISIT_OCCURRENCE table during which the Measurement was recorded.
 
+##### visit_detail_id
 
+A foreign key to the Visit Detail in the VISIT_DETAIL table during which the Measurement was recorded.
 
-### OPERATOR_CONCEPT_ID
+##### measurement_source_value
 
+The Measurement name as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key identifier to the predefined Concept in the Standardized Vocabularies reflecting the mathematical operator that is applied to the value_as_number. Operators are <, <=, =, >=, > and these concepts belong to the 'Meas Value Operator' domain.
+##### measurement_source_concept_id
 
+A foreign key to a Concept in the Standard Vocabularies that refers to the code used in the source.
 
+##### unit_source_value
 
-### VALUE_AS_NUMBER
+The source code for the unit as it appears in the source data. This code is mapped to a standard unit concept in the Standardized Vocabularies and the original code is stored here for reference.
 
+##### value_source_value
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** FLOAT
-- **Description:** This is the numerical value of the Result of the Measurement, if available. Note that measurements such as blood pressures will be split into their component parts i.e. one record for systolic, one record for diastolic.
+The source value associated with the content of the value_as_number or value_as_concept_id as stored in the source data.
 
+##### trace_id (stanford construct for traceability) 
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
-### VALUE_AS_CONCEPT_ID
+##### unit_id (stanford construct for traceability) 
 
+Is a reference for the position in the ETL code resposible for bringing in this row data
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** If the raw data gives a categorial result for measurements those values are captured and mapped to standard concepts in the ‘Meas Value’ domain.
+##### load_table_id (stanford construct for traceability) 
 
-
-
-### UNIT_CONCEPT_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to a Standard Concept ID of Measurement Units in the Standardized Vocabularies that belong to the 'Unit' domain.
-
-
-
-### RANGE_LOW
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** FLOAT
-- **Description:** The lower limit of the normal range of the Measurement result. The lower range is assumed to be of the same unit of measure as the Measurement value.
-
-
-
-### RANGE_HIGH
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** FLOAT
-- **Description:** The upper limit of the normal range of the Measurement. The upper range is assumed to be of the same unit of measure as the Measurement value.
-
-
-
-### PROVIDER_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the provider in the PROVIDER table who was responsible for initiating or obtaining the measurement.
-
-
-
-### VISIT_OCCURRENCE_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Visit in the VISIT_OCCURRENCE table during which the Measurement was recorded.
-
-
-
-### VISIT_DETAIL_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Visit Detail in the VISIT_DETAIL table during which the Measurement was recorded.
-
-
-
-### MEASUREMENT_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** The Measurement name as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.
-
-
-
-### MEASUREMENT_SOURCE_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to a Concept in the Standard Vocabularies that refers to the code used in the source.
-
-
-
-### UNIT_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The source code for the unit as it appears in the source data. This code is mapped to a standard unit concept in the Standardized Vocabularies and the original code is stored here for reference.
-
-
-
-### VALUE_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** The source value associated with the content of the value_as_number or value_as_concept_id as stored in the source data.
-
-
-
-### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code resposible for bringing in this row data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced

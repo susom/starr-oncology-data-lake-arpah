@@ -2,189 +2,104 @@
 title: "DEVICE_EXPOSURE"
 ---
 
-## Description
-
 Standard Clinical Data Table
 
-The following columns are available in this table:
+### Table Columns
 
+| field                                               | type     | phi   | required   |
+|:----------------------------------------------------|:---------|:------|:-----------|
+| device_exposure_id                                  | INTEGER  | Yes   | Yes        |
+| person_id                                           | INTEGER  | Yes   | Yes        |
+| device_concept_id                                   | INTEGER  |       | Yes        |
+| device_exposure_start_date                          | DATE     | Yes   | No         |
+| device_exposure_start_datetime                      | DATETIME | Yes   | Yes        |
+| device_exposure_end_date                            | DATE     | Yes   | No         |
+| device_exposure_end_datetime                        | DATETIME | Yes   | No         |
+| device_type_concept_id                              | INTEGER  |       | Yes        |
+| unique_device_id                                    | STRING   |       | No         |
+| quantity                                            | INTEGER  |       | No         |
+| provider_id                                         | INTEGER  | Yes   | No         |
+| visit_occurrence_id                                 | INTEGER  | Yes   | No         |
+| visit_detail_id                                     | INTEGER  | Yes   | No         |
+| device_source_value                                 | STRING   |       | No         |
+| device_source_concept_id                            | INTEGER  |       | Yes        |
+| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
+| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 
-### DEVICE_EXPOSURE_ID
+:  {.hover .responsive}
 
+### Columns Description
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** INTEGER
-- **Description:** A system-generated unique identifier for each Device Exposure.
 
+##### device_exposure_id
 
+A system-generated unique identifier for each Device Exposure.
 
-### PERSON_ID
+##### person_id
 
+A foreign key identifier to the Person who is subjected to the Device. The demographic details of that Person are stored in the PERSON table.
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** INTEGER
-- **Description:** A foreign key identifier to the Person who is subjected to the Device. The demographic details of that Person are stored in the PERSON table.
+##### device_concept_id
 
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies belonging to the 'Device' domain.
 
+##### device_exposure_start_date
 
-### DEVICE_CONCEPT_ID
+The date the Device or supply was applied or used.
 
+##### device_exposure_start_datetime
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies belonging to the 'Device' domain.
+The date and time the Device or supply was applied or used.
 
+##### device_exposure_end_date
 
+The date use of the Device or supply was ceased.
 
-### DEVICE_EXPOSURE_START_DATE
+##### device_exposure_end_datetime
 
+The date and time use of the Device or supply was ceased.
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The date the Device or supply was applied or used.
+##### device_type_concept_id
 
+This field can be used to determine the provenance of the record, as in whether the condition was from an EHR system, insurance claim, registry, or other sources.
 
+##### unique_device_id
 
-### DEVICE_EXPOSURE_START_DATETIME
+A UDI or equivalent identifying the instance of the Device used in the Person.
 
+##### quantity
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The date and time the Device or supply was applied or used.
+The number of individual Devices used in the exposure.
 
+##### provider_id
 
+A foreign key to the provider in the PROVIDER table who initiated or administered the Device.
 
-### DEVICE_EXPOSURE_END_DATE
+##### visit_occurrence_id
 
+A foreign key to the visit in the VISIT_OCCURRENCE table during which the Device was used.
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The date use of the Device or supply was ceased.
+##### visit_detail_id
 
+A foreign key to the visit detail record in the VISIT_DETAIL table during which the Device was used.
 
+##### device_source_value
 
-### DEVICE_EXPOSURE_END_DATETIME
+The source code for the Device as it appears in the source data. This code is mapped to a Standard Device Concept in the Standardized Vocabularies and the original code is stored here for reference.
 
+##### device_source_concept_id
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The date and time use of the Device or supply was ceased.
+A foreign key to a Device Concept that refers to the code used in the source.
 
+##### trace_id (stanford construct for traceability) 
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
-### DEVICE_TYPE_CONCEPT_ID
+##### unit_id (stanford construct for traceability) 
 
+Is a reference to the position in the ETL code resposible for bringing in this row data
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** This field can be used to determine the provenance of the record, as in whether the condition was from an EHR system, insurance claim, registry, or other sources.
+##### load_table_id (stanford construct for traceability) 
 
-
-
-### UNIQUE_DEVICE_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A UDI or equivalent identifying the instance of the Device used in the Person.
-
-
-
-### QUANTITY
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The number of individual Devices used in the exposure.
-
-
-
-### PROVIDER_ID
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the provider in the PROVIDER table who initiated or administered the Device.
-
-
-
-### VISIT_OCCURRENCE_ID
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the visit in the VISIT_OCCURRENCE table during which the Device was used.
-
-
-
-### VISIT_DETAIL_ID
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the visit detail record in the VISIT_DETAIL table during which the Device was used.
-
-
-
-### DEVICE_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The source code for the Device as it appears in the source data. This code is mapped to a Standard Device Concept in the Standardized Vocabularies and the original code is stored here for reference.
-
-
-
-### DEVICE_SOURCE_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to a Device Concept that refers to the code used in the source.
-
-
-
-### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference to the position in the ETL code resposible for bringing in this row data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced

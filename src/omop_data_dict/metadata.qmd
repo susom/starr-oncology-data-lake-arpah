@@ -2,99 +2,59 @@
 title: "METADATA"
 ---
 
-## Description
-
 Standardized Metadata Table
 
-The following columns are available in this table:
+### Table Columns
+
+| field                    | type     | phi   | required   |
+|:-------------------------|:---------|:------|:-----------|
+| metadata_concept_id      | INTEGER  |       | Yes        |
+| metadata_type_concept_id | INTEGER  |       | Yes        |
+| name                     | STRING   |       | Yes        |
+| value_as_string          | STRING   |       | No         |
+| value_as_concept_id      | INTEGER  |       | No         |
+| metadata_date            | DATE     |       | No         |
+| metadata_datetime        | DATETIME |       | No         |
+| unit_id                  | STRING   |       | No         |
+| load_table               | STRING   |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### METADATA_CONCEPT_ID
+##### metadata_concept_id
 
+Standard concept corresponding to the OMOP version.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** Standard concept corresponding to the OMOP version.
+##### metadata_type_concept_id
 
+concept_id describing the provenance of the data.
 
+##### name
 
-### METADATA_TYPE_CONCEPT_ID
+OMOP Version name
 
+##### value_as_string
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** concept_id describing the provenance of the data.
+nan
 
+##### value_as_concept_id
 
+nan
 
-### NAME
+##### metadata_date
 
+Raw clarity source date.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** OMOP Version name
+##### metadata_datetime
 
+Raw clarity source datetime.
 
+##### unit_id
 
-### VALUE_AS_STRING
+Is a reference for the position in the ETL code responsible for bringing in this row level data
 
+##### load_table
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** nan
-
-
-
-### VALUE_AS_CONCEPT_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** nan
-
-
-
-### METADATA_DATE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** Raw clarity source date.
-
-
-
-### METADATA_DATETIME
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** DATETIME
-- **Description:** Raw clarity source datetime.
-
-
-
-### UNIT_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
-
-
-
-### LOAD_TABLE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced

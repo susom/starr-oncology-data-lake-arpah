@@ -2,129 +2,74 @@
 title: "CONCEPT"
 ---
 
-## Description
-
 Vocabulary Tables
 
-The following columns are available in this table:
+### Table Columns
+
+| field                                               | type    | phi   | required   |
+|:----------------------------------------------------|:--------|:------|:-----------|
+| concept_id                                          | INTEGER |       | Yes        |
+| concept_name                                        | STRING  |       | Yes        |
+| domain_id                                           | STRING  |       | Yes        |
+| vocabulary_id                                       | STRING  |       | Yes        |
+| concept_class_id                                    | STRING  |       | Yes        |
+| standard_concept                                    | STRING  |       | No         |
+| concept_code                                        | STRING  |       | Yes        |
+| valid_start_date                                    | DATE    |       | Yes        |
+| valid_end_date                                      | DATE    |       | Yes        |
+| invalid_reason                                      | STRING  |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
+| load_row_id (Stanford construct for traceability)   | STRING  |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### CONCEPT_ID
+##### concept_id
 
+A unique identifier for each Concept across all domains.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A unique identifier for each Concept across all domains.
+##### concept_name
 
+An unambiguous, meaningful and descriptive name for the Concept.
 
+##### domain_id
 
-### CONCEPT_NAME
+A foreign key to the DOMAIN table the Concept belongs to.
 
+##### vocabulary_id
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** An unambiguous, meaningful and descriptive name for the Concept.
+A foreign key to the VOCABULARY table indicating from which source the Concept has been adapted.
 
+##### concept_class_id
 
+The attribute or concept class of the Concept. Examples are 'Clinical Drug', 'Ingredient', 'Clinical Finding' etc.
 
-### DOMAIN_ID
+##### standard_concept
 
+This flag determines where a Concept is a Standard Concept, i.e. is used in the data, a Classification Concept, or a non-standard Source Concept. The allowables values are 'S' (Standard Concept) and 'C' (Classification Concept), otherwise the content is NULL.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A foreign key to the DOMAIN table the Concept belongs to.
+##### concept_code
 
+The concept code represents the identifier of the Concept in the source vocabulary, such as SNOMED-CT concept IDs, RxNorm RXCUIs etc. Note that concept codes are not unique across vocabularies.
 
+##### valid_start_date
 
-### VOCABULARY_ID
+The date when the Concept was first recorded. The default value is 1-Jan-1970, meaning, the Concept has no (known) date of inception.
 
+##### valid_end_date
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A foreign key to the VOCABULARY table indicating from which source the Concept has been adapted.
+The date when the Concept became invalid because it was deleted or superseded (updated) by a new concept. The default value is 31-Dec-2099, meaning, the Concept is valid until it becomes deprecated.
 
+##### invalid_reason
 
+Reason the Concept was invalidated. Possible values are D (deleted), U (replaced with an update) or NULL when valid_end_date has the default value.
 
-### CONCEPT_CLASS_ID
+##### load_table_id (stanford construct for traceability) 
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The attribute or concept class of the Concept. Examples are 'Clinical Drug', 'Ingredient', 'Clinical Finding' etc.
+##### load_row_id (stanford construct for traceability)
 
-
-
-### STANDARD_CONCEPT
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** This flag determines where a Concept is a Standard Concept, i.e. is used in the data, a Classification Concept, or a non-standard Source Concept. The allowables values are 'S' (Standard Concept) and 'C' (Classification Concept), otherwise the content is NULL.
-
-
-
-### CONCEPT_CODE
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The concept code represents the identifier of the Concept in the source vocabulary, such as SNOMED-CT concept IDs, RxNorm RXCUIs etc. Note that concept codes are not unique across vocabularies.
-
-
-
-### VALID_START_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date when the Concept was first recorded. The default value is 1-Jan-1970, meaning, the Concept has no (known) date of inception.
-
-
-
-### VALID_END_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date when the Concept became invalid because it was deleted or superseded (updated) by a new concept. The default value is 31-Dec-2099, meaning, the Concept is valid until it becomes deprecated.
-
-
-
-### INVALID_REASON
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Reason the Concept was invalidated. Possible values are D (deleted), U (replaced with an update) or NULL when valid_end_date has the default value.
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### LOAD_ROW_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
-
-
+A reference to the position in the ETL code responsible for bringing in this row level data

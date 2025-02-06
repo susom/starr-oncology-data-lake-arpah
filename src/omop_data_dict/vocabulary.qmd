@@ -2,79 +2,49 @@
 title: "VOCABULARY"
 ---
 
-## Description
-
 Vocabulary Tables
 
-The following columns are available in this table:
+### Table Columns
+
+| field                                               | type    | phi   | required   |
+|:----------------------------------------------------|:--------|:------|:-----------|
+| vocabulary_id                                       | STRING  | No    | Yes        |
+| vocabulary_name                                     | STRING  | No    | Yes        |
+| vocabulary_reference                                | STRING  | No    | Yes        |
+| vocabulary_version                                  | STRING  | No    | No         |
+| vocabulary_concept_id                               | INTEGER | No    | Yes        |
+| load_table_id (Stanford construct for traceability) | STRING  | No    | No         |
+| load_row_id (Stanford construct for traceability)   | STRING  | No    | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### VOCABULARY_ID
+##### vocabulary_id
 
+A unique identifier for each Vocabulary, such as ICD9CM, SNOMED, Visit.
 
-- **Required:** Yes
-- **Contains PHI:** No
-- **Data Type:** STRING
-- **Description:** A unique identifier for each Vocabulary, such as ICD9CM, SNOMED, Visit.
+##### vocabulary_name
 
+The name describing the vocabulary, for example "International Classification of Diseases, Ninth Revision, Clinical Modification, Volume 1 and 2 (NCHS)" etc.
 
+##### vocabulary_reference
 
-### VOCABULARY_NAME
+External reference to documentation or available download of the about the vocabulary.
 
+##### vocabulary_version
 
-- **Required:** Yes
-- **Contains PHI:** No
-- **Data Type:** STRING
-- **Description:** The name describing the vocabulary, for example "International Classification of Diseases, Ninth Revision, Clinical Modification, Volume 1 and 2 (NCHS)" etc.
+Version of the Vocabulary as indicated in the source.
 
+##### vocabulary_concept_id
 
+A foreign key that refers to a standard concept identifier in the CONCEPT table for the Vocabulary the VOCABULARY record belongs to
 
-### VOCABULARY_REFERENCE
+##### load_table_id (stanford construct for traceability) 
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
-- **Required:** Yes
-- **Contains PHI:** No
-- **Data Type:** STRING
-- **Description:** External reference to documentation or available download of the about the vocabulary.
+##### load_row_id (stanford construct for traceability) 
 
-
-
-### VOCABULARY_VERSION
-
-
-- **Required:** No
-- **Contains PHI:** No
-- **Data Type:** STRING
-- **Description:** Version of the Vocabulary as indicated in the source.
-
-
-
-### VOCABULARY_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** No
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a standard concept identifier in the CONCEPT table for the Vocabulary the VOCABULARY record belongs to
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** No
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### LOAD_ROW_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** No
-- **Data Type:** STRING
-- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
-
-
+A reference to the position in the ETL code responsible for bringing in this row level data
