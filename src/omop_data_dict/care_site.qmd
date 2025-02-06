@@ -1,5 +1,5 @@
 ---
-title: "CARE_SITE"
+title: "care_site"
 ---
 
 Standarized Health System Data Tables
@@ -18,7 +18,7 @@ Standarized Health System Data Tables
 | unit_id (Stanford construct for traceability)       | STRING  |       | No         |
 | load_table_id (Stanford construct for traceability) | STRING  |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

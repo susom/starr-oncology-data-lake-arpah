@@ -1,5 +1,5 @@
 ---
-title: "NOTE"
+title: "note"
 ---
 
 Standard Clinical Data Table
@@ -25,7 +25,7 @@ Standard Clinical Data Table
 | load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 | unit_id (Stanford construct for traceability)       | STRING   |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

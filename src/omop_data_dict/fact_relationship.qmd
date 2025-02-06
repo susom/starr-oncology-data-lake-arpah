@@ -1,5 +1,5 @@
 ---
-title: "FACT_RELATIONSHIP"
+title: "fact_relationship"
 ---
 
 Standard Clinical Data Table
@@ -17,7 +17,7 @@ Standard Clinical Data Table
 | unit_id                 | STRING  |       | No         |
 | load_table_id           | STRING  |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

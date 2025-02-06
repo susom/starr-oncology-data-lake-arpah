@@ -1,5 +1,5 @@
 ---
-title: "DRUG_STRENGTH"
+title: "drug_strength"
 ---
 
 Vocabulary Tables
@@ -23,7 +23,7 @@ Vocabulary Tables
 | load_table_id (Stanford construct for traceability) | STRING  |       | No         |
 | load_row _id (Stanford construct for traceability)  | STRING  |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

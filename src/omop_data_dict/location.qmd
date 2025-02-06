@@ -1,5 +1,5 @@
 ---
-title: "LOCATION"
+title: "location"
 ---
 
 Standarized Health System Data Tables
@@ -22,7 +22,7 @@ Standarized Health System Data Tables
 | latitude (available only at Stanford)               | FLOAT   | Yes   | No         |
 | longitude (available only at Stanford)              | FLOAT   | Yes   | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

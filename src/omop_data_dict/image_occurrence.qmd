@@ -1,5 +1,5 @@
 ---
-title: "IMAGE_OCCURRENCE"
+title: "image_occurrence"
 ---
 
 Clinical Data Table (not yet a Standard)
@@ -24,7 +24,7 @@ Clinical Data Table (not yet a Standard)
 | load_table_id (Stanford construct for traceability) | STRING  |       | No         |
 | trace_id (Stanford construct for traceability)      | STRING  |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 

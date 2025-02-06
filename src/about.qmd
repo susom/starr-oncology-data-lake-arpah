@@ -1,5 +1,24 @@
 ---
 title: "About"
+back-to-top-navigation: false
 ---
 
-About this site
+The starr_omop_cdm5_xxxxx. dataset contains identified data in the OMOP cdm 5.3.1. In addition, they also contain some extra columns that are not strictly part of the cdm definition but have been added for increased source/patient traceability (e.g. trace_id, unit_id, load_table_id). 
+
+The starr omop identified dataset is created using EPIC Clarity tables which only include the patient and encounter data that is permissible for research. The tables in the starr_omop_cdm5_xxxxx dataset are listed in the [Data Dictionary](data_dictionary.qmd) page, along with a column stating whether or not they contain PHI and a brief note regarding what kind of table they are. 
+
+Note: Most vocabulary tables contain standard terminology, do not change from institution to institution, and do not contain any PHI.  In the information in this webpage, we have included all populated tables in the CDM (including tables that do not contain PHI) along with a brief description of the fields. 
+
+For more information regarding our source data and methods see the links below:
+
+- **Source Data**
+    - [Imaging](https://starr.stanford.edu/data-types/imaging)
+    - [Death Data](https://starr.stanford.edu/data-types/death-data)
+- **Methods**
+    - [Text De-identification](https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor)
+    - [Imaging De-identification](https://starr.stanford.edu/methods/dicom-safe-harbor-phi-scrubbing)
+- [**Publications**](https://starr.stanford.edu/publications-0 )
+
+
+
+

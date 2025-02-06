@@ -1,5 +1,5 @@
 ---
-title: "CONCEPT"
+title: "concept"
 ---
 
 Vocabulary Tables
@@ -21,7 +21,7 @@ Vocabulary Tables
 | load_table_id (Stanford construct for traceability) | STRING  |       | No         |
 | load_row_id (Stanford construct for traceability)   | STRING  |       | No         |
 
-:  {.hover .responsive}
+:  {.hover .responsive .sm}
 
 ### Columns Description
 
