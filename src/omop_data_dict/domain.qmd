@@ -2,59 +2,39 @@
 title: "DOMAIN"
 ---
 
-## Description
-
 Vocabulary Tables
 
-The following columns are available in this table:
+### Table Columns
+
+| field             | type    | phi   | required   |
+|:------------------|:--------|:------|:-----------|
+| domain_id         | STRING  |       | Yes        |
+| domain_name       | STRING  |       | Yes        |
+| domain_concept_id | INTEGER |       | Yes        |
+| load_table_id     | STRING  |       | No         |
+| load_row_id       | STRING  |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### DOMAIN_ID
+##### domain_id
 
+A unique key for each domain.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A unique key for each domain.
+##### domain_name
 
+The name describing the Domain, e.g. "Condition", "Procedure", "Measurement" etc.
 
+##### domain_concept_id
 
-### DOMAIN_NAME
+A Concept representing the Domain Concept the DOMAIN record belongs to.            
 
+##### load_table_id
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The name describing the Domain, e.g. "Condition", "Procedure", "Measurement" etc.
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
 
+##### load_row_id
 
-
-### DOMAIN_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A Concept representing the Domain Concept the DOMAIN record belongs to.            
-
-
-
-### LOAD_TABLE_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
-
-### LOAD_ROW_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
-
-
+A reference to the position in the ETL code responsible for bringing in this row level data

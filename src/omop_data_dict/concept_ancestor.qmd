@@ -2,69 +2,44 @@
 title: "CONCEPT_ANCESTOR"
 ---
 
-## Description
-
 Vocabulary Tables
 
-The following columns are available in this table:
+### Table Columns
+
+| field                                               | type    | phi   | required   |
+|:----------------------------------------------------|:--------|:------|:-----------|
+| ancestor_concept_id                                 | INTEGER |       | Yes        |
+| descendant_concept_id                               | INTEGER |       | Yes        |
+| min_levels_of_separation                            | INTEGER |       | Yes        |
+| max_levels_of_separation                            | INTEGER |       | Yes        |
+| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
+| load_row_id (Stanford construct for traceability)   | STRING  |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### ANCESTOR_CONCEPT_ID
+##### ancestor_concept_id
 
+A foreign key to the concept in the concept table for the higher-level concept that forms the ancestor in the relationship.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the concept in the concept table for the higher-level concept that forms the ancestor in the relationship.
+##### descendant_concept_id
 
+A foreign key to the concept in the concept table for the lower-level concept that forms the descendant in the relationship.
 
+##### min_levels_of_separation
 
-### DESCENDANT_CONCEPT_ID
+The minimum separation in number of levels of hierarchy between ancestor and descendant concepts. This is an attribute that is used to simplify hierarchic analysis.
 
+##### max_levels_of_separation
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the concept in the concept table for the lower-level concept that forms the descendant in the relationship.
+The maximum separation in number of levels of hierarchy between ancestor and descendant concepts. This is an attribute that is used to simplify hierarchic analysis.
 
+##### load_table_id (stanford construct for traceability)
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
-### MIN_LEVELS_OF_SEPARATION
+##### load_row_id (stanford construct for traceability)
 
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The minimum separation in number of levels of hierarchy between ancestor and descendant concepts. This is an attribute that is used to simplify hierarchic analysis.
-
-
-
-### MAX_LEVELS_OF_SEPARATION
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The maximum separation in number of levels of hierarchy between ancestor and descendant concepts. This is an attribute that is used to simplify hierarchic analysis.
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### LOAD_ROW_ID (STANFORD CONSTRUCT FOR TRACEABILITY)
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
-
-
+A reference to the position in the ETL code responsible for bringing in this row level data

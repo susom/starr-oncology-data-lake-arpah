@@ -2,89 +2,54 @@
 title: "CONCEPT_RELATIONSHIP"
 ---
 
-## Description
-
 Vocabulary Tables
 
-The following columns are available in this table:
+### Table Columns
+
+| field            | type    | phi   | required   |
+|:-----------------|:--------|:------|:-----------|
+| concept_id_1     | INTEGER |       | Yes        |
+| concept_id_2     | INTEGER |       | Yes        |
+| relationship_id  | STRING  |       | Yes        |
+| valid_start_date | DATE    |       | Yes        |
+| valid_end_date   | DATE    |       | Yes        |
+| invalid_reason   | STRING  |       | No         |
+| load_table_id    | STRING  |       | No         |
+| load_row_id      | STRING  |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### CONCEPT_ID_1
+##### concept_id_1
 
+A foreign key to a Concept in the CONCEPT table associated with the relationship. Relationships are directional, and this field represents the source concept designation.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to a Concept in the CONCEPT table associated with the relationship. Relationships are directional, and this field represents the source concept designation.
+##### concept_id_2
 
+A foreign key to a Concept in the CONCEPT table associated with the relationship. Relationships are directional, and this field represents the destination concept designation.
 
+##### relationship_id
 
-### CONCEPT_ID_2
+A unique identifier to the type or nature of the Relationship as defined in the RELATIONSHIP table.
 
+##### valid_start_date
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to a Concept in the CONCEPT table associated with the relationship. Relationships are directional, and this field represents the destination concept designation.
+The date when the instance of the Concept Relationship is first recorded.
 
+##### valid_end_date
 
+The date when the Concept Relationship became invalid because it was deleted or superseded (updated) by a new relationship. Default value is 31-Dec-2099.
 
-### RELATIONSHIP_ID
+##### invalid_reason
 
+Reason the relationship was invalidated. Possible values are 'D' (deleted), 'U' (replaced with an update) or NULL when valid_end_date has the default value.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A unique identifier to the type or nature of the Relationship as defined in the RELATIONSHIP table.
+##### load_table_id
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
+##### load_row_id
 
-### VALID_START_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date when the instance of the Concept Relationship is first recorded.
-
-
-
-### VALID_END_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** DATE
-- **Description:** The date when the Concept Relationship became invalid because it was deleted or superseded (updated) by a new relationship. Default value is 31-Dec-2099.
-
-
-
-### INVALID_REASON
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Reason the relationship was invalidated. Possible values are 'D' (deleted), 'U' (replaced with an update) or NULL when valid_end_date has the default value.
-
-
-
-### LOAD_TABLE_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### LOAD_ROW_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** A reference to the position in the ETL code responsible for bringing in this row level data
-
-
+A reference to the position in the ETL code responsible for bringing in this row level data

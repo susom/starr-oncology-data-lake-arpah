@@ -2,269 +2,144 @@
 title: "DRUG_EXPOSURE"
 ---
 
-## Description
-
 Standard Clinical Data Table
 
-The following columns are available in this table:
+### Table Columns
 
+| field                                               | type     | phi   | required   |
+|:----------------------------------------------------|:---------|:------|:-----------|
+| drug_exposure_id                                    | INTEGER  |       | Yes        |
+| person_id                                           | INTEGER  |       | Yes        |
+| drug_concept_id                                     | INTEGER  |       | Yes        |
+| drug_exposure_start_date                            | DATE     | Yes   | No         |
+| drug_exposure_start_datetime                        | DATETIME | Yes   | Yes        |
+| drug_exposure_end_date                              | DATE     | Yes   | No         |
+| drug_exposure_end_datetime                          | DATETIME | Yes   | Yes        |
+| verbatim_end_date                                   | DATE     | Yes   | No         |
+| drug_type_concept_id                                | INTEGER  |       | Yes        |
+| stop_reason                                         | STRING   |       | No         |
+| refills                                             | INTEGER  |       | No         |
+| quantity                                            | FLOAT    |       | No         |
+| days_supply                                         | INTEGER  |       | No         |
+| sig                                                 | STRING   | Yes   | No         |
+| route_concept_id                                    | INTEGER  |       | Yes        |
+| lot_number                                          | STRING   |       | No         |
+| provider_id                                         | INTEGER  |       | No         |
+| visit_occurrence_id                                 | INTEGER  |       | No         |
+| visit_detail_id                                     | INTEGER  |       | No         |
+| drug_source_value                                   | STRING   |       | No         |
+| drug_source_concept_id                              | INTEGER  |       | Yes        |
+| route_source_value                                  | STRING   |       | No         |
+| dose_unit_source_value                              | STRING   |       | No         |
+| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
+| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 
-### DRUG_EXPOSURE_ID
+:  {.hover .responsive}
 
+### Columns Description
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A system-generated unique identifier for each Drug utilization event.
 
+##### drug_exposure_id
 
+A system-generated unique identifier for each Drug utilization event.
 
-### PERSON_ID
+##### person_id
 
+A foreign key identifier to the Person who is subjected to the Drug. The demographic details of that Person are stored in the PERSON table.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key identifier to the Person who is subjected to the Drug. The demographic details of that Person are stored in the PERSON table.
+##### drug_concept_id
 
+The standard concept_id belonging to the 'Drug' domain.that the drug_source_value maps to.
 
+##### drug_exposure_start_date
 
-### DRUG_CONCEPT_ID
+The start date for the current instance of Drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a Drug administration procedure was recorded.
 
+##### drug_exposure_start_datetime
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The standard concept_id belonging to the 'Drug' domain.that the drug_source_value maps to.
+The start date and time for the current instance of Drug utilization. Valid entries include a start datetime of a prescription, the date and time a prescription was filled, or the date and time on which a Drug administration procedure was recorded.
 
+##### drug_exposure_end_date
 
+The end date for the current instance of Drug utilization. Depending on different sources, it could be a known or an inferred date and denotes the last day at which the patient was still exposed to Drug.
 
-### DRUG_EXPOSURE_START_DATE
+##### drug_exposure_end_datetime
 
+The end date and time for the current instance of Drug utilization. Depending on different sources, it could be a known or an inferred date and time and denotes the last day at which the patient was still exposed to Drug.
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The start date for the current instance of Drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a Drug administration procedure was recorded.
+##### verbatim_end_date
 
+The known end date of a drug_exposure as provided by the source.
 
+##### drug_type_concept_id
 
-### DRUG_EXPOSURE_START_DATETIME
+The type_concept_id can be used to delineate between prescriptions written vs. prescriptions dispensed vs. medication history vs. patient-reported exposure, etc.
 
+##### stop_reason
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The start date and time for the current instance of Drug utilization. Valid entries include a start datetime of a prescription, the date and time a prescription was filled, or the date and time on which a Drug administration procedure was recorded.
+The reason the Drug was stopped. Reasons include regimen completed, changed, removed, etc.
 
+##### refills
 
+This is only filled in when the record is coming from a prescription written. This field is meant to represent intended refills at time of the prescription.
 
-### DRUG_EXPOSURE_END_DATE
+##### quantity
 
+The quantity of drug as recorded in the original prescription or dispensing record.
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The end date for the current instance of Drug utilization. Depending on different sources, it could be a known or an inferred date and denotes the last day at which the patient was still exposed to Drug.
+##### days_supply
 
+The number of days of supply of the medication as prescribed. This reflects the intention of the provider for the length of exposure.
 
+##### sig
 
-### DRUG_EXPOSURE_END_DATETIME
+This is the verbatim instruction for the drug as written by the provider.
 
+##### route_concept_id
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The end date and time for the current instance of Drug utilization. Depending on different sources, it could be a known or an inferred date and time and denotes the last day at which the patient was still exposed to Drug.
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies reflecting the route of administration and belonging to the 'Route' domain.
 
+##### lot_number
 
+An identifier assigned to a particular quantity or lot of Drug product from the manufacturer.
 
-### VERBATIM_END_DATE
+##### provider_id
 
+The Provider associated with drug record, e.g. the provider who wrote the prescription or the provider who administered the drug.
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The known end date of a drug_exposure as provided by the source.
+##### visit_occurrence_id
 
+The Visit during which the drug was prescribed, administered or dispensed.
 
+##### visit_detail_id
 
-### DRUG_TYPE_CONCEPT_ID
+A foreign key to the Visit Detail in the VISIT_DETAIL table during which the Drug Exposure was initiated.
 
+##### drug_source_value
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The type_concept_id can be used to delineate between prescriptions written vs. prescriptions dispensed vs. medication history vs. patient-reported exposure, etc.
+The source code for the Drug as it appears in the source data. This code is mapped to a Standard Drug concept in the Standardized Vocabularies and the original code is, stored here for reference.
 
+##### drug_source_concept_id
 
+A foreign key to a Drug Concept that refers to the code used in the source.
 
-### STOP_REASON
+##### route_source_value
 
+The information about the route of administration as detailed in the source.
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The reason the Drug was stopped. Reasons include regimen completed, changed, removed, etc.
+##### dose_unit_source_value
 
+The information about the dose unit as detailed in the source.
 
+##### trace_id (stanford construct for traceability) 
 
-### REFILLS
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
+##### unit_id (stanford construct for traceability) 
 
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** This is only filled in when the record is coming from a prescription written. This field is meant to represent intended refills at time of the prescription.
+Is a reference for the position in the ETL code resposible for bringing in this row data
 
+##### load_table_id (stanford construct for traceability) 
 
-
-### QUANTITY
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** FLOAT
-- **Description:** The quantity of drug as recorded in the original prescription or dispensing record.
-
-
-
-### DAYS_SUPPLY
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The number of days of supply of the medication as prescribed. This reflects the intention of the provider for the length of exposure.
-
-
-
-### SIG
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** This is the verbatim instruction for the drug as written by the provider.
-
-
-
-### ROUTE_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies reflecting the route of administration and belonging to the 'Route' domain.
-
-
-
-### LOT_NUMBER
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** An identifier assigned to a particular quantity or lot of Drug product from the manufacturer.
-
-
-
-### PROVIDER_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The Provider associated with drug record, e.g. the provider who wrote the prescription or the provider who administered the drug.
-
-
-
-### VISIT_OCCURRENCE_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The Visit during which the drug was prescribed, administered or dispensed.
-
-
-
-### VISIT_DETAIL_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to the Visit Detail in the VISIT_DETAIL table during which the Drug Exposure was initiated.
-
-
-
-### DRUG_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The source code for the Drug as it appears in the source data. This code is mapped to a Standard Drug concept in the Standardized Vocabularies and the original code is, stored here for reference.
-
-
-
-### DRUG_SOURCE_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key to a Drug Concept that refers to the code used in the source.
-
-
-
-### ROUTE_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The information about the route of administration as detailed in the source.
-
-
-
-### DOSE_UNIT_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The information about the dose unit as detailed in the source.
-
-
-
-### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code resposible for bringing in this row data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced

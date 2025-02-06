@@ -2,99 +2,59 @@
 title: "CONDITION_ERA"
 ---
 
-## Description
-
 Standardized Derived Elements
 
-The following columns are available in this table:
+### Table Columns
+
+| field                                               | type     | phi   | required   |
+|:----------------------------------------------------|:---------|:------|:-----------|
+| condition_era_id                                    | INTEGER  |       | Yes        |
+| person_id                                           | INTEGER  |       | Yes        |
+| condition_concept_id                                | INTEGER  |       | Yes        |
+| condition_era_start_date                            | DATETIME | Yes   | Yes        |
+| condition_era_end_date                              | DATETIME | Yes   | Yes        |
+| condition_occurrence_count                          | INTEGER  |       | No         |
+| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
+| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+
+:  {.hover .responsive}
+
+### Columns Description
 
 
-### CONDITION_ERA_ID
+##### condition_era_id
 
+A unique identifier for each Condition Era.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A unique identifier for each Condition Era.
+##### person_id
 
+A foreign key identifier to the Person who is experiencing the Condition during the Condition Era. The demographic details of that Person are stored in the PERSON table.
 
+##### condition_concept_id
 
-### PERSON_ID
+A foreign key that refers to a standard Condition Concept identifier in the Standardized Vocabularies.
 
+##### condition_era_start_date
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key identifier to the Person who is experiencing the Condition during the Condition Era. The demographic details of that Person are stored in the PERSON table.
+The start date for the Condition Era constructed from the individual instances of Condition Occurrences. It is the start date of the very first chronologically recorded instance of the condition.
 
+##### condition_era_end_date
 
+The end date for the Condition Era constructed from the individual instances of Condition Occurrences. It is the end date of the final continuously recorded instance of the Condition.
 
-### CONDITION_CONCEPT_ID
+##### condition_occurrence_count
 
+The number of individual Condition Occurrences used to construct the condition era.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a standard Condition Concept identifier in the Standardized Vocabularies.
+##### trace_id (stanford construct for traceability) 
 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
+##### unit_id (stanford construct for traceability) 
 
-### CONDITION_ERA_START_DATE
+Is a reference for the position in the ETL code responsible for bringing in this row level data
 
+##### load_table_id (stanford construct for traceability) 
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The start date for the Condition Era constructed from the individual instances of Condition Occurrences. It is the start date of the very first chronologically recorded instance of the condition.
-
-
-
-### CONDITION_ERA_END_DATE
-
-
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The end date for the Condition Era constructed from the individual instances of Condition Occurrences. It is the end date of the final continuously recorded instance of the Condition.
-
-
-
-### CONDITION_OCCURRENCE_COUNT
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The number of individual Condition Occurrences used to construct the condition era.
-
-
-
-### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row level data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced

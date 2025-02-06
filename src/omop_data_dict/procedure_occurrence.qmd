@@ -2,179 +2,99 @@
 title: "PROCEDURE_OCCURRENCE"
 ---
 
-## Description
-
 Standard Clinical Data Table
 
-The following columns are available in this table:
+### Table Columns
 
+| field                                               | type     | phi   | required   |
+|:----------------------------------------------------|:---------|:------|:-----------|
+| procedure_occurrence_id                             | INTEGER  |       | Yes        |
+| person_id                                           | INTEGER  |       | Yes        |
+| procedure_concept_id                                | INTEGER  |       | Yes        |
+| procedure_DATE                                      | DATE     | Yes   | No         |
+| procedure_DATETIME                                  | DATETIME | Yes   | Yes        |
+| procedure_type_concept_id                           | INTEGER  |       | Yes        |
+| modifier_concept_id                                 | INTEGER  |       | Yes        |
+| quantity                                            | INTEGER  |       | No         |
+| provider_id                                         | INTEGER  |       | No         |
+| visit_occurrence_id                                 | INTEGER  |       | No         |
+| visit_detail_id                                     | INTEGER  |       | No         |
+| procedure_source_value                              | STRING   |       | No         |
+| procedure_source_concept_id                         | INTEGER  |       | Yes        |
+| modifier_source_value                               | STRING   |       | No         |
+| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
+| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
+| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
 
-### PROCEDURE_OCCURRENCE_ID
+:  {.hover .responsive}
 
+### Columns Description
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A system-generated unique identifier for each Procedure Occurrence.
 
+##### procedure_occurrence_id
 
+A system-generated unique identifier for each Procedure Occurrence.
 
-### PERSON_ID
+##### person_id
 
+The person_id of the person for whom the procedure is recorded.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The person_id of the person for whom the procedure is recorded.
+##### procedure_concept_id
 
+A foreign key that refers to a standard procedure Concept identifier in the Standardized Vocabularies.
 
+##### procedure_date
 
-### PROCEDURE_CONCEPT_ID
+The date on which the Procedure was performed.
 
+##### procedure_datetime
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** A foreign key that refers to a standard procedure Concept identifier in the Standardized Vocabularies.
+The date and time on which the Procedure was performed.
 
+##### procedure_type_concept_id
 
+This field can be used to determine the provenance of the Procedure record, as in whether the procedure was from an EHR system, insurance claim, registry, or other sources.
 
-### PROCEDURE_DATE
+##### modifier_concept_id
 
+The modifiers are intended to give additional information about the procedure. 
 
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** DATE
-- **Description:** The date on which the Procedure was performed.
+##### quantity
 
+The quantity of procedures ordered or administered. If the quantity value is omitted, a single procedure is assumed.
 
+##### provider_id
 
-### PROCEDURE_DATETIME
+The provider in the PROVIDER table who was responsible for carrying out the procedure.
 
+##### visit_occurrence_id
 
-- **Required:** Yes
-- **Contains PHI:** Yes
-- **Data Type:** DATETIME
-- **Description:** The date and time on which the Procedure was performed.
+The visit during which the procedure occurred
 
+##### visit_detail_id
 
+The VISIT_DETAIL record during which the Procedure occurred. For example, if the Person was in the ICU at the time of the Procedure the VISIT_OCCURRENCE record would reflect the overall hospital stay and the VISIT_DETAIL record would reflect the ICU stay during the hospital visit.
 
-### PROCEDURE_TYPE_CONCEPT_ID
+##### procedure_source_value
 
+The source code for the Procedure as it appears in the source data. This code is mapped to a standard procedure Concept in the Standardized Vocabularies and the original code is, stored here for reference. Procedure source codes are typically ICD-9-Proc, CPT-4, HCPCS or OPCS-4 codes.
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** This field can be used to determine the provenance of the Procedure record, as in whether the procedure was from an EHR system, insurance claim, registry, or other sources.
+##### procedure_source_concept_id
 
+This is the concept id representing the procedure source value and may not necessarily be standard.
 
+##### modifier_source_value
 
-### MODIFIER_CONCEPT_ID
+This field houses the verbatim value from the source data representing the modifier code for the procedure that occurred
 
+##### trace_id (stanford construct for traceability) 
 
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The modifiers are intended to give additional information about the procedure. 
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
 
+##### unit_id (stanford construct for traceability) 
 
+Is a reference for the position in the ETL code responsible for bringing in this row data
 
-### QUANTITY
+##### load_table_id (stanford construct for traceability) 
 
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The quantity of procedures ordered or administered. If the quantity value is omitted, a single procedure is assumed.
-
-
-
-### PROVIDER_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The provider in the PROVIDER table who was responsible for carrying out the procedure.
-
-
-
-### VISIT_OCCURRENCE_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The visit during which the procedure occurred
-
-
-
-### VISIT_DETAIL_ID
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** The VISIT_DETAIL record during which the Procedure occurred. For example, if the Person was in the ICU at the time of the Procedure the VISIT_OCCURRENCE record would reflect the overall hospital stay and the VISIT_DETAIL record would reflect the ICU stay during the hospital visit.
-
-
-
-### PROCEDURE_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** The source code for the Procedure as it appears in the source data. This code is mapped to a standard procedure Concept in the Standardized Vocabularies and the original code is, stored here for reference. Procedure source codes are typically ICD-9-Proc, CPT-4, HCPCS or OPCS-4 codes.
-
-
-
-### PROCEDURE_SOURCE_CONCEPT_ID
-
-
-- **Required:** Yes
-- **Contains PHI:** 
-- **Data Type:** INTEGER
-- **Description:** This is the concept id representing the procedure source value and may not necessarily be standard.
-
-
-
-### MODIFIER_SOURCE_VALUE
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** This field houses the verbatim value from the source data representing the modifier code for the procedure that occurred
-
-
-
-### TRACE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** Yes
-- **Data Type:** STRING
-- **Description:** A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced
-
-
-
-### UNIT_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is a reference for the position in the ETL code responsible for bringing in this row data
-
-
-
-### LOAD_TABLE_ID (STANFORD CONSTRUCT FOR TRACEABILITY) 
-
-
-- **Required:** No
-- **Contains PHI:** 
-- **Data Type:** STRING
-- **Description:** Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced
-
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced

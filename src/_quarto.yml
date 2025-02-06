@@ -5,24 +5,30 @@ project:
    - omop_data_dict/*
 
 website:
-  title: "STARR-Oncology ARPA-H "
+  title: "STARR-Oncology ARPA-H"
+  page-navigation: true
+  back-to-top-navigation: true
   sidebar:
-    style: "docked"
-    search: true
+  - id: omop_data_dictionary
+    collapse-level: 1
     contents:
       - section: "Data Dictionary"
         href: data_dictionary.qmd
-        contents: omop_data_dict/*
+        contents:
+          - section: "omop cdm"
+            contents: omop_data_dict/*
+          
   navbar:
     left:
       - href: data_dictionary.qmd
         text: "Data Dictionary"
+        
 
 format:
   html:
     theme: lux
     css: styles.css
-    toc: true
+    toc: false
 
 execute:
   lib-dir: /home/rstudio/renv/library/linux-ubuntu-noble/R-4.4/aarch64-unknown-linux-gnu
