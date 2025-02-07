@@ -18,7 +18,7 @@ Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = "/home/rstudio/.config/gcloud/applic
 bq_auth(use_oob = FALSE)
 
 # Set your project ID
-project_id <- "som-rit-starr-training"
+project_id <- "som-rit-phi-oncology-dev"
 
 # Create a BigQuery connection
 bq_conn <- dbConnect(
