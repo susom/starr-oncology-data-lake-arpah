@@ -3,16 +3,21 @@ title: "Demographic Metrics"
 execute:
   echo: false
 ---
+ARPAH cohort was defined as:
 
-Below is the distribution of persons per year of birth. ARPAH cohort was defined as:
-1- concept ids with 
-2- an encounter in neural frame registry or tumor board
+- Cancer condition concept ids
+- An encounter within
+  - NF
+  - Tumor board
+- Other
+
+Below is the distribution of persons per year of birth. The average age of participants were xx.
 ```{r}
 # set wrking directory
 setwd("/workspaces/starr-oncology-data-lake-arpah/src")
 ```
 
-```{r, echo: false}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 library(DBI)
 library(bigrquery)
 library(readr)
@@ -50,11 +55,12 @@ run_bigquery_query <- function(project_id, sql_file_path) {
   
   # Disconnect from BigQuery
   dbDisconnect(bq_conn)
-  
+  end_time <- Sys.time()
+  print(paste("Query execution time:", end_time - start_time))
   return(result_df)
 }
 ```
-```{r, echo: false}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 project_id <- "som-rit-phi-oncology-prod"
 sql_file_path<- "sql/arpah_age_metrics.sql"
@@ -68,7 +74,7 @@ if (!is.null(dat)) {
 }
 ```
 
-```{r}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 library(plotly)
 
 create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
@@ -112,14 +118,13 @@ create_bar_plot(
 )
 ```
 The age groups are as follow:
-```{r}
+```{r, results='hide'}
 # Parameters
 project_id <- "som-rit-phi-oncology-prod"
 sql_file_path<- "sql/arpah_age_cat_metrics.sql"
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 
 # Execute the query
-age.dat <- run_bigquery_query(project_id, sql_file_path, credentials_path)
+age.dat <- run_bigquery_query(project_id, sql_file_path)
 print(age.dat)
 ```
 ```{r}
@@ -141,9 +146,41 @@ age.dat %>%
   ) %>%  tab_options(
     table.font.size = px(14),
     heading.align = "left",
-    table.border.top.color = "darkred"
+    table.border.top.color = "darkred",
+      table.align = "left"
   ) %>%
   opt_row_striping()
+```
+\newpage  
+```{r, message=FALSE, warning=FALSE, results='hide'}
+project_id <- "som-rit-phi-oncology-prod"
+sql_file_path<- "sql/arpah_demographic_all.sql"
 
+# Execute the query
+all.dat <- run_bigquery_query(project_id, sql_file_path)
+print(all.dat)
+```
+```{r}
+library(gt)
 
+all.dat %>%
+  gt() %>%
+  cols_label(
+    description = "Variable",
+    counts = "Count (N)",
+    percents="%")%>%
+  tab_header(
+    title = "All Category Metrics",
+    subtitle = "ARPAH Cohort"
+  ) %>%
+  fmt_number(
+    columns = where(is.numeric),
+    decimals = 2
+  ) %>%  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+      table.align = "left"
+  ) %>%
+  opt_row_striping()
 ```
