@@ -19,7 +19,8 @@ library(readr)
 library(stringr)
 
 # Function to execute a BigQuery query and return the result as a DataFrame
-run_bigquery_query <- function(project_id, sql_file_path, credentials_path) {
+run_bigquery_query <- function(project_id, sql_file_path) {
+  credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
   # Set Google Cloud credentials
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
   
@@ -57,10 +58,9 @@ run_bigquery_query <- function(project_id, sql_file_path, credentials_path) {
 # Parameters
 project_id <- "som-rit-phi-oncology-prod"
 sql_file_path<- "sql/arpah_age_metrics.sql"
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 
 # Execute the query
-dat <- run_bigquery_query(project_id, sql_file_path, credentials_path)
+dat <- run_bigquery_query(project_id, sql_file_path)
 
 # View the result
 if (!is.null(dat)) {
@@ -111,4 +111,39 @@ create_bar_plot(
   y_axis_title = "Counts (N)"
 )
 ```
+The age groups are as follow:
+```{r}
+# Parameters
+project_id <- "som-rit-phi-oncology-prod"
+sql_file_path<- "sql/arpah_age_cat_metrics.sql"
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 
+# Execute the query
+age.dat <- run_bigquery_query(project_id, sql_file_path, credentials_path)
+print(age.dat)
+```
+```{r}
+#install.packages("gt")
+library(gt)
+
+age.dat %>%
+  gt() %>%
+  cols_label(
+    current_age_groups = "Age Group",
+    count_per1000 = "Count (K)")%>%
+  tab_header(
+    title = "Age Category Metrics",
+    subtitle = "ARPAH Cohort"
+  ) %>%
+  fmt_number(
+    columns = where(is.numeric),
+    decimals = 2
+  ) %>%  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred"
+  ) %>%
+  opt_row_striping()
+
+
+```
