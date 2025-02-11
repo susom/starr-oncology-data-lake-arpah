@@ -1,0 +1,210 @@
+---
+title: "ARPAH Demographic Metrics"
+execute:
+  echo: false
+---
+The Advanced Research Projects Agency for Health (ARPA-H) is a research funding agency that supports transformative biomedical and health breakthroughs – ranging from the molecular to the societal – to provide health solutions for all.
+For more information, you can [Visit Stanford Health Care](https://www.stanfordhealthcare.org).
+
+https://med.stanford.edu/news/all-news/2024/10/arpa-h-contracts
+
+# **ARPAH Cohort**
+ARPAH cohort was defined as:
+
+- Cancer condition concept ids
+- An encounter within
+  - NF
+  - Tumor board
+- Other
+
+
+## **Age Distribution**
+
+Below is the distribution of persons per year of birth. The average age of participants were xx.
+```{r}
+# set wrking directory
+setwd("/workspaces/starr-oncology-data-lake-arpah/src")
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(DBI)
+library(bigrquery)
+library(readr)
+library(stringr)
+
+# Function to execute a BigQuery query and return the result as a DataFrame
+run_bigquery_query <- function(project_id, sql_file_path) {
+  credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+  # Set Google Cloud credentials
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+  
+  # Authenticate with BigQuery
+  bq_auth(path = Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+  
+  # Create BigQuery connection
+  bq_conn <- dbConnect(
+    bigrquery::bigquery(),
+    project = project_id,
+    use_legacy_sql = FALSE
+  )
+  
+  # Load SQL from the specified file
+  sql_query <- read_file(sql_file_path)
+  sql_query <- str_c(sql_query, collapse = " ") ## for any line break
+
+  # Execute the query and return results
+  result_df <- tryCatch({
+    query_result <- dbGetQuery(bq_conn, sql_query)
+    print("Query executed successfully!")
+    return(query_result)
+  }, error = function(e) {
+    print(paste("Query failed:", e$message))
+    return(NULL)
+  })
+  
+  # Disconnect from BigQuery
+  dbDisconnect(bq_conn)
+  end_time <- Sys.time()
+  print(paste("Query execution time:", end_time - start_time))
+  return(result_df)
+}
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+# Parameters
+project_id <- "som-rit-phi-oncology-prod"
+sql_file_path<- "sql/arpah_age_metrics.sql"
+
+# Execute the query
+dat <- run_bigquery_query(project_id, sql_file_path)
+
+# View the result
+if (!is.null(dat)) {
+  head(dat)
+}
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(plotly)
+
+create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
+  plot_ly(
+    data = data, 
+    x = data[[x_var]], 
+    y = data[[y_var]], 
+    type = 'bar', 
+    marker = list(color = 'rgb(136, 108, 108)', line = list(color = 'rgb(174, 19, 19)', width = 1.5))
+  ) %>%
+    layout(
+       title = list(
+        text = plot_title,
+        x = 0.01,  # Align to the left (0 = far left, 1 = far right)
+        xanchor = "left"
+      ),
+      xaxis = list(
+        title = x_axis_title,
+        tickangle = -45,
+        showgrid = FALSE
+      ),
+      yaxis = list(
+        title = y_axis_title,
+        rangemode = "tozero"
+      ),
+      margin = list(b = 100),
+      showlegend = FALSE
+    )
+}
+
+```
+```{r}
+# Generate the Plot with Custom Titles
+create_bar_plot(
+  dat, 
+  x_var = "birth_year", 
+  y_var = "person_count", 
+  plot_title = "Birth Year Distribution", 
+  x_axis_title = "Year of Birth", 
+  y_axis_title = "Counts (N)"
+)
+```
+The age groups are as follow:
+```{r, results='hide'}
+# Parameters
+project_id <- "som-rit-phi-oncology-prod"
+sql_file_path<- "sql/arpah_age_cat_metrics.sql"
+
+# Execute the query
+age.dat <- run_bigquery_query(project_id, sql_file_path)
+print(age.dat)
+```
+
+
+\newpage  
+```{r, message=FALSE, warning=FALSE, results='hide'}
+project_id <- "som-rit-phi-oncology-prod"
+sql_file_path<- "sql/arpah_demographic_all.sql"
+
+# Execute the query
+demographics <- run_bigquery_query(project_id, sql_file_path)
+print(demographics)
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+all.dat = demographics %>%
+dplyr::mutate(
+    Variable = dplyr::case_when(
+      grepl("n_age", description) ~ "Age",
+      grepl("n_sex", description) ~ "Sex",
+      grepl("n_race", description) ~ "Race",
+       grepl("n_ethnicity", description) ~ "Ethnicity",
+      grepl("n_patients", description) ~ "Total",
+      grepl("pct", description) ~ NA_character_  # Skip pure percent entries for the type
+    )) %>%
+  select(Variable, everything())
+  print(all.dat)
+dim(all.dat)
+colnames(all.dat)[1]<-"Charactersitics"
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(gt)
+all.dat$percents=100*(as.numeric(all.dat$percents))
+dplyr::glimpse (all.dat)
+all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45-64", "65+",
+"No OMOP Visit", "Male", "Female", "Other", "Unknown", "American Indian-Alaska Native",
+"Asian", "Native Hawaii", "Black", "White", "Other-Unknown", "Hispanic Latino ", "NOT Hispanic Latino", "Other-Missing" ))
+
+ all.dat=all.dat%>% select(Charactersitics, values, everything())
+```
+# **Demographic Summary of Patient Population**
+
+This report presents a comprehensive demographic analysis of patients within the ARPAH population (~200k) based on data from the OMOP Common Data Model. The demographic categories examined included Age, Sex, Race, and Ethnicity.
+```{r, message=FALSE, warning=FALSE}
+all.dat %>% select (-description) %>%
+  gt() %>%
+  cols_label(
+    Charactersitics = "Charactersitics",
+    values="",
+    counts = "Count (N)",
+    percents = "%"
+  ) %>%
+  tab_header(
+    title = "All Category Metrics",
+    subtitle = "ARPAH Cohort"
+  ) %>%
+  fmt_number(
+    columns = where(is.numeric),
+    decimals = 0
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = vars(counts, percents)  # Specify the columns to center
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping()
+```
+
+This demographic analysis provides insights into the composition of the patient population, highlighting specific trends and proportions across age, sex, race, and ethnicity. Such information is crucial for understanding the diversity and healthcare needs of the population served and can inform targeted interventions and resource allocation.
+

@@ -1,19 +1,6 @@
----
-title: "Demographic Metrics"
-execute:
-  echo: false
----
-
-Below is the distribution of persons per year of birth. ARPAH cohort was defined as:
-1- concept ids with 
-2- an encounter in neural frame registry or tumor board
-```{r}
-# set wrking directory
-setwd("/workspaces/starr-oncology-data-lake-arpah/src")
-source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-```
-
-```{r, echo: false}
+############################
+### connection function ###
+############################
 library(DBI)
 library(bigrquery)
 library(readr)
@@ -53,28 +40,10 @@ run_bigquery_query <- function(project_id, sql_file_path, credentials_path) {
   
   return(result_df)
 }
-```
-```{r, echo: false}
-# Parameters
-project_id <- "som-rit-phi-oncology-prod"
-sql_file_path<- "sql/arpah_age_metrics.sql"
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 
-# Set your project ID
-project_id <- "som-rit-phi-oncology-dev"
-=======
-# Execute the query
-dat <- run_bigquery_query(project_id, sql_file_path, credentials_path)
-
-# View the result
-if (!is.null(dat)) {
-  head(dat)
-}
-```
-
-```{r}
-library(plotly)
-
+#######################
+### plot function ###
+#######################
 create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
   plot_ly(
     data = data, 
@@ -102,17 +71,4 @@ create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis
       showlegend = FALSE
     )
 }
-
-```
-```{r}
-# Generate the Plot with Custom Titles
-create_bar_plot(
-  dat, 
-  x_var = "birth_year", 
-  y_var = "person_count", 
-  plot_title = "Birth Year Distribution", 
-  x_axis_title = "Year of Birth", 
-  y_axis_title = "Counts (N)"
-)
-```
 

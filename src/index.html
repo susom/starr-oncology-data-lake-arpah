@@ -73,9 +73,49 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Below is the distribution of persons per year of birth</p>
 <div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Query executed successfully!"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  birth_year person_count
+       &lt;int&gt;        &lt;int&gt;
+1       1947         5795
+2       1948         5568
+3       1951         5428
+4       1949         5419
+5       1946         5395
+6       1950         5349</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+</div>
+<div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-4c2803b0df9226998f1c" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-4c2803b0df9226998f1c">{"x":{"visdat":{"25cf6015d10":["function () ","plotlyVisDat"]},"cur_data":"25cf6015d10","attrs":{"25cf6015d10":{"x":{},"y":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"birth_year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"person_count"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1909,1913,1917,1958,1965,1966,1968,1971,1980,1911,1912,1914,1915,1916,1918,1964,1969,1970,1972,1975,1978,1982,1910,1967,1977,1979,1981,1973,1983,1974,1976,1919,1920,1921,1922,1923,1924,1925,1926,1927,1928,1929,1930,1931,1932,1933,1934,1935,1936,1937,1938,1939,1940,1941,1954,1960,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1955,1956,1957,1959,1961,1962,1963],"y":[11458,11247,11405,11696,5882,5844,5632,5828,3285,11237,11282,11546,11428,11210,11328,5832,5783,5796,5621,3318,3157,3203,11199,5681,3240,3214,3172,5743,3201,3181,3238,37416,37192,36596,36885,37312,58294,58198,58339,58309,58617,72813,72382,72411,72689,72162,87675,87962,87853,87841,88276,111293,110482,110498,11900,11874,111113,110742,17213,17117,17066,17049,17053,17284,17097,17298,17089,17054,11971,12015,11892,11938,11914,11868,11927],"type":"bar","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-6443b42600f583fbcf04" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-6443b42600f583fbcf04">{"x":{"visdat":{"43276c2fb41a":["function () ","plotlyVisDat"]},"cur_data":"43276c2fb41a","attrs":{"43276c2fb41a":{"x":[1947,1948,1951,1949,1946,1950,1952,1953,1954,1955,1945,1956,1943,1944,1942,1957,1958,1959,1960,1961,1941,1940,1962,1963,1939,1964,1938,1937,1965,1966,1936,1967,1935,1968,1970,1969,1934,1971,1933,1972,1932,1973,1931,1974,1930,1975,1976,1977,1929,1978,1979,1928,1981,1980,1927,1982,1983,1984,1926,1985,1986,1925,1924,1989,1987,1988,1990,1923,1922,1991,1992,1993,1921,1994,1995,1920,1997,1996,1999,2000,1998,2001,2003,2002,1919,2004,2006,2007,2005,1918,2009,2008,2011,1917,2010,2012,1916,2013,2016,2015,2014,1915,2017,1914,2019,2018,2020,1913,1912,2021,1911,2022,1910,1909,1908,2023,1907,1903,1906,1901,1905,2024,1900,1904],"y":[5795,5568,5428,5419,5395,5349,5328,5200,5078,4888,4814,4773,4683,4658,4614,4567,4376,4115,3918,3871,3856,3607,3605,3462,3366,3227,3218,3059,2925,2713,2664,2617,2473,2456,2454,2404,2298,2218,2040,2013,1931,1824,1725,1690,1681,1642,1579,1485,1441,1389,1327,1312,1276,1271,1186,1136,1129,1039,996,941,901,892,856,803,791,756,722,721,639,612,571,570,531,479,413,407,403,388,328,324,324,314,303,299,286,285,267,257,252,248,236,197,196,188,186,161,151,145,135,134,133,114,104,101,84,74,72,69,63,56,39,36,32,25,23,15,13,5,5,5,5,3,2,1],"marker":{"color":"rgba(104, 198, 214, 0.7)","line":{"color":"rgb(100, 173, 237)","width":1.5}},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":100,"l":60,"t":25,"r":10},"title":{"text":"Birth Year Distribution","x":0.01,"xanchor":"left"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Year of Birth","tickangle":-45,"showgrid":false},"yaxis":{"domain":[0,1],"automargin":true,"title":"Counts (N)","rangemode":"tozero"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1947,1948,1951,1949,1946,1950,1952,1953,1954,1955,1945,1956,1943,1944,1942,1957,1958,1959,1960,1961,1941,1940,1962,1963,1939,1964,1938,1937,1965,1966,1936,1967,1935,1968,1970,1969,1934,1971,1933,1972,1932,1973,1931,1974,1930,1975,1976,1977,1929,1978,1979,1928,1981,1980,1927,1982,1983,1984,1926,1985,1986,1925,1924,1989,1987,1988,1990,1923,1922,1991,1992,1993,1921,1994,1995,1920,1997,1996,1999,2000,1998,2001,2003,2002,1919,2004,2006,2007,2005,1918,2009,2008,2011,1917,2010,2012,1916,2013,2016,2015,2014,1915,2017,1914,2019,2018,2020,1913,1912,2021,1911,2022,1910,1909,1908,2023,1907,1903,1906,1901,1905,2024,1900,1904],"y":[5795,5568,5428,5419,5395,5349,5328,5200,5078,4888,4814,4773,4683,4658,4614,4567,4376,4115,3918,3871,3856,3607,3605,3462,3366,3227,3218,3059,2925,2713,2664,2617,2473,2456,2454,2404,2298,2218,2040,2013,1931,1824,1725,1690,1681,1642,1579,1485,1441,1389,1327,1312,1276,1271,1186,1136,1129,1039,996,941,901,892,856,803,791,756,722,721,639,612,571,570,531,479,413,407,403,388,328,324,324,314,303,299,286,285,267,257,252,248,236,197,196,188,186,161,151,145,135,134,133,114,104,101,84,74,72,69,63,56,39,36,32,25,23,15,13,5,5,5,5,3,2,1],"marker":{"color":"rgba(104, 198, 214, 0.7)","line":{"color":"rgb(100, 173, 237)","width":1.5}},"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
