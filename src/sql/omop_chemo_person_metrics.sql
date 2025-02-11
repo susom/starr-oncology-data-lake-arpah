@@ -6,10 +6,6 @@ drug_era as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.
 chemo_med as
 (
   select distinct c.*
-  from concept c
-  where concept_id in (21601386,724009)
-  union distinct
-  select c.*
     from concept c
     join concept_ancestor ca on c.concept_id = ca.descendant_concept_id
     and ca.ancestor_concept_id in (21601386,724009)
