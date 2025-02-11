@@ -10,6 +10,7 @@ Below is the distribution of persons per year of birth. ARPAH cohort was defined
 ```{r}
 # set wrking directory
 setwd("/workspaces/starr-oncology-data-lake-arpah/src")
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 ```
 
 ```{r, echo: false}
