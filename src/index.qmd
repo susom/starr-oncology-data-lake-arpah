@@ -60,6 +60,9 @@ project_id <- "som-rit-phi-oncology-prod"
 sql_file_path<- "sql/arpah_age_metrics.sql"
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 
+# Set your project ID
+project_id <- "som-rit-phi-oncology-dev"
+=======
 # Execute the query
 dat <- run_bigquery_query(project_id, sql_file_path, credentials_path)
 
