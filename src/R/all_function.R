@@ -5,9 +5,11 @@ library(DBI)
 library(bigrquery)
 library(readr)
 library(stringr)
+library(gt)
 
 # Function to execute a BigQuery query and return the result as a DataFrame
-run_bigquery_query <- function(project_id, sql_file_path, credentials_path) {
+run_bigquery_query <- function(project_id, sql_file_path) {
+  credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
   # Set Google Cloud credentials
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
   
@@ -24,7 +26,6 @@ run_bigquery_query <- function(project_id, sql_file_path, credentials_path) {
   # Load SQL from the specified file
   sql_query <- read_file(sql_file_path)
   sql_query <- str_c(sql_query, collapse = " ") ## for any line break
-
   # Execute the query and return results
   result_df <- tryCatch({
     query_result <- dbGetQuery(bq_conn, sql_query)
@@ -37,7 +38,8 @@ run_bigquery_query <- function(project_id, sql_file_path, credentials_path) {
   
   # Disconnect from BigQuery
   dbDisconnect(bq_conn)
-  
+  end_time <- Sys.time()
+  print(paste("Query execution time:", end_time - start_time))
   return(result_df)
 }
 
@@ -50,7 +52,7 @@ create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis
     x = data[[x_var]], 
     y = data[[y_var]], 
     type = 'bar', 
-    marker = list(color = 'rgba(104, 198, 214, 0.7)', line = list(color = 'rgb(100, 173, 237)', width = 1.5))
+    marker = list(color = 'rgb(136, 108, 108)', line = list(color = 'rgb(174, 19, 19)', width = 1.5))
   ) %>%
     layout(
        title = list(
@@ -71,4 +73,3 @@ create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis
       showlegend = FALSE
     )
 }
-
