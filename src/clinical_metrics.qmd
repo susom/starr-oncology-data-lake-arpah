@@ -15,32 +15,31 @@ setwd("/workspaces/starr-oncology-data-lake-arpah/src")
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 
 ```
-```{r, message=FALSE, warning=FALSE, results='hide'}
- credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-  conn <- dbConnect(
-    bigrquery::bigquery(),
-    project = "som-rit-phi-oncology-prod",
-    use_legacy_sql = FALSE
-  )
-
+```{r}
+## pull arpah clinical metrics ##
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
-
-sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
-
-combined_df <- sql_files %>%
-  purrr::map_dfr(~{
-    sql_query <- readLines(.x)
-  
-    df <- dbGetQuery(conn, paste(sql_query, collapse = "\n")) 
-     df <- df %>%
-      mutate(sql_file_name = basename(.x))
-    return(df)
-  })
-
+ project_name = "som-rit-phi-oncology-prod"
+res_arpah <- fetch_data_from_sql(credentials_path, project_name, folder_path)
 ```
-```{r,message=FALSE, warning=FALSE, results='hide'}
-#Total
-metric_arpah <- df %>%
+
+```{r}
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board"
+project_name = "som-rit-phi-oncology-prod"
+res_tb <- fetch_data_from_sql(credentials_path, project_name, folder_path_tb)
+```
+```{r}
+colnames(res_arpah)[1]<-"pt_count_arph"
+res_tb$sql_file_name=gsub("tumor_board_","", res_tb$sql_file_name)
+colnames(res_tb)[1]<-"pt_count_tb"
+```
+```{r}
+res_all=res_arpah %>% inner_join(res_tb, by="sql_file_name")
+print(res_all)
+```
+```{r}
+res_all <- res_all %>%
   mutate(
     metric = case_when(
       sql_file_name == "note_path_cyto_person_metrics.sql" ~ "with pathology/cytology clinical report", 
@@ -55,117 +54,22 @@ metric_arpah <- df %>%
       TRUE ~ NA_character_  
     )
   )
-print(metric_arpah)
-#with pathology/cytology clinical report
-#with imaging reports, also a proxy for radiology imaging data
-#have molecular mutation structured data (Philips ISPM)
-#present data in Stanford Cancer Registry (Neural Frame)
-#present Hospital or Stanford Cancer Registry death date
-#given chemo medication
-#given radiation therapy (ARIA)
-#with WSI (based on EPIC Beaker AP/Pathology, starting from 2022)
-```
-This table summerizes the following clinical metrics for the number of patients with pathology reports, imaging reports, and other clinical characteristics.
-```{r, message=FALSE, warning=FALSE}
-metric_arpah<-metric_arpah%>% select(metric, everything())
-
-metric_arpah %>% select (-sql_file_name) %>%
-  gt() %>%
-  cols_label(
-    metric = "Clinical Metrics",
-    patient_count = "Count (N)",
-  ) %>%
-  tab_header(
-    title = "Clinical Metrics",
-    subtitle = "ARPAH Cohort"
-  ) %>%
-  fmt_number(
-    columns = where(is.numeric),
-    decimals = 0
-  ) %>%
-  cols_align(
-    align = "center",
-    columns = vars(patient_count)  # Specify the columns to center
-  ) %>%
-  tab_options(
-    table.font.size = px(14),
-    heading.align = "left",
-    table.border.top.color = "darkred",
-    table.align = "left"
-  ) %>%
-  opt_row_striping()
-
-
-```
-
-```{r, message=FALSE, warning=FALSE}
-metric_arpah %>%
-  gt() %>%
-  cols_label(
-    metric = "Clinical Metrics",
-    patient_count = "Count (N)",
-  ) %>%
-  tab_header(
-    title = "Clinical Metrics",
-    subtitle = "ARPAH Cohort"
-  ) %>%
-  fmt_number(
-    columns = where(is.numeric),
-    decimals = 0
-  ) %>%
-  cols_align(
-    align = "center",
-    columns = vars(patient_count)  # Specify the columns to center
-  ) %>%
-  tab_options(
-    table.font.size = px(14),
-    heading.align = "left",
-    table.border.top.color = "darkred",
-    table.align = "left"
-  ) %>%
-  opt_row_striping()
-```
-
-```{r}
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-  conn <- dbConnect(
-    bigrquery::bigquery(),
-    project = "som-rit-phi-oncology-prod",
-    use_legacy_sql = FALSE
-  )
-
-folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board"
-
-sql_files_tb <- list.files(path = folder_path_tb, pattern = "\\.sql$", full.names = TRUE)
-
-combined_df_tb <- sql_files_tb %>%
-  purrr::map_dfr(~{
-    sql_query <- readLines(.x)
-  
-    df <- dbGetQuery(conn, paste(sql_query, collapse = "\n")) 
-     df <- df %>%
-      mutate(sql_file_name = basename(.x))
-    return(df)
-  })
-
-colnames(combined_df_tb)[1]<-"pt_count_tb"
-combined_df_tb$sql_file_name=gsub("tumor_board_","", combined_df_tb$sql_file_name)
-colnames(combined_df)[1]<-"pt_count_arp"
+print(res_all)
+res_all=res_all %>% filter(!is.na(metric))
+print(res_all)
 
 ```
 ```{r}
-df=combined_df %>% inner_join(combined_df_tb, by="sql_file_name")
-print(df)
-
+res_all<-res_all%>% select(metric, everything())
 ```
-```{r, message=FALSE, warning=FALSE}
-metric_arpah<-metric_arpah%>% select(metric, everything())
 
-metric_arpah%>% select(-sql_file_name) %>%
+```{r, message=FALSE, warning=FALSE}
+
+res_all%>%select (-sql_file_name)%>%
   gt() %>%
   cols_label(
     metric = "Clinical Metrics",
-    pt_count_arp = "ARPAH Count (N)",
+    pt_count_arph = "ARPAH Count (N)",
     pt_count_tb="Tumor Board Count (N)",
   ) %>%
   tab_header(
@@ -178,7 +82,7 @@ metric_arpah%>% select(-sql_file_name) %>%
   ) %>%
   cols_align(
     align = "center",
-    columns = vars(pt_count_arp, pt_count_tb)  # Specify the columns to center
+    columns = vars(pt_count_arph, pt_count_tb)  # Specify the columns to center
   ) %>%
   tab_options(
     table.font.size = px(14),
@@ -188,3 +92,6 @@ metric_arpah%>% select(-sql_file_name) %>%
   ) %>%
   opt_row_striping()
 ```
+
+
+## end 
