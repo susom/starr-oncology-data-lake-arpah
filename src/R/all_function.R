@@ -73,3 +73,44 @@ create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis
       showlegend = FALSE
     )
 }
+
+##########################
+#### fetch sql names 
+##########################
+library(DBI)
+library(bigrquery)
+library(dplyr)
+library(purrr)
+
+# Define the function
+fetch_data_from_sql <- function(credentials_path, project, folder_path) {
+  # Set the credentials
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+  
+  # Connect to BigQuery
+  conn <- dbConnect(
+    bigrquery::bigquery(),
+    project = project,
+    use_legacy_sql = FALSE
+  )
+  
+  # List SQL files
+  sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
+  
+  # Read and execute the SQL files
+  combined_df <- sql_files %>%
+    map_dfr(~{
+      sql_query <- readLines(.x)
+      df <- dbGetQuery(conn, paste(sql_query, collapse = "\n")) 
+      df <- df %>%
+        mutate(sql_file_name = basename(.x))
+      return(df)
+    })
+  
+  # Close the database connection
+  dbDisconnect(conn)
+  
+  # Return the combined data frame
+  return(combined_df)
+}
+
