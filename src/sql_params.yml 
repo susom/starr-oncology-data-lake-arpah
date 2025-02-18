@@ -1,8 +1,19 @@
 oncology_prod: som-rit-phi-oncology-prod
 oncology_omop: oncology_omop_arpah_alpha
 shc_clarity: shc_clarity_filtered_latest
+starr_prod: som-rit-phi-starr-prod
+starr_common: starr_common
 neuralframe_raw: oncology_neuralframe_raw
 registry_table: neuralframe_parquet_registry_data
+oncology_aria: oncology_aria_raw
+oncology_dev: som-rit-phi-oncology-dev
+oncology_temp: starr_omop_cdm5_oncology_all_temp_2025_01_28
+oncology_philips: oncology_philips_raw
+oncology_common: onc_farnoosh_oncology_common
 
-
-
+##--som-rit-phi-oncology-dev.starr_omop_cdm5_oncology_all_temp_2025_01_28.onc_all__cancer_flags -- needs the production version 
+##--som-rit-phi-oncology-prod.oncology_philips_raw.philips_mtb_pat_diag_orders
+##--som-rit-phi-oncology-dev.onc_farnoosh_oncology_common.onc_neuralframe_case_outcomes
+##--som-rit-phi-oncology-prod.oncology_aria_raw.patient
+##--som-rit-phi-starr-prod.starr_common.shc_pathology
+##--som-rit-phi-starr-prod.shc_clarity_filtered_latest.patient
