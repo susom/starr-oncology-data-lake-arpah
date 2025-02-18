@@ -33,3 +33,6 @@ where
 lower(primarysiteDescription) like '%lung%'
 or lower(primarysiteDescription) like '%bronchus%'
 or lower(primarysiteDescription) like '%thymus%'
+
+-- number of lung cancer -- 
+-- Number of patients in Neural Frame and diagnosed with thoracic cancer (B)

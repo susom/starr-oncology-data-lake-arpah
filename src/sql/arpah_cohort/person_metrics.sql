@@ -1,8 +1,4 @@
 SELECT 
-    year_of_birth AS birth_year,
-    COUNT(*) AS person_count 
+ count(distinct person_id)
 FROM 
-    `bigquery-public-data.cms_synthetic_patient_data_omop.person`
-GROUP BY
-    birth_year 
-    order by person_count desc
+`@oncology_prod.@oncology_omop.person`

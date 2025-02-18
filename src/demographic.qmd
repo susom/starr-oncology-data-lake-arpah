@@ -1,23 +1,25 @@
 ---
-title: "ARPAH Demographic Metrics"
+title: "ARPA-H Demographic & Clinical Metrics"
 execute:
   echo: false
 ---
-The Advanced Research Projects Agency for Health (ARPA-H) is a research funding agency that supports transformative biomedical and health breakthroughs – ranging from the molecular to the societal – to provide health solutions for all.
+### Release Version: Feb 2025
+The Advanced Research Projects Agency for Health (ARPA-H) is a research funding agency that supports transformative biomedical and health breakthroughs – ranging from the molecular to the societal to provide health solutions for all.
 For more information, you can [Visit Stanford News](https://med.stanford.edu/news/all-news/2024/10/arpa-h-contracts).
 
 
-# **ARPAH Cohort**
-ARPAH cohort included indiviuals with an exisiting record in OMOP and a present encounter with Neural Frame (cancer registry) or Tumor board.
-From the entire OMOP population there were 
-  - Neural Frame 
-  - Tumor board
-- Other
+## **ARPA-H Cohort**
+ARPA-H cohort included indiviuals with an exisiting record in STARR-OMOP and in the cancer registry (Neural Frame) or a present encounter of tumor board.
 
+From the entire OMOP population there were 200,262 indiviuals who were eligible for ARPA-H cohort.
 
-## **Age Distribution**
+  - Neural Frame: Defined as patients within the Neural Frame who are permitted for research purposes (189k)
 
-Below is the distribution of persons per year of birth. The average age of participants were xx.
+  - Tumor Board Encounter: Defined using EPIC patient encounter data (23k)
+
+# **Age Distribution**
+
+Below is the distribution of persons per year of birth. 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # set wrking directory
 setwd("/workspaces/starr-oncology-data-lake-arpah/src")
@@ -51,7 +53,6 @@ create_bar_plot(
   y_axis_title = "Counts (N)"
 )
 ```
-The age groups are as follow:
 ```{r, results='hide'}
 # Parameters
 project_id <- "som-rit-phi-oncology-prod"
@@ -63,7 +64,6 @@ print(age.dat)
 ```
 
 
-\newpage  
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 project_id <- "som-rit-phi-oncology-prod"
 sql_file_path<- "sql/arpah_cohort/arpah_demographic_all.sql"
@@ -100,7 +100,7 @@ all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45
 ```
 # **Demographic Summary of Patient Population**
 
-This report presents a comprehensive demographic analysis of patients within the ARPAH population (~200k) based on data from the OMOP Common Data Model. The demographic categories examined included Age, Sex, Race, and Ethnicity.
+This report presents a comprehensive demographic analysis of patients within the ARPA-H population (~200k) derived from OMOP Common Data Model. The demographic categories examined included Age, Sex, Race, and Ethnicity.
 ```{r, message=FALSE, warning=FALSE}
 all.dat %>% select (-description) %>%
   gt() %>%
@@ -131,12 +131,11 @@ all.dat %>% select (-description) %>%
   opt_row_striping()
 ```
 
-This demographic analysis provides insights into the composition of the patient population, highlighting specific trends and proportions across age, sex, race, and ethnicity. Such information is crucial for understanding the diversity and healthcare needs of the population served and can inform targeted interventions and resource allocation.
+This demographic analysis provides insights into the composition of the patient population, highlighting specific trends and proportions across age, sex, race, and ethnicity. 
 
 
 
-\newpage
-# **Clinical Metrics**
+# **ARPAH Clinical Metrics**
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
@@ -165,15 +164,15 @@ print(res_all)
 res_all <- res_all %>%
   mutate(
     metric = case_when(
-      sql_file_name == "note_path_cyto_person_metrics.sql" ~ "with pathology/cytology clinical report", 
-      sql_file_name == "note_imaging_person_metrics.sql" ~ "with imaging reports, also a proxy for radiology imaging data",
-      sql_file_name == "philips_person_metrics.sql" ~ "have molecular mutation structured data (Philips ISPM)",
-      sql_file_name == "vital_status_person_metrics.sql" ~ "present Hospital or Stanford Cancer Registry death date", 
-      sql_file_name == "omop_chemo_person_metrics.sql" ~ "given chemo medication",
-      sql_file_name == "aria_person_metrics.sql" ~ "given radiation therapy (ARIA)",
-      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "with WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
-      sql_file_name == "powerpath_beaker_path_person_metrics.sql" ~ "pathology beaker",
-      sql_file_name == "powerpath_path_person_metrics.sql" ~ "pathology path",
+      sql_file_name == "note_path_cyto_person_metrics.sql" ~ "With pathology/cytology clinical report", 
+      sql_file_name == "note_imaging_person_metrics.sql" ~ "With imaging reports, also a proxy for radiology imaging data",
+      sql_file_name == "philips_person_metrics.sql" ~ "Have molecular mutation structured data (Philips ISPM)",
+      sql_file_name == "vital_status_person_metrics.sql" ~ "Present Hospital or Stanford Cancer Registry death date", 
+      sql_file_name == "omop_chemo_person_metrics.sql" ~ "Given chemo medication",
+      sql_file_name == "aria_person_metrics.sql" ~ "Given radiation therapy (ARIA)",
+      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "With WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
+      sql_file_name == "powerpath_beaker_path_person_metrics.sql" ~ "Pathology beaker",
+      sql_file_name == "powerpath_path_person_metrics.sql" ~ "Pathology path",
       TRUE ~ NA_character_  
     )
   )
@@ -185,19 +184,27 @@ print(res_all)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 res_all<-res_all%>% select(metric, everything())
 ```
+```{r,, message=FALSE, warning=FALSE}
+## add percentages ##
+res_all <- res_all %>%
+  mutate(
+    N_perc_arpah = calculate_N_percent(pt_count_arph, den=200262),
+    N_perc_tb=calculate_N_percent(pt_count_tb, den=23497)
+  )
 
+```
 ```{r, message=FALSE, warning=FALSE}
 
-res_all%>%select (-sql_file_name)%>%
+res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
   gt() %>%
   cols_label(
     metric = "Clinical Metrics",
-    pt_count_arph = "ARPAH Count (N)",
-    pt_count_tb="Tumor Board Count (N)",
+    N_perc_arpah = "ARPAH N(%) \n (Total=200,262)",
+    N_perc_tb="Tumor Board N(%)\n (Total=23,497)",
   ) %>%
   tab_header(
-    title = "Clinical Metrics",
-    subtitle = "ARPAH Cohort"
+    title = "ARPA-H Cohort - Clinical Metrics",
+    subtitle = ""
   ) %>%
   fmt_number(
     columns = where(is.numeric),
@@ -205,7 +212,7 @@ res_all%>%select (-sql_file_name)%>%
   ) %>%
   cols_align(
     align = "center",
-    columns = vars(pt_count_arph, pt_count_tb)  # Specify the columns to center
+    columns = vars(N_perc_arpah, N_perc_tb)  # Specify the columns to center
   ) %>%
   tab_options(
     table.font.size = px(14),
@@ -213,5 +220,67 @@ res_all%>%select (-sql_file_name)%>%
     table.border.top.color = "darkred",
     table.align = "left"
   ) %>%
-  opt_row_striping()
+  opt_row_striping()%>%
+  tab_footnote(
+    footnote = "N(%) represents the count per 1000 and the corresponding percentage of the total."
+  )
+```
+
+# **Thoracic Cancer Clinical Metrics**
+
+The following metrics were identified within ARPAH cohort (200k) for indiviulas with thoracic cancer.
+```{r, message=FALSE, warning=FALSE, results='hide'}
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+folder_path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic"
+project_name = "som-rit-phi-oncology-prod"
+res_tc <- fetch_data_from_sql(credentials_path, project_name, folder_path_tc)
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+res_tc <- res_tc%>%
+  mutate(
+    metric = case_when(
+      sql_file_name == "scr_thoracic_person_metrics.sql" ~ "Number of patients in Neural Frame and diagnosed with thoracic cancer", 
+      sql_file_name == "scr_thoracic_vital_status_person_metrics.sql" ~ "Number of patients in Neural Frame and diagnosed with thoracic cancer with a death date",
+      sql_file_name == "scr_thoracic_tb_person_metrics.sql" ~ "Number of patients diagnosed with thoracic cancer and have a tumor board encounter",
+      sql_file_name == "scr_thoracic_tb_death.sql" ~ "Number of patients diagnosed with thoracic cancer and have a tumor board encounter with a death date",
+      TRUE ~ NA_character_  
+    )
+  )
+print(res_tc)
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+res_tc=res_tc %>% select(metric, patient_count)%>% filter(!is.na(metric))%>% arrange(desc(patient_count))
+
+```
+```{r, message=FALSE, warning=FALSE}
+
+res_tc%>%
+  gt() %>%
+  cols_label(
+    metric = "Clinical Metrics",
+   patient_count = "Patient Count",
+  ) %>%
+  tab_header(
+    title = "Thoracic Cancer",
+    subtitle = ""
+  ) %>%
+  fmt_number(
+    columns = where(is.numeric),
+    decimals = 0
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = vars(patient_count)  # Specify the columns to center
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping()%>%
+  tab_footnote(
+    footnote = "Death date was defined either within STARR-OMOP or Neural Frame"
+  )
 ```

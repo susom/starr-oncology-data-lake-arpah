@@ -4,14 +4,6 @@ pat_enc as (select * from `som-rit-phi-starr-prod.shc_clarity_filtered_latest.pa
 zc_disp_enc_type as (select * from `som-rit-phi-starr-prod.shc_clarity_filtered_latest.zc_disp_enc_type`),
 clarity_prc as (select * from `som-rit-phi-starr-prod.shc_clarity_filtered_latest.clarity_prc`),
 patient as (select * from `som-rit-phi-starr-prod.shc_clarity_filtered_latest.patient`),
-scr as (select * from `som-rit-phi-oncology-prod.oncology_neuralframe_raw.neuralframe_parquet_registry_data`),
-scr_patients as (
-    select distinct
-    cast(scr.dateOfBirth as date format 'yyyymmdd') as dateOfBirth,
-      IF(LENGTH(medicalRecordNumber) <= 8, LPAD(medicalRecordNumber, 8, '0'), LPAD(medicalRecordNumber, 10, '0')) as cleaned_mrn --handle 8 digit or 10 digit mrns
-    FROM scr
-    WHERE trim(medicalRecordNumber) <> '' and length(scr.dateOfBirth) = 8
-),
 tumor_board_patients AS (
 SELECT
   DISTINCT p.pat_mrn_id,
@@ -33,6 +25,5 @@ select count(distinct person.person_source_value) patient_count
 from
 tumor_board_patients tb
 inner join person on person.person_source_value = CONCAT(FORMAT('%s | %s', tb.pat_mrn_id, CAST(cast(tb.birth_date AS date) AS string format 'yyyy-mm-dd')))
-inner join scr_patients on person.person_source_value = concat(scr_patients.cleaned_mrn, ' | ', scr_patients.dateOfBirth)
-
--- tb encounter 23k
+;
+-- Number of patients diagnosed with thoracic cancer and have a tumor board encounter

@@ -113,4 +113,13 @@ fetch_data_from_sql <- function(credentials_path, project, folder_path) {
   # Return the combined data frame
   return(combined_df)
 }
-
+##########################
+### function for N(%) ###
+#########################
+# Define the function
+calculate_N_percent <- function(count_column, den) {
+  total_count <- sum(count_column)
+  perc <- round(100 * count_column / den, 1)
+  N_per_1000 <- round((count_column /1000), 1)
+  paste0(N_per_1000, " (", perc, "%)")
+}
