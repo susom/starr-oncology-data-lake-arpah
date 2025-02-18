@@ -39,7 +39,7 @@ run_bigquery_query <- function(project_id, sql_file_path) {
   # Disconnect from BigQuery
   dbDisconnect(bq_conn)
   end_time <- Sys.time()
-  print(paste("Query execution time:", end_time - start_time))
+  print(paste("Query execution time:", end_time))
   return(result_df)
 }
 
