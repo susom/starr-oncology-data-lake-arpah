@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------------------------
+-- Number of patients in Neural Frame and diagnosed with thoracic cancer with a death date 
+----------------------------------------------------------------------------------------------
 with
 scr as (select * from `som-rit-phi-oncology-prod.oncology_neuralframe_raw.neuralframe_parquet_registry_data`),
 person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
