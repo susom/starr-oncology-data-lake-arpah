@@ -19,10 +19,10 @@ with demographics as (SELECT
   COUNTIF(ethnicity_concept_id = 38003563) as n_ethnicity_hispanic_latino,
   COUNTIF(ethnicity_concept_id = 38003564) as n_ethnicity_NOT_hispanic_latino,
   COUNTIF(ethnicity_concept_id NOT IN (38003563, 38003564)) as n_ethnicity_other_missing,
-  FROM `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person` person
+  FROM `@oncology_prod.@oncology_omop.person` person
   LEFT JOIN
     (SELECT person_id, COUNT(DISTINCT visit_occurrence_id) as n_visits, MAX(visit_start_datetime) as latest_visit_start_datetime
-    FROM `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.visit_occurrence`
+    FROM `@oncology_prod.@oncology_omop.visit_occurrence`
     GROUP BY person_id) max_vis
   ON person.person_id = max_vis.person_id
 ),

@@ -1,0 +1,8 @@
+oncology_prod: som-rit-phi-oncology-prod
+oncology_omop: oncology_omop_arpah_alpha
+shc_clarity: shc_clarity_filtered_latest
+neuralframe_raw: oncology_neuralframe_raw
+registry_table: neuralframe_parquet_registry_data
+
+
+

@@ -35,3 +35,4 @@ from scr_omop
 where primarySite is not null
 group by primarySite,primarysiteDescription
 order by primarySite
+-- icdo code distribution 
