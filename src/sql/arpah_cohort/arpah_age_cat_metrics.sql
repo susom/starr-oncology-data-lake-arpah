@@ -3,8 +3,7 @@ WITH age_data AS (
         person_id,
         birth_datetime,
         DATE_DIFF(CURRENT_DATE(), EXTRACT(DATE FROM birth_datetime), YEAR) AS current_age
-    FROM 
-        `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`
+    FROM  `@oncology_prod.@oncology_omop.person`,
 )
 SELECT 
     current_age_groups,
