@@ -25,5 +25,3 @@ select count(distinct person.person_source_value) patient_count
 from
 tumor_board_patients tb
 inner join person on person.person_source_value = CONCAT(FORMAT('%s | %s', tb.pat_mrn_id, CAST(cast(tb.birth_date AS date) AS string format 'yyyy-mm-dd')))
-;
--- Number of patients diagnosed with thoracic cancer and have a tumor board encounter
