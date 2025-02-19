@@ -1,10 +1,8 @@
 with
-scr as (select * from `som-rit-phi-oncology-prod.oncology_neuralframe_raw.neuralframe_parquet_registry_data`),
+scr as (select * from `@oncology_dev.@oncology_common.onc_neuralframe_case_outcomes`),
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 scr_patients as (
-    select distinct
-    cast(scr.dateOfBirth as date format 'yyyymmdd') as dateOfBirth,
-      IF(LENGTH(medicalRecordNumber) <= 8, LPAD(medicalRecordNumber, 8, '0'), LPAD(medicalRecordNumber, 10, '0')) as cleaned_mrn --handle 8 digit or 10 digit mrns
+       select distinct stanford_patient_uid from scr
     FROM scr
     WHERE trim(medicalRecordNumber) <> '' and length(scr.dateOfBirth) = 8
 )
