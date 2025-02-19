@@ -207,7 +207,6 @@ fetch_data_from_sql_yml <- function(credentials_path, project, folder_path) {
 }
 
 
-
 ## 2nd function 
 library(DBI)
 library(bigrquery)
@@ -274,4 +273,64 @@ fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
     })
   
   return(combined_df)
+}
+
+#####################################
+### 3rd function pointing to yaml ##
+#####################################
+## this function reads a single .sql file 
+library(DBI)
+library(bigrquery)
+library(yaml)
+library(glue)
+library(stringr)
+
+fetch_data_from_sql_file <- function(credentials_path, project, sql_file_path, yaml_file_path) {
+  # Ensure SQL file exists
+  if (!file.exists(sql_file_path)) {
+    stop(glue("❌ SQL file not found: {sql_file_path}"))
+  }
+  
+  # Load YAML parameters
+  if (!file.exists(yaml_file_path)) {
+    stop(glue("❌ YAML file not found: {yaml_file_path}"))
+  }
+  
+  sql_params <- yaml::read_yaml(yaml_file_path)
+  
+  # Function to replace placeholders in SQL
+  replace_placeholders <- function(sql_query, params) {
+    for (param in names(params)) {
+      sql_query <- str_replace_all(sql_query, paste0("@", param), params[[param]])
+    }
+    return(sql_query)
+  }
+  
+  # Read and process SQL file
+  sql_query <- readLines(sql_file_path, warn = FALSE) %>% paste(collapse = "\n")
+  sql_query <- replace_placeholders(sql_query, sql_params)
+  
+  print(glue("\n🔍 Final SQL Query:\n{sql_query}\n"))
+  
+  # Connect to BigQuery
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+  
+  conn <- dbConnect(
+    bigrquery::bigquery(),
+    project = project,
+    use_legacy_sql = FALSE
+  )
+  
+  on.exit(dbDisconnect(conn), add = TRUE)
+  
+  # Run query
+  result <- tryCatch({
+    dbGetQuery(conn, sql_query)
+  }, error = function(e) {
+    message(glue("\n⚠️ Query failed: {e$message}"))
+    return(NULL)
+  })
+  
+  # Return the result as a single data frame
+  return(result)
 }
