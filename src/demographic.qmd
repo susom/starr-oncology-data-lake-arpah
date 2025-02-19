@@ -14,13 +14,6 @@ The ARPA-H cohort is defined as all patients with an existing record in STARR-OM
   - Neural Frame: Defined as research eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
   - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables(23k)
 
-ARPA-H cohort included individuals with an existing record in STARR-OMOP and in the cancer registry (Neural Frame) or a present encounter of tumor board.
-
-From the entire OMOP population there were 200,262 individuals who were eligible for ARPA-H cohort.
-
-  - Neural Frame: Defined as patients within the Neural Frame who are permitted for research purposes (189k)
-
-  - Tumor Board Encounter: Defined using EPIC patient encounter data (23k)
 
 # **Age Distribution**
 
@@ -167,10 +160,13 @@ res_tb <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_t
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 colnames(res_arpah)[1]<-"pt_count_arph"
+
 res_tb$sql_file_name=gsub("tumor_board_","", res_tb$sql_file_name)
 colnames(res_tb)[1]<-"pt_count_tb"
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
+## check
+res_arpah$sql_file_name[!res_arpah$sql_file_name %in% res_tb$sql_file_name]
 res_all=res_arpah %>% inner_join(res_tb, by="sql_file_name")
 print(res_all)
 ```
@@ -247,7 +243,7 @@ The following metrics were identified within ARPAH cohort (200k) for indiviulas 
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic"
 project_name = "som-rit-phi-oncology-prod"
-res_tc <- fetch_data_from_sql(credentials_path, project_name, folder_path_tc)
+res_tc <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tc)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
