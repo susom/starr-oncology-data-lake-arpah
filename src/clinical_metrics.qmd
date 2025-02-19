@@ -16,6 +16,37 @@ source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encodi
 
 ```
 ```{r}
+sql_params <- yaml::read_yaml("sql_params.yml")
+
+# Print YAML contents
+print(sql_params)
+file.exists("sql_params.yml")
+getwd()  
+list.files()  
+
+yaml_lines <- readLines("sql_params.yml", warn = FALSE)
+print(yaml_lines)  
+
+library(yaml)
+
+tryCatch({
+  sql_params <- yaml::read_yaml("sql_params.yml")
+  print(sql_params)  # Check output
+}, error = function(e) {
+  message("Error reading YAML: ", e$message)
+})
+
+```
+```{r}
+df <- fetch_data_from_sql_yml2(
+  credentials_path = "/home/rstudio/.config/gcloud/application_default_credentials.json",
+  project = "som-rit-phi-oncology-prod",
+  folder_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql/test"
+)
+
+head(df)
+```
+```{r}
 ## pull arpah clinical metrics ##
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
