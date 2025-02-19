@@ -5,7 +5,7 @@ with
 scr as (select * from `@oncology_dev.@oncology_common.onc_neuralframe_case_diagnoses`),
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 death as (select * from `@oncology_prod.@oncology_omop.death`),
-all_flag as (select * from `@oncology_dev.@ncology_temp.onc_all__cancer_flags`),
+all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
 death_src as (select distinct person_source_value from all_flag where scr_death_date is not null
 or death_datetime is not null),
 tumor_board_patients AS (

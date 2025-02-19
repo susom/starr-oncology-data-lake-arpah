@@ -4,7 +4,7 @@
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
-aria_patient as (select * from `@oncology_prod.@oncology_aria_raw.patient`),
+aria_patient as (select * from `@oncology_prod.@oncology_aria.patient`),
 aria_patients as
 (
   select 
