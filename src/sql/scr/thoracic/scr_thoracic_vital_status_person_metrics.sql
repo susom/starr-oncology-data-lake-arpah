@@ -2,44 +2,28 @@
 -- Number of patients in Neural Frame and diagnosed with thoracic cancer with a death date 
 ----------------------------------------------------------------------------------------------
 with
-scr as (select * from `som-rit-phi-oncology-prod.oncology_neuralframe_raw.neuralframe_parquet_registry_data`),
-person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
-death as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.death`),
+scr as (select * from `@oncology_dev.@oncology_common.onc_neuralframe_case_diagnoses`),
+person as (select * from `@oncology_prod.@oncology_omop.person`),
+death as (select * from `@oncology_prod.@oncology_omop.death`),
+all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
+death_src as (select distinct person_source_value from all_flag where scr_death_date is not null
+or death_datetime is not null),
 scr_thoracic_patients as (
     select distinct
-    cast(scr.dateOfBirth as date format 'yyyymmdd') as dateOfBirth,
-      IF(LENGTH(medicalRecordNumber) <= 8, LPAD(medicalRecordNumber, 8, '0'), LPAD(medicalRecordNumber, 10, '0')) as cleaned_mrn,  --handle 8 digit or 10 digit mrns
-      MAX( --get the latest-in-calendar-time calculated death date per patient
-        if(trim(scr.vitalStatusDescription) = 'Dead', --if Vital Status of patient is 'Dead', use dateOfLastContact to represent death date
-      cast(
-        case
-          when length(trim(scr.dateOfLastContact)) = 8 --if complete date, use as-is
-          then scr.dateOfLastContact
-          when length(trim(scr.dateOfLastContact)) = 4 -- if only have year, set month & day to 12-31
-          then concat(substr(scr.dateOfLastContact,1,4),'1231')
-          when trim(substr(scr.dateOfLastContact,5,2)) = '' and trim(substr(scr.dateOfLastContact,7,2)) <> ''
-          then concat(substr(scr.dateOfLastContact,1,4), '12',substr(scr.dateOfLastContact,7,2))
-          when trim(substr(scr.dateOfLastContact,5,2)) <> '' and trim(substr(scr.dateOfLastContact,7,2)) = ''
-          then concat(substr(scr.dateOfLastContact,1,6) || '28')
-        end
-      as date format 'yyyymmdd'),
-      NULL) --set to null if patient's vital status is not 'Dead'
-      ) as scr_calc_death_date
+cleaned_nf_mrn,cleaned_nf_dob
     FROM scr
-    WHERE trim(medicalRecordNumber) <> '' and length(scr.dateOfBirth) = 8
+    WHERE trim(medicalRecordNumber) <> '' and length(dateOfBirth) = 8
     and lower(primarysiteDescription) like '%lung%'
     or lower(primarysiteDescription) like '%bronchus%'
     or lower(primarysiteDescription) like '%thymus%'
-    GROUP BY cleaned_mrn, dateOfBirth --return results at patient level
+    GROUP BY cleaned_nf_mrn, cleaned_nf_dob --return results at patient level
 )
 select
 count(distinct person.person_source_value) patient_count
   from
   person
-join scr_thoracic_patients on person.person_source_value = concat(cleaned_mrn, ' | ', dateOfBirth)
+inner join scr_thoracic_patients on person.person_source_value = concat(scr_thoracic_patients.cleaned_nf_mrn, ' | ', scr_thoracic_patients.cleaned_nf_dob)
 left join death on person.person_id = death.person_id
-where
- scr_thoracic_patients.scr_calc_death_date is not null
- or death.death_date is not null
-
--- Number of patients in Neural Frame and diagnosed with thoracic cancer with a death date
+left join death_src on person.person_source_value=death_src.person_source_value
+where death.death_date is not null or
+death_src.person_source_value is not null
