@@ -1,6 +1,6 @@
 with
-person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
-aria_patient as (select * from `som-rit-phi-oncology-prod.oncology_aria_raw.patient`),
+person as (select * from `@oncology_prod.@oncology_omop.person`),
+aria_patient as (select * from `@ncology-prod.@oncology_aria.patient`),
 aria_patients as
 (
   select

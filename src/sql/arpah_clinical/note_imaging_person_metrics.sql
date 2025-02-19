@@ -1,6 +1,6 @@
 with
-person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
-note as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.note`)
+person as (select * from `@oncology_prod.@oncology_omop.person`),
+note as (select * from `@oncology_prod.@oncology_omop.note`)
 select
 count(distinct person.person_source_value) patient_count
 from
