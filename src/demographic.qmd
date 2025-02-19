@@ -30,7 +30,8 @@ Below is the distribution of persons per year of birth.
 setwd("/workspaces/starr-oncology-data-lake-arpah/src")
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 ```
-```{r}
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## double check the yaml files ##
 sql_params <- yaml::read_yaml("sql_params.yml")
 
 # Print YAML contents
@@ -55,13 +56,12 @@ tryCatch({
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+project <- "som-rit-phi-oncology-prod"
+sql_file_path <- "sql/arpah_cohort/arpah_age_metrics.sql"
+yaml_file_path <- "sql_params.yml"
 
-df <- fetch_data_from_sql_yml2(
-  credentials_path = "/home/rstudio/.config/gcloud/application_default_credentials.json",
-  project = "som-rit-phi-oncology-prod",
-  folder_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort"
-)
-head(df)
+df <- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
 ```
 
 ```{r, message=FALSE, warning=FALSE}
@@ -69,7 +69,7 @@ library(plotly)
 
 # Generate the Plot with Custom Titles
 create_bar_plot(
-  dat, 
+  df, 
   x_var = "birth_year", 
   y_var = "person_count", 
   plot_title = "Birth Year Distribution", 
@@ -77,27 +77,17 @@ create_bar_plot(
   y_axis_title = "Counts (N)"
 )
 ```
-```{r, results='hide'}
-# Parameters
-project_id <- "som-rit-phi-oncology-prod"
-sql_file_path<- "sql/arpah_cohort/arpah_age_cat_metrics.sql"
-
-# Execute the query
-age.dat <- run_bigquery_query(project_id, sql_file_path)
-print(age.dat)
-```
-
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 project_id <- "som-rit-phi-oncology-prod"
 sql_file_path<- "sql/arpah_cohort/arpah_demographic_all.sql"
+yaml_file_path <- "sql_params.yml"
 
-# Execute the query
-demographics <- run_bigquery_query(project_id, sql_file_path)
-print(demographics)
+demog_dat<- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
+print(demog_dat)
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-all.dat = demographics %>%
+all.dat = demog_dat %>%
 dplyr::mutate(
     Variable = dplyr::case_when(
       grepl("n_age", description) ~ "Age",
@@ -166,14 +156,14 @@ This demographic analysis provides insights into the composition of the patient 
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
  project_name = "som-rit-phi-oncology-prod"
-res_arpah <- fetch_data_from_sql(credentials_path, project_name, folder_path)
+res_arpah <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board"
 project_name = "som-rit-phi-oncology-prod"
-res_tb <- fetch_data_from_sql(credentials_path, project_name, folder_path_tb)
+res_tb <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tb)
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 colnames(res_arpah)[1]<-"pt_count_arph"
@@ -213,7 +203,7 @@ res_all<-res_all%>% select(metric, everything())
 res_all <- res_all %>%
   mutate(
     N_perc_arpah = calculate_N_percent(pt_count_arph, den=200262),
-    N_perc_tb=calculate_N_percent(pt_count_tb, den=23497)
+    N_perc_tb=calculate_N_percent(pt_count_tb, den=24529)
   )
 
 ```
@@ -224,7 +214,7 @@ res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
   cols_label(
     metric = "Clinical Metrics",
     N_perc_arpah = "ARPAH N(%) \n (Total=200,262)",
-    N_perc_tb="Tumor Board N(%)\n (Total=23,497)",
+    N_perc_tb="Tumor Board N(%)\n (Total=24,529)",
   ) %>%
   tab_header(
     title = "ARPA-H Cohort - Clinical Metrics",

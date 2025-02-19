@@ -217,6 +217,7 @@ library(stringr)
 library(yaml)
 
 # Define the function
+# reads all the .sql in a path folder at once 
 fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
   
