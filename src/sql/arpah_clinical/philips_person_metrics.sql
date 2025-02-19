@@ -1,6 +1,6 @@
 with
-philips_mtb_pat_diag_orders as (select * from `som-rit-phi-oncology-prod.oncology_philips_raw.philips_mtb_pat_diag_orders`),
-person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
+philips_mtb_pat_diag_orders as (select * from `@oncology_prod.@oncology_philips_raw.philips_mtb_pat_diag_orders`),
+person as (select * from `@oncology_prod.@oncology_omop.person`),
 philips_patients as (
     select distinct
         if(

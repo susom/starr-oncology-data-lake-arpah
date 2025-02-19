@@ -1,6 +1,6 @@
 with
 scr as (select * from `som-rit-phi-oncology-prod.oncology_neuralframe_raw.neuralframe_parquet_registry_data`),
-person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
+person as (select * from `@oncology_prod.@oncology_omop.person`),
 scr_patients as (
     select distinct
     cast(scr.dateOfBirth as date format 'yyyymmdd') as dateOfBirth,

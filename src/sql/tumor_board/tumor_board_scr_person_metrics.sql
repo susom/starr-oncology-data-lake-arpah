@@ -4,8 +4,7 @@
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
-
-scr as (select * from `@oncology_dev.@onc_common.onc_neuralframe_case_outcomes`),
+scr as (select * from `@oncology_dev.@oncology_common.onc_neuralframe_case_outcomes`),
 scr_patients as (
     select distinct stanford_patient_uid from scr
     WHERE trim(medicalRecordNumber) <> '' and length(scr.dateOfBirth) = 8

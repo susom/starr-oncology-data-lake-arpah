@@ -9,9 +9,18 @@ For more information, you can [Visit Stanford News](https://med.stanford.edu/new
 
 
 ## **ARPA-H Cohort**
+
 The ARPA-H cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February xxxx, 2025 OMOP population, 200,262 patients met the criteria for ARPA-H cohort.
   - Neural Frame: Defined as research eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
   - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables(23k)
+
+ARPA-H cohort included individuals with an existing record in STARR-OMOP and in the cancer registry (Neural Frame) or a present encounter of tumor board.
+
+From the entire OMOP population there were 200,262 individuals who were eligible for ARPA-H cohort.
+
+  - Neural Frame: Defined as patients within the Neural Frame who are permitted for research purposes (189k)
+
+  - Tumor Board Encounter: Defined using EPIC patient encounter data (23k)
 
 # **Age Distribution**
 
