@@ -10,3 +10,7 @@ oncology_dev: som-rit-phi-oncology-dev
 oncology_temp: starr_omop_cdm5_oncology_all_temp_2025_01_28
 oncology_philips: oncology_philips_raw
 oncology_common: onc_farnoosh_oncology_common
+
+
+#oncology_dev.@oncology_common.onc_neuralframe_case_outcomes
+#som-rit-phi-oncology-dev.onc_farnoosh_oncology_common.onc_neuralframe_case_outcomes
