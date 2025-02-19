@@ -4,7 +4,7 @@
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
-philips_mtb_pat_diag_orders as (select * from `@oncology_prod.@oncology_philips_raw.philips_mtb_pat_diag_orders`),
+philips_mtb_pat_diag_orders as (select * from `@oncology_prod.@oncology_philips.philips_mtb_pat_diag_orders`),
 philips_patients as (
     select distinct
         if(
