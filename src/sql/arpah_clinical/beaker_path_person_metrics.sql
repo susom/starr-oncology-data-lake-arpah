@@ -1,7 +1,7 @@
 with
-person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
-shc_pathology as (select * from `som-rit-phi-starr-prod.starr_common.shc_pathology`),
-patient as (select * from `som-rit-phi-starr-prod.shc_clarity_filtered_latest.patient`),
+person as (select * from `@oncology_prod.@oncology_omop.person`),
+shc_pathology as (select * from `@starr_prod.@starr_common.shc_pathology`),
+patient as (select * from `@starr_prod.@shc_clarity.patient`),
 beaker_path_patients as (
 select
 distinct

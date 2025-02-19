@@ -1,8 +1,8 @@
 with
-person as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person`),
-concept as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept`),
-concept_ancestor as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_ancestor`),
-drug_era as (select * from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.drug_era`),
+person as (select * from `@oncology_prod.@oncology_omop.person`),
+concept as (select * from `@oncology_prod.@oncology_omop.concept`),
+concept_ancestor as (select * from `@oncology_prod.@oncology_omop.concept_ancestor`),
+drug_era as (select * from `@oncology_prod.@oncology_omop.drug_era`),
 chemo_med as
 (
   select distinct c.*
