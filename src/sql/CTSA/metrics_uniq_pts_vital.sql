@@ -24,8 +24,8 @@ with vital_concepts as (
 */
 
 	SELECT conc.*
-	FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_ancestor ca
-	INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept conc
+	FROM `@oncology_prod.@oncology_omop.concept_ancestor` ca
+	INNER JOIN `@oncology_prod.@oncology_omop.concept` conc
   ON ca.descendant_concept_id = conc.concept_id
   WHERE ancestor_concept_id IN
 	(
@@ -43,7 +43,7 @@ with vital_concepts as (
 		FROM
 		(
 			SELECT visit_occurrence_id , person_id
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.measurement
+			FROM `@oncology_prod.@oncology_omop.measurement`
 			WHERE measurement_concept_id IN 
 			(
 				SELECT concept_id
@@ -52,7 +52,7 @@ with vital_concepts as (
 			))
 			UNION DISTINCT 
 			SELECT visit_occurrence_id , person_id
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.observation 
+			FROM `@oncology_prod.@oncology_omop.observation`
 			WHERE observation_concept_id IN 
 			(
 				SELECT concept_id
