@@ -21,8 +21,8 @@ with vital_concepts as (
 */
 
 	SELECT conc.*
-	FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_ancestor ca
-	INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept conc
+	FROM `@oncology_prod.@oncology_omop.concept_ancestor` ca
+	INNER JOIN `@oncology_prod.@oncology_omop.concept` conc
   ON ca.descendant_concept_id = conc.concept_id
   WHERE ancestor_concept_id IN
 	(
@@ -40,13 +40,13 @@ with vital_concepts as (
 ,smoking_concepts as (
 
 	SELECT conc.*
-	FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_relationship cr 
-	INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept conc
+	FROM `@oncology_prod.@oncology_omop.concept_relationship` cr 
+	INNER JOIN `@oncology_prod.@oncology_omop.concept` conc
 	ON cr.concept_id_2 = conc.concept_id
   WHERE cr.concept_id_1 IN
 	(
 		SELECT concept_id
-		FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept
+		FROM `@oncology_prod.@oncology_omop.concept`
 		WHERE concept_code in 
 		(
 			'Z87.891'
@@ -83,14 +83,14 @@ SELECT
 	'total_patients' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id) 
-		FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.visit_occurrence) as all_years
+		FROM `@oncology_prod.@oncology_omop.visit_occurrence`) as all_years
 UNION DISTINCT 
 SELECT 
 	'total_pt_gt_12' as variable_name
 	,(
 		SELECT COUNT(DISTINCT per.person_id) 
-		FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person per
-		INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.visit_occurrence vis
+		FROM  `@oncology_prod.@oncology_omop.person` per
+		INNER JOIN `@oncology_prod.@oncology_omop.visit_occurrence` vis
 		ON per.birth_datetime IS NOT NULL 
 		AND per.person_id = vis.person_id
 		AND DATE_DIFF(vis.visit_start_date, per.birth_datetime,year) > 12) as all_years 
@@ -100,8 +100,8 @@ SELECT
 	'uniq_pt_with_age' as variable_name
 	,(
 		SELECT COUNT(DISTINCT per.person_id) 
-		FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person per
-		INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.visit_occurrence vis
+		FROM  `@oncology_prod.@oncology_omop.person` per
+		INNER JOIN `@oncology_prod.@oncology_omop.visit_occurrence` vis
 		ON per.birth_datetime IS NOT NULL 
 		AND per.person_id = vis.person_id
 	)  as all_years
@@ -114,14 +114,14 @@ SELECT
 		SELECT COUNT(DISTINCT per.person_id) 
 		FROM (
 			SELECT person_id
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.measurement meas
-			INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept conc
+			FROM `@oncology_prod.@oncology_omop.measurement` meas
+			INNER JOIN `@oncology_prod.@oncology_omop.concept` conc
 			ON conc.vocabulary_id = 'LOINC'
 			AND meas.measurement_concept_id = conc.concept_id
 			UNION DISTINCT 
 			SELECT person_id
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.observation  obs
-			INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept conc
+			FROM `@oncology_prod.@oncology_omop.observation`  obs
+			INNER JOIN `@oncology_prod.@oncology_omop.concept` conc
 			ON conc.vocabulary_id = 'LOINC'
 			AND obs.observation_concept_id = conc.concept_id
 		) per
@@ -134,8 +134,8 @@ SELECT
 	'uniq_pt_med_rxnorm' as variable_name
 	,(
 		SELECT COUNT(DISTINCT drug.person_id) 
-		FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.drug_exposure drug
-		INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept conc
+		FROM  `@oncology_prod.@oncology_omop.drug_exposure` drug
+		INNER JOIN `@oncology_prod.@oncology_omop.concept` conc
     ON drug.drug_concept_id = conc.concept_id
     WHERE conc.vocabulary_id in ('RxNorm', 'NDC')
 	) as all_years
@@ -146,12 +146,12 @@ SELECT
 	'uniq_pt_icd_dx' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id)
-		FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.condition_occurrence
+		FROM .condition_occurrence
 		WHERE condition_concept_id IN 
 		(
 				SELECT cr.concept_id_2
-				from som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept c1
-				INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_relationship cr
+				from `@oncology_prod.@oncology_omop.concept` c1
+				INNER JOIN `@oncology_prod.@oncology_omop.concept_relationship`cr
 				ON c1.concept_id = cr.concept_id_1
 				WHERE relationship_id = 'Maps to'
 				AND c1.vocabulary_id IN ('ICD9CM', 'ICD10CM')
@@ -164,12 +164,12 @@ SELECT
 	'uniq_pt_snomed_dx' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id)
-		FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.condition_occurrence
+		FROM `@oncology_prod.@oncology_omop.condition_occurrence`
 		WHERE condition_concept_id IN 
 		(
 				SELECT cr.concept_id_2
-				from som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept c1
-				INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_relationship cr
+				from `@oncology_prod.@oncology_omop.concept` c1
+				INNER JOIN `@oncology_prod.@oncology_omop.concept_relationship` cr
 				ON c1.concept_id = cr.concept_id_1
 				WHERE relationship_id = 'Maps to'
 				AND c1.vocabulary_id = 'SNOMED'
@@ -182,12 +182,12 @@ SELECT
 	'uniq_pt_icd_proc' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id)
-		FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.procedure_occurrence
+		FROM  `@oncology_prod.@oncology_omop.procedure_occurrence`
 		WHERE procedure_concept_id IN 
 		(
 				SELECT cr.concept_id_2
-				from som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept c1
-				INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_relationship cr
+				from `@oncology_prod.@oncology_omop.concept` c1
+				INNER JOIN `@oncology_prod.@oncology_omop.concept_relationship` cr
 				ON c1.concept_id = cr.concept_id_1
 				WHERE relationship_id = 'Maps to'
 				AND c1.vocabulary_id IN ('ICD10PCS', 'ICD9Proc')
@@ -201,12 +201,12 @@ SELECT
 	'uniq_pt_cpt' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id)
-		FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.procedure_occurrence
+		FROM  `@oncology_prod.@oncology_omop.procedure_occurrence`
 		WHERE procedure_concept_id IN 
 		(
 				SELECT cr.concept_id_2
-				from som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept c1
-				INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_relationship cr
+				from `@oncology_prod.@oncology_omop.concept` c1
+				INNER JOIN `@oncology_prod.@oncology_omop.concept_relationship` cr
 				ON c1.concept_id = cr.concept_id_1
 				WHERE relationship_id = 'Maps to'
 				AND c1.vocabulary_id IN ('CPT4', 'HCPCS')
@@ -220,12 +220,12 @@ SELECT
 	'uniq_pt_snomed_proc' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id)
-		FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.procedure_occurrence
+		FROM  `@oncology_prod.@oncology_omop.procedure_occurrence`
 		WHERE procedure_concept_id IN 
 		(
 				SELECT cr.concept_id_2
-				from som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept c1
-				INNER JOIN som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_relationship cr
+				from `@oncology_prod.@oncology_omop.concept` c1
+				INNER JOIN `@oncology_prod.@oncology_omop.concept_relationship` cr
 				ON c1.concept_id = cr.concept_id_1
 				AND relationship_id = 'Maps to'
 				AND c1.vocabulary_id = 'SNOMED'
@@ -238,7 +238,7 @@ SELECT
 	'uniq_pt_note' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id)
-		FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.note
+		FROM  `@oncology_prod.@oncology_omop.note`
 	) as all_years
 
 /*
@@ -270,7 +270,7 @@ SELECT
 		FROM
 		(
 			SELECT person_id 
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.condition_occurrence
+			FROM `@oncology_prod.@oncology_omop.condition_occurrence`
 			WHERE condition_concept_id IN 
 			(
 				SELECT concept_id
@@ -280,7 +280,7 @@ SELECT
 			
 			UNION DISTINCT 
 			SELECT person_id 
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.observation 
+			FROM `@oncology_prod.@oncology_omop.observation `
 			WHERE observation_concept_id IN 
 			(
 				SELECT concept_id
@@ -302,22 +302,22 @@ SELECT
 		(
 			-- " SNOMED -14784000 and its descendants "
 			SELECT person_id
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.condition_occurrence
+			FROM `@oncology_prod.@oncology_omop.condition_occurrence`
 			WHERE condition_concept_id IN 
 			(
 				SELECT descendant_concept_id
-				from som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_ancestor
+				from `@oncology_prod.@oncology_omop.concept_ancestor`
 				WHERE ancestor_concept_id = 4032799 --Opioid-induced organic mental disorder
 			) 
 			AND condition_start_date BETWEEN cast('2022-05-01' as DATE) AND cast('2023-04-30' as DATE)
 			UNION DISTINCT 
 			--"RxNorm (methadone {6813} and descendants, buprenorphine {1819} and descendant TTYs) "
 			SELECT person_id
-			FROM  som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.drug_exposure
+			FROM `@oncology_prod.@oncology_omop.drug_exposure`
 			WHERE drug_concept_id IN 
 			(
 				SELECT descendant_concept_id
-				from som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.concept_ancestor
+				from `@oncology_prod.@oncology_omop.concept_ancestor`
 				WHERE ancestor_concept_id IN (
 					1103640		-- methadone (6813 is the concept code)
 					,1133201	-- buprenorphine (1819 is the concept code)
@@ -333,7 +333,7 @@ SELECT
 	'uniq_pt_any_insurance_value' as variable_name
 	,(
 		SELECT COUNT(DISTINCT person_id)
-		FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.payer_plan_period
+		FROM `@oncology_prod.@oncology_omop.payer_plan_period`
 	) as all_years
 
 UNION DISTINCT 
@@ -344,7 +344,7 @@ SELECT
 		FROM
 		(
 			SELECT visit_occurrence_id 
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.measurement
+			FROM `@oncology_prod.@oncology_omop.measurement`
 			WHERE measurement_concept_id IN 
 			(
 				SELECT concept_id
@@ -353,7 +353,7 @@ SELECT
 			))
 			UNION DISTINCT 
 			SELECT visit_occurrence_id 
-			FROM som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.observation 
+			FROM `@oncology_prod.@oncology_omop.observation`
 			WHERE observation_concept_id IN 
 			(
 				SELECT concept_id
