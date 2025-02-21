@@ -60,4 +60,5 @@ with vital_concepts as (
 				WHERE domain_id = 'Observation'
 			))
 
-select count(distinct person_id) as uniq_pts_vital from all_enc
+select count(distinct person_id) as uniq_pts_vital ,
+'uniq_pt_vital' as variable_name from all_enc
