@@ -14,7 +14,7 @@ Data source: Oncology-IRIB76049-DateRelease
 The ARPA-H cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February xxxx, 2025 OMOP population, 200,262 patients met the criteria for ARPA-H cohort.
 
   - Neural Frame: Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
-  - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables(23k)
+  - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables (24k)
 
 
 # **Age Distribution**
@@ -179,10 +179,10 @@ res_all <- res_all %>%
     metric = case_when(
       sql_file_name == "note_path_cyto_person_metrics.sql" ~ "With pathology/cytology clinical report", 
       sql_file_name == "note_imaging_person_metrics.sql" ~ "With imaging reports, also a proxy for radiology imaging data",
-      sql_file_name == "philips_person_metrics.sql" ~ "Have molecular mutation structured data (Philips ISPM)",
+      #sql_file_name == "philips_person_metrics.sql" ~ "Have molecular mutation structured data (Philips ISPM)",
       sql_file_name == "vital_status_person_metrics.sql" ~ "Present Hospital or Stanford Cancer Registry death date", 
       sql_file_name == "omop_chemo_person_metrics.sql" ~ "Given chemo medication",
-      sql_file_name == "aria_person_metrics.sql" ~ "Given radiation therapy (ARIA)",
+      #sql_file_name == "aria_person_metrics.sql" ~ "Given radiation therapy (ARIA)",
       sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "With WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
       sql_file_name == "powerpath_beaker_path_person_metrics.sql" ~ "Pathology beaker",
       sql_file_name == "powerpath_path_person_metrics.sql" ~ "Pathology path",
@@ -242,6 +242,7 @@ res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
 # **Thoracic Cancer Clinical Metrics**
 
 The following metrics were identified for individuals with thoracic cancer within the ARPA-H cohort (200k).
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic"
