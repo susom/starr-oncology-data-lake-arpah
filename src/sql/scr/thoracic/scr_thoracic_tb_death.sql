@@ -27,5 +27,4 @@ count(distinct person.person_source_value) patient_count
   person
 inner join scr_thoracic_patients on person.person_source_value = concat(scr_thoracic_patients.cleaned_nf_mrn, ' | ', scr_thoracic_patients.cleaned_nf_dob)
 inner join tumor_board_patients tb on person.person_source_value =tb.person_source_value
-left join death_src on person.person_source_value=death_src.person_source_value
-where death_src.person_source_value is not null
+inner join death_src on person.person_source_value=death_src.person_source_value
