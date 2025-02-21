@@ -123,7 +123,9 @@ calculate_N_percent <- function(count_column, den) {
   total_count <- sum(count_column)
   perc <- round(100 * count_column / den, 1)
   N_per_1000 <- round((count_column /1000), 1)
-  paste0(N_per_1000, " (", perc, "%)")
+  fcount <- format(count_column, big.mark = ",", scientific = FALSE)
+
+  paste0(fcount, " (", perc, "%)")
 }
 
 
