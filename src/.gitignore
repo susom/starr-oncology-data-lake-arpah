@@ -1,2 +1,4 @@
 /.quarto/
 _site/
+demographic_files/
+*.html
