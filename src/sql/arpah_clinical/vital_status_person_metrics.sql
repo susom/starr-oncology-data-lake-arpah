@@ -9,6 +9,4 @@ select
 count(distinct person.person_source_value) patient_count
   from
   person 
- left join death_src on person.person_source_value=death_src.person_source_value
- where 
- death_src.person_source_value is not null
+ inner join death_src on person.person_source_value=death_src.person_source_value
