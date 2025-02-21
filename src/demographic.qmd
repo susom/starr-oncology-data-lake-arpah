@@ -7,8 +7,9 @@ execute:
 The Advanced Research Projects Agency for Health (ARPA-H) is a research funding agency that supports transformative biomedical and health breakthroughs – ranging from the molecular to the societal to provide health solutions for all.
 For more information, you can [Visit Stanford News](https://med.stanford.edu/news/all-news/2024/10/arpa-h-contracts).
 
-Oncology-IRIB76049-DateRelease
-## **ARPA-H Cohort**
+Data source: Oncology-IRIB76049-DateRelease
+
+
 
 The ARPA-H cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February xxxx, 2025 OMOP population, 200,262 patients met the criteria for ARPA-H cohort.
 
@@ -294,5 +295,67 @@ res_tc%>%
   opt_row_striping()%>%
   tab_footnote(
     footnote = "Death date was defined either within STARR-OMOP or Neural Frame"
+  )
+```
+# **CTSA Metrics**
+```{r, message=FALSE, warning=FALSE, results='hide'}
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+folder_path_sa <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/CTSA"
+project_name = "som-rit-phi-oncology-prod"
+res_sa <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_sa)
+print(res_sa)
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+res_sa=res_sa %>% mutate(pt_count=coalesce(all_years, uniq_pts_vital, uniq_pts_address))
+res_sa$pt_count
+res_sa=res_sa %>% mutate(metric=case_when(variable_name == 'uniq_pt_address' ~ 'Distinct patients with atleast one address (SDOH)',
+variable_name =='uniq_pt_any_insurance_value'~'Distinct patients with an insurance provider (SDOH)',
+variable_name =='uniq_pt_loinc'~ 'Distinct patients with a lab test coded in LOINC',
+variable_name =='uniq_pt_med_rxnorm'~'Distinct patients with a medication coded in RxNorm/NDC',
+variable_name =='uniq_pt_icd_dx'~'Distinct patients with a diagnosis coded in ICD 9/10',
+variable_name =='uniq_pt_snomed_dx'~'Distinct patients with a diagnosis coded in SNOMED',
+variable_name =='uniq_pt_icd_proc'~'Distinct patients with a procedure coded in ICD 9/10 PCS',
+variable_name =='uniq_pt_cpt'~'Distinct patients with a procedure coded in HCPCS or CPT',
+variable_name =='uniq_pt_snomed_proc'~'Distinct patients with a procedure coded in SNOMED',
+variable_name =='uniq_pt_vital'~'Distinct patients with at least one vital sign coded (height, weight, BP, BMI or temp)',
+variable_name =='uniq_pt_smoking' ~ 'Distinct patients with a smoking status coded at least once',
+variable_name =='uniq_pt_opioid'~ 'Distinct patients with opioid use disorder coded',  TRUE ~ NA_character_  ))
+res_sa
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+res_sa =res_sa %>% filter (!is.na(metric))%>% arrange(desc(pt_count))
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+
+res_sa%>% select(metric, pt_count)%>%
+  gt() %>%
+  cols_label(
+    metric = "CTSA Metrics",
+   pt_count = "Patient Count",
+  ) %>%
+  tab_header(
+    title = "ARPA-H Cohort",
+    subtitle = ""
+  ) %>%
+  fmt_number(
+    columns = where(is.numeric),
+    decimals = 0
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = vars(pt_count)  # Specify the columns to center
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping()%>%
+  tab_footnote(
+    footnote = ""
   )
 ```
