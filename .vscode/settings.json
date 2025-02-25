@@ -1,0 +1,34 @@
+{
+    "files.associations": {
+      "*.sql": "jinja-sql",
+      "*.yml": "jinja-yaml"
+    },
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.pybuilder": true,
+      "**/.venv": true,
+      "**/.mypy_cache": true,
+      "**/.coverage": true,
+      "**/.cache": true,
+      "**/.pytest_cache": true,
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[jinja-sql]": {
+      "editor.defaultFormatter": null, // use run-on-save
+      "editor.formatOnSave": false // use run-on-save
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    "git.openRepositoryInParentFolders": "always",
+    "editor.formatOnSave": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "notebook.insertFinalNewline": true,
+    "[yaml]": {
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2
+    },
+  }
+  
