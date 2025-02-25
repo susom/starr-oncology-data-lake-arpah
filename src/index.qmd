@@ -4,13 +4,20 @@ execute:
   echo: false
 ---
 
-Below is the distribution of persons per year of birth
-
+Below is the distribution of persons per year of birth. ARPAH cohort was defined as:
+1- concept ids with
+2- an encounter in neural frame registry or tumor board
 ```{r}
+# set wrking directory
+setwd("/workspaces/starr-oncology-data-lake-arpah/src")
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+```
 
-# Load necessary libraries
-library(bigrquery)
+```{r, echo: false}
 library(DBI)
+library(bigrquery)
+library(readr)
+library(stringr)
 
 Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = "/home/rstudio/.config/gcloud/application_default_credentials.json")
 
@@ -18,7 +25,7 @@ Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = "/home/rstudio/.config/gcloud/applic
 bq_auth(use_oob = FALSE)
 
 # Set your project ID
-project_id <- "som-rit-starr-training"
+project_id <- "som-rit-phi-oncology-dev"
 
 # Create a BigQuery connection
 bq_conn <- dbConnect(
@@ -29,15 +36,78 @@ bq_conn <- dbConnect(
 sql_query <- readr::read_file("sql/person_metrics.sql")
 sql_query <- stringr::str_c(sql_query, collapse = " ")
 
-# Execute the query and store the result
-query_result <- dbGetQuery(bq_conn, sql_query)
+  # Execute the query and return results
+  result_df <- tryCatch({
+    query_result <- dbGetQuery(bq_conn, sql_query)
+    print("Query executed successfully!")
+    return(query_result)
+  }, error = function(e) {
+    print(paste("Query failed:", e$message))
+    return(NULL)
+  })
 
-# Disconnect from BigQuery
-dbDisconnect(bq_conn)
+  # Disconnect from BigQuery
+  dbDisconnect(bq_conn)
+
+  return(result_df)
+}
+```
+```{r, echo: false}
+# Parameters
+project_id <- "som-rit-phi-oncology-prod"
+sql_file_path<- "sql/arpah_age_metrics.sql"
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+
+# Execute the query
+dat <- run_bigquery_query(project_id, sql_file_path, credentials_path)
+
+# View the result
+if (!is.null(dat)) {
+  head(dat)
+}
 ```
 
-```{r} 
-# Plot the result using plotly. The x axe is year and the y axe is number of persons
-plotly::plot_ly(query_result, x = ~birth_year, y = ~person_count, type = 'bar')
+```{r}
+library(plotly)
+
+create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
+  plot_ly(
+    data = data,
+    x = data[[x_var]],
+    y = data[[y_var]],
+    type = 'bar',
+    marker = list(color = 'rgba(104, 198, 214, 0.7)', line = list(color = 'rgb(100, 173, 237)', width = 1.5))
+  ) %>%
+    layout(
+       title = list(
+        text = plot_title,
+        x = 0.01,  # Align to the left (0 = far left, 1 = far right)
+        xanchor = "left"
+      ),
+      xaxis = list(
+        title = x_axis_title,
+        tickangle = -45,
+        showgrid = FALSE
+      ),
+      yaxis = list(
+        title = y_axis_title,
+        rangemode = "tozero"
+      ),
+      margin = list(b = 100),
+      showlegend = FALSE
+    )
+}
+
+```
+```{r}
+# Generate the Plot with Custom Titles
+create_bar_plot(
+  dat,
+  x_var = "birth_year",
+  y_var = "person_count",
+  plot_title = "Birth Year Distribution",
+  x_axis_title = "Year of Birth",
+  y_axis_title = "Counts (N)"
+)
 ```
 
