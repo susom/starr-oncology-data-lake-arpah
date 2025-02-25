@@ -3,6 +3,8 @@ title: "Demographic & Clinical Metrics"
 execute:
   echo: false
 ---
+
+
 ### Release Version: Feb 2025 (IRIB76049)
 The Advanced Research Projects Agency for Health (ARPA-H) is a research funding agency that supports transformative biomedical and health breakthroughs – ranging from the molecular to the societal to provide health solutions for all.
 For more information, you can [Visit Stanford News](https://med.stanford.edu/news/all-news/2024/10/arpa-h-contracts).
@@ -17,11 +19,14 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
 # **Age Distribution**
 
 Below is the distribution of persons by year of birth. 
+
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # set wrking directory
 setwd("/workspaces/starr-oncology-data-lake-arpah/src")
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## double check the yaml files ##
 sql_params <- yaml::read_yaml("sql_params.yml")
@@ -45,6 +50,7 @@ tryCatch({
 })
 
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 
@@ -78,6 +84,7 @@ yaml_file_path <- "sql_params.yml"
 demog_dat<- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
 print(demog_dat)
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 all.dat = demog_dat %>%
 dplyr::mutate(
@@ -94,6 +101,7 @@ dplyr::mutate(
 dim(all.dat)
 colnames(all.dat)[1]<-"Charactersitics"
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 library(gt)
 all.dat$percents=100*(as.numeric(all.dat$percents))
@@ -104,9 +112,13 @@ all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45
 
  all.dat=all.dat%>% select(Charactersitics, values, everything())
 ```
+
+
 # **Demographic Summary of Patient Population**
 
-This report presents a characterization of patients within the oncology OMOP population (~200k) derived from the OMOP Common Data Model. The demographic categories examined include Age, Sex, Race, and Ethnicity.
+This report presents a characterization of patients within the ARPA-H population (~200k) derived from the OMOP Common Data Model. The demographic categories examined include Age, Sex, Race, and Ethnicity.
+
+
 
 ```{r, message=FALSE, warning=FALSE}
 all.dat %>% select (-description) %>%
@@ -138,11 +150,15 @@ all.dat %>% select (-description) %>%
   opt_row_striping()
 ```
 
+
+
 This demographic analysis provides insights into the composition of the patient population, highlighting specific trends and proportions across age, sex, race, and ethnicity. 
 
 
 
 # **Oncology OMOP Clinical Metrics**
+
+
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
@@ -158,18 +174,21 @@ folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_boar
 project_name = "som-rit-phi-oncology-prod"
 res_tb <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tb)
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 colnames(res_arpah)[1]<-"pt_count_arph"
 
 res_tb$sql_file_name=gsub("tumor_board_","", res_tb$sql_file_name)
 colnames(res_tb)[1]<-"pt_count_tb"
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## check
 res_arpah$sql_file_name[!res_arpah$sql_file_name %in% res_tb$sql_file_name]
 res_all=res_arpah %>% inner_join(res_tb, by="sql_file_name")
 print(res_all)
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 res_all <- res_all %>%
   mutate(
@@ -191,9 +210,11 @@ res_all=res_all %>% filter(!is.na(metric))
 print(res_all)
 
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 res_all<-res_all%>% select(metric, everything())
 ```
+
 ```{r,, message=FALSE, warning=FALSE}
 ## add percentages ##
 res_all <- res_all %>%
@@ -203,6 +224,7 @@ res_all <- res_all %>%
   )
 
 ```
+
 ```{r, message=FALSE, warning=FALSE}
 
 res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
@@ -236,9 +258,13 @@ res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
   )
 ```
 
+
+
 # **Thoracic Cancer Clinical Metrics**
 
 The following metrics were identified for individuals with thoracic cancer within the oncology OMOP (200k).
+
+
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
@@ -260,10 +286,12 @@ res_tc <- res_tc%>%
   )
 print(res_tc)
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 res_tc=res_tc %>% select(metric, patient_count)%>% filter(!is.na(metric))%>% arrange(desc(patient_count))
 
 ```
+
 ```{r, message=FALSE, warning=FALSE}
 
 res_tc%>%
@@ -295,7 +323,11 @@ res_tc%>%
     footnote = "Death date was defined either within STARR-OMOP or Neural Frame"
   )
 ```
+
+
 # **CTSA Metrics**
+
+
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -323,10 +355,10 @@ variable_name =='uniq_pt_smoking' ~ 'Distinct patients with a smoking status cod
 variable_name =='uniq_pt_opioid'~ 'Distinct patients with opioid use disorder coded',  TRUE ~ NA_character_  ))
 res_sa
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 res_sa =res_sa %>% filter (!is.na(metric))%>% arrange(desc(pt_count))
 ```
-
 
 ```{r, message=FALSE, warning=FALSE}
 
