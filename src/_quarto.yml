@@ -4,6 +4,7 @@ project:
    - about.qmd
    - data_dictionary.qmd
    - omop_data_dict/*
+   - data_metrics.qmd
 
 website:
   title: "ARPA-H"
@@ -28,13 +29,13 @@ website:
     tools:
       - icon: github
         href: https://github.com/susom/starr-oncology-data-lake-arpah
-  
-  page-footer: 
-    right: 
+
+  page-footer:
+    right:
       - text: "Report Issue"
         href: "https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue"
 
-        
+
 
 format:
   html:
