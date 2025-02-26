@@ -10,6 +10,8 @@ In this data dictionary, you will find detailed descriptions of each table and i
 
 ### PHI Scrubbing Operations Definitions
 
+In order to protect patient information, various PHI (Protected Health Information) scrubbing operations are applied to the dataset. These operations are designed to scrub sensitive data elements. Below are the definitions of the PHI scrubbing operations used in this dataset:
+
 | PHi-Scrubbing Operation Name | Description                                                                                                     |
 |------------------------------|-----------------------------------------------------------------------------------------------------------------|
 | Offset                       | Offset specific to the project and dataset column                                                               |
@@ -24,38 +26,19 @@ In this data dictionary, you will find detailed descriptions of each table and i
 
 :  {.hover .responsive .sm}
 
+
 ### List of OMOP-CDM tables available
 
 The following OMOP-CDM tables are available in the initial release of dataset:
 
-- [care_site](/omop_data_dict/care_site.qmd)
-- [cdm_source](omop_data_dict/cdm_source.qmd)
-- [concept](omop_data_dict/concept.qmd)
-- [concept_ancestor](omop_data_dict/concept_ancestor.qmd)
-- [concept_class](omop_data_dict/concept_class.qmd)
-- [concept_relationship](omop_data_dict/concept_relationship.qmd)
-- [concept_synonym](omop_data_dict/concept_synonym.qmd)
-- [condition_era](omop_data_dict/condition_era.qmd)
-- [condition_occurrence](omop_data_dict/condition_occurrence.qmd)
-- [death](omop_data_dict/death.qmd)
-- [device_exposure](omop_data_dict/device_exposure.qmd)
-- [domain](omop_data_dict/domain.qmd)
-- [drug_era](omop_data_dict/drug_era.qmd)
-- [drug_exposure](omop_data_dict/drug_exposure.qmd)
-- [drug_strength](omop_data_dict/drug_strength.qmd)
-- [fact_relationship](omop_data_dict/fact_relationship.qmd)
-- [image_occurrence](omop_data_dict/image_occurrence.qmd)
-- [location](omop_data_dict/location.qmd)
-- [measurement](omop_data_dict/measurement.qmd)
-- [metadata](omop_data_dict/metadata.qmd)
-- [note](omop_data_dict/note.qmd)
-- [observation](omop_data_dict/observation.qmd)
-- [observation_period](omop_data_dict/observation_period.qmd)
-- [payer_plan_period](omop_data_dict/payer_plan_period.qmd)
-- [person](omop_data_dict/person.qmd)
-- [procedure_occurrence](omop_data_dict/procedure_occurrence.qmd)
-- [provider](omop_data_dict/provider.qmd)
-- [relationship](omop_data_dict/relationship.qmd)
-- [visit_detail](omop_data_dict/visit_detail.qmd)
-- [visit_occurrence](omop_data_dict/visit_occurrence.qmd)
-- [vocabulary](omop_data_dict/vocabulary.qmd)
+| Category            | Table Name                                                                                   |
+|---------------------|----------------------------------------------------------------------------------------------|
+| Clinical Data       | [condition_occurrence](omop_data_dict/condition_occurrence.qmd), [drug_exposure](omop_data_dict/drug_exposure.qmd), [device_exposure](omop_data_dict/device_exposure.qmd), [measurement](omop_data_dict/measurement.qmd), [observation](omop_data_dict/observation.qmd), [procedure_occurrence](omop_data_dict/procedure_occurrence.qmd), [visit_occurrence](omop_data_dict/visit_occurrence.qmd), [visit_detail](omop_data_dict/visit_detail.qmd), [note](omop_data_dict/note.qmd), [death](omop_data_dict/death.qmd) |
+| Vocabularies        | [concept](omop_data_dict/concept.qmd), [concept_ancestor](omop_data_dict/concept_ancestor.qmd), [concept_class](omop_data_dict/concept_class.qmd), [concept_relationship](omop_data_dict/concept_relationship.qmd), [concept_synonym](omop_data_dict/concept_synonym.qmd), [domain](omop_data_dict/domain.qmd), [relationship](omop_data_dict/relationship.qmd), [vocabulary](omop_data_dict/vocabulary.qmd) |
+| Health System Data  | [care_site](omop_data_dict/care_site.qmd), [location](omop_data_dict/location.qmd), [provider](omop_data_dict/provider.qmd) |
+| Derived Elements    | [condition_era](omop_data_dict/condition_era.qmd), [drug_era](omop_data_dict/drug_era.qmd) |
+| Health Economics    | [payer_plan_period](omop_data_dict/payer_plan_period.qmd) |
+| Metadata            | [cdm_source](omop_data_dict/cdm_source.qmd), [metadata](omop_data_dict/metadata.qmd) |
+:  {.hover .responsive .sm}
+
+
