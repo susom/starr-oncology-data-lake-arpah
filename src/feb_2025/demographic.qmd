@@ -1,14 +1,10 @@
 ---
-title: "Data Metrics"
+title: "Oncology Cohort Characteristics"
 execute:
   echo: false
 ---
 
 *Release Version: Feb 2025 (IRB76049)*
-
-The Advanced Research Projects Agency for Health (ARPA-H) is a research funding agency that supports transformative biomedical and health breakthroughs – ranging from the molecular to the societal to provide health solutions for all.
-For more information, you can [Visit Stanford News](https://med.stanford.edu/news/all-news/2024/10/arpa-h-contracts).
-
 
 The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February xxxx, 2025 OMOP population, 200,262 patients met the criteria for cancer cohort.
 
