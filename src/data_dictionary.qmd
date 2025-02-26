@@ -22,6 +22,8 @@ In this data dictionary, you will find detailed descriptions of each table and i
 | RedZip                       | Reduce the Zipcode precision based on Stanford's University Privacy Office guidelines as outlined [here](https://docs.google.com/document/d/1wC_ikzVahKUQuGSod4OfFKVPfedAnqO-tDHjo4O2ygY/edit?tab=t.0), Sec 1.4 |
 | Drop                         | Drop this column in the PHI scrubbed dataset                                                                    |
 
+:  {.hover .responsive .sm}
+
 ### List of OMOP-CDM tables available
 
 The following OMOP-CDM tables are available in the initial release of dataset:
