@@ -25,8 +25,8 @@ website:
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
-          - section: "February 2025"
-            contents: feb_2025/demographics.qmd
+          - text: "February 2025"
+            href: feb_2025/demographic.qmd
       - text: "Data Labeling"
         href: data_labeling.qmd
   navbar:

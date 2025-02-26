@@ -9,7 +9,8 @@
                 "quarto.quarto",
                 "ms-python.python",
                 "ms-toolsai.jupyter",
-                "reditorsupport.r"
+                "reditorsupport.r",
+                "streetsidesoftware.code-spell-checker",
             ],
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash"

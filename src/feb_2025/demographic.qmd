@@ -1,9 +1,11 @@
 ---
-title: "Demographic & Clinical Metrics"
+title: "Data Metrics"
 execute:
   echo: false
 ---
-### Release Version: Feb 2025 (IRIB76049)
+
+*Release Version: Feb 2025 (IRB76049)*
+
 The Advanced Research Projects Agency for Health (ARPA-H) is a research funding agency that supports transformative biomedical and health breakthroughs – ranging from the molecular to the societal to provide health solutions for all.
 For more information, you can [Visit Stanford News](https://med.stanford.edu/news/all-news/2024/10/arpa-h-contracts).
 
@@ -13,8 +15,9 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
   - Neural Frame: Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
   - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables (24k)
 
+## Demographic & Clinical Metrics
 
-# **Age Distribution**
+### **Age Distribution**
 
 Below is the distribution of persons by year of birth.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -83,7 +86,8 @@ all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45
 
  all.dat=all.dat%>% select(Charactersitics, values, everything())
 ```
-# **Demographic Summary of Patient Population**
+
+### **Demographic Summary of Patient Population**
 
 This report presents a characterization of patients within the oncology OMOP population (~200k) derived from the OMOP Common Data Model. The demographic categories examined include Age, Sex, Race, and Ethnicity.
 
@@ -120,8 +124,7 @@ all.dat %>% select (-description) %>%
 This demographic analysis provides insights into the composition of the patient population, highlighting specific trends and proportions across age, sex, race, and ethnicity.
 
 
-
-# **Oncology OMOP Clinical Metrics**
+### **Oncology OMOP Clinical Metrics**
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
@@ -215,7 +218,7 @@ res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
   )
 ```
 
-# **Thoracic Cancer Clinical Metrics**
+### **Thoracic Cancer Clinical Metrics**
 
 The following metrics were identified for individuals with thoracic cancer within the oncology OMOP (200k).
 
@@ -274,7 +277,7 @@ res_tc%>%
     footnote = "Death date was defined either within STARR-OMOP or Neural Frame"
   )
 ```
-# **CTSA Metrics**
+### **CTSA Metrics**
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
