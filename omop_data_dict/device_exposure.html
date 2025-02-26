@@ -430,17 +430,19 @@ ul.task-list li input[type="checkbox"] {
 <div class="table-responsive">
 <table class="table-hover table-sm small caption-top table">
 <colgroup>
-<col style="width: 64%">
-<col style="width: 12%">
-<col style="width: 8%">
-<col style="width: 14%">
+<col style="width: 48%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 6%">
+<col style="width: 24%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">field</th>
 <th style="text-align: left;">type</th>
-<th style="text-align: left;">phi</th>
 <th style="text-align: left;">required</th>
+<th style="text-align: left;">phi</th>
+<th style="text-align: left;">phi scrubbing operation</th>
 </tr>
 </thead>
 <tbody>
@@ -449,108 +451,126 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Offset</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">person_id</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Sub</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">device_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">device_exposure_start_date</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">device_exposure_start_datetime</td>
 <td style="text-align: left;">DATETIME</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">device_exposure_end_date</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">device_exposure_end_datetime</td>
 <td style="text-align: left;">DATETIME</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">device_type_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">unique_device_id</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">quantity</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">provider_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Offset</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">visit_occurrence_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Offset</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">visit_detail_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Offset</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">device_source_value</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">device_source_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">trace_id (Stanford construct for traceability)</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">unit_id (Stanford construct for traceability)</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">load_table_id (Stanford construct for traceability)</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>

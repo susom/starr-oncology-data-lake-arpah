@@ -431,133 +431,154 @@ ul.task-list li input[type="checkbox"] {
 <div class="table-responsive">
 <table class="table-hover table-sm small caption-top table">
 <colgroup>
-<col style="width: 65%">
-<col style="width: 11%">
+<col style="width: 49%">
 <col style="width: 8%">
-<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 6%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">field</th>
 <th style="text-align: left;">type</th>
-<th style="text-align: left;">phi</th>
 <th style="text-align: left;">required</th>
+<th style="text-align: left;">phi</th>
+<th style="text-align: left;">phi scrubbing operation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">payer_plan_period_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Offset</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">person_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">Sub</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">payer_plan_period_start_date</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitt</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">payer_plan_period_end_date</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitt</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">payer_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">payer_source_value</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">payer_source_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">plan_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">plan_source_value</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">plan_source_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">sponsor_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">sponsor_source_value</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">sponsor_source_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">family_source_value</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">stop_reason_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">stop_reason_source_value</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">stop_reason_source_concept_id</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">Yes</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">trace_id (Stanford construct for traceability)</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">load_table_id (Stanford construct for traceability)</td>
 <td style="text-align: left;">STRING</td>
-<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">No</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
 </tr>
 </tbody>
 </table>

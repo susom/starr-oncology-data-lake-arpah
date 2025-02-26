@@ -372,8 +372,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#phi-scrubbing-operations-definitions" id="toc-phi-scrubbing-operations-definitions" class="nav-link active" data-scroll-target="#phi-scrubbing-operations-definitions">PHI Scrubbing Operations Definitions</a></li>
+  <li><a href="#list-of-omop-cdm-tables-available" id="toc-list-of-omop-cdm-tables-available" class="nav-link" data-scroll-target="#list-of-omop-cdm-tables-available">List of OMOP-CDM tables available</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -397,6 +404,59 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>This document provides a comprehensive overview of the OMOP Common Data Model (CDM) tables available in the initial release of the dataset. The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence.</p>
+<p>In this data dictionary, you will find detailed descriptions of each table and its columns, including data types, requirements, and any specific operations applied to the data. This information is crucial for understanding the structure and content of the dataset, ensuring accurate and meaningful analysis.</p>
+<section id="phi-scrubbing-operations-definitions" class="level3">
+<h3 class="anchored" data-anchor-id="phi-scrubbing-operations-definitions">PHI Scrubbing Operations Definitions</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>PHi-Scrubbing Operation Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Offset</td>
+<td>Offset specific to the project and dataset column</td>
+</tr>
+<tr class="even">
+<td>Jitter</td>
+<td>Jitter specific to the project and dataset column</td>
+</tr>
+<tr class="odd">
+<td>Del</td>
+<td>Delete the values in this Column</td>
+</tr>
+<tr class="even">
+<td>Sub</td>
+<td>Substitute with a value specific to the project and dataset column</td>
+</tr>
+<tr class="odd">
+<td>Whitelist</td>
+<td>Only allow the values in the ‘allowed list’ table to pass through; otherwise replace with NULL</td>
+</tr>
+<tr class="even">
+<td>Hash</td>
+<td>Replace with a hash value based on a hashing function specific to the project and dataset column</td>
+</tr>
+<tr class="odd">
+<td>TiDE</td>
+<td>Pass through <a href="https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor">TiDE</a>, Stanford’s text PHI scrubbing algorithm</td>
+</tr>
+<tr class="even">
+<td>RedZip</td>
+<td>Reduce the Zipcode precision based on Stanford’s University Privacy Office guidelines as outlined <a href="https://docs.google.com/document/d/1wC_ikzVahKUQuGSod4OfFKVPfedAnqO-tDHjo4O2ygY/edit?tab=t.0">here</a>, Sec 1.4</td>
+</tr>
+<tr class="odd">
+<td>Drop</td>
+<td>Drop this column in the PHI scrubbed dataset</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="list-of-omop-cdm-tables-available" class="level3">
+<h3 class="anchored" data-anchor-id="list-of-omop-cdm-tables-available">List of OMOP-CDM tables available</h3>
 <p>The following OMOP-CDM tables are available in the initial release of dataset:</p>
 <ul>
 <li><a href="./omop_data_dict/care_site.html">care_site</a></li>
@@ -433,6 +493,7 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 
 
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
