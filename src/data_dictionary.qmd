@@ -3,6 +3,27 @@ title: "Data Dictionary"
 execute:
   echo: false
 ---
+
+This document provides a comprehensive overview of the OMOP Common Data Model (CDM) tables available in the initial release of the dataset. The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence.
+
+In this data dictionary, you will find detailed descriptions of each table and its columns, including data types, requirements, and any specific operations applied to the data. This information is crucial for understanding the structure and content of the dataset, ensuring accurate and meaningful analysis.
+
+### PHI Scrubbing Operations Definitions
+
+| PHi-Scrubbing Operation Name | Description                                                                                                     |
+|------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| Offset                       | Offset specific to the project and dataset column                                                               |
+| Jitter                       | Jitter specific to the project and dataset column                                                               |
+| Del                          | Delete the values in this Column                                                                                |
+| Sub                          | Substitute with a value specific to the project and dataset column                                              |
+| Whitelist                    | Only allow the values in the 'allowed list' table to pass through; otherwise replace with NULL                  |
+| Hash                         | Replace with a hash value based on a hashing function specific to the project and dataset column                |
+| TiDE                         | Pass through [TiDE](https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor), Stanford's text PHI scrubbing algorithm                                                      |
+| RedZip                       | Reduce the Zipcode precision based on Stanford's University Privacy Office guidelines as outlined [here](https://docs.google.com/document/d/1wC_ikzVahKUQuGSod4OfFKVPfedAnqO-tDHjo4O2ygY/edit?tab=t.0), Sec 1.4 |
+| Drop                         | Drop this column in the PHI scrubbed dataset                                                                    |
+
+### List of OMOP-CDM tables available
+
 The following OMOP-CDM tables are available in the initial release of dataset:
 
 - [care_site](/omop_data_dict/care_site.qmd)
