@@ -6,17 +6,17 @@ Standarized Health System Data Tables
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| care_site_id                                        | INTEGER |       | Yes        |
-| care_site_name                                      | STRING  |       | No         |
-| place_of_service_concept_id                         | INTEGER |       | Yes        |
-| location_id                                         | INTEGER |       | No         |
-| care_site_source_value                              | STRING  |       | No         |
-| place_of_service_source_value                       | STRING  |       | No         |
-| trace_id (Stanford construct for traceability)      | STRING  |       | No         |
-| unit_id (Stanford construct for traceability)       | STRING  |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
+| field                                               | type    | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
+| care_site_id                                        | INTEGER | Yes        |       | Offset                    |
+| care_site_name                                      | STRING  | No         |       | None                      |
+| place_of_service_concept_id                         | INTEGER | Yes        |       | None                      |
+| location_id                                         | INTEGER | No         |       | Offset                    |
+| care_site_source_value                              | STRING  | No         |       | None                      |
+| place_of_service_source_value                       | STRING  | No         |       | None                      |
+| trace_id (Stanford construct for traceability)      | STRING  | No         |       | delete                    |
+| unit_id (Stanford construct for traceability)       | STRING  | No         |       | None                      |
+| load_table_id (Stanford construct for traceability) | STRING  | No         |       | None                      |
 
 :  {.hover .responsive .sm}
 
@@ -47,14 +47,14 @@ The identifier for the Care Site in the source data, stored here for reference.
 
 The source code for the Place of Service as it appears in the source data, stored here for reference.
 
-##### trace_id (stanford construct for traceability)
+##### trace_id (stanford construct for traceability) 
 
-A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced.
+A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced. 
 
-##### unit_id (stanford construct for traceability)
+##### unit_id (stanford construct for traceability) 
 
 Is a reference for the position in the ETL code responsible for bringing in this row level data
 
-##### load_table_id (stanford construct for traceability)
+##### load_table_id (stanford construct for traceability) 
 
 Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced.Is a Stanford specific column.

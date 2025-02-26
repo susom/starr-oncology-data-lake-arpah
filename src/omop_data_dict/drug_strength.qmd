@@ -6,22 +6,22 @@ Vocabulary Tables
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| drug_concept_id                                     | INTEGER |       | Yes        |
-| ingredient_concept_id                               | INTEGER |       | Yes        |
-| amount_value                                        | FLOAT   |       | No         |
-| amount_unit_concept_id                              | INTEGER |       | No         |
-| numerator_value                                     | FLOAT   |       | No         |
-| numerator_unit_concept_id                           | INTEGER |       | No         |
-| denominator_value                                   | FLOAT   |       | No         |
-| denominator_unit_concept_id                         | INTEGER |       | No         |
-| box_size                                            | INTEGER |       | No         |
-| valid_start_date                                    | DATE    |       | Yes        |
-| valid_end_date                                      | DATE    |       | Yes        |
-| invalid_reason                                      | STRING  |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
-| load_row _id (Stanford construct for traceability)  | STRING  |       | No         |
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| drug_concept_id                                     | INTEGER | Yes        |       |                        |
+| ingredient_concept_id                               | INTEGER | Yes        |       |                        |
+| amount_value                                        | FLOAT   | No         |       |                        |
+| amount_unit_concept_id                              | INTEGER | No         |       |                        |
+| numerator_value                                     | FLOAT   | No         |       |                        |
+| numerator_unit_concept_id                           | INTEGER | No         |       |                        |
+| denominator_value                                   | FLOAT   | No         |       |                        |
+| denominator_unit_concept_id                         | INTEGER | No         |       |                        |
+| box_size                                            | INTEGER | No         |       |                        |
+| valid_start_date                                    | DATE    | Yes        |       |                        |
+| valid_end_date                                      | DATE    | Yes        |       |                        |
+| invalid_reason                                      | STRING  | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING  | No         |       |                        |
+| load_row _id (Stanford construct for traceability)  | STRING  | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

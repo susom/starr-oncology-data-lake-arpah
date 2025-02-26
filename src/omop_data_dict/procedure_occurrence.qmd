@@ -6,25 +6,25 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                                               | type     | phi   | required   |
-|:----------------------------------------------------|:---------|:------|:-----------|
-| procedure_occurrence_id                             | INTEGER  |       | Yes        |
-| person_id                                           | INTEGER  |       | Yes        |
-| procedure_concept_id                                | INTEGER  |       | Yes        |
-| procedure_DATE                                      | DATE     | Yes   | No         |
-| procedure_DATETIME                                  | DATETIME | Yes   | Yes        |
-| procedure_type_concept_id                           | INTEGER  |       | Yes        |
-| modifier_concept_id                                 | INTEGER  |       | Yes        |
-| quantity                                            | INTEGER  |       | No         |
-| provider_id                                         | INTEGER  |       | No         |
-| visit_occurrence_id                                 | INTEGER  |       | No         |
-| visit_detail_id                                     | INTEGER  |       | No         |
-| procedure_source_value                              | STRING   |       | No         |
-| procedure_source_concept_id                         | INTEGER  |       | Yes        |
-| modifier_source_value                               | STRING   |       | No         |
-| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| procedure_occurrence_id                             | INTEGER  | Yes        |       | Offset                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| procedure_concept_id                                | INTEGER  | Yes        |       |                        |
+| procedure_DATE                                      | DATE     | No         | Yes   | Jitt                      |
+| procedure_DATETIME                                  | DATETIME | Yes        | Yes   | Jitt                      |
+| procedure_type_concept_id                           | INTEGER  | Yes        |       |                        |
+| modifier_concept_id                                 | INTEGER  | Yes        |       |                        |
+| quantity                                            | INTEGER  | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Offset                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Offset                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Offset                    |
+| procedure_source_value                              | STRING   | No         |       |                        |
+| procedure_source_concept_id                         | INTEGER  | Yes        |       |                        |
+| modifier_source_value                               | STRING   | No         |       |                        |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

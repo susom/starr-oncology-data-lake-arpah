@@ -6,31 +6,33 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                                               | type     | phi   | required   |
-|:----------------------------------------------------|:---------|:------|:-----------|
-| measurement_id                                      | INTEGER  |       | Yes        |
-| person_id                                           | INTEGER  |       | Yes        |
-| measurement_concept_id                              | INTEGER  |       | Yes        |
-| measurement_date                                    | DATE     | Yes   | No         |
-| measurement_datetime                                | DATETIME | Yes   | Yes        |
-| measurement_time                                    | STRING   |       | No         |
-| measurement_type_concept_id                         | INTEGER  |       | Yes        |
-| operator_concept_id                                 | INTEGER  |       | No         |
-| value_as_number                                     | FLOAT    |       | No         |
-| value_as_concept_id                                 | INTEGER  |       | No         |
-| unit_concept_id                                     | INTEGER  |       | No         |
-| range_low                                           | FLOAT    |       | No         |
-| range_high                                          | FLOAT    |       | No         |
-| provider_id                                         | INTEGER  |       | No         |
-| visit_occurrence_id                                 | INTEGER  |       | No         |
-| visit_detail_id                                     | INTEGER  |       | No         |
-| measurement_source_value                            | STRING   | Yes   | No         |
-| measurement_source_concept_id                       | INTEGER  |       | Yes        |
-| unit_source_value                                   | STRING   |       | No         |
-| value_source_value                                  | STRING   | Yes   | No         |
-| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| measurement_id                                      | INTEGER  | Yes        |       | Offset                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| measurement_concept_id                              | INTEGER  | Yes        |       |                        |
+| measurement_date                                    | DATE     | No         | Yes   | Jitter                    |
+| measurement_datetime                                | DATETIME | Yes        | Yes   | Jitter                    |
+| measurement_time                                    | STRING   | No         |       | Null                      |
+| measurement_type_concept_id                         | INTEGER  | Yes        |       |                        |
+| operator_concept_id                                 | INTEGER  | No         |       |                        |
+| value_as_number                                     | FLOAT    | No         |       |                        |
+| value_as_concept_id                                 | INTEGER  | No         |       |                        |
+| unit_concept_id                                     | INTEGER  | No         |       |                        |
+| range_low                                           | FLOAT    | No         |       |                        |
+| range_high                                          | FLOAT    | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Offset                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Offset                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Offset                    |
+| measurement_source_value                            | STRING   | No         | Yes   | TiDE?                     |
+| measurement_source_concept_id                       | INTEGER  | Yes        |       |                        |
+| unit_source_value                                   | STRING   | No         |       |                        |
+| value_source_value                                  | STRING   | No         | Yes   | TiDE                      |
+| modifier_of_event_id                                |          | No         |       | Offset                    |
+| modifier_of_field_concept_id                        |          | No         |       |                        |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 
@@ -116,6 +118,14 @@ The source code for the unit as it appears in the source data. This code is mapp
 ##### value_source_value
 
 The source value associated with the content of the value_as_number or value_as_concept_id as stored in the source data.
+
+##### modifier_of_event_id
+
+nan
+
+##### modifier_of_field_concept_id
+
+nan
 
 ##### trace_id (stanford construct for traceability) 
 

@@ -6,14 +6,14 @@ Vocabulary Tables
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| ancestor_concept_id                                 | INTEGER |       | Yes        |
-| descendant_concept_id                               | INTEGER |       | Yes        |
-| min_levels_of_separation                            | INTEGER |       | Yes        |
-| max_levels_of_separation                            | INTEGER |       | Yes        |
-| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
-| load_row_id (Stanford construct for traceability)   | STRING  |       | No         |
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| ancestor_concept_id                                 | INTEGER | Yes        |       |                        |
+| descendant_concept_id                               | INTEGER | Yes        |       |                        |
+| min_levels_of_separation                            | INTEGER | Yes        |       |                        |
+| max_levels_of_separation                            | INTEGER | Yes        |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING  | No         |       |                        |
+| load_row_id (Stanford construct for traceability)   | STRING  | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

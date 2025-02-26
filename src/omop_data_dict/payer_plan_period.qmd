@@ -2,31 +2,31 @@
 title: "payer_plan_period"
 ---
 
-Standardized Health Economics data Table, currently empty 
+Standardized Health Economics data Table, currently empty
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| payer_plan_period_id                                | INTEGER |       | Yes        |
-| person_id                                           | INTEGER |       | Yes        |
-| payer_plan_period_start_date                        | DATE    | Yes   | Yes        |
-| payer_plan_period_end_date                          | DATE    | Yes   | Yes        |
-| payer_concept_id                                    | INTEGER |       | Yes        |
-| payer_source_value                                  | STRING  | Yes   | No         |
-| payer_source_concept_id                             | INTEGER |       | Yes        |
-| plan_concept_id                                     | INTEGER |       | Yes        |
-| plan_source_value                                   | STRING  | Yes   | No         |
-| plan_source_concept_id                              | INTEGER |       | Yes        |
-| sponsor_concept_id                                  | INTEGER |       | Yes        |
-| sponsor_source_value                                | STRING  |       | No         |
-| sponsor_source_concept_id                           | INTEGER |       | Yes        |
-| family_source_value                                 | STRING  | Yes   | No         |
-| stop_reason_concept_id                              | INTEGER |       | Yes        |
-| stop_reason_source_value                            | STRING  | Yes   | No         |
-| stop_reason_source_concept_id                       | INTEGER |       | Yes        |
-| trace_id (Stanford construct for traceability)      | STRING  | Yes   | No         |
-| load_table_id (Stanford construct for traceability) | STRING  | Yes   | No         |
+| field                                               | type    | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
+| payer_plan_period_id                                | INTEGER | Yes        |       | Offset                    |
+| person_id                                           | INTEGER | Yes        |       | Sub                       |
+| payer_plan_period_start_date                        | DATE    | Yes        | Yes   | Jitt                      |
+| payer_plan_period_end_date                          | DATE    | Yes        | Yes   | Jitt                      |
+| payer_concept_id                                    | INTEGER | Yes        |       |                        |
+| payer_source_value                                  | STRING  | No         | Yes   |                        |
+| payer_source_concept_id                             | INTEGER | Yes        |       |                        |
+| plan_concept_id                                     | INTEGER | Yes        |       |                        |
+| plan_source_value                                   | STRING  | No         | Yes   | Del                       |
+| plan_source_concept_id                              | INTEGER | Yes        |       |                        |
+| sponsor_concept_id                                  | INTEGER | Yes        |       |                        |
+| sponsor_source_value                                | STRING  | No         |       |                        |
+| sponsor_source_concept_id                           | INTEGER | Yes        |       |                        |
+| family_source_value                                 | STRING  | No         | Yes   |                        |
+| stop_reason_concept_id                              | INTEGER | Yes        |       |                        |
+| stop_reason_source_value                            | STRING  | No         | Yes   |                        |
+| stop_reason_source_concept_id                       | INTEGER | Yes        |       |                        |
+| trace_id (Stanford construct for traceability)      | STRING  | No         | Yes   | Del                       |
+| load_table_id (Stanford construct for traceability) | STRING  | No         | Yes   | Del                       |
 
 :  {.hover .responsive .sm}
 

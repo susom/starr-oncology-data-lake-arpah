@@ -6,34 +6,34 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                                               | type     | phi   | required   |
-|:----------------------------------------------------|:---------|:------|:-----------|
-| drug_exposure_id                                    | INTEGER  |       | Yes        |
-| person_id                                           | INTEGER  |       | Yes        |
-| drug_concept_id                                     | INTEGER  |       | Yes        |
-| drug_exposure_start_date                            | DATE     | Yes   | No         |
-| drug_exposure_start_datetime                        | DATETIME | Yes   | Yes        |
-| drug_exposure_end_date                              | DATE     | Yes   | No         |
-| drug_exposure_end_datetime                          | DATETIME | Yes   | Yes        |
-| verbatim_end_date                                   | DATE     | Yes   | No         |
-| drug_type_concept_id                                | INTEGER  |       | Yes        |
-| stop_reason                                         | STRING   |       | No         |
-| refills                                             | INTEGER  |       | No         |
-| quantity                                            | FLOAT    |       | No         |
-| days_supply                                         | INTEGER  |       | No         |
-| sig                                                 | STRING   | Yes   | No         |
-| route_concept_id                                    | INTEGER  |       | Yes        |
-| lot_number                                          | STRING   |       | No         |
-| provider_id                                         | INTEGER  |       | No         |
-| visit_occurrence_id                                 | INTEGER  |       | No         |
-| visit_detail_id                                     | INTEGER  |       | No         |
-| drug_source_value                                   | STRING   |       | No         |
-| drug_source_concept_id                              | INTEGER  |       | Yes        |
-| route_source_value                                  | STRING   |       | No         |
-| dose_unit_source_value                              | STRING   |       | No         |
-| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| drug_exposure_id                                    | INTEGER  | Yes        |       | Offset                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| drug_concept_id                                     | INTEGER  | Yes        |       |                        |
+| drug_exposure_start_date                            | DATE     | No         | Yes   | Jitter                    |
+| drug_exposure_start_datetime                        | DATETIME | Yes        | Yes   | Jitter                    |
+| drug_exposure_end_date                              | DATE     | No         | Yes   | Jitter                    |
+| drug_exposure_end_datetime                          | DATETIME | Yes        | Yes   | Jitter                    |
+| verbatim_end_date                                   | DATE     | No         | Yes   | Jitter                    |
+| drug_type_concept_id                                | INTEGER  | Yes        |       |                        |
+| stop_reason                                         | STRING   | No         |       |                        |
+| refills                                             | INTEGER  | No         |       |                        |
+| quantity                                            | FLOAT    | No         |       |                        |
+| days_supply                                         | INTEGER  | No         |       |                        |
+| sig                                                 | STRING   | No         | Yes   | TiDE or Del               |
+| route_concept_id                                    | INTEGER  | Yes        |       |                        |
+| lot_number                                          | STRING   | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Offset                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Offset                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Offset                    |
+| drug_source_value                                   | STRING   | No         |       |                        |
+| drug_source_concept_id                              | INTEGER  | Yes        |       |                        |
+| route_source_value                                  | STRING   | No         |       |                        |
+| dose_unit_source_value                              | STRING   | No         |       |                        |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

@@ -6,23 +6,23 @@ Clinical Data Table (not yet a Standard)
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| image_occurrence_id (PK)                            | INTEGER |       | Yes        |
-| person_id (FK)                                      | INTEGER |       | Yes        |
-| procedure_occurrence_id                             | INTEGER |       | Yes        |
-| visit_occurrence_id                                 | INTEGER |       | No         |
-| anatomic_site_source_value                          | STRING  |       | No         |
-| wadors_uri                                          | STRING  |       | No         |
-| local_path                                          | STRING  |       | No         |
-| image_occurrence_date                               | DATE    |       | Yes        |
-| image_study_uid                                     | STRING  |       | Yes        |
-| image_series_uid                                    | STRING  |       | Yes        |
-| modality_source_value                               | STRING  |       | Yes        |
-| _accession_number                                   | STRING  |       | No         |
-| source_flag (Stanford construct for traceability.   | STRING  |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
-| trace_id (Stanford construct for traceability)      | STRING  |       | No         |
+| field                                               | type    | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
+| image_occurrence_id (PK)                            | INTEGER | Yes        |       | Offset                    |
+| person_id (FK)                                      | INTEGER | Yes        |       | Sub                       |
+| procedure_occurrence_id                             | INTEGER | Yes        |       | Offset                    |
+| visit_occurrence_id                                 | INTEGER | No         |       | Offset                    |
+| anatomic_site_source_value                          | STRING  | No         |       | Whitelist                 |
+| wadors_uri                                          | STRING  | No         |       | Del                       |
+| local_path                                          | STRING  | No         |       | Del                       |
+| image_occurrence_date                               | DATE    | Yes        |       | Jitt                      |
+| image_study_uid                                     | STRING  | Yes        |       | Hash                      |
+| image_series_uid                                    | STRING  | Yes        |       | Hash                      |
+| modality_source_value                               | STRING  | Yes        |       | Whitelist                 |
+| _accession_number                                   | STRING  | No         |       | Del                       |
+| source_flag (Stanford construct for traceability.   | STRING  | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING  | No         |       |                        |
+| trace_id (Stanford construct for traceability)      | STRING  | No         |       | Del                       |
 
 :  {.hover .responsive .sm}
 

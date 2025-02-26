@@ -6,18 +6,18 @@ Standardized Derived Elements
 
 ### Table Columns
 
-| field                                               | type     | phi   | required   |
-|:----------------------------------------------------|:---------|:------|:-----------|
-| drug_era_id                                         | INTEGER  |       | Yes        |
-| person_id                                           | INTEGER  |       | Yes        |
-| drug_concept_id                                     | INTEGER  |       | Yes        |
-| drug_era_start_date                                 | DATETIME | Yes   | Yes        |
-| drug_era_end_date                                   | DATETIME | Yes   | Yes        |
-| drug_exposure_count                                 | INTEGER  |       | No         |
-| gap_days                                            | INTEGER  |       | No         |
-| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| drug_era_id                                         | INTEGER  | Yes        |       | Offset                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| drug_concept_id                                     | INTEGER  | Yes        |       |                        |
+| drug_era_start_date                                 | DATETIME | Yes        | Yes   | Jitter                    |
+| drug_era_end_date                                   | DATETIME | Yes        | Yes   | Jitter                    |
+| drug_exposure_count                                 | INTEGER  | No         |       |                        |
+| gap_days                                            | INTEGER  | No         |       |                        |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

@@ -6,17 +6,17 @@ Standardized Metadata Table
 
 ### Table Columns
 
-| field                    | type     | phi   | required   |
-|:-------------------------|:---------|:------|:-----------|
-| metadata_concept_id      | INTEGER  |       | Yes        |
-| metadata_type_concept_id | INTEGER  |       | Yes        |
-| name                     | STRING   |       | Yes        |
-| value_as_string          | STRING   |       | No         |
-| value_as_concept_id      | INTEGER  |       | No         |
-| metadata_date            | DATE     |       | No         |
-| metadata_datetime        | DATETIME |       | No         |
-| unit_id                  | STRING   |       | No         |
-| load_table               | STRING   |       | No         |
+| field                    | type     | required   | phi   |   phi scrubbing operation |
+|:-------------------------|:---------|:-----------|:------|--------------------------:|
+| metadata_concept_id      | INTEGER  | Yes        |       |                        |
+| metadata_type_concept_id | INTEGER  | Yes        |       |                        |
+| name                     | STRING   | Yes        |       |                        |
+| value_as_string          | STRING   | No         |       |                        |
+| value_as_concept_id      | INTEGER  | No         |       |                        |
+| metadata_date            | DATE     | No         |       |                        |
+| metadata_datetime        | DATETIME | No         |       |                        |
+| unit_id                  | STRING   | No         |       |                        |
+| load_table               | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

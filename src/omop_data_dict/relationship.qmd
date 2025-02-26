@@ -6,16 +6,16 @@ Vocabulary Tables
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| relationship_id                                     | STRING  |       | Yes        |
-| relationship_name                                   | STRING  |       | Yes        |
-| is_hierarchical                                     | STRING  |       | Yes        |
-| defines_ancestry                                    | STRING  |       | Yes        |
-| reverse_relationship_id                             | STRING  |       | Yes        |
-| relationship_concept_id                             | INTEGER |       | Yes        |
-| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
-| load_row_id (Stanford construct for traceability)   | STRING  |       | No         |
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| relationship_id                                     | STRING  | Yes        |       |                        |
+| relationship_name                                   | STRING  | Yes        |       |                        |
+| is_hierarchical                                     | STRING  | Yes        |       |                        |
+| defines_ancestry                                    | STRING  | Yes        |       |                        |
+| reverse_relationship_id                             | STRING  | Yes        |       |                        |
+| relationship_concept_id                             | INTEGER | Yes        |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING  | No         |       |                        |
+| load_row_id (Stanford construct for traceability)   | STRING  | No         |       |                        |
 
 :  {.hover .responsive .sm}
 
