@@ -30,5 +30,12 @@
       "editor.insertSpaces": true,
       "editor.tabSize": 2
     },
+    "cSpell.customDictionaries": {
+      "custom-dictionary-workspace": {
+        "name": "custom-dictionary-workspace",
+        "path": "${workspaceFolder:starr-oncology-data-lake-arpah}/.cspell/custom-dictionary-workspace.txt",
+        "addWords": true,
+        "scope": "workspace"
+      }
+    },
   }
-  
