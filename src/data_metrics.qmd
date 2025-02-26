@@ -4,4 +4,18 @@ execute:
   echo: false
 ---
 
-### [February 2025](feb_2025/demographic.qmd)
+This page provides an overview of the various data metrics available in the dataset. The metrics are designed to give insights into the contents of the dataset.
+
+## Release Overview
+
+This project will have multiple data releases over time. Each release will include updated and new metrics. Below is the list of available releases:
+
+### February 2025
+
+The February 2025 release is the first release of the dataset. It includes comprehensive demographic metrics and other key data points. You can find detailed information about this release by following the link below:
+
+- [February 2025 Metrics](feb_2025/demographic.qmd)
+
+## Future Releases
+
+Future releases will include additional metrics and updates to the existing ones.
