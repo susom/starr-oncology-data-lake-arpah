@@ -7,11 +7,14 @@ project:
    - data_metrics.qmd
    - feb_2025/*
    - data_labeling.qmd
+   - 404.qmd
 
 website:
   title: "Oncology Data Lake"
+  site-path: "/about/"
+  open-graph: true
   page-navigation: true
-  back-to-top-navigation: true
+  back-to-top-navigation: false
   sidebar:
     collapse-level: 1
     contents:
@@ -42,12 +45,17 @@ website:
     tools:
       - icon: github
         href: https://github.com/susom/starr-oncology-data-lake-arpah
-
   page-footer:
     right:
       - text: "Report Issue"
         href: "https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue"
-
+    center:
+      - text: "About"
+        href: about.qmd
+      - icon: github
+        href: https://github.com/susom/starr-oncology-data-lake-arpah
+  search:
+    show-item-context: true
 
 
 format:
@@ -56,6 +64,7 @@ format:
     css: styles.css
     toc: true
     toc-depth: 5
+    smooth-scroll: true
 
 execute:
   lib-dir: /home/rstudio/renv/library/linux-ubuntu-noble/R-4.4/aarch64-unknown-linux-gnu

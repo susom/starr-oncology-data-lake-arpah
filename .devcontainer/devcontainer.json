@@ -11,6 +11,10 @@
                 "ms-toolsai.jupyter",
                 "reditorsupport.r",
                 "streetsidesoftware.code-spell-checker",
+                "esbenp.prettier-vscode",
+                "GitHub.copilot",
+                "redhat.vscode-yaml",
+                "samuelcolvin.jinjahtml",
             ],
             "settings": {
                 "terminal.integrated.shell.linux": "/bin/bash"

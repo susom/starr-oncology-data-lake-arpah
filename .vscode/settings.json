@@ -38,4 +38,7 @@
         "scope": "workspace"
       }
     },
+    "[quarto]": {
+      "editor.defaultFormatter": "quarto.quarto"
+    },
   }
