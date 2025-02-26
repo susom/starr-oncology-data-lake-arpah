@@ -20,7 +20,7 @@ website:
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
-          - section: "omop cdm"
+          - section: "OMOP-CDM"
             contents: omop_data_dict/*
       - section: "Data Metrics"
         href: data_metrics.qmd
