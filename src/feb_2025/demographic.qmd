@@ -16,42 +16,20 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
 
 # **Age Distribution**
 
-Below is the distribution of persons by year of birth. 
+Below is the distribution of persons by year of birth.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # set wrking directory
-setwd("/workspaces/starr-oncology-data-lake-arpah/src")
+#setwd("/workspaces/starr-oncology-data-lake-arpah/src")
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 ```
-```{r, message=FALSE, warning=FALSE, results='hide'}
-## double check the yaml files ##
-sql_params <- yaml::read_yaml("sql_params.yml")
 
-# Print YAML contents
-print(sql_params)
-file.exists("sql_params.yml")
-getwd()  
-list.files()  
-
-yaml_lines <- readLines("sql_params.yml", warn = FALSE)
-print(yaml_lines)  
-
-library(yaml)
-
-tryCatch({
-  sql_params <- yaml::read_yaml("sql_params.yml")
-  print(sql_params)  # Check output
-}, error = function(e) {
-  message("Error reading YAML: ", e$message)
-})
-
-```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 project <- "som-rit-phi-oncology-prod"
-sql_file_path <- "sql/arpah_cohort/arpah_age_metrics.sql"
-yaml_file_path <- "sql_params.yml"
+sql_file_path <- "../sql/arpah_cohort/arpah_age_metrics.sql"
+yaml_file_path <- "../sql_params.yml"
 
 df <- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
 ```
@@ -61,19 +39,18 @@ library(plotly)
 
 # Generate the Plot with Custom Titles
 create_bar_plot(
-  df, 
-  x_var = "birth_year", 
-  y_var = "person_count", 
-  plot_title = "Birth Year Distribution", 
-  x_axis_title = "Year of Birth", 
+  df,
+  x_var = "birth_year",
+  y_var = "person_count",
+  plot_title = "Birth Year Distribution",
+  x_axis_title = "Year of Birth",
   y_axis_title = "Counts (N)"
 )
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 project_id <- "som-rit-phi-oncology-prod"
-sql_file_path<- "sql/arpah_cohort/arpah_demographic_all.sql"
-yaml_file_path <- "sql_params.yml"
+sql_file_path<- "../sql/arpah_cohort/arpah_demographic_all.sql"
 
 demog_dat<- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
 print(demog_dat)
@@ -94,6 +71,8 @@ dplyr::mutate(
 dim(all.dat)
 colnames(all.dat)[1]<-"Charactersitics"
 ```
+
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 library(gt)
 all.dat$percents=100*(as.numeric(all.dat$percents))
@@ -138,7 +117,7 @@ all.dat %>% select (-description) %>%
   opt_row_striping()
 ```
 
-This demographic analysis provides insights into the composition of the patient population, highlighting specific trends and proportions across age, sex, race, and ethnicity. 
+This demographic analysis provides insights into the composition of the patient population, highlighting specific trends and proportions across age, sex, race, and ethnicity.
 
 
 
@@ -174,16 +153,16 @@ print(res_all)
 res_all <- res_all %>%
   mutate(
     metric = case_when(
-      sql_file_name == "note_path_cyto_person_metrics.sql" ~ "With pathology/cytology clinical report", 
+      sql_file_name == "note_path_cyto_person_metrics.sql" ~ "With pathology/cytology clinical report",
       sql_file_name == "note_imaging_person_metrics.sql" ~ "With imaging reports, also a proxy for radiology imaging data",
       #sql_file_name == "philips_person_metrics.sql" ~ "Have molecular mutation structured data (Philips ISPM)",
-      sql_file_name == "vital_status_person_metrics.sql" ~ "Present Hospital or Stanford Cancer Registry death date", 
+      sql_file_name == "vital_status_person_metrics.sql" ~ "Present Hospital or Stanford Cancer Registry death date",
       sql_file_name == "omop_chemo_person_metrics.sql" ~ "Given chemo medication",
       #sql_file_name == "aria_person_metrics.sql" ~ "Given radiation therapy (ARIA)",
       sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "With WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
       sql_file_name == "powerpath_beaker_path_person_metrics.sql" ~ "Pathology beaker",
       sql_file_name == "powerpath_path_person_metrics.sql" ~ "Pathology path",
-      TRUE ~ NA_character_  
+      TRUE ~ NA_character_
     )
   )
 print(res_all)
@@ -251,11 +230,11 @@ res_tc <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_t
 res_tc <- res_tc%>%
   mutate(
     metric = case_when(
-      sql_file_name == "scr_thoracic_person_metrics.sql" ~ "Number of patients in Neural Frame and diagnosed with thoracic cancer", 
+      sql_file_name == "scr_thoracic_person_metrics.sql" ~ "Number of patients in Neural Frame and diagnosed with thoracic cancer",
       sql_file_name == "scr_thoracic_vital_status_person_metrics.sql" ~ "Number of patients in Neural Frame and diagnosed with thoracic cancer with a death date",
       sql_file_name == "scr_thoracic_tb_person_metrics.sql" ~ "Number of patients diagnosed with thoracic cancer and have a tumor board encounter",
       sql_file_name == "scr_thoracic_tb_death.sql" ~ "Number of patients diagnosed with thoracic cancer and have a tumor board encounter with a death date**",
-      TRUE ~ NA_character_  
+      TRUE ~ NA_character_
     )
   )
 print(res_tc)

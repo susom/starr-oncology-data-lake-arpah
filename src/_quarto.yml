@@ -5,9 +5,11 @@ project:
    - data_dictionary.qmd
    - omop_data_dict/*
    - data_metrics.qmd
+   - feb_2025/*
+   - data_labeling.qmd
 
 website:
-  title: "ARPA-H"
+  title: "Oncology Data Lake"
   page-navigation: true
   back-to-top-navigation: true
   sidebar:
@@ -20,12 +22,23 @@ website:
         contents:
           - section: "omop cdm"
             contents: omop_data_dict/*
+      - section: "Data Metrics"
+        href: data_metrics.qmd
+        contents:
+          - section: "February 2025"
+            contents: feb_2025/demographics.qmd
+      - text: "Data Labeling"
+        href: data_labeling.qmd
   navbar:
     left:
       - text: "About"
         href: about.qmd
       - href: data_dictionary.qmd
         text: "Data Dictionary"
+      - href: data_metrics.qmd
+        text: "Data Metrics"
+      - href: data_labeling.qmd
+        text: "Data Labeling"
     tools:
       - icon: github
         href: https://github.com/susom/starr-oncology-data-lake-arpah
