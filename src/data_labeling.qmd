@@ -5,4 +5,193 @@ execute:
 ---
 
 
-**Under Construction**
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(DBI)
+library(bigrquery)
+library(glue)
+library(plotly)
+library(dplyr)
+library(gt)
+
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+project_id <- "som-rit-phi-oncology-dev"
+Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+
+fetch_data_from_sql <- function(sql) {
+    # Connect to BigQuery
+
+    conn <- dbConnect(
+        bigrquery::bigquery(),
+        project = project_id,
+        use_legacy_sql = FALSE
+    )
+
+    on.exit(dbDisconnect(conn), add = TRUE)
+
+    # Run query
+    result <- tryCatch(
+        {
+            dbGetQuery(conn, sql)
+        },
+        error = function(e) {
+            message(glue("\n⚠️ Query failed: {e$message}"))
+            return(NULL)
+        }
+    )
+
+    # Return the result as a single data frame
+    return(result)
+}
+
+create_histogram_plot <- function(data, x_var, plot_title, x_axis_title) {
+    plot_ly(
+        data = data,
+        x = data[[x_var]],
+        type = "histogram",
+        marker = list(color = "rgb(111, 34, 34)", line = list(color = "rgb(0, 0, 0)", width = 1.5))
+    ) %>%
+        layout(
+            title = list(
+                text = plot_title,
+                x = 0.01, # Align to the left (0 = far left, 1 = far right)
+                xanchor = "left"
+            ),
+            xaxis = list(
+                title = x_axis_title,
+                tickangle = -45,
+                showgrid = FALSE
+            ),
+            yaxis = list(
+                title = "Count",
+                rangemode = "tozero"
+            ),
+            margin = list(b = 100),
+            showlegend = FALSE
+        )
+}
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+sql <- "
+SELECT
+  DISTINCT ns.*
+FROM
+  `som-rit-phi-oncology-dev.jdposada_explore.note_sampling_sample` ns
+JOIN
+  som-rit-phi-oncology-dev.jdposada_explore.20250219_gold_standard gs
+ON
+  gs.note_id = CAST(ns.note_id AS string)
+"
+df_notes <- fetch_data_from_sql(sql)
+create_histogram_plot(
+    data = df_notes,
+    x_var = "age",
+    plot_title = "Distribution of Age",
+    "Age"
+)
+```
+
+
+
+```{r, message=FALSE, warning=FALSE}
+# Group by age_bins, sex, race, and ethnicity
+df_notes <- df_notes %>%
+  mutate(age_bins = cut(age, breaks = c(0, 18, 45, 65, 120), labels = c("0-17", "18-44", "45-64", "65+")))
+
+columns <- c("age_bins", "sex", "race", "ethnicity")
+df_list <- list()
+
+for (col in columns) {
+  df_grouped <- df_notes %>%
+    group_by(!!sym(col)) %>%
+    summarise(n = n()) %>%
+    mutate(percentage = n / sum(n) * 100,
+           characteristic = ifelse(col == "age_bins", "Age", col)) %>%
+    rename(counts = !!sym(col))
+  df_list[[col]] <- df_grouped
+}
+
+df_grouped <- bind_rows(df_list)
+
+# Display the grouped data using gt
+df_grouped %>%
+  select(characteristic, counts, n, percentage) %>%
+  rename(
+    group = counts,
+    counts = n
+  ) %>%
+  gt() %>%
+  tab_header(
+    title = "Grouped Data Summary",
+    subtitle = "Counts and Percentages by Age Bins, Sex, Race, and Ethnicity"
+  ) %>%
+  cols_label(
+    characteristic = "Characteristic",
+    group = "",
+    counts = "Counts (n)",
+    percentage = "Percentage (%)"
+  ) %>%
+  fmt_number(
+    columns = vars(percentage),
+    decimals = 2
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping()
+```
+
+::: {.panel-tabset}
+
+## Note Length
+
+```{r}
+create_histogram_plot(
+    data = df_notes,
+    x_var = "note_length",
+    plot_title = "Distribution of Note Lengths",
+    x_axis_title = "Note Length (characters)"
+)
+```
+
+## Note Types
+
+```{r, message=FALSE, warning=FALSE}
+# Group by note_title and calculate counts and percentages
+df_note_titles <- df_notes %>%
+  group_by(note_title) %>%
+  summarise(n = n()) %>%
+  mutate(percentage = n / sum(n) * 100) %>%
+  arrange(desc(percentage))
+
+# Display the grouped data using gt
+df_note_titles %>%
+  gt() %>%
+  tab_header(
+    title = "Note Titles Summary",
+    subtitle = "Counts and Percentages by Note Title"
+  ) %>%
+  cols_label(
+    note_title = "Note Title",
+    n = "Counts (n)",
+    percentage = "Percentage (%)"
+  ) %>%
+  fmt_number(
+    columns = vars(percentage),
+    decimals = 2
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping()
+```
+
+:::
+
