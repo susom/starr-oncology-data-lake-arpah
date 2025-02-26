@@ -6,28 +6,28 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                                               | type     | phi   | required   |
-|:----------------------------------------------------|:---------|:------|:-----------|
-| visit_occurrence_id                                 | INTEGER  |       | Yes        |
-| person_id                                           | INTEGER  |       | Yes        |
-| visit_concept_id                                    | INTEGER  |       | Yes        |
-| visit_start_DATE                                    | DATE     | Yes   | No         |
-| visit_start_DATETIME                                | DATETIME | Yes   | Yes        |
-| visit_end_DATE                                      | DATE     | Yes   | No         |
-| visit_end_DATETIME                                  | DATETIME | Yes   | Yes        |
-| visit_type_concept_id                               | INTEGER  |       | Yes        |
-| provider_id                                         | INTEGER  |       | No         |
-| care_site_id                                        | INTEGER  |       | No         |
-| visit_source_value                                  | STRING   | Yes   | No         |
-| visit_source_concept_id                             | INTEGER  |       | Yes        |
-| admitted_from_concept_id                            | INTEGER  |       | Yes        |
-| admitted_from_source_value                          | STRING   |       | No         |
-| discharge_to_concept_id                             | INTEGER  |       | Yes        |
-| discharge_to_source_value                           | STRING   |       | No         |
-| preceding_visit_occurrence_id                       | INTEGER  |       | No         |
-| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| visit_occurrence_id                                 | INTEGER  | Yes        |       | Offset                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| visit_concept_id                                    | INTEGER  | Yes        |       |                        |
+| visit_start_DATE                                    | DATE     | No         | Yes   | Jitter                    |
+| visit_start_DATETIME                                | DATETIME | Yes        | Yes   | Jitter                    |
+| visit_end_DATE                                      | DATE     | No         | Yes   | Jitter                    |
+| visit_end_DATETIME                                  | DATETIME | Yes        | Yes   | Jitter                    |
+| visit_type_concept_id                               | INTEGER  | Yes        |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Offset                    |
+| care_site_id                                        | INTEGER  | No         |       | Offset                    |
+| visit_source_value                                  | STRING   | No         | Yes   |                        |
+| visit_source_concept_id                             | INTEGER  | Yes        |       |                        |
+| admitted_from_concept_id                            | INTEGER  | Yes        |       |                        |
+| admitted_from_source_value                          | STRING   | No         |       |                        |
+| discharge_to_concept_id                             | INTEGER  | Yes        |       |                        |
+| discharge_to_source_value                           | STRING   | No         |       |                        |
+| preceding_visit_occurrence_id                       | INTEGER  | No         |       | Offset                    |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

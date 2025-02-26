@@ -6,15 +6,15 @@ Vocabulary Tables
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| vocabulary_id                                       | STRING  | No    | Yes        |
-| vocabulary_name                                     | STRING  | No    | Yes        |
-| vocabulary_reference                                | STRING  | No    | Yes        |
-| vocabulary_version                                  | STRING  | No    | No         |
-| vocabulary_concept_id                               | INTEGER | No    | Yes        |
-| load_table_id (Stanford construct for traceability) | STRING  | No    | No         |
-| load_row_id (Stanford construct for traceability)   | STRING  | No    | No         |
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| vocabulary_id                                       | STRING  | Yes        | No    |                        |
+| vocabulary_name                                     | STRING  | Yes        | No    |                        |
+| vocabulary_reference                                | STRING  | Yes        | No    |                        |
+| vocabulary_version                                  | STRING  | No         | No    |                        |
+| vocabulary_concept_id                               | INTEGER | Yes        | No    |                        |
+| load_table_id (Stanford construct for traceability) | STRING  | No         | No    |                        |
+| load_row_id (Stanford construct for traceability)   | STRING  | No         | No    |                        |
 
 :  {.hover .responsive .sm}
 

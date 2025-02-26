@@ -6,19 +6,19 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                                                      | type   | phi   | required   |
-|:-----------------------------------------------------------|:-------|:------|:-----------|
-| person_id                                                  |        |       | Yes        |
-| death_date                                                 |        | Yes   | Yes        |
-| death_datetime                                             |        | Yes   | No         |
-| death_type_concept_id                                      |        |       | No         |
-| cause_concept_id                                           |        |       | No         |
-| cause_source_value                                         |        |       | No         |
-| cause_source_concept_id                                    |        |       | No         |
-| trace_id (Stanford construct for traceability)             |        | Yes   | No         |
-| unit_id (Stanford construct for traceability)              |        |       | No         |
-| load_table_id (Stanford construct for traceability)        |        |       | No         |
-| _death_date_external (Stanford construct for traceability) |        | Yes   | No         |
+| field                                                      | type   | required   | phi   | phi scrubbing operation   |
+|:-----------------------------------------------------------|:-------|:-----------|:------|:--------------------------|
+| person_id                                                  |        | Yes        |       | Sub                       |
+| death_date                                                 |        | Yes        | Yes   | Jitter                    |
+| death_datetime                                             |        | No         | Yes   | Jitter                    |
+| death_type_concept_id                                      |        | No         |       |                        |
+| cause_concept_id                                           |        | No         |       |                        |
+| cause_source_value                                         |        | No         |       |                        |
+| cause_source_concept_id                                    |        | No         |       |                        |
+| trace_id (Stanford construct for traceability)             |        | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)              |        | No         |       |                        |
+| load_table_id (Stanford construct for traceability)        |        | No         |       |                        |
+| _death_date_external (Stanford construct for traceability) |        | No         | Yes   | Del                       |
 
 :  {.hover .responsive .sm}
 
@@ -27,44 +27,44 @@ Standard Clinical Data Table
 
 ##### person_id
 
-
+A foreign key identifier to the deceased person. The demographic details of that person are stored in the person table.
 
 ##### death_date
 
-
+The date the person was deceased as reported in the EHR. If the precise date including day or month is not known or not allowed, December is used as the default month, and the last day of the month the default day. 
 
 ##### death_datetime
 
-
+The date and time the person was deceased as reported in the EHR. If the precise date including day or month is not known or not allowed, December is used as the default month, and the last day of the month the default day. (currently empty)
 
 ##### death_type_concept_id
 
-
+This field can be used to determine the provenance of the Death record, as in whether the death information was from an EHR system, insurance claim, registry, or other sources.
 
 ##### cause_concept_id
 
-
+A foreign key referring to a standard concept identifier in the Standardized Vocabularies for conditions.
 
 ##### cause_source_value
 
-
+The source code for the cause of death as it appears in the source data. This code is mapped to a standard concept in the Standardized Vocabularies and the original code is, stored here for reference.
 
 ##### cause_source_concept_id
 
-
+A foreign key to the concept that refers to the code used in the source. Note, this variable name is abbreviated to ensure it will be allowable across database platforms.
 
 ##### trace_id (stanford construct for traceability) 
 
-
+The `trace_id` column contains a JSON string that provides information about the source of the data for a given row in the table. For instance, the JSON string consists of a key-value pair where the key is "pat_id" and the value is "Z756XXX". This indicates that the primary key of the table in Clarity, from which most of the information for a given row is sourced, is associated with the patient ID "Z756XXX". Example: {"pat_id":"Z756XXX"}.
 
 ##### unit_id (stanford construct for traceability) 
 
-
+Is a reference for the position in the ETL code resposible for bringing in this row data (currently empty)
 
 ##### load_table_id (stanford construct for traceability) 
 
-
+Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced.  Options are shc_patient or lpch_patient
 
 ##### _death_date_external (stanford construct for traceability) 
 
-
+This field stores a string that combines the 'death_type_concept_id' with the actual death date, separated by a pipe '|'. The 'death_type_concept_id' indicates the source of the death information, such as '32885' for the Social Security Death Master File. Following the pipe, the death date is provided in 'YYYY-MM-DD' format. This format allows for the association of a specific death date with its corresponding data source. Example format: '32885|2019-09-24', where '32885' represents the Social Security Death Master File and '2019-09-24' is the date of death from that source. This field is essential for tracking and verifying death information from various external sources.

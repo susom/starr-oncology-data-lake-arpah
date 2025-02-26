@@ -6,21 +6,21 @@ Standarized Health System Data Tables
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| location_id                                         | INTEGER | No    | Yes        |
-| address_1                                           | STRING  | Yes   | No         |
-| address_2                                           | STRING  | Yes   | No         |
-| city                                                | STRING  | Yes   | No         |
-| state                                               | STRING  | Yes   | No         |
-| zip                                                 | STRING  | Yes   | No         |
-| county                                              | STRING  | No    | No         |
-| location_source_value                               | STRING  | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING  | No    | No         |
-| load_table_id (Stanford construct for traceability) | STRING  | No    | No         |
-| _census_block_group (available only at Stanford)    | STRING  | Yes   | No         |
-| latitude (available only at Stanford)               | FLOAT   | Yes   | No         |
-| longitude (available only at Stanford)              | FLOAT   | Yes   | No         |
+| field                                               | type    | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
+| location_id                                         | INTEGER | Yes        | No    | Offset                    |
+| address_1                                           | STRING  | No         | Yes   | Del                       |
+| address_2                                           | STRING  | No         | Yes   | Del                       |
+| city                                                | STRING  | No         | Yes   | Del                       |
+| state                                               | STRING  | No         | Yes   |                        |
+| zip                                                 | STRING  | No         | Yes   | RedZip                    |
+| county                                              | STRING  | No         | No    | Del                       |
+| location_source_value                               | STRING  | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)       | STRING  | No         | No    |                        |
+| load_table_id (Stanford construct for traceability) | STRING  | No         | No    |                        |
+| _census_block_group (available only at Stanford)    | STRING  | No         | Yes   | Drop                      |
+| latitude (available only at Stanford)               | FLOAT   | No         | Yes   | Drop                      |
+| longitude (available only at Stanford)              | FLOAT   | No         | Yes   | Drop                      |
 
 :  {.hover .responsive .sm}
 

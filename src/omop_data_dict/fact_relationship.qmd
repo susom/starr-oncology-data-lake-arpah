@@ -6,16 +6,16 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                   | type    | phi   | required   |
-|:------------------------|:--------|:------|:-----------|
-| domain_concept_id_1     | INTEGER |       | Yes        |
-| fact_id_1               | INTEGER |       | Yes        |
-| domain_concept_id_2     | INTEGER |       | Yes        |
-| fact_id_2               | INTEGER |       | Yes        |
-| relationship_concept_id | INTEGER |       | Yes        |
-| trace_id                | STRING  |       | No         |
-| unit_id                 | STRING  |       | No         |
-| load_table_id           | STRING  |       | No         |
+| field                   | type    | required   | phi   | phi scrubbing operation   |
+|:------------------------|:--------|:-----------|:------|:--------------------------|
+| domain_concept_id_1     | INTEGER | Yes        |       |                        |
+| fact_id_1               | INTEGER | Yes        |       |                        |
+| domain_concept_id_2     | INTEGER | Yes        |       |                        |
+| fact_id_2               | INTEGER | Yes        |       |                        |
+| relationship_concept_id | INTEGER | Yes        |       |                        |
+| trace_id                | STRING  | No         |       | Del                       |
+| unit_id                 | STRING  | No         |       |                        |
+| load_table_id           | STRING  | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

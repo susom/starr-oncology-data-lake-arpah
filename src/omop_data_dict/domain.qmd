@@ -6,13 +6,13 @@ Vocabulary Tables
 
 ### Table Columns
 
-| field             | type    | phi   | required   |
-|:------------------|:--------|:------|:-----------|
-| domain_id         | STRING  |       | Yes        |
-| domain_name       | STRING  |       | Yes        |
-| domain_concept_id | INTEGER |       | Yes        |
-| load_table_id     | STRING  |       | No         |
-| load_row_id       | STRING  |       | No         |
+| field             | type    | required   | phi   |   phi scrubbing operation |
+|:------------------|:--------|:-----------|:------|--------------------------:|
+| domain_id         | STRING  | Yes        |       |                        |
+| domain_name       | STRING  | Yes        |       |                        |
+| domain_concept_id | INTEGER | Yes        |       |                        |
+| load_table_id     | STRING  | No         |       |                        |
+| load_row_id       | STRING  | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

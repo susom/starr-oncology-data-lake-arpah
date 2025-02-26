@@ -6,39 +6,34 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                                               | type     | phi   | required   |
-|:----------------------------------------------------|:---------|:------|:-----------|
-| nan                                                 |          |       |            |
-| person_id                                           | INTEGER  |       | Yes        |
-| gender_concept_id                                   | INTEGER  |       | Yes        |
-| year_of_birth                                       | INTEGER  |       | Yes        |
-| month_of_birth                                      | INTEGER  | Yes   | No         |
-| day_of_birth                                        | INTEGER  | Yes   | No         |
-| birth_datetime                                      | DATETIME | Yes   | No         |
-| race_concept_id                                     | INTEGER  |       | Yes        |
-| ethnicity_concept_id                                | INTEGER  |       | Yes        |
-| location_id                                         | INTEGER  |       | No         |
-| provider_id                                         | INTEGER  |       | No         |
-| care_site_id                                        | INTEGER  |       | No         |
-| person_source_value                                 | STRING   | Yes   | No         |
-| gender_source_value                                 | STRING   |       | No         |
-| gender_source_concept_id                            | INTEGER  |       | Yes        |
-| race_source_value                                   | STRING   |       | No         |
-| race_source_concept_id                              | INTEGER  |       | Yes        |
-| ethnicity_source_value                              | STRING   |       | No         |
-| ethnicity_source_concept_id                         | INTEGER  |       | Yes        |
-| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| gender_concept_id                                   | INTEGER  | Yes        |       |                        |
+| year_of_birth                                       | INTEGER  | Yes        |       |                        |
+| month_of_birth                                      | INTEGER  | No         | Yes   | Jitt                      |
+| day_of_birth                                        | INTEGER  | No         | Yes   | Jitt                      |
+| birth_datetime                                      | DATETIME | No         | Yes   | Jitt                      |
+| race_concept_id                                     | INTEGER  | Yes        |       |                        |
+| ethnicity_concept_id                                | INTEGER  | Yes        |       |                        |
+| location_id                                         | INTEGER  | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Offset                    |
+| care_site_id                                        | INTEGER  | No         |       |                        |
+| person_source_value                                 | STRING   | No         | Yes   | Sub                       |
+| gender_source_value                                 | STRING   | No         |       |                        |
+| gender_source_concept_id                            | INTEGER  | Yes        |       |                        |
+| race_source_value                                   | STRING   | No         |       |                        |
+| race_source_concept_id                              | INTEGER  | Yes        |       |                        |
+| ethnicity_source_value                              | STRING   | No         |       |                        |
+| ethnicity_source_concept_id                         | INTEGER  | Yes        |       |                        |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
+| unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 
 ### Columns Description
 
-
-##### nan
-
-nan
 
 ##### person_id
 

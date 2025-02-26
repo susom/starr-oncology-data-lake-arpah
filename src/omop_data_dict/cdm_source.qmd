@@ -6,20 +6,20 @@ Standardized Metadata Table
 
 ### Table Columns
 
-| field                                               | type   | phi   | required   |
-|:----------------------------------------------------|:-------|:------|:-----------|
-| cdm_source_name                                     | STRING |       | Yes        |
-| cdm_source_abbreviation                             | STRING |       | No         |
-| cdm_holder                                          | STRING |       | No         |
-| source_description                                  | STRING |       | No         |
-| source_documentation_reference                      | STRING |       | No         |
-| cdm_etl_reference                                   | STRING |       | No         |
-| source_release_date                                 | DATE   |       | No         |
-| cdm_release_date                                    | DATE   |       | No         |
-| cdm_version                                         | STRING |       | No         |
-| vocabulary_version                                  | STRING |       | No         |
-| unit_id (Stanford construct for traceability)       | STRING |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING |       | No         |
+| field                                               | type   | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:-------|:-----------|:------|--------------------------:|
+| cdm_source_name                                     | STRING | Yes        |       |                        |
+| cdm_source_abbreviation                             | STRING | No         |       |                        |
+| cdm_holder                                          | STRING | No         |       |                        |
+| source_description                                  | STRING | No         |       |                        |
+| source_documentation_reference                      | STRING | No         |       |                        |
+| cdm_etl_reference                                   | STRING | No         |       |                        |
+| source_release_date                                 | DATE   | No         |       |                        |
+| cdm_release_date                                    | DATE   | No         |       |                        |
+| cdm_version                                         | STRING | No         |       |                        |
+| vocabulary_version                                  | STRING | No         |       |                        |
+| unit_id (Stanford construct for traceability)       | STRING | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

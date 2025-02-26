@@ -6,29 +6,29 @@ Standard Clinical Data Table
 
 ### Table Columns
 
-| field                                               | type     | phi   | required   |
-|:----------------------------------------------------|:---------|:------|:-----------|
-| observation_id                                      | INTEGER  |       | Yes        |
-| person_id                                           | INTEGER  |       | Yes        |
-| observation_concept_id                              | INTEGER  |       | Yes        |
-| observation_date                                    | DATE     | Yes   | No         |
-| observation_datetime                                | DATETIME | Yes   | Yes        |
-| observation_type_concept_id                         | INTEGER  |       | Yes        |
-| value_as_number                                     | FLOAT    |       | No         |
-| value_as_string                                     | STRING   | Yes   | No         |
-| value_as_concept_id                                 | INTEGER  |       | No         |
-| qualifier_concept_id                                | INTEGER  |       | No         |
-| unit_concept_id                                     | INTEGER  |       | No         |
-| provider_id                                         | INTEGER  |       | No         |
-| visit_occurrence_id                                 | INTEGER  |       | No         |
-| visit_detail_id                                     | INTEGER  |       | No         |
-| observation_source_value                            | STRING   | Yes   | No         |
-| observation_source_concept_id                       | INTEGER  |       | Yes        |
-| unit_source_value                                   | STRING   | Yes   | No         |
-| qualifier_source_value                              | STRING   |       | No         |
-| trace_id (Stanford construct for traceability)      | STRING   | Yes   | No         |
-| unit_id (Stanford construct for traceability)       | STRING   |       | No         |
-| load_table_id (Stanford construct for traceability) | STRING   |       | No         |
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| observation_id                                      | INTEGER  | Yes        |       | Offset                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| observation_concept_id                              | INTEGER  | Yes        |       |                        |
+| observation_date                                    | DATE     | No         | Yes   | Jitt                      |
+| observation_datetime                                | DATETIME | Yes        | Yes   | Jitt                      |
+| observation_type_concept_id                         | INTEGER  | Yes        |       |                        |
+| value_as_number                                     | FLOAT    | No         |       |                        |
+| value_as_string                                     | STRING   | No         | Yes   | TiDE                      |
+| value_as_concept_id                                 | INTEGER  | No         |       | TiDE                      |
+| qualifier_concept_id                                | INTEGER  | No         |       |                        |
+| unit_concept_id                                     | INTEGER  | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Offset                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       |                        |
+| visit_detail_id                                     | INTEGER  | No         |       |                        |
+| observation_source_value                            | STRING   | No         | Yes   |                        |
+| observation_source_concept_id                       | INTEGER  | Yes        |       |                        |
+| unit_source_value                                   | STRING   | No         | Yes   |                        |
+| qualifier_source_value                              | STRING   | No         |       | Del                       |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   |                        |
+| unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 
 :  {.hover .responsive .sm}
 

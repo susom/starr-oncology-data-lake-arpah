@@ -6,13 +6,13 @@ Vocabulary Tables
 
 ### Table Columns
 
-| field                                               | type    | phi   | required   |
-|:----------------------------------------------------|:--------|:------|:-----------|
-| concept_class_id                                    | STRING  |       | Yes        |
-| concept_class_name                                  | STRING  |       | Yes        |
-| concept_class_concept_id                            | INTEGER |       | Yes        |
-| load_table_id (Stanford construct for traceability) | STRING  |       | No         |
-| load_row_id (Stanford construct for traceability)   | STRING  |       | No         |
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| concept_class_id                                    | STRING  | Yes        |       |                        |
+| concept_class_name                                  | STRING  | Yes        |       |                        |
+| concept_class_concept_id                            | INTEGER | Yes        |       |                        |
+| load_table_id (Stanford construct for traceability) | STRING  | No         |       |                        |
+| load_row_id (Stanford construct for traceability)   | STRING  | No         |       |                        |
 
 :  {.hover .responsive .sm}
 
