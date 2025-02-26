@@ -77,7 +77,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "visit_occurrence"
     ]
   },
@@ -90,7 +90,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "relationship"
     ]
   },
@@ -103,7 +103,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "procedure_occurrence"
     ]
   },
@@ -116,7 +116,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "payer_plan_period"
     ]
   },
@@ -129,7 +129,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "observation"
     ]
   },
@@ -142,7 +142,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "metadata"
     ]
   },
@@ -155,7 +155,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "location"
     ]
   },
@@ -168,7 +168,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "fact_relationship"
     ]
   },
@@ -181,7 +181,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "drug_exposure"
     ]
   },
@@ -194,7 +194,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "domain"
     ]
   },
@@ -207,7 +207,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "death"
     ]
   },
@@ -220,7 +220,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "condition_era"
     ]
   },
@@ -233,7 +233,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "concept_relationship"
     ]
   },
@@ -246,7 +246,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "concept_ancestor"
     ]
   },
@@ -259,7 +259,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "cdm_source"
     ]
   },
@@ -293,7 +293,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "care_site"
     ]
   },
@@ -306,7 +306,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "concept"
     ]
   },
@@ -319,7 +319,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "concept_class"
     ]
   },
@@ -332,7 +332,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "concept_synonym"
     ]
   },
@@ -345,7 +345,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "condition_occurrence"
     ]
   },
@@ -358,7 +358,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "device_exposure"
     ]
   },
@@ -371,7 +371,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "drug_era"
     ]
   },
@@ -384,7 +384,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "drug_strength"
     ]
   },
@@ -397,7 +397,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "image_occurrence"
     ]
   },
@@ -410,7 +410,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "measurement"
     ]
   },
@@ -423,7 +423,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "note"
     ]
   },
@@ -436,7 +436,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "observation_period"
     ]
   },
@@ -449,7 +449,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "person"
     ]
   },
@@ -462,7 +462,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "provider"
     ]
   },
@@ -475,7 +475,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "visit_detail"
     ]
   },
@@ -488,7 +488,7 @@
     "crumbs": [
       "About",
       "Data Dictionary",
-      "omop cdm",
+      "OMOP-CDM",
       "vocabulary"
     ]
   },
