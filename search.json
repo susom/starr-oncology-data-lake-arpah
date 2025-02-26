@@ -40,7 +40,29 @@
     "href": "data_metrics.html",
     "title": "Data Metrics",
     "section": "",
-    "text": "February 2025\n\n\n\n\n Back to top",
+    "text": "This page provides an overview of the various data metrics available in the dataset. The metrics are designed to give insights into the contents of the dataset.",
+    "crumbs": [
+      "About",
+      "Data Metrics"
+    ]
+  },
+  {
+    "objectID": "data_metrics.html#release-overview",
+    "href": "data_metrics.html#release-overview",
+    "title": "Data Metrics",
+    "section": "Release Overview",
+    "text": "Release Overview\nThis project will have multiple data releases over time. Each release will include updated and new metrics. Below is the list of available releases:\n\nFebruary 2025\nThe February 2025 release is the first release of the dataset. It includes comprehensive demographic metrics and other key data points. You can find detailed information about this release by following the link below:\n\nFebruary 2025 Metrics",
+    "crumbs": [
+      "About",
+      "Data Metrics"
+    ]
+  },
+  {
+    "objectID": "data_metrics.html#future-releases",
+    "href": "data_metrics.html#future-releases",
+    "title": "Data Metrics",
+    "section": "Future Releases",
+    "text": "Future Releases\nFuture releases will include additional metrics and updates to the existing ones.",
     "crumbs": [
       "About",
       "Data Metrics"
