@@ -69,7 +69,7 @@ dplyr::mutate(
   select(Variable, everything())
   print(all.dat)
 dim(all.dat)
-colnames(all.dat)[1]<-"Charactersitics"
+colnames(all.dat)[1]<-"Characteristic"
 ```
 
 
@@ -81,7 +81,7 @@ all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45
 "No OMOP Visit", "Male", "Female", "Other", "Unknown", "American Indian-Alaska Native",
 "Asian", "Native Hawaii", "Black", "White", "Other-Unknown", "Hispanic Latino ", "NOT Hispanic Latino", "Other-Missing" ))
 
- all.dat=all.dat%>% select(Charactersitics, values, everything())
+ all.dat=all.dat%>% select(Characteristic, values, everything())
 ```
 
 ### **Summary of Patient Population**
@@ -92,7 +92,7 @@ The demographic categories examined include Age, Sex, Race, and Ethnicity.
 all.dat %>% select (-description) %>%
   gt() %>%
   cols_label(
-    Characteristics = "Characteristics",
+    Characteristic = "Characteristic",
     values="",
     counts = "Count (N)",
     percents = "%"
@@ -120,8 +120,7 @@ all.dat %>% select (-description) %>%
 
 ## Clinical Metrics
 
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-folder_path_omop <- "/workspaces/starr-oncology-data-lake-
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
@@ -315,7 +314,7 @@ res_sa%>% select(metric, pt_count)%>%
    pt_count = "Patient Count",
   ) %>%
   tab_header(
-    title = "Oncology OMOP",
+    title = "",
     subtitle = ""
   ) %>%
   fmt_number(
