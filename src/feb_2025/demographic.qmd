@@ -247,11 +247,11 @@ res_tc=res_tc %>% select(metric, patient_count)%>% filter(!is.na(metric))%>% arr
 res_tc%>%
   gt() %>%
   cols_label(
-    metric = "Clinical Metrics",
+    metric = "Description",
    patient_count = "Patient Count",
   ) %>%
   tab_header(
-    title = "Thoracic Cancer",
+    title = "",
     subtitle = ""
   ) %>%
   fmt_number(
