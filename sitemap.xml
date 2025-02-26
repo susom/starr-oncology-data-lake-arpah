@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/feb_2025/demographic.html</loc>
+    <lastmod>2025-02-25T23:56:45.818Z</lastmod>
+  </url>
+  <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/data_metrics.html</loc>
-    <lastmod>2025-02-25T20:02:31.400Z</lastmod>
+    <lastmod>2025-02-25T23:56:31.031Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/visit_occurrence.html</loc>
@@ -74,7 +78,7 @@
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/care_site.html</loc>
-    <lastmod>2025-02-06T20:34:03.864Z</lastmod>
+    <lastmod>2025-02-26T00:05:49.858Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/concept.html</loc>
@@ -135,5 +139,9 @@
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/vocabulary.html</loc>
     <lastmod>2025-02-06T20:28:40.373Z</lastmod>
+  </url>
+  <url>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/data_labeling.html</loc>
+    <lastmod>2025-02-26T00:01:24.394Z</lastmod>
   </url>
 </urlset>

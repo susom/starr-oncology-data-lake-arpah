@@ -1,143 +1,179 @@
 /* Stanford-inspired style.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto+Slab:wght@300;400;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+@font-face {
+  font-family: "Stanford";
+
+  src: url("https://www-media.stanford.edu/assets/fonts/stanford.woff") format("woff"), url("https://www-media.stanford.edu/assets/fonts/stanford.ttf") format("truetype");
+
+  font-weight: 300;
+
+  font-display: swap;
+}
+
 
 :root {
-    --cardinal-red: #8C1515;
-    --cardinal-dark: #820000;
-    --cardinal-light: #B83A4B;
-    --cool-grey: #4D4F53;
-    --white: #FFFFFF;
-    --black: #2E2D29;
-  }
-  
-  /* Base styles */
-  body {
-    font-family: 'Source Sans Pro', sans-serif;
-    line-height: 1.6;
-    color: var(--black);
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Headers */
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 600;
-    color: var(--cardinal-red);
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-  }
-  
-  /* Links */
-  a {
-    color: var(--cardinal-red);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  a:hover {
-    color: var(--cardinal-dark);
-    text-decoration: underline;
-  }
-  
-  /* Cards */
-  .su-card {
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  /* Buttons */
-  .su-button {
-    background-color: var(--cardinal-red);
-    color: var(--white);
-    padding: 0.8em 2em;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .su-button:hover {
-    background-color: var(--cardinal-dark);
-  }
-  
-  /* Navigation */
-  .nav {
-    background-color: var(--white);
-    border-bottom: 1px solid #e3e3e3;
-    padding: 1rem 0;
-  }
-  
-  /* Footer */
-  footer {
-    background-color: var(--cool-grey);
-    color: var(--white);
-    padding: 2rem 0;
-    margin-top: 3rem;
-  }
-  
-  /* Container */
+  --cardinal-red: #8C1515;
+  --cardinal-dark: #820000;
+  --cardinal-light: #B83A4B;
+  --cool-grey: #4D4F53;
+  --white: #FFFFFF;
+  --black: #2E2D29;
+}
+
+/* Base styles */
+body {
+  line-height: 1.6;
+  color: var(--black);
+  margin: 0;
+  padding: 0;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: var(--black);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+
+h1 {
+  font-size: clamp(2rem, 2vw + 1rem, 3rem); /* Reduced size */
+}
+
+h2 {
+  font-size: clamp(1.75rem, 1.75vw + 0.875rem, 2.625rem); /* Reduced size */
+}
+
+h3 {
+  font-size: clamp(1.5rem, 1.5vw + 0.75rem, 2.25rem); /* Reduced size */
+}
+
+h4 {
+  font-size: clamp(1.25rem, 1.25vw + 0.625rem, 1.875rem); /* Reduced size */
+}
+
+h5 {
+  font-size: clamp(1rem, 1vw + 0.5rem, 1.5rem); /* Reduced size */
+  text-transform: lowercase;
+}
+
+h6 {
+  font-size: clamp(0.875rem, 0.875vw + 0.4375rem, 1.3125rem); /* Reduced size */
+}
+
+/* Links */
+a {
+  color: var(--cardinal-red);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--cardinal-dark);
+  text-decoration: underline;
+}
+
+/* Cards */
+.su-card {
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+.su-button {
+  background-color: var(--cardinal-red);
+  color: var(--white);
+  padding: 0.8em 2em;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.su-button:hover {
+  background-color: var(--cardinal-dark);
+}
+
+/* Navigation */
+.nav {
+  background-color: var(--white);
+  border-bottom: 1px solid #e3e3e3;
+  padding: 1rem 0;
+}
+
+/* Footer */
+footer {
+  background-color: var(--cool-grey);
+  color: var(--white);
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
   }
-  
-  /* Media queries */
-  @media (max-width: 768px) {
-    .container {
-      padding: 0 2rem;
-    }
-  }
-  
+}
+
 /* Table styles from Github */
 table {
-  display: block;
-  overflow: auto;
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+display: block;
+overflow: auto;
+width: 100%;
+border-collapse: collapse;
+border-spacing: 0;
 }
 
 tbody {
-  display: table-row-group;
-  vertical-align: middle;
-  border-color: inherit;
+display: table-row-group;
+vertical-align: middle;
+border-color: inherit;
 }
 
 table tr {
-  background-color: #fff;
-  border-top: 1px solid #c6cbd1;
+background-color: #fff;
+border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-  background-color: #f6f8fa;
+background-color: #f6f8fa;
 }
 
 table th {
-  font-weight: 600;
+font-weight: 600;
 }
 
 table td,
 table th {
-  border: 1px solid #dfe2e5;
-  padding: 6px 13px;
+border: 1px solid #dfe2e5;
+padding: 6px 13px;
 }
 
 table tr {
-  background-color: #fff;
-  border-top: 1px solid #c6cbd1;
+background-color: #fff;
+border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-  background-color: #f6f8fa;
+background-color: #f6f8fa;
 }
 
 table > thead > tr > th {
-  border-bottom: 0;
+border-bottom: 0;
 }
 /* End of table styles */
