@@ -12,17 +12,17 @@ run_bigquery_query <- function(project_id, sql_file_path) {
   credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
   # Set Google Cloud credentials
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
-  
+
   # Authenticate with BigQuery
   bq_auth(path = Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
-  
+
   # Create BigQuery connection
   bq_conn <- dbConnect(
     bigrquery::bigquery(),
     project = project_id,
     use_legacy_sql = FALSE
   )
-  
+
   # Load SQL from the specified file
   sql_query <- read_file(sql_file_path)
   sql_query <- str_c(sql_query, collapse = " ") ## for any line break
@@ -35,7 +35,7 @@ run_bigquery_query <- function(project_id, sql_file_path) {
     print(paste("Query failed:", e$message))
     return(NULL)
   })
-  
+
   # Disconnect from BigQuery
   dbDisconnect(bq_conn)
   end_time <- Sys.time()
@@ -48,10 +48,10 @@ run_bigquery_query <- function(project_id, sql_file_path) {
 #######################
 create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
   plot_ly(
-    data = data, 
-    x = data[[x_var]], 
-    y = data[[y_var]], 
-    type = 'bar', 
+    data = data,
+    x = data[[x_var]],
+    y = data[[y_var]],
+    type = 'bar',
     marker = list(color = 'rgb(136, 108, 108)', line = list(color = 'rgb(174, 19, 19)', width = 1.5))
   ) %>%
     layout(
@@ -75,7 +75,7 @@ create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis
 }
 
 ##########################
-#### fetch sql names 
+#### fetch sql names
 ##########################
 library(DBI)
 library(bigrquery)
@@ -86,32 +86,32 @@ library(purrr)
 fetch_data_from_sql <- function(credentials_path, project, folder_path) {
   # Set the credentials
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
-  
+
   # Connect to BigQuery
   conn <- dbConnect(
     bigrquery::bigquery(),
     project = project,
     use_legacy_sql = FALSE
   )
-  
+
   # List SQL files
-  sql_params <- yaml::read_yaml("sql_params.yml")
+  sql_params <- yaml::read_yaml("../sql_params.yml")
 
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
-  
+
   # Read and execute the SQL files
   combined_df <- sql_files %>%
     map_dfr(~{
       sql_query <- readLines(.x)
-      df <- dbGetQuery(conn, paste(sql_query, collapse = "\n")) 
+      df <- dbGetQuery(conn, paste(sql_query, collapse = "\n"))
       df <- df %>%
         mutate(sql_file_name = basename(.x))
       return(df)
     })
-  
+
   # Close the database connection
   dbDisconnect(conn)
-  
+
   # Return the combined data frame
   return(combined_df)
 }
@@ -130,7 +130,7 @@ calculate_N_percent <- function(count_column, den) {
 
 
 ####################################################
-#### read the params into fetching sql queries 
+#### read the params into fetching sql queries
 ####################################################
 # Load required libraries
 library(DBI)
@@ -145,23 +145,23 @@ library(yaml)
 fetch_data_from_sql_yml <- function(credentials_path, project, folder_path) {
   # Set the environment variable for Google Cloud credentials
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
-  
+
   # Connect to BigQuery
   conn <- dbConnect(
     bigrquery::bigquery(),
     project = project,
     use_legacy_sql = FALSE
   )
-  
+
   # Ensure to disconnect after we're done
   on.exit(dbDisconnect(conn), add = TRUE)
-  
+
   # Read YAML parameters
   sql_params <- yaml::read_yaml("sql_params.yml")
-  
+
   # List SQL files in the specified folder
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
-  
+
   # Function to replace placeholders in the SQL query
   replace_placeholders <- function(sql_query, params) {
     for (param in names(params)) {
@@ -178,9 +178,9 @@ fetch_data_from_sql_yml <- function(credentials_path, project, folder_path) {
   combined_df <- sql_files %>%
     map_dfr(~{
       # Read SQL query from the file
-      sql_query <- readLines(.x, warn = FALSE) %>% 
-        paste(collapse = "\n") 
-      
+      sql_query <- readLines(.x, warn = FALSE) %>%
+        paste(collapse = "\n")
+
       # Replace placeholders with actual values from the YAML
       sql_query <- replace_placeholders(sql_query, sql_params)
 
@@ -197,19 +197,19 @@ fetch_data_from_sql_yml <- function(credentials_path, project, folder_path) {
         ))
         return(NULL)
       }
-      
+
       df <- result$result %>%
         mutate(sql_file_name = basename(.x))  # Add file name to the result
-      
+
       return(df)
     })
-  
+
   # Return the combined results as a data frame
   return(combined_df)
 }
 
 
-## 2nd function 
+## 2nd function
 library(DBI)
 library(bigrquery)
 library(dplyr)
@@ -219,10 +219,10 @@ library(stringr)
 library(yaml)
 
 # Define the function
-# reads all the .sql in a path folder at once 
+# reads all the .sql in a path folder at once
 fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
-  
+
   conn <- dbConnect(
     bigrquery::bigquery(),
     project = project,
@@ -230,16 +230,16 @@ fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
   )
 
   on.exit(dbDisconnect(conn), add = TRUE)
-  
-  sql_params <- yaml::read_yaml("sql_params.yml")
-  
+
+  sql_params <- yaml::read_yaml("../sql_params.yml")
+
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
-  
+
   replace_placeholders <- function(sql_query, params) {
     for (param in names(params)) {
       # We replace the table references completely
-      sql_query <- str_replace_all(sql_query, 
-       paste0("@", param), 
+      sql_query <- str_replace_all(sql_query,
+       paste0("@", param),
      params[[param]])
     }
     return(sql_query)
@@ -249,9 +249,9 @@ fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
 
   combined_df <- sql_files %>%
     map_dfr(~{
-      sql_query <- readLines(.x, warn = FALSE) %>% 
+      sql_query <- readLines(.x, warn = FALSE) %>%
         paste(collapse = "\n")
-      
+
       # Replace placeholders with actual values from the YAML
       sql_query <- replace_placeholders(sql_query, sql_params)
 
@@ -268,20 +268,20 @@ fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
         ))
         return(NULL)
       }
-      
+
       df <- result$result %>%
         mutate(sql_file_name = basename(.x))
-      
+
       return(df)
     })
-  
+
   return(combined_df)
 }
 
 #####################################
 ### 3rd function pointing to yaml ##
 #####################################
-## this function reads a single .sql file 
+## this function reads a single .sql file
 library(DBI)
 library(bigrquery)
 library(yaml)
@@ -293,14 +293,14 @@ fetch_data_from_sql_file <- function(credentials_path, project, sql_file_path, y
   if (!file.exists(sql_file_path)) {
     stop(glue("❌ SQL file not found: {sql_file_path}"))
   }
-  
+
   # Load YAML parameters
   if (!file.exists(yaml_file_path)) {
     stop(glue("❌ YAML file not found: {yaml_file_path}"))
   }
-  
+
   sql_params <- yaml::read_yaml(yaml_file_path)
-  
+
   # Function to replace placeholders in SQL
   replace_placeholders <- function(sql_query, params) {
     for (param in names(params)) {
@@ -308,24 +308,24 @@ fetch_data_from_sql_file <- function(credentials_path, project, sql_file_path, y
     }
     return(sql_query)
   }
-  
+
   # Read and process SQL file
   sql_query <- readLines(sql_file_path, warn = FALSE) %>% paste(collapse = "\n")
   sql_query <- replace_placeholders(sql_query, sql_params)
-  
+
   print(glue("\n🔍 Final SQL Query:\n{sql_query}\n"))
-  
+
   # Connect to BigQuery
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
-  
+
   conn <- dbConnect(
     bigrquery::bigquery(),
     project = project,
     use_legacy_sql = FALSE
   )
-  
+
   on.exit(dbDisconnect(conn), add = TRUE)
-  
+
   # Run query
   result <- tryCatch({
     dbGetQuery(conn, sql_query)
@@ -333,7 +333,7 @@ fetch_data_from_sql_file <- function(credentials_path, project, sql_file_path, y
     message(glue("\n⚠️ Query failed: {e$message}"))
     return(NULL)
   })
-  
+
   # Return the result as a single data frame
   return(result)
 }
