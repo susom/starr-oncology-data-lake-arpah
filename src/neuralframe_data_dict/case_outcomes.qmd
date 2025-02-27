@@ -1,0 +1,104 @@
+---
+title: "NeuralFrame Case Outcomes"
+---
+
+This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
+
+| Column Name                            | Type        | Description                        |
+|:--------------------------------------|:------------|:----------------------------------------|
+| stanford_patient_uid                  | STRING      | Concatenation of MRN and Date of Birth  |
+| nfcaseentityid                        | STRING      |                                         |
+| nfcasestatus                          | STRING      |                                         |
+| nfpatientsetid                        | STRING      |                                         |
+| medicalrecordnumber                   | STRING      | Medical Record Number                   |
+| dateofbirth                           | STRING      | Date of Birth                           |
+| nffacilityid                          | STRING      | NF Facility ID                          |
+| nffacilityiddescription               | STRING      |                                         |
+| date1stcrsrxcoc                       | STRING      | Date 1st Crs RX CoC                     |
+| date1stcrsrxcocflag                   | STRING      | Date 1St Crs Rx Coc Flag                |
+| date1stcrsrxcocflagdescription        | STRING      |                                         |
+| autopsy                               | STRING      | Autopsy                                 |
+| autopsydescription                    | STRING      |                                         |
+| cancerstatus                          | STRING      | Cancer Status                           |
+| cancerstatusdescription               | STRING      |                                         |
+| causeofdeath                          | STRING      | Cause of Death                          |
+| causeofdeathdescription               | STRING      |                                         |
+| dateabstracted                        | STRING      | Date Abstracted                         |
+| datecasecompleted                     | STRING      | Date Case Completed                     |
+| datecasecompletedcoc                  | STRING      | Date Case Completed--CoC                |
+| datecasefirstcompleted                | STRING      | Date Case First Completed               |
+| datecaseinitiated                     | STRING      | Date Case Initiated                     |
+| datecaselastchanged                   | STRING      | Date Case Last Changed                  |
+| datecaselastvalidated                 | STRING      | Date Case Last Validated                |
+| datecasereportexported                | STRING      | Date Case Report Exported               |
+| datecasereportexportedcoc             | STRING      | Date Case Report Exported CoC           |
+| datecasereportfirstexported           | STRING      | Date Case Report First Exported State   |
+| datecasereportfirstexportedcoc        | STRING      | Date Case Report First Exported CoC     |
+| datefirstpositivebx                   | STRING      | Date First Positive Bx                  |
+| dateinitialrxseer                     | STRING      | Date Initial RX SEER                    |
+| dateinitialrxseerflag                 | STRING      | Date Initial Rx Seer Flag               |
+| dateinitialrxseerflagdescription      | STRING      |                                         |
+| datekaciintegratedcasefindingadded    | STRING      | Date KACI Integrated Casefinding Added  |
+| datekaciintegratedfollowupupdated     | STRING      | Date KACI Integrated Follow-Up Updated  |
+| datenorxdecision                      | STRING      | Date No Rx Decision                     |
+| dateof1stcontact                      | STRING      | Date of 1st Contact                     |
+| dateof1stcontactflag                  | STRING      | Date Of 1St Contact Flag                |
+| dateof1stcontactflagdescription       | STRING      |                                         |
+| dateofinptadm                         | STRING      | Date of Inpt Adm                        |
+| dateofinptadmflag                     | STRING      | Date of Inpatient Admission Flag        |
+| dateofinptadmflagdescription          | STRING      |                                         |
+| dateofinptdisch                       | STRING      | Date of Inpt Disch                      |
+| dateofinptdischflag                   | STRING      | Date of Inpatient Discharge Flag        |
+| dateofinptdischflagdescription        | STRING      |                                         |
+| dateoflastcancerstatus                | STRING      | Date of Last Cancer (tumor) Status      |
+| dateoflastcancerstatusflag            | STRING      | Date Of Last Cancer (Tumor) Status Flag |
+| dateoflastcancerstatusflagdescription | STRING      |                                         |
+| dateoflastcontact                     | STRING      | Date of Last Contact                    |
+| dateoflastcontactflag                 | STRING      | Date Of Last Contact Flag               |
+| dateoflastcontactflagdescription      | STRING      |                                         |
+| eventcoursenumber                     | STRING      | Event Course                            |
+| eventcoursenumberdescription          | STRING      |                                         |
+| followupflag                          | STRING      | Follow-up Flag                          |
+| followupflagdescription               | STRING      |                                         |
+| followupsource                        | STRING      | Follow-Up Source                        |
+| followupsourcedescription             | STRING      |                                         |
+| followupoutcomestext                  | STRING      | Text-Automatic Followup/Outcomes Only   |
+| icdrevisionnumber                     | STRING      | ICD Revision Number                     |
+| icdrevisionnumberdescription          | STRING      |                                         |
+| lpchrefractoryleukemia                | STRING      | LPCH Refractory Leukemia                |
+| lpchrefractoryleukemiadescription     | STRING      |                                         |
+| ncdbcovid19tximpact                   | STRING      | NCDB--COVID19--Tx Impact                |
+| ncdbcovid19tximpactdescription        | STRING      |                                         |
+| ncdbsarscov2pos                       | STRING      | NCDB--SARSCoV2--Pos                     |
+| ncdbsarscov2posdate                   | STRING      | NCDB--SARSCoV2--Pos Date                |
+| ncdbsarscov2posdescription            | STRING      |                                         |
+| ncdbsarscov2test                      | STRING      | NCDB--SARSCoV2--Test                    |
+| ncdbsarscov2testdescription           | STRING      |                                         |
+| nextfollowupsource                    | STRING      | Next Follow-Up Source                   |
+| nextfollowupsourcedescription         | STRING      |                                         |
+| placeofdeathcountry                   | STRING      | Place of Death--Country                 |
+| placeofdeathcountrydescription        | STRING      |                                         |
+| placeofdeathstate                     | STRING      | Place of Death--State                   |
+| placeofdeathstatedescription          | STRING      |                                         |
+| recurrencedate1st                     | STRING      | Recurrence Date--1st                    |
+| recurrencedate1stflag                 | STRING      | Recurrence Date--1St Flag               |
+| recurrencedate1stflagdescription      | STRING      |                                         |
+| recurrencetype1st                     | STRING      | Recurrence Type--1st                    |
+| recurrencetype1stdescription          | STRING      |                                         |
+| vitalstatus                           | STRING      | Vital Status                            |
+| vitalstatusdescription                | STRING      |                                         |
+| vitalstatusrecode                     | STRING      | Vital Status Recode                     |
+| vitalstatusrecodedescription          | STRING      |                                         |
+| followingregistry                     | STRING      |                                         |
+| followupcontactcountry                | STRING      |                                         |
+| inpatientstatus                       | STRING      | Inpatient Status                        |
+| inpatientstatusdescription            | STRING      |                                         |
+| institutionreferredfrom               | STRING      | Institution Referred From               |
+| institutionreferredfromdescription    | STRING      |                                         |
+| institutionreferredto                 | STRING      | Institution Referred To                 |
+| institutionreferredtodescription      | STRING      |                                         |
+| lastfollowuphospital                  | STRING      | Last Follow-Up Hospital                 |
+| placeofdeath                          | STRING      |                                         |
+| qualityofsurvival                     | STRING      |                                         |
+
+:  {.hover .responsive .sm}
