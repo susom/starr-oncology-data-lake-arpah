@@ -40,7 +40,12 @@
     "href": "feb_2025/released_datasets.html",
     "title": "Released Datasets",
     "section": "",
-    "text": "This document provides a list of datasets as part of the February 2025 released. Each dataset is described briefly, including whether it contains Protected Health Information (PHI) or if the PHI has been scrubbed.\n\n\n\n\n\n\n\n\nDataset Name\nDescription\n\n\n\n\nsom-rit-phi-oncology-prod.oncology_omop_phi_irb76049_feb2025\nOncology OMOP-CDM v5.3.1 dataset with PHI\n\n\nsom-rit-phi-oncology-prod.oncology_omop_confidential_irb76049_feb2025\nOncology OMOP-CDM v5.3.1 dataset with PHI Scrubbed\n\n\nsom-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_feb2025\nNeuralFrame dataset with PHI\n\n\nsom-rit-phi-oncology-prod.oncology_neuralframe_confidential_irb76049_feb2025\nNeuralFrame dataset with PHI Scrubbed"
+    "text": "This document provides a list of datasets as part of the February 2025 released. Each dataset is described briefly, including whether it contains Protected Health Information (PHI) or if the PHI has been scrubbed.\n\n\n\n\n\n\n\n\nDataset Name\nDescription\n\n\n\n\nsom-rit-phi-oncology-prod.oncology_omop_phi_irb76049_feb2025\nOncology OMOP-CDM v5.3.1 dataset with PHI\n\n\nsom-rit-phi-oncology-prod.oncology_omop_confidential_irb76049_feb2025\nOncology OMOP-CDM v5.3.1 dataset with PHI Scrubbed\n\n\nsom-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_feb2025\nNeuralFrame dataset with PHI\n\n\nsom-rit-phi-oncology-prod.oncology_neuralframe_confidential_irb76049_feb2025\nNeuralFrame dataset with PHI Scrubbed",
+    "crumbs": [
+      "About",
+      "February 2025",
+      "Released Datasets"
+    ]
   },
   {
     "objectID": "data_metrics.html",
