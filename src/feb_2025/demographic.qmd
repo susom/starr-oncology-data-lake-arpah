@@ -6,7 +6,7 @@ execute:
 
 *Release Version: Feb 2025 (IRB76049)*
 
-The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February xxxx, 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.
+The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.
 
   - Neural Frame: Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
   - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables (24k)
@@ -386,16 +386,6 @@ res_sa%>% select(metric, pt_count)%>%
 ```
 
 ### **Neural Frame Data**
-Summary: Neural Frame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:
-
-- Outcome: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
-
-- Diagnoses: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
-
-- Treatment: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
-
-- Miscellaneous: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
-
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 

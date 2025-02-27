@@ -85,7 +85,7 @@ The organizational information is not PHI under the Safe Harbor definition. Howe
 
 ## How to Annotate
 
-The software we will use for this annotation task is Argilla (https://argilla.io/). Hugging Face recently acquired this startup, so we can expect continued support moving forward, given the extensive Hugging Face community. The software has been deployed in our internal cloud infrastructure. Once you connect, you should see the following screen. The software is only available internally.
+The software we will use for this annotation task is [Argilla](https://argilla.io/). Hugging Face recently acquired this startup, so we can expect continued support moving forward, given the extensive Hugging Face community. The software has been deployed in our internal cloud infrastructure. Once you connect, you should see the following screen. The software is only available internally.
 
 ![](../images/argilla_ui.png)
 

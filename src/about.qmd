@@ -3,13 +3,43 @@ title: "About"
 back-to-top-navigation: false
 ---
 
-The starr_omop_cdm5_xxxxx. dataset contains identified data in the OMOP cdm 5.3.1. In addition, they also contain some extra columns that are not strictly part of the cdm definition but have been added for increased source/patient traceability (e.g. trace_id, unit_id, load_table_id). 
+## About the Oncology Data Lake
 
-The starr omop identified dataset is created using EPIC Clarity tables which only include the patient and encounter data that is permissible for research. The tables in the starr_omop_cdm5_xxxxx dataset are listed in the [Data Dictionary](data_dictionary.qmd) page, along with a column stating whether or not they contain PHI and a brief note regarding what kind of table they are. 
+Welcome to the Oncology Data Lake project. This website provides documentation for the datasets released as part of the project. 
 
-Note: Most vocabulary tables contain standard terminology, do not change from institution to institution, and do not contain any PHI.  In the information in this webpage, we have included all populated tables in the CDM (including tables that do not contain PHI) along with a brief description of the fields. 
+### Dataset Overview
 
-For more information regarding our source data and methods see the links below:
+#### Oncology-OMOP
+
+The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence. As part of this project we are using OMOP CDM 5.3.1 version. 
+
+The identified dataset is created using EPIC Clarity tables, which include patient and encounter data permissible for research. The tables in the OMOP-CDM common data model that are part of this dataset are listed in the [Data Dictionary](data_dictionary.qmd) page, along with information on whether they contain PHI and a brief description of each table.
+
+#### NeuralFrame
+
+Neural Frame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:
+
+- Outcome: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
+
+- Diagnoses: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
+
+- Treatment: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
+
+- Miscellaneous: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
+
+#### Dataset Releases
+
+We periodically release updated versions of our datasets to ensure that researchers have access to the most current and comprehensive data available. Below are the details of our latest dataset releases:
+
+* [February 2025](feb_2025/released_datasets.qmd)
+
+## Data Privacy and Security
+
+We prioritize patient privacy and data security. Our datasets undergo rigorous phi scrubbing processes. Most vocabulary tables contain standard terminology, do not vary between institutions, and do not contain any PHI. We have included all populated tables in the CDM, along with descriptions of the fields, on this website.
+
+## Project Resources
+
+For more information regarding our source data and methods, please refer to the following resources:
 
 - **Source Data**
     - [Imaging](https://starr.stanford.edu/data-types/imaging)
