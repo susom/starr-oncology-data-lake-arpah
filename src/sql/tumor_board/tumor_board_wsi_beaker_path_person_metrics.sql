@@ -3,7 +3,7 @@
 ----------------------------------------------
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
+all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
 patient as (select * from `@starr_prod.@shc_clarity.patient`),
 shc_pathology as (select * from `@starr_prod.@starr_common.shc_pathology`),
 wsi_beaker_path_patients as (

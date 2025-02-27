@@ -3,9 +3,9 @@
 --- recurrence stat -----
 -------------------------
 with nf as (
-select scr.*  from `som-rit-phi-oncology-prod.oncology_omop_arpah_alpha.person` p
-inner join som-rit-phi-oncology-prod.oncology_neuralframe_arpah_alpha.onc_neuralframe_case_outcomes scr
-on p.person_source_value = concat(scr.cleaned_nf_mrn, ' | ', scr.cleaned_nf_dob)
-) select recurrencetype1stdescription, COUNT(DISTINCT cleaned_nf_mrn) as n_pts  from nf 
+select scr.*  from  `@oncology_prod.@oncology_omop.person` p
+inner join `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_outcomes` scr
+on p.person_source_value = scr.stanford_patient_uid
+) select recurrencetype1stdescription, COUNT(DISTINCT stanford_patient_uid) as n_pts  from nf 
 group by 1
 order by 2 desc
