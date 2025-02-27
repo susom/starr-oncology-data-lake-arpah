@@ -3,7 +3,7 @@
 ---------------------------------------------------------------------------
 with 
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-scr as (select * from `@oncology_dev.@oncology_common.onc_neuralframe_case_diagnoses`),
+scr as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`),
 scr_data as
 (
 select

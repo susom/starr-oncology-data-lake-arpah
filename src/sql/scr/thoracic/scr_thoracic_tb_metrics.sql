@@ -1,7 +1,7 @@
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
-scr as (select * from `@oncology_dev.@oncology_common.onc_neuralframe_case_diagnoses`),
+all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
+scr as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`),
 tumor_board_patients AS (
 select person_source_value from all_flag
 where tumor_board_encounter_flag = 1

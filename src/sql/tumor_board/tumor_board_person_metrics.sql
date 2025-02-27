@@ -4,7 +4,7 @@
 
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-all_flag as (select * from `@oncology_dev.@oncology_temp.onc_all__cancer_flags`),
+all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
 tumor_board_patients 
 AS ( select person_source_value from all_flag
 where tumor_board_encounter_flag = 1

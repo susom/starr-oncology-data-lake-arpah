@@ -18,8 +18,6 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
 
 Below is the distribution of persons by year of birth.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-# set wrking directory
-#setwd("/workspaces/starr-oncology-data-lake-arpah/src")
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 ```
 
@@ -29,7 +27,7 @@ source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encodi
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 project <- "som-rit-phi-oncology-prod"
 sql_file_path <- "../sql/arpah_cohort/arpah_age_metrics.sql"
-yaml_file_path <- "../sql_params.yml"
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
 
 df <- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
 ```
@@ -95,7 +93,7 @@ all.dat %>% select (-description) %>%
     Characteristic = "Characteristic",
     values="",
     counts = "Count (N)",
-    percents = "%"
+    percents = "Percentage (%)"
   ) %>%
   tab_header(
     title = "All Category Metrics - Oncology OMOP",
@@ -115,7 +113,20 @@ all.dat %>% select (-description) %>%
     table.border.top.color = "darkred",
     table.align = "left"
   ) %>%
-  opt_row_striping()
+  opt_row_striping()%>%
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")  # Make the text bold
+    ),
+    locations = cells_column_labels()  # Apply to column labels
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(size = px(18))  # Increase font size for column labels
+    ),
+    locations = cells_column_labels()  # Apply to column labels
+  )
+
 ```
 
 ## Clinical Metrics
@@ -144,36 +155,32 @@ colnames(res_tb)[1]<-"pt_count_tb"
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## check
 res_arpah$sql_file_name[!res_arpah$sql_file_name %in% res_tb$sql_file_name]
-res_all=res_arpah %>% inner_join(res_tb, by="sql_file_name")
-print(res_all)
+res_dat=res_arpah %>% inner_join(res_tb, by="sql_file_name")
+print(res_dat)
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-res_all <- res_all %>%
+res_dat <- res_dat %>%
   mutate(
     metric = case_when(
-      sql_file_name == "note_path_cyto_person_metrics.sql" ~ "With pathology/cytology clinical report",
-      sql_file_name == "note_imaging_person_metrics.sql" ~ "With imaging reports, also a proxy for radiology imaging data",
-      #sql_file_name == "philips_person_metrics.sql" ~ "Have molecular mutation structured data (Philips ISPM)",
-      sql_file_name == "vital_status_person_metrics.sql" ~ "Present Hospital or Stanford Cancer Registry death date",
-      sql_file_name == "omop_chemo_person_metrics.sql" ~ "Given chemo medication",
-      #sql_file_name == "aria_person_metrics.sql" ~ "Given radiation therapy (ARIA)",
-      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "With WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
-      sql_file_name == "powerpath_beaker_path_person_metrics.sql" ~ "Pathology beaker",
-      sql_file_name == "powerpath_path_person_metrics.sql" ~ "Pathology path",
+      sql_file_name == "note_path_cyto_person_metrics.sql" ~ "Number of patients with pathology/cytology clinical report",
+      sql_file_name == "note_imaging_person_metrics.sql" ~ "Number of patients with imaging reports, also a proxy for radiology imaging data",
+      sql_file_name == "vital_status_person_metrics.sql" ~ "Number of patients with present Hospital or Stanford Cancer Registry death date",
+      sql_file_name == "omop_chemo_person_metrics.sql" ~ "Number of patients given chemo medication",
+      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "Number of patients with WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
       TRUE ~ NA_character_
     )
   )
-print(res_all)
-res_all=res_all %>% filter(!is.na(metric))
-print(res_all)
+print(res_dat)
+res_dat=res_dat %>% filter(!is.na(metric))
+print(res_dat)
 
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-res_all<-res_all%>% select(metric, everything())
+res_dat<-res_dat%>% select(metric, everything())
 ```
 ```{r,, message=FALSE, warning=FALSE}
 ## add percentages ##
-res_all <- res_all %>%
+res_dat <- res_dat %>%
   mutate(
     N_perc_arpah = calculate_N_percent(pt_count_arph, den=200262),
     N_perc_tb=calculate_N_percent(pt_count_tb, den=24529)
@@ -182,12 +189,12 @@ res_all <- res_all %>%
 ```
 ```{r, message=FALSE, warning=FALSE}
 
-res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
+res_dat%>%select (metric,N_perc_arpah,N_perc_tb )%>%
   gt() %>%
   cols_label(
     metric = "Clinical Metric Description",
-    N_perc_arpah = "Oncology OMOP N(%) \n (Total=200,262)",
-    N_perc_tb="Tumor Board N(%)\n (Total=24,529)",
+    N_perc_arpah = "Oncology OMOP N(%)* \n (Total=200,262)",
+    N_perc_tb="Tumor Board N(%)*\n (Total=24,529)",
   ) %>%
   tab_header(
     title = "",
@@ -209,11 +216,24 @@ res_all%>%select (metric,N_perc_arpah,N_perc_tb )%>%
   ) %>%
   opt_row_striping()%>%
   tab_footnote(
-    footnote = "N(%) represents the counts and the corresponding percentage of the total."
+    footnote = "* N(%) represents the counts and the corresponding percentage of the total"
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")  # Make the text bold
+    ),
+    locations = cells_column_labels()  # Apply to column labels
+  )  %>% 
+  tab_style(
+    style = list(
+      cell_text(size = px(16))  # Increase font size for column labels
+    ),
+    locations = cells_column_labels()  # Apply to column labels
   )
+
 ```
 
-### **Thoracic Cancer sub-cohort**
+### **Thoracic Cancer Sub-Cohort**
 
 The following metrics were identified for individuals with thoracic cancer within the oncology OMOP (200k).
 
@@ -231,7 +251,7 @@ res_tc <- res_tc%>%
       sql_file_name == "scr_thoracic_person_metrics.sql" ~ "Number of patients in Neural Frame and diagnosed with thoracic cancer",
       sql_file_name == "scr_thoracic_vital_status_person_metrics.sql" ~ "Number of patients in Neural Frame and diagnosed with thoracic cancer with a death date",
       sql_file_name == "scr_thoracic_tb_person_metrics.sql" ~ "Number of patients diagnosed with thoracic cancer and have a tumor board encounter",
-      sql_file_name == "scr_thoracic_tb_death.sql" ~ "Number of patients diagnosed with thoracic cancer and have a tumor board encounter with a death date**",
+      sql_file_name == "scr_thoracic_tb_death.sql" ~ "Number of patients diagnosed with thoracic cancer and have a tumor board encounter with a death date*",
       TRUE ~ NA_character_
     )
   )
@@ -269,8 +289,21 @@ res_tc%>%
   ) %>%
   opt_row_striping()%>%
   tab_footnote(
-    footnote = "Death date was defined either within STARR-OMOP or Neural Frame"
+    footnote = "*Death date was defined either within STARR-OMOP or Neural Frame"
+  )%>%
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")  # Make the text bold
+    ),
+    locations = cells_column_labels()  # Apply to column labels
+  )%>%
+  tab_style(
+    style = list(
+      cell_text(size = px(18))  # Increase font size for column labels
+    ),
+    locations = cells_column_labels()  # Apply to column labels
   )
+
 ```
 ### **CTSA Metrics**
 
@@ -334,5 +367,79 @@ res_sa%>% select(metric, pt_count)%>%
   opt_row_striping()%>%
   tab_footnote(
     footnote = ""
+  )%>%
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")  # Make the text bold
+    ),
+    locations = cells_column_labels()  # Apply to column labels
+  )%>%
+  tab_style(
+    style = list(
+      cell_text(size = px(18))  # Increase font size for column labels
+    ),
+    locations = cells_column_labels()  # Apply to column labels
   )
+
+
 ```
+
+### **Neural Frame Data**
+Summary: Neural Frame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:
+
+- Outcome: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
+
+- Diagnoses: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
+
+- Treatment: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
+
+- Miscellaneous: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+
+
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+sql_file_path_nf <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_vital_status.sql"
+project = "som-rit-phi-oncology-prod"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"  # Update this path if necessary"
+res_nf <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_nf, yaml_file_path)
+print(res_nf)
+colnames(res_nf)[1]<-"description"
+res_nf$var="Vital Status"
+
+sql_file_path_nf_cc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_status.sql"
+
+res_cc <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_nf_cc, yaml_file_path)
+print(res_cc)
+colnames(res_cc)[1]<-"description"
+res_cc$var="Cancer Status"
+
+res_all=rbind(res_nf, res_cc)
+res_all
+res_all$description[is.na(res_all$description)]<-"Missing (NA)"
+res_all
+```
+
+```{r, message=FALSE, warning=FALSE}
+create_gt_table(res_all, var, description, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
+
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+sql_file_path_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_recurrence.sql"
+project = "som-rit-phi-oncology-prod"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"  
+res_rc <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_rec, yaml_file_path)
+print(res_rc)
+res_rc$var="Recurrence Type"
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+create_gt_table(res_rc, var, recurrencetype1stdescription, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
+```
+
+
