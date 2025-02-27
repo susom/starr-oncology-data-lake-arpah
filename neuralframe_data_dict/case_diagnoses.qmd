@@ -1,0 +1,822 @@
+---
+title: "NeuralFrame Case Diagnoses"
+---
+
+This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
+
+| Column Name                            | Type        | Description                        |
+|:---------------------------------------------------|:------------|:---------------------------------------------------|
+| cleaned_nf_mrn                                     | STRING      |                                                    |
+| cleaned_nf_dob                                     | DATE        |                                                    |
+| medicalrecordnumber                                | STRING      | Medical Record Number                              |
+| dateofbirth                                        | STRING      | Date of Birth                                      |
+| dateofdiagnosis                                    | STRING      | Date of Diagnosis                                  |
+| nfpatientsetid                                     | STRING      |                                                    |
+| nfcaseentityid                                     | STRING      |                                                    |
+| nffacilityid                                       | STRING      | NF Facility ID                                     |
+| nffacilityiddescription                            | STRING      |                                                    |
+| nfcasestatus                                       | STRING      |                                                    |
+| dateofmulttumors                                   | STRING      | Date of Mult Tumors                                |
+| accessionnumberhosp                                | STRING      | Accession Number--Hosp                             |
+| yearfirstseen                                      | STRING      | Year First Seen                                    |
+| yearfirstseendescription                           | STRING      |                                                    |
+| diagnosticconfirmation                             | STRING      | Diagnostic Confirmation                            |
+| diagnosticconfirmationdescription                  | STRING      |                                                    |
+| primarysite                                        | STRING      | Primary Site                                       |
+| primarysitedescription                             | STRING      |                                                    |
+| highriskcytogenetics                               | STRING      | High Risk Cytogenetics                             |
+| highriskcytogeneticsdescription                    | STRING      |                                                    |
+| highriskhistologicfeatures                         | STRING      | High Risk Histologic Features                      |
+| highriskhistologicfeaturesdescription              | STRING      |                                                    |
+| histologicsubtype                                  | STRING      | Histologic Subtype                                 |
+| histologicsubtypedescription                       | STRING      |                                                    |
+| histologictypeicdo3                                | STRING      | Histologic Type ICD-O-3                            |
+| histologictypeicdo3description                     | STRING      |                                                    |
+| histologyicdo2                                     | STRING      | Histology (92-00) ICD-O-2                          |
+| histologyicdo2description                          | STRING      |                                                    |
+| laterality                                         | STRING      | Laterality                                         |
+| lateralitydescription                              | STRING      |                                                    |
+| ambiguousterminologydx                             | STRING      | Ambiguous Terminology DX                           |
+| ambiguousterminologydxdescription                  | STRING      |                                                    |
+| behaviorcodeicdo3                                  | STRING      | Behavior Code ICD-O-3                              |
+| behaviorcodeicdo3description                       | STRING      |                                                    |
+| behavioricdo2                                      | STRING      | Behavior (92-00) ICD-O-2                           |
+| behavioricdo2description                           | STRING      |                                                    |
+| casefindingsource                                  | STRING      | Casefinding Source                                 |
+| casefindingsourcedescription                       | STRING      |                                                    |
+| dateconclusivedx                                   | STRING      | Date Conclusive DX                                 |
+| dateconclusivedxflag                               | STRING      | Date Conclusive DX Flag                            |
+| dateconclusivedxflagdescription                    | STRING      |                                                    |
+| morphcodingsyscurrent                              | STRING      | Morph Coding Sys--Current                          |
+| morphcodingsyscurrentdescription                   | STRING      |                                                    |
+| morphcodingsysoriginl                              | STRING      | Morph Coding Sys--Originl                          |
+| morphcodingsysoriginldescription                   | STRING      |                                                    |
+| multtumrptasoneprim                                | STRING      | Mult Tum Rpt as One Prim                           |
+| multtumrptasoneprimdescription                     | STRING      |                                                    |
+| multiplicitycounter                                | STRING      | Multiplicity Counter                               |
+| multiplicitycounterdescription                     | STRING      |                                                    |
+| sitecodingsyscurrent                               | STRING      | Site Coding Sys--Current                           |
+| sitecodingsyscurrentdescription                    | STRING      |                                                    |
+| sitecodingsysoriginal                              | STRING      | Site Coding Sys--Original                          |
+| sitecodingsysoriginaldescription                   | STRING      |                                                    |
+| typeofreportingsource                              | STRING      | Type of Reporting Source                           |
+| typeofreportingsourcedescription                   | STRING      |                                                    |
+| ajccapiversioncurrent                              | STRING      | AJCC API Version Current                           |
+| ajccapiversionoriginal                             | STRING      | AJCC API Version Original                          |
+| ajcccancersurvapiversioncurrent                    | STRING      | AJCC Cancer Surveillance DLL Version Current       |
+| ajcccancersurvapiversionoriginal                   | STRING      | AJCC Cancer Surveillance DLL Version Original      |
+| ajccid                                             | STRING      | AJCC ID                                            |
+| ajcciddescription                                  | STRING      |                                                    |
+| ajcctnmclinm                                       | STRING      | AJCC TNM Clin M                                    |
+| ajcctnmclinmdescription                            | STRING      |                                                    |
+| ajcctnmclinn                                       | STRING      | AJCC TNM Clin N                                    |
+| ajcctnmclinndescription                            | STRING      |                                                    |
+| ajcctnmclinnsuffix                                 | STRING      | AJCC TNM Clin N Suffix                             |
+| ajcctnmclinnsuffixdescription                      | STRING      |                                                    |
+| ajcctnmclinstagegroup                              | STRING      | AJCC TNM Clin Stage Group                          |
+| ajcctnmclinstagegroupdescription                   | STRING      |                                                    |
+| ajcctnmclint                                       | STRING      | AJCC TNM Clin T                                    |
+| ajcctnmclintdescription                            | STRING      |                                                    |
+| ajcctnmclintsuffix                                 | STRING      | AJCC TNM Clin T Suffix                             |
+| ajcctnmclintsuffixdescription                      | STRING      |                                                    |
+| ajcctnmpathm                                       | STRING      | AJCC TNM Path M                                    |
+| ajcctnmpathmdescription                            | STRING      |                                                    |
+| ajcctnmpathn                                       | STRING      | AJCC TNM Path N                                    |
+| ajcctnmpathndescription                            | STRING      |                                                    |
+| ajcctnmpathnsuffix                                 | STRING      | AJCC TNM Path N Suffix                             |
+| ajcctnmpathnsuffixdescription                      | STRING      |                                                    |
+| ajcctnmpathstagegroup                              | STRING      | AJCC TNM Path Stage Group                          |
+| ajcctnmpathstagegroupdescription                   | STRING      |                                                    |
+| ajcctnmpatht                                       | STRING      | AJCC TNM Path T                                    |
+| ajcctnmpathtdescription                            | STRING      |                                                    |
+| ajcctnmpathtsuffix                                 | STRING      | AJCC TNM Path T Suffix                             |
+| ajcctnmpathtsuffixdescription                      | STRING      |                                                    |
+| ajcctnmposttherapyclinm                            | STRING      | AJCC TNM Post Therapy Clin (yc) M                  |
+| ajcctnmposttherapyclinmdescription                 | STRING      |                                                    |
+| ajcctnmposttherapyclinn                            | STRING      | AJCC TNM Post Therapy Clin (yc) N                  |
+| ajcctnmposttherapyclinndescription                 | STRING      |                                                    |
+| ajcctnmposttherapyclinnsuffix                      | STRING      | AJCC TNM Post Therapy Clin (yc) N Suffix           |
+| ajcctnmposttherapyclinnsuffixdescription           | STRING      |                                                    |
+| ajcctnmposttherapyclint                            | STRING      | AJCC TNM Post Therapy Clin (yc) T                  |
+| ajcctnmposttherapyclintdescription                 | STRING      |                                                    |
+| ajcctnmposttherapym                                | STRING      | AJCC TNM Post Therapy Path (yp) M                  |
+| ajcctnmposttherapymdescription                     | STRING      |                                                    |
+| ajcctnmposttherapyn                                | STRING      | AJCC TNM Post Therapy Path (yp) N                  |
+| ajcctnmposttherapyndescription                     | STRING      |                                                    |
+| ajcctnmposttherapynsuffix                          | STRING      | AJCC TNM Post Therapy Path (yp) N Suffix           |
+| ajcctnmposttherapynsuffixdescription               | STRING      |                                                    |
+| ajcctnmposttherapystagegroup                       | STRING      | AJCC TNM Post Therapy Path (yp) Stage Group        |
+| ajcctnmposttherapystagegroupdescription            | STRING      |                                                    |
+| ajcctnmposttherapyt                                | STRING      | AJCC TNM Post Therapy Path (yp) T                  |
+| ajcctnmposttherapytdescription                     | STRING      |                                                    |
+| ajcctnmposttherapytsuffix                          | STRING      | AJCC TNM Post Therapy Path (yp) T Suffix           |
+| ajcctnmposttherapytsuffixdescription               | STRING      |                                                    |
+| csmetsatdx                                         | STRING      | CS Mets at DX                                      |
+| csmetsatdxbone                                     | STRING      | CS Mets at Dx-Bone                                 |
+| csmetsatdxbonedescription                          | STRING      |                                                    |
+| csmetsatdxbrain                                    | STRING      | CS Mets at Dx-Brain                                |
+| csmetsatdxbraindescription                         | STRING      |                                                    |
+| csmetsatdxdescription                              | STRING      |                                                    |
+| csmetsatdxliver                                    | STRING      | CS Mets at Dx-Liver                                |
+| csmetsatdxliverdescription                         | STRING      |                                                    |
+| csmetsatdxlung                                     | STRING      | CS Mets at Dx-Lung                                 |
+| csmetsatdxlungdescription                          | STRING      |                                                    |
+| csmetseval                                         | STRING      | CS Mets Eval                                       |
+| csmetsevaldescription                              | STRING      |                                                    |
+| cssitespecificfactor1                              | STRING      | CS Site-Specific Factor 1                          |
+| cssitespecificfactor1description                   | STRING      |                                                    |
+| cssitespecificfactor2                              | STRING      | CS Site-Specific Factor 2                          |
+| cssitespecificfactor2description                   | STRING      |                                                    |
+| cssitespecificfactor3                              | STRING      | CS Site-Specific Factor 3                          |
+| cssitespecificfactor3description                   | STRING      |                                                    |
+| cssitespecificfactor4                              | STRING      | CS Site-Specific Factor 4                          |
+| cssitespecificfactor4description                   | STRING      |                                                    |
+| cssitespecificfactor5                              | STRING      | CS Site-Specific Factor 5                          |
+| cssitespecificfactor5description                   | STRING      |                                                    |
+| cssitespecificfactor6                              | STRING      | CS Site-Specific Factor 6                          |
+| cssitespecificfactor6description                   | STRING      |                                                    |
+| cssitespecificfactor7                              | STRING      | CS Site-Specific Factor 7                          |
+| cssitespecificfactor7description                   | STRING      |                                                    |
+| cssitespecificfactor8                              | STRING      | CS Site-Specific Factor 8                          |
+| cssitespecificfactor8description                   | STRING      |                                                    |
+| cssitespecificfactor9                              | STRING      | CS Site-Specific Factor 9                          |
+| cssitespecificfactor9description                   | STRING      |                                                    |
+| cssitespecificfactor10                             | STRING      | CS Site-Specific Factor10                          |
+| cssitespecificfactor10description                  | STRING      |                                                    |
+| cssitespecificfactor11                             | STRING      | CS Site-Specific Factor11                          |
+| cssitespecificfactor11description                  | STRING      |                                                    |
+| cssitespecificfactor12                             | STRING      | CS Site-Specific Factor12                          |
+| cssitespecificfactor12description                  | STRING      |                                                    |
+| cssitespecificfactor13                             | STRING      | CS Site-Specific Factor13                          |
+| cssitespecificfactor13description                  | STRING      |                                                    |
+| cssitespecificfactor14                             | STRING      | CS Site-Specific Factor14                          |
+| cssitespecificfactor14description                  | STRING      |                                                    |
+| cssitespecificfactor15                             | STRING      | CS Site-Specific Factor15                          |
+| cssitespecificfactor15description                  | STRING      |                                                    |
+| cssitespecificfactor16                             | STRING      | CS Site-Specific Factor16                          |
+| cssitespecificfactor16description                  | STRING      |                                                    |
+| cssitespecificfactor17                             | STRING      | CS Site-Specific Factor17                          |
+| cssitespecificfactor17description                  | STRING      |                                                    |
+| cssitespecificfactor18                             | STRING      | CS Site-Specific Factor18                          |
+| cssitespecificfactor18description                  | STRING      |                                                    |
+| cssitespecificfactor19                             | STRING      | CS Site-Specific Factor19                          |
+| cssitespecificfactor19description                  | STRING      |                                                    |
+| cssitespecificfactor20                             | STRING      | CS Site-Specific Factor20                          |
+| cssitespecificfactor20description                  | STRING      |                                                    |
+| cssitespecificfactor21                             | STRING      | CS Site-Specific Factor21                          |
+| cssitespecificfactor21description                  | STRING      |                                                    |
+| cssitespecificfactor22                             | STRING      | CS Site-Specific Factor22                          |
+| cssitespecificfactor22description                  | STRING      |                                                    |
+| cssitespecificfactor23                             | STRING      | CS Site-Specific Factor23                          |
+| cssitespecificfactor23description                  | STRING      |                                                    |
+| cssitespecificfactor24                             | STRING      | CS Site-Specific Factor24                          |
+| cssitespecificfactor24description                  | STRING      |                                                    |
+| cssitespecificfactor25                             | STRING      | CS Site-Specific Factor25                          |
+| cssitespecificfactor25description                  | STRING      |                                                    |
+| csversionderived                                   | STRING      | CS Version Derived                                 |
+| csversionderiveddescription                        | STRING      |                                                    |
+| derivedajcc6m                                      | STRING      | Derived AJCC-6 M                                   |
+| derivedajcc6mdescript                              | STRING      | Derived AJCC-6 M Descript                          |
+| derivedajcc6mdescriptdescription                   | STRING      |                                                    |
+| derivedajcc6mdescription                           | STRING      |                                                    |
+| derivedajcc6n                                      | STRING      | Derived AJCC-6 N                                   |
+| derivedajcc6ndescript                              | STRING      | Derived AJCC-6 N Descript                          |
+| derivedajcc6ndescriptdescription                   | STRING      |                                                    |
+| derivedajcc6ndescription                           | STRING      |                                                    |
+| derivedajcc6stagegrp                               | STRING      | Derived AJCC-6 Stage Grp                           |
+| derivedajcc6stagegrpdescription                    | STRING      |                                                    |
+| derivedajcc6t                                      | STRING      | Derived AJCC-6 T                                   |
+| derivedajcc6tdescript                              | STRING      | Derived AJCC-6 T Descript                          |
+| derivedajcc6tdescriptdescription                   | STRING      |                                                    |
+| derivedajcc6tdescription                           | STRING      |                                                    |
+| derivedajcc7m                                      | STRING      | Derived AJCC-7 M                                   |
+| derivedajcc7mdescript                              | STRING      | Derived AJCC-7 M Descript                          |
+| derivedajcc7mdescriptdescription                   | STRING      |                                                    |
+| derivedajcc7mdescription                           | STRING      |                                                    |
+| derivedajcc7n                                      | STRING      | Derived AJCC-7 N                                   |
+| derivedajcc7ndescript                              | STRING      | Derived AJCC-7 N Descript                          |
+| derivedajcc7ndescriptdescription                   | STRING      |                                                    |
+| derivedajcc7ndescription                           | STRING      |                                                    |
+| derivedajcc7stagegrp                               | STRING      | Derived AJCC-7 Stage Grp                           |
+| derivedajcc7stagegrpdescription                    | STRING      |                                                    |
+| derivedajcc7t                                      | STRING      | Derived AJCC-7 T                                   |
+| derivedajcc7tdescript                              | STRING      | Derived AJCC-7 T Descript                          |
+| derivedajcc7tdescriptdescription                   | STRING      |                                                    |
+| derivedajcc7tdescription                           | STRING      |                                                    |
+| derivedajccflag                                    | STRING      | Derived AJCC--Flag                                 |
+| derivedajccflagdescription                         | STRING      |                                                    |
+| derivedeod2018m                                    | STRING      | Derived EOD 2018 M                                 |
+| derivedeod2018mdescription                         | STRING      |                                                    |
+| derivedeod2018n                                    | STRING      | Derived EOD 2018 N                                 |
+| derivedeod2018ndescription                         | STRING      |                                                    |
+| derivedeod2018stagegroup                           | STRING      | Derived EOD 2018 Stage Group                       |
+| derivedeod2018t                                    | STRING      | Derived EOD 2018 T                                 |
+| derivedeod2018tdescription                         | STRING      |                                                    |
+| derivedeodversion                                  | STRING      |                                                    |
+| derivedraistage                                    | STRING      | Derived Rai Stage                                  |
+| derivedraistagedescription                         | STRING      |                                                    |
+| derivedss1977                                      | STRING      | Derived SS1977                                     |
+| derivedss1977description                           | STRING      |                                                    |
+| derivedss1977flag                                  | STRING      | Derived SS1977--Flag                               |
+| derivedss1977flagdescription                       | STRING      |                                                    |
+| derivedss2000                                      | STRING      | Derived SS2000                                     |
+| derivedss2000description                           | STRING      |                                                    |
+| derivedss2000flag                                  | STRING      | Derived SS2000--Flag                               |
+| derivedss2000flagdescription                       | STRING      |                                                    |
+| derivedsummarygrade2018                            | STRING      |                                                    |
+| derivedsummarystage2018                            | STRING      | Derived Summary Stage 2018                         |
+| derivedsummarystage2018description                 | STRING      |                                                    |
+| eodmets                                            | STRING      | EOD Mets                                           |
+| eodmetsdescription                                 | STRING      |                                                    |
+| eodregionalnodes                                   | STRING      | EOD Regional Nodes                                 |
+| eodregionalnodesdescription                        | STRING      |                                                    |
+| figostage                                          | STRING      | FIGO Stage                                         |
+| figostagedescription                               | STRING      |                                                    |
+| grade                                              | STRING      | Grade                                              |
+| gradeclinical                                      | STRING      | Grade Clinical                                     |
+| gradeclinicaldescription                           | STRING      |                                                    |
+| gradedescription                                   | STRING      |                                                    |
+| gradepathsystem                                    | STRING      | Grade Path System                                  |
+| gradepathsystemdescription                         | STRING      |                                                    |
+| gradepathvalue                                     | STRING      | Grade Path Value                                   |
+| gradepathvaluedescription                          | STRING      |                                                    |
+| gradepathological                                  | STRING      | Grade Pathological                                 |
+| gradepathologicaldescription                       | STRING      |                                                    |
+| gradeposttherapy                                   | STRING      | Grade Post Therapy Path (yp)                       |
+| gradeposttherapyclin                               | STRING      | Grade Post Therapy Clin (yc)                       |
+| gradeposttherapyclindescription                    | STRING      |                                                    |
+| gradeposttherapydescription                        | STRING      |                                                    |
+| metsatdxbone                                       | STRING      | Mets at DX-Bone                                    |
+| metsatdxbonedescription                            | STRING      |                                                    |
+| metsatdxbrain                                      | STRING      | Mets at DX-Brain                                   |
+| metsatdxbraindescription                           | STRING      |                                                    |
+| metsatdxdistantln                                  | STRING      | Mets at Dx-Distant LN                              |
+| metsatdxdistantlndescription                       | STRING      |                                                    |
+| metsatdxliver                                      | STRING      | Mets at DX-Liver                                   |
+| metsatdxliverdescription                           | STRING      |                                                    |
+| metsatdxlung                                       | STRING      | Mets at DX-Lung                                    |
+| metsatdxlungdescription                            | STRING      |                                                    |
+| metsatdxother                                      | STRING      | Mets at DX-Other                                   |
+| metsatdxotherdescription                           | STRING      |                                                    |
+| npcrderivedajcc8tnmclinstggrp                      | STRING      | NPCR Derived AJCC 8 TNM Clin Stg Grp               |
+| npcrderivedajcc8tnmclinstggrpdescription           | STRING      |                                                    |
+| npcrderivedajcc8tnmpathstggrp                      | STRING      | NPCR Derived AJCC 8 TNM Path Stg Grp               |
+| npcrderivedajcc8tnmpathstggrpdescription           | STRING      |                                                    |
+| npcrderivedajcc8tnmpoststggrp                      | STRING      | NPCR Derived AJCC 8 TNM Post Therapy Stg Grp       |
+| npcrderivedajcc8tnmpoststggrpdescription           | STRING      |                                                    |
+| overridesitetnmstggrp                              | STRING      | Over-ride Site/TNM-StgGrp                          |
+| overridesitetnmstggrpdescription                   | STRING      |                                                    |
+| overridesstnmm                                     | STRING      | Over-ride SS/TNM-M                                 |
+| overridesstnmmdescription                          | STRING      |                                                    |
+| overridesstnmn                                     | STRING      | Over-ride SS/TNM-N                                 |
+| overridesstnmndescription                          | STRING      |                                                    |
+| overridetnm3                                       | STRING      | Over-ride TNM 3                                    |
+| overridetnm3description                            | STRING      |                                                    |
+| overridetnmstage                                   | STRING      | Over-ride TNM Stage                                |
+| overridetnmstagedescription                        | STRING      |                                                    |
+| overridetnmtis                                     | STRING      | Over-ride TNM Tis                                  |
+| overridetnmtisdescription                          | STRING      |                                                    |
+| pediatricstage                                     | STRING      | Pediatric Stage                                    |
+| pediatricstagedescription                          | STRING      |                                                    |
+| pediatricstagedby                                  | STRING      | Pediatric Staged By                                |
+| pediatricstagedbydescription                       | STRING      |                                                    |
+| rxdatedxstgproc                                    | STRING      | RX Date DX/Stg Proc                                |
+| rxdatedxstgprocflag                                | STRING      | Rx Date Dx/Stg Proc Flag                           |
+| rxdatedxstgprocflagdescription                     | STRING      |                                                    |
+| rxhospdxstgproc                                    | STRING      | RX Hosp--DX/Stg Proc                               |
+| rxhospdxstgprocdescription                         | STRING      |                                                    |
+| rxsummdxstgproc                                    | STRING      | RX Summ--DX/Stg Proc                               |
+| rxsummdxstgprocdescription                         | STRING      |                                                    |
+| seersummarystage1977                               | STRING      | SEER Summary Stage 1977                            |
+| seersummarystage1977description                    | STRING      |                                                    |
+| seersummarystage2000                               | STRING      | SEER Summary Stage 2000                            |
+| seersummarystage2000description                    | STRING      |                                                    |
+| stagealternate                                     | STRING      | Stage Alternate                                    |
+| summarystage2018                                   | STRING      | Summary Stage 2018                                 |
+| summarystage2018description                        | STRING      |                                                    |
+| tnmclindescriptor                                  | STRING      | TNM Clin Descriptor                                |
+| tnmclindescriptordescription                       | STRING      |                                                    |
+| tnmclinm                                           | STRING      | TNM Clin M                                         |
+| tnmclinmdescription                                | STRING      |                                                    |
+| tnmclinn                                           | STRING      | TNM Clin N                                         |
+| tnmclinndescription                                | STRING      |                                                    |
+| tnmclinsource                                      | STRING      | TNM Clin Source                                    |
+| tnmclinsourcedescription                           | STRING      |                                                    |
+| tnmclinstagegroup                                  | STRING      | TNM Clin Stage Group                               |
+| tnmclinstagegroupdescription                       | STRING      |                                                    |
+| tnmclinstagedby                                    | STRING      | TNM Clin Staged By                                 |
+| tnmclinstagedbydescription                         | STRING      |                                                    |
+| tnmclint                                           | STRING      | TNM Clin T                                         |
+| tnmclintdescription                                | STRING      |                                                    |
+| tnmeditionnumber                                   | STRING      | TNM Edition Number                                 |
+| tnmeditionnumberdescription                        | STRING      |                                                    |
+| tnmpathdescriptor                                  | STRING      | TNM Path Descriptor                                |
+| tnmpathdescriptordescription                       | STRING      |                                                    |
+| tnmpathm                                           | STRING      | TNM Path M                                         |
+| tnmpathmdescription                                | STRING      |                                                    |
+| tnmpathn                                           | STRING      | TNM Path N                                         |
+| tnmpathndescription                                | STRING      |                                                    |
+| tnmpathsource                                      | STRING      | TNM Path Source                                    |
+| tnmpathsourcedescription                           | STRING      |                                                    |
+| tnmpathstagegroup                                  | STRING      | TNM Path Stage Group                               |
+| tnmpathstagegroupdescription                       | STRING      |                                                    |
+| tnmpathstagedby                                    | STRING      | TNM Path Staged By                                 |
+| tnmpathstagedbydescription                         | STRING      |                                                    |
+| tnmpatht                                           | STRING      | TNM Path T                                         |
+| tnmpathtdescription                                | STRING      |                                                    |
+| discoveredbyscreening                              | STRING      | Discovered by Screening                            |
+| discoveredbyscreeningdescription                   | STRING      |                                                    |
+| egfrmutationalanalysis                             | STRING      | EGFR Mutational Analysis                           |
+| egfrmutationalanalysisdescription                  | STRING      |                                                    |
+| eodextension                                       | STRING      | EOD--Extension                                     |
+| eodextensiondescription                            | STRING      |                                                    |
+| eodextensionprostpath                              | STRING      | EOD--Extension Prost Path                          |
+| eodextensionprostpathdescription                   | STRING      |                                                    |
+| eodlymphnodeinvolv                                 | STRING      | EOD--Lymph Node Involv                             |
+| eodlymphnodeinvolvdescription                      | STRING      |                                                    |
+| esophagusandegjtumorepicenter                      | STRING      | Esophagus and EGJ Tumor Epicenter                  |
+| esophagusandegjtumorepicenterdescription           | STRING      |                                                    |
+| estrogenreceptorpercntposorrange                   | STRING      | Estrogen Receptor Percent Positive or Range        |
+| estrogenreceptorpercntposorrangedescription        | STRING      |                                                    |
+| estrogenreceptorsummary                            | STRING      | Estrogen Receptor Summary                          |
+| estrogenreceptorsummarydescription                 | STRING      |                                                    |
+| estrogenreceptortotalallredscore                   | STRING      | Estrogen Receptor Total Allred Score               |
+| estrogenreceptortotalallredscoredescription        | STRING      |                                                    |
+| extranodalextensionclin                            | STRING      | Extranodal Extension Clin (non-Head and Neck)      |
+| extranodalextensionclindescription                 | STRING      |                                                    |
+| extranodalextensionheadneckclin                    | STRING      | Extranodal Extension Head and Neck Clinical        |
+| extranodalextensionheadneckclindescription         | STRING      |                                                    |
+| extranodalextensionheadneckpath                    | STRING      | Extranodal Extension Head and Neck Pathological    |
+| extranodalextensionheadneckpathdescription         | STRING      |                                                    |
+| extranodalextensionpath                            | STRING      | Extranodal Extension Path (non-Head and Neck)      |
+| extranodalextensionpathdescription                 | STRING      |                                                    |
+| extravascularmatrixpatterns                        | STRING      | Extravascular Matrix Patterns                      |
+| extravascularmatrixpatternsdescription             | STRING      |                                                    |
+| fibrosisscore                                      | STRING      | Fibrosis Score                                     |
+| fibrosisscoredescription                           | STRING      |                                                    |
+| followupflag                                       | STRING      | Follow-up Flag                                     |
+| followupflagdescription                            | STRING      |                                                    |
+| followuplasttypetumor                              | STRING      | Follow-Up Last Type Tumor                          |
+| followuplasttypetumordescription                   | STRING      |                                                    |
+| gestationaltrophoblasticpxindex                    | STRING      | Gestational Trophoblastic Prognostic Scoring Index |
+| gleasonpatternsclinical                            | STRING      | Gleason Patterns Clinical                          |
+| gleasonpatternsclinicaldescription                 | STRING      |                                                    |
+| gleasonpatternspathological                        | STRING      | Gleason Patterns Pathological                      |
+| gleasonpatternspathologicaldescription             | STRING      |                                                    |
+| gleasonscoreclinical                               | STRING      | Gleason Score Clinical                             |
+| gleasonscoreclinicaldescription                    | STRING      |                                                    |
+| gleasonscorepathological                           | STRING      | Gleason Score Pathological                         |
+| gleasonscorepathologicaldescription                | STRING      |                                                    |
+| gleasontertiarypattern                             | STRING      | Gleason Tertiary Pattern                           |
+| gleasontertiarypatterndescription                  | STRING      |                                                    |
+| her2ihcsummary                                     | STRING      | HER2 IHC Summary                                   |
+| her2ihcsummarydescription                          | STRING      |                                                    |
+| her2ishdualprobecopynumber                         | STRING      | HER2 ISH Dual Probe Copy Number                    |
+| her2ishdualprobecopynumberdescription              | STRING      |                                                    |
+| her2ishdualproberatio                              | STRING      | HER2 ISH Dual Probe Ratio                          |
+| her2ishdualproberatiodescription                   | STRING      |                                                    |
+| her2ishsingleprobecopynumber                       | STRING      | HER2 ISH Single Probe Copy Number                  |
+| her2ishsingleprobecopynumberdescription            | STRING      |                                                    |
+| her2ishsummary                                     | STRING      | HER2 ISH Summary                                   |
+| her2ishsummarydescription                          | STRING      |                                                    |
+| her2overallsummary                                 | STRING      | HER2 Overall Summary                               |
+| her2overallsummarydescription                      | STRING      |                                                    |
+| heritabletrait                                     | STRING      | Heritable Trait                                    |
+| heritabletraitdescription                          | STRING      |                                                    |
+| hivstatus                                          | STRING      | HIV Status                                         |
+| hivstatusdescription                               | STRING      |                                                    |
+| hospitaltumornumberccr                             | STRING      | Hospital Tumor Number CCR                          |
+| hospitaltumornumberccrdescription                  | STRING      |                                                    |
+| lnassessmethodfemoralinguinal                      | STRING      | LN Assessment Method Femoral-Inguinal              |
+| lnassessmethodfemoralinguinaldescription           | STRING      |                                                    |
+| lnassessmethodparaaortic                           | STRING      | LN Assessment Method Para-Aortic                   |
+| lnassessmethodparaaorticdescription                | STRING      |                                                    |
+| lnassessmethodpelvic                               | STRING      | LN Assessment Method Pelvic                        |
+| lnassessmethodpelvicdescription                    | STRING      |                                                    |
+| lndistantassessmethod                              | STRING      | LN Distant Assessment Method                       |
+| lndistantassessmethoddescription                   | STRING      |                                                    |
+| lndistantmediastinalscalene                        | STRING      | LN Distant: Mediastinal, Scalene                   |
+| lndistantmediastinalscalenedescription             | STRING      |                                                    |
+| lnheadandnecklevels1to3                            | STRING      | LN Head and Neck Levels I-III                      |
+| lnheadandnecklevels1to3description                 | STRING      |                                                    |
+| lnheadandnecklevels4to5                            | STRING      | LN Head and Neck Levels IV-V                       |
+| lnheadandnecklevels4to5description                 | STRING      |                                                    |
+| lnheadandnecklevels6to7                            | STRING      | LN Head and Neck Levels VI-VII                     |
+| lnheadandnecklevels6to7description                 | STRING      |                                                    |
+| lnheadandneckother                                 | STRING      | LN Head and Neck Other                             |
+| lnheadandneckotherdescription                      | STRING      |                                                    |
+| lnisolatedtumorcells                               | STRING      | LN Isolated Tumor Cells (ITC)                      |
+| lnisolatedtumorcellsdescription                    | STRING      |                                                    |
+| lnlaterality                                       | STRING      | LN Laterality                                      |
+| lnlateralitydescription                            | STRING      |                                                    |
+| lnpositiveaxillarylevel1to2                        | STRING      | LN Positive Axillary Level I-II                    |
+| lnpositiveaxillarylevel1to2description             | STRING      |                                                    |
+| lnsize                                             | STRING      | LN Size                                            |
+| lnsizedescription                                  | STRING      |                                                    |
+| lnstatusfemoringuinparaaortpelv                    | STRING      | LN Status Femoral-Inguinal, Para-Aortic, Pelvic    |
+| lnstatusfemoringuinparaaortpelvdescription         | STRING      |                                                    |
+| lnstatusfemoralinguinal                            | STRING      | LN Status Femoral-Inguinal                         |
+| lnstatusfemoralinguinaldescription                 | STRING      |                                                    |
+| lnstatusparaaortic                                 | STRING      | LN Status Para-Aortic                              |
+| lnstatusparaaorticdescription                      | STRING      |                                                    |
+| lnstatuspelvic                                     | STRING      | LN Status Pelvic                                   |
+| lnstatuspelvicdescription                          | STRING      |                                                    |
+| lymphvascularinvasion                              | STRING      | Lymphovascular Invasion                            |
+| lymphvascularinvasiondescription                   | STRING      |                                                    |
+| lymphocytosis                                      | STRING      | Lymphocytosis                                      |
+| lymphocytosisdescription                           | STRING      |                                                    |
+| macroscopicevalofthemesorectum                     | STRING      | Macroscopic Evaluation of Mesorectum               |
+| macroscopicevalofthemesorectumdescription          | STRING      |                                                    |
+| majorveininvolvement                               | STRING      | Major Vein Involvement                             |
+| majorveininvolvementdescription                    | STRING      |                                                    |
+| measuredbasaldiameter                              | STRING      | Measured Basal Diameter                            |
+| measuredbasaldiameterdescription                   | STRING      |                                                    |
+| measuredthickness                                  | STRING      | Measured Thickness                                 |
+| measuredthicknessdescription                       | STRING      |                                                    |
+| methylationofo6mgmt                                | STRING      | Methylation of O6-Methylguanine-Methyltransferase  |
+| methylationofo6mgmtdescription                     | STRING      |                                                    |
+| microsatelliteinstability                          | STRING      | Microsatellite Instability (MSI)                   |
+| microsatelliteinstabilitydescription               | STRING      |                                                    |
+| microvasculardensity                               | STRING      | Microvascular Density                              |
+| microvasculardensitydescription                    | STRING      |                                                    |
+| csextension                                        | STRING      | CS Extension                                       |
+| csextensiondescription                             | STRING      |                                                    |
+| cslymphnodes                                       | STRING      | CS Lymph Nodes                                     |
+| cslymphnodesdescription                            | STRING      |                                                    |
+| cslymphnodeseval                                   | STRING      | CS Lymph Nodes Eval                                |
+| cslymphnodesevaldescription                        | STRING      |                                                    |
+| inrprothrombintime                                 | STRING      | International Normalized Ratio Prothrombin Time    |
+| inrprothrombintimedescription                      | STRING      |                                                    |
+| mitoticcountuvealmelanoma                          | STRING      | Mitotic Count Uveal Melanoma                       |
+| mitoticcountuvealmelanomadescription               | STRING      |                                                    |
+| mitoticratemelanoma                                | STRING      | Mitotic Rate Melanoma                              |
+| mitoticratemelanomadescription                     | STRING      |                                                    |
+| multigenesignaturemethod                           | STRING      | Multigene Signature Method                         |
+| multigenesignaturemethoddescription                | STRING      |                                                    |
+| multigenesignatureresults                          | STRING      | Multigene Signature Results                        |
+| multigenesignatureresultsdescription               | STRING      |                                                    |
+| nccninternationalprognosticindex                   | STRING      | NCCN International Prognostic Index (IPI)          |
+| nccninternationalprognosticindexdescription        | STRING      |                                                    |
+| nrasmutationalanalysis                             | STRING      | NRAS Mutational Analysis                           |
+| nrasmutationalanalysisdescription                  | STRING      |                                                    |
+| numberofcoresexamined                              | STRING      | Number of Cores Examined                           |
+| numberofcoresexamineddescription                   | STRING      |                                                    |
+| numberofcorespositive                              | STRING      | Number of Cores Positive                           |
+| numberofcorespositivedescription                   | STRING      |                                                    |
+| numberofexaminedparaaorticnodes                    | STRING      | Number of Examined Para-Aortic Nodes               |
+| numberofexaminedparaaorticnodesdescription         | STRING      |                                                    |
+| numberofexaminedpelvicnodes                        | STRING      | Number of Examined Pelvic Nodes                    |
+| numberofexaminedpelvicnodesdescription             | STRING      |                                                    |
+| numberofpositiveparaaorticnodes                    | STRING      | Number of Positive Para-Aortic Nodes               |
+| numberofpositiveparaaorticnodesdescription         | STRING      |                                                    |
+| numberofpositivepelvicnodes                        | STRING      | Number of Positive Pelvic Nodes                    |
+| numberofpositivepelvicnodesdescription             | STRING      |                                                    |
+| oncotypedxrecurrencescoredcis                      | STRING      | Oncotype Dx Recurrence Score-DCIS                  |
+| oncotypedxrecurrencescoredcisdescription           | STRING      |                                                    |
+| oncotypedxrecurrencescoreinvasiv                   | STRING      | Oncotype Dx Recurrence Score-Invasive              |
+| oncotypedxrecurrencescoreinvasivdescription        | STRING      |                                                    |
+| oncotypedxriskleveldcis                            | STRING      | Oncotype Dx Risk Level-DCIS                        |
+| oncotypedxriskleveldcisdescription                 | STRING      |                                                    |
+| oncotypedxrisklevelinvasive                        | STRING      | Oncotype Dx Risk Level-Invasive                    |
+| oncotypedxrisklevelinvasivedescription             | STRING      |                                                    |
+| organomegaly                                       | STRING      | Organomegaly                                       |
+| organomegalydescription                            | STRING      |                                                    |
+| p16                                                | STRING      | p16                                                |
+| p16description                                     | STRING      |                                                    |
+| pediatricstagingsystem                             | STRING      | Pediatric Staging System                           |
+| pediatricstagingsystemdescription                  | STRING      |                                                    |
+| percentnecrosispostneoadjuvant                     | STRING      | Percent Necrosis Post Neoadjuvant                  |
+| percentnecrosispostneoadjuvantdescription          | STRING      |                                                    |
+| perineuralinvasion                                 | STRING      | Perineural Invasion                                |
+| perineuralinvasiondescription                      | STRING      |                                                    |
+| peripheralbloodinvolvement                         | STRING      | Peripheral Blood Involvement                       |
+| peripheralbloodinvolvementdescription              | STRING      |                                                    |
+| peritonealcytology                                 | STRING      | Peritoneal Cytology                                |
+| peritonealcytologydescription                      | STRING      |                                                    |
+| pleuraleffusion                                    | STRING      | Pleural Effusion                                   |
+| pleuraleffusiondescription                         | STRING      |                                                    |
+| primarysclerosingcholangitis                       | STRING      | Primary Sclerosing Cholangitis                     |
+| primarysclerosingcholangitisdescription            | STRING      |                                                    |
+| profoundimmunesuppression                          | STRING      | Profound Immune Suppression                        |
+| profoundimmunesuppressiondescription               | STRING      |                                                    |
+| regionalnodesexamined                              | STRING      | Regional Nodes Examined                            |
+| regionalnodesexamineddescription                   | STRING      |                                                    |
+| regionalnodespositive                              | STRING      | Regional Nodes Positive                            |
+| regionalnodespositivedescription                   | STRING      |                                                    |
+| residualtumvolpostcytoreduction                    | STRING      | Residual Tumor Volume Post Cytoreduction           |
+| residualtumvolpostcytoreductiondescription         | STRING      |                                                    |
+| responsetoneoadjuvanttherapy                       | STRING      | Response to Neoadjuvant Therapy                    |
+| responsetoneoadjuvanttherapydescription            | STRING      |                                                    |
+| scategoryclinical                                  | STRING      | S Category Clinical                                |
+| scategoryclinicaldescription                       | STRING      |                                                    |
+| scategorypathological                              | STRING      | S Category Pathological                            |
+| scategorypathologicaldescription                   | STRING      |                                                    |
+| sarcomatoidfeatures                                | STRING      | Sarcomatoid Features                               |
+| sarcomatoidfeaturesdescription                     | STRING      |                                                    |
+| tumordeposits                                      | STRING      | Tumor Deposits                                     |
+| tumordepositsdescription                           | STRING      |                                                    |
+| tumorgrowthpattern                                 | STRING      | Tumor Growth Pattern                               |
+| tumorgrowthpatterndescription                      | STRING      |                                                    |
+| tumormarker1                                       | STRING      | Tumor Marker 1                                     |
+| tumormarker1description                            | STRING      |                                                    |
+| tumormarker2                                       | STRING      | Tumor Marker 2                                     |
+| tumormarker2description                            | STRING      |                                                    |
+| tumormarker3                                       | STRING      | Tumor Marker 3                                     |
+| tumormarker3description                            | STRING      |                                                    |
+| tumorsizeclinical                                  | STRING      | Tumor Size Clinical                                |
+| tumorsizeclinicaldescription                       | STRING      |                                                    |
+| tumorsizepathologic                                | STRING      | Tumor Size Pathologic                              |
+| tumorsizepathologicdescription                     | STRING      |                                                    |
+| tumorsizesummary                                   | STRING      | Tumor Size Summary                                 |
+| tumorsizesummarydescription                        | STRING      |                                                    |
+| ulceration                                         | STRING      | Ulceration                                         |
+| ulcerationdescription                              | STRING      |                                                    |
+| visceralparietalpleuralinvasion                    | STRING      | Visceral and Parietal Pleural Invasion             |
+| visceralparietalpleuralinvasiondescription         | STRING      |                                                    |
+| overrideadmisdx                                    | STRING      | Over-ride Admis DX                                 |
+| overrideadmisdxdescription                         | STRING      |                                                    |
+| overridesitestage                                  | STRING      | Over-ride Site Stage                               |
+| overridesitestagedescription                       | STRING      |                                                    |
+| textprimarysitetitle                               | STRING      | Text--Primary Site Title                           |
+| textstaging                                        | STRING      | Text--Staging                                      |
+| texthistologytitle                                 | STRING      | Text--Histology Title                              |
+| textplaceofdiagnosis                               | STRING      | Text--Place of Diagnosis                           |
+| cstumorsize                                        | STRING      | CS Tumor Size                                      |
+| secondarydiagnosis9                                | STRING      | Secondary Diagnosis 9                              |
+| cstumorsizeexteval                                 | STRING      | CS Tumor Size/Ext Eval                             |
+| cstumorsizedescription                             | STRING      |                                                    |
+| secondarydiagnosis3description                     | STRING      |                                                    |
+| secondarydiagnosis4                                | STRING      | Secondary Diagnosis 4                              |
+| secondarydiagnosis3                                | STRING      | Secondary Diagnosis 3                              |
+| secondarydiagnosis1                                | STRING      | Secondary Diagnosis 1                              |
+| cstumorsizeextevaldescription                      | STRING      |                                                    |
+| separatetumornodules                               | STRING      | Separate Tumor Nodules                             |
+| breslowtumorthicknessdescription                   | STRING      |                                                    |
+| eodprimarytumor                                    | STRING      | EOD Primary Tumor                                  |
+| eodtumorsize                                       | STRING      | EOD--Tumor Size                                    |
+| breslowtumorthickness                              | STRING      | Breslow Tumor Thickness                            |
+| eodtumorsizedescription                            | STRING      |                                                    |
+| separatetumornodulesdescription                    | STRING      |                                                    |
+| secondarydiagnosis10                               | STRING      | Secondary Diagnosis 10                             |
+| secondarydiagnosis10description                    | STRING      |                                                    |
+| secondarydiagnosis1description                     | STRING      |                                                    |
+| secondarydiagnosis2                                | STRING      | Secondary Diagnosis 2                              |
+| secondarydiagnosis2description                     | STRING      |                                                    |
+| secondarydiagnosis4description                     | STRING      |                                                    |
+| secondarydiagnosis5                                | STRING      | Secondary Diagnosis 5                              |
+| secondarydiagnosis5description                     | STRING      |                                                    |
+| secondarydiagnosis6                                | STRING      | Secondary Diagnosis 6                              |
+| secondarydiagnosis6description                     | STRING      |                                                    |
+| secondarydiagnosis7                                | STRING      | Secondary Diagnosis 7                              |
+| secondarydiagnosis7description                     | STRING      |                                                    |
+| secondarydiagnosis8                                | STRING      | Secondary Diagnosis 8                              |
+| secondarydiagnosis8description                     | STRING      |                                                    |
+| secondarydiagnosis9description                     | STRING      |                                                    |
+| anemia                                             | STRING      | Anemia                                             |
+| anemiadescription                                  | STRING      |                                                    |
+| dateofmulttumorsflagdescription                    | STRING      |                                                    |
+| dateregionallndissection                           | STRING      | Date Regional Lymph Node Dissection                |
+| dateregionallndissectionflag                       | STRING      | Date Regional Lymph Node Dissection Flag           |
+| dateregionallndissectionflagdescription            | STRING      |                                                    |
+| datesentinellymphnodebiopsy                        | STRING      | Date of Sentinel Lymph Node Biopsy                 |
+| datesentinellymphnodebiopsyflag                    | STRING      | Date Sentinel Lymph Node Biopsy Flag               |
+| datesentinellymphnodebiopsyflagdescription         | STRING      |                                                    |
+| pathdatespeccollect1                               | STRING      | Path Date Spec Collect 1                           |
+| pathdatespeccollect2                               | STRING      | Path Date Spec Collect 2                           |
+| pathdatespeccollect3                               | STRING      | Path Date Spec Collect 3                           |
+| pathdatespeccollect4                               | STRING      | Path Date Spec Collect 4                           |
+| pathdatespeccollect5                               | STRING      | Path Date Spec Collect 5                           |
+| pathorderphyslicno1                                | STRING      | Path Order Phys Lic No 1                           |
+| pathorderphyslicno2                                | STRING      | Path Order Phys Lic No 2                           |
+| pathorderphyslicno3                                | STRING      | Path Order Phys Lic No 3                           |
+| pathorderphyslicno4                                | STRING      | Path Order Phys Lic No 4                           |
+| pathorderphyslicno5                                | STRING      | Path Order Phys Lic No 5                           |
+| pathorderingfacno1                                 | STRING      | Path Ordering Fac No 1                             |
+| pathorderingfacno1description                      | STRING      |                                                    |
+| pathorderingfacno2                                 | STRING      | Path Ordering Fac No 2                             |
+| pathorderingfacno2description                      | STRING      |                                                    |
+| pathorderingfacno3                                 | STRING      | Path Ordering Fac No 3                             |
+| pathorderingfacno3description                      | STRING      |                                                    |
+| pathorderingfacno4                                 | STRING      | Path Ordering Fac No 4                             |
+| pathorderingfacno4description                      | STRING      |                                                    |
+| pathorderingfacno5                                 | STRING      | Path Ordering Fac No 5                             |
+| pathorderingfacno5description                      | STRING      |                                                    |
+| pathreportnumber1                                  | STRING      | Path Report Number 1                               |
+| pathreportnumber2                                  | STRING      | Path Report Number 2                               |
+| pathreportnumber3                                  | STRING      | Path Report Number 3                               |
+| pathreportnumber4                                  | STRING      | Path Report Number 4                               |
+| pathreportnumber5                                  | STRING      | Path Report Number 5                               |
+| pathreporttype1                                    | STRING      | Path Report Type 1                                 |
+| pathreporttype1description                         | STRING      |                                                    |
+| pathreporttype2                                    | STRING      | Path Report Type 2                                 |
+| pathreporttype2description                         | STRING      |                                                    |
+| pathreporttype3                                    | STRING      | Path Report Type 3                                 |
+| pathreporttype3description                         | STRING      |                                                    |
+| pathreporttype4                                    | STRING      | Path Report Type 4                                 |
+| pathreporttype4description                         | STRING      |                                                    |
+| pathreporttype5                                    | STRING      | Path Report Type 5                                 |
+| pathreporttype5description                         | STRING      |                                                    |
+| pathreportingfacid1                                | STRING      | Path Reporting Fac ID 1                            |
+| pathreportingfacid1description                     | STRING      |                                                    |
+| pathreportingfacid2                                | STRING      | Path Reporting Fac ID 2                            |
+| pathreportingfacid2description                     | STRING      |                                                    |
+| pathreportingfacid3                                | STRING      | Path Reporting Fac ID 3                            |
+| pathreportingfacid3description                     | STRING      |                                                    |
+| pathreportingfacid4                                | STRING      | Path Reporting Fac ID 4                            |
+| pathreportingfacid4description                     | STRING      |                                                    |
+| pathreportingfacid5                                | STRING      | Path Reporting Fac ID 5                            |
+| pathreportingfacid5description                     | STRING      |                                                    |
+| adenoidcysticbasaloidpattern                       | STRING      | Adenoid Cystic Basaloid Pattern                    |
+| adenopathy                                         | STRING      | Adenopathy                                         |
+| adenopathydescription                              | STRING      |                                                    |
+| bsymptoms                                          | STRING      | B symptoms                                         |
+| bsymptomsdescription                               | STRING      |                                                    |
+| boneinvasion                                       | STRING      | Bone Invasion                                      |
+| boneinvasiondescription                            | STRING      |                                                    |
+| breastmethodofdetection                            | STRING      | Breast Method of Detection                         |
+| breastmethodofdetectiondescription                 | STRING      |                                                    |
+| chromosome19qlossheterozygosity                    | STRING      | Chromosome 19q: Loss of Heterozygosity (LOH)       |
+| chromosome19qlossheterozygositydescription         | STRING      |                                                    |
+| chromosome1plossheterozygosity                     | STRING      | Chromosome 1p: Loss of Heterozygosity (LOH)        |
+| chromosome1plossheterozygositydescription          | STRING      |                                                    |
+| chromosome3status                                  | STRING      | Chromosome 3 Status                                |
+| chromosome3statusdescription                       | STRING      |                                                    |
+| chromosome8qstatus                                 | STRING      | Chromosome 8q Status                               |
+| chromosome8qstatusdescription                      | STRING      |                                                    |
+| circumferentialresectionmargin                     | STRING      | Circumferential Resection Margin (CRM)             |
+| circumferentialresectionmargindescription          | STRING      |                                                    |
+| classofcase                                        | STRING      | Class of Case                                      |
+| classofcasedescription                             | STRING      |                                                    |
+| clinicalmarginwidth                                | STRING      | Clinical Margin Width                              |
+| clinicalmarginwidthdescription                     | STRING      |                                                    |
+| cocaccreditedflag                                  | STRING      | CoC Accredited Flag                                |
+| cocaccreditedflagdescription                       | STRING      |                                                    |
+| coccodingsyscurrent                                | STRING      | CoC Coding Sys--Current                            |
+| coccodingsyscurrentdescription                     | STRING      |                                                    |
+| coccodingsysoriginal                               | STRING      | CoC Coding Sys--Original                           |
+| coccodingsysoriginaldescription                    | STRING      |                                                    |
+| cocexportflag                                      | STRING      | CoC Export Flag                                    |
+| cocexportflagdescription                           | STRING      |                                                    |
+| cocmeasurebreastbcsrt                              | STRING      |                                                    |
+| cocmeasurebreastmac                                | STRING      |                                                    |
+| cocmeasurecolon12rln                               | STRING      |                                                    |
+| cocmeasurecolonact                                 | STRING      |                                                    |
+| cocmeasuregastricg15rln                            | STRING      |                                                    |
+| cocmeasurelunglct                                  | STRING      |                                                    |
+| cocmeasurerectalrecrtct                            | STRING      |                                                    |
+| codingproc                                         | STRING      | Coding Proc                                        |
+| codingprocdescription                              | STRING      |                                                    |
+| csversioninputcurrent                              | STRING      | CS Version Input Current                           |
+| csversioninputcurrentdescription                   | STRING      |                                                    |
+| csversioninputoriginal                             | STRING      | CS Version Input Original                          |
+| csversioninputoriginaldescription                  | STRING      |                                                    |
+| ctrreview                                          | STRING      | CTR Review                                         |
+| ctrreviewdescription                               | STRING      |                                                    |
+| datecaselastvalidatedcoc                           | STRING      |                                                    |
+| dateofmulttumorsflag                               | STRING      | Date of Mult Tumors Flag                           |
+| eodprimarytumordescription                         | STRING      |                                                    |
+| icdo3conversionflag                                | STRING      | ICD-O-3 Conversion Flag                            |
+| icdo3conversionflagdescription                     | STRING      |                                                    |
+| invasionbeyondcapsule                              | STRING      | Invasion Beyond Capsule                            |
+| invasionbeyondcapsuledescription                   | STRING      |                                                    |
+| ipsilateraladrenalglandinvolve                     | STRING      | Ipsilateral Adrenal Gland Involvement              |
+| ipsilateraladrenalglandinvolvedescription          | STRING      |                                                    |
+| morphtypebehavicdo2                                | STRING      |                                                    |
+| morphtypebehavicdo2description                     | STRING      |                                                    |
+| morphtypebehavicdo3                                | STRING      |                                                    |
+| morphtypebehavicdo3description                     | STRING      |                                                    |
+| primarydiagnosis                                   | STRING      |                                                    |
+| dateofdiagnosisflag                                | STRING      | Date Of Diagnosis Flag                             |
+| schema                                             | STRING      | Site Specific Schema                               |
+| schemadiscriminator1                               | STRING      | Schema Discriminator 1                             |
+| schemadiscriminator1description                    | STRING      |                                                    |
+| schemadiscriminator2                               | STRING      | Schema Discriminator 2                             |
+| schemadiscriminator2description                    | STRING      |                                                    |
+| schemaid                                           | STRING      | Schema ID                                          |
+| schemaiddescription                                | STRING      |                                                    |
+| schemaidversioncurrent                             | STRING      | Schema ID Version Current                          |
+| schemaidversioncurrentdescription                  | STRING      |                                                    |
+| schemaidversionoriginal                            | STRING      | Schema ID Version Original                         |
+| schemaidversionoriginaldescription                 | STRING      |                                                    |
+| scopelnproc1                                       | STRING      | Scope LN Proc 1                                    |
+| scopelnproc1description                            | STRING      |                                                    |
+| scopelnproc2                                       | STRING      | Scope LN Proc 2                                    |
+| scopelnproc2description                            | STRING      |                                                    |
+| scopelnproc3                                       | STRING      | Scope LN Proc 3                                    |
+| scopelnproc3description                            | STRING      |                                                    |
+| seercodingsyscurrent                               | STRING      |                                                    |
+| seercodingsysoriginal                              | STRING      |                                                    |
+| seersitespecificfact1                              | STRING      | SEER Site-Specific Fact 1                          |
+| seersitespecificfact1description                   | STRING      |                                                    |
+| sentinellymphnodesexamined                         | STRING      | Sentinel Lymph Nodes Examined                      |
+| sentinellymphnodesexamineddescription              | STRING      |                                                    |
+| sentinellymphnodespositive                         | STRING      | Sentinel Lymph Nodes Positive                      |
+| sentinellymphnodespositivedescription              | STRING      |                                                    |
+| sequencenumberhospital                             | STRING      | Sequence Number--Hospital                          |
+| sequencenumberhospitaldescription                  | STRING      |                                                    |
+| siteicdo1                                          | STRING      |                                                    |
+| stanforddiagnosisfacility                          | STRING      | Stanford Diagnosis Facility                        |
+| stanforddiagnosisfacilitydescription               | STRING      |                                                    |
+| stanfordnonreportable                              | STRING      |                                                    |
+| stanfordsubsequent1diagnosisfacility               | STRING      | Stanford Subsequent 1 Diagnosis Facility           |
+| stanfordsubsequent1diagnosisfacilitydescription    | STRING      |                                                    |
+| stanfordsubsequent2diagnosisfacility               | STRING      | Stanford Subsequent 2 Diagnosis Facility           |
+| stanfordsubsequent2diagnosisfacilitydescription    | STRING      |                                                    |
+| stanfordsubsequent3diagnosisfacility               | STRING      | Stanford Subsequent 3 Diagnosis Facility           |
+| stanfordsubsequent3diagnosisfacilitydescription    | STRING      |                                                    |
+| textdxprocop                                       | STRING      | Text--DX Proc--Op                                  |
+| textdxprocpe                                       | STRING      | Text--DX Proc--PE                                  |
+| textdxprocscopes                                   | STRING      | Text--DX Proc--Scopes                              |
+| thrombocytopenia                                   | STRING      | Thrombocytopenia                                   |
+| thrombocytopeniadescription                        | STRING      |                                                    |
+| afppostorchiectomylabvalue                         | STRING      | AFP Post-Orchiectomy Lab Value                     |
+| afppostorchiectomylabvaluedescription              | STRING      |                                                    |
+| afppostorchiectomyrange                            | STRING      | AFP Post-Orchiectomy Range                         |
+| afppostorchiectomyrangedescription                 | STRING      |                                                    |
+| afppreorchiectomylabvalue                          | STRING      | AFP Pre-Orchiectomy Lab Value                      |
+| afppreorchiectomylabvaluedescription               | STRING      |                                                    |
+| afppreorchiectomyrange                             | STRING      | AFP Pre-Orchiectomy Range                          |
+| afppreorchiectomyrangedescription                  | STRING      |                                                    |
+| afppretreatmentinterpretation                      | STRING      | AFP Pretreatment Interpretation                    |
+| afppretreatmentinterpretationdescription           | STRING      |                                                    |
+| afppretreatmentlabvalue                            | STRING      | AFP Pretreatment Lab Value                         |
+| afppretreatmentlabvaluedescription                 | STRING      |                                                    |
+| alkrearrangement                                   | STRING      | ALK Rearrangement                                  |
+| alkrearrangementdescription                        | STRING      |                                                    |
+| bilirubinpretxtotallabvalue                        | STRING      | Bilirubin Pretreatment Total Lab Value             |
+| bilirubinpretxtotallabvaluedescription             | STRING      |                                                    |
+| bilirubinpretxunitofmeasure                        | STRING      | Bilirubin Pretreatment Unit of Measure             |
+| bilirubinpretxunitofmeasuredescription             | STRING      |                                                    |
+| brafmutationalanalysis                             | STRING      | BRAF Mutational Analysis                           |
+| brafmutationalanalysisdescription                  | STRING      |                                                    |
+| brainmolecularmarkers                              | STRING      | Brain Molecular Markers                            |
+| brainmolecularmarkersdescription                   | STRING      |                                                    |
+| ca125pretreatmentinterpretation                    | STRING      | CA-125 Pretreatment Interpretation                 |
+| ca125pretreatmentinterpretationdescription         | STRING      |                                                    |
+| ca199pretxlabvalue                                 | STRING      | CA 19-9 PreTX Lab Value                            |
+| ca199pretxlabvaluedescription                      | STRING      |                                                    |
+| ceapretreatmentinterpretation                      | STRING      | CEA Pretreatment Interpretation                    |
+| ceapretreatmentinterpretationdescription           | STRING      |                                                    |
+| ceapretreatmentlabvalue                            | STRING      | CEA Pretreatment Lab Value                         |
+| ceapretreatmentlabvaluedescription                 | STRING      |                                                    |
+| creatininepretreatmentlabvalue                     | STRING      | Creatinine Pretreatment Lab Value                  |
+| creatininepretreatmentlabvaluedescription          | STRING      |                                                    |
+| creatininepretxunitofmeasure                       | STRING      | Creatinine Pretreatment Unit of Measure            |
+| creatininepretxunitofmeasuredescription            | STRING      |                                                    |
+| hcgpostorchiectomylabvalue                         | STRING      | hCG Post-Orchiectomy Lab Value                     |
+| hcgpostorchiectomylabvaluedescription              | STRING      |                                                    |
+| hcgpostorchiectomyrange                            | STRING      | hCG Post-Orchiectomy Range                         |
+| hcgpostorchiectomyrangedescription                 | STRING      |                                                    |
+| hcgpreorchiectomylabvalue                          | STRING      | hCG Pre-Orchiectomy Lab Value                      |
+| hcgpreorchiectomylabvaluedescription               | STRING      |                                                    |
+| hcgpreorchiectomyrange                             | STRING      | hCG Pre-Orchiectomy Range                          |
+| hcgpreorchiectomyrangedescription                  | STRING      |                                                    |
+| jak2                                               | STRING      | JAK2                                               |
+| jak2description                                    | STRING      |                                                    |
+| ki67                                               | STRING      | Ki-67                                              |
+| ki67description                                    | STRING      |                                                    |
+| kitgeneimmunohistochemistry                        | STRING      | KIT Gene Immunohistochemistry                      |
+| kitgeneimmunohistochemistrydescription             | STRING      |                                                    |
+| kras                                               | STRING      | KRAS                                               |
+| krasdescription                                    | STRING      |                                                    |
+| ldhpostorchiectomyrange                            | STRING      | LDH Post-Orchiectomy Range                         |
+| ldhpostorchiectomyrangedescription                 | STRING      |                                                    |
+| ldhpreorchiectomyrange                             | STRING      | LDH Pre-Orchiectomy Range                          |
+| ldhpreorchiectomyrangedescription                  | STRING      |                                                    |
+| ldhpretreatmentlabvalue                            | STRING      | LDH Lab Value                                      |
+| ldhpretreatmentlabvaluedescription                 | STRING      |                                                    |
+| ldhpretreatmentlevel                               | STRING      | LDH Level                                          |
+| ldhpretreatmentleveldescription                    | STRING      |                                                    |
+| ldhupperlimitsofnormal                             | STRING      | LDH Upper Limits of Normal                         |
+| ldhupperlimitsofnormaldescription                  | STRING      |                                                    |
+| progesteronerecepprcntposorrange                   | STRING      | Progesterone Receptor Percent Positive or Range    |
+| progesteronerecepprcntposorrangedescription        | STRING      |                                                    |
+| progesteronerecepsummary                           | STRING      | Progesterone Receptor Summary                      |
+| progesteronerecepsummarydescription                | STRING      |                                                    |
+| progesteronereceptotalallredscor                   | STRING      | Progesterone Receptor Total Allred Score           |
+| progesteronereceptotalallredscordescription        | STRING      |                                                    |
+| prostatepathologicalextension                      | STRING      | EOD Prostate Pathologic Extension                  |
+| prostatepathologicalextensiondescription           | STRING      |                                                    |
+| protocolparticipation                              | STRING      | Protocol Participation                             |
+| protocolparticipationdescription                   | STRING      |                                                    |
+| psalabvalue                                        | STRING      | PSA (Prostatic Specific Antigen) Lab Value         |
+| psalabvaluedescription                             | STRING      |                                                    |
+| serumalbuminpretreatmentlevel                      | STRING      | Serum Albumin Pretreatment Level                   |
+| serumalbuminpretreatmentleveldescription           | STRING      |                                                    |
+| serumbeta2microglobulinpretxlvl                    | STRING      | Serum Beta-2 Microglobulin Pretreatment Level      |
+| serumbeta2microglobulinpretxlvldescription         | STRING      |                                                    |
+| stanfordbileductgenetictestingperformed            | STRING      | Stanford Bile Duct Genetic Testing Performed       |
+| stanfordbileductgenetictestingperformeddescription | STRING      |                                                    |
+| stanfordbileductgenetictestingresults              | STRING      | Stanford Bile Duct Genetic Testing Results         |
+| stanfordbileductgenetictestingresultsdescription   | STRING      |                                                    |
+| stanfordbileductgenetictestingresultstext          | STRING      | Stanford Bile Duct Genetic Testing Results Text    |
+| stanfordbileductmsi                                | STRING      | Stanford Bile Duct MSI                             |
+| stanfordbileductmsidescription                     | STRING      |                                                    |
+| stanfordbileducttumormutationalburdentmb           | STRING      | Stanford Bile Duct Tumor Mutational Burden (TMB)   |
+| stanfordmelanomabraf                               | STRING      | Stanford Melanoma BRAF                             |
+| stanfordmelanomabrafdescription                    | STRING      |                                                    |
+| stanfordpdl1                                       | STRING      | Stanford PdL1 (Lung)                               |
+| stanfordpdl1description                            | STRING      |                                                    |
+| textdxproclabtests                                 | STRING      | Text--DX Proc--Lab Tests                           |
+
+:  {.hover .responsive .sm}

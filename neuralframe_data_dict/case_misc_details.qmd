@@ -1,0 +1,170 @@
+---
+title: "NeuralFrame Case Miscellaneous Details"
+---
+
+This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
+
+| Column Name                            | Type        | Description                        |
+|:---------------------------------------|:------------|:-----------------------------------|
+| cleaned_nf_mrn                         | STRING      |                                    |
+| cleaned_nf_dob                         | DATE        |                                    |
+| medicalrecordnumber                    | STRING      | Medical Record Number              |
+| dateofbirth                            | STRING      | Date of Birth                      |
+| nfpatientsetid                         | STRING      |                                    |
+| nfcaseentityid                         | STRING      |                                    |
+| nffacilityid                           | STRING      | NF Facility ID                     |
+| nffacilityiddescription                | STRING      |                                    |
+| nfcasestatus                           | STRING      |                                    |
+| addratdxcity                           | STRING      | Addr at DX--City                   |
+| addratdxcitydescription                | STRING      |                                    |
+| addratdxcountry                        | STRING      | Addr at DX--Country                |
+| addratdxcountrydescription             | STRING      |                                    |
+| addratdxnostreet                       | STRING      | Addr at DX--No & Street            |
+| addratdxnostreetdescription            | STRING      |                                    |
+| addratdxpostalcode                     | STRING      | Addr at DX--Postal Code            |
+| addratdxpostalcodedescription          | STRING      |                                    |
+| addratdxstate                          | STRING      | Addr at DX--State                  |
+| addratdxstatedescription               | STRING      |                                    |
+| addratdxsupplementl                    | STRING      | Addr at DX--Supplementl            |
+| addrcurrentcity                        | STRING      | Addr Current--City                 |
+| addrcurrentcountry                     | STRING      | Addr Current--Country              |
+| addrcurrentcountrydescription          | STRING      |                                    |
+| addrcurrentcounty                      | STRING      |                                    |
+| addrcurrentnostreet                    | STRING      | Addr Current--No & Street          |
+| addrcurrentpostalcode                  | STRING      | Addr Current--Postal Code          |
+| addrcurrentpostalcodedescription       | STRING      |                                    |
+| addrcurrentstate                       | STRING      | Addr Current--State                |
+| addrcurrentstatedescription            | STRING      |                                    |
+| addrcurrentsupplementl                 | STRING      | Addr Current--Supplementl          |
+| ageatdiagnosis                         | STRING      | Age at Diagnosis                   |
+| ageatdiagnosisdescription              | STRING      |                                    |
+| agedecadediagnosis                     | STRING      |                                    |
+| birthplacecountry                      | STRING      | Birthplace--Country                |
+| birthplacestate                        | STRING      | Birthplace--State                  |
+| birthplacestatedescription             | STRING      |                                    |
+| causeofdeath                           | STRING      | Cause of Death                     |
+| causeofdeathdescription                | STRING      |                                    |
+| contactname                            | STRING      | Contact Name                       |
+| countyatdx                             | STRING      | County at DX Reported              |
+| countyatdxdescription                  | STRING      |                                    |
+| dcstatefilenumber                      | STRING      | DC State File Number               |
+| followuplasttypepatient                | STRING      | Follow-Up Last Type Patient        |
+| followuplasttypepatientdescription     | STRING      |                                    |
+| followupnexttype                       | STRING      | Follow-Up Next Type                |
+| followupnexttypedescription            | STRING      |                                    |
+| height                                 | STRING      | Height                             |
+| heightdescription                      | STRING      |                                    |
+| hosppatno                              | STRING      | Hosp Pat No                        |
+| maritalstatusatdx                      | STRING      | Marital Status at DX               |
+| maritalstatusatdxdescription           | STRING      |                                    |
+| medicarebeneficiaryidentifier          | STRING      | Medicare Beneficiary Identifier    |
+| naaccralcohol                          | STRING      | Alcohol History                    |
+| naaccralcoholdescription               | STRING      |                                    |
+| naaccrrecordversion                    | STRING      | NAACCR Record Version              |
+| naaccrrecordversiondescription         | STRING      |                                    |
+| naaccrtobacco                          | STRING      | Tobacco History                    |
+| naaccrtobaccodescription               | STRING      |                                    |
+| namealias                              | STRING      | Name--Alias                        |
+| namealiasfirst                         | STRING      | Name--Alias First                  |
+| namebirthsurname                       | STRING      | Name--Birth Surname                |
+| namefirst                              | STRING      | Name--First                        |
+| namelast                               | STRING      | Name--Last                         |
+| namemiddle                             | STRING      | Name--Middle                       |
+| overridespanishbpl                     | STRING      | Over-ride Spanish BPL              |
+| overridespanishbpldescription          | STRING      |                                    |
+| patnocontact                           | STRING      | Pat No Contact                     |
+| patnocontactdescription                | STRING      |                                    |
+| patientsystemidhosp                    | STRING      | Patient System ID-Hosp             |
+| placeofdeathcountry                    | STRING      | Place of Death--Country            |
+| placeofdeathcountrydescription         | STRING      |                                    |
+| placeofdeathstate                      | STRING      | Place of Death--State              |
+| placeofdeathstatedescription           | STRING      |                                    |
+| race1                                  | STRING      | Race 1                             |
+| race1description                       | STRING      |                                    |
+| race2                                  | STRING      | Race 2                             |
+| race2description                       | STRING      |                                    |
+| race3                                  | STRING      | Race 3                             |
+| race3description                       | STRING      |                                    |
+| race4                                  | STRING      | Race 4                             |
+| race4description                       | STRING      |                                    |
+| race5                                  | STRING      | Race 5                             |
+| race5description                       | STRING      |                                    |
+| racecodingsyscurrent                   | STRING      | Race Coding Sys--Current           |
+| racecodingsyscurrentdescription        | STRING      |                                    |
+| racecodingsysoriginal                  | STRING      | Race Coding Sys--Original          |
+| racecodingsysoriginaldescription       | STRING      |                                    |
+| sex                                    | STRING      | Sex                                |
+| sexdescription                         | STRING      |                                    |
+| socialsecuritynumber                   | STRING      | Social Security Number             |
+| socialsecuritynumberdescription        | STRING      |                                    |
+| spanishhispanicorigin                  | STRING      | Spanish/Hispanic Origin            |
+| spanishhispanicorigindescription       | STRING      |                                    |
+| ssnsuffix                              | STRING      | SSN Suffix                         |
+| stateexportflag                        | STRING      | State Export Flag                  |
+| stateexportflagdescription             | STRING      |                                    |
+| telephone                              | STRING      | Telephone                          |
+| telephonedescription                   | STRING      |                                    |
+| textusualindustry                      | STRING      | Text--Usual Industry               |
+| textusualoccupation                    | STRING      | Text--Usual Occupation             |
+| tobaccousecigarettes                   | STRING      | Tobacco Use Cigarettes             |
+| tobaccousecigarettesdescription        | STRING      |                                    |
+| tobaccousenos                          | STRING      | Tobacco Use NOS                    |
+| tobaccousenosdescription               | STRING      |                                    |
+| tobaccouseothersmoke                   | STRING      | Tobacco Use Other Smoke            |
+| tobaccouseothersmokedescription        | STRING      |                                    |
+| tobaccousesmokeless                    | STRING      | Tobacco Use Smokeless              |
+| tobaccousesmokelessdescription         | STRING      |                                    |
+| tobaccousesmokingstatus                | STRING      | Tobacco Use Smoking Status         |
+| tobaccousesmokingstatusdescription     | STRING      |                                    |
+| weight                                 | STRING      | Weight                             |
+| weightdescription                      | STRING      |                                    |
+| followupcontactcity                    | STRING      |                                    |
+| followupcontactnost                    | STRING      |                                    |
+| followupcontactpostal                  | STRING      |                                    |
+| followupcontactstate                   | STRING      |                                    |
+| followupcontactsuppl                   | STRING      |                                    |
+| religion                               | STRING      | Religion                           |
+| religiondescription                    | STRING      |                                    |
+| paysource2                             | STRING      | Pay Source 2                       |
+| paysource2description                  | STRING      |                                    |
+| paymentsourcetext                      | STRING      | Payment Source Text                |
+| nfcreatedat                            | STRING      |                                    |
+| nfupdatedat                            | STRING      |                                    |
+| abstractedby                           | STRING      | Abstracted By                      |
+| abstractedbydescription                | STRING      |                                    |
+| archivefin                             | STRING      | Archive FIN                        |
+| archivefindescription                  | STRING      |                                    |
+| birthplacecountrydescription           | STRING      |                                    |
+| californiacountyatdx                   | STRING      | California County At Dx            |
+| californiacountyatdxdescription        | STRING      |                                    |
+| californiareportingfacility            | STRING      | California Reporting Facility      |
+| californiareportingfacilitydescription | STRING      |                                    |
+| caseassignedto                         | STRING      | Case Assigned To                   |
+| caseassignedtodescription              | STRING      |                                    |
+| casefindingreviewstatus                | STRING      | Case Finding Review Status         |
+| casefindingreviewstatusdescription     | STRING      |                                    |
+| censusindcode19702000                  | STRING      |                                    |
+| censusocccode19702000                  | STRING      |                                    |
+| followupcontactcountry                 | STRING      |                                    |
+| namemaiden                             | STRING      |                                    |
+| nameprefix                             | STRING      |                                    |
+| namespouseparent                       | STRING      |                                    |
+| namesuffix                             | STRING      |                                    |
+| placeofdeath                           | STRING      |                                    |
+| primarypayeratdx                       | STRING      | Primary Payer at DX                |
+| primarypayeratdxdescription            | STRING      |                                    |
+| reasoncasenotsubmittedstate            | STRING      | Reason Case Not Submitted to State |
+| reasoncasenr                           | STRING      |                                    |
+| reasoncasenrdescription                | STRING      |                                    |
+| recordtype                             | STRING      | Record Type                        |
+| recordtypedescription                  | STRING      |                                    |
+| registryid                             | STRING      | Registry ID                        |
+| registryiddescription                  | STRING      |                                    |
+| registrytype                           | STRING      | Registry Type                      |
+| registrytypedescription                | STRING      |                                    |
+| reportingfacility                      | STRING      | Reporting Facility                 |
+| reportingfacilitydescription           | STRING      |                                    |
+| researchthisfacility                   | STRING      | Research This Facility             |
+| researchthisfacilitydescription        | STRING      |                                    |
+
+:  {.hover .responsive .sm}

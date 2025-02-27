@@ -1,0 +1,366 @@
+---
+title: "NeuralFrame Case Treatments"
+---
+
+This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
+
+| Column Name                            | Type        | Description                        |
+|:----------------------------------------------------------|:------------|:----------------------------------------------------|
+| cleaned_nf_mrn                                            | STRING      |                                                     |
+| cleaned_nf_dob                                            | DATE        |                                                     |
+| medicalrecordnumber                                       | STRING      | Medical Record Number                               |
+| dateofbirth                                               | STRING      | Date of Birth                                       |
+| nfpatientsetid                                            | STRING      |                                                     |
+| nfcaseentityid                                            | STRING      |                                                     |
+| nffacilityid                                              | STRING      | NF Facility ID                                      |
+| nffacilityiddescription                                   | STRING      |                                                     |
+| nfcasestatus                                              | STRING      |                                                     |
+| date1stcrsrxcoc                                           | STRING      | Date 1st Crs RX CoC                                 |
+| dateinitialrxseer                                         | STRING      | Date Initial RX SEER                                |
+| nameofradiationdrug                                       | STRING      | Name of Radiation Drug                              |
+| nameofradiationdrugdescription                            | STRING      |                                                     |
+| neoadjuvtherapyclinicalresponse                           | STRING      | Neoadjuvant Therapy-Clinical Response               |
+| neoadjuvtherapyclinicalresponsedescription                | STRING      |                                                     |
+| neoadjuvtherapytreatmenteffect                            | STRING      | Neoadjuvant Therapy-Treatment Effect                |
+| neoadjuvtherapytreatmenteffectdescription                 | STRING      |                                                     |
+| neoadjuvanttherapy                                        | STRING      | Neoadjuvant Therapy                                 |
+| neoadjuvanttherapydescription                             | STRING      |                                                     |
+| nmtexthemtransplantendocrine                              | STRING      | Text-Hem Transplant Endocrine                       |
+| numberphasesofradtxtovolume                               | STRING      | Number of Phases of Rad Treatment to this Volume    |
+| numberphasesofradtxtovolumedescription                    | STRING      |                                                     |
+| phase1doseperfraction                                     | STRING      | Phase I Dose per Fraction                           |
+| phase1doseperfractiondescription                          | STRING      |                                                     |
+| phase1numberoffractions                                   | STRING      | Phase I Number of Fractions                         |
+| phase1numberoffractionsdescription                        | STRING      |                                                     |
+| phase1radiationexternalbeamtech                           | STRING      | Phase I Radiation External Beam Planning Tech       |
+| phase1radiationexternalbeamtechdescription                | STRING      |                                                     |
+| phase1radiationprimarytxvolume                            | STRING      | Phase I Radiation Primary Treatment Volume          |
+| phase1radiationprimarytxvolumedescription                 | STRING      |                                                     |
+| phase1radiationtodrainingln                               | STRING      | Phase I Radiation to Draining Lymph Nodes           |
+| phase1radiationtodraininglndescription                    | STRING      |                                                     |
+| phase1radiationtreatmentmodality                          | STRING      | Phase I Radiation Treatment Modality                |
+| phase1radiationtreatmentmodalitydescription               | STRING      |                                                     |
+| phase1totaldose                                           | STRING      | Phase I Total Dose                                  |
+| phase1totaldosedescription                                | STRING      |                                                     |
+| phase2doseperfraction                                     | STRING      | Phase II Dose per Fraction                          |
+| phase2doseperfractiondescription                          | STRING      |                                                     |
+| phase2numberoffractions                                   | STRING      | Phase II Number of Fractions                        |
+| phase2numberoffractionsdescription                        | STRING      |                                                     |
+| phase2radiationexternalbeamtech                           | STRING      | Phase II Radiation External Beam Planning Tech      |
+| phase2radiationexternalbeamtechdescription                | STRING      |                                                     |
+| phase2radiationprimarytxvolume                            | STRING      | Phase II Radiation Primary Treatment Volume         |
+| phase2radiationprimarytxvolumedescription                 | STRING      |                                                     |
+| phase2radiationtodrainingln                               | STRING      | Phase II Radiation to Draining Lymph Nodes          |
+| phase2radiationtodraininglndescription                    | STRING      |                                                     |
+| phase2radiationtreatmentmodality                          | STRING      | Phase II Radiation Treatment Modality               |
+| phase2radiationtreatmentmodalitydescription               | STRING      |                                                     |
+| phase2totaldose                                           | STRING      | Phase II Total Dose                                 |
+| phase2totaldosedescription                                | STRING      |                                                     |
+| phase3doseperfraction                                     | STRING      | Phase III Dose per Fraction                         |
+| phase3doseperfractiondescription                          | STRING      |                                                     |
+| phase3numberoffractions                                   | STRING      | Phase III Number of Fractions                       |
+| phase3numberoffractionsdescription                        | STRING      |                                                     |
+| phase3radiationexternalbeamtech                           | STRING      | Phase III Radiation External Beam Planning Tech     |
+| phase3radiationexternalbeamtechdescription                | STRING      |                                                     |
+| phase3radiationprimarytxvolume                            | STRING      | Phase III Radiation Primary Treatment Volume        |
+| phase3radiationprimarytxvolumedescription                 | STRING      |                                                     |
+| phase3radiationtodrainingln                               | STRING      | Phase III Radiation to Draining Lymph Nodes         |
+| phase3radiationtodraininglndescription                    | STRING      |                                                     |
+| phase3radiationtreatmentmodality                          | STRING      | Phase III Radiation Treatment Modality              |
+| phase3radiationtreatmentmodalitydescription               | STRING      |                                                     |
+| phase3totaldose                                           | STRING      | Phase III Total Dose                                |
+| phase3totaldosedescription                                | STRING      |                                                     |
+| radboostdosecgy                                           | STRING      | Rad--Boost Dose cGy                                 |
+| radboostdosecgydescription                                | STRING      |                                                     |
+| radboostrxmodality                                        | STRING      | Rad--Boost RX Modality                              |
+| radboostrxmodalitydescription                             | STRING      |                                                     |
+| radlocationofrx                                           | STRING      | Rad--Location of RX                                 |
+| radlocationofrxdescription                                | STRING      |                                                     |
+| radnooftreatmentvol                                       | STRING      | Rad--No of Treatment Vol                            |
+| radnooftreatmentvoldescription                            | STRING      |                                                     |
+| radregionaldosecgy                                        | STRING      | Rad--Regional Dose: cGy                             |
+| radregionaldosecgydescription                             | STRING      |                                                     |
+| radregionalrxmodality                                     | STRING      | Rad--Regional RX Modality                           |
+| radregionalrxmodalitydescription                          | STRING      |                                                     |
+| radtreatmentvolume                                        | STRING      | Rad--Treatment Volume                               |
+| radtreatmentvolumedescription                             | STRING      |                                                     |
+| radiationcompletionstatus                                 | STRING      | Radiation Completion Status                         |
+| radiationtxdiscontinuedearly                              | STRING      | Radiation Treatment Discontinued Early              |
+| radiationtxdiscontinuedearlydescription                   | STRING      |                                                     |
+| readmsamehosp30days                                       | STRING      | Readm Same Hosp 30 Days                             |
+| readmsamehosp30daysdescription                            | STRING      |                                                     |
+| reasonfornoradiation                                      | STRING      | Reason for No Radiation                             |
+| reasonfornoradiationdescription                           | STRING      |                                                     |
+| reasonfornosurgery                                        | STRING      | Reason for No Surgery                               |
+| reasonfornosurgerydescription                             | STRING      |                                                     |
+| rxcodingsystemcurrent                                     | STRING      | RX Coding System--Current                           |
+| rxcodingsystemcurrentdescription                          | STRING      |                                                     |
+| rxdatebrm                                                 | STRING      | RX Date BRM                                         |
+| rxdatebrmflag                                             | STRING      | Rx Date Brm Flag                                    |
+| rxdatebrmflagdescription                                  | STRING      |                                                     |
+| rxdatechemo                                               | STRING      | RX Date Chemo                                       |
+| rxdatechemoflag                                           | STRING      | Rx Date Chemo Flag                                  |
+| rxdatechemoflagdescription                                | STRING      |                                                     |
+| rxdatedxstgproc                                           | STRING      | RX Date DX/Stg Proc                                 |
+| rxdatedxstgprocflag                                       | STRING      | Rx Date Dx/Stg Proc Flag                            |
+| rxdatedxstgprocflagdescription                            | STRING      |                                                     |
+| rxdatehormone                                             | STRING      | RX Date Hormone                                     |
+| rxdatehormoneflag                                         | STRING      | Rx Date Hormone Flag                                |
+| rxdatehormoneflagdescription                              | STRING      |                                                     |
+| rxdatemostdefinsurg                                       | STRING      | RX Date Mst Defn Srg                                |
+| rxdatemostdefinsurgflag                                   | STRING      | Rx Date Mst Defn Srg Flag                           |
+| rxdatemostdefinsurgflagdescription                        | STRING      |                                                     |
+| rxdateother                                               | STRING      | RX Date Other                                       |
+| rxdateotherflag                                           | STRING      | Rx Date Other Flag                                  |
+| rxdateotherflagdescription                                | STRING      |                                                     |
+| rxdateradiation                                           | STRING      | RX Date Radiation                                   |
+| rxdateradiationended                                      | STRING      | RX Date Rad Ended                                   |
+| rxdateradiationendedflag                                  | STRING      | Rx Date Rad Ended Flag                              |
+| rxdateradiationendedflagdescription                       | STRING      |                                                     |
+| rxdateradiationflag                                       | STRING      | Rx Date Radiation Flag                              |
+| rxdateradiationflagdescription                            | STRING      |                                                     |
+| rxdatesurgery                                             | STRING      | RX Date Surgery                                     |
+| rxdatesurgeryflag                                         | STRING      | Rx Date Surgery Flag                                |
+| rxdatesurgeryflagdescription                              | STRING      |                                                     |
+| rxdatesurgicaldisch                                       | STRING      | RX Date Surg Disch                                  |
+| rxdatesurgicaldischflag                                   | STRING      | Rx Date Surg Disch Flag                             |
+| rxdatesurgicaldischflagdescription                        | STRING      |                                                     |
+| rxdatesystemic                                            | STRING      | RX Date Systemic                                    |
+| rxdatesystemicflag                                        | STRING      | Rx Date Systemic Flag                               |
+| rxdatesystemicflagdescription                             | STRING      |                                                     |
+| rxsummbrm                                                 | STRING      | RX Summ--BRM                                        |
+| rxsummbrmdescription                                      | STRING      |                                                     |
+| rxsummchemo                                               | STRING      | RX Summ--Chemo                                      |
+| rxsummchemodescription                                    | STRING      |                                                     |
+| rxsummdxstgproc                                           | STRING      | RX Summ--DX/Stg Proc                                |
+| rxsummdxstgprocdescription                                | STRING      |                                                     |
+| rxsummhormone                                             | STRING      | RX Summ--Hormone                                    |
+| rxsummhormonedescription                                  | STRING      |                                                     |
+| rxsummother                                               | STRING      | RX Summ--Other                                      |
+| rxsummotherdescription                                    | STRING      |                                                     |
+| rxsummpalliativeproc                                      | STRING      | RX Summ--Palliative Proc                            |
+| rxsummpalliativeprocdescription                           | STRING      |                                                     |
+| rxsummradiation                                           | STRING      | RX Summ--Radiation                                  |
+| rxsummradiationdescription                                | STRING      |                                                     |
+| rxsummreconstruct1st                                      | STRING      | RX Summ--Reconstruct 1st                            |
+| rxsummreconstruct1stdescription                           | STRING      |                                                     |
+| rxsummreglnexamined                                       | STRING      | RX Summ--Reg LN Examined                            |
+| rxsummreglnexamineddescription                            | STRING      |                                                     |
+| rxsummscopereg9802                                        | STRING      | RX Summ--Scope Reg 98-02                            |
+| rxsummscopereg9802description                             | STRING      |                                                     |
+| rxsummscopereglnsur                                       | STRING      | RX Summ--Scope Reg LN Sur                           |
+| rxsummscopereglnsurdescription                            | STRING      |                                                     |
+| rxsummsurgoth9802                                         | STRING      | RX Summ--Surg Oth 98-02                             |
+| rxsummsurgoth9802description                              | STRING      |                                                     |
+| rxsummsurgothregdis                                       | STRING      | RX Summ--Surg Oth Reg/Dis                           |
+| rxsummsurgothregdisdescription                            | STRING      |                                                     |
+| rxsummsurgprimsite                                        | STRING      | RX Summ--Surg Prim Site 03-2022                     |
+| rxsummsurgprimsite2023                                    | STRING      | RX Summ--Surg Prim Site 2023                        |
+| rxsummsurgprimsite2023description                         | STRING      |                                                     |
+| rxsummsurgprimsitedescription                             | STRING      |                                                     |
+| rxsummsurgradseq                                          | STRING      | RX Summ--Surg/Rad Seq                               |
+| rxsummsurgradseqdescription                               | STRING      |                                                     |
+| rxsummsurgsite9802                                        | STRING      | RX Summ--Surg Site 98-02                            |
+| rxsummsurgsite9802description                             | STRING      |                                                     |
+| rxsummsurgicalapproch                                     | STRING      | RX Summ--Surgical Approch                           |
+| rxsummsurgicalapprochdescription                          | STRING      |                                                     |
+| rxsummsurgicalmargins                                     | STRING      | RX Summ--Surgical Margins                           |
+| rxsummsurgicalmarginsdescription                          | STRING      |                                                     |
+| rxsummsystemicsurseq                                      | STRING      | RX Summ--Systemic/Sur Seq                           |
+| rxsummsystemicsurseqdescription                           | STRING      |                                                     |
+| rxsummtransplntendocr                                     | STRING      | RX Summ--Transplnt/Endocr                           |
+| rxsummtransplntendocrdescription                          | STRING      |                                                     |
+| rxsummtreatmentstatus                                     | STRING      | RX Summ--Treatment Status                           |
+| rxsummtreatmentstatusdescription                          | STRING      |                                                     |
+| rxtextbrm                                                 | STRING      | RX Text--BRM                                        |
+| rxtextchemo                                               | STRING      | RX Text--Chemo                                      |
+| rxtexthormone                                             | STRING      | RX Text--Hormone                                    |
+| rxtextother                                               | STRING      | RX Text--Other                                      |
+| rxtextpalliative                                          | STRING      | Text-Palliative Services                            |
+| rxtextradiation                                           | STRING      | RX Text--Radiation (Beam)                           |
+| rxtextradiationother                                      | STRING      | RX Text--Radiation Other                            |
+| rxtextsurgery                                             | STRING      | RX Text--Surgery                                    |
+| stanfordadditionaltext                                    | STRING      | Text - Followup/Outcomes                            |
+| stanfordrouteofadministrationhormone                      | STRING      | Stanford Route Of Administration Hormone            |
+| stanfordrouteofadministrationhormonedescription           | STRING      |                                                     |
+| stanfordrouteofadministrationimmuno                       | STRING      | Stanford Route Of Administration Immuno             |
+| stanfordrouteofadministrationimmunodescription            | STRING      |                                                     |
+| stanfordtextprotocol                                      | STRING      | Text-Protocol                                       |
+| totaldose                                                 | STRING      | Total Dose                                          |
+| totaldosedescription                                      | STRING      |                                                     |
+| intentoftreatment                                         | STRING      | Intent of Treatment - Radiation                     |
+| intentoftreatmentdescription                              | STRING      |                                                     |
+| radiationlocalcontrolstatus                               | STRING      | Radiation Local Control Status                      |
+| radiationlocalcontrolstatusdescription                    | STRING      |                                                     |
+| rxdatetranspendo                                          | STRING      | RX Date Transp Endo                                 |
+| rxdatetranspendoflag                                      | STRING      | RX Date Transp Endo Flag                            |
+| rxdatetranspendoflagdescription                           | STRING      |                                                     |
+| rxhospbrm                                                 | STRING      | RX Hosp--BRM                                        |
+| rxhospbrmdescription                                      | STRING      |                                                     |
+| rxhospchemo                                               | STRING      | RX Hosp--Chemo                                      |
+| rxhospchemodescription                                    | STRING      |                                                     |
+| rxhosphormone                                             | STRING      | RX Hosp--Hormone                                    |
+| rxhosphormonedescription                                  | STRING      |                                                     |
+| rxhospother                                               | STRING      | RX Hosp--Other                                      |
+| rxhospotherdescription                                    | STRING      |                                                     |
+| rxhosppalliativeproc                                      | STRING      | RX Hosp--Palliative Proc                            |
+| rxhosppalliativeprocdescription                           | STRING      |                                                     |
+| rxhospradiation                                           | STRING      |                                                     |
+| rxhospreconbreast                                         | STRING      | RX Hosp--Recon Breast                               |
+| rxhospreconbreastdescription                              | STRING      |                                                     |
+| rxhospreglnremoved                                        | STRING      |                                                     |
+| rxhospscopereg9802                                        | STRING      | RX Hosp--Scope Reg 98-02                            |
+| rxhospscopereg9802description                             | STRING      |                                                     |
+| rxhospscopereglnsur                                       | STRING      | RX Hosp--Scope Reg LN Sur                           |
+| rxhospscopereglnsurdescription                            | STRING      |                                                     |
+| rxsummradtocns                                            | STRING      |                                                     |
+| rxsummreconbreast                                         | STRING      | RX Summ--Recon Breast                               |
+| rxsummreconbreastdescription                              | STRING      |                                                     |
+| stanford1stcoursechemofacility                            | STRING      | Stanford 1st Course Chemo Facility                  |
+| stanford1stcoursechemofacilitydescription                 | STRING      |                                                     |
+| stanford1stcoursehormonefacility                          | STRING      | Stanford 1st Course Hormone Facility                |
+| stanford1stcoursehormonefacilitydescription               | STRING      |                                                     |
+| stanford1stcourseimmunofacility                           | STRING      | Stanford 1st Course Immuno Facility                 |
+| stanford1stcourseimmunofacilitydescription                | STRING      |                                                     |
+| stanford1stcourseotherrxfacility                          | STRING      | Stanford 1st Course Other Rx Facility               |
+| stanford1stcourseotherrxfacilitydescription               | STRING      |                                                     |
+| stanford1stcoursepalliativefacility                       | STRING      | Stanford 1st Course Palliative Facility             |
+| stanford1stcoursepalliativefacilitydescription            | STRING      |                                                     |
+| stanford1stcourseradiationfacility                        | STRING      | Stanford 1st Course Radiation Facility              |
+| stanford1stcourseradiationfacilitydescription             | STRING      |                                                     |
+| stanford1stcoursesurgeryfacility                          | STRING      | Stanford 1st Course Surgery Facility                |
+| stanford1stcoursesurgeryfacilitydescription               | STRING      |                                                     |
+| stanford1stcoursetransplantendocrinefacility              | STRING      | Stanford 1st Course Transplant Endocrine Facility   |
+| stanford1stcoursetransplantendocrinefacilitydescription   | STRING      |                                                     |
+| stanfordradiationgivenateden                              | STRING      | Stanford Radiation Given At EDEN                    |
+| stanfordradiationgivenatedendescription                   | STRING      |                                                     |
+| stanfordradiationgivenatseroc                             | STRING      | Stanford Radiation Given At SEROC                   |
+| stanfordradiationgivenatserocdescription                  | STRING      |                                                     |
+| stanfordsubsequent1chemofacility                          | STRING      | Stanford Subsequent 1 Chemo Facility                |
+| stanfordsubsequent1chemofacilitydescription               | STRING      |                                                     |
+| stanfordsubsequent1hormonefacility                        | STRING      | Stanford Subsequent 1 Hormone Facility              |
+| stanfordsubsequent1hormonefacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent1immunofacility                         | STRING      | Stanford Subsequent 1 Immuno Facility               |
+| stanfordsubsequent1immunofacilitydescription              | STRING      |                                                     |
+| stanfordsubsequent1otherrxfacility                        | STRING      | Stanford Subsequent 1 Other Rx Facility             |
+| stanfordsubsequent1otherrxfacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent1palliativefacility                     | STRING      | Stanford Subsequent 1 Palliative Facility           |
+| stanfordsubsequent1palliativefacilitydescription          | STRING      |                                                     |
+| stanfordsubsequent1radiationfacility                      | STRING      | Stanford Subsequent 1 Radiation Facility            |
+| stanfordsubsequent1radiationfacilitydescription           | STRING      |                                                     |
+| stanfordsubsequent1surgeryfacility                        | STRING      | Stanford Subsequent 1 Surgery Facility              |
+| stanfordsubsequent1surgeryfacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent1transplantendocrinefacility            | STRING      | Stanford Subsequent 1 Transplant Endocrine Facility |
+| stanfordsubsequent1transplantendocrinefacilitydescription | STRING      |                                                     |
+| stanfordsubsequent2chemofacility                          | STRING      | Stanford Subsequent 2 Chemo Facility                |
+| stanfordsubsequent2chemofacilitydescription               | STRING      |                                                     |
+| stanfordsubsequent2hormonefacility                        | STRING      | Stanford Subsequent 2 Hormone Facility              |
+| stanfordsubsequent2hormonefacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent2immunofacility                         | STRING      | Stanford Subsequent 2 Immuno Facility               |
+| stanfordsubsequent2immunofacilitydescription              | STRING      |                                                     |
+| stanfordsubsequent2otherrxfacility                        | STRING      | Stanford Subsequent 2 Other Rx Facility             |
+| stanfordsubsequent2otherrxfacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent2palliativefacility                     | STRING      | Stanford Subsequent 2 Palliative Facility           |
+| stanfordsubsequent2palliativefacilitydescription          | STRING      |                                                     |
+| stanfordsubsequent2radiationfacility                      | STRING      | Stanford Subsequent 2 Radiation Facility            |
+| stanfordsubsequent2radiationfacilitydescription           | STRING      |                                                     |
+| stanfordsubsequent2surgeryfacility                        | STRING      | Stanford Subsequent 2 Surgery Facility              |
+| stanfordsubsequent2surgeryfacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent2transplantendocrinefacility            | STRING      | Stanford Subsequent 2 Transplant Endocrine Facility |
+| stanfordsubsequent2transplantendocrinefacilitydescription | STRING      |                                                     |
+| stanfordsubsequent3chemofacility                          | STRING      | Stanford Subsequent 3 Chemo Facility                |
+| stanfordsubsequent3chemofacilitydescription               | STRING      |                                                     |
+| stanfordsubsequent3hormonefacility                        | STRING      | Stanford Subsequent 3 Hormone Facility              |
+| stanfordsubsequent3hormonefacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent3immunofacility                         | STRING      | Stanford Subsequent 3 Immuno Facility               |
+| stanfordsubsequent3immunofacilitydescription              | STRING      |                                                     |
+| stanfordsubsequent3otherrxfacility                        | STRING      | Stanford Subsequent 3 Other Rx Facility             |
+| stanfordsubsequent3otherrxfacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent3palliativefacility                     | STRING      | Stanford Subsequent 3 Palliative Facility           |
+| stanfordsubsequent3palliativefacilitydescription          | STRING      |                                                     |
+| stanfordsubsequent3radiationfacility                      | STRING      | Stanford Subsequent 3 Radiation Facility            |
+| stanfordsubsequent3radiationfacilitydescription           | STRING      |                                                     |
+| stanfordsubsequent3surgeryfacility                        | STRING      | Stanford Subsequent 3 Surgery Facility              |
+| stanfordsubsequent3surgeryfacilitydescription             | STRING      |                                                     |
+| stanfordsubsequent3transplantendocrinefacility            | STRING      | Stanford Subsequent 3 Transplant Endocrine Facility |
+| stanfordsubsequent3transplantendocrinefacilitydescription | STRING      |                                                     |
+| subsequenttreatmentneeded                                 | STRING      |                                                     |
+| subsequenttreatmentneededdescription                      | STRING      |                                                     |
+| subsequenttreatmenttext                                   | STRING      |                                                     |
+| subsqrx2ndcoursechemo                                     | STRING      |                                                     |
+| subsqrx2ndcoursedate                                      | STRING      |                                                     |
+| subsqrx2ndcourseoth                                       | STRING      |                                                     |
+| subsqrx2ndcourserad                                       | STRING      |                                                     |
+| subsqrx2ndcoursesurg                                      | STRING      |                                                     |
+| subsqrx2ndreglnrem                                        | STRING      |                                                     |
+| subsqrx2ndscopelnsu                                       | STRING      |                                                     |
+| subsqrx2ndsurgoth                                         | STRING      |                                                     |
+| subsqrx3rdcoursedate                                      | STRING      |                                                     |
+| subsqrx3rdcourserad                                       | STRING      |                                                     |
+| subsqrx3rdcoursesurg                                      | STRING      |                                                     |
+| subsqrx3rdreglnrem                                        | STRING      |                                                     |
+| subsqrx3rdscopelnsu                                       | STRING      |                                                     |
+| subsqrx3rdsurgoth                                         | STRING      |                                                     |
+| subsqrx4thcoursedate                                      | STRING      |                                                     |
+| subsqrx4thcourserad                                       | STRING      |                                                     |
+| subsqrx4thcoursesurg                                      | STRING      |                                                     |
+| subsqrx4thscopelnsu                                       | STRING      |                                                     |
+| subsqrx4thsurgoth                                         | STRING      |                                                     |
+| subsqrxreconstructdel                                     | STRING      |                                                     |
+| transpendohosp                                            | STRING      | Transp Endo Hosp                                    |
+| transpendohospdescription                                 | STRING      |                                                     |
+| treatmenthospitalnumberproc1                              | STRING      | Treatment Hospital Number Procedure 1               |
+| treatmenthospitalnumberproc1description                   | STRING      |                                                     |
+| treatmenthospitalnumberproc2                              | STRING      | Treatment Hospital Number Procedure 2               |
+| treatmenthospitalnumberproc2description                   | STRING      |                                                     |
+| treatmenthospitalnumberproc3                              | STRING      | Treatment Hospital Number Procedure 3               |
+| treatmenthospitalnumberproc3description                   | STRING      |                                                     |
+| datesurgproc1                                             | STRING      | Date Surg Proc 1                                    |
+| datesurgproc1flag                                         | STRING      | Date Surg Proc 1 Flag                               |
+| datesurgproc1flagdescription                              | STRING      |                                                     |
+| datesurgproc2                                             | STRING      | Date Surg Proc 2                                    |
+| datesurgproc2flag                                         | STRING      | Date Surg Proc 2 Flag                               |
+| datesurgproc2flagdescription                              | STRING      |                                                     |
+| datesurgproc3                                             | STRING      | Date Surg Proc 3                                    |
+| datesurgproc3flag                                         | STRING      | Date Surg Proc 3 Flag                               |
+| datesurgproc3flagdescription                              | STRING      |                                                     |
+| rxhospsurgapp2010                                         | STRING      | RX Hosp--Surg App 2010                              |
+| rxhospsurgapp2010description                              | STRING      |                                                     |
+| rxhospsurgbreast                                          | STRING      | RX Hosp--Surg Breast                                |
+| rxhospsurgbreastdescription                               | STRING      |                                                     |
+| rxhospsurgoth9802                                         | STRING      | RX Hosp--Surg Oth 98-02                             |
+| rxhospsurgoth9802description                              | STRING      |                                                     |
+| rxhospsurgothregdis                                       | STRING      | RX Hosp--Surg Oth Reg/Dis                           |
+| rxhospsurgothregdisdescription                            | STRING      |                                                     |
+| rxhospsurgprimsite                                        | STRING      | RX Hosp--Surg Prim Site 03-2022                     |
+| rxhospsurgprimsite2023                                    | STRING      | RX Hosp--Surg Prim Site 2023                        |
+| rxhospsurgprimsite2023description                         | STRING      |                                                     |
+| rxhospsurgprimsitedescription                             | STRING      |                                                     |
+| rxhospsurgsite9802                                        | STRING      | RX Hosp--Surg Site 98-02                            |
+| rxhospsurgsite9802description                             | STRING      |                                                     |
+| rxsummsurgbreast                                          | STRING      | RX Summ--Surg Breast                                |
+| rxsummsurgbreastdescription                               | STRING      |                                                     |
+| rxsummsurgerytype                                         | STRING      |                                                     |
+| rxtextsurgery1                                            | STRING      | RX Text Surgery 1                                   |
+| rxtextsurgery2                                            | STRING      | RX Text Surgery 2                                   |
+| rxtextsurgery3                                            | STRING      | RX Text Surgery 3                                   |
+| surgotherproc1                                            | STRING      | Surg Other Proc 1                                   |
+| surgotherproc1description                                 | STRING      |                                                     |
+| surgotherproc2                                            | STRING      | Surg Other Proc 2                                   |
+| surgotherproc2description                                 | STRING      |                                                     |
+| surgotherproc3                                            | STRING      | Surg Other Proc 3                                   |
+| surgotherproc3description                                 | STRING      |                                                     |
+| surgprimproc1                                             | STRING      | Surg Prim Proc 1                                    |
+| surgprimproc1description                                  | STRING      |                                                     |
+| surgprimproc2                                             | STRING      | Surg Prim Proc 2                                    |
+| surgprimproc20231                                         | STRING      | Surg Prim Proc 2023 1                               |
+| surgprimproc20231description                              | STRING      |                                                     |
+| surgprimproc20232                                         | STRING      | Surg Prim Proc 2023 2                               |
+| surgprimproc20232description                              | STRING      |                                                     |
+| surgprimproc20233                                         | STRING      | Surg Prim Proc 2023 3                               |
+| surgprimproc20233description                              | STRING      |                                                     |
+| surgprimproc2description                                  | STRING      |                                                     |
+| surgprimproc3                                             | STRING      | Surg Prim Proc 3                                    |
+| surgprimproc3description                                  | STRING      |                                                     |
+
+:  {.hover .responsive .sm}
