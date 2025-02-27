@@ -1,0 +1,358 @@
+---
+title: "PHI Labeling Metrics"
+execute:
+  echo: false
+---
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(DBI)
+library(bigrquery)
+library(glue)
+library(plotly)
+library(dplyr)
+library(gt)
+
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+project_id <- "som-rit-phi-oncology-dev"
+Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+red_color <- "rgb(111, 34, 34)"
+black_color <- "rgb(0, 0, 0)"
+
+fetch_data_from_sql <- function(sql) {
+    # Connect to BigQuery
+
+    conn <- dbConnect(
+        bigrquery::bigquery(),
+        project = project_id,
+        use_legacy_sql = FALSE
+    )
+
+    on.exit(dbDisconnect(conn), add = TRUE)
+
+    # Run query
+    result <- tryCatch(
+        {
+            dbGetQuery(conn, sql)
+        },
+        error = function(e) {
+            message(glue("\n⚠️ Query failed: {e$message}"))
+            return(NULL)
+        }
+    )
+
+    # Return the result as a single data frame
+    return(result)
+}
+
+create_histogram_plot <- function(data, x_var, plot_title, x_axis_title) {
+    plot_ly(
+        data = data,
+        x = data[[x_var]],
+        type = "histogram",
+        marker = list(color = red_color, line = list(color = black_color, width = 1.5))
+    ) %>%
+        layout(
+            title = list(
+                text = plot_title,
+                x = 0.01, # Align to the left (0 = far left, 1 = far right)
+                xanchor = "left"
+            ),
+            xaxis = list(
+                title = x_axis_title,
+                tickangle = -45,
+                showgrid = FALSE
+            ),
+            yaxis = list(
+                title = "Count",
+                rangemode = "tozero"
+            ),
+            margin = list(b = 100),
+            showlegend = FALSE
+        )
+}
+
+create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
+  plot_ly(
+    data = data,
+    x = data[[x_var]],
+    y = data[[y_var]],
+    type = "bar",
+    marker = list(color = red_color, line = list(color = black_color, width = 1.5))
+  ) %>%
+    layout(
+      title = list(
+        text = plot_title,
+        x = 0.01, # Align to the left (0 = far left, 1 = far right)
+        xanchor = "left"
+      ),
+      xaxis = list(
+        title = x_axis_title,
+        tickangle = -45,
+        showgrid = FALSE
+      ),
+      yaxis = list(
+        title = y_axis_title,
+        rangemode = "tozero"
+      ),
+      margin = list(b = 100),
+      showlegend = FALSE
+    )
+}
+
+create_box_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
+  plot_ly(
+    data = data,
+    x = data[[x_var]],
+    y = data[[y_var]],
+    type = "box",
+    fillcolor = red_color, # Red fill with some transparency
+    line = list(color = black_color), # Darker red for the box outline
+    marker = list(color = red_color) # Red for the points
+  ) %>%
+    layout(
+      title = list(
+        text = plot_title,
+        x = 0.01,
+        xanchor = "left"
+      ),
+      xaxis = list(
+        title = x_axis_title,
+        tickangle = -45,
+        showgrid = FALSE
+      ),
+      yaxis = list(
+        title = y_axis_title,
+        rangemode = "tozero"
+      ),
+      margin = list(b = 100),
+      showlegend = FALSE
+    )
+}
+```
+
+
+```{r}
+# get all the data required in a single cell
+
+sql <- "
+SELECT
+  DISTINCT ns.*
+FROM
+  `som-rit-phi-oncology-dev.jdposada_explore.note_sampling_sample` ns
+JOIN
+  som-rit-phi-oncology-dev.jdposada_explore.20250219_gold_standard gs
+ON
+  gs.note_id = CAST(ns.note_id AS string)
+"
+df_note_characteristics <- fetch_data_from_sql(sql)
+
+sql <- "
+SELECT * 
+FROM 
+som-rit-phi-oncology-dev.jdposada_explore.20250219_gold_standard
+"
+df_gs <- fetch_data_from_sql(sql)
+```
+
+
+
+```{r, message=FALSE, warning=FALSE}
+create_histogram_plot(
+    data = df_note_characteristics,
+    x_var = "age",
+    plot_title = "Age Distribution",
+    "Age"
+)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+# Group by age_bins, sex, race, and ethnicity
+df_note_characteristics <- df_note_characteristics %>%
+  mutate(age_bins = cut(age, breaks = c(0, 18, 45, 65, 120), 
+  labels = c("0-17", "18-44", "45-64", "65+")))
+
+columns <- c("age_bins", "sex", "race", "ethnicity")
+df_list <- list()
+
+for (col in columns) {
+  df_grouped <- df_note_characteristics %>%
+    group_by(!!sym(col)) %>%
+    summarise(n = n()) %>%
+    mutate(percentage = n / sum(n) * 100,
+           characteristic = ifelse(col == "age_bins", "Age", col)) %>%
+    rename(counts = !!sym(col))
+  df_list[[col]] <- df_grouped
+}
+
+df_grouped <- bind_rows(df_list)
+
+# Display the grouped data using gt
+df_grouped %>%
+  select(characteristic, counts, n, percentage) %>%
+  rename(
+    group = counts,
+    counts = n
+  ) %>%
+  gt() %>%
+  tab_header(
+    title = "Grouped Data Summary",
+    subtitle = "Counts and Percentages by Age Bins, Sex, Race, and Ethnicity"
+  ) %>%
+  cols_label(
+    characteristic = "Characteristic",
+    group = "",
+    counts = "Counts (n)",
+    percentage = "Percentage (%)"
+  ) %>%
+  fmt_number(
+    columns = c(percentage),
+    decimals = 2
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping()
+```
+
+## Note Length Distribution
+
+```{r, message=FALSE, warning=FALSE}
+create_histogram_plot(
+    data = df_note_characteristics,
+    x_var = "note_length",
+    plot_title = "",
+    x_axis_title = "Note Length (characters)"
+)
+```
+
+::: {.panel-tabset}
+
+## PHI Distribution
+
+```{r, message=FALSE, warning=FALSE}
+
+df_total_spans <- df_gs %>%
+  group_by(span_tag) %>%
+  summarise(total_spans = n()) %>%
+  arrange(desc(total_spans)) %>%
+  mutate(percentage = total_spans / sum(total_spans) * 100) %>%
+  # Convert span_tag to a factor with levels in descending order
+  mutate(span_tag = factor(span_tag, levels = span_tag))
+
+# Create a bar plot for total spans
+plot_ly(
+  data = df_total_spans,
+  y = ~span_tag,
+  x = ~total_spans,
+  type = "bar",
+  orientation = 'h',
+  marker = list(color = red_color, line = list(color = black_color, width = 1.5)),
+  text = ~sprintf("%.1f%%", percentage),  # Format percentage with 1 decimal place
+  textposition = "outside",
+  hoverinfo = "text",
+  hovertext = ~sprintf(
+    "Entity: %s<br>Count: %d<br>Percentage: %.1f%%",
+    span_tag, total_spans, percentage
+  )
+) %>%
+  layout(
+    title = list(
+      text = "",
+      x = 0.01,
+      xanchor = "left"
+    ),
+    yaxis = list(
+      title = "",
+      showgrid = FALSE,
+      autorange = "reversed",  # This ensures highest value appears at the top
+      ticktext = ~span_tag,
+      side = "left",
+      tickcolor = black_color,
+      tickfont = list(size = 12),
+      showline = FALSE,
+      showticklabels = TRUE,
+      ticksuffix = "   "  # Add space after labels
+    ),
+    xaxis = list(
+      title = "Count",
+      showgrid = TRUE,
+      gridcolor = "rgba(0,0,0,0.1)",  # Light grid lines
+      zeroline = TRUE,
+      showline = TRUE,
+      showticklabels = TRUE,
+      tickmode = "auto",
+      nticks = 10  # Adjust this value to control the number of tick marks
+    ),
+    showlegend = FALSE,
+    bargap = 0.01  # Adjust space between bars
+  )
+```
+
+
+## PHI per Document
+
+```{r, message=FALSE, warning=FALSE}
+# Group by note_id and span_tag, then calculate counts
+df_by_note_by_span <- df_gs %>%
+  group_by(note_id, span_tag) %>%
+  summarise(n = n()) %>%
+  ungroup()
+
+df_by_note_by_span <- df_gs %>%
+  group_by(note_id, span_tag) %>%
+  summarise(n = n()) %>%
+  ungroup()
+
+# Create a box plot for span tags
+create_box_plot(
+  data = df_by_note_by_span,
+  x_var = "span_tag",
+  y_var = "n",
+  plot_title = "",
+  x_axis_title = "",
+  y_axis_title = "Count"
+)
+```
+
+:::
+
+## Note Types
+
+```{r, message=FALSE, warning=FALSE}
+# Group by note_title and calculate counts and percentages
+df_note_titles <- df_note_characteristics %>%
+  group_by(note_title) %>%
+  summarise(n = n()) %>%
+  mutate(percentage = n / sum(n) * 100) %>%
+  arrange(desc(percentage))
+
+# Display the grouped data using gt
+df_note_titles %>%
+  gt() %>%
+  tab_header(
+    title = "Distribution of Note types in the Dataset",
+    subtitle = ""
+  ) %>%
+  cols_label(
+    note_title = "Note Type",
+    n = "Counts (n)",
+    percentage = "Percentage (%)"
+  ) %>%
+  fmt_number(
+    columns = c(percentage),
+    decimals = 2
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping()
+  
+```
