@@ -403,8 +403,7 @@ Summary: Neural Frame data encompasses research-eligible patients who have case 
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-install.packages(plyr)
-library(plyr)
+
 
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 sql_file_path_nf <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_vital_status.sql"
@@ -428,7 +427,23 @@ res_all$description[is.na(res_all$description)]<-"Missing (NA)"
 res_all
 ```
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 create_gt_table(res_all, var, description, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
 
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+sql_file_path_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_recurrence.sql"
+project = "som-rit-phi-oncology-prod"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"  
+res_rc <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_rec, yaml_file_path)
+print(res_rc)
+res_rc$var="Recurrence Type"
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+create_gt_table(res_rc, var, recurrencetype1stdescription, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
 ```
