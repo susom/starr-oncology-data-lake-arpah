@@ -1,5 +1,5 @@
 with
-scr as (select * from `@oncology_dev.@oncology_common.onc_neuralframe_case_outcomes`),
+scr as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_outcomes`),
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 scr_patients as (
        select distinct stanford_patient_uid from scr
