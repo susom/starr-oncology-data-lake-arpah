@@ -391,4 +391,44 @@ res_sa%>% select(metric, pt_count)%>%
 ```
 
 ### **Neural Frame Data**
-Summary: 
+Summary: Neural Frame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:
+
+- Outcome: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
+
+- Diagnoses: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
+
+- Treatment: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
+
+- Miscellaneous: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+install.packages(plyr)
+library(plyr)
+
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+sql_file_path_nf <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_vital_status.sql"
+project = "som-rit-phi-oncology-prod"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"  # Update this path if necessary"
+res_nf <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_nf, yaml_file_path)
+print(res_nf)
+colnames(res_nf)[1]<-"description"
+res_nf$var="Vital Status"
+
+sql_file_path_nf_cc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_status.sql"
+
+res_cc <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_nf_cc, yaml_file_path)
+print(res_cc)
+colnames(res_cc)[1]<-"description"
+res_cc$var="Cancer Status"
+
+res_all=rbind(res_nf, res_cc)
+res_all
+res_all$description[is.na(res_all$description)]<-"Missing (NA)"
+res_all
+```
+
+```{r}
+create_gt_table(res_all, var, description, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
+
+```
