@@ -8,6 +8,7 @@ project:
    - feb_2025/*
    - data_labeling.qmd
    - 404.qmd
+   - neuralframe_data_dict/*
 
 website:
   title: "Oncology Data Lake"
@@ -18,13 +19,20 @@ website:
   sidebar:
     collapse-level: 1
     contents:
-      - text: "About"
+      - section: "About"
         href: about.qmd
+        contents:
+          - section: "February 2025"
+            contents:
+              - text: "Released Datasets"
+                href: feb_2025/released_datasets.qmd
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
           - section: "OMOP-CDM"
             contents: omop_data_dict/*
+          - section: "NeuralFrame"
+            contents: neuralframe_data_dict/*
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:

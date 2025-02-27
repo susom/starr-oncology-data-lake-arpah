@@ -3,8 +3,6 @@ title: "About"
 back-to-top-navigation: false
 ---
 
-## About the Oncology Data Lake
-
 Welcome to the Oncology Data Lake project. This website provides documentation for the datasets released as part of the project. 
 
 ### Dataset Overview
@@ -19,13 +17,13 @@ The identified dataset is created using EPIC Clarity tables, which include patie
 
 Neural Frame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:
 
-- Outcome: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
+- **Outcome**: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
 
-- Diagnoses: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
+- **Diagnoses**: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
 
-- Treatment: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
+- **Treatment**: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
 
-- Miscellaneous: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
+- **Miscellaneous**: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
 
 #### Dataset Releases
 
