@@ -1,0 +1,5041 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>NeuralFrame Case Diagnoses – Oncology Data Lake</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../neuralframe_data_dict/case_misc_details.html" rel="next">
+<link href="../omop_data_dict/vocabulary.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": true,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="NeuralFrame Case Diagnoses – Oncology Data Lake">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="Oncology Data Lake">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Oncology Data Lake</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../about.html" aria-current="page"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_dictionary.html"> 
+<span class="menu-text">Data Dictionary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_metrics.html"> 
+<span class="menu-text">Data Metrics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_labeling.html"> 
+<span class="menu-text">Data Labeling</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/susom/starr-oncology-data-lake-arpah" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_diagnoses.html">NeuralFrame</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_diagnoses.html">NeuralFrame Case Diagnoses</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Dictionary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP-CDM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">NeuralFrame</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_diagnoses.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">NeuralFrame Case Diagnoses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_misc_details.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Miscellaneous Details</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_outcomes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_treatments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Treatments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Metrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/demographic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">February 2025</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_labeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_guidelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Guidelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_diagnoses.html">NeuralFrame</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_diagnoses.html">NeuralFrame Case Diagnoses</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">NeuralFrame Case Diagnoses</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.</p>
+<div class="table-responsive">
+<table class="table-hover table-sm small caption-top table">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 11%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Column Name</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">cleaned_nf_mrn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cleaned_nf_dob</td>
+<td style="text-align: left;">DATE</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">medicalrecordnumber</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Medical Record Number</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dateofbirth</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date of Birth</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateofdiagnosis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date of Diagnosis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nfpatientsetid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nfcaseentityid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nffacilityid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">NF Facility ID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nffacilityiddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nfcasestatus</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateofmulttumors</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date of Mult Tumors</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">accessionnumberhosp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Accession Number–Hosp</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yearfirstseen</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Year First Seen</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yearfirstseendescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">diagnosticconfirmation</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Diagnostic Confirmation</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">diagnosticconfirmationdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">primarysite</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Primary Site</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">primarysitedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">highriskcytogenetics</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">High Risk Cytogenetics</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">highriskcytogeneticsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">highriskhistologicfeatures</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">High Risk Histologic Features</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">highriskhistologicfeaturesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">histologicsubtype</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Histologic Subtype</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">histologicsubtypedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">histologictypeicdo3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Histologic Type ICD-O-3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">histologictypeicdo3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">histologyicdo2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Histology (92-00) ICD-O-2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">histologyicdo2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">laterality</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Laterality</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lateralitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ambiguousterminologydx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Ambiguous Terminology DX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ambiguousterminologydxdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">behaviorcodeicdo3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Behavior Code ICD-O-3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">behaviorcodeicdo3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">behavioricdo2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Behavior (92-00) ICD-O-2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">behavioricdo2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">casefindingsource</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Casefinding Source</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">casefindingsourcedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateconclusivedx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date Conclusive DX</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dateconclusivedxflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date Conclusive DX Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateconclusivedxflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">morphcodingsyscurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Morph Coding Sys–Current</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">morphcodingsyscurrentdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">morphcodingsysoriginl</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Morph Coding Sys–Originl</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">morphcodingsysoriginldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">multtumrptasoneprim</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mult Tum Rpt as One Prim</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">multtumrptasoneprimdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">multiplicitycounter</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Multiplicity Counter</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">multiplicitycounterdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sitecodingsyscurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Site Coding Sys–Current</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sitecodingsyscurrentdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sitecodingsysoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Site Coding Sys–Original</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sitecodingsysoriginaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">typeofreportingsource</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Type of Reporting Source</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">typeofreportingsourcedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajccapiversioncurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC API Version Current</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajccapiversionoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC API Version Original</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcccancersurvapiversioncurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC Cancer Surveillance DLL Version Current</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcccancersurvapiversionoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC Cancer Surveillance DLL Version Original</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajccid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC ID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcciddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmclinm</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Clin M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmclinmdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmclinn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Clin N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmclinndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmclinnsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Clin N Suffix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmclinnsuffixdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmclinstagegroup</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Clin Stage Group</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmclinstagegroupdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmclint</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Clin T</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmclintdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmclintsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Clin T Suffix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmclintsuffixdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmpathm</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Path M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmpathmdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmpathn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Path N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmpathndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmpathnsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Path N Suffix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmpathnsuffixdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmpathstagegroup</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Path Stage Group</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmpathstagegroupdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmpatht</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Path T</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmpathtdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmpathtsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Path T Suffix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmpathtsuffixdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapyclinm</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Clin (yc) M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapyclinmdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapyclinn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Clin (yc) N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapyclinndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapyclinnsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Clin (yc) N Suffix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapyclinnsuffixdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapyclint</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Clin (yc) T</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapyclintdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapym</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Path (yp) M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapymdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapyn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Path (yp) N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapyndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapynsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Path (yp) N Suffix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapynsuffixdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapystagegroup</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Path (yp) Stage Group</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapystagegroupdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapyt</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Path (yp) T</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapytdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ajcctnmposttherapytsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AJCC TNM Post Therapy Path (yp) T Suffix</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ajcctnmposttherapytsuffixdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csmetsatdx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Mets at DX</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csmetsatdxbone</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Mets at Dx-Bone</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csmetsatdxbonedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csmetsatdxbrain</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Mets at Dx-Brain</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csmetsatdxbraindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csmetsatdxdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csmetsatdxliver</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Mets at Dx-Liver</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csmetsatdxliverdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csmetsatdxlung</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Mets at Dx-Lung</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csmetsatdxlungdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csmetseval</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Mets Eval</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csmetsevaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor4description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor5description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor6</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor6description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor7</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor7description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor8</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor8description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor9</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor 9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor9description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor10</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor10description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor11</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor11description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor12</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor12description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor13</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor13description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor14</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor14description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor15</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor15description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor16</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor16description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor17</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor17description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor18</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor18description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor19</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor19</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor19description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor20</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor20description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor21</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor21</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor21description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor22</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor22description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor23</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor23description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor24</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor24description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cssitespecificfactor25</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Site-Specific Factor25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cssitespecificfactor25description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csversionderived</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Version Derived</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csversionderiveddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc6m</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-6 M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc6mdescript</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-6 M Descript</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc6mdescriptdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc6mdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc6n</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-6 N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc6ndescript</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-6 N Descript</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc6ndescriptdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc6ndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc6stagegrp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-6 Stage Grp</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc6stagegrpdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc6t</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-6 T</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc6tdescript</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-6 T Descript</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc6tdescriptdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc6tdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc7m</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-7 M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc7mdescript</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-7 M Descript</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc7mdescriptdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc7mdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc7n</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-7 N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc7ndescript</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-7 N Descript</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc7ndescriptdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc7ndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc7stagegrp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-7 Stage Grp</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc7stagegrpdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc7t</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-7 T</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc7tdescript</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC-7 T Descript</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajcc7tdescriptdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajcc7tdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedajccflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived AJCC–Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedajccflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedeod2018m</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived EOD 2018 M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedeod2018mdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedeod2018n</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived EOD 2018 N</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedeod2018ndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedeod2018stagegroup</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived EOD 2018 Stage Group</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedeod2018t</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived EOD 2018 T</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedeod2018tdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedeodversion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedraistage</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived Rai Stage</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedraistagedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedss1977</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived SS1977</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedss1977description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedss1977flag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived SS1977–Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedss1977flagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedss2000</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived SS2000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedss2000description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedss2000flag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived SS2000–Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedss2000flagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedsummarygrade2018</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">derivedsummarystage2018</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Derived Summary Stage 2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">derivedsummarystage2018description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eodmets</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD Mets</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eodmetsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eodregionalnodes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD Regional Nodes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eodregionalnodesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">figostage</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">FIGO Stage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">figostagedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">grade</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Grade</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gradeclinical</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Grade Clinical</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gradeclinicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gradedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gradepathsystem</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Grade Path System</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gradepathsystemdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gradepathvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Grade Path Value</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gradepathvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gradepathological</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Grade Pathological</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gradepathologicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gradeposttherapy</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Grade Post Therapy Path (yp)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gradeposttherapyclin</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Grade Post Therapy Clin (yc)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gradeposttherapyclindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gradeposttherapydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">metsatdxbone</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mets at DX-Bone</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">metsatdxbonedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">metsatdxbrain</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mets at DX-Brain</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">metsatdxbraindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">metsatdxdistantln</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mets at Dx-Distant LN</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">metsatdxdistantlndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">metsatdxliver</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mets at DX-Liver</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">metsatdxliverdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">metsatdxlung</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mets at DX-Lung</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">metsatdxlungdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">metsatdxother</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mets at DX-Other</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">metsatdxotherdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">npcrderivedajcc8tnmclinstggrp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">NPCR Derived AJCC 8 TNM Clin Stg Grp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">npcrderivedajcc8tnmclinstggrpdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">npcrderivedajcc8tnmpathstggrp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">NPCR Derived AJCC 8 TNM Path Stg Grp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">npcrderivedajcc8tnmpathstggrpdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">npcrderivedajcc8tnmpoststggrp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">NPCR Derived AJCC 8 TNM Post Therapy Stg Grp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">npcrderivedajcc8tnmpoststggrpdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridesitetnmstggrp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride Site/TNM-StgGrp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridesitetnmstggrpdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridesstnmm</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride SS/TNM-M</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridesstnmmdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridesstnmn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride SS/TNM-N</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridesstnmndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridetnm3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride TNM 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridetnm3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridetnmstage</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride TNM Stage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridetnmstagedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridetnmtis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride TNM Tis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridetnmtisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pediatricstage</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Pediatric Stage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pediatricstagedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pediatricstagedby</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Pediatric Staged By</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pediatricstagedbydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rxdatedxstgproc</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">RX Date DX/Stg Proc</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rxdatedxstgprocflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Rx Date Dx/Stg Proc Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rxdatedxstgprocflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rxhospdxstgproc</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">RX Hosp–DX/Stg Proc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rxhospdxstgprocdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rxsummdxstgproc</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">RX Summ–DX/Stg Proc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rxsummdxstgprocdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seersummarystage1977</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">SEER Summary Stage 1977</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">seersummarystage1977description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seersummarystage2000</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">SEER Summary Stage 2000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">seersummarystage2000description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stagealternate</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stage Alternate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">summarystage2018</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Summary Stage 2018</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">summarystage2018description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmclindescriptor</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Clin Descriptor</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmclindescriptordescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmclinm</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Clin M</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmclinmdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmclinn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Clin N</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmclinndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmclinsource</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Clin Source</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmclinsourcedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmclinstagegroup</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Clin Stage Group</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmclinstagegroupdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmclinstagedby</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Clin Staged By</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmclinstagedbydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmclint</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Clin T</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmclintdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmeditionnumber</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Edition Number</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmeditionnumberdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmpathdescriptor</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Path Descriptor</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmpathdescriptordescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmpathm</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Path M</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmpathmdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmpathn</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Path N</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmpathndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmpathsource</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Path Source</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmpathsourcedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmpathstagegroup</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Path Stage Group</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmpathstagegroupdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmpathstagedby</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Path Staged By</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmpathstagedbydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tnmpatht</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">TNM Path T</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tnmpathtdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">discoveredbyscreening</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Discovered by Screening</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">discoveredbyscreeningdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">egfrmutationalanalysis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EGFR Mutational Analysis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">egfrmutationalanalysisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eodextension</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD–Extension</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eodextensiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eodextensionprostpath</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD–Extension Prost Path</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eodextensionprostpathdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eodlymphnodeinvolv</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD–Lymph Node Involv</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eodlymphnodeinvolvdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">esophagusandegjtumorepicenter</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Esophagus and EGJ Tumor Epicenter</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">esophagusandegjtumorepicenterdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">estrogenreceptorpercntposorrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Estrogen Receptor Percent Positive or Range</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">estrogenreceptorpercntposorrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">estrogenreceptorsummary</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Estrogen Receptor Summary</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">estrogenreceptorsummarydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">estrogenreceptortotalallredscore</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Estrogen Receptor Total Allred Score</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">estrogenreceptortotalallredscoredescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">extranodalextensionclin</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Extranodal Extension Clin (non-Head and Neck)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">extranodalextensionclindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">extranodalextensionheadneckclin</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Extranodal Extension Head and Neck Clinical</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">extranodalextensionheadneckclindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">extranodalextensionheadneckpath</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Extranodal Extension Head and Neck Pathological</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">extranodalextensionheadneckpathdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">extranodalextensionpath</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Extranodal Extension Path (non-Head and Neck)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">extranodalextensionpathdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">extravascularmatrixpatterns</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Extravascular Matrix Patterns</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">extravascularmatrixpatternsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fibrosisscore</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Fibrosis Score</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fibrosisscoredescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">followupflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Follow-up Flag</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">followupflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">followuplasttypetumor</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Follow-Up Last Type Tumor</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">followuplasttypetumordescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gestationaltrophoblasticpxindex</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Gestational Trophoblastic Prognostic Scoring Index</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gleasonpatternsclinical</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Gleason Patterns Clinical</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gleasonpatternsclinicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gleasonpatternspathological</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Gleason Patterns Pathological</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gleasonpatternspathologicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gleasonscoreclinical</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Gleason Score Clinical</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gleasonscoreclinicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gleasonscorepathological</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Gleason Score Pathological</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gleasonscorepathologicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gleasontertiarypattern</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Gleason Tertiary Pattern</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gleasontertiarypatterndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">her2ihcsummary</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">HER2 IHC Summary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">her2ihcsummarydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">her2ishdualprobecopynumber</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">HER2 ISH Dual Probe Copy Number</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">her2ishdualprobecopynumberdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">her2ishdualproberatio</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">HER2 ISH Dual Probe Ratio</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">her2ishdualproberatiodescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">her2ishsingleprobecopynumber</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">HER2 ISH Single Probe Copy Number</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">her2ishsingleprobecopynumberdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">her2ishsummary</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">HER2 ISH Summary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">her2ishsummarydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">her2overallsummary</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">HER2 Overall Summary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">her2overallsummarydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">heritabletrait</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Heritable Trait</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">heritabletraitdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hivstatus</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">HIV Status</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hivstatusdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hospitaltumornumberccr</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Hospital Tumor Number CCR</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hospitaltumornumberccrdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnassessmethodfemoralinguinal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Assessment Method Femoral-Inguinal</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnassessmethodfemoralinguinaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnassessmethodparaaortic</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Assessment Method Para-Aortic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnassessmethodparaaorticdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnassessmethodpelvic</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Assessment Method Pelvic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnassessmethodpelvicdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lndistantassessmethod</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Distant Assessment Method</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lndistantassessmethoddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lndistantmediastinalscalene</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Distant: Mediastinal, Scalene</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lndistantmediastinalscalenedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnheadandnecklevels1to3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Head and Neck Levels I-III</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnheadandnecklevels1to3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnheadandnecklevels4to5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Head and Neck Levels IV-V</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnheadandnecklevels4to5description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnheadandnecklevels6to7</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Head and Neck Levels VI-VII</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnheadandnecklevels6to7description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnheadandneckother</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Head and Neck Other</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnheadandneckotherdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnisolatedtumorcells</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Isolated Tumor Cells (ITC)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnisolatedtumorcellsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnlaterality</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Laterality</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnlateralitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnpositiveaxillarylevel1to2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Positive Axillary Level I-II</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnpositiveaxillarylevel1to2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnsize</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Size</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnsizedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnstatusfemoringuinparaaortpelv</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Status Femoral-Inguinal, Para-Aortic, Pelvic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnstatusfemoringuinparaaortpelvdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnstatusfemoralinguinal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Status Femoral-Inguinal</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnstatusfemoralinguinaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnstatusparaaortic</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Status Para-Aortic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnstatusparaaorticdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lnstatuspelvic</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LN Status Pelvic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lnstatuspelvicdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lymphvascularinvasion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Lymphovascular Invasion</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lymphvascularinvasiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lymphocytosis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Lymphocytosis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lymphocytosisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">macroscopicevalofthemesorectum</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Macroscopic Evaluation of Mesorectum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">macroscopicevalofthemesorectumdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">majorveininvolvement</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Major Vein Involvement</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">majorveininvolvementdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">measuredbasaldiameter</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Measured Basal Diameter</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">measuredbasaldiameterdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">measuredthickness</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Measured Thickness</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">measuredthicknessdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">methylationofo6mgmt</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Methylation of O6-Methylguanine-Methyltransferase</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">methylationofo6mgmtdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">microsatelliteinstability</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Microsatellite Instability (MSI)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">microsatelliteinstabilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">microvasculardensity</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Microvascular Density</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">microvasculardensitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csextension</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Extension</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csextensiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cslymphnodes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Lymph Nodes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cslymphnodesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cslymphnodeseval</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Lymph Nodes Eval</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cslymphnodesevaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">inrprothrombintime</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">International Normalized Ratio Prothrombin Time</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">inrprothrombintimedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mitoticcountuvealmelanoma</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mitotic Count Uveal Melanoma</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mitoticcountuvealmelanomadescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mitoticratemelanoma</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Mitotic Rate Melanoma</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mitoticratemelanomadescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">multigenesignaturemethod</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Multigene Signature Method</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">multigenesignaturemethoddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">multigenesignatureresults</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Multigene Signature Results</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">multigenesignatureresultsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nccninternationalprognosticindex</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">NCCN International Prognostic Index (IPI)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nccninternationalprognosticindexdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nrasmutationalanalysis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">NRAS Mutational Analysis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nrasmutationalanalysisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numberofcoresexamined</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Number of Cores Examined</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numberofcoresexamineddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numberofcorespositive</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Number of Cores Positive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numberofcorespositivedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numberofexaminedparaaorticnodes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Number of Examined Para-Aortic Nodes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numberofexaminedparaaorticnodesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numberofexaminedpelvicnodes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Number of Examined Pelvic Nodes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numberofexaminedpelvicnodesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numberofpositiveparaaorticnodes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Number of Positive Para-Aortic Nodes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numberofpositiveparaaorticnodesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numberofpositivepelvicnodes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Number of Positive Pelvic Nodes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numberofpositivepelvicnodesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">oncotypedxrecurrencescoredcis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Oncotype Dx Recurrence Score-DCIS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oncotypedxrecurrencescoredcisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">oncotypedxrecurrencescoreinvasiv</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Oncotype Dx Recurrence Score-Invasive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oncotypedxrecurrencescoreinvasivdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">oncotypedxriskleveldcis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Oncotype Dx Risk Level-DCIS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oncotypedxriskleveldcisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">oncotypedxrisklevelinvasive</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Oncotype Dx Risk Level-Invasive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oncotypedxrisklevelinvasivedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">organomegaly</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Organomegaly</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">organomegalydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">p16</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">p16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">p16description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pediatricstagingsystem</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Pediatric Staging System</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pediatricstagingsystemdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">percentnecrosispostneoadjuvant</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Percent Necrosis Post Neoadjuvant</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">percentnecrosispostneoadjuvantdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">perineuralinvasion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Perineural Invasion</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">perineuralinvasiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">peripheralbloodinvolvement</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Peripheral Blood Involvement</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">peripheralbloodinvolvementdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">peritonealcytology</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Peritoneal Cytology</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">peritonealcytologydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pleuraleffusion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Pleural Effusion</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pleuraleffusiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">primarysclerosingcholangitis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Primary Sclerosing Cholangitis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">primarysclerosingcholangitisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">profoundimmunesuppression</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Profound Immune Suppression</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profoundimmunesuppressiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">regionalnodesexamined</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Regional Nodes Examined</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">regionalnodesexamineddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">regionalnodespositive</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Regional Nodes Positive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">regionalnodespositivedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">residualtumvolpostcytoreduction</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Residual Tumor Volume Post Cytoreduction</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">residualtumvolpostcytoreductiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">responsetoneoadjuvanttherapy</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Response to Neoadjuvant Therapy</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">responsetoneoadjuvanttherapydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scategoryclinical</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">S Category Clinical</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scategoryclinicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scategorypathological</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">S Category Pathological</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scategorypathologicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sarcomatoidfeatures</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Sarcomatoid Features</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sarcomatoidfeaturesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumordeposits</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Deposits</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumordepositsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumorgrowthpattern</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Growth Pattern</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumorgrowthpatterndescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumormarker1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Marker 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumormarker1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumormarker2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Marker 2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumormarker2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumormarker3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Marker 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumormarker3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumorsizeclinical</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Size Clinical</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumorsizeclinicaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumorsizepathologic</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Size Pathologic</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumorsizepathologicdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tumorsizesummary</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Tumor Size Summary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tumorsizesummarydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ulceration</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Ulceration</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ulcerationdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">visceralparietalpleuralinvasion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Visceral and Parietal Pleural Invasion</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">visceralparietalpleuralinvasiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overrideadmisdx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride Admis DX</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overrideadmisdxdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridesitestage</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Over-ride Site Stage</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridesitestagedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">textprimarysitetitle</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–Primary Site Title</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">textstaging</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–Staging</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">texthistologytitle</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–Histology Title</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">textplaceofdiagnosis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–Place of Diagnosis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cstumorsize</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Tumor Size</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis9</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cstumorsizeexteval</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Tumor Size/Ext Eval</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cstumorsizedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cstumorsizeextevaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">separatetumornodules</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Separate Tumor Nodules</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">breslowtumorthicknessdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eodprimarytumor</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD Primary Tumor</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eodtumorsize</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD–Tumor Size</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">breslowtumorthickness</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Breslow Tumor Thickness</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">eodtumorsizedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">separatetumornodulesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis10</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis10description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis4description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis5description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis6</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis6description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis7</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis7description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis8</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Secondary Diagnosis 8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">secondarydiagnosis8description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">secondarydiagnosis9description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">anemia</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Anemia</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anemiadescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateofmulttumorsflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dateregionallndissection</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date Regional Lymph Node Dissection</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateregionallndissectionflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date Regional Lymph Node Dissection Flag</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dateregionallndissectionflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">datesentinellymphnodebiopsy</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date of Sentinel Lymph Node Biopsy</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">datesentinellymphnodebiopsyflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date Sentinel Lymph Node Biopsy Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">datesentinellymphnodebiopsyflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathdatespeccollect1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Date Spec Collect 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathdatespeccollect2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Date Spec Collect 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathdatespeccollect3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Date Spec Collect 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathdatespeccollect4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Date Spec Collect 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathdatespeccollect5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Date Spec Collect 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderphyslicno1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Order Phys Lic No 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathorderphyslicno2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Order Phys Lic No 2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderphyslicno3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Order Phys Lic No 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathorderphyslicno4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Order Phys Lic No 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderphyslicno5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Order Phys Lic No 5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathorderingfacno1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Ordering Fac No 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderingfacno1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathorderingfacno2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Ordering Fac No 2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderingfacno2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathorderingfacno3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Ordering Fac No 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderingfacno3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathorderingfacno4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Ordering Fac No 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderingfacno4description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathorderingfacno5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Ordering Fac No 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathorderingfacno5description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportnumber1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Number 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreportnumber2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Number 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportnumber3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Number 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreportnumber4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Number 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportnumber5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Number 5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreporttype1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Type 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreporttype1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreporttype2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Type 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreporttype2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreporttype3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Type 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreporttype3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreporttype4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Type 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreporttype4description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreporttype5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Report Type 5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreporttype5description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreportingfacid1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Reporting Fac ID 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportingfacid1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreportingfacid2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Reporting Fac ID 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportingfacid2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreportingfacid3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Reporting Fac ID 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportingfacid3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreportingfacid4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Reporting Fac ID 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportingfacid4description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pathreportingfacid5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Path Reporting Fac ID 5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pathreportingfacid5description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">adenoidcysticbasaloidpattern</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Adenoid Cystic Basaloid Pattern</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">adenopathy</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Adenopathy</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">adenopathydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bsymptoms</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">B symptoms</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bsymptomsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">boneinvasion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Bone Invasion</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">boneinvasiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">breastmethodofdetection</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Breast Method of Detection</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">breastmethodofdetectiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromosome19qlossheterozygosity</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Chromosome 19q: Loss of Heterozygosity (LOH)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromosome19qlossheterozygositydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromosome1plossheterozygosity</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Chromosome 1p: Loss of Heterozygosity (LOH)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromosome1plossheterozygositydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromosome3status</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Chromosome 3 Status</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromosome3statusdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chromosome8qstatus</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Chromosome 8q Status</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chromosome8qstatusdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">circumferentialresectionmargin</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Circumferential Resection Margin (CRM)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">circumferentialresectionmargindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">classofcase</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Class of Case</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">classofcasedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">clinicalmarginwidth</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Clinical Margin Width</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">clinicalmarginwidthdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cocaccreditedflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CoC Accredited Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cocaccreditedflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">coccodingsyscurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CoC Coding Sys–Current</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">coccodingsyscurrentdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">coccodingsysoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CoC Coding Sys–Original</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">coccodingsysoriginaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cocexportflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CoC Export Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cocexportflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cocmeasurebreastbcsrt</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cocmeasurebreastmac</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cocmeasurecolon12rln</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cocmeasurecolonact</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cocmeasuregastricg15rln</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cocmeasurelunglct</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cocmeasurerectalrecrtct</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">codingproc</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Coding Proc</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">codingprocdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csversioninputcurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Version Input Current</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csversioninputcurrentdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">csversioninputoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CS Version Input Original</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">csversioninputoriginaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ctrreview</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CTR Review</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ctrreviewdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">datecaselastvalidatedcoc</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dateofmulttumorsflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date of Mult Tumors Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">eodprimarytumordescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">icdo3conversionflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">ICD-O-3 Conversion Flag</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">icdo3conversionflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">invasionbeyondcapsule</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Invasion Beyond Capsule</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">invasionbeyondcapsuledescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ipsilateraladrenalglandinvolve</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Ipsilateral Adrenal Gland Involvement</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ipsilateraladrenalglandinvolvedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">morphtypebehavicdo2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">morphtypebehavicdo2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">morphtypebehavicdo3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">morphtypebehavicdo3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">primarydiagnosis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dateofdiagnosisflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Date Of Diagnosis Flag</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">schema</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Site Specific Schema</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">schemadiscriminator1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Schema Discriminator 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">schemadiscriminator1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">schemadiscriminator2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Schema Discriminator 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">schemadiscriminator2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">schemaid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Schema ID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">schemaiddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">schemaidversioncurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Schema ID Version Current</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">schemaidversioncurrentdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">schemaidversionoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Schema ID Version Original</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">schemaidversionoriginaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scopelnproc1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Scope LN Proc 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scopelnproc1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scopelnproc2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Scope LN Proc 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scopelnproc2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scopelnproc3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Scope LN Proc 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scopelnproc3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">seercodingsyscurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seercodingsysoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">seersitespecificfact1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">SEER Site-Specific Fact 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seersitespecificfact1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sentinellymphnodesexamined</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Sentinel Lymph Nodes Examined</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sentinellymphnodesexamineddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sentinellymphnodespositive</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Sentinel Lymph Nodes Positive</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sentinellymphnodespositivedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sequencenumberhospital</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Sequence Number–Hospital</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sequencenumberhospitaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">siteicdo1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanforddiagnosisfacility</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Diagnosis Facility</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanforddiagnosisfacilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordnonreportable</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordsubsequent1diagnosisfacility</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Subsequent 1 Diagnosis Facility</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordsubsequent1diagnosisfacilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordsubsequent2diagnosisfacility</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Subsequent 2 Diagnosis Facility</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordsubsequent2diagnosisfacilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordsubsequent3diagnosisfacility</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Subsequent 3 Diagnosis Facility</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordsubsequent3diagnosisfacilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">textdxprocop</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–DX Proc–Op</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">textdxprocpe</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–DX Proc–PE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">textdxprocscopes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–DX Proc–Scopes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">thrombocytopenia</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Thrombocytopenia</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">thrombocytopeniadescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">afppostorchiectomylabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AFP Post-Orchiectomy Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">afppostorchiectomylabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">afppostorchiectomyrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AFP Post-Orchiectomy Range</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">afppostorchiectomyrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">afppreorchiectomylabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AFP Pre-Orchiectomy Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">afppreorchiectomylabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">afppreorchiectomyrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AFP Pre-Orchiectomy Range</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">afppreorchiectomyrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">afppretreatmentinterpretation</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AFP Pretreatment Interpretation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">afppretreatmentinterpretationdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">afppretreatmentlabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">AFP Pretreatment Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">afppretreatmentlabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alkrearrangement</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">ALK Rearrangement</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alkrearrangementdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bilirubinpretxtotallabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Bilirubin Pretreatment Total Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bilirubinpretxtotallabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bilirubinpretxunitofmeasure</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Bilirubin Pretreatment Unit of Measure</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bilirubinpretxunitofmeasuredescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">brafmutationalanalysis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">BRAF Mutational Analysis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">brafmutationalanalysisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">brainmolecularmarkers</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Brain Molecular Markers</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">brainmolecularmarkersdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ca125pretreatmentinterpretation</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CA-125 Pretreatment Interpretation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ca125pretreatmentinterpretationdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ca199pretxlabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CA 19-9 PreTX Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ca199pretxlabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ceapretreatmentinterpretation</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CEA Pretreatment Interpretation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ceapretreatmentinterpretationdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ceapretreatmentlabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">CEA Pretreatment Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ceapretreatmentlabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">creatininepretreatmentlabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Creatinine Pretreatment Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">creatininepretreatmentlabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">creatininepretxunitofmeasure</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Creatinine Pretreatment Unit of Measure</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">creatininepretxunitofmeasuredescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hcgpostorchiectomylabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">hCG Post-Orchiectomy Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hcgpostorchiectomylabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hcgpostorchiectomyrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">hCG Post-Orchiectomy Range</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hcgpostorchiectomyrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hcgpreorchiectomylabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">hCG Pre-Orchiectomy Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hcgpreorchiectomylabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hcgpreorchiectomyrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">hCG Pre-Orchiectomy Range</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hcgpreorchiectomyrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">jak2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">JAK2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">jak2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ki67</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Ki-67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ki67description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kitgeneimmunohistochemistry</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">KIT Gene Immunohistochemistry</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kitgeneimmunohistochemistrydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kras</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">KRAS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">krasdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ldhpostorchiectomyrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LDH Post-Orchiectomy Range</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ldhpostorchiectomyrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ldhpreorchiectomyrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LDH Pre-Orchiectomy Range</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ldhpreorchiectomyrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ldhpretreatmentlabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LDH Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ldhpretreatmentlabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ldhpretreatmentlevel</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LDH Level</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ldhpretreatmentleveldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ldhupperlimitsofnormal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">LDH Upper Limits of Normal</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ldhupperlimitsofnormaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">progesteronerecepprcntposorrange</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Progesterone Receptor Percent Positive or Range</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">progesteronerecepprcntposorrangedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">progesteronerecepsummary</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Progesterone Receptor Summary</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">progesteronerecepsummarydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">progesteronereceptotalallredscor</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Progesterone Receptor Total Allred Score</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">progesteronereceptotalallredscordescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">prostatepathologicalextension</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">EOD Prostate Pathologic Extension</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">prostatepathologicalextensiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">protocolparticipation</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Protocol Participation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">protocolparticipationdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">psalabvalue</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">PSA (Prostatic Specific Antigen) Lab Value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">psalabvaluedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">serumalbuminpretreatmentlevel</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Serum Albumin Pretreatment Level</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">serumalbuminpretreatmentleveldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">serumbeta2microglobulinpretxlvl</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Serum Beta-2 Microglobulin Pretreatment Level</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">serumbeta2microglobulinpretxlvldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordbileductgenetictestingperformed</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Bile Duct Genetic Testing Performed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordbileductgenetictestingperformeddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordbileductgenetictestingresults</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Bile Duct Genetic Testing Results</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordbileductgenetictestingresultsdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordbileductgenetictestingresultstext</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Bile Duct Genetic Testing Results Text</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordbileductmsi</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Bile Duct MSI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordbileductmsidescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordbileducttumormutationalburdentmb</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Bile Duct Tumor Mutational Burden (TMB)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordmelanomabraf</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford Melanoma BRAF</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordmelanomabrafdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanfordpdl1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Stanford PdL1 (Lung)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stanfordpdl1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">textdxproclabtests</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Text–DX Proc–Lab Tests</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../omop_data_dict/vocabulary.html" class="pagination-link" aria-label="vocabulary">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">vocabulary</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../neuralframe_data_dict/case_misc_details.html" class="pagination-link" aria-label="NeuralFrame Case Miscellaneous Details">
+        <span class="nav-page-text">NeuralFrame Case Miscellaneous Details</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+<p>About</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
