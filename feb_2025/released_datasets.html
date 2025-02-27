@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>person – Oncology Data Lake</title>
+<title>Released Datasets – Oncology Data Lake</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../omop_data_dict/procedure_occurrence.html" rel="next">
-<link href="../omop_data_dict/payer_plan_period.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -72,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="person – Oncology Data Lake">
+<meta property="og:title" content="Released Datasets – Oncology Data Lake">
 <meta property="og:description" content="">
 <meta property="og:site_name" content="Oncology Data Lake">
 </head>
@@ -122,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../omop_data_dict/care_site.html">OMOP-CDM</a></li><li class="breadcrumb-item"><a href="../omop_data_dict/person.html">person</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Released Datasets</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -144,20 +142,20 @@ ul.task-list li input[type="checkbox"] {
       <div class="sidebar-item-container"> 
             <a href="../data_dictionary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Dictionary</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">OMOP-CDM</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../omop_data_dict/care_site.html" class="sidebar-item-text sidebar-link">
@@ -304,7 +302,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../omop_data_dict/person.html" class="sidebar-item-text sidebar-link active">
+  <a href="../omop_data_dict/person.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">person</span></a>
   </div>
 </li>
@@ -404,45 +402,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#table-columns" id="toc-table-columns" class="nav-link active" data-scroll-target="#table-columns">Table Columns</a></li>
-  <li><a href="#columns-description" id="toc-columns-description" class="nav-link" data-scroll-target="#columns-description">Columns Description</a>
-  <ul>
-  <li><a href="#person_id" id="toc-person_id" class="nav-link" data-scroll-target="#person_id">person_id</a></li>
-  <li><a href="#gender_concept_id" id="toc-gender_concept_id" class="nav-link" data-scroll-target="#gender_concept_id">gender_concept_id</a></li>
-  <li><a href="#year_of_birth" id="toc-year_of_birth" class="nav-link" data-scroll-target="#year_of_birth">year_of_birth</a></li>
-  <li><a href="#month_of_birth" id="toc-month_of_birth" class="nav-link" data-scroll-target="#month_of_birth">month_of_birth</a></li>
-  <li><a href="#day_of_birth" id="toc-day_of_birth" class="nav-link" data-scroll-target="#day_of_birth">day_of_birth</a></li>
-  <li><a href="#birth_datetime" id="toc-birth_datetime" class="nav-link" data-scroll-target="#birth_datetime">birth_datetime</a></li>
-  <li><a href="#race_concept_id" id="toc-race_concept_id" class="nav-link" data-scroll-target="#race_concept_id">race_concept_id</a></li>
-  <li><a href="#ethnicity_concept_id" id="toc-ethnicity_concept_id" class="nav-link" data-scroll-target="#ethnicity_concept_id">ethnicity_concept_id</a></li>
-  <li><a href="#location_id" id="toc-location_id" class="nav-link" data-scroll-target="#location_id">location_id</a></li>
-  <li><a href="#provider_id" id="toc-provider_id" class="nav-link" data-scroll-target="#provider_id">provider_id</a></li>
-  <li><a href="#care_site_id" id="toc-care_site_id" class="nav-link" data-scroll-target="#care_site_id">care_site_id</a></li>
-  <li><a href="#person_source_value" id="toc-person_source_value" class="nav-link" data-scroll-target="#person_source_value">person_source_value</a></li>
-  <li><a href="#gender_source_value" id="toc-gender_source_value" class="nav-link" data-scroll-target="#gender_source_value">gender_source_value</a></li>
-  <li><a href="#gender_source_concept_id" id="toc-gender_source_concept_id" class="nav-link" data-scroll-target="#gender_source_concept_id">gender_source_concept_id</a></li>
-  <li><a href="#race_source_value" id="toc-race_source_value" class="nav-link" data-scroll-target="#race_source_value">race_source_value</a></li>
-  <li><a href="#race_source_concept_id" id="toc-race_source_concept_id" class="nav-link" data-scroll-target="#race_source_concept_id">race_source_concept_id</a></li>
-  <li><a href="#ethnicity_source_value" id="toc-ethnicity_source_value" class="nav-link" data-scroll-target="#ethnicity_source_value">ethnicity_source_value</a></li>
-  <li><a href="#ethnicity_source_concept_id" id="toc-ethnicity_source_concept_id" class="nav-link" data-scroll-target="#ethnicity_source_concept_id">ethnicity_source_concept_id</a></li>
-  <li><a href="#trace_id-stanford-construct-for-traceability" id="toc-trace_id-stanford-construct-for-traceability" class="nav-link" data-scroll-target="#trace_id-stanford-construct-for-traceability">trace_id (stanford construct for traceability)</a></li>
-  <li><a href="#unit_id-stanford-construct-for-traceability" id="toc-unit_id-stanford-construct-for-traceability" class="nav-link" data-scroll-target="#unit_id-stanford-construct-for-traceability">unit_id (stanford construct for traceability)</a></li>
-  <li><a href="#load_table_id-stanford-construct-for-traceability" id="toc-load_table_id-stanford-construct-for-traceability" class="nav-link" data-scroll-target="#load_table_id-stanford-construct-for-traceability">load_table_id (stanford construct for traceability)</a></li>
-  </ul></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../omop_data_dict/care_site.html">OMOP-CDM</a></li><li class="breadcrumb-item"><a href="../omop_data_dict/person.html">person</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">person</h1>
+<h1 class="title">Released Datasets</h1>
 </div>
 
 
@@ -459,268 +427,41 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Standard Clinical Data Table</p>
-<section id="table-columns" class="level3">
-<h3 class="anchored" data-anchor-id="table-columns">Table Columns</h3>
+<p>This document provides a list of datasets as part of the February 2025 released. Each dataset is described briefly, including whether it contains Protected Health Information (PHI) or if the PHI has been scrubbed.</p>
 <div class="table-responsive">
 <table class="table-hover table-sm small caption-top table">
 <colgroup>
-<col style="width: 48%">
-<col style="width: 9%">
-<col style="width: 11%">
-<col style="width: 6%">
-<col style="width: 24%">
+<col style="width: 85%">
+<col style="width: 14%">
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">field</th>
-<th style="text-align: left;">type</th>
-<th style="text-align: left;">required</th>
-<th style="text-align: left;">phi</th>
-<th style="text-align: left;">phi scrubbing operation</th>
+<th style="text-align: left;">Dataset Name</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">person_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Sub</td>
+<td style="text-align: left;"><code>som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_feb2025</code></td>
+<td style="text-align: left;">Oncology OMOP-CDM v5.3.1 dataset with PHI</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">gender_concept_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>som-rit-phi-oncology-prod.oncology_omop_confidential_irb76049_feb2025</code></td>
+<td style="text-align: left;">Oncology OMOP-CDM v5.3.1 dataset with PHI Scrubbed</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">year_of_birth</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>som-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_feb2025</code></td>
+<td style="text-align: left;">NeuralFrame dataset with PHI</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">month_of_birth</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">Jitt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">day_of_birth</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">Jitt</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">birth_datetime</td>
-<td style="text-align: left;">DATETIME</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">Jitt</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">race_concept_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ethnicity_concept_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">location_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">provider_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">Offset</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">care_site_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">person_source_value</td>
-<td style="text-align: left;">STRING</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">Sub</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">gender_source_value</td>
-<td style="text-align: left;">STRING</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">gender_source_concept_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">race_source_value</td>
-<td style="text-align: left;">STRING</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">race_source_concept_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ethnicity_source_value</td>
-<td style="text-align: left;">STRING</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ethnicity_source_concept_id</td>
-<td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">trace_id (Stanford construct for traceability)</td>
-<td style="text-align: left;">STRING</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">Del</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">unit_id (Stanford construct for traceability)</td>
-<td style="text-align: left;">STRING</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">load_table_id (Stanford construct for traceability)</td>
-<td style="text-align: left;">STRING</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>som-rit-phi-oncology-prod.oncology_neuralframe_confidential_irb76049_feb2025</code></td>
+<td style="text-align: left;">NeuralFrame dataset with PHI Scrubbed</td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
-<section id="columns-description" class="level3">
-<h3 class="anchored" data-anchor-id="columns-description">Columns Description</h3>
-<section id="person_id" class="level5">
-<h5 class="anchored" data-anchor-id="person_id">person_id</h5>
-<p>A unique identifier for each person.</p>
-</section>
-<section id="gender_concept_id" class="level5">
-<h5 class="anchored" data-anchor-id="gender_concept_id">gender_concept_id</h5>
-<p>This field is meant to capture the biological sex at birth of the Person. This field should not be used to study gender identity issues.</p>
-</section>
-<section id="year_of_birth" class="level5">
-<h5 class="anchored" data-anchor-id="year_of_birth">year_of_birth</h5>
-<p>The year of birth of the person. For data sources with date of birth, the year is extracted. For data sources where the year of birth is not available, the approximate year of birth is derived based on any age group categorization available.</p>
-</section>
-<section id="month_of_birth" class="level5">
-<h5 class="anchored" data-anchor-id="month_of_birth">month_of_birth</h5>
-<p>The month of birth of the person. For data sources that provide the precise date of birth, the month is extracted and stored in this field.</p>
-</section>
-<section id="day_of_birth" class="level5">
-<h5 class="anchored" data-anchor-id="day_of_birth">day_of_birth</h5>
-<p>The day of the month of birth of the person. For data sources that provide the precise date of birth, the day is extracted and stored in this field.</p>
-</section>
-<section id="birth_datetime" class="level5">
-<h5 class="anchored" data-anchor-id="birth_datetime">birth_datetime</h5>
-<p>The date and time of birth of the person.</p>
-</section>
-<section id="race_concept_id" class="level5">
-<h5 class="anchored" data-anchor-id="race_concept_id">race_concept_id</h5>
-<p>This field captures race or ethnic background of the person.</p>
-</section>
-<section id="ethnicity_concept_id" class="level5">
-<h5 class="anchored" data-anchor-id="ethnicity_concept_id">ethnicity_concept_id</h5>
-<p>This field captures ethnicity as defined by the Office of Management and Budget (OMB) of the US Government: it distinguishes only between “Hispanic” and “Not Hispanic”. Races and ethnic backgrounds are not stored here.</p>
-</section>
-<section id="location_id" class="level5">
-<h5 class="anchored" data-anchor-id="location_id">location_id</h5>
-<p>A foreign key to the place of residency for the person in the location table, where the detailed address information is stored. This field should capture the last known location of the person.</p>
-</section>
-<section id="provider_id" class="level5">
-<h5 class="anchored" data-anchor-id="provider_id">provider_id</h5>
-<p>A foreign key to the primary care provider the person is seeing in the provider table.</p>
-</section>
-<section id="care_site_id" class="level5">
-<h5 class="anchored" data-anchor-id="care_site_id">care_site_id</h5>
-<p>A foreign key to the site of primary care in the care_site table, where the details of the care site are stored.</p>
-</section>
-<section id="person_source_value" class="level5">
-<h5 class="anchored" data-anchor-id="person_source_value">person_source_value</h5>
-<p>An (encrypted) key derived from the person identifier in the source data. This is necessary when a use case requires a link back to the person data at the source dataset. In STARR-OMOP person_source_value is: MRN | D.O.B.</p>
-</section>
-<section id="gender_source_value" class="level5">
-<h5 class="anchored" data-anchor-id="gender_source_value">gender_source_value</h5>
-<p>The source code for the gender of the person as it appears in the source data. The person’s gender is mapped to a standard gender concept in the Standardized Vocabularies; the original value is stored here for reference.</p>
-</section>
-<section id="gender_source_concept_id" class="level5">
-<h5 class="anchored" data-anchor-id="gender_source_concept_id">gender_source_concept_id</h5>
-<p>A foreign key to the gender concept that refers to the code used in the source.</p>
-</section>
-<section id="race_source_value" class="level5">
-<h5 class="anchored" data-anchor-id="race_source_value">race_source_value</h5>
-<p>The source code for the race of the person as it appears in the source data. The person race is mapped to a standard race concept in the Standardized Vocabularies and the original value is stored here for reference.</p>
-</section>
-<section id="race_source_concept_id" class="level5">
-<h5 class="anchored" data-anchor-id="race_source_concept_id">race_source_concept_id</h5>
-<p>A foreign key to the race concept that refers to the code used in the source.</p>
-</section>
-<section id="ethnicity_source_value" class="level5">
-<h5 class="anchored" data-anchor-id="ethnicity_source_value">ethnicity_source_value</h5>
-<p>The source code for the ethnicity of the person as it appears in the source data. The person ethnicity is mapped to a standard ethnicity concept in the Standardized Vocabularies and the original code is, stored here for reference.</p>
-</section>
-<section id="ethnicity_source_concept_id" class="level5">
-<h5 class="anchored" data-anchor-id="ethnicity_source_concept_id">ethnicity_source_concept_id</h5>
-<p>A foreign key to the ethnicity concept that refers to the code used in the source.</p>
-</section>
-<section id="trace_id-stanford-construct-for-traceability" class="level5">
-<h5 class="anchored" data-anchor-id="trace_id-stanford-construct-for-traceability">trace_id (stanford construct for traceability)</h5>
-<p>A json string with the primary keys of the table in Clarity where most of the information for a given row is sourced</p>
-</section>
-<section id="unit_id-stanford-construct-for-traceability" class="level5">
-<h5 class="anchored" data-anchor-id="unit_id-stanford-construct-for-traceability">unit_id (stanford construct for traceability)</h5>
-<p>Is a reference to the position in the ETL code resposible for bringing in this row data</p>
-</section>
-<section id="load_table_id-stanford-construct-for-traceability" class="level5">
-<h5 class="anchored" data-anchor-id="load_table_id-stanford-construct-for-traceability">load_table_id (stanford construct for traceability)</h5>
-<p>Is the name of the primary Clarity table in Clarity where most of the information for a given row is sourced</p>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1143,18 +884,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../omop_data_dict/payer_plan_period.html" class="pagination-link" aria-label="payer_plan_period">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">payer_plan_period</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../omop_data_dict/procedure_occurrence.html" class="pagination-link" aria-label="procedure_occurrence">
-        <span class="nav-page-text">procedure_occurrence</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

@@ -364,19 +364,63 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./data_labeling.html" class="sidebar-item-text sidebar-link">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./data_labeling.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./feb_2025/phi_labeling_guidelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Guidelines</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./feb_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#about-the-oncology-data-lake" id="toc-about-the-oncology-data-lake" class="nav-link active" data-scroll-target="#about-the-oncology-data-lake">About the Oncology Data Lake</a>
+  <ul>
+  <li><a href="#dataset-overview" id="toc-dataset-overview" class="nav-link" data-scroll-target="#dataset-overview">Dataset Overview</a>
+  <ul>
+  <li><a href="#oncology-omop" id="toc-oncology-omop" class="nav-link" data-scroll-target="#oncology-omop">Oncology-OMOP</a></li>
+  <li><a href="#neuralframe" id="toc-neuralframe" class="nav-link" data-scroll-target="#neuralframe">NeuralFrame</a></li>
+  <li><a href="#dataset-releases" id="toc-dataset-releases" class="nav-link" data-scroll-target="#dataset-releases">Dataset Releases</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#data-privacy-and-security" id="toc-data-privacy-and-security" class="nav-link" data-scroll-target="#data-privacy-and-security">Data Privacy and Security</a></li>
+  <li><a href="#project-resources" id="toc-project-resources" class="nav-link" data-scroll-target="#project-resources">Project Resources</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -400,10 +444,42 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The starr_omop_cdm5_xxxxx. dataset contains identified data in the OMOP cdm 5.3.1. In addition, they also contain some extra columns that are not strictly part of the cdm definition but have been added for increased source/patient traceability (e.g.&nbsp;trace_id, unit_id, load_table_id).</p>
-<p>The starr omop identified dataset is created using EPIC Clarity tables which only include the patient and encounter data that is permissible for research. The tables in the starr_omop_cdm5_xxxxx dataset are listed in the <a href="./data_dictionary.html">Data Dictionary</a> page, along with a column stating whether or not they contain PHI and a brief note regarding what kind of table they are.</p>
-<p>Note: Most vocabulary tables contain standard terminology, do not change from institution to institution, and do not contain any PHI. In the information in this webpage, we have included all populated tables in the CDM (including tables that do not contain PHI) along with a brief description of the fields.</p>
-<p>For more information regarding our source data and methods see the links below:</p>
+<section id="about-the-oncology-data-lake" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-oncology-data-lake">About the Oncology Data Lake</h2>
+<p>Welcome to the Oncology Data Lake project. This website provides documentation for the datasets released as part of the project.</p>
+<section id="dataset-overview" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h3>
+<section id="oncology-omop" class="level4">
+<h4 class="anchored" data-anchor-id="oncology-omop">Oncology-OMOP</h4>
+<p>The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence. As part of this project we are using OMOP CDM 5.3.1 version.</p>
+<p>The identified dataset is created using EPIC Clarity tables, which include patient and encounter data permissible for research. The tables in the OMOP-CDM common data model that are part of this dataset are listed in the <a href="./data_dictionary.html">Data Dictionary</a> page, along with information on whether they contain PHI and a brief description of each table.</p>
+</section>
+<section id="neuralframe" class="level4">
+<h4 class="anchored" data-anchor-id="neuralframe">NeuralFrame</h4>
+<p>Neural Frame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:</p>
+<ul>
+<li><p>Outcome: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.</p></li>
+<li><p>Diagnoses: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.</p></li>
+<li><p>Treatment: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.</p></li>
+<li><p>Miscellaneous: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.</p></li>
+</ul>
+</section>
+<section id="dataset-releases" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-releases">Dataset Releases</h4>
+<p>We periodically release updated versions of our datasets to ensure that researchers have access to the most current and comprehensive data available. Below are the details of our latest dataset releases:</p>
+<ul>
+<li><a href="./feb_2025/released_datasets.html">February 2025</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="data-privacy-and-security" class="level2">
+<h2 class="anchored" data-anchor-id="data-privacy-and-security">Data Privacy and Security</h2>
+<p>We prioritize patient privacy and data security. Our datasets undergo rigorous phi scrubbing processes. Most vocabulary tables contain standard terminology, do not vary between institutions, and do not contain any PHI. We have included all populated tables in the CDM, along with descriptions of the fields, on this website.</p>
+</section>
+<section id="project-resources" class="level2">
+<h2 class="anchored" data-anchor-id="project-resources">Project Resources</h2>
+<p>For more information regarding our source data and methods, please refer to the following resources:</p>
 <ul>
 <li><strong>Source Data</strong>
 <ul>
@@ -419,6 +495,7 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
