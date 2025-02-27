@@ -30,8 +30,15 @@ website:
         contents:
           - text: "February 2025"
             href: feb_2025/demographic.qmd
-      - text: "Data Labeling"
+      - section: "Data Labeling"
         href: data_labeling.qmd
+        contents:
+          - section: "February 2025"
+            contents: 
+              - text: "Labeling Guidelines"
+                href: feb_2025/phi_labeling_guidelines.qmd  
+              - text: "Labeling Report"
+                href: feb_2025/phi_labeling_report.qmd
   navbar:
     left:
       - text: "About"
