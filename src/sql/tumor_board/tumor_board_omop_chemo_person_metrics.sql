@@ -3,7 +3,7 @@
 ------------------------------------------------------------------------
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
+all_flag as (select * from `@oncology_temp_dev.@oncology_temp_data.onc_all__cancer_flags`),
 concept as (select * from `@oncology_prod.@oncology_omop.concept`),
 concept_ancestor as (select * from `@oncology_prod.@oncology_omop.concept_ancestor`),
 drug_era as (select * from `@oncology_prod.@oncology_omop.drug_era`),
