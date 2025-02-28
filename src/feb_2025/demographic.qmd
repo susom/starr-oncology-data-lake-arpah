@@ -166,7 +166,7 @@ res_dat <- res_dat %>%
       sql_file_name == "note_imaging_person_metrics.sql" ~ "Number of patients with imaging reports, also a proxy for radiology imaging data",
       sql_file_name == "vital_status_person_metrics.sql" ~ "Number of patients with present Hospital or Stanford Cancer Registry death date",
       sql_file_name == "omop_chemo_person_metrics.sql" ~ "Number of patients given chemo medication",
-      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "Number of patients with WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
+      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "Number of patients with Pathology reports",
       TRUE ~ NA_character_
     )
   )
