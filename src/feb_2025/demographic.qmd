@@ -430,7 +430,7 @@ res_rc$var="Recurrence Type"
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-create_gt_table(res_rc, var, recurrencetype1stdescription, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
+create_gt_table2(res_rc, recurrencetype1stdescription, n_pts, " Recurrence Type - Neural Frame Outcomes", "Patient Count", "Number of Neural Frame Patients (196,564)")
 ```
 
 

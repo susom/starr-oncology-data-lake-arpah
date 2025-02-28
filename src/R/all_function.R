@@ -392,3 +392,55 @@ create_gt_table <- function(data, metric_col, metric_var, pt_count_col, metric_l
       locations = cells_column_labels()  # Apply to column labels
     )
 }
+
+
+
+############################################
+### Function to generate a table 2inputs ##
+###########################################
+
+library(gt)
+library(dplyr)
+create_gt_table2 <- function(data, metric_col, pt_count_col, metric_label, pt_count_label, footnote_text) {
+  data %>%
+    select({{ metric_col }}, {{ pt_count_col }}) %>%
+    gt() %>%
+    cols_label(
+      !!rlang::enquo(metric_col) := metric_label,
+      !!rlang::enquo(pt_count_col) := pt_count_label
+    ) %>%
+    tab_header(
+      title = "",
+      subtitle = ""
+    ) %>%
+    fmt_number(
+      columns = where(is.numeric),
+      decimals = 0
+    ) %>%
+    cols_align(
+      align = "center",
+      columns = vars({{ pt_count_col }})  # Specify the columns to center
+    ) %>%
+    tab_options(
+      table.font.size = px(14),
+      heading.align = "left",
+      table.border.top.color = "darkred",
+      table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(
+      footnote = footnote_text  # Use the footnote text provided as an argument
+    ) %>%
+    tab_style(
+      style = list(
+        cell_text(weight = "bold")  # Make the text bold
+      ),
+      locations = cells_column_labels()  # Apply to column labels
+    ) %>%
+    tab_style(
+      style = list(
+        cell_text(size = px(18))  # Increase font size for column labels
+      ),
+      locations = cells_column_labels()  # Apply to column labels
+    )
+}
