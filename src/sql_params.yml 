@@ -1,13 +1,7 @@
 oncology_prod: som-rit-phi-oncology-prod
-oncology_omop: oncology_omop_arpah_alpha
-shc_clarity: shc_clarity_filtered_latest
-starr_prod: som-rit-phi-starr-prod
-starr_common: starr_common
-neuralframe_raw: oncology_neuralframe_raw
-registry_table: neuralframe_parquet_registry_data
-oncology_aria: oncology_aria_raw
-oncology_prod: som-rit-phi-oncology-dev
-oncology_temp: starr_omop_cdm5_oncology_all_temp_2025_01_28
-oncology_philips: oncology_philips_raw
-oncology_neuralframe: onc_farnoosh_oncology_neuralframe
+oncology_omop: oncology_omop_phi_irb76049_feb2025
+##oncology_temp_data: oncology_omop_arpah_flags_alpha
+oncology_neuralframe: oncology_neuralframe_phi_irb76049_feb2025
+oncology_temp_dev: som-rit-phi-starr-dev
+oncology_temp_data: farnoosh_starr_omop_cdm5_oncology_all_temp
 
