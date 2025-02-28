@@ -135,9 +135,10 @@ all.dat %>% select (-description) %>%
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-folder_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
+folder_path <- "sql/arpah_clinical"
  project_name = "som-rit-phi-oncology-prod"
 res_arpah <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path)
+print(res_arpah)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -147,15 +148,15 @@ project_name = "som-rit-phi-oncology-prod"
 res_tb <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tb)
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-colnames(res_arpah)[1]<-"pt_count_arph"
+colnames(res_arpah)<-c("pt_count_arph", "file_name")
 
-res_tb$sql_file_name=gsub("tumor_board_","", res_tb$sql_file_name)
+res_tb$file_name=gsub("tumor_board_","", res_tb$sql_file_name)
 colnames(res_tb)[1]<-"pt_count_tb"
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## check
-res_arpah$sql_file_name[!res_arpah$sql_file_name %in% res_tb$sql_file_name]
-res_dat=res_arpah %>% inner_join(res_tb, by="sql_file_name")
+res_dat=res_arpah %>% inner_join(res_tb, by="file_name")
 print(res_dat)
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -170,8 +171,6 @@ res_dat <- res_dat %>%
       TRUE ~ NA_character_
     )
   )
-print(res_dat)
-res_dat=res_dat %>% filter(!is.na(metric))
 print(res_dat)
 
 ```

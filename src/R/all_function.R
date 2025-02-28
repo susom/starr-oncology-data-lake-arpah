@@ -231,7 +231,7 @@ fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
 
   on.exit(dbDisconnect(conn), add = TRUE)
 
-  sql_params <- yaml::read_yaml("../sql_params.yml")
+  sql_params <- yaml::read_yaml("sql_params.yml")
 
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
 
