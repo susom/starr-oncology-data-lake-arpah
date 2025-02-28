@@ -135,7 +135,7 @@ all.dat %>% select (-description) %>%
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-folder_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
+folder_path <- "../sql/arpah_clinical"
  project_name = "som-rit-phi-oncology-prod"
 res_arpah <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path)
 print(res_arpah)
@@ -143,7 +143,7 @@ print(res_arpah)
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board"
+folder_path_tb <- "../sql/tumor_board"
 project_name = "som-rit-phi-oncology-prod"
 res_tb <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tb)
 ```
@@ -181,6 +181,7 @@ print(res_dat)
 
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
+res_dat$sql_file_name=NULL
 res_dat<-res_dat%>% select(metric, everything())
 ```
 ```{r,, message=FALSE, warning=FALSE}
@@ -244,7 +245,7 @@ The following metrics were identified for individuals with thoracic cancer withi
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-folder_path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic"
+folder_path_tc <- "../sql/scr/thoracic"
 project_name = "som-rit-phi-oncology-prod"
 res_tc <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tc)
 ```

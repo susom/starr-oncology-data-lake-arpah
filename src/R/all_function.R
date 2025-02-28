@@ -95,7 +95,7 @@ fetch_data_from_sql <- function(credentials_path, project, folder_path) {
   )
 
   # List SQL files
-  sql_params <- yaml::read_yaml("../sql_params.yml")
+  sql_params <- yaml::read_yaml("sql_params.yml")
 
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
 
