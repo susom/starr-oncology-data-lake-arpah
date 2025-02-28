@@ -4,167 +4,166 @@ title: "NeuralFrame Case Miscellaneous Details"
 
 This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
 
-| Column Name                            | Type        | Description                        |
-|:---------------------------------------|:------------|:-----------------------------------|
-| cleaned_nf_mrn                         | STRING      |                                    |
-| cleaned_nf_dob                         | DATE        |                                    |
-| medicalrecordnumber                    | STRING      | Medical Record Number              |
-| dateofbirth                            | STRING      | Date of Birth                      |
-| nfpatientsetid                         | STRING      |                                    |
-| nfcaseentityid                         | STRING      |                                    |
-| nffacilityid                           | STRING      | NF Facility ID                     |
-| nffacilityiddescription                | STRING      |                                    |
-| nfcasestatus                           | STRING      |                                    |
-| addratdxcity                           | STRING      | Addr at DX--City                   |
-| addratdxcitydescription                | STRING      |                                    |
-| addratdxcountry                        | STRING      | Addr at DX--Country                |
-| addratdxcountrydescription             | STRING      |                                    |
-| addratdxnostreet                       | STRING      | Addr at DX--No & Street            |
-| addratdxnostreetdescription            | STRING      |                                    |
-| addratdxpostalcode                     | STRING      | Addr at DX--Postal Code            |
-| addratdxpostalcodedescription          | STRING      |                                    |
-| addratdxstate                          | STRING      | Addr at DX--State                  |
-| addratdxstatedescription               | STRING      |                                    |
-| addratdxsupplementl                    | STRING      | Addr at DX--Supplementl            |
-| addrcurrentcity                        | STRING      | Addr Current--City                 |
-| addrcurrentcountry                     | STRING      | Addr Current--Country              |
-| addrcurrentcountrydescription          | STRING      |                                    |
-| addrcurrentcounty                      | STRING      |                                    |
-| addrcurrentnostreet                    | STRING      | Addr Current--No & Street          |
-| addrcurrentpostalcode                  | STRING      | Addr Current--Postal Code          |
-| addrcurrentpostalcodedescription       | STRING      |                                    |
-| addrcurrentstate                       | STRING      | Addr Current--State                |
-| addrcurrentstatedescription            | STRING      |                                    |
-| addrcurrentsupplementl                 | STRING      | Addr Current--Supplementl          |
-| ageatdiagnosis                         | STRING      | Age at Diagnosis                   |
-| ageatdiagnosisdescription              | STRING      |                                    |
-| agedecadediagnosis                     | STRING      |                                    |
-| birthplacecountry                      | STRING      | Birthplace--Country                |
-| birthplacestate                        | STRING      | Birthplace--State                  |
-| birthplacestatedescription             | STRING      |                                    |
-| causeofdeath                           | STRING      | Cause of Death                     |
-| causeofdeathdescription                | STRING      |                                    |
-| contactname                            | STRING      | Contact Name                       |
-| countyatdx                             | STRING      | County at DX Reported              |
-| countyatdxdescription                  | STRING      |                                    |
-| dcstatefilenumber                      | STRING      | DC State File Number               |
-| followuplasttypepatient                | STRING      | Follow-Up Last Type Patient        |
-| followuplasttypepatientdescription     | STRING      |                                    |
-| followupnexttype                       | STRING      | Follow-Up Next Type                |
-| followupnexttypedescription            | STRING      |                                    |
-| height                                 | STRING      | Height                             |
-| heightdescription                      | STRING      |                                    |
-| hosppatno                              | STRING      | Hosp Pat No                        |
-| maritalstatusatdx                      | STRING      | Marital Status at DX               |
-| maritalstatusatdxdescription           | STRING      |                                    |
-| medicarebeneficiaryidentifier          | STRING      | Medicare Beneficiary Identifier    |
-| naaccralcohol                          | STRING      | Alcohol History                    |
-| naaccralcoholdescription               | STRING      |                                    |
-| naaccrrecordversion                    | STRING      | NAACCR Record Version              |
-| naaccrrecordversiondescription         | STRING      |                                    |
-| naaccrtobacco                          | STRING      | Tobacco History                    |
-| naaccrtobaccodescription               | STRING      |                                    |
-| namealias                              | STRING      | Name--Alias                        |
-| namealiasfirst                         | STRING      | Name--Alias First                  |
-| namebirthsurname                       | STRING      | Name--Birth Surname                |
-| namefirst                              | STRING      | Name--First                        |
-| namelast                               | STRING      | Name--Last                         |
-| namemiddle                             | STRING      | Name--Middle                       |
-| overridespanishbpl                     | STRING      | Over-ride Spanish BPL              |
-| overridespanishbpldescription          | STRING      |                                    |
-| patnocontact                           | STRING      | Pat No Contact                     |
-| patnocontactdescription                | STRING      |                                    |
-| patientsystemidhosp                    | STRING      | Patient System ID-Hosp             |
-| placeofdeathcountry                    | STRING      | Place of Death--Country            |
-| placeofdeathcountrydescription         | STRING      |                                    |
-| placeofdeathstate                      | STRING      | Place of Death--State              |
-| placeofdeathstatedescription           | STRING      |                                    |
-| race1                                  | STRING      | Race 1                             |
-| race1description                       | STRING      |                                    |
-| race2                                  | STRING      | Race 2                             |
-| race2description                       | STRING      |                                    |
-| race3                                  | STRING      | Race 3                             |
-| race3description                       | STRING      |                                    |
-| race4                                  | STRING      | Race 4                             |
-| race4description                       | STRING      |                                    |
-| race5                                  | STRING      | Race 5                             |
-| race5description                       | STRING      |                                    |
-| racecodingsyscurrent                   | STRING      | Race Coding Sys--Current           |
-| racecodingsyscurrentdescription        | STRING      |                                    |
-| racecodingsysoriginal                  | STRING      | Race Coding Sys--Original          |
-| racecodingsysoriginaldescription       | STRING      |                                    |
-| sex                                    | STRING      | Sex                                |
-| sexdescription                         | STRING      |                                    |
-| socialsecuritynumber                   | STRING      | Social Security Number             |
-| socialsecuritynumberdescription        | STRING      |                                    |
-| spanishhispanicorigin                  | STRING      | Spanish/Hispanic Origin            |
-| spanishhispanicorigindescription       | STRING      |                                    |
-| ssnsuffix                              | STRING      | SSN Suffix                         |
-| stateexportflag                        | STRING      | State Export Flag                  |
-| stateexportflagdescription             | STRING      |                                    |
-| telephone                              | STRING      | Telephone                          |
-| telephonedescription                   | STRING      |                                    |
-| textusualindustry                      | STRING      | Text--Usual Industry               |
-| textusualoccupation                    | STRING      | Text--Usual Occupation             |
-| tobaccousecigarettes                   | STRING      | Tobacco Use Cigarettes             |
-| tobaccousecigarettesdescription        | STRING      |                                    |
-| tobaccousenos                          | STRING      | Tobacco Use NOS                    |
-| tobaccousenosdescription               | STRING      |                                    |
-| tobaccouseothersmoke                   | STRING      | Tobacco Use Other Smoke            |
-| tobaccouseothersmokedescription        | STRING      |                                    |
-| tobaccousesmokeless                    | STRING      | Tobacco Use Smokeless              |
-| tobaccousesmokelessdescription         | STRING      |                                    |
-| tobaccousesmokingstatus                | STRING      | Tobacco Use Smoking Status         |
-| tobaccousesmokingstatusdescription     | STRING      |                                    |
-| weight                                 | STRING      | Weight                             |
-| weightdescription                      | STRING      |                                    |
-| followupcontactcity                    | STRING      |                                    |
-| followupcontactnost                    | STRING      |                                    |
-| followupcontactpostal                  | STRING      |                                    |
-| followupcontactstate                   | STRING      |                                    |
-| followupcontactsuppl                   | STRING      |                                    |
-| religion                               | STRING      | Religion                           |
-| religiondescription                    | STRING      |                                    |
-| paysource2                             | STRING      | Pay Source 2                       |
-| paysource2description                  | STRING      |                                    |
-| paymentsourcetext                      | STRING      | Payment Source Text                |
-| nfcreatedat                            | STRING      |                                    |
-| nfupdatedat                            | STRING      |                                    |
-| abstractedby                           | STRING      | Abstracted By                      |
-| abstractedbydescription                | STRING      |                                    |
-| archivefin                             | STRING      | Archive FIN                        |
-| archivefindescription                  | STRING      |                                    |
-| birthplacecountrydescription           | STRING      |                                    |
-| californiacountyatdx                   | STRING      | California County At Dx            |
-| californiacountyatdxdescription        | STRING      |                                    |
-| californiareportingfacility            | STRING      | California Reporting Facility      |
-| californiareportingfacilitydescription | STRING      |                                    |
-| caseassignedto                         | STRING      | Case Assigned To                   |
-| caseassignedtodescription              | STRING      |                                    |
-| casefindingreviewstatus                | STRING      | Case Finding Review Status         |
-| casefindingreviewstatusdescription     | STRING      |                                    |
-| censusindcode19702000                  | STRING      |                                    |
-| censusocccode19702000                  | STRING      |                                    |
-| followupcontactcountry                 | STRING      |                                    |
-| namemaiden                             | STRING      |                                    |
-| nameprefix                             | STRING      |                                    |
-| namespouseparent                       | STRING      |                                    |
-| namesuffix                             | STRING      |                                    |
-| placeofdeath                           | STRING      |                                    |
-| primarypayeratdx                       | STRING      | Primary Payer at DX                |
-| primarypayeratdxdescription            | STRING      |                                    |
-| reasoncasenotsubmittedstate            | STRING      | Reason Case Not Submitted to State |
-| reasoncasenr                           | STRING      |                                    |
-| reasoncasenrdescription                | STRING      |                                    |
-| recordtype                             | STRING      | Record Type                        |
-| recordtypedescription                  | STRING      |                                    |
-| registryid                             | STRING      | Registry ID                        |
-| registryiddescription                  | STRING      |                                    |
-| registrytype                           | STRING      | Registry Type                      |
-| registrytypedescription                | STRING      |                                    |
-| reportingfacility                      | STRING      | Reporting Facility                 |
-| reportingfacilitydescription           | STRING      |                                    |
-| researchthisfacility                   | STRING      | Research This Facility             |
-| researchthisfacilitydescription        | STRING      |                                    |
-
+| Column Name                            | Type   | Description                        | NAACCR Number                                                                                                   |
+|:---------------------------------------|:-------|:-----------------------------------|:----------------------------------------------------------------------------------------------------------------|
+| cleaned_nf_mrn                         | STRING |                                    |                                                                                                                 |
+| cleaned_nf_dob                         | DATE   |                                    |                                                                                                                 |
+| medicalrecordnumber                    | STRING | Medical Record Number              | [2300](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2300/)     |
+| dateofbirth                            | STRING | Date of Birth                      | [240](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=240/)       |
+| nfpatientsetid                         | STRING |                                    |                                                                                                                 |
+| nfcaseentityid                         | STRING |                                    |                                                                                                                 |
+| nffacilityid                           | STRING | NF Facility ID                     | [50078](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50078/)   |
+| nffacilityiddescription                | STRING |                                    |                                                                                                                 |
+| nfcasestatus                           | STRING |                                    |                                                                                                                 |
+| addratdxcity                           | STRING | Addr at DX--City                   | [70](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70/)         |
+| addratdxcitydescription                | STRING |                                    |                                                                                                                 |
+| addratdxcountry                        | STRING | Addr at DX--Country                | [102](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=102/)       |
+| addratdxcountrydescription             | STRING |                                    |                                                                                                                 |
+| addratdxnostreet                       | STRING | Addr at DX--No & Street            | [2330](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2330/)     |
+| addratdxnostreetdescription            | STRING |                                    |                                                                                                                 |
+| addratdxpostalcode                     | STRING | Addr at DX--Postal Code            | [100](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=100/)       |
+| addratdxpostalcodedescription          | STRING |                                    |                                                                                                                 |
+| addratdxstate                          | STRING | Addr at DX--State                  | [80](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=80/)         |
+| addratdxstatedescription               | STRING |                                    |                                                                                                                 |
+| addratdxsupplementl                    | STRING | Addr at DX--Supplementl            | [2335](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2335/)     |
+| addrcurrentcity                        | STRING | Addr Current--City                 | [1810](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1810/)     |
+| addrcurrentcountry                     | STRING | Addr Current--Country              | [1832](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1832/)     |
+| addrcurrentcountrydescription          | STRING |                                    |                                                                                                                 |
+| addrcurrentcounty                      | STRING |                                    |                                                                                                                 |
+| addrcurrentnostreet                    | STRING | Addr Current--No & Street          | [2350](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2350/)     |
+| addrcurrentpostalcode                  | STRING | Addr Current--Postal Code          | [1830](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1830/)     |
+| addrcurrentpostalcodedescription       | STRING |                                    |                                                                                                                 |
+| addrcurrentstate                       | STRING | Addr Current--State                | [1820](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1820/)     |
+| addrcurrentstatedescription            | STRING |                                    |                                                                                                                 |
+| addrcurrentsupplementl                 | STRING | Addr Current--Supplementl          | [2355](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2355/)     |
+| ageatdiagnosis                         | STRING | Age at Diagnosis                   | [230](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=230/)       |
+| ageatdiagnosisdescription              | STRING |                                    |                                                                                                                 |
+| agedecadediagnosis                     | STRING |                                    |                                                                                                                 |
+| birthplacecountry                      | STRING | Birthplace--Country                | [254](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=254/)       |
+| birthplacestate                        | STRING | Birthplace--State                  | [252](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=252/)       |
+| birthplacestatedescription             | STRING |                                    |                                                                                                                 |
+| causeofdeath                           | STRING | Cause of Death                     | [1910](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1910/)     |
+| causeofdeathdescription                | STRING |                                    |                                                                                                                 |
+| contactname                            | STRING | Contact Name                       | [70001](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70001/)   |
+| countyatdx                             | STRING | County at DX Reported              | [90](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=90/)         |
+| countyatdxdescription                  | STRING |                                    |                                                                                                                 |
+| dcstatefilenumber                      | STRING | DC State File Number               | [2380](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2380/)     |
+| followuplasttypepatient                | STRING | Follow-Up Last Type Patient        | [70010](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70010/)   |
+| followuplasttypepatientdescription     | STRING |                                    |                                                                                                                 |
+| followupnexttype                       | STRING | Follow-Up Next Type                | [70012](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70012/)   |
+| followupnexttypedescription            | STRING |                                    |                                                                                                                 |
+| height                                 | STRING | Height                             | [9960](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9960/)     |
+| heightdescription                      | STRING |                                    |                                                                                                                 |
+| hosppatno                              | STRING | Hosp Pat No                        | [70013](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70013/)   |
+| maritalstatusatdx                      | STRING | Marital Status at DX               | [150](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=150/)       |
+| maritalstatusatdxdescription           | STRING |                                    |                                                                                                                 |
+| medicarebeneficiaryidentifier          | STRING | Medicare Beneficiary Identifier    | [2315](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2315/)     |
+| naaccralcohol                          | STRING | Alcohol History                    | [350](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=350/)       |
+| naaccralcoholdescription               | STRING |                                    |                                                                                                                 |
+| naaccrrecordversion                    | STRING | NAACCR Record Version              | [50](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50/)         |
+| naaccrrecordversiondescription         | STRING |                                    |                                                                                                                 |
+| naaccrtobacco                          | STRING | Tobacco History                    | [340](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=340/)       |
+| naaccrtobaccodescription               | STRING |                                    |                                                                                                                 |
+| namealias                              | STRING | Name--Alias                        | [2280](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2280/)     |
+| namealiasfirst                         | STRING | Name--Alias First                  | [70016](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70016/)   |
+| namebirthsurname                       | STRING | Name--Birth Surname                | [2232](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2232/)     |
+| namefirst                              | STRING | Name--First                        | [2240](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2240/)     |
+| namelast                               | STRING | Name--Last                         | [2230](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2230/)     |
+| namemiddle                             | STRING | Name--Middle                       | [2250](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2250/)     |
+| overridespanishbpl                     | STRING | Over-ride Spanish BPL              | [70023](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70023/)   |
+| overridespanishbpldescription          | STRING |                                    |                                                                                                                 |
+| patnocontact                           | STRING | Pat No Contact                     | [70024](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70024/)   |
+| patnocontactdescription                | STRING |                                    |                                                                                                                 |
+| patientsystemidhosp                    | STRING | Patient System ID-Hosp             | [21](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=21/)         |
+| placeofdeathcountry                    | STRING | Place of Death--Country            | [1944](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1944/)     |
+| placeofdeathcountrydescription         | STRING |                                    |                                                                                                                 |
+| placeofdeathstate                      | STRING | Place of Death--State              | [1942](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1942/)     |
+| placeofdeathstatedescription           | STRING |                                    |                                                                                                                 |
+| race1                                  | STRING | Race 1                             | [160](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=160/)       |
+| race1description                       | STRING |                                    |                                                                                                                 |
+| race2                                  | STRING | Race 2                             | [161](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=161/)       |
+| race2description                       | STRING |                                    |                                                                                                                 |
+| race3                                  | STRING | Race 3                             | [162](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=162/)       |
+| race3description                       | STRING |                                    |                                                                                                                 |
+| race4                                  | STRING | Race 4                             | [163](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=163/)       |
+| race4description                       | STRING |                                    |                                                                                                                 |
+| race5                                  | STRING | Race 5                             | [164](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=164/)       |
+| race5description                       | STRING |                                    |                                                                                                                 |
+| racecodingsyscurrent                   | STRING | Race Coding Sys--Current           | [170](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=170/)       |
+| racecodingsyscurrentdescription        | STRING |                                    |                                                                                                                 |
+| racecodingsysoriginal                  | STRING | Race Coding Sys--Original          | [180](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=180/)       |
+| racecodingsysoriginaldescription       | STRING |                                    |                                                                                                                 |
+| sex                                    | STRING | Sex                                | [220](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=220/)       |
+| sexdescription                         | STRING |                                    |                                                                                                                 |
+| socialsecuritynumber                   | STRING | Social Security Number             | [2320](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2320/)     |
+| socialsecuritynumberdescription        | STRING |                                    |                                                                                                                 |
+| spanishhispanicorigin                  | STRING | Spanish/Hispanic Origin            | [190](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=190/)       |
+| spanishhispanicorigindescription       | STRING |                                    |                                                                                                                 |
+| ssnsuffix                              | STRING | SSN Suffix                         | [70048](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70048/)   |
+| stateexportflag                        | STRING | State Export Flag                  | [50080](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50080/)   |
+| stateexportflagdescription             | STRING |                                    |                                                                                                                 |
+| telephone                              | STRING | Telephone                          | [2360](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2360/)     |
+| telephonedescription                   | STRING |                                    |                                                                                                                 |
+| textusualindustry                      | STRING | Text--Usual Industry               | [320](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=320/)       |
+| textusualoccupation                    | STRING | Text--Usual Occupation             | [310](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=310/)       |
+| tobaccousecigarettes                   | STRING | Tobacco Use Cigarettes             | [9965](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9965/)     |
+| tobaccousecigarettesdescription        | STRING |                                    |                                                                                                                 |
+| tobaccousenos                          | STRING | Tobacco Use NOS                    | [9968](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9968/)     |
+| tobaccousenosdescription               | STRING |                                    |                                                                                                                 |
+| tobaccouseothersmoke                   | STRING | Tobacco Use Other Smoke            | [9966](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9966/)     |
+| tobaccouseothersmokedescription        | STRING |                                    |                                                                                                                 |
+| tobaccousesmokeless                    | STRING | Tobacco Use Smokeless              | [9967](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9967/)     |
+| tobaccousesmokelessdescription         | STRING |                                    |                                                                                                                 |
+| tobaccousesmokingstatus                | STRING | Tobacco Use Smoking Status         | [344](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=344/)       |
+| tobaccousesmokingstatusdescription     | STRING |                                    |                                                                                                                 |
+| weight                                 | STRING | Weight                             | [9961](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9961/)     |
+| weightdescription                      | STRING |                                    |                                                                                                                 |
+| followupcontactcity                    | STRING |                                    |                                                                                                                 |
+| followupcontactnost                    | STRING |                                    |                                                                                                                 |
+| followupcontactpostal                  | STRING |                                    |                                                                                                                 |
+| followupcontactstate                   | STRING |                                    |                                                                                                                 |
+| followupcontactsuppl                   | STRING |                                    |                                                                                                                 |
+| religion                               | STRING | Religion                           | [260](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=260/)       |
+| religiondescription                    | STRING |                                    |                                                                                                                 |
+| paysource2                             | STRING | Pay Source 2                       | [70025](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70025/)   |
+| paysource2description                  | STRING |                                    |                                                                                                                 |
+| paymentsourcetext                      | STRING | Payment Source Text                | [70026](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70026/)   |
+| nfcreatedat                            | STRING |                                    |                                                                                                                 |
+| nfupdatedat                            | STRING |                                    |                                                                                                                 |
+| abstractedby                           | STRING | Abstracted By                      | [570](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=570/)       |
+| abstractedbydescription                | STRING |                                    |                                                                                                                 |
+| archivefin                             | STRING | Archive FIN                        | [3100](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3100/)     |
+| archivefindescription                  | STRING |                                    |                                                                                                                 |
+| birthplacecountrydescription           | STRING |                                    |                                                                                                                 |
+| californiacountyatdx                   | STRING | California County At Dx            | [23002](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=23002/)   |
+| californiacountyatdxdescription        | STRING |                                    |                                                                                                                 |
+| californiareportingfacility            | STRING | California Reporting Facility      | [23001](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=23001/)   |
+| californiareportingfacilitydescription | STRING |                                    |                                                                                                                 |
+| caseassignedto                         | STRING | Case Assigned To                   | [50070](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50070/)   |
+| caseassignedtodescription              | STRING |                                    |                                                                                                                 |
+| casefindingreviewstatus                | STRING | Case Finding Review Status         | [50010](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50010/)   |
+| casefindingreviewstatusdescription     | STRING |                                    |                                                                                                                 |
+| censusindcode19702000                  | STRING |                                    |                                                                                                                 |
+| censusocccode19702000                  | STRING |                                    |                                                                                                                 |
+| followupcontactcountry                 | STRING |                                    |                                                                                                                 |
+| namemaiden                             | STRING |                                    |                                                                                                                 |
+| nameprefix                             | STRING |                                    |                                                                                                                 |
+| namespouseparent                       | STRING |                                    |                                                                                                                 |
+| namesuffix                             | STRING |                                    |                                                                                                                 |
+| placeofdeath                           | STRING |                                    |                                                                                                                 |
+| primarypayeratdx                       | STRING | Primary Payer at DX                | [630](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=630/)       |
+| primarypayeratdxdescription            | STRING |                                    |                                                                                                                 |
+| reasoncasenotsubmittedstate            | STRING | Reason Case Not Submitted to State | [50014](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50014/)   |
+| reasoncasenr                           | STRING |                                    |                                                                                                                 |
+| reasoncasenrdescription                | STRING |                                    |                                                                                                                 |
+| recordtype                             | STRING | Record Type                        | [10](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10/)         |
+| recordtypedescription                  | STRING |                                    |                                                                                                                 |
+| registryid                             | STRING | Registry ID                        | [40](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=40/)         |
+| registryiddescription                  | STRING |                                    |                                                                                                                 |
+| registrytype                           | STRING | Registry Type                      | [30](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=30/)         |
+| registrytypedescription                | STRING |                                    |                                                                                                                 |
+| reportingfacility                      | STRING | Reporting Facility                 | [540](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=540/)       |
+| reportingfacilitydescription           | STRING |                                    |                                                                                                                 |
+| researchthisfacility                   | STRING | Research This Facility             | [100048](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=100048/) |
+| researchthisfacilitydescription        | STRING |                                    |                                                                                                                 |
 :  {.hover .responsive .sm}
