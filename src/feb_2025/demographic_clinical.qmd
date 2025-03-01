@@ -19,17 +19,14 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
 Below is the distribution of persons by year of birth.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-project <- "som-rit-phi-oncology-prod"
 sql_file_path <- "../sql/arpah_cohort/arpah_age_metrics.sql"
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
-
-df <- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
+df <- fetch_data_from_sql_file(sql_file_path, yaml_file_path)
 ```
 
 ```{r, message=FALSE, warning=FALSE}
@@ -47,13 +44,13 @@ create_bar_plot(
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-project_id <- "som-rit-phi-oncology-prod"
-sql_file_path<- "../sql/arpah_cohort/arpah_demographic_all.sql"
+sql_file_path_demog<- "../sql/arpah_cohort/arpah_demographic_all.sql"
 
-demog_dat<- fetch_data_from_sql_file(credentials_path, project, sql_file_path, yaml_file_path)
+demog_dat<- fetch_data_from_sql_file(sql_file_path_demog, yaml_file_path)
 print(demog_dat)
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
+## demographic table ##
 all.dat = demog_dat %>%
 dplyr::mutate(
     Variable = dplyr::case_when(
@@ -87,46 +84,19 @@ all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45
 The demographic categories examined include Age, Sex, Race, and Ethnicity.
 
 ```{r, message=FALSE, warning=FALSE}
-all.dat %>% select (-description) %>%
-  gt() %>%
-  cols_label(
-    Characteristic = "Characteristic",
-    values="",
-    counts = "Count (N)",
-    percents = "Percentage (%)"
-  ) %>%
-  tab_header(
-    title = "All Category Metrics - Oncology OMOP",
-    subtitle = ""
-  ) %>%
-  fmt_number(
-    columns = where(is.numeric),
-    decimals = 0
-  ) %>%
-  cols_align(
-    align = "center",
-    columns = vars(counts, percents)  # Specify the columns to center
-  ) %>%
-  tab_options(
-    table.font.size = px(14),
-    heading.align = "left",
-    table.border.top.color = "darkred",
-    table.align = "left"
-  ) %>%
-  opt_row_striping()%>%
-  tab_style(
-    style = list(
-      cell_text(weight = "bold")  # Make the text bold
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  ) %>%
-  tab_style(
-    style = list(
-      cell_text(size = px(18))  # Increase font size for column labels
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  )
-
+create_gt_table(
+  data = all.dat %>% select(-description),
+  columns = c("Characteristic", "values", "counts", "percents"),
+  labels = c(
+    "Characteristic" = "Characteristic",
+    "values" = "",
+    "counts" = "Count (N)",
+    "percents" = "Percentage (%)"
+  ),
+  title_text = "All Category Metrics - Oncology OMOP",
+  subtitle_text = "",
+  footnote_text = ""
+)
 ```
 
 ## Clinical Metrics
@@ -134,17 +104,15 @@ all.dat %>% select (-description) %>%
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-folder_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
- project_name = "som-rit-phi-oncology-prod"
-res_arpah <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path)
+folder_path_arpah <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
+res_arpah <- fetch_data_from_sql_folder(folder_path_arpah)
+print(res_arpah)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board"
-project_name = "som-rit-phi-oncology-prod"
-res_tb <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tb)
+res_tb <- fetch_data_from_sql_folder(folder_path_tb)
+res_tb
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 colnames(res_arpah)[1]<-"pt_count_arph"
@@ -178,58 +146,41 @@ print(res_dat)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 res_dat<-res_dat%>% select(metric, everything())
 ```
-```{r,, message=FALSE, warning=FALSE}
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+path="/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/person_metrics.sql"
+den_arpah <- fetch_data_from_sql_file(path, yaml_file_path)
+print(den_arpah)
+
+path_tb="/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board/tumor_board_person_metrics.sql"
+den_tb <- fetch_data_from_sql_file(path_tb, yaml_file_path)
+print(den_tb)
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
 ## add percentages ##
 res_dat <- res_dat %>%
   mutate(
-    N_perc_arpah = calculate_N_percent(pt_count_arph, den=201554),
-    N_perc_tb=calculate_N_percent(pt_count_tb, den=24538)
+    N_perc_arpah = calculate_N_percent(pt_count_arph, den=den_arpah),
+    N_perc_tb=calculate_N_percent(pt_count_tb, den=den_tb)
   )
-
+print(res_dat)
 ```
 ```{r, message=FALSE, warning=FALSE}
+den_arpah <- as.numeric(den_arpah)
+den_tb <- as.numeric(den_tb)
 
-res_dat%>%select (metric,N_perc_arpah,N_perc_tb )%>%
-  gt() %>%
-  cols_label(
-    metric = "Clinical Metric Description",
-    N_perc_arpah = "Oncology OMOP N(%)* \n (Total=201,554)",
-    N_perc_tb="Tumor Board N(%)*\n (Total=24,538)",
-  ) %>%
-  tab_header(
-    title = "",
-    subtitle = ""
-  ) %>%
-  fmt_number(
-    columns = where(is.numeric),
-    decimals = 0
-  ) %>%
-  cols_align(
-    align = "center",
-    columns = vars(N_perc_arpah, N_perc_tb)  # Specify the columns to center
-  ) %>%
-  tab_options(
-    table.font.size = px(14),
-    heading.align = "left",
-    table.border.top.color = "darkred",
-    table.align = "left"
-  ) %>%
-  opt_row_striping()%>%
-  tab_footnote(
-    footnote = "* N(%) represents the counts and the corresponding percentage of the total"
-  ) %>%
-  tab_style(
-    style = list(
-      cell_text(weight = "bold")  # Make the text bold
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  )  %>% 
-  tab_style(
-    style = list(
-      cell_text(size = px(16))  # Increase font size for column labels
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  )
+labels <- c(
+  "metric" = "Clinical Metric Description",
+  "N_perc_arpah" = paste("Oncology OMOP N(%)*\n (Total=", format(den_arpah, big.mark = ","), ")", sep = ""),
+  "N_perc_tb" = paste("Tumor Board N(%)*\n (Total=", format(den_tb, big.mark = ","), ")", sep = "")
+)
+
+create_gt_table_v1(
+  data = res_dat, 
+  columns = c("metric", "N_perc_arpah", "N_perc_tb"), 
+  labels = labels, 
+  footnote_text = "* N(%) represents the counts and the corresponding percentage of the total"
+)
 
 ```
 
@@ -238,10 +189,8 @@ res_dat%>%select (metric,N_perc_arpah,N_perc_tb )%>%
 The following metrics were identified for individuals with thoracic cancer within the oncology OMOP (200k).
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic"
-project_name = "som-rit-phi-oncology-prod"
-res_tc <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_tc)
+res_tc <- fetch_data_from_sql_folder(folder_path_tc)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -262,47 +211,17 @@ res_tc=res_tc %>% select(metric, patient_count)%>% filter(!is.na(metric))%>% arr
 
 ```
 ```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "metric" = "Description",
+  "patient_count" = "Patient Count"
+)
 
-res_tc%>%
-  gt() %>%
-  cols_label(
-    metric = "Description",
-   patient_count = "Patient Count",
-  ) %>%
-  tab_header(
-    title = "",
-    subtitle = ""
-  ) %>%
-  fmt_number(
-    columns = where(is.numeric),
-    decimals = 0
-  ) %>%
-  cols_align(
-    align = "center",
-    columns = vars(patient_count)  # Specify the columns to center
-  ) %>%
-  tab_options(
-    table.font.size = px(14),
-    heading.align = "left",
-    table.border.top.color = "darkred",
-    table.align = "left"
-  ) %>%
-  opt_row_striping()%>%
-  tab_footnote(
-    footnote = "*Death date was defined either within STARR-OMOP or Neural Frame"
-  )%>%
-  tab_style(
-    style = list(
-      cell_text(weight = "bold")  # Make the text bold
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  )%>%
-  tab_style(
-    style = list(
-      cell_text(size = px(18))  # Increase font size for column labels
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  )
+create_gt_table_v1(
+  data = res_tc, 
+  columns = c("metric", "patient_count"), 
+  labels = labels, 
+  footnote_text = "*Death date was defined either within STARR-OMOP or Neural Frame"
+)
 
 ```
 ### **CTSA Metrics**
@@ -310,10 +229,9 @@ res_tc%>%
 CTSA metrics are a common set of metrics developed in collaboration with the National Center for Advancing Translational Sciences (NCATS) to compare performance against other institutions within the network, facilitate benchmarking, and measure progress in translating basic science discoveries into clinical applications and patient benefits.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 folder_path_sa <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/CTSA"
-project_name = "som-rit-phi-oncology-prod"
-res_sa <- fetch_data_from_sql_yml2(credentials_path, project_name, folder_path_sa)
+
+res_sa <- fetch_data_from_sql_folder(folder_path_sa)
 print(res_sa)
 ```
 
@@ -340,68 +258,32 @@ res_sa =res_sa %>% filter (!is.na(metric))%>% arrange(desc(pt_count))
 
 
 ```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "metric" = "CTSA Metrics",
+  "pt_count" = "Patient Count"
+)
 
-res_sa%>% select(metric, pt_count)%>%
-  gt() %>%
-  cols_label(
-    metric = "CTSA Metrics",
-   pt_count = "Patient Count",
-  ) %>%
-  tab_header(
-    title = "",
-    subtitle = ""
-  ) %>%
-  fmt_number(
-    columns = where(is.numeric),
-    decimals = 0
-  ) %>%
-  cols_align(
-    align = "center",
-    columns = vars(pt_count)  # Specify the columns to center
-  ) %>%
-  tab_options(
-    table.font.size = px(14),
-    heading.align = "left",
-    table.border.top.color = "darkred",
-    table.align = "left"
-  ) %>%
-  opt_row_striping()%>%
-  tab_footnote(
-    footnote = ""
-  )%>%
-  tab_style(
-    style = list(
-      cell_text(weight = "bold")  # Make the text bold
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  )%>%
-  tab_style(
-    style = list(
-      cell_text(size = px(18))  # Increase font size for column labels
-    ),
-    locations = cells_column_labels()  # Apply to column labels
-  )
-
-
+create_gt_table_v1(
+  data = res_sa, 
+  columns = c("metric", "pt_count"), 
+  labels = labels, 
+  footnote_text = ""
+)
 ```
 
 ### **Neural Frame Data**
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 sql_file_path_nf <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_vital_status.sql"
-project = "som-rit-phi-oncology-prod"
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"  # Update this path if necessary"
-res_nf <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_nf, yaml_file_path)
+res_nf <- fetch_data_from_sql_file(sql_file_path_nf, yaml_file_path)
 print(res_nf)
 colnames(res_nf)[1]<-"description"
 res_nf$var="Vital Status"
 
 sql_file_path_nf_cc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_status.sql"
 
-res_cc <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_nf_cc, yaml_file_path)
+res_cc <- fetch_data_from_sql_file(sql_file_path_nf_cc, yaml_file_path)
 print(res_cc)
 colnames(res_cc)[1]<-"description"
 res_cc$var="Cancer Status"
@@ -411,26 +293,42 @@ res_all
 res_all$description[is.na(res_all$description)]<-"Missing (NA)"
 res_all
 ```
-
 ```{r, message=FALSE, warning=FALSE}
-create_gt_table(res_all, var, description, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
+labels <- c(
+  "var"="Neural Frame Outcome Metrics",
+  "description" = "",
+  "n_pts" = "Patient Count"
+)
 
+create_gt_table_v1(
+  data = res_all, 
+  columns = c( "var", "description","n_pts"), 
+  labels = labels, 
+  footnote_text = "Number of Neural Frame Patients (196,564)"
+)
 ```
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
 
-credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_file_path_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_recurrence.sql"
-project = "som-rit-phi-oncology-prod"
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"  
-res_rc <- fetch_data_from_sql_file(credentials_path, project, sql_file_path_rec, yaml_file_path)
+res_rc <- fetch_data_from_sql_file(sql_file_path_rec, yaml_file_path)
 print(res_rc)
 res_rc$var="Recurrence Type"
 
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-create_gt_table(res_rc, var, recurrencetype1stdescription, n_pts, "Neural Frame Outcome Metrics", "", "Patient Count", "Number of Neural Frame Patients (196,564)")
+labels <- c(
+  "recurrencetype1stdescription"="Recurrence Type",
+  "n_pts" = "Patient Count"
+)
+
+create_gt_table_v1(
+  data = res_rc, 
+  columns = c( "recurrencetype1stdescription","n_pts"), 
+  labels = labels, 
+  footnote_text = "Number of Neural Frame Patients (196,564)"
+)
 ```
 
 
