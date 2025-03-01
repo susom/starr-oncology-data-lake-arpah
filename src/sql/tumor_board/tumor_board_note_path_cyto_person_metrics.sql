@@ -3,7 +3,7 @@
 --------------------------------------------------------------------------
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
+all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort_v2`),
 note as (select * from `@oncology_prod.@oncology_omop.note`),
 tumor_board_patients 
 AS ( select person_source_value from all_flag

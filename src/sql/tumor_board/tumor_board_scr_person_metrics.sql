@@ -3,7 +3,7 @@
 ----------------------------------------------
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
+all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort_v2`),
 scr as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_outcomes`),
 scr_patients as (
     select distinct stanford_patient_uid from scr
