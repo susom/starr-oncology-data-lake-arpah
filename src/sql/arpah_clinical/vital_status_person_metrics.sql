@@ -2,7 +2,7 @@
 
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
-all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort_v2`),
+all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
 death as (select * from `@oncology_prod.@oncology_omop.death`),
 death_src as (select distinct person_source_value from all_flag where scr_death_date is not null
 or death_date is not null)

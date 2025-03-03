@@ -297,6 +297,12 @@ res_all
 res_all$description[is.na(res_all$description)]<-"Missing (NA)"
 res_all
 ```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+path_nf="/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_person_metrics.sql"
+den_nf <- fetch_data_from_sql_file(path_nf, yaml_file_path)
+print(den_nf)
+den_nf<-as.numeric(den_nf)
+```
 ```{r, message=FALSE, warning=FALSE}
 labels <- c(
   "var"="Neural Frame Outcome Metrics",
@@ -308,8 +314,8 @@ create_gt_table_v1(
   data = res_all, 
   columns = c( "var", "description","n_pts"), 
   labels = labels, 
-  footnote_text = "Number of Neural Frame Patients (196,564)"
-)
+  footnote_text = paste0("Number of Neural Frame Patients: ", format(den_nf, big.mark = ",")))
+
 ```
 
 
@@ -331,8 +337,8 @@ create_gt_table_v1(
   data = res_rc, 
   columns = c( "recurrencetype1stdescription","n_pts"), 
   labels = labels, 
-  footnote_text = "Number of Neural Frame Patients (196,564)"
-)
+  footnote_text = paste0("Number of Neural Frame Patients: ", format(den_nf, big.mark = ",")))
+
 ```
 
 
