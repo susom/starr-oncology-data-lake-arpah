@@ -18,6 +18,7 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
 
 Below is the distribution of persons by year of birth.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
+rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
 
@@ -134,13 +135,13 @@ res_dat <- res_dat %>%
       sql_file_name == "note_imaging_person_metrics.sql" ~ "Number of patients with imaging reports, also a proxy for radiology imaging data",
       sql_file_name == "vital_status_person_metrics.sql" ~ "Number of patients with present Hospital or Stanford Cancer Registry death date",
       sql_file_name == "omop_chemo_person_metrics.sql" ~ "Number of patients given chemo medication",
-      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "Number of patients with WSI (based on EPIC Beaker AP/Pathology, starting from 2022)",
+      sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "Number of patients with pathology report",
       TRUE ~ NA_character_
     )
   )
 print(res_dat)
-res_dat=res_dat %>% filter(!is.na(metric))
-print(res_dat)
+#res_dat=res_dat %>% filter(!is.na(metric))
+
 
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -158,6 +159,9 @@ print(den_tb)
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## add percentages ##
+den_arpah <- as.numeric(den_arpah)
+den_tb <- as.numeric(den_tb)
+
 res_dat <- res_dat %>%
   mutate(
     N_perc_arpah = calculate_N_percent(pt_count_arph, den=den_arpah),
