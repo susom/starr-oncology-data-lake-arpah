@@ -7,7 +7,7 @@ person as (select * from `@oncology_prod.@oncology_omop.person`),
 death as (select * from `@oncology_prod.@oncology_omop.death`),
 all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
 death_src as (select distinct person_source_value from all_flag where scr_death_date is not null
-or death_datetime is not null),
+or death_date is not null),
 scr_thoracic_patients as (
     select distinct
 cleaned_nf_mrn,cleaned_nf_dob

@@ -144,6 +144,9 @@ library(yaml)
 # Define the function
 fetch_data_from_sql_yml <- function(credentials_path, project, folder_path) {
   # Set the environment variable for Google Cloud credentials
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+project <- "som-rit-phi-oncology-prod"
+
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
 
   # Connect to BigQuery
@@ -220,9 +223,11 @@ library(yaml)
 
 # Define the function
 # reads all the .sql in a path folder at once
-fetch_data_from_sql_yml2 <- function(credentials_path, project, folder_path) {
+fetch_data_from_sql_folder <- function(folder_path) {
+    credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+    project <- "som-rit-phi-oncology-prod"
   Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
-
+  
   conn <- dbConnect(
     bigrquery::bigquery(),
     project = project,
@@ -288,7 +293,11 @@ library(yaml)
 library(glue)
 library(stringr)
 
-fetch_data_from_sql_file <- function(credentials_path, project, sql_file_path, yaml_file_path) {
+fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path) {
+
+  credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+project <- "som-rit-phi-oncology-prod"
+
   # Ensure SQL file exists
   if (!file.exists(sql_file_path)) {
     stop(glue("❌ SQL file not found: {sql_file_path}"))
@@ -348,7 +357,7 @@ fetch_data_from_sql_file <- function(credentials_path, project, sql_file_path, y
 
 library(gt)
 library(dplyr)
-create_gt_table <- function(data, metric_col, metric_var, pt_count_col, metric_label, metric_var_label, pt_count_label, footnote_text) {
+create_gt_table_2 <- function(data, metric_col, metric_var, pt_count_col, metric_label, metric_var_label, pt_count_label, footnote_text) {
   data %>%
     select({{ metric_col }}, {{ metric_var }}, {{ pt_count_col }}) %>%
     gt() %>%
@@ -391,4 +400,76 @@ create_gt_table <- function(data, metric_col, metric_var, pt_count_col, metric_l
       ),
       locations = cells_column_labels()  # Apply to column labels
     )
+}
+
+# final 
+
+library(gt)
+library(dplyr)
+
+create_gt_table <- function(data, columns, labels, title_text = "", subtitle_text = "", footnote_text = "") {
+  col_exprs <- rlang::syms(columns)
+  names(labels) <- columns
+
+  gt_table <- data %>%
+    select(!!!col_exprs) %>%
+    gt() %>%
+    cols_label(!!!labels) %>%
+    tab_header(title = title_text, subtitle = subtitle_text) %>%
+    fmt_number(columns = where(is.numeric), decimals = 0) %>%
+    cols_align(align = "center", columns = where(is.numeric)) %>%
+    tab_options(
+      table.font.size = px(14),
+      heading.align = "left",
+      table.border.top.color = "darkred",
+      table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(footnote = footnote_text) %>%
+    tab_style(
+      style = list(cell_text(weight = "bold")),
+      locations = cells_column_labels()
+    ) %>%
+    tab_style(
+      style = list(cell_text(size = px(18))),
+      locations = cells_column_labels()
+    )
+  
+  return(gt_table)
+}
+
+######################
+### custom table 
+######################
+
+create_gt_table_v1 <- function(data, columns, labels, title_text = "", subtitle_text = "", footnote_text = "") {
+  col_exprs <- rlang::syms(columns)
+  names(labels) <- columns
+  
+  gt_table <- data %>%
+    select(!!!col_exprs) %>%
+    gt() %>%
+    cols_label(!!!labels) %>%
+    tab_header(title = title_text, subtitle = subtitle_text) %>%
+    fmt_number(columns = where(is.numeric), decimals = 0) %>%
+    # Left-align the first column
+    cols_align(align = "left", columns = vars(!!!columns[1])) %>%
+    tab_options(
+      table.font.size = px(14),
+      heading.align = "left",
+      table.border.top.color = "darkred",
+      table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(footnote = footnote_text) %>%
+    tab_style(
+      style = list(cell_text(weight = "bold")),
+      locations = cells_column_labels()
+    ) %>%
+    tab_style(
+      style = list(cell_text(size = px(16))),
+      locations = cells_column_labels()
+    )
+  
+  return(gt_table)
 }
