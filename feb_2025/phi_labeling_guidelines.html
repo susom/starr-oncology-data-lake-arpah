@@ -466,11 +466,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#task-description" id="toc-task-description" class="nav-link active" data-scroll-target="#task-description">Task Description</a>
-  <ul>
+  <li><a href="#task-description" id="toc-task-description" class="nav-link active" data-scroll-target="#task-description">Task Description</a></li>
   <li><a href="#patient-information" id="toc-patient-information" class="nav-link" data-scroll-target="#patient-information">Patient Information</a></li>
   <li><a href="#organizational-information" id="toc-organizational-information" class="nav-link" data-scroll-target="#organizational-information">Organizational Information</a></li>
-  </ul></li>
   <li><a href="#how-to-annotate" id="toc-how-to-annotate" class="nav-link" data-scroll-target="#how-to-annotate">How to Annotate</a>
   <ul>
   <li><a href="#acceptingadding-annotations" id="toc-acceptingadding-annotations" class="nav-link" data-scroll-target="#acceptingadding-annotations">Accepting/adding annotations</a></li>
@@ -500,10 +498,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="task-description" class="level2">
-<h2 class="anchored" data-anchor-id="task-description">Task Description</h2>
+<section id="task-description" class="level3">
+<h3 class="anchored" data-anchor-id="task-description">Task Description</h3>
 <p>This task consists of labeling instances of Protected Health Information (PHI) that occur within the context of clinical notes. PHI is defined as information that can be used by itself or in combination with other readily available information to identify an individual within the database. A more formal definition can be found on <a href="https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html">this HHS</a> website.</p>
 <p>Specifically, in this task, we will highlight spans of text that can be identified as PHI either by itself or in combination with other information within the note. The different categories to annotate are:</p>
+</section>
 <section id="patient-information" class="level3">
 <h3 class="anchored" data-anchor-id="patient-information">Patient Information</h3>
 <p><strong>PATIENT</strong>: Identify the patient’s name or any other names that can be linked to the patient, including names of family members, friends, or coworkers. This includes first names, middle names, last names, nicknames, initials, and shorthand versions of the names. If you are unsure whether a name belongs to the patient or the doctor/provider, assign it to the <code>PATIENT</code> category.</p>
@@ -606,7 +605,6 @@ ul.task-list li input[type="checkbox"] {
 <li>The mention of places like YMCA alone, that is, without referring to a specific geographical location, is too generic and should not be annotated.</li>
 </ul></li>
 </ul>
-</section>
 </section>
 <section id="how-to-annotate" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-annotate">How to Annotate</h2>
