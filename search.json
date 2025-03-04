@@ -581,42 +581,78 @@
     "href": "feb_2025/phi_labeling_process.html",
     "title": "PHI Labeling Process",
     "section": "",
-    "text": "In this report, we outline the methodology used to create a labeled dataset with annotated PHI from clinical notes. Specifically, we describe the process for sampling clinical notes and performing annotations. This process was designed to achieve the following objectives:\n\nEnsuring demographic representation across diverse patient populations\n\nMaintaining consistency in annotation across multiple annotators\n\nBalancing efficiency with quality in the annotation process\n\nManaging the resource-intensive nature of medical text annotation\n\nFigure 1 provides an overview of the labeling process.\n\n\n\n\n\n\nFigure 1: Labeling Process"
+    "text": "In this report, we outline the methodology used to create a labeled dataset with annotated PHI from clinical notes. Specifically, we describe the process for sampling clinical notes and performing annotations. This process was designed to achieve the following objectives:\n\nEnsuring demographic representation across diverse patient populations\n\nMaintaining consistency in annotation across multiple annotators\n\nBalancing efficiency with quality in the annotation process\n\nManaging the resource-intensive nature of medical text annotation\n\nFigure 1 provides an overview of the labeling process.\n\n\n\n\n\n\nFigure 1: Labeling Process",
+    "crumbs": [
+      "About",
+      "Data Labeling",
+      "February 2025",
+      "Labeling Process"
+    ]
   },
   {
     "objectID": "feb_2025/phi_labeling_process.html#introduction",
     "href": "feb_2025/phi_labeling_process.html#introduction",
     "title": "PHI Labeling Process",
     "section": "",
-    "text": "In this report, we outline the methodology used to create a labeled dataset with annotated PHI from clinical notes. Specifically, we describe the process for sampling clinical notes and performing annotations. This process was designed to achieve the following objectives:\n\nEnsuring demographic representation across diverse patient populations\n\nMaintaining consistency in annotation across multiple annotators\n\nBalancing efficiency with quality in the annotation process\n\nManaging the resource-intensive nature of medical text annotation\n\nFigure 1 provides an overview of the labeling process.\n\n\n\n\n\n\nFigure 1: Labeling Process"
+    "text": "In this report, we outline the methodology used to create a labeled dataset with annotated PHI from clinical notes. Specifically, we describe the process for sampling clinical notes and performing annotations. This process was designed to achieve the following objectives:\n\nEnsuring demographic representation across diverse patient populations\n\nMaintaining consistency in annotation across multiple annotators\n\nBalancing efficiency with quality in the annotation process\n\nManaging the resource-intensive nature of medical text annotation\n\nFigure 1 provides an overview of the labeling process.\n\n\n\n\n\n\nFigure 1: Labeling Process",
+    "crumbs": [
+      "About",
+      "Data Labeling",
+      "February 2025",
+      "Labeling Process"
+    ]
   },
   {
     "objectID": "feb_2025/phi_labeling_process.html#data-sampling-methodology",
     "href": "feb_2025/phi_labeling_process.html#data-sampling-methodology",
     "title": "PHI Labeling Process",
     "section": "Data Sampling Methodology",
-    "text": "Data Sampling Methodology\nThe data sampling was performed in two steps. First, we conducted a random sampling across the entire set of notes. Then, we applied diversity sampling using a set cover algorithm. The details of these procedures are outlined below.\n\nNote Characteristics Analysis\nThe sampling process incorporates textual characteristics to ensure diversity in content:\n\nNote titles are categorized to represent different types of clinical documentation.\n\nNote length distribution is analyzed using a binning approach:\n\nCalculation of the median length per note title\n\nComputation of the median of medians\n\nSelection of notes between the 25th and 75th percentiles\n\nQuantization into four distinct bins for balanced representation\n\n\n\n\nSet Cover Algorithm Implementation\nTo optimize sampling while maintaining representation across all demographic and textual characteristics, we implemented a modified set cover algorithm:\n\nInitial random sampling of 1M notes to create a computationally manageable subset\n\nApplication of a set cover algorithm to ensure representation across all defined partitions\n\nOptimization for maximum coverage with minimal redundancy"
+    "text": "Data Sampling Methodology\nThe data sampling was performed in two steps. First, we conducted a random sampling across the entire set of notes. Then, we applied diversity sampling using a set cover algorithm. The details of these procedures are outlined below.\n\nNote Characteristics Analysis\nThe sampling process incorporates textual characteristics to ensure diversity in content:\n\nNote titles are categorized to represent different types of clinical documentation.\n\nNote length distribution is analyzed using a binning approach:\n\nCalculation of the median length per note title\n\nComputation of the median of medians\n\nSelection of notes between the 25th and 75th percentiles\n\nQuantization into four distinct bins for balanced representation\n\n\n\n\nSet Cover Algorithm Implementation\nTo optimize sampling while maintaining representation across all demographic and textual characteristics, we implemented a modified set cover algorithm:\n\nInitial random sampling of 1M notes to create a computationally manageable subset\n\nApplication of a set cover algorithm to ensure representation across all defined partitions\n\nOptimization for maximum coverage with minimal redundancy",
+    "crumbs": [
+      "About",
+      "Data Labeling",
+      "February 2025",
+      "Labeling Process"
+    ]
   },
   {
     "objectID": "feb_2025/phi_labeling_process.html#annotation-guidelines-development",
     "href": "feb_2025/phi_labeling_process.html#annotation-guidelines-development",
     "title": "PHI Labeling Process",
     "section": "Annotation Guidelines Development",
-    "text": "Annotation Guidelines Development\n\nGuideline Structure\nComprehensive annotation guidelines were developed through an iterative process. These guidelines include:\n\nClear definitions of annotation targets\n\nExplicit inclusion and exclusion criteria\n\nRepresentative examples\n\nDecision trees for ambiguous cases\n\nStandard operating procedures for the annotation workflow\n\nThe labeling guidelines can be found here.\n\n\nGuideline Validation\nThe guidelines underwent multiple validation cycles, including:\n\nPilot testing with experienced annotators\n\nRefinement based on inter-annotator agreement analysis\n\nIntegration of edge cases identified during initial annotation phases"
+    "text": "Annotation Guidelines Development\n\nGuideline Structure\nComprehensive annotation guidelines were developed through an iterative process. These guidelines include:\n\nClear definitions of annotation targets\n\nExplicit inclusion and exclusion criteria\n\nRepresentative examples\n\nDecision trees for ambiguous cases\n\nStandard operating procedures for the annotation workflow\n\nThe labeling guidelines can be found here.\n\n\nGuideline Validation\nThe guidelines underwent multiple validation cycles, including:\n\nPilot testing with experienced annotators\n\nRefinement based on inter-annotator agreement analysis\n\nIntegration of edge cases identified during initial annotation phases",
+    "crumbs": [
+      "About",
+      "Data Labeling",
+      "February 2025",
+      "Labeling Process"
+    ]
   },
   {
     "objectID": "feb_2025/phi_labeling_process.html#pre-labeling-and-annotation-distribution-process",
     "href": "feb_2025/phi_labeling_process.html#pre-labeling-and-annotation-distribution-process",
     "title": "PHI Labeling Process",
     "section": "Pre-labeling and Annotation Distribution Process",
-    "text": "Pre-labeling and Annotation Distribution Process\n\nLLM Pre-Annotation Implementation\nThe pre-labeling process utilized GPT-4 via Azure’s API (version 2023-05-15), incorporating:\n\nPrompt engineering optimized using the I2B2 dataset\n\nIntegration of annotation guidelines into prompt design\n\nSystematic validation of pre-labeled outputs\n\n\n\nAnnotation Distribution\nNotes were assigned following a structured protocol:\n\nRandom assignment to ensure unbiased distribution\n\nDual annotator requirement for each note to enable quality assessment\n\nTracking system implementation to monitor annotation progress\n\nRegular checkpoints for interim quality assessments"
+    "text": "Pre-labeling and Annotation Distribution Process\n\nLLM Pre-Annotation Implementation\nThe pre-labeling process utilized GPT-4 via Azure’s API (version 2023-05-15), incorporating:\n\nPrompt engineering optimized using the I2B2 dataset\n\nIntegration of annotation guidelines into prompt design\n\nSystematic validation of pre-labeled outputs\n\n\n\nAnnotation Distribution\nNotes were assigned following a structured protocol:\n\nRandom assignment to ensure unbiased distribution\n\nDual annotator requirement for each note to enable quality assessment\n\nTracking system implementation to monitor annotation progress\n\nRegular checkpoints for interim quality assessments",
+    "crumbs": [
+      "About",
+      "Data Labeling",
+      "February 2025",
+      "Labeling Process"
+    ]
   },
   {
     "objectID": "feb_2025/phi_labeling_process.html#quality-control-framework",
     "href": "feb_2025/phi_labeling_process.html#quality-control-framework",
     "title": "PHI Labeling Process",
     "section": "Quality Control Framework",
-    "text": "Quality Control Framework\nThe quality assessment framework employs a bilateral F1 measure approach:\n\nPrimary F1 calculation:\n\nAnnotator A’s labels serve as the ground truth against Annotator B’s annotations\n\nAnnotator B’s labels serve as the ground truth against Annotator A’s annotations\n\nThe final F1 score is computed as the arithmetic mean of both directions\n\n\n\nAdjudication Process\nAll clinical notes without 100% agreement across annotated spans undergo an adjudication process. Experienced annotators review and resolve disagreements to ensure annotation quality. Only the notes with 100% agreement or adjudicated notes are used as gold standard."
+    "text": "Quality Control Framework\nThe quality assessment framework employs a bilateral F1 measure approach:\n\nPrimary F1 calculation:\n\nAnnotator A’s labels serve as the ground truth against Annotator B’s annotations\n\nAnnotator B’s labels serve as the ground truth against Annotator A’s annotations\n\nThe final F1 score is computed as the arithmetic mean of both directions\n\n\n\nAdjudication Process\nAll clinical notes without 100% agreement across annotated spans undergo an adjudication process. Experienced annotators review and resolve disagreements to ensure annotation quality. Only the notes with 100% agreement or adjudicated notes are used as gold standard.",
+    "crumbs": [
+      "About",
+      "Data Labeling",
+      "February 2025",
+      "Labeling Process"
+    ]
   },
   {
     "objectID": "data_labeling.html",
