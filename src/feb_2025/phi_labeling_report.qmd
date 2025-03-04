@@ -490,7 +490,7 @@ df_note_length_omop <- df_note_length_omop %>%
 
 df_note_length_sample <- df_note_length_sample %>%
     mutate(percentage = frequency / sum(frequency) * 100)
-P
+
 ```
 
 
