@@ -47,6 +47,8 @@ website:
                 href: feb_2025/phi_labeling_guidelines.qmd  
               - text: "Labeling Report"
                 href: feb_2025/phi_labeling_report.qmd
+              - text: "Labeling Process"
+                href: feb_2025/phi_labeling_process.qmd
   navbar:
     left:
       - text: "About"
