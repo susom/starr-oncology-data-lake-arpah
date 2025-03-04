@@ -1,6 +1,5 @@
 oncology_prod: som-rit-phi-oncology-prod
 oncology_omop: oncology_omop_phi_irb76049_feb2025
-starr_prod: som-rit-phi-starr-prod
 oncology_temp: oncology_omop_phi_flags_irb76049_feb2025
 oncology_neuralframe: oncology_neuralframe_phi_irb76049_feb2025
 

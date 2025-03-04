@@ -37,7 +37,7 @@ website:
         href: data_metrics.qmd
         contents:
           - text: "February 2025"
-            href: feb_2025/demographic.qmd
+            href: feb_2025/demographic_clinical.qmd
       - section: "Data Labeling"
         href: data_labeling.qmd
         contents:

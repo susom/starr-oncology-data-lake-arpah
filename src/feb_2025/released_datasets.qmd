@@ -11,5 +11,6 @@ This document provides a list of datasets as part of the February 2025 released.
 | `som-rit-phi-oncology-prod.oncology_omop_confidential_irb76049_feb2025`| Oncology OMOP-CDM v5.3.1 dataset with PHI Scrubbed| 
 | `som-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_feb2025`| NeuralFrame dataset with PHI | 
 | `som-rit-phi-oncology-prod.oncology_neuralframe_confidential_irb76049_feb2025`| NeuralFrame dataset with PHI Scrubbed | 
+| `oncology_omop_phi_flags_irb76049_feb2025`| Table with flags used to compute several metrics | 
 
 :  {.hover .responsive .sm}

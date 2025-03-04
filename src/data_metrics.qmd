@@ -14,7 +14,7 @@ This project will have multiple data releases over time. Each release will inclu
 
 The February 2025 release is the first release of the dataset. It includes comprehensive demographic metrics and other key data points. You can find detailed information about this release by following the link below:
 
-- [February 2025 Metrics](feb_2025/demographic.qmd)
+- [February 2025 Metrics](feb_2025/demographic_clinical.qmd)
 
 ## Future Releases
 
