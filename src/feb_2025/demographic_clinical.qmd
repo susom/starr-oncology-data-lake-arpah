@@ -133,7 +133,7 @@ res_dat <- res_dat %>%
     metric = case_when(
       sql_file_name == "note_path_cyto_person_metrics.sql" ~ "Number of patients with pathology/cytology clinical report",
       sql_file_name == "note_imaging_person_metrics.sql" ~ "Number of patients with imaging reports, also a proxy for radiology imaging data",
-      sql_file_name == "vital_status_person_metrics.sql" ~ "Number of patients with present Hospital or Stanford Cancer Registry death date",
+      sql_file_name == "vital_status_person_metrics.sql" ~ "Number of patients with either a Hospital or Stanford Cancer Registry death date",
       sql_file_name == "omop_chemo_person_metrics.sql" ~ "Number of patients given chemo medication",
       sql_file_name == "wsi_beaker_path_person_metrics.sql" ~ "Number of patients with pathology report",
       TRUE ~ NA_character_

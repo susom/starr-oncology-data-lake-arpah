@@ -4,7 +4,7 @@ execute:
   echo: false
 ---
 
-## Task Description
+### Task Description
 
 This task consists of labeling instances of Protected Health Information (PHI) that occur within the context of clinical notes. PHI is defined as information that can be used by itself or in combination with other readily available information to identify an individual within the database. A more formal definition can be found on [this HHS](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html) website.
 
