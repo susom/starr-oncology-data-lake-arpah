@@ -12,6 +12,7 @@
   --red-vivid: #8C1515;
   --red-dark: #820000;
   --red-light: #B83A4B;
+  --red-extra-light: #F7E9EB;
   --cool-grey: #4D4F53;
   --white: #FFFFFF;
   --black: #2E2D29;
@@ -190,6 +191,16 @@ background-color: #f6f8fa;
 
 table > thead > tr > th {
 border-bottom: 0;
+}
+
+/* Alternating row colors */
+.table tbody tr:nth-child(odd) {
+  background-color: var(--red-extra-light);  /* Change this color for shaded rows */
+}
+
+/* Hover effect */
+.table tbody tr:hover {
+  background-color: var(--red-light);  /* Change this color for hover effect */
 }
 /* End of table styles */
 

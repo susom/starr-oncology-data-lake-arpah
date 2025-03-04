@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/feb_2025/demographic.html</loc>
-    <lastmod>2025-02-27T21:05:43.164Z</lastmod>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/feb_2025/demographic_clinical.html</loc>
+    <lastmod>2025-03-04T04:50:42.278Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/neuralframe_data_dict/case_treatments.html</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/data_metrics.html</loc>
-    <lastmod>2025-02-26T02:13:28.344Z</lastmod>
+    <lastmod>2025-03-04T04:56:31.393Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/visit_occurrence.html</loc>
@@ -162,7 +162,7 @@
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/neuralframe_data_dict/case_diagnoses.html</loc>
-    <lastmod>2025-02-28T00:33:03.414Z</lastmod>
+    <lastmod>2025-03-04T04:54:47.851Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/neuralframe_data_dict/case_outcomes.html</loc>
@@ -170,6 +170,6 @@
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/feb_2025/phi_labeling_report.html</loc>
-    <lastmod>2025-02-27T19:37:58.769Z</lastmod>
+    <lastmod>2025-03-04T17:09:40.236Z</lastmod>
   </url>
 </urlset>
