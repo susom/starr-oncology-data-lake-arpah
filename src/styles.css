@@ -200,7 +200,7 @@ border-bottom: 0;
 
 /* Hover effect */
 .table tbody tr:hover {
-  background-color: var(--red-light);  /* Change this color for hover effect */
+  background-color: #f0f0f0;  /* Light grey color for hover effect */
 }
 /* End of table styles */
 
