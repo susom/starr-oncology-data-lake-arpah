@@ -818,11 +818,11 @@ df_note_length_combined %>%
         starr_percentage = "%"
     ) %>%
     tab_spanner(
-        label = "Labeled Sample",
+        label = "STARR-OMOP",
         columns = c(labeled_frequency, labeled_percentage)
     ) %>%
     tab_spanner(
-        label = "STARR-OMOP",
+        label = "Labeled Sample",
         columns = c(starr_frequency, starr_percentage)
     ) %>%
     fmt_number(
