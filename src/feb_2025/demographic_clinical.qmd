@@ -230,6 +230,170 @@ create_gt_table_v1(
 )
 
 ```
+
+
+### **OMOP Image Occurrence**
+
+As of the February 2025 oncology OMOP population, 93,333 out of 201,554 patients in the oncology cohort had image occurrence procedures recorded.
+From 13,379 thoracic patients 6,736 (50%) image occurrence procedures were recorded.
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+path_tc_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_nf_image_occ.sql"
+tc_img <- fetch_data_from_sql_file(path_tc_img, yaml_file_path)
+tc_img
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+path_tc_tb_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_tb_image_occ.sql"
+tc_img_tb <- fetch_data_from_sql_file(path_tc_tb_img, yaml_file_path)
+tc_img_tb
+```
+
+```{r,message=FALSE, warning=FALSE, results='hide'}
+## to be coded later ##
+thoracic_patients <- 13379
+thoracic_image_occurrence <- 6736
+thoracic_image_percentage <- (thoracic_image_occurrence / thoracic_patients) * 100
+
+cat(paste0("From ", format(thoracic_patients, big.mark = ","), " thoracic patients, ", 
+       format(thoracic_image_occurrence, big.mark = ","), " (", 
+       round(thoracic_image_percentage, 1), "%) had image occurrence."))
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
+res_img <- fetch_data_from_sql_file(sql_file_path_image, yaml_file_path)
+print(res_img)
+den_series=as.numeric(res_img$counts)[2]
+den_pts=as.numeric(res_img$counts)[1]
+
+```
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
+res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
+print(res_img_mod)
+res_img_mod=res_img_mod[1:50,]
+```
+
+
+```{r message=FALSE, warning=FALSE, results='hide'}
+res_img_mod <- res_img_mod %>%
+  mutate(
+    N_perc_series = calculate_N_percent(series_count, den=den_series),
+    N_perc_pts=calculate_N_percent(unique_person_count, den=den_pts)
+  )
+print(res_img_mod)
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+labels <- c(
+  "modality_source_value"="Modality Type",
+  "N_perc_series" = "Series N(%)",
+   "N_perc_pts" = "Patient N(%)"
+)
+
+create_gt_table_v1(
+  data = res_img_mod, 
+  columns = c( "modality_source_value","N_perc_series", "N_perc_pts"), 
+  labels = labels, 
+   subtitle_text = "Presenting top 50 modality sites",
+  footnote_text = paste0("Number of series in image_occurrence table : ", format(den_series, big.mark = ",") ))
+
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image_anat <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_anatomic.sql"
+res_img_anat <- fetch_data_from_sql_file(sql_file_path_image_anat, yaml_file_path)
+print(res_img_anat)
+res_img_anat=res_img_anat[1:50,]
+```
+```{r message=FALSE, warning=FALSE, results='hide'}
+res_img_anat <- res_img_anat %>%
+  mutate(
+    N_perc_series = calculate_N_percent(series_count, den=den_series),
+    N_perc_pts=calculate_N_percent(unique_person_count, den=den_pts)
+  )
+print(res_img_anat)
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+labels <- c(
+  "anatomic_site_source_value"="Anatomic Site",
+  "N_perc_series" = "Series N(%)",
+   "N_perc_pts" = "Patient N(%)"
+)
+
+create_gt_table_v1(
+  data = res_img_anat, 
+  columns = c( "anatomic_site_source_value","N_perc_series", "N_perc_pts"), 
+  labels = labels, 
+  footnote_text = paste0("Number of series in image_occurrence table : ", format(den_series, big.mark = ",") ))
+
+```
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+labels <- c(
+  "anatomic_site_source_value"="Anatomic Site",
+  "N_perc_series" = "Series N(%)",
+   "N_perc_pts" = "Patient N(%)"
+)
+
+create_gt_table_v1(
+  data = res_img_anat, 
+  columns = c( "anatomic_site_source_value","N_perc_series", "N_perc_pts"), 
+  labels = labels, 
+ subtitle_text = "Presenting top 50 anatomic sites",
+  footnote_text = paste0("Number of series in image_occurrence table : ", format(den_series, big.mark = ",") ))
+
+```
+
+
+```{r}
+# Pivot data for ggplot
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+# Sort data by N_perc_pts (descending)
+plot_data <- res_img_anat %>%
+  select(anatomic_site_source_value, N_perc_series, N_perc_pts, unique_person_count) %>%
+  arrange(desc(unique_person_count))
+
+plot_data$anatomic_site_source_value <- factor(plot_data$anatomic_site_source_value, 
+levels = plot_data$anatomic_site_source_value)
+```
+```{r}
+# Create the dynamic bar plot
+fig <- plot_ly(
+  data = plot_data,
+  x = ~anatomic_site_source_value,
+  y = ~N_perc_series,
+  type = "bar",
+  name = "Series N",
+  marker = list(color = "steelblue", width=3.95)
+) %>%
+  add_trace(
+    y = ~N_perc_pts,
+    name = "Patient N",
+    marker = list(color = "darkred", width=0.98)
+  ) %>%
+  layout(
+    title = "Counts for Anatomic Sites",
+    xaxis = list(title = "",  tickfont = list(size = 14),
+                titlefont = list(size = 12)),
+    yaxis = list(title = "Counts (%)", showticklabels = FALSE,  tickfont = list(size = 14),
+                titlefont = list(size = 14)),
+    barmode = "group", bargap = 0.15
+  )
+fig
+```
+
+
+
+
+
 ### **CTSA Metrics**
 
 CTSA metrics are a common set of metrics developed in collaboration with the National Center for Advancing Translational Sciences (NCATS) to compare performance against other institutions within the network, facilitate benchmarking, and measure progress in translating basic science discoveries into clinical applications and patient benefits.
