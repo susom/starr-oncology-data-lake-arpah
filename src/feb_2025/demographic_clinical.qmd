@@ -342,3 +342,97 @@ create_gt_table_v1(
 ```
 
 
+### **OMOP Image Occurrence**
+
+As of the February 2025 oncology OMOP population, 93,333 (60%) out of 201,554 patients in the oncology cohort had image occurrence procedures recorded.
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
+res_img <- fetch_data_from_sql_file(sql_file_path_image, yaml_file_path)
+print(res_img)
+den_series=as.numeric(res_img$counts)[2]
+den_pts=as.numeric(res_img$counts)[1]
+
+```
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
+res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
+print(res_img_mod)
+res_img_mod=res_img_mod[1:50,]
+```
+
+
+```{r message=FALSE, warning=FALSE, results='hide'}
+res_img_mod <- res_img_mod %>%
+  mutate(
+    N_perc_series = calculate_N_percent(series_count, den=den_series),
+    N_perc_pts=calculate_N_percent(unique_person_count, den=den_pts)
+  )
+print(res_img_mod)
+```
+
+```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "modality_source_value"="Modality Type",
+  "N_perc_series" = "Series N(%)",
+   "N_perc_pts" = "Patient N(%)"
+)
+
+create_gt_table_v1(
+  data = res_img_mod, 
+  columns = c( "modality_source_value","N_perc_series", "N_perc_pts"), 
+  labels = labels, 
+   subtitle_text = "Presenting top 50 modality sites",
+  footnote_text = paste0("Number of series in image_occurrence table : ", format(den_series, big.mark = ",") ))
+
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image_anat <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_anatomic.sql"
+res_img_anat <- fetch_data_from_sql_file(sql_file_path_image_anat, yaml_file_path)
+print(res_img_anat)
+res_img_anat=res_img_anat[1:50,]
+```
+```{r message=FALSE, warning=FALSE, results='hide'}
+res_img_anat <- res_img_anat %>%
+  mutate(
+    N_perc_series = calculate_N_percent(series_count, den=den_series),
+    N_perc_pts=calculate_N_percent(unique_person_count, den=den_pts)
+  )
+print(res_img_anat)
+```
+```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "anatomic_site_source_value"="Anatomic Site",
+  "N_perc_series" = "Series N(%)",
+   "N_perc_pts" = "Patient N(%)"
+)
+
+create_gt_table_v1(
+  data = res_img_anat, 
+  columns = c( "anatomic_site_source_value","N_perc_series", "N_perc_pts"), 
+  labels = labels, 
+  footnote_text = paste0("Number of series in image_occurrence table : ", format(den_series, big.mark = ",") ))
+
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "anatomic_site_source_value"="Anatomic Site",
+  "N_perc_series" = "Series N(%)",
+   "N_perc_pts" = "Patient N(%)"
+)
+
+create_gt_table_v1(
+  data = res_img_anat, 
+  columns = c( "anatomic_site_source_value","N_perc_series", "N_perc_pts"), 
+  labels = labels, 
+ subtitle_text = "Presenting top 50 anatomic sites",
+  footnote_text = paste0("Number of series in image_occurrence table : ", format(den_series, big.mark = ",") ))
+
+```
+
+
