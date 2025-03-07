@@ -616,3 +616,70 @@ create_gt_table_v1(
 ```
 
 
+```{r}
+
+# Create the GT table
+res_img_anat %>%
+  gt() %>%
+  tab_header(
+    title = "Top 50 Anatomic Sites",
+    subtitle = "Presenting Series and Patient Counts"
+  ) %>%
+  cols_label(
+    anatomic_site_source_value = "Anatomic Site",
+    N_perc_series = "Series N(%)",
+    N_perc_pts = "Patient N(%)"
+  ) %>%
+  tab_spanner(
+    label = "Counts and Percentages",
+    columns = c(N_perc_series, N_perc_pts)
+  ) %>%
+  tab_options(
+    table.font.size = px(14),
+    heading.align = "left",
+    table.border.top.color = "darkred",
+    table.align = "left"
+  ) %>%
+  opt_row_striping() %>%
+  tab_footnote(
+    footnote = "Number of series in image_occurrence table.",
+    locations = cells_column_labels(columns = c(N_perc_series, N_perc_pts))
+  )
+```
+```{r}
+# Pivot data for ggplot
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+# Sort data by N_perc_pts (descending)
+plot_data <- res_img_anat %>%
+  select(anatomic_site_source_value, N_perc_series, N_perc_pts, unique_person_count) %>%
+  arrange(desc(unique_person_count))
+
+```
+```{r}
+# Create the dynamic bar plot
+fig <- plot_ly(
+  data = plot_data,
+  x = ~anatomic_site_source_value,
+  y = ~N_perc_series,
+  type = "bar",
+  name = "Series N",
+  marker = list(color = "steelblue", width=3.95)
+) %>%
+  add_trace(
+    y = ~N_perc_pts,
+    name = "Patient N",
+    marker = list(color = "darkred", width=0.98)
+  ) %>%
+  layout(
+    title = "Counts for Anatomic Sites",
+    xaxis = list(title = "",  tickfont = list(size = 14),
+                titlefont = list(size = 12)),
+    yaxis = list(title = "Counts (%)", showticklabels = FALSE,  tickfont = list(size = 14),
+                titlefont = list(size = 14)),
+    barmode = "group", bargap = 0.15
+  )
+fig
+```
