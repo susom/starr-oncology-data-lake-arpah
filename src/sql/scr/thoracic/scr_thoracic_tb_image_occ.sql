@@ -1,3 +1,8 @@
+
+-----------------------------------------------------------------------
+--- Number of pts with thoracic cancer, tb, and image occur records
+-----------------------------------------------------------------------
+
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
@@ -24,4 +29,3 @@ tumor_board_patients tb
 inner join person_img on person_img.person_source_value = tb.person_source_value
 inner join scr_thoracic_patients on person_img.person_source_value = concat(scr_thoracic_patients.cleaned_nf_mrn, ' | ', scr_thoracic_patients.cleaned_nf_dob)
 --inner join image_occ on 
--- seems duplicated --- double check 
