@@ -243,6 +243,11 @@ path_tc_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/
 tc_img <- fetch_data_from_sql_file(path_tc_img, yaml_file_path)
 tc_img
 ```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+path_tc_tb_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_tb_image_occ.sql"
+tc_img_tb <- fetch_data_from_sql_file(path_tc_tb_img, yaml_file_path)
+tc_img_tb
+```
 
 ```{r,message=FALSE, warning=FALSE, results='hide'}
 ## to be coded later ##
