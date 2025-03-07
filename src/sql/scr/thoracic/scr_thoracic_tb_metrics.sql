@@ -1,3 +1,7 @@
+---------------------------------------------------
+--- number of pts with thoracic cancer and tb ----
+---------------------------------------------------
+
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 all_flag as (select * from `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),

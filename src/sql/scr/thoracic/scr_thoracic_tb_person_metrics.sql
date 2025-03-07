@@ -21,3 +21,5 @@ from
 tumor_board_patients tb
 inner join person on person.person_source_value = tb.person_source_value
 inner join scr_thoracic_patients on person.person_source_value = concat(scr_thoracic_patients.cleaned_nf_mrn, ' | ', scr_thoracic_patients.cleaned_nf_dob)
+
+-- seems duplicated --- double check 
