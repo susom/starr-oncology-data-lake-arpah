@@ -234,31 +234,47 @@ create_gt_table_v1(
 
 ### **OMOP Image Occurrence**
 
-As of the February 2025 oncology OMOP population, 93,333 out of 201,554 patients in the oncology cohort had image occurrence procedures recorded.
-From 13,379 thoracic patients 6,736 (50%) image occurrence procedures were recorded.
-
+```{r, message=FALSE, warning=FALSE, results='hide'}
+path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
+pt_img <- fetch_data_from_sql_file(path_img, yaml_file_path)
+pt_img
+```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
+path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_person_metrics.sql"
+tc_pts <- fetch_data_from_sql_file(path_tc, yaml_file_path)
+tc_pts
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+##thoracic cohort
 path_tc_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_nf_image_occ.sql"
 tc_img <- fetch_data_from_sql_file(path_tc_img, yaml_file_path)
 tc_img
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-path_tc_tb_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_tb_image_occ.sql"
-tc_img_tb <- fetch_data_from_sql_file(path_tc_tb_img, yaml_file_path)
-tc_img_tb
+## tb thoracic with imaging
+path_tc_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_tb_image_occ.sql"
+tc_img_tb <- fetch_data_from_sql_file(path_tc_tb, yaml_file_path)
+tc_img_tb ##2435
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## tb thoracic 
+path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_tb_metrics.sql"
+tc_tb <- fetch_data_from_sql_file(path_tb, yaml_file_path)
+tc_tb
 ```
 
-```{r,message=FALSE, warning=FALSE, results='hide'}
-## to be coded later ##
-thoracic_patients <- 13379
-thoracic_image_occurrence <- 6736
-thoracic_image_percentage <- (thoracic_image_occurrence / thoracic_patients) * 100
+As of the February 2025 oncology OMOP population:
 
-cat(paste0("From ", format(thoracic_patients, big.mark = ","), " thoracic patients, ", 
-       format(thoracic_image_occurrence, big.mark = ","), " (", 
-       round(thoracic_image_percentage, 1), "%) had image occurrence."))
-```
+- `r format(pt_img$counts[1], big.mark = ",")` (`r round(pt_img$counts[1] / den_arpah * 100, 1)`%) out of `r format(den_arpah, big.mark = ",")` patients in the oncology cohort had image occurrence procedures recorded.
+
+- `r format(tc_img$patient_count, big.mark = ",")` (`r round(tc_img$patient_count / tc_pts$patient_count * 100, 1)`%) out of `r format(tc_pts$patient_count, big.mark = ",")` thoracic patients had  image occurrence procedures were recorded.
+
+- `r format(tc_img_tb$patient_count, big.mark = ",")` (`r round(tc_img_tb$patient_count / tc_tb$patient_count * 100, 1)`%) out of `r format(tc_tb$patient_count, big.mark = ",")` thoracic patients with tumor board encounter had  image occurrence procedures were recorded.
+
+
+
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_file_path_image <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
@@ -350,7 +366,7 @@ create_gt_table_v1(
 ```
 
 
-```{r}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 # Pivot data for ggplot
 library(ggplot2)
 library(plotly)
