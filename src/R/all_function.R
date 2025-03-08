@@ -473,3 +473,43 @@ create_gt_table_v1 <- function(data, columns, labels, title_text = "", subtitle_
   
   return(gt_table)
 }
+
+### table with the tab
+create_gt_table_v2 <- function(data, columns, labels, title_text = "", subtitle_text = "", footnote_text = "", pt_column = NULL) {
+  col_exprs <- rlang::syms(columns)
+  names(labels) <- columns
+  
+  gt_table <- data %>%
+    select(!!!col_exprs) %>%
+    gt() %>%
+    cols_label(!!!labels) %>%
+    tab_header(title = title_text, subtitle = subtitle_text) %>%
+    fmt_number(columns = where(is.numeric), decimals = 0) %>%
+    cols_align(align = "left", columns = vars(!!!columns[1])) %>%
+    tab_options(
+      table.font.size = px(14),
+      heading.align = "left",
+      table.border.top.color = "darkred",
+      table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(footnote = footnote_text) %>%
+    tab_style(
+      style = list(cell_text(weight = "bold")),
+      locations = cells_column_labels()
+    ) %>%
+    tab_style(
+      style = list(cell_text(size = px(16))),
+      locations = cells_column_labels()
+    )
+  
+  # Add tab spanner for pt_column if provided
+  if (!is.null(pt_column)) {
+    gt_table <- gt_table %>%
+      tab_spanner(
+        label = "Patient Info",
+        columns = vars(!!rlang::sym(pt_column)))
+  }
+  
+  return(gt_table)
+}
