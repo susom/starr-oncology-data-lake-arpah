@@ -267,11 +267,11 @@ tc_tb
 
 As of the February 2025 oncology OMOP population:
 
-- `r format(pt_img$counts[1], big.mark = ",")` (`r round(pt_img$counts[1] / den_arpah * 100, 1)`%) out of `r format(den_arpah, big.mark = ",")` patients in the oncology cohort had image occurrence procedures recorded.
+- `r format(pt_img$counts[1], big.mark = ",")` (`r round(pt_img$counts[1] / den_arpah * 100, 1)`%) out of `r format(den_arpah, big.mark = ",")` patients in the oncology cohort had image occurrence procedures.
 
-- `r format(tc_img$patient_count, big.mark = ",")` (`r round(tc_img$patient_count / tc_pts$patient_count * 100, 1)`%) out of `r format(tc_pts$patient_count, big.mark = ",")` thoracic patients had  image occurrence procedures were recorded.
+- `r format(tc_img$patient_count, big.mark = ",")` (`r round(tc_img$patient_count / tc_pts$patient_count * 100, 1)`%) out of `r format(tc_pts$patient_count, big.mark = ",")` thoracic patients had  image occurrence procedures.
 
-- `r format(tc_img_tb$patient_count, big.mark = ",")` (`r round(tc_img_tb$patient_count / tc_tb$patient_count * 100, 1)`%) out of `r format(tc_tb$patient_count, big.mark = ",")` thoracic patients with tumor board encounter had  image occurrence procedures were recorded.
+- `r format(tc_img_tb$patient_count, big.mark = ",")` (`r round(tc_img_tb$patient_count / tc_tb$patient_count * 100, 1)`%) out of `r format(tc_tb$patient_count, big.mark = ",")` thoracic patients with tumor board encounter had image occurrence procedures were recorded.
 
 
 
