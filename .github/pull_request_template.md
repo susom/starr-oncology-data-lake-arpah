@@ -42,7 +42,7 @@
 |            |             |         |
 |            |             |         |
 
-## DBT Test Output
+## Test Output
 <!-- Paste your DBT test output here -->
 
 ### Regression
