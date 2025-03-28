@@ -43,9 +43,8 @@
 |            |             |         |
 
 ## DBT Test Output
-```
 <!-- Paste your DBT test output here -->
-```
+
 ### Regression
 
 ### Full Dataset
