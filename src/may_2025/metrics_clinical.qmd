@@ -1,0 +1,123 @@
+---
+title: "Oncology Cohort Characteristics"
+execute:
+  echo: false
+output: html_document
+runtime: shiny
+---
+
+*Release Version: May 2025 (IRB76049)*
+
+The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.
+
+  - Neural Frame: Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
+  - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables (24k)
+  - Philips ISBM: Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
+
+   These metrics have been generated using the latest Stanford OMOP data including the image occurrence,  Neural Frame data, and Philips ISBM.
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+
+```
+
+### **Summary**
+As of the May 2025 oncology OMOP population:
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+den <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/arpah_denominators.sql"
+den_res <- fetch_data_from_sql_file(den, yaml_file_path)
+den_res=den_res %>% arrange(desc(percentage))
+```
+```{r, message=FALSE, warning=FALSE}
+## summary table of dens
+labels <- c(
+  "data_set"="Data Source",
+  "counts_pts" = "Number of Patients",
+   "percentage" = "Percent"
+)
+
+create_gt_table_v1(
+  data = den_res, 
+  columns = c( "data_set","counts_pts", "percentage"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text = "")
+
+```
+
+### **OMOP Image Occurrence**
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
+res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
+print(res_img_mod)
+##res_img_mod=res_img_mod[1:50,]
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## number of pts and number of series 
+path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
+pt_img <- fetch_data_from_sql_file(path_img, yaml_file_path)
+pt_img
+den_series=as.numeric(pt_img$counts)[2]
+den_pts=as.numeric(pt_img$counts)[1]
+```
+
+Image occurrence table in OMOP included series of images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. 
+
+```{r, message=FALSE, warning=FALSE}
+install.packages("DT")
+library(shiny)
+library(DT)  # For interactive tables
+library(dplyr)
+
+### Load Data ###
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
+res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
+##print(res_img_mod)
+
+# UI: Table with search, sorting, and pagination
+ui <- fluidPage(
+  titlePanel("Patient and Series Counts by Modality Type"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("countFilter", "Min Patient Count:", 
+                  min = min(res_img_mod$unique_person_count, na.rm = TRUE), 
+                  max = max(res_img_mod$unique_person_count, na.rm = TRUE), 
+                  value = c(min(res_img_mod$unique_person_count, na.rm = TRUE), 
+                            max(res_img_mod$unique_person_count, na.rm = TRUE)))
+    ),
+    mainPanel(
+      DTOutput("table")
+    )
+  )
+)
+
+
+# Server: Filtered Table
+server <- function(input, output, session) {
+  filtered_data <- reactive({
+    res_img_mod %>% 
+      filter(series_count >= input$countFilter[1] & 
+             series_count <= input$countFilter[2])
+  })
+  
+  output$table <- renderDT({
+    datatable(filtered_data(), options = list(pageLength = 10, scrollX = TRUE))
+  })
+}
+
+shinyApp(ui, server)
+```
+```{r}
+context: server 
+```
+
+
+
