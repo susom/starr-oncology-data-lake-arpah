@@ -1,0 +1,140 @@
+---
+title: "Image Occurrence Summary"
+execute:
+  echo: false
+---
+```{r, message=FALSE, warning=FALSE, results='hide'}
+#| context: global
+
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+
+```
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+#| context: global
+
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
+res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
+head(res_img_mod)
+res_img_mod$variable_name<-NULL
+colnames(res_img_mod)=c("modality_type", "series_count", "person_count")
+```
+
+```{r,  warning=FALSE, results='hide'}
+#| context: global
+
+Value <- c("AR", "AS", "ASMT", "AU", "BDUS", "BI", "BMD", "CD", "CF", "CP", 
+           "CR", "CS", "CT", "DD", "DF", "DG", "DM", "DOC", "DS", "DX", 
+           "EC", "ECG", "EPS", "ES", "FA", "FID", "FS", "GM", "HC", "HD", 
+           "IO", "IOL", "IVOCT", "IVUS", "KER", "KO", "LEN", "LP", "LS", 
+           "MA", "MG", "MR", "MS", "NM", "OAM", "OCT", "OP", "OPM", "OPR", 
+           "OPT", "OPV", "OSS", "OT", "PLAN", "PR", "PT", "PX", "REG", 
+           "RESP", "RF", "RG", "RTDOSE", "RTIMAGE", "RTPLAN", "RTRECORD", 
+           "RTSTRUCT", "RWV", "SEG", "SM", "SMR", "SR", "SRF", "ST", 
+           "STAIN", "TG", "US", "VA", "VF", "XA", "XC")
+
+Description <- c("Autorefraction", "Angioscopy", "Content Assessment Results", 
+                 "Audio", "Bone Densitometry (ultrasound)", "Biomagnetic imaging", 
+                 "Bone Densitometry (X-Ray)", "Color flow Doppler", 
+                 "Cinefluorography", "Colposcopy", "Computed Radiography", 
+                 "Cystoscopy", "Computed Tomography", "Duplex Doppler", 
+                 "Digital fluoroscopy", "Diaphanography", "Digital microscopy", 
+                 "Document", "Digital Subtraction Angiography", "Digital Radiography", 
+                 "Echocardiography", "Electrocardiography", 
+                 "Cardiac Electrophysiology", "Endoscopy", 
+                 "Fluorescein angiography", "Fiducials", "Fundoscopy", 
+                 "General Microscopy", "Hard Copy", "Hemodynamic Waveform", 
+                 "Intra-Oral Radiography", "Intraocular Lens Data", 
+                 "Intravascular Optical Coherence Tomography", 
+                 "Intravascular Ultrasound", "Keratometry", 
+                 "Key Object Selection", "Lensometry", "Laparoscopy", 
+                 "Laser surface scan", "Magnetic resonance angiography", 
+                 "Mammography", "Magnetic Resonance", 
+                 "Magnetic resonance spectroscopy", "Nuclear Medicine", 
+                 "Ophthalmic Axial Measurements", 
+                 "Optical Coherence Tomography (non-Ophthalmic)", 
+                 "Ophthalmic Photography", "Ophthalmic Mapping", 
+                 "Ophthalmic Refraction", "Ophthalmic Tomography", 
+                 "Ophthalmic Visual Field", "Optical Surface Scan", 
+                 "Other", "Plan", "Presentation State", 
+                 "Positron emission tomography (PET)", "Panoramic X-Ray", 
+                 "Registration", "Respiratory Waveform", 
+                 "Radio Fluoroscopy", "Radiographic imaging (conventional film/screen)", 
+                 "Radiotherapy Dose", "Radiotherapy Image", 
+                 "Radiotherapy Plan", "RT Treatment Record", 
+                 "Radiotherapy Structure Set", "Real World Value Map", 
+                 "Segmentation", "Slide Microscopy", "Stereometric Relationship", 
+                 "SR Document", "Subjective Refraction", 
+                 "Single-photon emission computed tomography (SPECT)", 
+                 "Automated Slide Stainer", "Thermography", 
+                 "Ultrasound", "Visual Acuity", "Videofluorography", 
+                 "X-Ray Angiography", "External-camera Photography")
+
+retired <- c(NA, "Retired", NA, NA, NA, NA, NA, "Retired", "Retired", 
+             "Retired", NA, "Retired", NA, "Retired", "Retired", NA, 
+             "Retired", NA, NA, NA, "Retired", NA, NA, NA, "Retired", 
+             NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "Retired", 
+             "Retired", NA, NA, "Retired", NA, "Retired", NA, 
+             "Retired", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+             NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+             NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+             "Retired", NA)
+
+# Create the data frame
+dat_modality <- data.frame(Value, Description, retired, stringsAsFactors = FALSE)
+
+```
+### Imaging Data Components:
+-  **> X TB** of imaging data
+- **Series** are defined as individual imaging acquisitions within a study
+- This visualization summarizes:
+  - Modality categories 
+  - Anatomic sites 
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+res_img_mod=res_img_mod %>% filter(series_count>1000)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(plotly)
+library(DT)
+library(RColorBrewer)
+install.packages("forcats")
+library(forcats)
+
+df_pie <- res_img_mod %>%
+  group_by(modality_type) %>%  filter(series_count>20000)%>%
+  summarise(patient_count = sum(person_count)) %>%
+  arrange(desc(patient_count))
+
+plot_ly(df_pie,
+        labels = ~modality_type,
+        values = ~patient_count,
+        type = "pie",
+        marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3")),
+        textinfo = "label+percent+value")
+```
+```{r, message=FALSE, warning=FALSE}
+df_bar <- res_img_mod %>% filter(person_count>1000)%>%
+  arrange(desc(person_count)) %>% mutate(modality_type = fct_reorder(modality_type, person_count))
+
+plot_ly(df_bar,
+        x = ~modality_type,
+        y = ~person_count,
+        type = "bar",
+        color = ~modality_type,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Modality"),
+         yaxis = list(title = "Person Count"))
+```
+
+```{r, message=FALSE, warning=FALSE}
+#res_img_mod=res_img_mod %>% mutate(modality_description = paste0(Description, " (", modality_type, ")"))
+#res_img_mod$modality_type<-NULL
+datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLength = 10))
+
+```
+
