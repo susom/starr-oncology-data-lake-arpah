@@ -2,7 +2,7 @@
 title: "Oncology Cohort Characteristics"
 execute:
   echo: false
-output: html_document
+output: html
 runtime: shiny
 ---
 
@@ -50,7 +50,7 @@ create_gt_table_v1(
 ```
 
 ### **OMOP Image Occurrence**
-
+A record of image series from the Vendor Neutral Archive. This does not include Echocardiograms, Ophthalmology images, or Pathology slides at present. We are also only including image occurrences that can be linked to the clarity procedure order information.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
@@ -69,55 +69,4 @@ den_pts=as.numeric(pt_img$counts)[1]
 ```
 
 Image occurrence table in OMOP included series of images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. 
-
-```{r, message=FALSE, warning=FALSE}
-install.packages("DT")
-library(shiny)
-library(DT)  # For interactive tables
-library(dplyr)
-
-### Load Data ###
-sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
-res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
-##print(res_img_mod)
-
-# UI: Table with search, sorting, and pagination
-ui <- fluidPage(
-  titlePanel("Patient and Series Counts by Modality Type"),
-  
-  sidebarLayout(
-    sidebarPanel(
-      sliderInput("countFilter", "Min Patient Count:", 
-                  min = min(res_img_mod$unique_person_count, na.rm = TRUE), 
-                  max = max(res_img_mod$unique_person_count, na.rm = TRUE), 
-                  value = c(min(res_img_mod$unique_person_count, na.rm = TRUE), 
-                            max(res_img_mod$unique_person_count, na.rm = TRUE)))
-    ),
-    mainPanel(
-      DTOutput("table")
-    )
-  )
-)
-
-
-# Server: Filtered Table
-server <- function(input, output, session) {
-  filtered_data <- reactive({
-    res_img_mod %>% 
-      filter(series_count >= input$countFilter[1] & 
-             series_count <= input$countFilter[2])
-  })
-  
-  output$table <- renderDT({
-    datatable(filtered_data(), options = list(pageLength = 10, scrollX = TRUE))
-  })
-}
-
-shinyApp(ui, server)
-```
-```{r}
-context: server 
-```
-
-
 
