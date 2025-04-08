@@ -3,18 +3,20 @@ title: "Oncology Cohort Characteristics"
 execute:
   echo: false
 output: html
-runtime: shiny
 ---
 
 *Release Version: May 2025 (IRB76049)*
 
-The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.
+The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the May 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.
 
-  - Neural Frame: Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
-  - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables (24k)
-  - Philips ISBM: Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
+  - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
 
-   These metrics have been generated using the latest Stanford OMOP data including the image occurrence,  Neural Frame data, and Philips ISBM.
+  - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables
+
+  - **Philips ISBM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
+  These metrics have been generated using the latest Stanford OMOP data including the image occurrence,  Neural Frame data, and Philips ISBM.
+
+  - **OMOP Image Occurrence:** A record of image series from the Vendor Neutral Archive. This does not include Echocardiograms, Ophthalmology images, or Pathology slides at present. We are also only including image occurrences that can be linked to the clarity procedure order information.
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -24,7 +26,7 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.ym
 
 ```
 
-### **Summary**
+### **Population Summary**
 As of the May 2025 oncology OMOP population:
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -49,8 +51,6 @@ create_gt_table_v1(
 
 ```
 
-### **OMOP Image Occurrence**
-A record of image series from the Vendor Neutral Archive. This does not include Echocardiograms, Ophthalmology images, or Pathology slides at present. We are also only including image occurrences that can be linked to the clarity procedure order information.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
@@ -59,14 +59,5 @@ print(res_img_mod)
 ##res_img_mod=res_img_mod[1:50,]
 ```
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-## number of pts and number of series 
-path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
-pt_img <- fetch_data_from_sql_file(path_img, yaml_file_path)
-pt_img
-den_series=as.numeric(pt_img$counts)[2]
-den_pts=as.numeric(pt_img$counts)[1]
-```
 
-Image occurrence table in OMOP included series of images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. 
 
