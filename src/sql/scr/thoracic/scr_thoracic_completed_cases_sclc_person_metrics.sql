@@ -35,7 +35,8 @@ select
 count(distinct person_source_value) patient_count
 from scr_omop
 where
-histologicTypeIcdO3 = '8041'
+nfcasestatus = 'Completed'
+and histologicTypeIcdO3 = '8041'
 and (
 lower(primarysiteDescription) like '%lung%'
 or lower(primarysiteDescription) like '%bronchus%'
