@@ -87,13 +87,58 @@ retired <- c(NA, "Retired", NA, NA, NA, NA, NA, "Retired", "Retired",
 dat_modality <- data.frame(Value, Description, retired, stringsAsFactors = FALSE)
 
 ```
-### Imaging Data Components:
--  **> X TB** of imaging data
+### OMOP Image Occurrence:
+
+In the OMOP Common Data Model (CDM), the "Image_occurrence" table, alongside the "Image_feature" table, provides a structured way to represent medical imaging events and features, bridging the gap between imaging and observational research by integrating image-based measurements into the CDM. 
+
+The OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure. 
+
+Each record includes metadata such as the modality (e.g., CT, MRI) and the anatomic site of the image. The table maintains foreign key links to the procedure_occurrence and visit_occurrence tables, enabling contextual association with the related clinical procedure and patient encounter. 
+
+At Stanford, this table has been extended to include a link to the note table, allowing integration of imaging data with relevant clinical documentation. (edited) 
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## number of pts and number of series 
+path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
+pt_img <- fetch_data_from_sql_file(path_img, yaml_file_path)
+pt_img
+den_series=as.numeric(pt_img$counts)[2]
+den_pts=as.numeric(pt_img$counts)[1]
+```
+
+Image occurrence table in OMOP included series of images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. 
+
 - **Series** are defined as individual imaging acquisitions within a study
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_image<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_basic.sql"
+res<- fetch_data_from_sql_file(sql_file_path_image, yaml_file_path)
+head(res)
+```
+::: {.columns}
+
+::: {.column width="40%"}
+### Data Volume 
+- **>`r format(res$counts[res$flag=="size_gb"], big.mark = ",")` GB** of imaging data 
+- Series Count: `r format(res$counts[res$flag=="counts_series"], big.mark = ",")`
+- Study UID: `r format(res$counts[res$flag=="counts_study"], big.mark = ",")`
+:::
+
+::: {.column width="60%"}
+### Data Components 
+- `r format(res$counts[res$flag=="counts_modality_type"], big.mark = ",")` Modality types 
+- `r format(res$counts[res$flag=="counts_anatomic_type"], big.mark = ",")` Anatomic sites 
+:::
+
+
+
+## 📊 Imaging Summary Results {.tabset}
+
+### Modality Summary Results 
+
 - This visualization summarizes:
   - Modality categories 
   - Anatomic sites 
-
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 res_img_mod=res_img_mod %>% filter(series_count>1000)
 ```
@@ -107,12 +152,11 @@ library(forcats)
 
 df_pie <- res_img_mod %>%
   group_by(modality_type) %>%  filter(series_count>20000)%>%
-  summarise(patient_count = sum(person_count)) %>%
-  arrange(desc(patient_count))
+  arrange(desc(person_count))
 
 plot_ly(df_pie,
         labels = ~modality_type,
-        values = ~patient_count,
+        values = ~person_count,
         type = "pie",
         marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3")),
         textinfo = "label+percent+value")
@@ -134,7 +178,63 @@ plot_ly(df_bar,
 ```{r, message=FALSE, warning=FALSE}
 #res_img_mod=res_img_mod %>% mutate(modality_description = paste0(Description, " (", modality_type, ")"))
 #res_img_mod$modality_type<-NULL
-datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLength = 10))
+DT::datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLength = 10))%>%
+  formatRound(columns = c("person_count", "series_count"), digits = 0)
+
 
 ```
 
+
+### Anatomic Summary Results 
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+#| context: global
+
+sql_file_path_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_anatomic.sql"
+res_ana <- fetch_data_from_sql_file(sql_file_path_image_an, yaml_file_path)
+head(res_ana)
+res_ana$variable_name<-NULL
+colnames(res_ana)=c("anatomic_site", "series_count", "person_count")
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(plotly)
+library(DT)
+library(RColorBrewer)
+install.packages("forcats")
+library(forcats)
+
+res_ana=res_ana %>% filter(series_count>1000)
+
+df_pie_a <- res_ana%>%
+  group_by(anatomic_site) %>% filter(series_count>100000)%>%
+  arrange(desc(person_count))
+
+plot_ly(df_pie_a,
+        labels = ~anatomic_site,
+        values = ~series_count,
+        type = "pie",
+        marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3")),
+        textinfo = "label+percent+value")
+```
+```{r, message=FALSE, warning=FALSE}
+df_bar <- res_ana %>% filter(person_count>1000)%>%
+  arrange(desc(person_count)) %>% mutate(anatomic_site = fct_reorder(anatomic_site, person_count))
+
+plot_ly(df_bar,
+        x = ~anatomic_site,
+        y = ~person_count,
+        type = "bar",
+        color = ~anatomic_site,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Anatomic Site"),
+         yaxis = list(title = "Person Count"))
+```
+
+```{r, message=FALSE, warning=FALSE}
+#res_img_mod=res_img_mod %>% mutate(modality_description = paste0(Description, " (", modality_type, ")"))
+DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength = 10)) %>%
+  formatRound(columns = c("person_count", "series_count"), digits = 0)
+
+```
