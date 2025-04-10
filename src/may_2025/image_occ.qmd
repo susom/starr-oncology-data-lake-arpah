@@ -122,8 +122,8 @@ head(res)
 
 ::: {.column width="40%"}
 ### Data Volume 
-- Patient Count: `r format(pt_img$counts[2], big.mark = ",")`
-- Series Count: `r format(res$counts[res$flag=="counts_series"], big.mark = ",")`
+- Patient Count: `r format(pt_img$counts[1], big.mark = ",")`
+- Series Count: `r format(pt_img$counts[2], big.mark = ",")`
 - Study UID: `r format(res$counts[res$flag=="counts_study"], big.mark = ",")`
 :::
 
@@ -268,6 +268,7 @@ res_img_mod<-res_img_mod %>% select (Description,modality_type,series_count,pers
 DT::datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLength = 10))%>%
   formatRound(columns = c("person_count", "series_count"), digits = 0)
 
+## https://www.dicomlibrary.com/dicom/modality/
 ```
 
 ### Anatomic 
