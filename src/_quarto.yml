@@ -11,7 +11,7 @@ project:
    - neuralframe_data_dict/*
 
 website:
-  title: "Oncology Data Lake"
+  title: "VISTA Oncology Data Lake"
   site-path: "/about/"
   open-graph: true
   page-navigation: true
