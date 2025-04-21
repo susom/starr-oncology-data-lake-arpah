@@ -312,7 +312,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Welcome to the Oncology Data Lake project. This website provides documentation for the datasets released as part of the project.",
+    "text": "Welcome to the VISTA Oncology Data Lake project. This website provides documentation for the datasets released as part of the project.",
     "crumbs": [
       "About"
     ]
@@ -333,6 +333,16 @@
     "title": "About",
     "section": "Project Resources",
     "text": "Project Resources\nFor more information regarding our source data and methods, please refer to the following resources:\n\nSource Data\n\nImaging\nDeath Data\n\nMethods\n\nText De-identification\nImaging De-identification\n\nPublications",
+    "crumbs": [
+      "About"
+    ]
+  },
+  {
+    "objectID": "about.html#acknowledgments",
+    "href": "about.html#acknowledgments",
+    "title": "About",
+    "section": "Acknowledgments",
+    "text": "Acknowledgments\nThis research was funded, in part, by the Advanced Research Projects Agency for Health (ARPA-H). The views and conclusions contained in this document are those of the authors and should not be interpreted as representing the oﬃcial policies, either expressed or implied, of the U.S. Government.",
     "crumbs": [
       "About"
     ]
