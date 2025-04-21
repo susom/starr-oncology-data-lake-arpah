@@ -3,7 +3,7 @@ title: "About"
 back-to-top-navigation: false
 ---
 
-Welcome to the Oncology Data Lake project. This website provides documentation for the datasets released as part of the project. 
+Welcome to the VISTA Oncology Data Lake project. This website provides documentation for the datasets released as part of the project. 
 
 ### Dataset Overview
 
@@ -19,7 +19,7 @@ Neural Frame data encompasses research-eligible patients who have case records i
 
 - **Outcome**: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
 
-- **Diagnoses**: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
+- **Diagnoses**: This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidity.
 
 - **Treatment**: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
 
@@ -48,5 +48,7 @@ For more information regarding our source data and methods, please refer to the 
 - [**Publications**](https://starr.stanford.edu/publications-0 )
 
 
+## Acknowledgments
 
+This research was funded, in part, by the Advanced Research Projects Agency for Health (ARPA-H). The views and conclusions contained in this document are those of the authors and should not be interpreted as representing the oﬃcial policies, either expressed or implied, of the U.S. Government.
 
