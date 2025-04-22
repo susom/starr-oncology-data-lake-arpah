@@ -2,7 +2,7 @@
 -- Patient summary by histology in Neural Frame 
 -- 'completed' case status and diagnosed with thoracic cancer 
 ---------------------------------------------------------------------------
-with
+
 with 
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 scr as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`),
