@@ -358,9 +358,10 @@ thr_his_summary <- thr_his %>%
   mutate(percentage = round(100 * patient_count/sum(patient_count), 1)) %>%
   arrange(desc(patient_count))
 
+thr_his_summary= thr_his_summary %>% select (histology_group, histologicTypeIcdO3Description, histologicTypeIcdO3, patient_count, percentage)
 # Display using DT for interactive table
 DT::datatable(thr_his_summary,
-              colnames = c("Histology Group", "Original Histology", "Patient Count", "ICD-O-3 Codes", "Percentage (%)"),
+              colnames = c("Histology Group", "Original Histology", "ICD-O-3 Codes", "Patient Count", "Percentage (%)"),
               options = list(
                 pageLength = 10,
                 searching = TRUE,
