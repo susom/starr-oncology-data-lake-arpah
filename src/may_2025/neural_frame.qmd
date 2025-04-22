@@ -13,14 +13,106 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.ym
 ```
 
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-#| context: global
 
-sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
-res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
-head(res_img_mod)
-res_img_mod$variable_name<-NULL
-colnames(res_img_mod)=c("modality_type", "series_count", "person_count")
-```
 ### Neural Frame:
-Class of Case divides cases into two groups. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment. Treatment and outcome reports may be limited to analytic cases. Nonanalytic cases (codes 30-49 and 99) may be abstracted by the facility to meet central registry requirements or because of a request by the facility’s cancer program. Nonanalytic cases are grouped according to the reason a patient who received care at the facility is nonanalytic, or the reason a patient who never received care at the facility may have been abstracted.
+The Stanford Cancer Registry data is integrated with the California Cancer Registry and updated monthly, encompassing approximately 800 variables related to various cancers. As of January 2022, the KACI® application from NeuralFrame was approved for abstracting and transmitting diagnosed cases, with Stanford adopting it in 2023. NeuralFrame connects to EPIC to extract relevant data, including pathology notes.
+
+Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer cases are categorized as **Analytic** (reportable with complete data) or **Non-analytic** (not reportable by law, with complete data only from 2022 onward).
+
+ - **Analytic**: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. (codes 00-22).Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment. Treatment and outcome reports may be limited to analytic cases. 
+
+ - **Non-analytic**: Non-analytic cases include recurrences, consults only, and in-transit patients. Nonanalytic cases (codes 30-49 and 99) may be abstracted by the facility to meet central registry requirements or because of a request by the facility’s cancer program. Nonanalytic cases are grouped according to the reason a patient who received care at the facility is nonanalytic, or the reason a patient who never received care at the facility may have been abstracted.
+
+::: {.columns}
+
+::: {.column width="50%"}
+### 📊 Data Volume 
+- Patient Count: 
+:::
+
+::: {.column width="50%"}
+### 🧬 Data Components 
+- Outcome
+- Diagnoses 
+- Treatment
+- Miscellaneous
+:::
+
+```{r, message=FALSE, warning=FALSE, result='hide'}
+sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_case_status.sql"
+case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
+head(case)
+case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
+case$flag="All Cancer"
+
+# Calculate counts and percentages using unique person counts
+case_summary <- aggregate(unique_person_count_case ~ nfcasestatus, data = case, sum)
+case_df <- data.frame(
+  Status = case_summary$nfcasestatus,
+  Count = case_summary$unique_person_count_case,
+  Percentage = round(case_summary$unique_person_count_case / 197000 * 100, 2)
+)
+
+# Sort by percentage in descending order
+case_df <- case_df[order(-case_df$Percentage), ]
+
+# Create interactive table using DT
+library(DT)
+library(ggplot2)
+
+# Display table
+datatable(case_df, 
+          colnames = c("Case Status", "Unique Person Count", "Percentage (%)"),
+          options = list(
+            pageLength = 25,  # increased to show more rows per page
+            searching = FALSE,
+            ordering = TRUE,
+            dom = 'rtip'
+          ),
+          rownames = FALSE
+)
+```
+
+```{r, message=FALSE, warning=FALSE}
+# Create pie chart
+ggplot(case_df, aes(x = "", y = Percentage, fill = Status)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +
+  theme_minimal() +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.border = element_blank(),
+    panel.grid = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_blank()
+  ) +
+  geom_text(aes(label = paste0(Status, "\n", Percentage, "%")), 
+            position = position_stack(vjust = 0.5)) +
+  ggtitle("Case Status Distribution") +
+  scale_fill_brewer(palette = "Set3")
+```
+
+
+
+
+## 📊 Neural Frame Metric Summary {.tabset}
+This visualization summarizes the characteristics for complete cases of thoracic cancer
+
+::: {.panel-tabset}
+
+### Thoracic Cancer  
+
+```{r, message=FALSE, warning=FALSE}
+sql_thr_case<- "src/sql/scr/thoracic/scr_thoracic_case_status_person_metrics.sql"
+thr_case <- fetch_data_from_sql_file(sql_thr_case, yaml_file_path)
+head(thr_case)
+thr_case$flag="Thoracic Cancer"
+
+
+sql_thr<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_denominator.sql"
+
+thr_den=fetch_data_from_sql_file(sql_thr, yaml_file_path)
+thr_den
+```
+:::
