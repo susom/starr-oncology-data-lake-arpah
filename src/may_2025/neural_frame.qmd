@@ -89,7 +89,7 @@ datatable(case_df,
 
 
 
-## Neural Frame Metric Summary {.tabset}
+## Thoracic Cancer Metric Summary {.tabset}
 This visualization summarizes the characteristics of complete cases for:
 
  - Thoracic Cancer
@@ -98,7 +98,7 @@ This visualization summarizes the characteristics of complete cases for:
 
 ::: {.panel-tabset}
 
-### Thoracic Cancer  
+### Cases & Diagnoses
 Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
 
 
@@ -231,27 +231,31 @@ thr_his <- fetch_data_from_sql_file(sql_thr_his, yaml_file_path)
 thr_his <- thr_his %>%
   mutate(histology_group = case_when(
     # Non-Small Cell Lung Cancer (NSCLC) Groups
-    between(as.numeric(histologicTypeIcdO3), 8140, 8384) ~ 'Adenocarcinoma',
-    between(as.numeric(histologicTypeIcdO3), 8050, 8084) ~ 'Squamous Cell Carcinoma',
-    between(as.numeric(histologicTypeIcdO3), 8012, 8014) ~ 'Large Cell Carcinoma',
+    between(as.numeric(histologicTypeIcdO3), 8140, 8147) ~ 'Adenocarcinoma',
+    between(as.numeric(histologicTypeIcdO3), 8070, 8080) ~ 'Squamous Cell Carcinoma',
+    between(as.numeric(histologicTypeIcdO3), 8010, 8015) ~ 'Large Cell Carcinoma',
     histologicTypeIcdO3 == '8046' ~ 'Non-Small Cell Carcinoma NOS',
     
     # Small Cell Lung Cancer (SCLC)
-    histologicTypeIcdO3 == '8041' ~ 'Small Cell Carcinoma',
-    between(as.numeric(histologicTypeIcdO3), 8040, 8045) ~ 'Small Cell Types',
+    between(as.numeric(histologicTypeIcdO3), 8041, 8045) ~ 'Small Cell Carcinoma',
     
     # Neuroendocrine Tumors
     between(as.numeric(histologicTypeIcdO3), 8240, 8249) ~ 'Carcinoid Tumor',
-    histologicTypeIcdO3 == '8013' ~ 'Large Cell Neuroendocrine',
     
     # Other specified types
-    between(as.numeric(histologicTypeIcdO3), 8800, 8921) ~ 'Sarcoma',
-    between(as.numeric(histologicTypeIcdO3), 9050, 9055) ~ 'Mesothelioma',
-    
+    between(as.numeric(histologicTypeIcdO3), 8800, 8806) ~ 'Sarcoma',
+    between(as.numeric(histologicTypeIcdO3), 9050, 9053) ~ 'Mesothelioma',
+    between(as.numeric(histologicTypeIcdO3), 8550, 8551) ~ 'Acinar Cell Carcinoma',
+    between(as.numeric(histologicTypeIcdO3), 8250, 8257) ~ 'Bronchiolo-alveolar Carcinoma',
+    between(as.numeric(histologicTypeIcdO3), 8000, 8005) ~ 'Neoplasm' ,
+    between (as.numeric(histologicTypeIcdO3), 8260, 8265) ~ 'Papillary Adenocarcinoma',
+    between (as.numeric(histologicTypeIcdO3), 8050, 8052)~ 'Papillary Carcinoma'
     # NOS and others
     TRUE ~ 'Other/Not Specified'
   ))
 ```
+
+
 ```{r, message=FALSE, warning=FALSE}
 # Create main summary
 hist_summary <- thr_his %>%
@@ -358,17 +362,27 @@ thr_his_summary <- thr_his %>%
   mutate(percentage = round(100 * patient_count/sum(patient_count), 1)) %>%
   arrange(desc(patient_count))
 
-thr_his_summary= thr_his_summary %>% select (histology_group, histologicTypeIcdO3Description, histologicTypeIcdO3, patient_count, percentage)
+thr_his_res<- thr_his_summary %>% select (histology_group, histologicTypeIcdO3Description, histology_codes, patient_count, percentage)
+
+
 # Display using DT for interactive table
-DT::datatable(thr_his_summary,
+DT::datatable(thr_his_res,
               colnames = c("Histology Group", "Original Histology", "ICD-O-3 Codes", "Patient Count", "Percentage (%)"),
               options = list(
                 pageLength = 10,
                 searching = TRUE,
                 ordering = TRUE,
-                dom = 'rtip'
+                dom = 'f<"clear">lrtip',  #  empty search box
+                language = list(
+                  search = ""  # This removes the "Search:" label
+                )
               ),
               rownames = FALSE) %>%
   formatRound('percentage', digits = 1)
 ```
+
+### Treatment
+
+
+
 :::
