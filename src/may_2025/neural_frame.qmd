@@ -90,11 +90,11 @@ datatable(case_df,
 
 
 ## Thoracic Cancer Metric Summary {.tabset}
-This visualization summarizes the characteristics of complete cases for:
+This visualization summarizes the characteristics of complete cases for Thoracic Cancer by:
 
- - Thoracic Cancer
- - 
- - 
+ - Cases and Diagnoses 
+ - Treatment
+ - Social History
 
 ::: {.panel-tabset}
 
@@ -198,24 +198,33 @@ p <- p %>%
 p
 ```
 
-## Histology Distribution
+## Histology Distribution & ICD-O-3-Codes
 Thoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer **(NSCLC)** representing the majority of cases and Small Cell Lung Cancer **SCLC**.
-The major NSCLC types include:
-
-Non-Small Cell Lung Cancer **(NSCLC)**:
-
-- Adenocarcinoma (8140–8384): The code 8140/3 corresponds to "Adenocarcinoma, NOS" and is widely used for lung adenocarcinomas. The range 8140–8384 encompasses various adenocarcinoma subtypes, including mucinous and papillary variants. ​(SEER)
-
-- Squamous Cell Carcinoma (8050–8084): Codes within this range, such as 8070/3 for "Squamous cell carcinoma, NOS," are appropriate for squamous cell carcinomas of the lung. ​
-
-- Large Cell Carcinoma (8012–8014): Code 8012/3 denotes "Large cell carcinoma, NOS," which is applicable to this category. ​
 
 
-- Non-Small Cell Carcinoma, NOS (8046): Code 8046/3 is used when a tumor is identified as non-small cell carcinoma without further specification. ​(SEER)
+Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:
 
-Small Cell Lung Cancer **(SCLC)**
+- **Non-Small Cell Lung Carcinoma (NSCLC):** This group encompasses the majority of lung cancers and includes subtypes such as:
+  - Adenocarcinoma (8140–8147)
+  - Squamous Cell Carcinoma (8070–8080)
+  - Large Cell Carcinoma (8010–8015)
+  - Non-Small Cell Carcinoma (8046)
 
-Squamous Cell Carcinoma (8050–8084), Large Cell Carcinoma (8012–8014), and Non-Small Cell Carcinoma, Not Otherwise Specified (NOS) (8046). Small Cell Lung Cancer (SCLC) is a distinct category, comprising Small Cell Carcinoma (8041) and other related small cell histologies (8040–8045). Additionally, neuroendocrine tumors of the lung include Carcinoid Tumors (8240–8249) and Large Cell Neuroendocrine Carcinoma (8013), each with unique clinical and prognostic implications. Less common subtypes fall under "Other Types," including Sarcomas (8800–8921), Mesotheliomas (9050–9055), and various unspecified or rare histologies, which are grouped together for completeness and often require individual clinical review.
+- **Small Cell Lung Carcinoma (SCLC):** Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.
+
+- **Other Specified Histologies:** These include a range of less common thoracic cancers such as:
+  - Carcinoid Tumors (8240–8249)
+  - Sarcoma (8800–8806)
+  - Mesothelioma (9050–9053)
+  - Acinar Cell Carcinoma (8550–8551)
+  - Bronchiolo-alveolar Carcinoma (8250–8257)
+  - Neoplasms (8000–8005)
+  - Papillary Adenocarcinoma (8260–8265)
+  - Papillary Carcinoma (8050–8052)
+
+- **Other/Unspecified Histologies:** Any histology not falling into the categories above.
+
+This dual-layered classification system—first by specific histology and then by broader clinical grouping (NSCLC, SCLC, Other Specified, Other Unspecified)—helps in organizing thoracic cancer data for research and reporting.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # Load required libraries
@@ -249,13 +258,110 @@ thr_his <- thr_his %>%
     between(as.numeric(histologicTypeIcdO3), 8250, 8257) ~ 'Bronchiolo-alveolar Carcinoma',
     between(as.numeric(histologicTypeIcdO3), 8000, 8005) ~ 'Neoplasm' ,
     between (as.numeric(histologicTypeIcdO3), 8260, 8265) ~ 'Papillary Adenocarcinoma',
-    between (as.numeric(histologicTypeIcdO3), 8050, 8052)~ 'Papillary Carcinoma'
+    between (as.numeric(histologicTypeIcdO3), 8050, 8052)~ 'Papillary Carcinoma',
     # NOS and others
     TRUE ~ 'Other/Not Specified'
   ))
+
+
+  # Add simplified 4-group histology classification
+thr_his <- thr_his %>%
+  mutate(histology = case_when(
+    # NSCLC group
+    histology_group %in% c('Adenocarcinoma', 'Squamous Cell Carcinoma', 
+                          'Large Cell Carcinoma', 'Non-Small Cell Carcinoma NOS') ~ 'NSCLC',
+    
+    # SCLC group
+    histology_group == 'Small Cell Carcinoma' ~ 'SCLC',
+    
+    # Other Specified group (known histology types that aren't NSCLC or SCLC)
+    histology_group %in% c('Carcinoid Tumor', 'Sarcoma', 'Bronchiolo-alveolar Carcinoma',
+    'Acinar Cell Carcinoma', 'Neoplasm' ,'Papillary Adenocarcinoma', 'Papillary Carcinoma',
+                           'Mesothelioma') ~ 'Other Specified',
+    
+    # Other Unspecified group
+    TRUE ~ 'Other Unspecified'
+  ))
+
+  table(thr_his$histology, thr_his$histology_group)
+  
 ```
 
 
+
+
+
+## Distribution of Thoracic Cancer by Histology Types
+```{r,message=FALSE, warning=FALSE }
+# Create hierarchical data for sunburst chart
+sunburst_data <- thr_his %>%
+  group_by(histology, histology_group) %>%
+  summarize(value = sum(patient_count)) %>%
+  ungroup()
+
+# Calculate total for percentages
+total_count <- sum(sunburst_data$value)
+
+# Create the labels and parents vectors for sunburst
+labels <- c(unique(sunburst_data$histology), sunburst_data$histology_group)
+parents <- c(rep("", length(unique(sunburst_data$histology))), sunburst_data$histology)
+values <- c(tapply(sunburst_data$value, sunburst_data$histology, sum), sunburst_data$value)
+
+# Create color palette with enough colors
+colors <- colorRampPalette(brewer.pal(8, "Set2"))(length(labels))
+
+# Create sunburst chart
+p2 <- plot_ly(
+  labels = labels,
+  parents = parents,
+  values = values,
+  type = "sunburst",
+  branchvalues = "total",
+  hovertemplate = ~paste(
+    "<b>%{label}</b><br>",
+    "Count: %{value}<br>",
+    "Percentage: %{percentParent:.1%}<br>",
+    "<extra></extra>"
+  ),
+  marker = list(colors = colors)
+) %>%
+  layout(
+    title = "(Click to explore subcategories)",
+    width = 400,
+    height = 400,
+    sunburstcolorway = colors
+  )
+
+# Display the sunburst chart
+p2
+
+# Create summary table
+histology_summary <- thr_his %>%
+  group_by(histology, histology_group) %>%
+  summarize(
+    Patient_Count = sum(patient_count),
+    Percentage = round(sum(patient_count) / sum(thr_his$patient_count) * 100, 2)
+  ) %>%
+  arrange(desc(Patient_Count))
+
+# Display interactive table
+datatable(histology_summary,
+          colnames = c("Main Category", "Subcategory", "Patient Count", "Percentage (%)"),
+          options = list(
+            pageLength = 10,
+            dom = 'Bfrtip',
+            ordering = TRUE
+          ),
+          rownames = FALSE) %>%
+  formatStyle('Percentage',
+             background = styleColorBar(histology_summary$Percentage, '#FB8072'),
+             backgroundSize = '98% 88%',
+             backgroundRepeat = 'no-repeat',
+             backgroundPosition = 'center')
+```
+
+
+## Option 1 ##
 ```{r, message=FALSE, warning=FALSE}
 # Create main summary
 hist_summary <- thr_his %>%
@@ -351,6 +457,8 @@ p$x$mainPlot <- list(
 # Display the interactive plot
 p
 ```
+
+
 ```{r, message=FALSE, warning=FALSE}
 # Create detailed summary table
 thr_his_summary <- thr_his %>%
@@ -382,7 +490,55 @@ DT::datatable(thr_his_res,
 ```
 
 ### Treatment
+```{r, message=FALSE, warning=FALSE}
+sql_tx <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_tx_summary_person_metrics.sql"
+thr_tx <- fetch_data_from_sql_file(sql_tx, yaml_file_path)
+head(thr_tx)
 
+library(dplyr)
+library(tidyr)
+
+thr_tx_long <- thr_tx %>%
+  pivot_longer(
+    cols = c(chemo_flag, radiation_flag, surgery_flag),
+    names_to = "treatment_type",
+    values_to = "treatment_flag"
+  ) %>%
+  group_by(treatment_type, treatment_flag) %>%
+  summarize(
+    total_patients = sum(patient_count),
+    .groups = "drop"
+  ) %>%
+  group_by(treatment_type) %>%
+  mutate(
+    percentage = round(100 * total_patients / sum(total_patients), 1),
+    treatment_name = case_when(
+      treatment_type == "chemo_flag" ~ "Chemotherapy",
+      treatment_type == "radiation_flag" ~ "Radiation Therapy",
+      treatment_type == "surgery_flag" ~ "Surgery",
+      TRUE ~ treatment_type
+    )
+  ) %>% 
+  filter(treatment_flag=="Yes") %>% 
+  arrange(desc(percentage))
+
+
+```
+```{r, message=FALSE, warning=FALSE}
+# Display treatment data in an interactive table
+DT::datatable(thr_tx_long %>% 
+              select(treatment_name, total_patients, percentage),
+              colnames = c("Treatment", "Patient Count", "Percentage (%)"),
+              options = list(
+                pageLength = 10,
+                searching = FALSE,
+                ordering = TRUE,
+                dom = 'rtip'
+              ),
+              rownames = FALSE) %>%
+  formatPercentage('percentage', digits = 1)
+```
+### Social History 
 
 
 :::
