@@ -242,7 +242,7 @@ thr_his <- thr_his %>%
     # Non-Small Cell Lung Cancer (NSCLC) Groups
     between(as.numeric(histologicTypeIcdO3), 8140, 8147) ~ 'Adenocarcinoma',
     between(as.numeric(histologicTypeIcdO3), 8070, 8080) ~ 'Squamous Cell Carcinoma',
-    between(as.numeric(histologicTypeIcdO3), 8010, 8015) ~ 'Large Cell Carcinoma',
+    between(as.numeric(histologicTypeIcdO3), 8012, 8014) ~ 'Large Cell Carcinoma',
     histologicTypeIcdO3 == '8046' ~ 'Non-Small Cell Carcinoma NOS',
     
     # Small Cell Lung Cancer (SCLC)
@@ -284,7 +284,7 @@ thr_his <- thr_his %>%
   ))
 
   table(thr_his$histology, thr_his$histology_group)
-  
+  thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
 ```
 
 
@@ -323,13 +323,29 @@ p2 <- plot_ly(
     "Percentage: %{percentParent:.1%}<br>",
     "<extra></extra>"
   ),
-  marker = list(colors = colors)
+  textposition = "auto",
+  insidetextorientation = "horizontal",
+  textfont = list(size = 14),
+  marker = list(
+    colors = colors,
+    line = list(color = '#FFFFFF', width = 1)
+  )
 ) %>%
   layout(
     title = "(Click to explore subcategories)",
-    width = 400,
-    height = 400,
-    sunburstcolorway = colors
+    width = 600,  # Further increased width for better label spacing
+    height = 400, # Further increased height for better label spacing
+    sunburstcolorway = colors,
+    margin = list(l = 50, r = 50, t = 50, b = 50),  # Added margins for label space
+    annotations = list(
+      text = "Click segments to explore subcategories",
+      x = 0.5,
+      y = -0.1,
+      showarrow = FALSE,
+      xref = 'paper',
+      yref = 'paper'
+    ),
+    showlegend = FALSE
   )
 
 # Display the sunburst chart
@@ -364,7 +380,8 @@ datatable(histology_summary,
 ## Option 1 ##
 ```{r, message=FALSE, warning=FALSE}
 # Create main summary
-hist_summary <- thr_his %>%
+thr_his_res=thr_his %>% filter (patient_count>5)
+hist_summary <- thr_his_res %>%
   group_by(histology_group) %>%
   summarize(patient_count = sum(patient_count)) %>%
   mutate(percentage = round(100 * patient_count/sum(patient_count), 1)) %>%
@@ -461,7 +478,7 @@ p
 
 ```{r, message=FALSE, warning=FALSE}
 # Create detailed summary table
-thr_his_summary <- thr_his %>%
+thr_his_summary <- thr_his_res %>%
   group_by(histology_group, histologicTypeIcdO3Description) %>%
   summarize(
     patient_count = sum(patient_count),
@@ -470,11 +487,11 @@ thr_his_summary <- thr_his %>%
   mutate(percentage = round(100 * patient_count/sum(patient_count), 1)) %>%
   arrange(desc(patient_count))
 
-thr_his_res<- thr_his_summary %>% select (histology_group, histologicTypeIcdO3Description, histology_codes, patient_count, percentage)
+tab_his<- thr_his_summary %>% select (histology_group, histologicTypeIcdO3Description, histology_codes, patient_count, percentage)
 
 
 # Display using DT for interactive table
-DT::datatable(thr_his_res,
+DT::datatable(tab_his,
               colnames = c("Histology Group", "Original Histology", "ICD-O-3 Codes", "Patient Count", "Percentage (%)"),
               options = list(
                 pageLength = 10,
@@ -490,10 +507,12 @@ DT::datatable(thr_his_res,
 ```
 
 ### Treatment
-```{r, message=FALSE, warning=FALSE}
+The following table summarizes the distribution of thoracic cancer treatments including chemotherapy, radiation therapy, and surgery across the patient cohort.
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_tx <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_tx_summary_person_metrics.sql"
 thr_tx <- fetch_data_from_sql_file(sql_tx, yaml_file_path)
-head(thr_tx)
+
 
 library(dplyr)
 library(tidyr)
@@ -522,7 +541,7 @@ thr_tx_long <- thr_tx %>%
   filter(treatment_flag=="Yes") %>% 
   arrange(desc(percentage))
 
-
+thr_tx_long$treatment_type<-NULL
 ```
 ```{r, message=FALSE, warning=FALSE}
 # Display treatment data in an interactive table
@@ -535,10 +554,54 @@ DT::datatable(thr_tx_long %>%
                 ordering = TRUE,
                 dom = 'rtip'
               ),
-              rownames = FALSE) %>%
-  formatPercentage('percentage', digits = 1)
+              rownames = FALSE) 
 ```
 ### Social History 
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_soh <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_social_history.sql"
+thr_soh <- fetch_data_from_sql_file(sql_soh, yaml_file_path)
 
+colnames(thr_soh)<-c("Description", "Patinet_Counts", "Status" )
+
+# Split data into smoking and alcohol
+smoking_data <- thr_soh[!grepl("alcohol", tolower(thr_soh$Description)), ]
+alcohol_data <- thr_soh[grepl("alcohol", tolower(thr_soh$Description)), ]
+```
+
+
+#### Smoking Status
+```{r, message=FALSE, warning=FALSE}
+smoking_data <- thr_soh[!grepl("alcohol", tolower(thr_soh$Description)), ]
+
+smoking_data=smoking_data %>% select (Description , Patinet_Counts)%>% arrange(desc(Patinet_Counts))
+labels <- c(
+  "Description"="Description",
+  "Patinet_Counts" = "Number of Patients"
+)
+
+create_gt_table_v1(
+  data = smoking_data, 
+  columns = c( "Description","Patinet_Counts"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text = "")
+```
+
+#### Alcohol Use
+```{r, message=FALSE, warning=FALSE}
+alcohol_data=alcohol_data %>% select (Description , Patinet_Counts)%>% arrange(desc(Patinet_Counts))
+labels <- c(
+  "Description"="Description",
+  "Patinet_Counts" = "Number of Patients"
+)
+
+create_gt_table_v1(
+  data = alcohol_data, 
+  columns = c( "Description","Patinet_Counts"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text = "")
+```
+:::
 
 :::
