@@ -32,6 +32,7 @@ As of the May 2025 oncology OMOP population:
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 den <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/arpah_denominators.sql"
 den_res <- fetch_data_from_sql_file(den, yaml_file_path)
+
 den_res=den_res %>% arrange(desc(percentage))
 ```
 ```{r, message=FALSE, warning=FALSE}
@@ -48,16 +49,80 @@ create_gt_table_v1(
   labels = labels, 
    subtitle_text = "",
   footnote_text = "")
-
 ```
-
-
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
-res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
-print(res_img_mod)
-##res_img_mod=res_img_mod[1:50,]
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/arpah_overlap_metrics.sql"
+res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
+head (res)
 ```
+
+The following graph shows the venn diagram for the above data sources: 
+
+
+
+
+
+```{r, message=FALSE, warning=FALSE}
+# Create Venn diagram
+library(eulerr)
+library(dplyr)
+library(tidyr)
+library(RColorBrewer)
+
+venn_sets <- res %>%
+  mutate(value = TRUE) %>%
+  pivot_wider(
+    names_from = data_set,
+    values_from = value,
+    values_fill = FALSE
+  )
+
+# Create a named list for the euler diagram
+set_list <- list(
+  "Oncology OMOP" = venn_sets$person_id[venn_sets$`Oncology OMOP`],
+  "Image Occurrence" = venn_sets$person_id[venn_sets$`Image Occurrence`],
+  "Neural Frame" = venn_sets$person_id[venn_sets$`Neural Frame`],
+  "Philips ISBM" = venn_sets$person_id[venn_sets$`Philips ISBM`]
+)
+
+# Define specific colors for each set
+colors <- c( "#377EB8","#4DAF4A", "#FF7F00", "#E41A1C")  # Green, Blue, Orange, Red
+names(colors) <- names(set_list)
+
+# Fit and plot the Euler diagram
+fit <- euler(set_list, shape = "ellipse")
+plot(
+  fit,
+  fills = list(
+    fill = colors,
+    alpha = 0.35
+  ),
+  edges = list(lwd = 1, col = "gray40"),
+  quantities = list(
+    fontsize = 9,
+    type = "counts"
+  ),
+  labels = list(
+    fontsize = 10,
+    font = 3
+  ),
+  main = list(
+    label = "Patient Overlap Across Data Sources",
+    fontsize = 14,
+    font = 2
+  ),
+  legend = TRUE,
+  legend_side = "right",
+  repel = TRUE,
+  labels_args = list(
+    outside = TRUE,
+    padding = unit(0.5, "lines"),
+    pos = c("bottom", "right", "top", "left")
+  )
+)
+```
+
+
 
 
 
