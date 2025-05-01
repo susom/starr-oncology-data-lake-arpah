@@ -1,0 +1,78 @@
+---
+title: "Philips ISPM Metrics"
+execute:
+  echo: false
+---
+```{r, message=FALSE, warning=FALSE, results='hide'}
+#| context: global
+
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+library(RColorBrewer)  
+library(plotly)
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+philips_den<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_denominator.sql"
+ph_den <- fetch_data_from_sql_file(philips_den, yaml_file_path)
+ph_den$counts_pts
+```
+
+### Summary:
+
+Philips IntelliSpace Precision Medicine (ISPM) includes genomics database at Stanford.
+This data is geared towards identifying genetic mutations that can be targeted for precision medicine, with the goal of improving therapeutic outcomes through personalized treatment strategies.
+
+## Tables {.tabset}
+
+::: {.panel-tabset}
+
+### Diagnoses Orders
+## Site Display and Site Code:
+ These fields specifies the specific locations in the genome where mutations are detected. The site_display and site_code being disease or organ-specific suggests that the data is organized to reflect the relevance of mutations to particular conditions or anatomical sites, which is crucial for targeted treatment strategies.
+
+```{r,message=FALSE, warning=FALSE }
+site_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_site_display.sql"
+site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
+
+
+# Calculate percentages using numeric values
+site <- site %>% filter (n_pts>30) %>%
+  mutate(percentage =round( (n_pts/as.numeric(ph_den$counts_pts)) * 100))
+
+# Create interactive horizontal bar plot with plotly
+plot_ly(site, 
+        y = ~reorder(site_display, n_pts), # switched to y and reordered
+        x = ~n_pts, # switched to x
+        type = "bar",
+        orientation = 'h', # make bars horizontal
+        marker = list(color = brewer.pal(12, "Set3"))) %>%
+  layout(
+    title = "Distribution of Genomic Sites in ISPM Database",
+    yaxis = list( # switched axis properties
+      title = "",
+      tickangle = 0 # removed angle since it's now on y-axis
+    ),
+    xaxis = list(title = "Patient Count"), # switched axis properties
+    hoverlabel = list(bgcolor = "white"),
+    hovertemplate = paste(
+      "<b>%{y}</b><br>", # switched to %{y}
+      "Percentage: %{x:.1f}%<br>", # switched to %{x}
+      "<extra></extra>"
+    ),
+    margin = list(l = 150) # added left margin for site labels
+  )
+```
+
+### Aberrations
+- HGNC Gene and Detected Mutations: The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. When discussing detected mutations, it typically refers to identifying specific genetic alterations within these genes that may have clinical significance, particularly in relation to diseases.  The primary purpose of identifying mutations is to understand their potential impact on therapy. This can include determining which mutations may be targeted by specific treatments, such as gene therapy or other precision medicine approaches. By understanding the mutations present in a patient's tumor or genetic profile, therapies can be tailored that are more likely to be effective.
+
+```{r,message=FALSE, warning=FALSE }
+gene_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_variant_type.sql"
+gene <- fetch_data_from_sql_file(gene_sql, yaml_file_path)
+gene
+```
+### Specimen Data
+- Variant Type Breakdown (SNV): The breakdown of variant types, such as Single Nucleotide Variants (SNVs), is important for understanding the biological landscape of diseases. Different types of mutations can have different implications for disease progression and treatment response. Analyzing these variants helps in assessing the overall mutation profile associated with specific diagnoses.
+
+:::
