@@ -1,0 +1,41 @@
+---
+title: "Genetic Testing Summary"
+---
+
+## Gene Testing Fields from Neural Frame
+
+The following table summarizes genetic testing and molecular marker fields available in the Neural Frame database:
+
+| Gene/Marker | Description | NAACCR ID |
+|------------|-------------|------------|
+| ALK | ALK Rearrangement | 3938 |
+| BRAF | BRAF Mutational Analysis | 3940 |
+| EGFR | EGFR Mutational Analysis | 3939 |
+| KRAS | KRAS Mutational Analysis | 3866 |
+| NRAS | NRAS Mutational Analysis | 3941 |
+| JAK2 | JAK2 Analysis | 3862 |
+| PD-L1 | PD-L1 Expression (Lung) | 23004 |
+| HER2 | HER2 Overall Summary | 3855 |
+| HER2 IHC | HER2 IHC Summary | 3850 |
+| HER2 ISH | HER2 ISH Summary | 3854 |
+| MSI | Microsatellite Instability | 10026 |
+| TMB | Tumor Mutational Burden | 10027 |
+| Ki-67 | Ki-67 Proliferation Index | 3863 |
+| Brain Markers | Brain Molecular Markers | 3816 |
+| Multi-gene | Multigene Signature Method | 3894 |
+| Multi-gene Results | Multigene Signature Results | 3895 |
+
+Each of these fields captures specific molecular and genetic characteristics of tumors that may be relevant for diagnosis, prognosis, and treatment decisions.
+
+## Genetic Testing from Philips ISPM
+
+The Philips IntelliSpace Precision Medicine (ISPM) database at Stanford provides additional genomic testing information that complements the Neural Frame data. This includes:
+
+- Comprehensive genomic profiling
+- Next-generation sequencing (NGS) results
+- Additional molecular markers and variants
+- Tumor mutational burden (TMB) scores
+- Microsatellite instability (MSI) status
+- Other actionable mutations and variants
+
+The combination of Neural Frame and Philips ISPM data provides a more complete picture of the molecular characteristics of tumors, helping to inform treatment decisions and research.
