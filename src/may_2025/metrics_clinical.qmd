@@ -103,8 +103,11 @@ ggplot(donut_data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=data_set)) +
 
 The plot below shows how patients overlap between different data sources:
 - Each row on the left shows the total size of each data source
+
 - The connected dots in the middle show which combinations of data sources exist
+
 - The bars show how many patients are in each combination
+
 - For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the bar above shows how many patients are in both sources
 
 ```{r, message=FALSE, warning=FALSE}
@@ -140,8 +143,8 @@ upset(
   matrix.color = "#6495ED",  # Using an even lighter blue color
   main.bar.color = "#6495ED",
   sets.bar.color = "#6495ED",
-  number.angles = 0,  # Make numbers horizontal
-  text.scale = c(1.3, 1.3, 1)  # Increase text size for better readability
+  number.angles = 0 # Make numbers horizontal
+  #text.scale = c(1.3, 1.3, 1)  # Increase text size for better readability
 )
 ```
 
