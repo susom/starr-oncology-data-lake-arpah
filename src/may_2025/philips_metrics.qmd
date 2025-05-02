@@ -12,18 +12,70 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.ym
 library(RColorBrewer)  
 library(plotly)
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-philips_den<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_denominator.sql"
-ph_den <- fetch_data_from_sql_file(philips_den, yaml_file_path)
+philips_den_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_denominator.sql"
+ph_den <- fetch_data_from_sql_file(philips_den_sql, yaml_file_path)
 ph_den$counts_pts
+
+## aberration denominators 
+abr_den_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_aberration_denominator.sql"
+abr_den <- fetch_data_from_sql_file(abr_den_sql, yaml_file_path)
+abr_den
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+test_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_tests_ordered.sql"
+test_type=fetch_data_from_sql_file(test_sql, yaml_file_path)
+
+test_date_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_tests_date_ordered.sql"
+test_date=fetch_data_from_sql_file(test_date_sql, yaml_file_path)
+
+test_type=test_type %>% inner_join(test_date, by="test_type")
+test_type=test_type %>% mutate(test_type=ifelse(test_type=="StanfordStampTest", "Stanford Stamp Test", "Foundation One Ckb Test"))
+
 ```
 
 ### Summary:
 
 Philips IntelliSpace Precision Medicine (ISPM) includes genomics database at Stanford.
 This data is geared towards identifying genetic mutations that can be targeted for precision medicine, with the goal of improving therapeutic outcomes through personalized treatment strategies.
+As of May 2025, there are: 
 
-## Tables {.tabset}
+```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "test_type"="Type of Tests",
+  "test_type_counts" = "N (Tests)",
+   "min_order_date" = "Min (Date)",
+   "max_order_date"= "Max (Date)"
+)
+
+create_gt_table_v1(
+  data = test_type, 
+  columns = c( "test_type","test_type_counts", "min_order_date", "max_order_date"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text = paste0("Total number of ordered tests: ", format(sum(test_type$test_type_counts)
+, big.mark = ",") ))
+```
+
+::: {.columns}
+
+::: {.column width="50%"}
+### 🧬 Data Components 
+- Stanford Stamp Test
+- Aberration 
+- Specimen 
+:::
+
+
+::: {.column width="50%"}
+### 📊 Data Volume 
+- Patients Count: `r format(ph_den$counts_pts[1], big.mark = ",")`
+- Patients with Aberration Cases: `r format(abr_den$n_pts, big.mark = ",")`
+:::
+
+
+## Tables: {.tabset}
 
 ::: {.panel-tabset}
 
@@ -31,11 +83,13 @@ This data is geared towards identifying genetic mutations that can be targeted f
 ## Site Display and Site Code:
  These fields specifies the specific locations in the genome where mutations are detected. The site_display and site_code being disease or organ-specific suggests that the data is organized to reflect the relevance of mutations to particular conditions or anatomical sites, which is crucial for targeted treatment strategies.
 
-```{r,message=FALSE, warning=FALSE }
+```{r,message=FALSE, warning=FALSE, results='hide' }
 site_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_site_display.sql"
 site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
 
+```
 
+```{r, message=FALSE, warning=FALSE}
 # Calculate percentages using numeric values
 site <- site %>% filter (n_pts>30) %>%
   mutate(percentage =round( (n_pts/as.numeric(ph_den$counts_pts)) * 100))
@@ -65,12 +119,151 @@ plot_ly(site,
 ```
 
 ### Aberrations
-- HGNC Gene and Detected Mutations: The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. When discussing detected mutations, it typically refers to identifying specific genetic alterations within these genes that may have clinical significance, particularly in relation to diseases.  The primary purpose of identifying mutations is to understand their potential impact on therapy. This can include determining which mutations may be targeted by specific treatments, such as gene therapy or other precision medicine approaches. By understanding the mutations present in a patient's tumor or genetic profile, therapies can be tailored that are more likely to be effective.
+- Aberration Types: An aberration type describes a specific change to DNA.
+
+- Aberration Classes: An aberration class groups related types of genomic changes into broader categories.
+
+- Chromosomes (chrom): This field refers to chromosomal location. For example if a gene is located on chromosome 17, it will be presented at "chr17".
+
+- HGNC Gene and Detected Mutations (hgnc_gene): The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine, to improve patient care.
+
+Chromosome number tells us where in the genome we are looking, HGNC gene names tell us which gene or genes are involved, and aberration type/class tells us what kind of genetic change occurred.
+
+```{r,message=FALSE, warning=FALSE , results='hide'}
+gene_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_chrom_genes.sql"
+gene <- fetch_data_from_sql_file(gene_sql, yaml_file_path)
+
+# Calculate percentages using the denominator
+gene <- gene %>%
+  mutate(pts_percent = round((n_pts/as.numeric(ph_den$counts_pts))*100, 1))
+```
+
+
 
 ```{r,message=FALSE, warning=FALSE }
-gene_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_variant_type.sql"
-gene <- fetch_data_from_sql_file(gene_sql, yaml_file_path)
-gene
+# Create interactive bar plot for top genes
+gene_plot <- gene %>%
+  filter(n_pts > 500) %>%
+  arrange(desc(n_pts)) %>%
+  plot_ly(
+    x = ~n_pts,
+    y = ~reorder(hgnc_gene, n_pts),
+    type = "bar",
+    marker = list(color = brewer.pal(15, "Set3")),
+    text = ~paste("<br>N:", n_pts, "<br>", pts_percent, "%"),
+    hoverinfo = "text"
+  ) %>%
+  layout(
+    title = "Distribution of HGNC Genes in Patient Population",
+    yaxis = list(title = "Gene"),
+    xaxis = list(title = "Number of Patients"),
+    margin = list(b = 100)
+  )
+
+gene_plot
+```
+
+```{r, message=FALSE, warning=FALSE }
+# Update the datatable to include percentage
+DT::datatable(
+  gene %>%
+    select(hgnc_gene, n_pts, pts_percent) %>%
+    rename(
+      "Gene" = hgnc_gene,
+      "Patient Count" = n_pts,
+      "Percentage" = pts_percent
+    ),
+  options = list(
+    pageLength = 10,
+    order = list(list(1, 'desc')),
+    dom = 'ftlip'
+  ),
+  rownames = FALSE
+) %>%
+  DT::formatStyle(
+    'Patient Count',
+    background = DT::styleColorBar(gene$n_pts, '#FB8072'),
+    backgroundSize = '98% 88%',
+    backgroundRepeat = 'no-repeat',
+    backgroundPosition = 'center'
+  ) %>%
+  DT::formatRound('Percentage', digits = 1)
+```
+
+```{r, message=FALSE, warning=FALSE }
+library(dplyr)
+library(ggplot2)
+
+gene %>%
+  count(chrom, hgnc_gene, sort = TRUE) %>%
+  group_by(chrom) %>%
+  top_n(10, n) %>%
+  ggplot(aes(x = reorder(hgnc_gene, n), y = n, fill = chrom)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +
+  facet_wrap(~ chrom, scales = "free") +
+  labs(x = "HGNC Gene", y = "Count", title = "Top Genes by Aberration Class") +
+  theme_minimal()
+
+```
+```{r,message=FALSE, warning=FALSE}
+# Create heatmap
+plot_ly(
+  data = gene,
+  x = ~chrom,
+  y = ~hgnc_gene,
+  z = ~n_pts,
+  type = "heatmap",
+  colorscale = "Viridis",
+  hovertemplate = paste(
+    "<b>Gene:</b> %{y}<br>",
+    "<b>Chromosome:</b> %{x}<br>",
+    "<b>Patients:</b> %{z}<extra></extra>"
+  )
+) %>%
+  layout(
+    title = "Patient Counts by Gene and Chromosome",
+    xaxis = list(title = "Chromosome"),
+    yaxis = list(title = "Gene"),
+    margin = list(l = 100)  # To fit long gene names
+  )
+```
+
+
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+mu_type_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_abr_type.sql"
+mutation_data <- fetch_data_from_sql_file(mu_type_sql, yaml_file_path)
+mutation_data=mutation_data %>% filter(n_pts>200) 
+```
+
+```{r, message=FALSE, warning=FALSE}
+gene_order <- mutation_data %>%
+  group_by(hgnc_gene) %>%
+  summarise(total = sum(n_pts), .groups = "drop") %>%
+  arrange(desc(total)) %>%
+  pull(hgnc_gene)
+
+mutation_data$hgnc_gene <- factor(mutation_data$hgnc_gene, levels = gene_order)
+ 
+ # mutate(hgnc_gene = fct_reorder(hgnc_gene, total_patients, .desc = TRUE))
+
+# Plotly stacked bar plot
+plot_ly(
+  mutation_data,
+  y = ~hgnc_gene,
+  x = ~n_pts,
+  color = ~aberration_type,
+  colors = "Set3",
+  type = 'bar'
+) %>%
+  layout(
+    barmode = 'stack',
+    title = "Mutation Type Distribution Across Genes",
+    yaxis = list(title = "Gene"),
+    xaxis = list(title = "Number of Patients")
+  )
 ```
 ### Specimen Data
 - Variant Type Breakdown (SNV): The breakdown of variant types, such as Single Nucleotide Variants (SNVs), is important for understanding the biological landscape of diseases. Different types of mutations can have different implications for disease progression and treatment response. Analyzing these variants helps in assessing the overall mutation profile associated with specific diagnoses.
