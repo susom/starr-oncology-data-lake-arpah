@@ -73,16 +73,16 @@ library(DT)
 library(ggplot2)
 
 # Display table
-datatable(case_df, 
-          colnames = c("Case Status", "Unique Person Count", "Percentage (%)"),
-          options = list(
-            pageLength = 25,  # increased to show more rows per page
-            searching = FALSE,
-            ordering = TRUE,
-            dom = 'rtip'
-          ),
-          rownames = FALSE
-)
+#DT::datatable(case_df, 
+ #        colnames = c("Case Status", "Unique Person Count", "Percentage (%)"),
+    #       options = list(
+      #       pageLength = 25,  # increased to show more rows per page
+        #     searching = FALSE,
+        #     ordering = TRUE,
+        #     dom = 'rtip'
+        #   ),
+        #   rownames = FALSE
+ #)
 ```
 
 
