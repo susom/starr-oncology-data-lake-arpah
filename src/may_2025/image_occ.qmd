@@ -3,15 +3,13 @@ title: "Image Occurrence"
 execute:
   echo: false
 ---
-```{r, message=FALSE, warning=FALSE, results='hide'}
-#| context: global
+```{r setup, include=FALSE}
 
+# Your existing initialization
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
-
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
 ```
-
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 #| context: global
@@ -150,13 +148,8 @@ res_img_mod$retired<-NULL
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-library(plotly)
-library(DT)
-library(RColorBrewer)
-install.packages("forcats")
-library(forcats)
-
 ## Number of series in each modality
+library(plotly)
 df_pie <- res_img_mod %>%
   group_by(modality_type) %>%  filter(series_count>120000)%>%
   arrange(desc(person_count))
@@ -166,8 +159,8 @@ plot_ly(df_pie,
         values = ~series_count,
         type = "pie",
         marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3")),
-        textinfo = "label+percent") %>%layout (title = "Number of Series per Modality",  legend = list(orientation = "h", x = 5, y = 0.5) )%>%
-  config(displayModeBar = TRUE, displaylogo = FALSE)
+        textinfo = "label+percent") %>% plotly::layout (title = "Number of Series per Modality",  legend = list(orientation = "h", x = 5, y = 0.5) )%>%
+  plotly::config(displayModeBar = TRUE, displaylogo = FALSE)
 ```
 ## Modality Type
 ```{r, message=FALSE, warning=FALSE}
@@ -197,52 +190,6 @@ plot_ly(
   )
 ```
 
-## example plot 
-```{r, message=FALSE, warning=FALSE}
-plot_ly(
-  df_pie,
-  type = "treemap",
-  labels = ~modality_type,
-  parents = "",
-  values = ~series_count,
-  textinfo = "label+percent entry",
-  marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3"))
-)
-```
-## example plot 
-```{r, message=FALSE, warning=FALSE}
-library(plotly)
-library(dplyr)
-library(forcats)
-
-df_lollipop <- df_pie %>%
-  filter(series_count > 120000) %>%
-  arrange(series_count) %>%
-  mutate(modality_type = factor(modality_type, levels = modality_type))  
-
-plot_ly(df_lollipop) %>%
-  add_segments(
-    x = 0, xend = ~series_count,
-    y = ~modality_type, yend = ~modality_type,
-    line = list(color = 'gray'),
-    showlegend = FALSE
-  ) %>%
-  add_markers(
-    x = ~series_count,
-    y = ~modality_type,
-    marker = list(color = 'darkred', size = 12),
-    text = ~paste("Series:", format(series_count, big.mark = ",")),
-    hoverinfo = "text",
-    showlegend = FALSE
-  ) %>%
-  layout(
-    title = "Number of Series per Modality",
-    xaxis = list(title = "Series Count"),
-    yaxis = list(title = "Modality Type", categoryorder = "array", categoryarray = levels(df_lollipop$modality_type)))
-  
-## ordering didn't work - check
-```
-
 
 ## Patient Population 
 ```{r, message=FALSE, warning=FALSE}
@@ -261,6 +208,7 @@ plot_ly(df_bar,
 ## Table 
 
 ```{r, message=FALSE, warning=FALSE}
+library(DT)
 res_img_mod=res_img_mod %>% mutate(modality_description = paste0(Description, " (", modality_type, ")"))
 res_img_mod$Description[is.na(res_img_mod$Description)]<-"Not Available"
 #res_img_mod$modality_type<-NULL
@@ -285,12 +233,6 @@ colnames(res_ana)=c("anatomic_site", "series_count", "person_count")
 ```
 ## Anatomic Sites
 ```{r, message=FALSE, warning=FALSE}
-library(plotly)
-library(DT)
-library(RColorBrewer)
-install.packages("forcats")
-library(forcats)
-
 res_ana=res_ana %>% filter(series_count>1000)
 
 df_pie_a <- res_ana%>%
@@ -317,12 +259,14 @@ plot_ly(df_pie_a,
 ## Patient Population 
 
 ```{r, message=FALSE, warning=FALSE}
+install.packages("forcats")
+library(forcats)
 df_bar <- res_ana %>% filter(person_count>1000)%>%
-  arrange(desc(person_count)) %>% mutate(anatomic_site = fct_reorder(anatomic_site, person_count))
+  arrange(desc(person_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, person_count))
 
 plot_ly(df_bar,
-        x = ~anatomic_site,
-        y = ~person_count,
+        y = ~anatomic_site,
+        x = ~person_count,
         type = "bar",
         color = ~anatomic_site,
         colors = "Set3") %>%
@@ -330,11 +274,5 @@ plot_ly(df_bar,
          yaxis = list(title = "Person Count")) %>%layout (title = "Number of Patients per Anatomic Site")
 ```
 
-## Table 
-```{r, message=FALSE, warning=FALSE}
-DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength = 10)) %>%
-  formatRound(columns = c("person_count", "series_count"), digits = 0)
-
-```
-::: 
+:::
 
