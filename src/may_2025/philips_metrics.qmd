@@ -31,7 +31,13 @@ test_date_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philip
 test_date=fetch_data_from_sql_file(test_date_sql, yaml_file_path)
 
 test_type=test_type %>% inner_join(test_date, by="test_type")
-test_type=test_type %>% mutate(test_type=ifelse(test_type=="StanfordStampTest", "Stanford Stamp Test", "Foundation One Ckb Test"))
+test_type=test_type %>% mutate(test_type=ifelse(test_type=="StanfordStampTest", "Stanford Stamp Test", "Foundation One Ckb Test"))%>%
+  mutate(
+    min_order_ym = format(min_order_date, "%Y-%m"),
+    max_order_ym = format(max_order_date, "%Y-%m")
+  )
+
+
 
 ```
 
@@ -39,19 +45,19 @@ test_type=test_type %>% mutate(test_type=ifelse(test_type=="StanfordStampTest", 
 
 Philips IntelliSpace Precision Medicine (ISPM) includes genomics database at Stanford.
 This data is geared towards identifying genetic mutations that can be targeted for precision medicine, with the goal of improving therapeutic outcomes through personalized treatment strategies.
-As of May 2025, `r format(sum(test_type$test_type_counts), big.mark=",") STAMP tests were ordered for `r format(ph_den$counts_pts[1], big.mark = ",")` patients. 
+As of May 2025, `r format(sum(test_type$test_type_counts), big.mark=",")` STAMP tests were ordered for `r format(ph_den$counts_pts[1], big.mark = ",")` patients. 
 
 ```{r, message=FALSE, warning=FALSE}
 labels <- c(
-  "test_type"="Type of Tests",
-  "test_type_counts" = "N (Tests)",
-   "min_order_date" = "Min (Date)",
-   "max_order_date"= "Max (Date)"
+  "test_type"="Test Types",
+  "test_type_counts" = "n_tests",
+   "min_order_ym" = "min_date",
+   "max_order_ym"= "max_date"
 )
 
 create_gt_table_v1(
   data = test_type, 
-  columns = c( "test_type","test_type_counts", "min_order_date", "max_order_date"), 
+  columns = c( "test_type","test_type_counts", "min_order_ym", "max_order_ym"), 
   labels = labels, 
    subtitle_text = "",
   footnote_text = paste0("Total number of ordered tests: ", format(sum(test_type$test_type_counts)
@@ -62,9 +68,8 @@ create_gt_table_v1(
 
 ::: {.column width="50%"}
 ### 🧬 Data Components 
-- Stanford Stamp Test
-- Aberration 
-- Specimen 
+- Diagnoses orders: includes patients who had the test ordered
+- Aberration: records if a genetic aberration is found in the STAMP panel tests
 :::
 
 
@@ -79,9 +84,8 @@ create_gt_table_v1(
 
 ::: {.panel-tabset}
 
-### Diagnoses Orders
-## Site Display and Site Code:
- These fields specifies the specific locations in the genome where mutations are detected. The site_display and site_code being disease or organ-specific suggests that the data is organized to reflect the relevance of mutations to particular conditions or anatomical sites, which is crucial for targeted treatment strategies.
+### All Cancer Cases 
+
 
 ```{r,message=FALSE, warning=FALSE, results='hide' }
 site_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_site_display.sql"
@@ -89,7 +93,7 @@ site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
 
 ```
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, results='hide'}
 # Calculate percentages using numeric values
 site <- site %>% filter (n_pts>30) %>%
   mutate(percentage =round( (n_pts/as.numeric(ph_den$counts_pts)) * 100))
@@ -102,7 +106,7 @@ plot_ly(site,
         orientation = 'h', # make bars horizontal
         marker = list(color = brewer.pal(12, "Set3"))) %>%
   layout(
-    title = "Distribution of Genomic Sites in ISPM Database",
+    title = "Distribution of Sites in ISPM Database",
     yaxis = list( # switched axis properties
       title = "",
       tickangle = 0 # removed angle since it's now on y-axis
@@ -119,19 +123,21 @@ plot_ly(site,
 ```
 
 ### Aberrations
-- Aberration Types: An aberration type describes a specific change to DNA.
+The aberration table provides a structured overview of genetic changes, categorizing them into specific types and broader classes. Each entry in the table includes the following key components:
 
-- Aberration Classes: An aberration class groups related types of genomic changes into broader categories.
+- **Aberration Types:** An aberration type describes a specific change to DNA. These are specific alterations in DNA that can affect gene function and contribute to various diseases. Each type represents a distinct change, such as missense variant, deletions, duplications, or point mutations.
 
-- Chromosomes (chrom): This field refers to chromosomal location. For example if a gene is located on chromosome 17, it will be presented at "chr17".
+- **Aberration Classes:** This field groups related aberration types into overarching categories, allowing for a more organized understanding of the types of genomic changes and their potential implications in health and disease.
 
-- HGNC Gene and Detected Mutations (hgnc_gene): The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine, to improve patient care.
+- **Chromosomes:** This field indicates the chromosomal location of the gene associated with the aberration. For example if a gene is located on chromosome 17, it will be presented at "chr17".
 
-Chromosome number tells us where in the genome we are looking, HGNC gene names tell us which gene or genes are involved, and aberration type/class tells us what kind of genetic change occurred.
+- **HGNC Gene and Detected Mutations:** The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine, to improve patient care.
+
+
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
 gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_chrom_genes.sql"
-gene_ch <- fetch_data_from_sql_file(gene_sql, yaml_file_path)
+gene_ch <- fetch_data_from_sql_file(gene_ch_sql, yaml_file_path)
 
 # Calculate percentages using the denominator
 gene_ch <- gene_ch %>%
@@ -147,34 +153,32 @@ gene <- gene %>%
   mutate(pts_percent = round((n_pts/as.numeric(abr_den$n_pts))*100, 1))
 ```
 
-```{r,message=FALSE, warning=FALSE }
-gene= gene_ch %>% group_by(hgnc_gene) %>% mutate (total_pts=sum(n_pts))
-# Create interactive bar plot for top genes
-gene_plot <- gene %>%
-  filter(n_pts > 500) %>%
-  arrange(desc(n_pts)) %>%
-  plot_ly(
-    x = ~n_pts,
-    y = ~reorder(hgnc_gene, n_pts),
-    type = "bar",
-    marker = list(color = brewer.pal(15, "Set3")),
-    text = ~paste("<br>N:", n_pts, "<br>", pts_percent, "%"),
-    hoverinfo = "text"
-  ) %>%
-  layout(
-    title = "Distribution of HGNC Genes in Patient Population",
-    yaxis = list(title = "Gene"),
-    xaxis = list(title = "Number of Patients"),
-    margin = list(b = 100)
-  )
 
-gene_plot
+## HGNC Gene Distribution
+
+```{r,message=FALSE, warning=FALSE}
+## explain the top genes 
+## table filtering count>10
+df_bar <- gene %>%
+  filter(n_pts > 500) %>%
+  arrange(desc(n_pts)) %>% mutate(hgnc_gene = forcats::fct_reorder(hgnc_gene, n_pts))
+
+plot_ly(df_bar,
+        y = ~reorder(hgnc_gene, n_pts),
+        x = ~n_pts,
+        type = "bar",
+        color = ~hgnc_gene,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Person Count"),
+         yaxis = list(title = "")) %>%layout (title = "HGNC Gene Distribution")
+
 ```
 
+ ## Summary Table of HGNC Gene Distribution
 ```{r, message=FALSE, warning=FALSE }
 # Update the datatable to include percentage
 DT::datatable(
-  gene %>% filter (n)
+  gene %>% 
     select(hgnc_gene, n_pts, pts_percent) %>%
     rename(
       "Gene" = hgnc_gene,
@@ -199,26 +203,38 @@ DT::datatable(
 ```
 
 ## Genes Distribution by Chromosomes
-```{r, message=FALSE, warning=FALSE }
+
+```{r,message=FALSE, warning=FALSE}
 library(dplyr)
 library(ggplot2)
+library(plotly)
 
-gene %>%
-  count(chrom, hgnc_gene, sort = TRUE) %>%
-  group_by(chrom) %>%
-  top_n(10, n) %>%
-  ggplot(aes(x = reorder(hgnc_gene, n), y = n, fill = chrom)) +
+# Prepare the plot
+p <- gene_ch %>%
+  filter(n_pts > 100, !is.na(hgnc_gene)) %>%
+  ggplot(aes(x = reorder(hgnc_gene, pts_percent), y = pts_percent, fill = chrom, text = paste("Gene:", hgnc_gene, "<br>Count:", n_pts))) +
   geom_col(show.legend = FALSE) +
   coord_flip() +
   facet_wrap(~ chrom, scales = "free") +
-  labs(x = "HGNC Gene", y = "Count", title = "Top Genes by Chromosomes") +
+  labs(
+    x = "HGNC Gene",
+    y = "% Patient",
+    title = "Top Genes Distribution by Chromosomes"
+  ) +
   theme_minimal()
 
+# Make it interactive
+ggplotly(p, tooltip = "text")%>%
+  layout(showlegend = FALSE,
+  width=1000, height=1200)
+
 ```
+
+## Heatmap
 ```{r,message=FALSE, warning=FALSE}
 # Create heatmap
 plot_ly(
-  data = gene,
+  data = gene_ch,
   x = ~chrom,
   y = ~hgnc_gene,
   z = ~n_pts,
@@ -239,55 +255,293 @@ plot_ly(
 ```
 
 
+## ggplot version 
 
+```{r, message=FALSE, warning=FALSE}
+  filtered_gene_ch <- gene_ch %>%
+  filter(!is.na(hgnc_gene), n_pts > 100) %>%
+  mutate(
+    # Create proper chromosome ordering
+    chrom = factor(chrom, 
+                  levels = paste0("chr", c(1:22, "X", "Y")),
+                  ordered = TRUE)
+  ) %>%
+  # Sort by chromosome and patient count
+  arrange(chrom, desc(n_pts))
+
+
+  p <- ggplot(filtered_gene_ch, 
+     aes(x = 1, 
+         y = reorder(hgnc_gene, n_pts), 
+         fill = n_pts,
+         text = sprintf(
+           "Gene: %s<br>Patient Count: %d",
+           hgnc_gene, n_pts
+         ))) +
+  geom_tile(aes(width = n_pts/max(n_pts), 
+                height = 0.8)) +
+  facet_wrap(~chrom, scales = "free_y", ncol = 5) +
+  scale_fill_distiller(name = "Patient Count", 
+                      palette = "Set3", 
+                      direction = 1) +
+  theme_minimal() +
+  labs(title = "Patient Counts by Gene and Chromosome",
+       y = "Gene",
+       x = NULL) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    panel.grid = element_blank(),
+    strip.text = element_text(angle = 0),
+    legend.position = "right",
+    panel.spacing = unit(0.3, "cm")
+  )
+
+# Make it interactive with custom hover
+ggplotly(p, 
+         tooltip = "text",  # Use only the custom text for hover
+         height = 1200, 
+         width = 1000) %>%
+  layout(
+    margin = list(l = 150, r = 50, b = 50, t = 50),
+    showlegend = TRUE
+  )
+```
+
+
+
+
+```{r, message=FALSE, warning=FALSE}
+
+  filtered_gene_ch <- gene_ch %>%
+  filter(!is.na(hgnc_gene), n_pts > 100) %>%
+  mutate(
+    # Create proper chromosome ordering
+    chrom = factor(chrom, 
+                  levels = paste0("chr", c(1:22, "X", "Y")),
+                  ordered = TRUE)
+  ) %>%
+  # Sort by chromosome and patient count
+  arrange(chrom, desc(n_pts))
+
+
+  p <- ggplot(filtered_gene_ch, 
+     aes(x = chrom, 
+         y =  n_pts,
+         fill = hgnc_gene,
+         text = sprintf(
+           "Gene: %s<br>Patient Count: %d",
+           hgnc_gene, n_pts
+         ))) +
+  geom_tile(aes(width = n_pts/max(n_pts), 
+                height = 0.8)) + facet_grid(~chrom)+
+  scale_fill_distiller(name = "Patient Count", 
+                      palette = "Set3", 
+                      direction = 1) +
+  theme_minimal() +
+  labs(title = "Patient Counts by Gene and Chromosome",
+       y = "Gene",
+       x = NULL) +
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    panel.grid = element_blank(),
+    strip.text = element_text(angle = 0),
+    legend.position = "right",
+    panel.spacing = unit(0.3, "cm")
+  )
+
+# Make it interactive with custom hover
+ggplotly(p, 
+         tooltip = "text",  # Use only the custom text for hover
+         height = 1200, 
+         width = 1000) %>%
+  layout(
+    margin = list(l = 150, r = 50, b = 50, t = 50),
+    showlegend = TRUE
+  )
+```
+
+
+
+## jitter plot option 1
+```{r, message=FALSE, warning=FALSE}
+  p <- ggplot(filtered_gene_ch, 
+     aes(y = n_pts, 
+         x = chrom,
+         text = sprintf(
+           "Gene: %s<br>Patient Count: %d<br>Chromosome: %s",
+           hgnc_gene, n_pts, chrom
+         ))) +
+  geom_jitter(
+    aes(size = n_pts, color = n_pts),
+    alpha = 0.6,
+    width = 0,      # No horizontal jitter
+    height = 0.3   # Vertical jitter amount
+  ) +
+  scale_size_continuous(range = c(3, 10)) +
+  scale_color_distiller(
+    palette = "Set3",
+    direction = 1
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Patient Counts by Gene and Chromosome",
+    y = "Patient Count",
+    x = "Chromosome"
+  ) +
+  theme(
+    legend.position = "right",
+    panel.grid.minor = element_blank(),
+    panel.spacing = unit(0.3, "cm")
+  )
+
+# Make it interactive
+ggplotly(p, 
+         tooltip = "text",
+         height = 800, 
+         width = 1200) %>%
+  layout(
+    margin = list(l = 100, r = 50, b = 50, t = 50),
+    showlegend = FALSE
+  )
+```
+
+
+## jitter plot option 2
+
+```{r, message=FALSE, warning=FALSE}
+  p <- ggplot(filtered_gene_ch, 
+     aes(x = n_pts, 
+         y = chrom,
+         text = sprintf(
+           "Gene: %s<br>Patient Count: %d<br>Chromosome: %s",
+           hgnc_gene, n_pts, chrom
+         ))) +
+         geom_text(
+    data = . %>% filter(n_pts > 500),  # Filter for text labels
+    aes(label = hgnc_gene),
+    size = 3,
+    hjust = -0.2,
+    check_overlap = TRUE
+  ) +
+  geom_jitter(
+    aes(size = n_pts, color = n_pts),
+    alpha = 0.6,
+    width = 0.3,      # No horizontal jitter
+    height = 0   # Vertical jitter amount
+  ) +
+  scale_size_continuous(range = c(3, 10)) +
+  scale_color_distiller(
+    palette = "Set3",
+    direction = 1
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Patient Counts by Gene and Chromosome",
+    x = "Patient Count",
+    y = "Chromosome"
+  ) +
+  theme(
+    legend.position = "right",
+    panel.grid.minor = element_blank(),
+    panel.spacing = unit(0.3, "cm")
+  )
+
+# Make it interactive
+ggplotly(p, 
+         tooltip = "text",
+         height = 800, 
+         width = 1200) %>%
+  layout(
+    margin = list(l = 100, r = 50, b = 50, t = 50),
+    showlegend = FALSE
+  )
+```
+
+
+
+## Distribution of Genes by Aberration Type 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 mu_type_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_abr_type.sql"
 mutation_data <- fetch_data_from_sql_file(mu_type_sql, yaml_file_path)
-mutation_data=mutation_data %>% filter(n_pts>200) 
+mutation_data=mutation_data %>% filter(n_pts>100) 
 ```
 
 ```{r, message=FALSE, warning=FALSE}
 gene_order <- mutation_data %>%
+  group_by(aberration_type) %>%
+ mutate(total = sum(n_pts))
+```
+
+## Final plot 
+```{r, message=FALSE, warning=FALSE}
+gene_order <- mutation_data %>%
   group_by(hgnc_gene) %>%
-  summarise(total = sum(n_pts), .groups = "drop") %>%
-  arrange(desc(total)) %>%
-  pull(hgnc_gene)
+  mutate(total_pts = sum(n_pts)) %>%
+  ungroup() %>%
+  filter(n_pts > 100) %>%
+  arrange((total_pts)) %>%
+  mutate(
+    # Order genes by total patient count
+    hgnc_gene = factor(hgnc_gene, levels = unique(hgnc_gene)),
+    # Order aberration types by their total counts
+    aberration_type = forcats::fct_reorder(aberration_type, n_pts, sum)
+  )
 
-mutation_data$hgnc_gene <- factor(mutation_data$hgnc_gene, levels = gene_order)
- 
- # mutate(hgnc_gene = fct_reorder(hgnc_gene, total_patients, .desc = TRUE))
-
-# Plotly stacked bar plot
 plot_ly(
-  mutation_data,
-  y = ~hgnc_gene,
+  gene_order,
+  y = ~hgnc_gene,  # No need for fct_reorder here since we pre-ordered
   x = ~n_pts,
+  type = "bar",
   color = ~aberration_type,
-  colors = "Set3",
-  type = 'bar'
+  colors = "Set3"
 ) %>%
   layout(
     barmode = 'stack',
+    yaxis = list(
+      title = "Gene",
+      automargin = TRUE,  # Ensure labels aren't cut off
+      tickfont = list(size = 10)
+    ),
+    xaxis = list(
+      title = "Patient Count",
+      tickfont = list(size = 10)
+    ),
     title = "Mutation Type Distribution Across Genes",
-    yaxis = list(title = "Gene"),
-    xaxis = list(title = "Number of Patients")
+    legend = list(
+      orientation = "h", 
+      y = -0.2, 
+      x = 0.5, 
+      xanchor = "center"
+    ),
+    height = 1000,  # Increased height for better readability
+    margin = list(l = 150, r = 50, t = 50, b = 100)  # Adjusted margins
   )
 ```
+## Heatmap version 
 ```{r, message=FALSE, warning=FALSE}
-
-df_bar <- mutation_data %>% filter(n_pts>200)%>%
-  arrange(desc(n_pts)) %>% mutate(aberration_type = forcats::fct_reorder(aberration_type, n_pts))
-
-plot_ly(df_bar,
-        x = ~hgnc_gene,
-       y= ~n_pts,
-        type = "bar",
-        color = ~aberration_type,
-        colors = "Set3") %>%
-  layout( barmode = 'stack',
-    xaxis = list(title = "Gene"),
-         yaxis = list(title = "Person Count")) %>%layout (title = "Mutation Type Distribution Across Genes")
+gene_order %>% 
+  plot_ly(
+    x = ~aberration_type,
+    y = ~hgnc_gene,
+    z = ~n_pts,
+    type = "heatmap",
+    colors = colorRamp(brewer.pal(9, "Set3")),
+    hovertemplate = paste(
+      "<b>Gene:</b> %{y}<br>",
+      "<b>Mutation:</b> %{x}<br>",
+      "<b>Count:</b> %{z}<br>",
+      "<extra></extra>"
+    )
+  ) %>%
+  layout(
+    title = "Mutation Type Distribution Across Genes",
+    xaxis = list(title = "Mutation Type"),
+    yaxis = list(title = "Gene"),
+    height = 800,
+    margin = list(l = 150, r = 50, t = 50, b = 100)
+  )
 ```
-
 :::

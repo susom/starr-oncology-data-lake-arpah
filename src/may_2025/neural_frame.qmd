@@ -61,7 +61,7 @@ case_summary <- aggregate(unique_person_count_case ~ nfcasestatus, data = case, 
 case_df <- data.frame(
   Status = case_summary$nfcasestatus,
   Count = case_summary$unique_person_count_case,
-  Percentage = round(case_summary$unique_person_count_case / 197000 * 100, 2)
+  Percentage = round(case_summary$unique_person_count_case / 197000 * 100, 1)
 )
 
 # Sort by percentage in descending order
@@ -123,7 +123,7 @@ case_summary_thr <- aggregate(patient_count ~ nfcasestatus, data = thr_case, sum
 case_thr <- data.frame(
   Status = case_summary_thr$nfcasestatus,
   Count = case_summary_thr$patient_count,
-  Percentage = round(case_summary_thr$patient_count / (thr_den$unique_thoracic_cancer_pts) * 100, 2)
+  Percentage = round(case_summary_thr$patient_count / (thr_den$unique_thoracic_cancer_pts) * 100)
 )
 
 ```
@@ -294,7 +294,7 @@ thr_his <- thr_his %>%
 ## Distribution of Thoracic Cancer by Histology Types
 ```{r,message=FALSE, warning=FALSE }
 # Create hierarchical data for sunburst chart
-sunburst_data <- thr_his %>%
+sunburst_data <- thr_his %>% filter (patient_count>10)%>%
   group_by(histology, histology_group) %>%
   summarize(value = sum(patient_count)) %>%
   ungroup()
@@ -380,7 +380,7 @@ datatable(histology_summary,
 ## Option 1 ##
 ```{r, message=FALSE, warning=FALSE}
 # Create main summary
-thr_his_res=thr_his %>% filter (patient_count>5)
+thr_his_res=thr_his %>% filter (patient_count>10)
 hist_summary <- thr_his_res %>%
   group_by(histology_group) %>%
   summarize(patient_count = sum(patient_count)) %>%
@@ -557,6 +557,8 @@ DT::datatable(thr_tx_long %>%
               rownames = FALSE) 
 ```
 ### Social History 
+From  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients, the majority didn't have any records of smoking status and alcohol use. 
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_soh <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_social_history.sql"
 thr_soh <- fetch_data_from_sql_file(sql_soh, yaml_file_path)
