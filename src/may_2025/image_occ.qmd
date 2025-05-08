@@ -13,7 +13,8 @@ yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 #| context: global
-
+install.packages("forcats")
+library(forcats)
 sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
 res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
 head(res_img_mod)
@@ -197,15 +198,15 @@ df_bar <- res_img_mod %>% filter(person_count>1000)%>%
   arrange(desc(person_count)) %>% mutate(modality_type = fct_reorder(modality_type, person_count))
 
 plot_ly(df_bar,
-        x = ~modality_type,
-        y = ~person_count,
+        y = ~modality_type,
+        x = ~person_count,
         type = "bar",
         color = ~modality_type,
         colors = "Set3") %>%
-  layout(xaxis = list(title = "Modality"),
-         yaxis = list(title = "Person Count"))%>%layout (title = "Number of Patients per Modality")
+  layout(xaxis = list(title = "Person Count"),
+         yaxis = list(title = ""))%>%layout (title = "Number of Patients per Modality")
 ```
-## Table 
+## Modality Descriptions and Frequency by Series and Patients 
 
 ```{r, message=FALSE, warning=FALSE}
 library(DT)
@@ -217,7 +218,11 @@ DT::datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLen
   formatRound(columns = c("person_count", "series_count"), digits = 0)
 
 ## https://www.dicomlibrary.com/dicom/modality/
+
+## drop or regrp the documents and patterns by pixel data 
+## round to 1 decimal not 2
 ```
+
 
 ### Anatomic 
 
@@ -233,11 +238,15 @@ colnames(res_ana)=c("anatomic_site", "series_count", "person_count")
 ```
 ## Anatomic Sites
 ```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(plotly)
+library(DT)
+
 res_ana=res_ana %>% filter(series_count>1000)
 
 df_pie_a <- res_ana%>%
   group_by(anatomic_site) %>% filter(series_count>150000)%>%
-  arrange(desc(person_count))
+  dplyr::arrange(desc(person_count))
 
 plot_ly(df_pie_a,
         labels = ~anatomic_site,
@@ -270,9 +279,19 @@ plot_ly(df_bar,
         type = "bar",
         color = ~anatomic_site,
         colors = "Set3") %>%
-  layout(xaxis = list(title = "Anatomic Site"),
-         yaxis = list(title = "Person Count")) %>%layout (title = "Number of Patients per Anatomic Site")
+  layout(xaxis = list(title = "Person Count"),
+         yaxis = list(title = "")) %>%layout (title = "Number of Patients per Anatomic Site")
 ```
+## Anatomic Site Descriptions and Frequency by Series and Patients 
 
+```{r, message=FALSE, warning=FALSE}
+library(DT)
+
+res_ana=res_ana %>% select (anatomic_site,series_count,person_count)
+
+DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength = 10))%>%
+  formatRound(columns = c("person_count", "series_count"), digits = 0)
+
+```
 :::
 
