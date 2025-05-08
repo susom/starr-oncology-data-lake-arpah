@@ -11,8 +11,9 @@ packages <- c(
   "plotly", "prettyunits", "progress", "promises", "purrr", "rapidjsonr",
   "rappdirs", "readr", "renv", "rlang", "rmarkdown", "sass", "scales", "stringi",
   "stringr", "sys", "tibble", "tidyr", "tidyselect", "tinytex", "tzdb", "utf8",
-  "vctrs", "viridisLite", "vroom", "withr", "xfun", "yaml"
+  "vctrs", "viridisLite", "vroom", "withr", "xfun", "yaml", "viridis"
 )
 
 # Install packages
 install.packages(packages)
+install.packages("UpSetR")
