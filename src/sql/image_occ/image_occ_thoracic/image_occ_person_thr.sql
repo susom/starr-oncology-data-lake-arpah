@@ -63,4 +63,7 @@ FROM (
 UNION ALL
 
 SELECT COUNT(DISTINCT person_id) AS counts, 'Number of unique persons in image_occurrence table' AS variable_name
-FROM thoracic_cancer_imaging_data;
+FROM thoracic_cancer_imaging_data
+UNION ALL
+SELECT COUNT(DISTINCT person_id) AS counts, 'Number of unique persons with thoracic cancer' AS variable_name
+FROM thoracic_cancer_patients

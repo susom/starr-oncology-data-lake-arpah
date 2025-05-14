@@ -13,8 +13,7 @@ distinct scr_dx.*
 from
 scr_dx
 where
-trim(medicalRecordNumber) <> ''and length(dateOfBirth) = 8
-and nfcasestatus = 'Completed'
+ nfcasestatus = 'Completed'
 and (
 lower(primarysiteDescription) like '%lung%'
 or lower(primarysiteDescription) like '%bronchus%'
@@ -27,8 +26,7 @@ select
 distinct scr_tx.*
 from
 scr_tx
-join scr_thoracic_dx on scr_thoracic_dx.cleaned_nf_mrn = scr_tx.cleaned_nf_mrn
-      and scr_thoracic_dx.cleaned_nf_dob = scr_tx.cleaned_nf_dob
+inner join scr_thoracic_dx on scr_thoracic_dx.stanford_patient_uid = scr_tx.stanford_patient_uid
       and scr_thoracic_dx.nfCaseEntityId = scr_tx.nfCaseEntityId
 ),
 scr_omop_thoracic_tx as
@@ -39,7 +37,7 @@ scr_omop_thoracic_tx as
  scr_thoracic_tx.*
 from
 scr_thoracic_tx
-inner join person p on p.person_source_value = concat(scr_thoracic_tx.cleaned_nf_mrn, ' | ', scr_thoracic_tx.cleaned_nf_dob)
+inner join person p on p.person_source_value = scr_thoracic_tx.stanford_patient_uid
 ),
 scr_omop_thoracic_tx_summary as
 (select

@@ -1,5 +1,5 @@
 ---
-title: "Image Occurrence"
+title: "OMOP Image Occurrence"
 execute:
   echo: false
 ---
@@ -86,7 +86,7 @@ retired <- c(NA, "Retired", NA, NA, NA, NA, NA, "Retired", "Retired",
 dat_modality <- data.frame(Value, Description, retired, stringsAsFactors = FALSE)
 
 ```
-### OMOP Image Occurrence:
+### Summary:
 
 In the OMOP Common Data Model (CDM), the "Image_occurrence" table provides a structured way to represent medical imaging events and features, bridging the gap between imaging and observational research by integrating image-based measurements into the CDM. 
 
@@ -135,12 +135,14 @@ head(res)
 
 
 ## 📊 Imaging Summary Results {.tabset}
-This visualization summarizes distribution of Modality categories and Anatomic sites by series and patient counts 
+This visualization summarizes distribution of Modality categories and Anatomic sites by series and patient counts for all cancer types and for thoracic patients. 
+Note: We expect the number of patients with imaging data to increase 
 
 ::: {.panel-tabset}
 
-### Modality 
-
+### All Cancer Types 
+## Modality Types
+Top modality types for series with 5000 and more.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 colnames(dat_modality)[1]<-"modality_type"
 res_img_mod=res_img_mod %>% left_join(dat_modality,by="modality_type" )
@@ -148,26 +150,29 @@ res_img_mod=res_img_mod %>% filter(person_count>10)
 res_img_mod$retired<-NULL
 ```
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-## Number of series in each modality
-library(plotly)
-df_pie <- res_img_mod %>%
-  group_by(modality_type) %>%  filter(series_count>120000)%>%
-  arrange(desc(person_count))
-
-plot_ly(df_pie,
-        labels = ~modality_type,
-        values = ~series_count,
-        type = "pie",
-        marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3")),
-        textinfo = "label+percent") %>% plotly::layout (title = "Number of Series per Modality",  legend = list(orientation = "h", x = 5, y = 0.5) )%>%
-  plotly::config(displayModeBar = TRUE, displaylogo = FALSE)
-```
-## Modality Type
 ```{r, message=FALSE, warning=FALSE}
+## Number of series in each modality - bar plot to keep 
+library(plotly)
+df_bar <- res_img_mod %>% filter(series_count>5000)%>%
+  arrange(desc(series_count)) %>% mutate(modality_type = fct_reorder(modality_type, series_count))
+
+plot_ly(df_bar,
+        y = ~modality_type,
+        x = ~series_count,
+        type = "bar",
+        color = ~modality_type,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Series Count"),
+         yaxis = list(title = ""))%>%layout (title = "Number of Series per Modality")
+
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+
+## hiding the pie ## 
 df_pie <- res_img_mod %>%
-  group_by(modality_type) %>%  filter(series_count>120000)%>%
-  arrange(desc(person_count))
+  group_by(modality_type) %>%  filter(series_count>5000)%>%
+  arrange(desc(person_count)) 
 
 plot_ly(
   df_pie,
@@ -207,6 +212,7 @@ plot_ly(df_bar,
          yaxis = list(title = ""))%>%layout (title = "Number of Patients per Modality")
 ```
 ## Modality Descriptions and Frequency by Series and Patients 
+Please note that the modality descriptions are listed here https://www.dicomlibrary.com/dicom/modality/.
 
 ```{r, message=FALSE, warning=FALSE}
 library(DT)
@@ -224,7 +230,8 @@ DT::datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLen
 ```
 
 
-### Anatomic 
+## Anatomic Sites
+Top anatomic sites for series with 5000 and more.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 #| context: global
@@ -234,36 +241,25 @@ res_ana <- fetch_data_from_sql_file(sql_file_path_image_an, yaml_file_path)
 head(res_ana)
 res_ana$variable_name<-NULL
 colnames(res_ana)=c("anatomic_site", "series_count", "person_count")
-
+res_ana=res_ana %>% filter(person_count>10)
 ```
-## Anatomic Sites
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
 library(plotly)
 library(DT)
 
-res_ana=res_ana %>% filter(series_count>1000)
+df_bar_sr <- res_ana %>% filter(series_count>5000)%>%
+  arrange(desc(series_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, series_count))
 
-df_pie_a <- res_ana%>%
-  group_by(anatomic_site) %>% filter(series_count>150000)%>%
-  dplyr::arrange(desc(person_count))
+plot_ly(df_bar_sr,
+        y = ~anatomic_site,
+        x = ~series_count,
+        type = "bar",
+        color = ~anatomic_site,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Series Count"),
+         yaxis = list(title = "")) %>%layout (title = "Number of Series per Anatomic Site")
 
-plot_ly(df_pie_a,
-        labels = ~anatomic_site,
-        values = ~series_count,
-        type = "pie",
-        marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3")),
-        textinfo = "label+percent")%>%
-  layout(
-    title = list(text = "Number of Series per Anatomic Site", x = 0.5),
-    legend = list(
-      orientation = "v",
-      x = -0.1,     
-      y = 0.5,     
-      xanchor = "left",
-      font = list(size = 12)
-    )
-  )
 ```
 ## Patient Population 
 
@@ -292,6 +288,146 @@ res_ana=res_ana %>% select (anatomic_site,series_count,person_count)
 DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength = 10))%>%
   formatRound(columns = c("person_count", "series_count"), digits = 0)
 
+```
+### Thoracic Cancer 
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## basic counts 
+sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_thoracic/image_occ_person_thr.sql"
+res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
+head(res_den_thr)
+```
+The Thoracic Cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by ICD-O-3 topography codes (C34 and C37). 
+As of May 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(res_den_thr$counts[2], big.mark = ",")` had imaging data. 
+
+
+
+## Modality Types
+Top modality types for series above 500. 
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## modality
+sql_thr_mod<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_thoracic/image_occ_modality_thr.sql"
+res_thr<- fetch_data_from_sql_file(sql_thr_mod, yaml_file_path)
+head(res_thr)
+res_thr
+```
+
+```{r, message=FALSE, warning=FALSE}
+# Prepare the data
+res_thr <- res_thr %>% filter (series_count>500) %>%
+  arrange(desc(series_count)) %>%
+  mutate(
+    modality_source_value = factor(modality_source_value, levels = unique(modality_source_value)),
+    # Calculate percentage of patients
+    patient_percentage = round((unique_person_count / max(unique_person_count)) * 100, 1)
+  )
+
+# Create the plot
+plot <- plot_ly() %>%
+  # Add bars for series count
+  add_trace(
+    data = res_thr,
+    x = ~modality_source_value,
+    y = ~series_count,
+    type = "bar",
+    name = "Series Count",
+    marker = list(color =  "#8DD3C7")
+  ) %>%
+  # Add line for person count
+  add_trace(
+    data = res_thr,
+    x = ~modality_source_value,
+    y = ~unique_person_count,
+    type = "scatter",
+    mode = "lines+markers",
+    name = "Person Count",
+    yaxis = "y2",
+    line = list(color = "#BEBADA", width = 2),
+    marker = list(color = "#BEBADA", size = 8)
+  ) %>%
+  layout(
+    title = "Imaging Modalities: Series Count vs Patient Count",
+    xaxis = list(
+      title = "Modality Type",
+      tickangle = 45
+    ),
+    yaxis = list(
+      title = "Series Count",
+      side = "left"
+    ),
+    yaxis2 = list(
+      title = "Person Count",
+      side = "right",
+      overlaying = "y"
+    ),
+    legend = list(x = 0.8, y = 0.9),
+    margin = list(b = 100),  # Add bottom margin for rotated labels
+    hovermode = "x unified"
+  )
+
+plot
+```
+## Anatomic Sites 
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## anatomic
+sql_thr_ana<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_thoracic/image_occ_anatomic._thr.sql"
+res_ana_thr<- fetch_data_from_sql_file(sql_thr_ana, yaml_file_path)
+head(res_ana_thr)
+
+```
+```{r, message=FALSE, warning=FALSE}
+# Prepare the data
+res_ana_thr <- res_ana_thr %>% filter (series_count>500) %>%
+  arrange(desc(series_count)) %>%
+  mutate(
+    anatomic_site_source_value = factor(anatomic_site_source_value, levels = unique(anatomic_site_source_value)),
+    # Calculate percentage of patients
+    patient_percentage = round((unique_person_count / max(unique_person_count)) * 100, 1)
+  )
+
+# Create the plot
+plot <- plot_ly() %>%
+  # Add bars for series count
+  add_trace(
+    data = res_ana_thr,
+    x = ~anatomic_site_source_value,
+    y = ~series_count,
+    type = "bar",
+    name = "Series Count",
+    marker = list(color =  "#8DD3C7")
+  ) %>%
+  # Add line for person count
+  add_trace(
+    data = res_ana_thr,
+    x = ~anatomic_site_source_value,
+    y = ~unique_person_count,
+    type = "scatter",
+    mode = "lines+markers",
+    name = "Person Count",
+    yaxis = "y2",
+    line = list(color = "#BEBADA", width = 2),
+    marker = list(color = "#BEBADA", size = 8)
+  ) %>%
+  layout(
+    title = "Imaging Anatomic Site: Series Count vs Patient Count",
+    xaxis = list(
+      title = "Anatomic Sites",
+      tickangle = 45
+    ),
+    yaxis = list(
+      title = "Series Count",
+      side = "left"
+    ),
+    yaxis2 = list(
+      title = "Person Count",
+      side = "right",
+      overlaying = "y"
+    ),
+    legend = list(x = 0.8, y = 0.9),
+    margin = list(b = 100),  # Add bottom margin for rotated labels
+    hovermode = "x unified"
+  )
+
+plot
 ```
 :::
 

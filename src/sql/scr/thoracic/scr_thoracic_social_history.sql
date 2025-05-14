@@ -13,8 +13,8 @@ or lower(primarysiteDescription) like '%thymus%'
 and nfcasestatus="Completed" ),
 scr_data as
 (select scr.* from scr
-inner join person p on p.person_source_value = concat(scr.cleaned_nf_mrn, ' | ', scr.cleaned_nf_dob)
-inner join dx on concat(scr.cleaned_nf_mrn, ' | ', scr.cleaned_nf_dob)=concat(dx.cleaned_nf_mrn, ' | ', dx.cleaned_nf_dob)
+inner join person p on p.person_source_value = scr.stanford_patient_uid
+inner join dx on scr.stanford_patient_uid=dx.stanford_patient_uid
 ),
 smk_stat as (select naaccrtobaccodescription, count(*) as counts, 'smoking status' as flag
 from scr_data

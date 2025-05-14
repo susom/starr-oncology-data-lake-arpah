@@ -201,6 +201,14 @@ p
 ## Histology Distribution & ICD-O-3-Codes
 Thoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer **(NSCLC)** representing the majority of cases and Small Cell Lung Cancer **SCLC**.
 
+The Thoracic Cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by the following ICD-O-3 topography codes:
+- C34.0 – Main bronchus
+- C34.1 – Upper lobe, lung
+- C34.2 – Middle lobe, lung
+- C34.3 – Lower lobe, lung
+- C34.8 – Overlapping lesion of lung
+- C34.9 – Lung, not otherwise specified (NOS)
+- C37.9 – Thymus
 
 Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:
 

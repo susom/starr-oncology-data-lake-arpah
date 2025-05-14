@@ -9,13 +9,9 @@ scr as (select * from  `@oncology_prod.@oncology_neuralframe.onc_neuralframe_cas
 scr_data as
 (
 select
-distinct cleaned_nf_mrn, cleaned_nf_dob,
+distinct stanford_patient_uid,
 primarySiteDescription,nfcasestatus
-from
-scr nf
-where
-trim(medicalRecordNumber) <> ''and length(dateOfBirth) = 8
-),
+from scr nf),
 scr_omop as
 (select
  distinct
@@ -25,7 +21,7 @@ scr_omop as
  nfcasestatus
 from
 scr_data
-inner join person p on p.person_source_value = concat(scr_data.cleaned_nf_mrn, ' | ', scr_data.cleaned_nf_dob)
+inner join person p on p.person_source_value = scr_data.stanford_patient_uid
 )
 select
 count(distinct person_source_value) as unique_thoracic_cancer_pts
