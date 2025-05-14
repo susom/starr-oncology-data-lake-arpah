@@ -72,7 +72,7 @@ dx_name.concept_code dx_concept_code,
 dx_name.concept_name dx_name
 from
 scr_patients
-join person on person.person_source_value = CONCAT(scr_patients.cleaned_nf_mrn, ' | ', scr_patients.cleaned_nf_dob)
+inner join person on person.person_source_value = scr_patients.stanford_patient_uid
 left join cancer_disease_group dg on substr(scr_patients.primarySite,1,3) = dg.icdo3_concept_code
 left join dx_name on scr_patients.dx_concept_code = dx_name.concept_code
 )
