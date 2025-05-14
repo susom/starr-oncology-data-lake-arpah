@@ -24,14 +24,14 @@ head(case)
 case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
 case$flag="All Cancer"
 ```
-### Neural Frame Summary:
+### Summary:
 The Stanford Cancer Registry data is integrated with the California Cancer Registry and updated monthly, encompassing approximately 800 variables related to various cancers. As of January 2022, the KACI® application from NeuralFrame was approved for abstracting and transmitting diagnosed cases, with Stanford adopting it in 2023. NeuralFrame connects to EPIC to extract relevant data, including pathology notes.
 
 Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer cases are categorized as **Analytic** (reportable with complete data) or **Non-analytic** (not reportable by law, with complete data only from 2022 onward).
 
- - **Analytic**: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. (codes 00-22).Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment. Treatment and outcome reports may be limited to analytic cases. 
+ - **Analytic**: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment. Treatment and outcome reports may be limited to analytic cases. 
 
- - **Non-analytic**: Non-analytic cases include recurrences, consults only, and in-transit patients. Nonanalytic cases (codes 30-49 and 99) may be abstracted by the facility to meet central registry requirements or because of a request by the facility’s cancer program. Nonanalytic cases are grouped according to the reason a patient who received care at the facility is nonanalytic, or the reason a patient who never received care at the facility may have been abstracted.
+ - **Non-analytic**: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) may be abstracted by the facility to meet central registry requirements or because of a request by the facility’s cancer program. Non-analytic cases are grouped according to the reason a patient who received care at the facility is Non-analytic, or the reason a patient who never received care at the facility may have been abstracted.
 
 ::: {.columns}
 
@@ -100,6 +100,15 @@ This visualization summarizes the characteristics of complete cases for Thoracic
 
 ### Cases & Diagnoses
 Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
+The Thoracic Cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by the following ICD-O-3 topography codes:
+
+ - C34.0 – Main bronchus
+ - C34.1 – Upper lobe, lung
+ - C34.2 – Middle lobe, lung
+ - C34.3 – Lower lobe, lung
+ - C34.8 – Overlapping lesion of lung
+ - C34.9 – Lung, not otherwise specified (NOS)
+ - C37.9 – Thymus
 
 
 
@@ -127,10 +136,14 @@ case_thr <- data.frame(
 )
 
 ```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## thoracic cancer with complete cases 
+sql_thr_c<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_denominator_complete.sql"
 
+thr_den_c=fetch_data_from_sql_file(sql_thr_c, yaml_file_path)
+thr_den_c
+```
 As of May 2025, there are  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients with `r format(case_thr$Percentage[case_thr$Status=="Completed"], big.mark = ",")` % complete cases. 
-
-(Solomon to define the cohort)
 
 
 
@@ -201,14 +214,7 @@ p
 ## Histology Distribution & ICD-O-3-Codes
 Thoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer **(NSCLC)** representing the majority of cases and Small Cell Lung Cancer **SCLC**.
 
-The Thoracic Cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by the following ICD-O-3 topography codes:
-- C34.0 – Main bronchus
-- C34.1 – Upper lobe, lung
-- C34.2 – Middle lobe, lung
-- C34.3 – Lower lobe, lung
-- C34.8 – Overlapping lesion of lung
-- C34.9 – Lung, not otherwise specified (NOS)
-- C37.9 – Thymus
+The Thoracic Cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. 
 
 Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:
 
@@ -216,7 +222,7 @@ Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 c
   - Adenocarcinoma (8140–8147)
   - Squamous Cell Carcinoma (8070–8080)
   - Large Cell Carcinoma (8010–8015)
-  - Non-Small Cell Carcinoma (8046)
+  - Non-Small Cell Carcinoma NOS (8046)
 
 - **Small Cell Lung Carcinoma (SCLC):** Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.
 
@@ -232,7 +238,8 @@ Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 c
 
 - **Other/Unspecified Histologies:** Any histology not falling into the categories above.
 
-This dual-layered classification system—first by specific histology and then by broader clinical grouping (NSCLC, SCLC, Other Specified, Other Unspecified)—helps in organizing thoracic cancer data for research and reporting.
+
+
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # Load required libraries
@@ -291,16 +298,77 @@ thr_his <- thr_his %>%
     TRUE ~ 'Other Unspecified'
   ))
 
-  table(thr_his$histology, thr_his$histology_group)
-  thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
+  #table(thr_his$histology, thr_his$histology_group)
+
+  tab_res=thr_his %>% group_by(histology)%>% summarise(total=sum(patient_count))
+```
+
+From `r format(thr_den_c$unique_thoracic_cancer_pts[1], big.mark = ",")` thoracic patients with complete cases, the majority `r format(tab_res$total[tab_res$histology=="NSCLC"], big.mark = ",")` were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC). 
+
+```{r, message=FALSE, warning=FALSE}
+  #thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
+
+summary_plot <- thr_his %>%
+  filter(patient_count > 10) %>%
+  # First group by main category
+  group_by(histology) %>%
+  mutate(total_in_category = sum(patient_count)) %>%
+  group_by(histology, histology_group) %>%
+  summarise(
+    count = sum(patient_count),
+    pct_of_total = round(100 * count / sum(thr_his$patient_count), 1),
+    .groups = 'drop'
+  ) %>%
+  arrange(desc(count)) %>%
+  mutate(
+    # Create ordered factors based on count
+    histology = factor(histology, levels = unique(histology[order(desc(count))])),
+    histology_group = factor(histology_group, levels = unique(histology_group[order(desc(count))])),
+    hover_text = sprintf(
+      "Category: %s<br>Subtype: %s<br>Count: %d<br>Percent of Total: %.1f%%",
+      histology, histology_group, count, pct_of_total
+    )
+  )
+
+plot_ly(summary_plot,
+        x = ~count,
+        y = ~histology_group,
+        color = ~histology,
+        type = "bar",
+        orientation = 'h',
+        text = ~paste0(count, " (", pct_of_total, "%)"),
+        textposition = "auto",
+        hovertext = ~hover_text,
+        hoverinfo = "text",
+        colors = brewer.pal(4, "Set3")
+) %>%
+  layout(
+    title = "Distribution of Thoracic Cancer Histology Types",
+    xaxis = list(title = "Patient Count"),
+    yaxis = list(
+      title = "",
+      automargin = TRUE,
+      categoryorder = "total ascending"  # This will sort the y-axis by total values
+    ),
+    barmode = "stack",
+    showlegend = TRUE,
+    legend = list(
+      title = list(text = "Histology"),
+      x = 0.7,
+      y = 0.9
+    )
+    #margin = list(l = 150, r = 50, t = 50, b = 50),
+    #height = 600
+  )
 ```
 
 
-
-
-
 ## Distribution of Thoracic Cancer by Histology Types
-```{r,message=FALSE, warning=FALSE }
+The following dual-layered classification system—first by specific histology and then by broader clinical grouping (NSCLC, SCLC, Other Specified, Other Unspecified) represents the thoracic cancer distribution by histology grouping. 
+
+```{r,message=FALSE, warning=FALSE}
+  thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
+
 # Create hierarchical data for sunburst chart
 sunburst_data <- thr_his %>% filter (patient_count>10)%>%
   group_by(histology, histology_group) %>%
@@ -358,7 +426,8 @@ p2 <- plot_ly(
 
 # Display the sunburst chart
 p2
-
+```
+```{r, message=FALSE, warning=FALSE}
 # Create summary table
 histology_summary <- thr_his %>%
   group_by(histology, histology_group) %>%
@@ -370,7 +439,7 @@ histology_summary <- thr_his %>%
 
 # Display interactive table
 datatable(histology_summary,
-          colnames = c("Main Category", "Subcategory", "Patient Count", "Percentage (%)"),
+          colnames = c("Histology", "Subcategory", "Patient Count", "Percentage (%)"),
           options = list(
             pageLength = 10,
             dom = 'Bfrtip',
@@ -385,10 +454,10 @@ datatable(histology_summary,
 ```
 
 
-## Option 1 ##
+## Detailed Distribution of Thoracic Cancer Subcategories
 ```{r, message=FALSE, warning=FALSE}
 # Create main summary
-thr_his_res=thr_his %>% filter (patient_count>10)
+thr_his_res=thr_his %>% filter (patient_count>20)
 hist_summary <- thr_his_res %>%
   group_by(histology_group) %>%
   summarize(patient_count = sum(patient_count)) %>%
@@ -412,7 +481,7 @@ p <- plot_ly() %>%
          legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.1))
 
 # Create detailed subtype plot (initially hidden)
-subtype_data <- thr_his %>%
+subtype_data <- thr_his %>% filter (patient_count>20) %>%
   group_by(histology_group, histologicTypeIcdO3Description) %>%
   summarize(patient_count = sum(patient_count)) %>%
   mutate(percentage = round(100 * patient_count/sum(patient_count), 1))
@@ -439,9 +508,9 @@ p <- onRender(p, "
             textposition: 'auto',
             marker: {color: x.colors[0]}
           }], {
-            title: 'Detailed View: ' + selectedGroup + ' (Click anywhere on the chart to return)',
+            title: 'Detailed View: ' + selectedGroup + ' (Refresh the page to return)',
             xaxis: {
-              title: 'Histologic Type',
+              title: '',
               tickangle: 45
             },
             yaxis: {title: 'Patient Count'},
@@ -486,8 +555,8 @@ p
 
 ```{r, message=FALSE, warning=FALSE}
 # Create detailed summary table
-thr_his_summary <- thr_his_res %>%
-  group_by(histology_group, histologicTypeIcdO3Description) %>%
+thr_his_summary <- thr_his_res %>%filter (patient_count>20)%>%
+  group_by(histology, histology_group, histologicTypeIcdO3Description) %>%
   summarize(
     patient_count = sum(patient_count),
     histology_codes = paste(sort(unique(histologicTypeIcdO3)), collapse = ", ")
@@ -500,7 +569,7 @@ tab_his<- thr_his_summary %>% select (histology_group, histologicTypeIcdO3Descri
 
 # Display using DT for interactive table
 DT::datatable(tab_his,
-              colnames = c("Histology Group", "Original Histology", "ICD-O-3 Codes", "Patient Count", "Percentage (%)"),
+              colnames = c("Histology","Histology Group", "Original Histology", "ICD-O-3 Codes", "Patient Count", "Percentage (%)"),
               options = list(
                 pageLength = 10,
                 searching = TRUE,
@@ -574,14 +643,15 @@ thr_soh <- fetch_data_from_sql_file(sql_soh, yaml_file_path)
 colnames(thr_soh)<-c("Description", "Patinet_Counts", "Status" )
 
 # Split data into smoking and alcohol
-smoking_data <- thr_soh[!grepl("alcohol", tolower(thr_soh$Description)), ]
-alcohol_data <- thr_soh[grepl("alcohol", tolower(thr_soh$Description)), ]
+smoking_data <- thr_soh %>% filter(Status=="smoking status")
+alcohol_data <-  thr_soh %>% filter(Status=="alcohol status")
 ```
 
 
 #### Smoking Status
 ```{r, message=FALSE, warning=FALSE}
-smoking_data <- thr_soh[!grepl("alcohol", tolower(thr_soh$Description)), ]
+smoking_data <- smoking_data %>%
+  mutate(Description = replace_na(Description, "Not Available"))
 
 smoking_data=smoking_data %>% select (Description , Patinet_Counts)%>% arrange(desc(Patinet_Counts))
 labels <- c(
@@ -599,12 +669,16 @@ create_gt_table_v1(
 
 #### Alcohol Use
 ```{r, message=FALSE, warning=FALSE}
+alcohol_data <- alcohol_data %>%
+  mutate(Description = replace_na(Description, "Not Available"))
+
 alcohol_data=alcohol_data %>% select (Description , Patinet_Counts)%>% arrange(desc(Patinet_Counts))
 labels <- c(
   "Description"="Description",
   "Patinet_Counts" = "Number of Patients"
 )
 
+alcohol_data
 create_gt_table_v1(
   data = alcohol_data, 
   columns = c( "Description","Patinet_Counts"), 
