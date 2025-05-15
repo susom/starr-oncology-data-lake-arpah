@@ -136,7 +136,7 @@ head(res)
 
 ## 📊 Imaging Summary Results {.tabset}
 This visualization summarizes distribution of Modality categories and Anatomic sites by series and patient counts for all cancer types and for thoracic patients. 
-Note: We expect the number of patients with imaging data to increase 
+Note: We expect the number of patients with imaging data to increase per release. 
 
 ::: {.panel-tabset}
 
@@ -355,7 +355,7 @@ plot <- plot_ly() %>%
       side = "left"
     ),
     yaxis2 = list(
-      title = "Person Count",
+      title = "",
       side = "right",
       overlaying = "y"
     ),
@@ -418,7 +418,7 @@ plot <- plot_ly() %>%
       side = "left"
     ),
     yaxis2 = list(
-      title = "Person Count",
+      title = "",
       side = "right",
       overlaying = "y"
     ),
