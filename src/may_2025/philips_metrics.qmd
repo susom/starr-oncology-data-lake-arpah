@@ -64,11 +64,19 @@ create_gt_table_v1(
 , big.mark = ",") ))
 ```
 
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+pathg_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_abr_pathg.sql"
+pathg <- fetch_data_from_sql_file(pathg_sql, yaml_file_path)
+pathg=pathg %>% filter (!is.na(stanford_pathogenicity))
+
+```
+
 ::: {.columns}
 
 ::: {.column width="50%"}
 ### 🧬 Data Components 
-- Diagnoses orders: includes patients who had the test ordered
+- Diagnoses Orders: includes patients who had the test ordered
 - Aberration: records if a genetic aberration is found in the STAMP panel tests
 :::
 
@@ -77,6 +85,9 @@ create_gt_table_v1(
 ### 📊 Data Volume 
 - Patients Count: `r format(ph_den$counts_pts[1], big.mark = ",")`
 - Patients with Aberration Cases: `r format(abr_den$n_pts, big.mark = ",")`
+- Patients with Pathogenic Cases: `r format(pathg$n_pts[pathg$stanford_pathogenicity=="Pathogenic"], big.mark = ",")`
+
+
 :::
 
 
@@ -85,11 +96,10 @@ The aberration table provides a structured overview of genetic changes, categori
 
 - **Aberration Types:** An aberration type describes a specific change to DNA. These are specific alterations in DNA that can affect gene function and contribute to various diseases. Each type represents a distinct change, such as missense variant, deletions, duplications, or point mutations.
 
-- **Aberration Classes:** This field groups related aberration types into overarching categories, allowing for a more organized understanding of the types of genomic changes and their potential implications in health and disease.
 
-- **Chromosomes:** This field indicates the chromosomal location of the gene associated with the aberration. For example if a gene is located on chromosome 17, it will be presented at "chr17".
+- **Chromosomes:** This field indicates the chromosomal location of the gene associated with the aberration. For example if a gene is located on chromosome 17, it will be presented as "chr17".
 
-- **HGNC Gene and Detected Mutations:** The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine, to improve patient care.
+- **HGNC Gene and Detected Mutations:** The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine.
 
 ::: {.panel-tabset}
 
@@ -130,7 +140,7 @@ plot_ly(site,
 ```
 
 ### All Cancer Types
-The following analysis displays genes that have aberration for more than 100 patients. 
+The following analysis displays genes that have positive aberration for more than 100 patients. 
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
 gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_chrom_genes.sql"
@@ -359,7 +369,7 @@ plot_ly(
       y = -0.2, 
       x = 0.5, 
       xanchor = "center"
-    ),
+    ), showlegend = TRUE,
     height = 1000,  # Increased height for better readability
     margin = list(l = 150, r = 50, t = 50, b = 100)  # Adjusted margins
   )
@@ -390,4 +400,75 @@ gene_order %>%
 ```
 
 ### Thoracic Cancer 
+Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_thr<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_denominator.sql"
+
+thr_den=fetch_data_from_sql_file(sql_thr, yaml_file_path)
+thr_den
+
+sql_thr_abr<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_thr_abr.sql"
+thr_abr=fetch_data_from_sql_file(sql_thr_abr, yaml_file_path)
+thr_abr
+```
+From `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients, `r format(thr_abr$n_pts, big.mark = ",")` had aberration cases. (how many were tested)?
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_thr_genes<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_thr_abr_genes.sql"
+
+thr_gene=fetch_data_from_sql_file(sql_thr_genes, yaml_file_path)
+thr_gene= thr_gene %>% filter (!is.na(stanford_pathogenicity))
+thr_gene
+
+thr_path=thr_gene %>% filter (!stanford_pathogenicity=="Unknown significance")
+```
+## Distribution of Pathogenicity Types
+```{r, message=FALSE, warning=FALSE}
+# Prepare the data
+pathg_genes <- thr_path %>%
+  group_by(hgnc_gene, stanford_pathogenicity) %>%
+  group_by(hgnc_gene) %>%
+  mutate(
+    total_pts = sum(n_pts)
+  ) %>%  filter(total_pts > 30) %>%
+  ungroup() %>%
+  arrange(desc(total_pts))
+
+# Create interactive stacked bar plot
+plot_ly() %>%
+  add_bars(
+    data = pathg_genes,
+    x = ~reorder(hgnc_gene, -total_pts),
+    y = ~n_pts,
+    color = ~factor(stanford_pathogenicity),
+    colors = brewer.pal(5, "Set3"),
+    hovertemplate = paste(
+      "<b>Gene:</b> %{x}<br>",
+      "<b>Count:</b> %{text}<br>",
+      "<extra></extra>"
+    ),
+    text = ~n_pts, showlegend = TRUE
+  ) %>%
+  layout(
+    title = "Distribution of Pathogenicity Types by Gene",
+    barmode = "stack",
+    xaxis = list(
+      title = "Gene",
+      tickangle = 45
+    ),
+    yaxis = list(
+      title = "Number of Patients"
+    ),
+    legend = list(
+      title = list(text = "Pathogenicity"),
+      orientation = "v",
+      #y = -0.2,
+      #x = 0.5,
+      xanchor = "center"
+    ),showlegend = TRUE
+  )
+```
+### KRAS 
+
 :::

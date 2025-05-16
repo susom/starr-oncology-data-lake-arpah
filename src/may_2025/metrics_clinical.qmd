@@ -1,5 +1,5 @@
 ---
-title: "Oncology Cohort Characteristics"
+title: "Oncology Cohort"
 execute:
   echo: false
 output: html
@@ -13,6 +13,11 @@ if (!require("viridis")) {
   install.packages("viridis")
 }
 library(viridis)
+
+if (!require("ggupset")) {
+  install.packages("ggupset")
+}
+library(ggupset)
 ```
 
 
@@ -71,49 +76,18 @@ head (res)
 ```
 
 
-### Distribution of Data Sources
+### Overlap between Data Sources
 
-
-```{r, message=FALSE, warning=FALSE, results='hide'}
-# Create donut chart visualization
-library(ggplot2)
-library(dplyr)
-library(viridis)
-
-# Prepare data for the donut chart
-donut_data <- den_res %>%
-  mutate(
-    ymax = cumsum(percentage),
-    ymin = c(0, head(ymax, n=-1)),
-    labelPosition = (ymax + ymin) / 2,
-    label = paste0(data_set, "\n",  
-                  "(", round(percentage, 1), "%)"))
-
-# Create the donut chart
-ggplot(donut_data, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=data_set)) +
-  geom_rect() +
-  geom_text(x=5.1, aes(y=labelPosition, label=label), size=4) +
-  scale_fill_viridis_d(option = "D") +
-  coord_polar(theta="y") +
-  xlim(c(0, 4)) +
-  theme_void() +
-  theme(legend.position = "none") +
-  labs(title = "Patient Distribution Across Data Sources",
-       subtitle = "Shows the total number of patients in each data source")
-```
-
-### Patient Overlap Between Data Sources
-
-The plot below shows how patients overlap between different data sources:
-- Each row on the left shows the total size of each data source
+The following plot represents patients overlap between different data sources:
 
 - The connected dots in the middle show which combinations of data sources exist
 
 - The bars show how many patients are in each combination
 
-- For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the bar above shows how many patients are in both sources
+For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the bar above shows how many patients are in both sources.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, results='hide'}
+
 library(UpSetR)
 library(tidyr)
 
@@ -139,8 +113,8 @@ upset(
   mainbar.y.label = "Number of Patients",
   sets.x.label = "",
   #sets.x=FALSE, ## remove the xaxis
-  point.size = 5,
-  line.size = 1,
+  point.size = 7,
+  line.size = 0.8,
   text.scale = 1.5,
   mb.ratio = c(0.6, 0.4),
   keep.order = TRUE,
@@ -151,10 +125,40 @@ upset(
   number.angles = 0 ,# Make ,numbers horizontal
   #text.scale = c(1.3, 1.3, 1)  # Increase text size for better readability
 )
+
+```
+## Patient Distribution Across Data Sources
+```{r, message=FALSE, warning=FALSE}
+library(ggplot2)
+# Convert data to format needed for ggupset
+upset_data <- res %>%
+  group_by(person_id) %>%
+  summarize(sources = list(data_set)) %>%
+  ungroup()
+
+# Create the ggupset plot
+ggplot(upset_data, aes(x = sources)) +
+  geom_bar(fill = "#8B0000",  width = 0.9) +
+  scale_x_upset() +
+   geom_text(stat='count', aes(label=after_stat(count)), vjust=-0.5) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    axis.title.x = element_blank()
+  ) +
+  labs(
+    title = "",
+    y = "Number of Patients"
+  ) +
+  theme(
+    plot.title = element_text( size = 14),
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 14)
+  )
 ```
 
-```{r}
-```
+
 
 
 

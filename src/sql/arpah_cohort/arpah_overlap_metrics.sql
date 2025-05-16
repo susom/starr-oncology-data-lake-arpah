@@ -12,14 +12,14 @@
     
     UNION ALL
     
-    SELECT DISTINCT person_id, 'Neural Frame' AS data_set 
+    SELECT DISTINCT p.person_id, 'Neural Frame' AS data_set 
     FROM @oncology_prod.@oncology_omop.person p
     INNER JOIN @oncology_prod.@oncology_neuralframe.onc_neuralframe_case_outcomes nf
     ON p.person_source_value = nf.stanford_patient_uid
     
     UNION ALL 
     
-    SELECT DISTINCT person_id, 'Philips ISPM' AS data_set 
+    SELECT DISTINCT p.person_id, 'Philips ISPM' AS data_set 
     FROM @oncology_prod.@oncology_omop.person p
-    INNER JOIN som-rit-phi-oncology-dev.star_8788_onc_philips_ispm_starr_common_2025_03_16.onc_philips_mtb_pat_diag_orders phi
+    INNER JOIN @oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders phi
     ON p.person_source_value = phi.stanford_patient_uid
