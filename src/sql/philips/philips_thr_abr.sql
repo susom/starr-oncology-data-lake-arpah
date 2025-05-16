@@ -9,7 +9,15 @@ ON p.person_source_value = nf.stanford_patient_uid
 where LOWER(primarySiteDescription) LIKE '%lung%'
         OR LOWER(primarySiteDescription) LIKE '%bronchus%'
         OR LOWER(primarySiteDescription) LIKE '%thymus%'
-) 
-select count(distinct(abr.stanford_patient_uid)) as n_pts
-from `@oncology_prod.@oncology_philips.onc_philips_mtb_aberrations` abr
+) , 
+with_abr as (
+select count(distinct(abr.stanford_patient_uid)) as n_pts, 'abr' as flag 
+from  `@oncology_prod.@oncology_philips.onc_philips_mtb_aberrations` abr
 inner join thoracic_pts using(stanford_patient_uid)
+),
+with_test as (
+  select count(distinct(diag.stanford_patient_uid)), 'total' as flag
+from `@oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders` diag
+inner join thoracic_pts using(stanford_patient_uid)
+)
+select * from with_abr union all select * from with_test
