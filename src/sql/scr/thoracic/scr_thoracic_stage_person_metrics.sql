@@ -2,8 +2,7 @@ WITH
   person AS (
   SELECT
     *
-  FROM
-    `@oncology_prod.@oncology_omop.person`),
+  FROM `@oncology_prod.@oncology_omop.person`),
   scr AS (
   SELECT
     *
