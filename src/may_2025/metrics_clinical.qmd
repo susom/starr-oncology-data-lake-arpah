@@ -112,7 +112,7 @@ upset(
   order.by = "freq",
   mainbar.y.label = "Number of Patients",
   sets.x.label = "",
-  #sets.x=FALSE, ## remove the xaxis
+  #sets.x="", ## remove the xaxis
   point.size = 7,
   line.size = 0.8,
   text.scale = 1.5,
