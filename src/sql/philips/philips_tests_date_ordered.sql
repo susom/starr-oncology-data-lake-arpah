@@ -5,7 +5,7 @@
    with all_philips as (
     select phi.*
     FROM `@oncology_prod.@oncology_omop.person` p
-    INNER JOIN `@oncology_dev.@oncology_philips.onc_philips_mtb_pat_diag_orders` phi
+    INNER JOIN `@oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders` phi
     ON p.person_source_value = phi.stanford_patient_uid
    )
     select test_type, 

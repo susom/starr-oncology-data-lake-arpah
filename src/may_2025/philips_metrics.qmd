@@ -1,5 +1,5 @@
 ---
-title: "Philips ISPM Metrics"
+title: "Philips ISPM"
 execute:
   echo: false
 ---
@@ -80,11 +80,18 @@ create_gt_table_v1(
 :::
 
 
-## Tables: {.tabset}
+## Aberration Metrics: {.tabset}
+The aberration table provides a structured overview of genetic changes, categorizing them into specific types and broader classes. Each entry in the table includes the following key components:
+
+- **Aberration Types:** An aberration type describes a specific change to DNA. These are specific alterations in DNA that can affect gene function and contribute to various diseases. Each type represents a distinct change, such as missense variant, deletions, duplications, or point mutations.
+
+- **Aberration Classes:** This field groups related aberration types into overarching categories, allowing for a more organized understanding of the types of genomic changes and their potential implications in health and disease.
+
+- **Chromosomes:** This field indicates the chromosomal location of the gene associated with the aberration. For example if a gene is located on chromosome 17, it will be presented at "chr17".
+
+- **HGNC Gene and Detected Mutations:** The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine, to improve patient care.
 
 ::: {.panel-tabset}
-
-### All Cancer Cases 
 
 
 ```{r,message=FALSE, warning=FALSE, results='hide' }
@@ -122,18 +129,8 @@ plot_ly(site,
   )
 ```
 
-### Aberrations
-The aberration table provides a structured overview of genetic changes, categorizing them into specific types and broader classes. Each entry in the table includes the following key components:
-
-- **Aberration Types:** An aberration type describes a specific change to DNA. These are specific alterations in DNA that can affect gene function and contribute to various diseases. Each type represents a distinct change, such as missense variant, deletions, duplications, or point mutations.
-
-- **Aberration Classes:** This field groups related aberration types into overarching categories, allowing for a more organized understanding of the types of genomic changes and their potential implications in health and disease.
-
-- **Chromosomes:** This field indicates the chromosomal location of the gene associated with the aberration. For example if a gene is located on chromosome 17, it will be presented at "chr17".
-
-- **HGNC Gene and Detected Mutations:** The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine, to improve patient care.
-
-
+### All Cancer Types
+The following analysis displays genes that have aberration for more than 100 patients. 
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
 gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_chrom_genes.sql"
@@ -202,60 +199,7 @@ DT::datatable(
   DT::formatRound('Percentage', digits = 1)
 ```
 
-## Genes Distribution by Chromosomes
-
-```{r,message=FALSE, warning=FALSE}
-library(dplyr)
-library(ggplot2)
-library(plotly)
-
-# Prepare the plot
-p <- gene_ch %>%
-  filter(n_pts > 100, !is.na(hgnc_gene)) %>%
-  ggplot(aes(x = reorder(hgnc_gene, pts_percent), y = pts_percent, fill = chrom, text = paste("Gene:", hgnc_gene, "<br>Count:", n_pts))) +
-  geom_col(show.legend = FALSE) +
-  coord_flip() +
-  facet_wrap(~ chrom, scales = "free") +
-  labs(
-    x = "HGNC Gene",
-    y = "% Patient",
-    title = "Top Genes Distribution by Chromosomes"
-  ) +
-  theme_minimal()
-
-# Make it interactive
-ggplotly(p, tooltip = "text")%>%
-  layout(showlegend = FALSE,
-  width=1000, height=1200)
-
-```
-
-## Heatmap
-```{r,message=FALSE, warning=FALSE}
-# Create heatmap
-plot_ly(
-  data = gene_ch,
-  x = ~chrom,
-  y = ~hgnc_gene,
-  z = ~n_pts,
-  type = "heatmap",
-  colorscale = "Viridis",
-  hovertemplate = paste(
-    "<b>Gene:</b> %{y}<br>",
-    "<b>Chromosome:</b> %{x}<br>",
-    "<b>Patients:</b> %{z}<extra></extra>"
-  )
-) %>%
-  layout(
-    title = "Patient Counts by Gene and Chromosome",
-    xaxis = list(title = "Chromosome"),
-    yaxis = list(title = "Gene"),
-    margin = list(l = 100)  # To fit long gene names
-  )
-```
-
-
-## ggplot version 
+## Genes Distribution by Chromosomes 
 
 ```{r, message=FALSE, warning=FALSE}
   filtered_gene_ch <- gene_ch %>%
@@ -299,9 +243,9 @@ plot_ly(
 
 # Make it interactive with custom hover
 ggplotly(p, 
-         tooltip = "text",  # Use only the custom text for hover
-         height = 1200, 
-         width = 1000) %>%
+         tooltip = "text", # Use only the custom text for hover
+         height = 1000, 
+         width = 800) %>%
   layout(
     margin = list(l = 150, r = 50, b = 50, t = 50),
     showlegend = TRUE
@@ -311,104 +255,7 @@ ggplotly(p,
 
 
 
-```{r, message=FALSE, warning=FALSE}
-
-  filtered_gene_ch <- gene_ch %>%
-  filter(!is.na(hgnc_gene), n_pts > 100) %>%
-  mutate(
-    # Create proper chromosome ordering
-    chrom = factor(chrom, 
-                  levels = paste0("chr", c(1:22, "X", "Y")),
-                  ordered = TRUE)
-  ) %>%
-  # Sort by chromosome and patient count
-  arrange(chrom, desc(n_pts))
-
-
-  p <- ggplot(filtered_gene_ch, 
-     aes(x = chrom, 
-         y =  n_pts,
-         fill = hgnc_gene,
-         text = sprintf(
-           "Gene: %s<br>Patient Count: %d",
-           hgnc_gene, n_pts
-         ))) +
-  geom_tile(aes(width = n_pts/max(n_pts), 
-                height = 0.8)) + facet_grid(~chrom)+
-  scale_fill_distiller(name = "Patient Count", 
-                      palette = "Set3", 
-                      direction = 1) +
-  theme_minimal() +
-  labs(title = "Patient Counts by Gene and Chromosome",
-       y = "Gene",
-       x = NULL) +
-  theme(
-    axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
-    panel.grid = element_blank(),
-    strip.text = element_text(angle = 0),
-    legend.position = "right",
-    panel.spacing = unit(0.3, "cm")
-  )
-
-# Make it interactive with custom hover
-ggplotly(p, 
-         tooltip = "text",  # Use only the custom text for hover
-         height = 1200, 
-         width = 1000) %>%
-  layout(
-    margin = list(l = 150, r = 50, b = 50, t = 50),
-    showlegend = TRUE
-  )
-```
-
-
-
-## jitter plot option 1
-```{r, message=FALSE, warning=FALSE}
-  p <- ggplot(filtered_gene_ch, 
-     aes(y = n_pts, 
-         x = chrom,
-         text = sprintf(
-           "Gene: %s<br>Patient Count: %d<br>Chromosome: %s",
-           hgnc_gene, n_pts, chrom
-         ))) +
-  geom_jitter(
-    aes(size = n_pts, color = n_pts),
-    alpha = 0.6,
-    width = 0,      # No horizontal jitter
-    height = 0.3   # Vertical jitter amount
-  ) +
-  scale_size_continuous(range = c(3, 10)) +
-  scale_color_distiller(
-    palette = "Set3",
-    direction = 1
-  ) +
-  theme_minimal() +
-  labs(
-    title = "Patient Counts by Gene and Chromosome",
-    y = "Patient Count",
-    x = "Chromosome"
-  ) +
-  theme(
-    legend.position = "right",
-    panel.grid.minor = element_blank(),
-    panel.spacing = unit(0.3, "cm")
-  )
-
-# Make it interactive
-ggplotly(p, 
-         tooltip = "text",
-         height = 800, 
-         width = 1200) %>%
-  layout(
-    margin = list(l = 100, r = 50, b = 50, t = 50),
-    showlegend = FALSE
-  )
-```
-
-
-## jitter plot option 2
+## Gene Distribution across Chromosomes 
 
 ```{r, message=FALSE, warning=FALSE}
   p <- ggplot(filtered_gene_ch, 
@@ -432,7 +279,7 @@ ggplotly(p,
     height = 0   # Vertical jitter amount
   ) +
   scale_size_continuous(range = c(3, 10)) +
-  scale_color_distiller(
+  scale_color_distiller(name = "Patient Count", 
     palette = "Set3",
     direction = 1
   ) +
@@ -450,13 +297,10 @@ ggplotly(p,
 
 # Make it interactive
 ggplotly(p, 
-         tooltip = "text",
-         height = 800, 
-         width = 1200) %>%
-  layout(
-    margin = list(l = 100, r = 50, b = 50, t = 50),
-    showlegend = FALSE
-  )
+         tooltip = "text"
+)
+         #height = 800, 
+        # width = 1200) 
 ```
 
 
@@ -475,8 +319,8 @@ gene_order <- mutation_data %>%
  mutate(total = sum(n_pts))
 ```
 
-## Final plot 
-```{r, message=FALSE, warning=FALSE}
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
 gene_order <- mutation_data %>%
   group_by(hgnc_gene) %>%
   mutate(total_pts = sum(n_pts)) %>%
@@ -520,7 +364,7 @@ plot_ly(
     margin = list(l = 150, r = 50, t = 50, b = 100)  # Adjusted margins
   )
 ```
-## Heatmap version 
+ 
 ```{r, message=FALSE, warning=FALSE}
 gene_order %>% 
   plot_ly(
@@ -544,4 +388,6 @@ gene_order %>%
     margin = list(l = 150, r = 50, t = 50, b = 100)
   )
 ```
+
+### Thoracic Cancer 
 :::
