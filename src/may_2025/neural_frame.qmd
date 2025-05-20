@@ -3,7 +3,7 @@ title: "Neural Frame Metrics"
 execute:
   echo: false
 ---
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r load functions, message=FALSE, warning=FALSE, results='hide'}
 #| context: global
 
 rm(list=ls())
@@ -11,13 +11,13 @@ source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encodi
 yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
 library(RColorBrewer)  # Add RColorBrewer package
 ```
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r nf denominator, message=FALSE, warning=FALSE, results='hide'}
 sql_den<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_den.sql"
 nf_den <- fetch_data_from_sql_file(sql_den, yaml_file_path)
 nf_den
 ```
 
-```{r,message=FALSE, warning=FALSE, results='hide'}
+```{r case status all ,message=FALSE, warning=FALSE, results='hide'}
 sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_case_status.sql"
 case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
 head(case)
@@ -31,9 +31,7 @@ Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer c
 
  - **Analytic**: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment. Treatment and outcome reports may be limited to analytic cases. 
 
- - **Non-analytic**: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) may be abstracted by the facility to meet central registry requirements or because of a request by the facility’s cancer program. Non-analytic cases are grouped according to the reason a patient who received care at the facility is Non-analytic, or the reason a patient who never received care at the facility may have been abstracted.
-
-::: {.columns}
+ - **Non-analytic**: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) can be abstracted by the facility to fulfill central registry requirements or upon request from the facility’s cancer program. The grouping of non-analytic cases is based on the reason for their classification, whether they received care at the facility or were abstracted for other reasons. 
 
 ::: {.column width="50%"}
 ### 📊 Data Volume 
@@ -49,7 +47,7 @@ Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer c
 - Miscellaneous
 :::
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r case status thoracic, message=FALSE, warning=FALSE, results='hide'}
 sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_case_status.sql"
 case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
 head(case)
@@ -61,32 +59,12 @@ case_summary <- aggregate(unique_person_count_case ~ nfcasestatus, data = case, 
 case_df <- data.frame(
   Status = case_summary$nfcasestatus,
   Count = case_summary$unique_person_count_case,
-  Percentage = round(case_summary$unique_person_count_case / 197000 * 100, 1)
+  Percentage = round(case_summary$unique_person_count_case / (nf_den$unique_person_count) * 100, 1)
 )
-
+## code this number ##
 # Sort by percentage in descending order
 case_df <- case_df[order(-case_df$Percentage), ]
 ```
-```{r, message=FALSE, warning=FALSE, results='hide'}
-# Create interactive table using DT
-library(DT)
-library(ggplot2)
-
-# Display table
-#DT::datatable(case_df, 
- #        colnames = c("Case Status", "Unique Person Count", "Percentage (%)"),
-    #       options = list(
-      #       pageLength = 25,  # increased to show more rows per page
-        #     searching = FALSE,
-        #     ordering = TRUE,
-        #     dom = 'rtip'
-        #   ),
-        #   rownames = FALSE
- #)
-```
-
-
-
 
 
 ## Thoracic Cancer Metrics {.tabset}
@@ -95,6 +73,10 @@ This visualization summarizes the characteristics of complete cases for Thoracic
  - Cases and Diagnoses 
  - Treatment
  - Social History
+
+**Multiple Primary**:
+ 
+Within the thoracic cancer cohort, a subset of patients presents with multiple primary thoracic malignancies. This designation refers to the presence of two or more histologically distinct malignant tumors arising independently within the thoracic cavity, rather than as metastases from a single primary site. These neoplasms may occur synchronously, identified concurrently or within a short time interval, or metachronously, developing at distinct time points.
 
 ::: {.panel-tabset}
 
@@ -109,7 +91,6 @@ The thoracic cancer cohort includes patients diagnosed with primary malignancies
  - C34.8 – Overlapping lesion of lung
  - C34.9 – Lung, not otherwise specified (NOS)
  - C37.9 – Thymus
-
 
 
 ## Case Status
@@ -136,7 +117,7 @@ case_thr <- data.frame(
 )
 
 ```
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r denominators, message=FALSE, warning=FALSE, results='hide'}
 ## thoracic cancer with complete cases 
 sql_thr_c<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_denominator_complete.sql"
 
@@ -166,16 +147,16 @@ ggplot(case_thr, aes(x = "", y = Percentage, fill = Status)) +
   ) +
   geom_text(aes(label = paste0(Status, "\n", Percentage, "%")), 
             position = position_stack(vjust = 0.5)) +
-  ggtitle("Case Status Distribution") +
+  ggtitle("Case Status Distribution of Thoracic Cancer Patients") +
   scale_fill_brewer(palette = "Set3")
 ```
 
 ## Patient Summary by Diagnosis Year 
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r dx year calculate, message=FALSE, warning=FALSE, results='hide'}
 sql_thr_yr<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_dx_year_person_metrics.sql"
 thr_yr <- fetch_data_from_sql_file(sql_thr_yr, yaml_file_path)
 
-# Group years before 2000 and calculate percentages
+# Group years before 2000 and calculate percentages ##
 thr_yr_grouped <- thr_yr %>%
   mutate(dx_year = as.character(ifelse(dx_year < 2000, "<2000", dx_year))) %>%
   group_by(dx_year) %>%
@@ -184,7 +165,7 @@ thr_yr_grouped <- thr_yr %>%
          label = paste0(percentage, "%")) %>%
   arrange(dx_year)
 ```
-```{r, message=FALSE, warning=FALSE}
+```{r dx year barplot, message=FALSE, warning=FALSE}
 library(plotly)
 
 # Create an interactive bar plot using plotly
@@ -194,7 +175,7 @@ p <- plot_ly(data = thr_yr_grouped,
              type = "bar",
              text = ~label,
              textposition = "auto",
-             marker = list(color ="#FB8072" ))  
+             marker = list(color ="#8B0000" ))  
 
 # Add layout settings
 p <- p %>% 
@@ -244,7 +225,7 @@ Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 c
 Note: The following analysis excluded unspecified histology for simplicity and filtered out any groups with less than 20 cases. 
 
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r icdo mapping, message=FALSE, warning=FALSE, results='hide'}
 # Load required libraries
 library(plotly)
 library(dplyr)
@@ -314,7 +295,7 @@ thr_his <- thr_his %>%
 From `r format(thr_den_c$unique_thoracic_cancer_pts[1], big.mark = ",")` thoracic patients with complete cases, the majority `r format(tab_res$total[tab_res$histology=="NSCLC"], big.mark = ",")` were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC). 
 
 ::: {style="text-align: center"}
-```{r, message=FALSE, warning=FALSE}
+```{r histology table, message=FALSE, warning=FALSE}
 labels <- c(
   "histology"="Histology",
   "count_perc" = "N(%) of Patients"
@@ -340,7 +321,7 @@ This interactive horizontal bar chart shows the distribution of thoracic cancer 
 - Double-click legend items to isolate a single category and  double-click again to restore all categories
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r histology barplot, message=FALSE, warning=FALSE}
   #
 thr_his=thr_his %>% filter (patient_count>20)
 
@@ -398,11 +379,11 @@ plot_ly(summary_plot,
 ```
 
 
-## Distribution of Thoracic Cancer by Histology Types
+## Distribution of Thoracic Cancer Cases by Histology Types
 The following dual-layered classification system by specific histology and then by broader clinical grouping (NSCLC, SCLC, and Other Specified) represents the thoracic cancer distribution by histology grouping. 
 
 
-```{r,message=FALSE, warning=FALSE}
+```{r histology sunburst,message=FALSE, warning=FALSE}
   thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
 
 # Create hierarchical data for sunburst chart
@@ -432,7 +413,6 @@ p2 <- plot_ly(
   hovertemplate = ~paste(
     "<b>%{label}</b><br>",
     "Count: %{value}<br>",
-    "Percentage: %{percentParent:.1%}<br>",
     "<extra></extra>"
   ),
   textposition = "auto",
@@ -463,7 +443,7 @@ p2 <- plot_ly(
 # Display the sunburst chart
 p2
 ```
-```{r, message=FALSE, warning=FALSE}
+```{r histology table, message=FALSE, warning=FALSE}
 thr_his=thr_his %>% filter (patient_count>20)
 
 # Create summary table
@@ -485,7 +465,7 @@ datatable(histology_summary,
           ),
           rownames = FALSE) %>%
   formatStyle('Percentage',
-             background = styleColorBar(histology_summary$Percentage, '#FB8072'),
+             background = styleColorBar(histology_summary$Percentage, "lightgray"),
              backgroundSize = '98% 88%',
              backgroundRepeat = 'no-repeat',
              backgroundPosition = 'center')
@@ -493,7 +473,7 @@ datatable(histology_summary,
 
 
 ## Detailed Distribution of Thoracic Cancer Subcategories
-```{r, message=FALSE, warning=FALSE}
+```{r piechart with barplots combined, message=FALSE, warning=FALSE}
 # Create main summary
 thr_his_res=thr_his %>% filter (patient_count>20)
 hist_summary <- thr_his_res %>%
@@ -549,7 +529,7 @@ p <- onRender(p, "
             title: 'Detailed View: ' + selectedGroup + ' (Refresh the page to return)',
             xaxis: {
               title: '',
-              tickangle: 45
+              tickangle: ''
             },
             yaxis: {title: 'Patient Count'},
             showlegend: false
@@ -591,7 +571,7 @@ p
 ```
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r icdo code table, message=FALSE, warning=FALSE}
 # Create detailed summary table
 thr_his_summary <- thr_his_res %>%filter (patient_count>20)%>%
   group_by(histology, histology_group, histologicTypeIcdO3Description) %>%
@@ -619,6 +599,75 @@ DT::datatable(tab_his,
               ),
               rownames = FALSE) 
 ```
+## Staging 
+The following table summarizes the staging status of thoracic patients with complete cases. 
+```{r staging, message=FALSE, warning=FALSE}
+# Create the staging data frame
+staging <- data.frame(
+  Stage = c("Stage 0", "Occult", "Stage I", "Stage II", "Stage III", "Stage IV"),
+  Description = c(
+    "Carcinoma in situ; neoplastic cells confined to the epithelium without invasion",
+    "Malignancy confirmed by cytology or metastatic presentation without known primary",
+    "Localized tumor confined to the organ of origin",
+    "Larger tumor size or limited regional extension" ,
+    "Locally advanced disease" ,
+    "Distant metastatic disease"
+  ), 
+  `Extent of Disease Spread` =c ("No evidence of invasion beyond the basement membrane.", "Primary tumor not clinically or radiologically identifiable.", "No regional lymph node involvement or distant metastasis.", "May involve adjacent structures or limited regional lymph nodes.", "Involvement of regional lymph nodes and/or extension to nearby tissues.", "Tumor has spread to distant organs or non-regional lymph nodes."),
+
+  stringsAsFactors = FALSE
+)
+
+# Display the table interactively with DT and without pagination/searching
+DT::datatable(
+  staging,
+  colnames = c("Stage", "Description",  "Extent of Disease Spread"),
+  options = list(
+    pageLength = 10,
+    searching = FALSE,
+    ordering = FALSE,
+    dom = 't'
+  ),
+  rownames = FALSE
+)
+```
+```{r staging counts, message=FALSE, warning=FALSE, results='hide'}
+sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_stage_person_metrics.sql"
+thr_stg <- fetch_data_from_sql_file(sql_stg, yaml_file_path)
+thr_stg
+
+thr_stg = thr_stg %>% mutate(perc=100*(patient_count/sum(patient_count)) ) %>% arrange(desc(patient_count))
+
+
+thr_stg <- thr_stg %>%
+  mutate(
+    full_stage = case_when(
+      derived_stage == "0" ~ "Stage 0: Carcinoma in situ",
+      derived_stage == "Occult"  ~ "Occult: Malignancy confirmed by cytology or metastatic presentation without known primary",
+      derived_stage == "1" ~ "Stage I: Localized tumor confined to the organ of origin",
+      derived_stage == "2" ~ "Stage II: Larger tumor size or limited regional extension",
+      derived_stage == "3"~ "Stage III: Locally advanced disease",
+      derived_stage == "4" ~ "Stage IV: Distant metastatic disease",
+      TRUE ~ derived_stage
+    )
+  )
+```
+```{r staging table, message=FALSE, warning=FALSE}
+#thr_stg %>% filter(full_stage="Unknown")
+labels <- c(
+  "full_stage"="Staging",
+  "patient_count" = "Number of Patients",
+   "perc" = "Percent"
+)
+
+create_gt_table_v1(
+  data = thr_stg, 
+  columns = c( "full_stage","patient_count", "perc"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text = "")
+```
+
 
 ### Treatment
 The following table summarizes the distribution of thoracic cancer treatments including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases. 
@@ -734,6 +783,8 @@ sql_sm_omop <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/
 thr_smk <- fetch_data_from_sql_file(sql_sm_omop, yaml_file_path)
 smk_na= sum_thr - sum(thr_smk$unique_person_count)
 ```
+
+
 ```{r,message=FALSE, warning=FALSE }
 
 smoking_omop=thr_smk %>% select (smoking_status , unique_person_count)%>% arrange(desc(unique_person_count))
@@ -749,7 +800,9 @@ create_gt_table_v1(
    subtitle_text = "",
   footnote_text = paste0("Note: ", format(smk_na, big.mark = ","), " patients didn't have smoking concept ID in the observation table"))
 ```
-### Survival Outcome 
+### Follow-up Outcome 
+
+
 :::
 
 :::

@@ -7,7 +7,11 @@ WITH
   SELECT
     *
   FROM
-    `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`),
+    `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`
+    where nfcasestatus ="Completed" and 
+     (LOWER(primarysiteDescription) LIKE '%lung%'
+      OR LOWER(primarysiteDescription) LIKE '%bronchus%'
+      OR LOWER(primarysiteDescription) LIKE '%thymus%' )),
   scr_omop AS (
   SELECT
     DISTINCT p.person_id,
@@ -133,10 +137,7 @@ WITH
     derivedAjcc7StageGrpDescription
   FROM
     scr_omop
-  WHERE
- ( LOWER(primarysiteDescription) LIKE '%lung%'
-      OR LOWER(primarysiteDescription) LIKE '%bronchus%'
-      OR LOWER(primarysiteDescription) LIKE '%thymus%' ) )
+ )
 SELECT
   COUNT(DISTINCT person_source_value) patient_count,
   CASE
@@ -201,4 +202,4 @@ FROM
   stage_transform
 GROUP BY
   derived_stage
-;
+
