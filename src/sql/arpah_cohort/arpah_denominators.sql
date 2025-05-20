@@ -25,7 +25,7 @@ FROM (
     
     UNION ALL 
     
-    SELECT COUNT(DISTINCT stanford_patient_uid) AS counts_pts, 'Philips ISBM' AS data_set 
+    SELECT COUNT(DISTINCT stanford_patient_uid) AS counts_pts, 'Philips ISPM' AS data_set 
     FROM `@oncology_prod.@oncology_omop.person` p
     INNER JOIN `@oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders`  phi
     ON p.person_source_value = phi.stanford_patient_uid

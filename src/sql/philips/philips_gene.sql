@@ -1,5 +1,5 @@
   --------------------------------------------------------------------
-  --- Counts of patients by site displays in Philips ISBM dataset ---
+  --- Counts of patients by site displays in Philips ISPM dataset ---
   --------------------------------------------------------------------
   with philips as (
    SELECT phi.*

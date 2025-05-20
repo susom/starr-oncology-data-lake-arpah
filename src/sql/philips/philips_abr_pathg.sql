@@ -1,5 +1,5 @@
   --------------------------------------------------------------------
-  --- Counts of patients by site displays in Philips ISBM dataset with stanford_pathogenicity-
+  --- Counts of patients by site displays in Philips ISPM dataset with stanford_pathogenicity-
   --------------------------------------------------------------------
   with philips as (
    SELECT phi.*

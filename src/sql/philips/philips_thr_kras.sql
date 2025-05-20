@@ -1,5 +1,5 @@
   --------------------------------------------------------------------
-  --- Counts of thoracic patients in Philips ISBM dataset ---
+  --- Counts of thoracic patients in Philips ISPM dataset ---
   --------------------------------------------------------------------
 with thoracic_pts as (
 select distinct p.person_id , nf.stanford_patient_uid 
