@@ -8,7 +8,7 @@ SELECT
     data_set, 
     (counts_pts * 100.0 / (SELECT counts_pts FROM oncology_count)) AS percentage
 FROM (
-    SELECT COUNT(DISTINCT person_id) AS counts_pts, 'Oncology OMOP' AS data_set 
+    SELECT COUNT(DISTINCT person_id) AS counts_pts, 'Oncology OMOP (Cohort)' AS data_set 
     FROM `@oncology_prod.@oncology_omop.person`
     
     UNION ALL 
@@ -29,4 +29,11 @@ FROM (
     FROM `@oncology_prod.@oncology_omop.person` p
     INNER JOIN `@oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders`  phi
     ON p.person_source_value = phi.stanford_patient_uid
+
+    UNION ALL
+    SELECT COUNT(DISTINCT p.person_id) AS counts_pts, 'Tumor Board' AS data_set
+    FROM `@oncology_prod.@oncology_omop.person` p
+    INNER JOIN `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort` tb
+    ON p.person_source_value = tb.person_source_value
+    WHERE tumor_board_encounter_flag = 1
 ) AS counts 

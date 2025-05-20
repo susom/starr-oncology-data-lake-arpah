@@ -23,3 +23,10 @@
     FROM @oncology_prod.@oncology_omop.person p
     INNER JOIN @oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders phi
     ON p.person_source_value = phi.stanford_patient_uid
+
+    UNION ALL
+    SELECT DISTINCT p.person_id, 'Tumor Board' AS data_set
+    FROM @oncology_prod.@oncology_omop.person p
+    inner join @oncology_prod.@oncology_temp.onc_arpah__cancer_cohort tb
+    on p.person_source_value = tb.person_source_value
+    where tumor_board_encounter_flag = 1
