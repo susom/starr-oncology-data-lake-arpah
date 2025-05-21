@@ -13,10 +13,10 @@ scr_data AS ( -- thoracic cancer pts
         primarySiteDescription,
         nfcasestatus
     FROM scr
-    WHERE
+    WHERE nfcasestatus="Completed" and (
         LOWER(primarySiteDescription) LIKE '%lung%'
         OR LOWER(primarySiteDescription) LIKE '%bronchus%'
-        OR LOWER(primarySiteDescription) LIKE '%thymus%'
+        OR LOWER(primarySiteDescription) LIKE '%thymus%')
 ),
 scr_omop AS ( -- thoracic cancer pts in omop 
     SELECT DISTINCT
