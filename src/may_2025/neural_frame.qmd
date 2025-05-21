@@ -25,11 +25,11 @@ case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
 case$flag="All Cancer"
 ```
 ### Summary:
-The Stanford Cancer Registry data is integrated with the California Cancer Registry and updated monthly, encompassing approximately 800 variables related to various cancers. As of January 2022, the KACI® application from NeuralFrame was approved for abstracting and transmitting diagnosed cases, with Stanford adopting it in 2023. NeuralFrame connects to EPIC to extract relevant data, including pathology notes.
+The Stanford Cancer Registry data is integrated with the California Cancer Registry and updated monthly, encompassing approximately 800 variables related to various cancer. As of January 2022, the KACI® application from NeuralFrame was approved for abstracting and transmitting diagnosed cases, with Stanford adopting it in 2023. Neural Frame connects to EPIC to extract relevant data, including pathology notes.
 
 Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer cases are categorized as **Analytic** (reportable with complete data) or **Non-analytic** (not reportable by law, with complete data only from 2022 onward).
 
- - **Analytic**: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment. Treatment and outcome reports may be limited to analytic cases. 
+ - **Analytic**: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment. 
 
  - **Non-analytic**: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) can be abstracted by the facility to fulfill central registry requirements or upon request from the facility’s cancer program. The grouping of non-analytic cases is based on the reason for their classification, whether they received care at the facility or were abstracted for other reasons. 
 
@@ -50,7 +50,7 @@ Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer c
 :::
 
 ## Thoracic Cancer Cohort
-Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
+Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancer.
 The thoracic cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by the following ICD-O-3 topography codes:
 
  - C34.0 – Main bronchus
@@ -89,7 +89,7 @@ case_df <- case_df[order(-case_df$Percentage), ]
 Within the thoracic cancer cohort, a subset of patients presents with multiple primary thoracic malignancies. This designation refers to the presence of two or more histologically distinct malignant tumors arising independently within the thoracic cavity, rather than as metastases from a single primary site. These neoplasms may occur synchronously, identified concurrently or within a short time interval, or metachronously, developing at distinct time points.
 
 ## Thoracic Cancer Metrics {.tabset}
-This visualization summarizes the characteristics of complete cases for Thoracic Cancer by:
+This visualization summarizes the characteristics of thoracic cancer cases by:
 
  - Cases, Diagnoses, Staging
  - Treatment
@@ -206,11 +206,9 @@ p
 ## Histology Distribution & ICD-O-3-Codes
 Thoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer **(NSCLC)** representing the majority of cases and Small Cell Lung Cancer **(SCLC)**.
 
-The Thoracic Cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. 
+Thoracic cancer is categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:
 
-Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:
-
-- **Non-Small Cell Lung Carcinoma (NSCLC):** This group encompasses the majority of lung cancers and includes subtypes such as:
+- **Non-Small Cell Lung Carcinoma (NSCLC):** This group encompasses the majority of lung cancer and includes subtypes such as:
   - Adenocarcinoma (8140–8147)
   - Squamous Cell Carcinoma (8070–8080)
   - Large Cell Carcinoma (8010–8015)
@@ -218,7 +216,7 @@ Thoracic cancers are categorized into detailed histologic groups using ICD-O-3 c
 
 - **Small Cell Lung Carcinoma (SCLC):** Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.
 
-- **Other Specified Histologies:** These include a range of less common thoracic cancers such as:
+- **Other Specified Histologies:** These include a range of less common thoracic cancer such as:
   - Carcinoid Tumors (8240–8249)
   - Sarcoma (8800–8806)
   - Mesothelioma (9050–9053)
@@ -606,9 +604,17 @@ DT::datatable(tab_his,
               ),
               rownames = FALSE) 
 ```
-## Staging 
-The following table summarizes the staging status of cancer patintes. Stages include: 
-```{r staging, message=FALSE, warning=FALSE}
+## Cancer Staging 
+Cancer staging is categorized as:
+
+- **Stage 0**: Carcinoma in situ (neoplastic cells confined to the epithelium without invasion) with no evidence of invasion beyond the basement membrane.
+- **Occult**: A malignancy is confirmed by cytology or metastatic presentation without a known primary, meaning that the primary tumor is not clinically or radiologically identifiable.
+- **Stage I**: A localized tumor confined to the organ of origin, with no regional lymph node involvement or distant metastasis.
+- **Stage II**: A tumor of larger size or with limited regional extension that may involve adjacent structures or limited regional lymph nodes.
+- **Stage III**: Locally advanced disease characterized by involvement of regional lymph nodes and/or extension to nearby tissues.
+- **Stage IV**: Distant metastatic disease where the tumor has spread to distant organs or non-regional lymph nodes.
+
+```{r staging, message=FALSE, warning=FALSE, include=FALSE}
 # Create the staging data frame
 staging <- data.frame(
   Stage = c("Stage 0", "Occult", "Stage I", "Stage II", "Stage III", "Stage IV"),
@@ -638,7 +644,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-## Summary of Staging of Thoracic Cancer Patinets
+## Summary of Staging of Thoracic Cancer Patients
 The following table summarizes the staging status of thoracic patients with complete cases. 
 ```{r staging counts, message=FALSE, warning=FALSE, results='hide'}
 sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_stage_person_metrics.sql"
@@ -665,7 +671,7 @@ thr_stg <- thr_stg %>%
 #thr_stg %>% filter(full_stage="Unknown")
 labels <- c(
   "full_stage"="Staging",
-  "patient_count" = "Number of Patients",
+  "patient_count" = "Patient Count",
    "perc" = "Percent"
 )
 
@@ -679,7 +685,7 @@ create_gt_table_v1(
 
 
 ### Treatment
-The following table summarizes the distribution of thoracic cancer treatments including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases. 
+The following table summarizes the distribution of thoracic cancer treatment types including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases. 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_tx <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_tx_summary_person_metrics.sql"
@@ -716,17 +722,22 @@ thr_tx_long <- thr_tx %>%
 thr_tx_long$treatment_type<-NULL
 ```
 ```{r, message=FALSE, warning=FALSE}
-# Display treatment data in an interactive table
-DT::datatable(thr_tx_long %>% 
-              select(treatment_name, total_patients, percentage),
-              colnames = c("Treatment", "Patient Count", "Percentage (%)"),
-              options = list(
-                pageLength = 10,
-                searching = FALSE,
-                ordering = TRUE,
-                dom = 'rtip'
-              ),
-              rownames = FALSE) 
+
+tx_thr=thr_tx_long %>% 
+              select(treatment_name, total_patients, percentage)
+
+labels <- c(
+  "Description"="Treatment",
+  "Patinet_Counts" = "Patient Count",
+  "percentage"="Percentage (%)"
+)
+
+create_gt_table_v1(
+  data = tx_thr, 
+  columns = c( "treatment_name", "total_patients", "percentage"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text = "")
 ```
 ### Social History 
 From  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic cancer patients, the majority didn't have any records of smoking status and alcohol use in Neural Frame. 
@@ -752,7 +763,7 @@ smoking_data <- smoking_data %>%
 smoking_data=smoking_data %>% select (Description , Patinet_Counts)%>% arrange(desc(Patinet_Counts))
 labels <- c(
   "Description"="Description",
-  "Patinet_Counts" = "Number of Patients"
+  "Patinet_Counts" = "Patient Count"
 )
 
 create_gt_table_v1(
@@ -772,7 +783,7 @@ alcohol_data <- alcohol_data %>%
 alcohol_data=alcohol_data %>% select (Description , Patinet_Counts)%>% arrange(desc(Patinet_Counts))
 labels <- c(
   "Description"="Description",
-  "Patinet_Counts" = "Number of Patients"
+  "Patinet_Counts" = "Patient Count"
 )
 ```
 ```{r alcohol,message=FALSE, warning=FALSE }
@@ -785,7 +796,7 @@ create_gt_table_v1(
 ```
 
 #### Smoking Status (OMOP)
-The information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patinets diagnosed with lung, bronchus, or thymus cancers, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow. 
+The information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow. 
 
 ```{r , message=FALSE, warning=FALSE, results='hide'}
 sql_sm_omop <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_smoking_omop.sql"
@@ -799,7 +810,7 @@ smk_na= sum_thr - sum(thr_smk$unique_person_count)
 smoking_omop=thr_smk %>% select (smoking_status , unique_person_count)%>% arrange(desc(unique_person_count))
 labels <- c(
   "smoking_status"="Description",
-  "unique_person_count" = "Number of Patients"
+  "unique_person_count" = "Patient Count"
 )
 
 create_gt_table_v1(
@@ -811,7 +822,7 @@ create_gt_table_v1(
 ```
 ### Follow-up Outcome 
 
-```{r load recurrence, message=FALSE, warning=FALSE }
+```{r load recurrence, message=FALSE, warning=FALSE, include='FALSE' }
 library(readr)
 
 recurrence <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/may_2025/data/recurrenceType_category.csv")
@@ -821,7 +832,7 @@ head(recurrence)
 recurrence$patient_count<-NULL
 colnames(recurrence)<-c("recurrencetype1st","recurrencetype1stdescription", "recurrence_Type_category")
 ```
-```{r thoracic recurrence, message=FALSE, warning=FALSE, results='hide'}
+```{r thoracic recurrence, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
 sql_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_recurrence.sql"
 thr_rec <- fetch_data_from_sql_file(sql_rec, yaml_file_path)
 thr_rec=thr_rec %>% inner_join(recurrence, by="recurrencetype1stdescription")
@@ -832,7 +843,7 @@ thr_rec=thr_rec %>% arrange(desc(total))
 
 labels <- c(
   "recurrence_Type_category"="Recurrence Type Category",
-  "total" = "Number of Patients"
+  "total" = "Patient Count"
 )
 
 create_gt_table_v1(
