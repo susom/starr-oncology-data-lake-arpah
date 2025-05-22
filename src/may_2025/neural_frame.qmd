@@ -11,6 +11,7 @@ source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encodi
 yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
 library(RColorBrewer)  # Add RColorBrewer package
 ```
+
 ```{r nf denominator, message=FALSE, warning=FALSE, results='hide'}
 sql_den<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_den.sql"
 nf_den <- fetch_data_from_sql_file(sql_den, yaml_file_path)
@@ -38,7 +39,7 @@ Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer c
 ::: {.column width="50%"}
 ### 📊 Data Volume 
 - Patients Count:  `r format(nf_den$unique_person_count[1], big.mark = ",")`
-- Patients with Complete Cases: `r format(case$unique_person_count_case[case$nfcasestatus=="Completed"], big.mark = ",")`
+- Patients with Completed Cases: `r format(case$unique_person_count_case[case$nfcasestatus=="Completed"], big.mark = ",")`
 :::
 
 ::: {.column width="50%"}
@@ -101,6 +102,7 @@ This visualization summarizes the characteristics of thoracic cancer cases by:
 ### Cases & Diagnoses
 
 ## Case Status
+Cases are defined as completed cases
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_thr_case<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_case_status_person_metrics.sql"
 thr_case <- fetch_data_from_sql_file(sql_thr_case, yaml_file_path)
@@ -134,7 +136,7 @@ thr_den_c
 sum_thr_c=thr_den_c$unique_thoracic_cancer_pts
 sum_thr=thr_den$unique_thoracic_cancer_pts
 ```
-As of May 2025, there are  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients with `r format(case_thr$Percentage[case_thr$Status=="Completed"], big.mark = ",")` % complete cases. 
+As of May 2025, there are  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients with `r format(case_thr$Percentage[case_thr$Status=="Completed"], big.mark = ",")` % completed cases. 
 
 
 
@@ -160,6 +162,8 @@ ggplot(case_thr, aes(x = "", y = Percentage, fill = Status)) +
 ```
 
 ## Patient Summary by Diagnosis Year 
+The following distribution summarizes the number of diagnosed thoracic patients over time. 
+
 ```{r dx year calculate, message=FALSE, warning=FALSE, results='hide'}
 sql_thr_yr<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_dx_year_person_metrics.sql"
 thr_yr <- fetch_data_from_sql_file(sql_thr_yr, yaml_file_path)
@@ -170,7 +174,7 @@ thr_yr_grouped <- thr_yr %>%
   group_by(dx_year) %>%
   summarize(patient_count = sum(patient_count)) %>%
   mutate(percentage = round(100 * patient_count / sum(patient_count), 1),
-         label = paste0(percentage, "%")) %>%
+         label = paste0(percentage)) %>%
   arrange(dx_year)
 ```
 ```{r dx year barplot, message=FALSE, warning=FALSE}
@@ -194,7 +198,7 @@ p <- p %>%
       tickangle = 45
     ),
     yaxis = list(
-      title = "Patient Count"
+      title = "Unique Patient Count"
     ),
     showlegend = FALSE
   )
@@ -228,7 +232,6 @@ Thoracic cancer is categorized into detailed histologic groups using ICD-O-3 cod
 
 - **Other/Unspecified Histologies:** Any histology not falling into the categories above.
 
-Note: The following analysis excluded unspecified histology for simplicity and filtered out any groups with less than 20 cases. 
 
 
 ```{r icdo mapping, message=FALSE, warning=FALSE, results='hide'}
@@ -289,8 +292,8 @@ thr_his <- thr_his %>%
   ))
 
   #table(thr_his$histology, thr_his$histology_group)
-  thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
-  tab_res=thr_his %>% filter (patient_count>20)%>% group_by(histology)%>% summarise(total=sum(patient_count))
+  #thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
+  tab_res=thr_his %>% group_by(histology)%>% summarise(total=sum(patient_count))
   tab_res=tab_res %>% mutate(perc=round(100*(total/sum_thr_c),1)) %>%  mutate(count_perc = sprintf("%s (%s%%)", format(total, big.mark = ","), perc))
 ```
 
@@ -298,7 +301,7 @@ thr_his <- thr_his %>%
 
 
 ## Thoracic Cancer Histology Distribution
-From `r format(thr_den_c$unique_thoracic_cancer_pts[1], big.mark = ",")` thoracic patients with complete cases, the majority `r format(tab_res$total[tab_res$histology=="NSCLC"], big.mark = ",")` were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC). 
+From `r format(thr_den_c$unique_thoracic_cancer_pts[1], big.mark = ",")` thoracic patients with completed cases, the majority `r format(tab_res$total[tab_res$histology=="NSCLC"], big.mark = ",")` were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC). 
 
 ::: {style="text-align: center"}
 ```{r histology output, message=FALSE, warning=FALSE}
@@ -311,7 +314,7 @@ create_gt_table_v3(
   columns = c( "histology", "count_perc"), 
   labels = labels, 
    subtitle_text = "",
-  footnote_text = "")
+  footnote_text = "Note: Patients could have multiple histologies")
 ```
 :::
 
@@ -319,6 +322,11 @@ create_gt_table_v3(
 
 ## Distribution of Thoracic Cancer Cases by Histology Types
 
+**Note:** The following analysis excluded unspecified histology for simplicity and filtered out any groups with less than 20 cases. 
+
+::: {.panel-tabset}
+
+### Bar Plot
 The following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, and Other Specified) and their corresponding histological subtypes. 
 
 - Click legend items to show/hide specific main categories (NSCLC, SCLC, or Other Specified)
@@ -386,6 +394,7 @@ plot_ly(summary_plot,
 ## Distribution of Thoracic Cancer Cases by Histology Types
 The following dual-layered classification system by specific histology and then by broader clinical grouping (NSCLC, SCLC, and Other Specified) represents the thoracic cancer distribution by histology grouping. 
 
+### Sunburst Plot
 
 ```{r histology sunburst,message=FALSE, warning=FALSE}
   thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
@@ -447,6 +456,9 @@ p2 <- plot_ly(
 # Display the sunburst chart
 p2
 ```
+
+:::
+
 ```{r histology table, message=FALSE, warning=FALSE}
 thr_his=thr_his %>% filter (patient_count>20)
 library(DT)
@@ -645,7 +657,7 @@ DT::datatable(
 )
 ```
 ## Summary of Staging of Thoracic Cancer Patients
-The following table summarizes the staging status of thoracic patients with complete cases. 
+The following table summarizes the staging status of thoracic patients with completed cases. 
 ```{r staging counts, message=FALSE, warning=FALSE, results='hide'}
 sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_stage_person_metrics.sql"
 thr_stg <- fetch_data_from_sql_file(sql_stg, yaml_file_path)
@@ -774,6 +786,15 @@ create_gt_table_v1(
   footnote_text = "Note: sum of sungroups exceeds the denominator due to multiple responses by patients")
 ```
 
+#### Smoking Status (OMOP)
+The information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow. 
+
+```{r , message=FALSE, warning=FALSE, results='hide'}
+sql_sm_omop <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_smoking_omop.sql"
+thr_smk <- fetch_data_from_sql_file(sql_sm_omop, yaml_file_path)
+smk_na= sum_thr - sum(thr_smk$unique_person_count)
+```
+
 
 #### Alcohol Use (Neural Frame)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -795,14 +816,7 @@ create_gt_table_v1(
   footnote_text = "Note: sum of sungroups exceeds the denominator due to multiple responses by patients")
 ```
 
-#### Smoking Status (OMOP)
-The information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow. 
 
-```{r , message=FALSE, warning=FALSE, results='hide'}
-sql_sm_omop <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_smoking_omop.sql"
-thr_smk <- fetch_data_from_sql_file(sql_sm_omop, yaml_file_path)
-smk_na= sum_thr - sum(thr_smk$unique_person_count)
-```
 
 
 ```{r smoking omop,message=FALSE, warning=FALSE }
@@ -821,7 +835,7 @@ create_gt_table_v1(
   footnote_text = paste0("Note: ", format(smk_na, big.mark = ","), " patients didn't have smoking concept ID in the observation table"))
 ```
 ### Follow-up Outcome 
-
+The following table summarizes the distribution of thoracic cancer recurrence status with completed cases. 
 ```{r load recurrence, message=FALSE, warning=FALSE, include='FALSE' }
 library(readr)
 

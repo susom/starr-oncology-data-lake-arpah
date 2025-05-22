@@ -13,7 +13,7 @@ FROM (
     
     UNION ALL 
     
-    SELECT COUNT(DISTINCT person_id) AS counts_pts, 'Image Occurrence' AS data_set 
+    SELECT COUNT(DISTINCT person_id) AS counts_pts, 'With Image Occurrence' AS data_set 
     FROM `@oncology_prod.@oncology_omop.image_occurrence`
     
     UNION ALL
@@ -31,7 +31,7 @@ FROM (
     ON p.person_source_value = phi.stanford_patient_uid
 
     UNION ALL
-    SELECT COUNT(DISTINCT p.person_id) AS counts_pts, 'Tumor Board' AS data_set
+    SELECT COUNT(DISTINCT p.person_id) AS counts_pts, 'With Tumor Board Encounter' AS data_set
     FROM `@oncology_prod.@oncology_omop.person` p
     INNER JOIN `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort` tb
     ON p.person_source_value = tb.person_source_value

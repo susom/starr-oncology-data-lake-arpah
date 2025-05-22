@@ -36,8 +36,8 @@ imaging_data AS (
     FROM 
           `@oncology_prod.@oncology_omop.image_occurrence`
     WHERE 
-        modality_source_value IS NOT NULL
-),
+        modality_source_value IS NOT NULL and modality_source_value not in ('PR', 'KO', 'REG', 'SR')
+) , 
 thoracic_cancer_patients AS ( --thoracic cancer 
     SELECT 
         person_id

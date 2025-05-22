@@ -23,7 +23,7 @@ from `@oncology_prod.@oncology_philips.onc_philips_mtb_aberrations` abr
 inner join thoracic_pts using(stanford_patient_uid)
 where hgnc_gene in ("KRAS") and stanford_hgvs_protein is not null
 group by 1),
-change_aa as (select stanford_aa_change, count(distinct(stanford_patient_uid)) as n_pts, 'aa_change' as flag
+change_aa as (select stanford_aa_change, count(distinct(stanford_patient_uid)) as n_pts, 'amino_acid_changes' as flag
 from `@oncology_prod.@oncology_philips.onc_philips_mtb_aberrations` abr
 inner join thoracic_pts using(stanford_patient_uid)
 where hgnc_gene in ("KRAS") and stanford_aa_change is not null
