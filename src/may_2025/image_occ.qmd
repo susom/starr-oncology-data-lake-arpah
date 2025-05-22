@@ -296,6 +296,7 @@ DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength 
 
 ```
 ### Thoracic Cancer 
+Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
 sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_thoracic/image_occ_person_thr.sql"

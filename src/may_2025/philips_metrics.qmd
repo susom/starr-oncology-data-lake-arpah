@@ -50,9 +50,9 @@ As of May 2025, `r format(sum(test_type$test_type_counts), big.mark=",")` STAMP 
 ```{r, message=FALSE, warning=FALSE}
 labels <- c(
   "test_type"="Test Types",
-  "test_type_counts" = "n_tests",
-   "min_order_ym" = "min_date",
-   "max_order_ym"= "max_date"
+  "test_type_counts" = "N",
+   "min_order_ym" = "Min_Date",
+   "max_order_ym"= "Max_Date"
 )
 
 create_gt_table_v1(
@@ -110,37 +110,9 @@ site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
 
 ```
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-# Calculate percentages using numeric values
-site <- site %>% filter (n_pts>30) %>%
-  mutate(percentage =round( (n_pts/as.numeric(ph_den$counts_pts)) * 100))
-
-# Create interactive horizontal bar plot with plotly
-plot_ly(site, 
-        y = ~reorder(site_display, n_pts), # switched to y and reordered
-        x = ~n_pts, # switched to x
-        type = "bar",
-        orientation = 'h', # make bars horizontal
-        marker = list(color = brewer.pal(12, "Set3"))) %>%
-  layout(
-    title = "Distribution of Sites in ISPM Database",
-    yaxis = list( # switched axis properties
-      title = "",
-      tickangle = 0 # removed angle since it's now on y-axis
-    ),
-    xaxis = list(title = "Patient Count"), # switched axis properties
-    hoverlabel = list(bgcolor = "white"),
-    hovertemplate = paste(
-      "<b>%{y}</b><br>", # switched to %{y}
-      "Percentage: %{x:.1f}%<br>", # switched to %{x}
-      "<extra></extra>"
-    ),
-    margin = list(l = 150) # added left margin for site labels
-  )
-```
 
 ### All Cancer Types
-The following analysis displays genes that have positive aberration for more than 100 patients. 
+The following analysis displays genes that have positive aberration for more than 100 patients. (ASK Jose)
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
 gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_chrom_genes.sql"
@@ -160,10 +132,12 @@ gene <- gene %>%
   mutate(pts_percent = round((n_pts/as.numeric(abr_den$n_pts))*100, 1))
 ```
 
+::: {.panel-tabset}
 
-## HGNC Gene Distribution
+### Barplot
+HGNC Gene Distribution:
 
-```{r,message=FALSE, warning=FALSE}
+```{r plot 1,message=FALSE, warning=FALSE}
 ## explain the top genes 
 ## table filtering count>10
 df_bar <- gene %>%
@@ -182,7 +156,7 @@ plot_ly(df_bar,
 ```
 
  ## Summary Table of HGNC Gene Distribution
-```{r, message=FALSE, warning=FALSE }
+```{r table1, message=FALSE, warning=FALSE }
 # Update the datatable to include percentage
 DT::datatable(
   gene %>% 
@@ -201,7 +175,7 @@ DT::datatable(
 ) %>%
   DT::formatStyle(
     'Patient Count',
-    background = DT::styleColorBar(gene$n_pts, '#FB8072'),
+    background = DT::styleColorBar(gene$n_pts, 'lightgray'),
     backgroundSize = '98% 88%',
     backgroundRepeat = 'no-repeat',
     backgroundPosition = 'center'
@@ -209,9 +183,10 @@ DT::datatable(
   DT::formatRound('Percentage', digits = 1)
 ```
 
-## Genes Distribution by Chromosomes 
+### Heatmap
+Genes Distribution by Chromosomes 
 
-```{r, message=FALSE, warning=FALSE}
+```{r plot 3, message=FALSE, warning=FALSE}
   filtered_gene_ch <- gene_ch %>%
   filter(!is.na(hgnc_gene), n_pts > 100) %>%
   mutate(
@@ -265,9 +240,10 @@ ggplotly(p,
 
 
 
-## Gene Distribution across Chromosomes 
+### Jitter Plot
+Gene Distribution across Chromosomes:
 
-```{r, message=FALSE, warning=FALSE}
+```{r plot main, message=FALSE, warning=FALSE}
   p <- ggplot(filtered_gene_ch, 
      aes(x = n_pts, 
          y = chrom,
@@ -313,7 +289,7 @@ ggplotly(p,
         # width = 1200) 
 ```
 
-
+:::
 
 ## Distribution of Genes by Aberration Type 
 
@@ -329,7 +305,7 @@ gene_order <- mutation_data %>%
  mutate(total = sum(n_pts))
 ```
 
-
+(ASK Jose)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 gene_order <- mutation_data %>%
   group_by(hgnc_gene) %>%
@@ -388,15 +364,16 @@ gene_order %>%
       "<b>Mutation:</b> %{x}<br>",
       "<b>Count:</b> %{z}<br>",
       "<extra></extra>"
-    )
+    ),
+    colorbar = list(title = "Patient Count")
   ) %>%
   layout(
     title = "Mutation Type Distribution Across Genes",
     xaxis = list(title = "Mutation Type"),
     yaxis = list(title = "Gene"),
-    height = 800,
-    margin = list(l = 150, r = 50, t = 50, b = 100)
-  )
+    height = 800
+    )
+  
 ```
 
 ### Thoracic Cancer 
@@ -477,41 +454,35 @@ sql_thr_kras<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philip
 thr_kras=fetch_data_from_sql_file(sql_thr_kras, yaml_file_path)
 thr_kras
 table(thr_kras$flag)
-kras_aa=thr_kras %>% filter(flag=='aa_change')%>% arrange(desc(n_pts))
-kras_aa$flag=NA
+thr_kras=thr_kras%>% arrange(desc(n_pts))
+
 ```
-
-```{r kras table, message=FALSE, warning=FALSE}
-kras_aa=kras_aa %>% filter(n_pts>10)
-label <- c(
-  "stanford_hgvs_coding" = "Amino acid change",
-  "n_pts" = "Patient Count"
-)
-
-create_gt_table_v1(
-  data = kras_aa, 
-  columns = c( "stanford_hgvs_coding", "n_pts"), 
-  labels = label, 
-   subtitle_text = "",
-  footnote_text = "")
-
-
-library(ggplot2)
+(ASK Jose)
+```{r kras plot, message=FALSE, warning=FALSE}
+library(plotly)
 library(dplyr)
+library(RColorBrewer)
 
 thr_kras_filtered <- thr_kras %>% filter(n_pts > 10)
 
-ggplot(thr_kras_filtered, aes(y = reorder(stanford_hgvs_coding, n_pts), x = n_pts))+
-  geom_bar(stat = "identity", fill = "#8B0000") +
-  geom_text(aes(label = n_pts), 
-            position = position_stack(vjust = 0.8), 
-            color = "white", 
-            size = 4) +
-  facet_wrap(~ flag, scales = "free_y", nrow=3) +
-  labs(
-    title = "KRAS Mutations: Patient Count Distribution by HGVS and Amino Acid",
-    y = "",
-    x= "Patient Count"
-  )+theme_bw()
+# Get the Set3 color palette
+color_palette <- brewer.pal(n = 5, name = "Set3")
+
+plot_ly(data = thr_kras_filtered,
+        y = ~reorder(stanford_hgvs_coding, n_pts),
+        x = ~n_pts,
+        color = ~flag,
+        type = "bar",
+        colors = color_palette,  # Apply the color palette
+        text = ~n_pts,
+        textposition = "inside",
+        insidetextanchor = "start",
+        orientation = "h") %>%
+  layout(barmode = "group",
+         title = "KRAS Mutations: Patient Count Distribution by HGVS and Amino Acid",
+         xaxis = list(title = "Patient Count"),
+         yaxis = list(title = ""),
+         margin = list(l = 150, r = 50, t = 80, b = 80),
+         legend = list(x = 0.8, y = 0.9))
 ```
 :::
