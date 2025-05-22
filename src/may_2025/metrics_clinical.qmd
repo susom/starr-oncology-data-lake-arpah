@@ -59,22 +59,46 @@ folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_boar
 res_tb <- fetch_data_from_sql_file(folder_path_tb, yaml_file_path)
 res_tb
 ```
-
 ```{r, message=FALSE, warning=FALSE}
-## summary table of dens
+# Modify the data frame to show hierarchy
 labels <- c(
   "data_set"="Data Source",
-  "counts_pts" = "Number of Patients",
-   "percentage" = "Percent"
+  "counts_pts" = "Number of Patients"
 )
 
-create_gt_table_v1(
-  data = den_res, 
-  columns = c( "data_set","counts_pts", "percentage"), 
-  labels = labels, 
-   subtitle_text = "",
-  footnote_text = "")
+den_res_formatted <- den_res %>%
+  mutate(
+    data_set = case_when(
+      data_set == "With Image Occurrence" ~ "  • With Image Occurrence",
+      data_set == "With Tumor Board Encounter" ~ "  • With Tumor Board Encounter",
+      TRUE ~ data_set
+    )
+  ) %>%
+  # Ensure proper ordering
+  slice(match(c(
+    "Oncology OMOP (Cohort)",
+    "  • With Tumor Board Encounter",
+    "  • With Image Occurrence",
+    "Neural Frame",
+    "Philips ISPM"
+  ), data_set))
+
+
+  # Create the formatted table
+  create_gt_table_v1(
+    data = den_res_formatted,
+    columns = c("data_set", "counts_pts"),
+    labels = labels
+  ) %>%
+  tab_style(
+    style = cell_text(indent = px(20)),
+    locations = cells_body(
+      columns = "data_set",
+      rows = str_detect(data_set, "^\\s+•")
+    )
+  )
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/arpah_overlap_metrics.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
@@ -92,7 +116,7 @@ The following plot represents patients overlap between different data sources:
 
 For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the bar above shows how many patients are in both sources.
 
-```{r, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
+```{r upset plot, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
 
 library(UpSetR)
 library(tidyr)
@@ -133,6 +157,62 @@ upset(
   #text.scale = c(1.3, 1.3, 1)  # Increase text size for better readability
 )
 
+```
+```{r, include='FALSE'}
+# Create the UpSet plot with improved styling
+library(ggplot2)
+library(ggupset)
+library(dplyr)
+library(purrr)
+
+# Define all data sources
+all_sources <- c("Oncology OMOP", "Neural Frame", "Philips ISPM", "Image Occurrence", "Tumor Board")
+
+# Generate all possible combinations (power set, except empty set)
+all_combos <- map(1:length(all_sources), ~combn(all_sources, ., simplify = FALSE)) %>%
+  unlist(recursive = FALSE)
+
+# Convert to list-column format for joining
+all_combos_df <- tibble(
+  sources = lapply(all_combos, sort)
+)
+
+# Your observed data
+upset_data <- res %>%
+  group_by(person_id) %>%
+  summarize(sources = list(sort(data_set)), .groups = "drop") %>%
+  count(sources, name = "n")
+
+# Join with all possible combinations, fill missing with zero
+upset_data_full <- all_combos_df %>%
+  left_join(upset_data, by = "sources") %>%
+  mutate(n = replace_na(n, 0)) %>%
+  arrange(desc(n))
+
+# Plot
+ggplot(upset_data_full, aes(x = sources)) +
+  geom_bar(aes(y = n), stat = "identity", fill = "#8B0000", width = 0.9) +
+  scale_x_upset(
+    sets = all_sources,
+    n_intersections = 32
+  ) +
+  geom_text(aes(y = n, label = n), vjust = -0.4, size = 4) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank(),
+    axis.title.x = element_blank(),
+    plot.margin = margin(t = 20, r = 20, b = 50, l = 20)
+  ) +
+  labs(
+    title = "Patient Distribution Across All Data Source Combinations",
+    y = "Number of Patients"
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14)
+  )
 ```
 
 

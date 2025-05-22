@@ -17,7 +17,7 @@ FROM (
     FROM 
         `@oncology_prod.@oncology_omop.image_occurrence`
     WHERE 
-        modality_source_value IS NOT NULL
+        modality_source_value IS NOT NULL and modality_source_value not in ('PR', 'KO', 'REG', 'SR')
 ) AS distinct_series
 GROUP BY 
     modality_source_value

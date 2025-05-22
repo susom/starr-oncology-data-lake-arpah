@@ -469,6 +469,49 @@ plot_ly() %>%
     ),showlegend = TRUE
   )
 ```
-## KRAS 
+## KRAS Mutations
+The KRAS gene is a critical component in cell signaling pathways that regulate cell growth and division, and mutations in this gene are frequently associated with various cancers including thoracic cancers.
+Among patients with thoracic cancer with mutations in the KRAS gene, the most common amino acid alterations occurring are listed as follow:
+```{r kras load, message=FALSE, warning=FALSE, results='hide'}
+sql_thr_kras<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_thr_kras.sql"
+thr_kras=fetch_data_from_sql_file(sql_thr_kras, yaml_file_path)
+thr_kras
+table(thr_kras$flag)
+kras_aa=thr_kras %>% filter(flag=='aa_change')%>% arrange(desc(n_pts))
+kras_aa$flag=NA
+```
 
+```{r kras table, message=FALSE, warning=FALSE}
+kras_aa=kras_aa %>% filter(n_pts>10)
+label <- c(
+  "stanford_hgvs_coding" = "Amino acid change",
+  "n_pts" = "Patient Count"
+)
+
+create_gt_table_v1(
+  data = kras_aa, 
+  columns = c( "stanford_hgvs_coding", "n_pts"), 
+  labels = label, 
+   subtitle_text = "",
+  footnote_text = "")
+
+
+library(ggplot2)
+library(dplyr)
+
+thr_kras_filtered <- thr_kras %>% filter(n_pts > 10)
+
+ggplot(thr_kras_filtered, aes(y = reorder(stanford_hgvs_coding, n_pts), x = n_pts))+
+  geom_bar(stat = "identity", fill = "#8B0000") +
+  geom_text(aes(label = n_pts), 
+            position = position_stack(vjust = 0.8), 
+            color = "white", 
+            size = 4) +
+  facet_wrap(~ flag, scales = "free_y", nrow=3) +
+  labs(
+    title = "KRAS Mutations: Patient Count Distribution by HGVS and Amino Acid",
+    y = "",
+    x= "Patient Count"
+  )+theme_bw()
+```
 :::
