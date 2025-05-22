@@ -102,7 +102,7 @@ This visualization summarizes the characteristics of thoracic cancer cases by:
 ### Cases & Diagnoses
 
 ## Case Status
-Cases are defined as completed cases
+Cases are defined as completed (TBC)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_thr_case<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_case_status_person_metrics.sql"
 thr_case <- fetch_data_from_sql_file(sql_thr_case, yaml_file_path)
@@ -292,7 +292,6 @@ thr_his <- thr_his %>%
   ))
 
   #table(thr_his$histology, thr_his$histology_group)
-  #thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
   tab_res=thr_his %>% group_by(histology)%>% summarise(total=sum(patient_count))
   tab_res=tab_res %>% mutate(perc=round(100*(total/sum_thr_c),1)) %>%  mutate(count_perc = sprintf("%s (%s%%)", format(total, big.mark = ","), perc))
 ```
@@ -327,15 +326,15 @@ create_gt_table_v3(
 ::: {.panel-tabset}
 
 ### Bar Plot
-The following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, and Other Specified) and their corresponding histological subtypes. 
+## Distribution of Thoracic Cancer Cases by Histology Types
+The following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, Other Specified, and Other Unspecified) and their corresponding histological subtypes. 
 
-- Click legend items to show/hide specific main categories (NSCLC, SCLC, or Other Specified)
+- Click legend items to show/hide specific main categories 
 - Hover over bars to see detailed information
-- Double-click legend items to isolate a single category and  double-click again to restore all categories
+- Double-click legend items to isolate a single category o to restore all categories
 
 ```{r histology barplot, message=FALSE, warning=FALSE}
-  #
-thr_his=thr_his %>% filter (patient_count>20)
+    thr_his=thr_his %>% filter(histology!="Other/Not Specified")
 
 summary_plot <- thr_his %>%
   # First group by main category
@@ -374,7 +373,7 @@ plot_ly(summary_plot,
     title = "",
     xaxis = list(title = "Patient Count"),
     yaxis = list(
-      title = "",
+      title = " Distribution of Thoracic Cancer Cases by Histology Types",
       automargin = TRUE,
       categoryorder = "total ascending"  # This will sort the y-axis by total values
     ),
@@ -391,16 +390,43 @@ plot_ly(summary_plot,
 ```
 
 
-## Distribution of Thoracic Cancer Cases by Histology Types
-The following dual-layered classification system by specific histology and then by broader clinical grouping (NSCLC, SCLC, and Other Specified) represents the thoracic cancer distribution by histology grouping. 
+```{r histology table, message=FALSE, warning=FALSE}
+#thr_his=thr_his %>% filter (patient_count>20)
+library(DT)
+
+# Create summary table
+histology_summary <- thr_his %>%
+  group_by(histology, histology_group) %>%
+  summarize(
+    Patient_Count = sum(patient_count),
+    Percentage = round(sum(patient_count) / sum(thr_his$patient_count) * 100, 2)
+  ) %>%
+  arrange(desc(Patient_Count))
+
+# Display interactive table
+datatable(histology_summary,
+          colnames = c("Histology", "Histology Group", "Patient Count", "Percentage (%)"),
+          options = list(
+            pageLength = 10,
+            dom = 'Bfrtip',
+            ordering = TRUE
+          ),
+          rownames = FALSE) %>%
+  formatStyle('Percentage',
+             background = styleColorBar(histology_summary$Percentage, "lightgray"),
+             backgroundSize = '98% 88%',
+             backgroundRepeat = 'no-repeat',
+             backgroundPosition = 'center')
+```
+
 
 ### Sunburst Plot
 
+The following dual-layered classification system by specific histology and then by broader clinical grouping (NSCLC, SCLC, Other Specified, and Other unspecified) represents the thoracic cancer distribution by histology grouping. 
 ```{r histology sunburst,message=FALSE, warning=FALSE}
-  thr_his=thr_his %>% filter(histology_group!="Other/Not Specified")
 
 # Create hierarchical data for sunburst chart
-sunburst_data <- thr_his %>% filter (patient_count>20)%>%
+sunburst_data <- thr_his %>% 
   group_by(histology, histology_group) %>%
   summarize(value = sum(patient_count)) %>%
   ungroup()
@@ -457,43 +483,15 @@ p2 <- plot_ly(
 p2
 ```
 
-:::
-
-```{r histology table, message=FALSE, warning=FALSE}
-thr_his=thr_his %>% filter (patient_count>20)
-library(DT)
-
-# Create summary table
-histology_summary <- thr_his %>%
-  group_by(histology, histology_group) %>%
-  summarize(
-    Patient_Count = sum(patient_count),
-    Percentage = round(sum(patient_count) / sum(thr_his$patient_count) * 100, 2)
-  ) %>%
-  arrange(desc(Patient_Count))
-
-# Display interactive table
-datatable(histology_summary,
-          colnames = c("Histology", "Histology Group", "Patient Count", "Percentage (%)"),
-          options = list(
-            pageLength = 10,
-            dom = 'Bfrtip',
-            ordering = TRUE
-          ),
-          rownames = FALSE) %>%
-  formatStyle('Percentage',
-             background = styleColorBar(histology_summary$Percentage, "lightgray"),
-             backgroundSize = '98% 88%',
-             backgroundRepeat = 'no-repeat',
-             backgroundPosition = 'center')
-```
 
 
-## Detailed Distribution of Thoracic Cancer Subcategories
+
+### Detailed Pie
+Detailed Distribution of Thoracic Cancer Subcategories:
+
 ```{r piechart with barplots combined, message=FALSE, warning=FALSE}
 # Create main summary
-thr_his_res=thr_his %>% filter (patient_count>20)
-hist_summary <- thr_his_res %>%
+hist_summary <- thr_his %>%
   group_by(histology_group) %>%
   summarize(patient_count = sum(patient_count)) %>%
   mutate(percentage = round(100 * patient_count/sum(patient_count), 1)) %>%
@@ -521,7 +519,6 @@ subtype_data <- thr_his %>% filter (patient_count>20) %>%
   summarize(patient_count = sum(patient_count)) %>%
   mutate(percentage = round(100 * patient_count/sum(patient_count), 1))
 
-# Add event handling for switching between views
 p <- onRender(p, "
   function(el, x) {
     var mainPlot = x.mainPlot;
@@ -535,32 +532,58 @@ p <- onRender(p, "
         
         if (filteredData) {
           currentView = 'bar';
+          
+          // Sort data by patient count (descending)
+          var indices = Array.from(Array(filteredData.y.length).keys())
+            .sort((a, b) => filteredData.y[b] - filteredData.y[a]);
+          
+          // Reorder all arrays using the sorted indices
+          var sortedX = indices.map(i => filteredData.x[i]);
+          var sortedY = indices.map(i => filteredData.y[i]);
+          var sortedText = indices.map(i => filteredData.text[i]);
+          
+          // Function to wrap text
+          function wrapText(text, width) {
+            return text.replace(
+              new RegExp(`(?![^\\n]{1,${width}}$)([^\\n]{1,${width}})\\s`, 'g'),
+              '$1<br>'
+            );
+          }
+          
+          // Wrap the text labels
+          var wrappedLabels = sortedX.map(label => wrapText(label, 30));
+          
           Plotly.newPlot(el, [{
             type: 'bar',
-            x: filteredData.x,
-            y: filteredData.y,
-            text: filteredData.text,
+            y: wrappedLabels,  // Use wrapped labels
+            x: sortedY,
+            text: sortedText,
             textposition: 'auto',
+            orientation: 'h',
             marker: {color: x.colors[0]}
           }], {
-            title: 'Detailed View: ' + selectedGroup + ' (Refresh the page to return)',
+            title: 'Detailed View: ' + selectedGroup + '(Refresh the page to return)',
             xaxis: {
-              title: '',
+              title: 'Patient Count',
               tickangle: ''
             },
-            yaxis: {title: 'Patient Count'},
+            yaxis: {
+              title: '',
+              automargin: true  // Ensure labels are fully visible
+            },
+            margin: {
+              l: 250  // Increase left margin to accommodate wrapped labels
+            },
             showlegend: false
           });
         }
       } else {
-        // Return to main pie chart view
         currentView = 'pie';
         Plotly.newPlot(el, mainPlot.data, mainPlot.layout);
       }
     });
   }
 ")
-
 # Prepare subgroup data
 subgroups <- lapply(unique(thr_his$histology_group), function(group) {
   data <- subtype_data %>%
@@ -582,15 +605,14 @@ p$x$mainPlot <- list(
   data = p$x$data,
   layout = p$x$layout
 )
-
-# Display the interactive plot
 p
+
 ```
 
 
 ```{r icdo code table, message=FALSE, warning=FALSE}
 # Create detailed summary table
-thr_his_summary <- thr_his_res %>%filter (patient_count>20)%>%
+thr_his_summary <- thr_his %>%
   group_by(histology, histology_group, histologicTypeIcdO3Description) %>%
   summarize(
     patient_count = sum(patient_count),
@@ -616,6 +638,9 @@ DT::datatable(tab_his,
               ),
               rownames = FALSE) 
 ```
+
+:::
+
 ## Cancer Staging 
 Cancer staging is categorized as:
 
