@@ -50,7 +50,7 @@ As of May 2025, `r format(sum(test_type$test_type_counts), big.mark=",")` STAMP 
 ```{r, message=FALSE, warning=FALSE}
 labels <- c(
   "test_type"="Test Types",
-  "test_type_counts" = "N",
+  "test_type_counts" = "N_Case",
    "min_order_ym" = "Min_Date",
    "max_order_ym"= "Max_Date"
 )
@@ -112,7 +112,7 @@ site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
 
 
 ### All Cancer Types
-The following analysis displays genes that have positive aberration for more than 100 patients. (ASK Jose)
+The following analysis displays the genes distribution of positive aberration above 200 cases. (ASK Jose)
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
 gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_chrom_genes.sql"
@@ -141,7 +141,7 @@ HGNC Gene Distribution:
 ## explain the top genes 
 ## table filtering count>10
 df_bar <- gene %>%
-  filter(n_pts > 500) %>%
+  filter(n_pts > 200) %>%
   arrange(desc(n_pts)) %>% mutate(hgnc_gene = forcats::fct_reorder(hgnc_gene, n_pts))
 
 plot_ly(df_bar,
@@ -188,7 +188,7 @@ Genes Distribution by Chromosomes
 
 ```{r plot 3, message=FALSE, warning=FALSE}
   filtered_gene_ch <- gene_ch %>%
-  filter(!is.na(hgnc_gene), n_pts > 100) %>%
+  filter(!is.na(hgnc_gene), n_pts > 200) %>%
   mutate(
     # Create proper chromosome ordering
     chrom = factor(chrom, 
