@@ -11,7 +11,7 @@ output: html
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 
 ```
 
@@ -19,7 +19,7 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.ym
 As of the May 2025 oncology OMOP population:
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-den <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/arpah_denominators.sql"
+den <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_denominators.sql"
 den_res <- fetch_data_from_sql_file(den, yaml_file_path)
 
 den_res=den_res %>% arrange(desc(percentage))
@@ -31,16 +31,19 @@ den_res=den_res %>% arrange(desc(percentage))
 The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
+   - [Neural Frame Metrics](may_2025/neural_frame.qmd)
 
   - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
 
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
-  These metrics have been generated using the latest Stanford OMOP data including the image occurrence,  Neural Frame data, and Philips ISPM.
+   - [Philips ISPM Metrics](may_2025/philips_metrics.qmd)
 
   - **OMOP Image Occurrence:** A record of image series from the Vendor Neutral Archive. This does not include Echocardiograms, Ophthalmology images, or Pathology slides at present. We are also only including image occurrences that can be linked to the clarity procedure order information.
+   - [Image Occurrence Metrics](may_2025/image_occ.qmd)
+
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board/tumor_board_person_metrics.sql"
+folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_person_metrics.sql"
 res_tb <- fetch_data_from_sql_file(folder_path_tb, yaml_file_path)
 res_tb
 ```
@@ -85,7 +88,7 @@ den_res_formatted <- den_res %>%
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/arpah_overlap_metrics.sql"
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_overlap_metrics.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
 head(res)
 ```
@@ -148,6 +151,8 @@ upset(
 ## Patient Distribution Across Data Sources
 ```{r ggupset, message=FALSE, warning=FALSE}
 library(ggplot2)
+library(ggupset)
+
 # Convert data to format needed for ggupset
 
 upset_data <- res %>%
@@ -176,56 +181,4 @@ ggplot(upset_data, aes(x = sources)) +
     axis.title = element_text(size = 14)
   )
 ```
-
-
-```{r, message=FALSE, warning=FALSE}
-
-library(ggvenn)
-library(RColorBrewer)
-
-overlap_matrix <- res %>%
-  mutate(value = TRUE) %>%
-  pivot_wider(
-    names_from = data_set,
-    values_from = value,
-    values_fill = FALSE
-  )
-
-# Prepare the data for Venn diagram
-venn_data <- list(
-  "Oncology OMOP" = overlap_matrix$person_id[overlap_matrix$`Oncology OMOP`],
-  "Neural Frame" = overlap_matrix$person_id[overlap_matrix$`Neural Frame`],
-  "Philips ISPM" = overlap_matrix$person_id[overlap_matrix$`Philips ISPM`],
-  "Image Occurrence" = overlap_matrix$person_id[overlap_matrix$`Image Occurrence`],
-  "Tumor Board" = overlap_matrix$person_id[overlap_matrix$`Tumor Board`]
-)
-
-# Create enhanced Venn diagram
-ggvenn(
-  venn_data,
-  fill_color = brewer.pal(5, "Set3"),
-  stroke_size = 0.5,
-  set_name_size = 5,
-  show_percentage = TRUE,
-  text_size = 3
-) +
-  theme_void() +
-  theme(
-    plot.margin = margin(10, 20, 20, 10)
-  ) +
-  labs(
-    title = "Data Source Overlap",
-    caption = "Numbers show patient counts and percentages"
-  ) +
-  theme(
-    plot.title = element_text(
-      size = 14,
-      hjust = 0.5,
-      margin = margin(b = 20)
-    )
-  )
-```
-
-
-
 

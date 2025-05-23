@@ -8,18 +8,18 @@ execute:
 
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 library(RColorBrewer)  # Add RColorBrewer package
 ```
 
 ```{r nf denominator, message=FALSE, warning=FALSE, results='hide'}
-sql_den<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_den.sql"
+sql_den<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_den.sql"
 nf_den <- fetch_data_from_sql_file(sql_den, yaml_file_path)
 nf_den
 ```
 
 ```{r case status all ,message=FALSE, warning=FALSE, results='hide'}
-sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_case_status.sql"
+sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_case_status.sql"
 case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
 head(case)
 case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
@@ -64,7 +64,7 @@ The thoracic cancer cohort includes patients diagnosed with primary malignancies
 
 
 ```{r case status thoracic, message=FALSE, warning=FALSE, results='hide'}
-sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_case_status.sql"
+sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_case_status.sql"
 case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
 head(case)
 case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
@@ -112,14 +112,14 @@ The Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Sta
 
 The case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_thr_case<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_case_status_person_metrics.sql"
+sql_thr_case<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_case_status_person_metrics.sql"
 thr_case <- fetch_data_from_sql_file(sql_thr_case, yaml_file_path)
 head(thr_case)
 thr_case$flag="Thoracic Cancer"
 thr_case$nfcasestatus[thr_case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
 
 
-sql_thr<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_denominator.sql"
+sql_thr<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_denominator.sql"
 
 thr_den=fetch_data_from_sql_file(sql_thr, yaml_file_path)
 thr_den
@@ -136,7 +136,7 @@ case_thr <- data.frame(
 ```
 ```{r denominators, message=FALSE, warning=FALSE, results='hide'}
 ## thoracic cancer with complete cases 
-sql_thr_c<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_denominator_complete.sql"
+sql_thr_c<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_denominator_complete.sql"
 
 thr_den_c=fetch_data_from_sql_file(sql_thr_c, yaml_file_path)
 thr_den_c
@@ -173,7 +173,7 @@ ggplot(case_thr, aes(x = "", y = Percentage, fill = Status)) +
 The following distribution summarizes the number of diagnosed thoracic patients over time. 
 
 ```{r dx year calculate, message=FALSE, warning=FALSE, results='hide'}
-sql_thr_yr<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_dx_year_person_metrics.sql"
+sql_thr_yr<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_completed_cases_dx_year_person_metrics.sql"
 thr_yr <- fetch_data_from_sql_file(sql_thr_yr, yaml_file_path)
 
 # Group years before 2000 and calculate percentages ##
@@ -251,7 +251,7 @@ library(dplyr)
 library(RColorBrewer)
 library(htmlwidgets)
 
-sql_thr_his <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_histology_person_metrics.sql"
+sql_thr_his <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_completed_cases_histology_person_metrics.sql"
 thr_his <- fetch_data_from_sql_file(sql_thr_his, yaml_file_path)
 
 # Add histology grouping
@@ -695,7 +695,7 @@ DT::datatable(
 ## Summary of Staging of Thoracic Cancer Patients
 The following table summarizes the staging status of thoracic patients with completed cases. 
 ```{r staging counts, message=FALSE, warning=FALSE, results='hide'}
-sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_stage_person_metrics.sql"
+sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_stage_person_metrics.sql"
 thr_stg <- fetch_data_from_sql_file(sql_stg, yaml_file_path)
 thr_stg
 
@@ -736,7 +736,7 @@ create_gt_table_v1(
 The following table summarizes the distribution of thoracic cancer treatment types including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases. 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_tx <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_completed_cases_tx_summary_person_metrics.sql"
+sql_tx <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_completed_cases_tx_summary_person_metrics.sql"
 thr_tx <- fetch_data_from_sql_file(sql_tx, yaml_file_path)
 
 
@@ -791,7 +791,7 @@ create_gt_table_v1(
 From  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic cancer patients, the majority didn't have any records of smoking status and alcohol use in Neural Frame. 
 
 ```{r load soh, message=FALSE, warning=FALSE, results='hide'}
-sql_soh <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_social_history.sql"
+sql_soh <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_social_history.sql"
 thr_soh <- fetch_data_from_sql_file(sql_soh, yaml_file_path)
 
 colnames(thr_soh)<-c("Description", "Patinet_Counts", "Status" )
@@ -826,7 +826,7 @@ create_gt_table_v1(
 The information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow. 
 
 ```{r , message=FALSE, warning=FALSE, results='hide'}
-sql_sm_omop <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_smoking_omop.sql"
+sql_sm_omop <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_smoking_omop.sql"
 thr_smk <- fetch_data_from_sql_file(sql_sm_omop, yaml_file_path)
 smk_na= sum_thr - sum(thr_smk$unique_person_count)
 ```
@@ -883,7 +883,7 @@ recurrence$patient_count<-NULL
 colnames(recurrence)<-c("recurrencetype1st","recurrencetype1stdescription", "recurrence_Type_category")
 ```
 ```{r thoracic recurrence, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
-sql_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_recurrence.sql"
+sql_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_recurrence.sql"
 thr_rec <- fetch_data_from_sql_file(sql_rec, yaml_file_path)
 thr_rec=thr_rec %>% inner_join(recurrence, by="recurrencetype1stdescription")
 thr_rec = thr_rec %>% select (-recurrenceType1st) %>% group_by(recurrence_Type_category) %>% summarise(total=sum(n_pts))%>% select(recurrence_Type_category, total)

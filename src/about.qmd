@@ -30,6 +30,7 @@ Neural Frame data encompasses research-eligible patients who have case records i
 We periodically release updated versions of our datasets to ensure that researchers have access to the most current and comprehensive data available. Below are the details of our latest dataset releases:
 
 * [February 2025](feb_2025/released_datasets.qmd)
+* [May 2025](may_2025/released_datasets.qmd)
 
 ## Data Privacy and Security
 
