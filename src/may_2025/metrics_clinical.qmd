@@ -165,6 +165,7 @@ upset(
 ```{r ggupset, message=FALSE, warning=FALSE}
 library(ggplot2)
 # Convert data to format needed for ggupset
+
 upset_data <- res %>%
   group_by(person_id) %>%
   summarize(sources = list(data_set)) %>%
@@ -192,6 +193,117 @@ ggplot(upset_data, aes(x = sources)) +
   )
 ```
 
+test
+```{r}
+library(ComplexUpset)
+library(ggplot2)
+# Prepare the data
+overlap_matrix <- res %>%
+  mutate(value = TRUE) %>%
+  pivot_wider(
+    names_from = data_set,
+    values_from = value,
+    values_fill = FALSE
+  )
+
+plot_data <- overlap_matrix %>% 
+  select(-person_id) %>%
+  mutate(across(everything(), as.logical))
+
+ComplexUpset::upset(
+    plot_data,
+    intersect = colnames(plot_data),
+    width_ratio = 0.1,
+    min_size = 10,
+    mode = 'inclusive_union',
+    intersections = 'all',
+    max_degree = 3,
+    base_annotations = list(
+      'Intersection Size' = (
+        intersection_size(
+          mode = 'inclusive_union',
+          text = list(size = 3),
+          aes = list(
+            label = expression(
+              sprintf(
+                "%d\n(%.1f%%)", 
+                intersection_size,
+                100 * intersection_size/nrow(plot_data)
+              )
+            )
+          )
+        )
+      )
+    ),
+    matrix = intersection_matrix(
+      geom = geom_point(size = 3.5),
+      segment = intersection_segment(color = "#8B0000")
+    ),
+    set_sizes = (
+      upset_set_size(geom = geom_bar(fill = "#8B0000")) +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    ),
+    themes = upset_modify_themes(
+      list(
+        'intersections_matrix' = theme(
+          text = element_text(size = 12),
+          panel.grid = element_blank()
+        )
+      )
+    ),
+    sort_sets = "descending",
+    sort_intersections = "descending"
+)
+```
+
+```{r}
+# Install and load required package
+if (!require("ggvenn")) {
+  install.packages("ggvenn")
+}
+library(ggvenn)
+overlap_matrix <- res %>%
+  mutate(value = TRUE) %>%
+  pivot_wider(
+    names_from = data_set,
+    values_from = value,
+    values_fill = FALSE
+  )
+
+# Prepare the data for Venn diagram
+venn_data <- list(
+  "Oncology OMOP" = overlap_matrix$person_id[overlap_matrix$`Oncology OMOP`],
+  "Neural Frame" = overlap_matrix$person_id[overlap_matrix$`Neural Frame`],
+  "Philips ISPM" = overlap_matrix$person_id[overlap_matrix$`Philips ISPM`],
+  "Image Occurrence" = overlap_matrix$person_id[overlap_matrix$`Image Occurrence`],
+  "Tumor Board" = overlap_matrix$person_id[overlap_matrix$`Tumor Board`]
+)
+
+# Create enhanced Venn diagram
+ggvenn(
+  venn_data,
+  fill_color = brewer.pal(5, "Set3"),
+  stroke_size = 0.5,
+  set_name_size = 4,
+  show_percentage = TRUE,
+  text_size = 3
+) +
+  theme_void() +
+  theme(
+    plot.margin = margin(20, 20, 20, 20)
+  ) +
+  labs(
+    title = "Data Source Overlap",
+    caption = "Numbers show patient counts and percentages"
+  ) +
+  theme(
+    plot.title = element_text(
+      size = 14,
+      hjust = 0.5,
+      margin = margin(b = 20)
+    )
+  )
+```
 
 
 
