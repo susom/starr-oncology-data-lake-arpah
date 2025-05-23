@@ -20,13 +20,13 @@ Below is the distribution of persons by year of birth.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_params.yml"
 
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_file_path <- "../sql/arpah_cohort/arpah_age_metrics.sql"
+sql_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/arpah_cohort/arpah_age_metrics.sql"
 df <- fetch_data_from_sql_file(sql_file_path, yaml_file_path)
 ```
 
@@ -45,7 +45,7 @@ create_bar_plot(
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_file_path_demog<- "../sql/arpah_cohort/arpah_demographic_all.sql"
+sql_file_path_demog<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/arpah_cohort/arpah_demographic_all.sql"
 
 demog_dat<- fetch_data_from_sql_file(sql_file_path_demog, yaml_file_path)
 print(demog_dat)
@@ -105,13 +105,13 @@ create_gt_table(
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## pull arpah clinical metrics ##
-folder_path_arpah <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_clinical"
+folder_path_arpah <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/arpah_clinical"
 res_arpah <- fetch_data_from_sql_folder(folder_path_arpah)
 print(res_arpah)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board"
+folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/tumor_board"
 res_tb <- fetch_data_from_sql_folder(folder_path_tb)
 res_tb
 ```
@@ -149,11 +149,11 @@ res_dat<-res_dat%>% select(metric, everything())
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-path="/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/person_metrics.sql"
+path="/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/arpah_cohort/person_metrics.sql"
 den_arpah <- fetch_data_from_sql_file(path, yaml_file_path)
 print(den_arpah)
 
-path_tb="/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_board/tumor_board_person_metrics.sql"
+path_tb="/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/tumor_board/tumor_board_person_metrics.sql"
 den_tb <- fetch_data_from_sql_file(path_tb, yaml_file_path)
 print(den_tb)
 ```
@@ -195,7 +195,7 @@ The following metrics were identified for individuals with thoracic cancer withi
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-folder_path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic"
+folder_path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/scr/thoracic"
 res_tc <- fetch_data_from_sql_folder(folder_path_tc)
 ```
 
@@ -235,32 +235,32 @@ create_gt_table_v1(
 ### **OMOP Image Occurrence**
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
+path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/image_occ/image_occ_person.sql"
 pt_img <- fetch_data_from_sql_file(path_img, yaml_file_path)
 pt_img
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_person_metrics.sql"
+path_tc <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/scr/thoracic/scr_thoracic_person_metrics.sql"
 tc_pts <- fetch_data_from_sql_file(path_tc, yaml_file_path)
 tc_pts
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ##thoracic cohort
-path_tc_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_nf_image_occ.sql"
+path_tc_img <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/scr/thoracic/scr_thoracic_nf_image_occ.sql"
 tc_img <- fetch_data_from_sql_file(path_tc_img, yaml_file_path)
 tc_img
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## tb thoracic with imaging
-path_tc_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_tb_image_occ.sql"
+path_tc_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/scr/thoracic/scr_thoracic_tb_image_occ.sql"
 tc_img_tb <- fetch_data_from_sql_file(path_tc_tb, yaml_file_path)
 tc_img_tb ##2435
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## tb thoracic 
-path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_tb_metrics.sql"
+path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/scr/thoracic/scr_thoracic_tb_metrics.sql"
 tc_tb <- fetch_data_from_sql_file(path_tb, yaml_file_path)
 tc_tb
 ```
@@ -277,7 +277,7 @@ As of the February 2025 oncology OMOP population:
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_file_path_image <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_person.sql"
+sql_file_path_image <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/image_occ/image_occ_person.sql"
 res_img <- fetch_data_from_sql_file(sql_file_path_image, yaml_file_path)
 print(res_img)
 den_series=as.numeric(res_img$counts)[2]
@@ -287,7 +287,7 @@ den_pts=as.numeric(res_img$counts)[1]
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/image_occ/image_occ_modality.sql"
 res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
 print(res_img_mod)
 res_img_mod=res_img_mod[1:50,]
@@ -320,7 +320,7 @@ create_gt_table_v1(
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_file_path_image_anat <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_anatomic.sql"
+sql_file_path_image_anat <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/image_occ/image_occ_anatomic.sql"
 res_img_anat <- fetch_data_from_sql_file(sql_file_path_image_anat, yaml_file_path)
 print(res_img_anat)
 res_img_anat=res_img_anat[1:50,]
@@ -413,7 +413,7 @@ fig
 CTSA metrics are a common set of metrics developed in collaboration with the National Center for Advancing Translational Sciences (NCATS) to compare performance against other institutions within the network, facilitate benchmarking, and measure progress in translating basic science discoveries into clinical applications and patient benefits.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-folder_path_sa <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/CTSA"
+folder_path_sa <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/CTSA"
 
 res_sa <- fetch_data_from_sql_folder(folder_path_sa)
 print(res_sa)
@@ -459,13 +459,13 @@ create_gt_table_v1(
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 
-sql_file_path_nf <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_vital_status.sql"
+sql_file_path_nf <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/neuralframe/nf_vital_status.sql"
 res_nf <- fetch_data_from_sql_file(sql_file_path_nf, yaml_file_path)
 print(res_nf)
 colnames(res_nf)[1]<-"description"
 res_nf$var="Vital Status"
 
-sql_file_path_nf_cc <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_status.sql"
+sql_file_path_nf_cc <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/neuralframe/nf_cancer_status.sql"
 
 res_cc <- fetch_data_from_sql_file(sql_file_path_nf_cc, yaml_file_path)
 print(res_cc)
@@ -478,7 +478,7 @@ res_all$description[is.na(res_all$description)]<-"Missing (NA)"
 res_all
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-path_nf="/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_person_metrics.sql"
+path_nf="/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/neuralframe/nf_person_metrics.sql"
 den_nf <- fetch_data_from_sql_file(path_nf, yaml_file_path)
 print(den_nf)
 den_nf<-as.numeric(den_nf)
@@ -500,7 +500,7 @@ create_gt_table_v1(
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_file_path_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/neuralframe/nf_cancer_recurrence.sql"
+sql_file_path_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/neuralframe/nf_cancer_recurrence.sql"
 res_rc <- fetch_data_from_sql_file(sql_file_path_rec, yaml_file_path)
 print(res_rc)
 res_rc$var="Recurrence Type"

@@ -8,26 +8,26 @@ execute:
 
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 library(RColorBrewer)  
 library(plotly)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-philips_den_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_denominator.sql"
+philips_den_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_denominator.sql"
 ph_den <- fetch_data_from_sql_file(philips_den_sql, yaml_file_path)
 ph_den$counts_pts
 
 ## aberration denominators 
-abr_den_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_aberration_denominator.sql"
+abr_den_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_aberration_denominator.sql"
 abr_den <- fetch_data_from_sql_file(abr_den_sql, yaml_file_path)
 abr_den
 ```
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-test_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_tests_ordered.sql"
+test_sql="/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_tests_ordered.sql"
 test_type=fetch_data_from_sql_file(test_sql, yaml_file_path)
 
-test_date_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_tests_date_ordered.sql"
+test_date_sql="/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_tests_date_ordered.sql"
 test_date=fetch_data_from_sql_file(test_date_sql, yaml_file_path)
 
 test_type=test_type %>% inner_join(test_date, by="test_type")
@@ -66,7 +66,7 @@ create_gt_table_v1(
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-pathg_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_abr_pathg.sql"
+pathg_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_abr_pathg.sql"
 pathg <- fetch_data_from_sql_file(pathg_sql, yaml_file_path)
 pathg=pathg %>% filter (!is.na(stanford_pathogenicity))
 
@@ -105,7 +105,7 @@ The aberration table provides a structured overview of genetic changes, categori
 
 
 ```{r,message=FALSE, warning=FALSE, results='hide' }
-site_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_site_display.sql"
+site_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_site_display.sql"
 site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
 
 ```
@@ -115,7 +115,7 @@ site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
 The following analysis displays the genes distribution of positive aberration above 200 cases. (ASK Jose)
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
-gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_chrom_genes.sql"
+gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_chrom_genes.sql"
 gene_ch <- fetch_data_from_sql_file(gene_ch_sql, yaml_file_path)
 
 # Calculate percentages using the denominator
@@ -124,7 +124,7 @@ gene_ch <- gene_ch %>%
 ```
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
-gene_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_gene.sql"
+gene_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_gene.sql"
 gene<- fetch_data_from_sql_file(gene_sql, yaml_file_path)
 
 # Calculate percentages using the denominator
@@ -294,7 +294,7 @@ ggplotly(p,
 ## Distribution of Genes by Aberration Type 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-mu_type_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_abr_type.sql"
+mu_type_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_abr_type.sql"
 mutation_data <- fetch_data_from_sql_file(mu_type_sql, yaml_file_path)
 mutation_data=mutation_data %>% filter(n_pts>100) 
 ```
@@ -380,19 +380,19 @@ gene_order %>%
 Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_thr<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_denominator.sql"
+sql_thr<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_denominator.sql"
 
 thr_den=fetch_data_from_sql_file(sql_thr, yaml_file_path)
 thr_den
 
-sql_thr_abr<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_thr_abr.sql"
+sql_thr_abr<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_thr_abr.sql"
 thr_abr=fetch_data_from_sql_file(sql_thr_abr, yaml_file_path)
 thr_abr
 ```
 From `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients, `r format(thr_abr$n_pts[thr_abr$flag=="total"], big.mark = ",")` patients were included in Philips ISPM database with `r format(thr_abr$n_pts[thr_abr$flag=="abr"], big.mark = ",")` aberration cases. 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_thr_genes<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_thr_abr_genes.sql"
+sql_thr_genes<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_thr_abr_genes.sql"
 
 thr_gene=fetch_data_from_sql_file(sql_thr_genes, yaml_file_path)
 thr_gene= thr_gene %>% filter (!is.na(stanford_pathogenicity))
@@ -450,7 +450,7 @@ plot_ly() %>%
 The KRAS gene is a critical component in cell signaling pathways that regulate cell growth and division, and mutations in this gene are frequently associated with various cancers including thoracic cancers.
 Among patients with thoracic cancer with mutations in the KRAS gene, the most common amino acid alterations occurring are listed as follow:
 ```{r kras load, message=FALSE, warning=FALSE, results='hide'}
-sql_thr_kras<-"/workspaces/starr-oncology-data-lake-arpah/src/sql/philips/philips_thr_kras.sql"
+sql_thr_kras<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_thr_kras.sql"
 thr_kras=fetch_data_from_sql_file(sql_thr_kras, yaml_file_path)
 thr_kras
 table(thr_kras$flag)
