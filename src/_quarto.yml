@@ -6,6 +6,7 @@ project:
    - omop_data_dict/*
    - data_metrics.qmd
    - feb_2025/*
+   - may_2025/*
    - data_labeling.qmd
    - 404.qmd
    - neuralframe_data_dict/*
@@ -26,6 +27,10 @@ website:
             contents:
               - text: "Released Datasets"
                 href: feb_2025/released_datasets.qmd
+          - section: "May 2025"
+            contents:
+              - text: "Released Datasets"
+                href: may_2025/released_datasets.qmd
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
@@ -38,6 +43,15 @@ website:
         contents:
           - text: "February 2025"
             href: feb_2025/demographic_clinical.qmd
+          - section: "May 2025"
+            href: may_2025/metrics_clinical.qmd
+            contents:
+              - text: "Neural Frame "
+                href: may_2025/neural_frame.qmd
+              - text: "Image Occurrence"
+                href: may_2025/image_occ.qmd
+              - text: "Philips ISPM"
+                href: may_2025/philips_metrics.qmd
       - section: "Data Labeling"
         href: data_labeling.qmd
         contents:

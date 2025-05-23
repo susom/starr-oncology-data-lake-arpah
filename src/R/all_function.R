@@ -475,7 +475,7 @@ create_gt_table_v1 <- function(data, columns, labels, title_text = "", subtitle_
 }
 
 ### table with the tab
-create_gt_table_v2 <- function(data, columns, labels, title_text = "", subtitle_text = "", footnote_text = "", pt_column = NULL) {
+create_gt_table_v3 <- function(data, columns, labels, title_text = "", subtitle_text = "", footnote_text = "", pt_column = NULL) {
   col_exprs <- rlang::syms(columns)
   names(labels) <- columns
   
@@ -513,3 +513,5 @@ create_gt_table_v2 <- function(data, columns, labels, title_text = "", subtitle_
   
   return(gt_table)
 }
+
+
