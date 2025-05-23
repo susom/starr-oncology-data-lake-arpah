@@ -12,7 +12,7 @@ yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml
 ```
 
 ```{r modality sql, message=FALSE, warning=FALSE, results='hide'}
-#| context: global
+
 library(forcats)
 sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/image_occ/image_occ_modality.sql"
 res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
@@ -22,7 +22,7 @@ colnames(res_img_mod)=c("modality_type", "series_count", "person_count")
 ```
 
 ```{r modality dictionary,  warning=FALSE, results='hide'}
-#| context: global
+
 
 Value <- c("AR", "AS", "ASMT", "AU", "BDUS", "BI", "BMD", "CD", "CF", "CP", 
            "CR", "CS", "CT", "DD", "DF", "DG", "DM", "DOC", "DS", "DX", 
