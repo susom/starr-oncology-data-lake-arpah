@@ -101,8 +101,16 @@ This visualization summarizes the characteristics of thoracic cancer cases by:
 
 ### Cases & Diagnoses
 
-## Case Status
-Cases are defined as completed (TBC)
+## Stanford Cancer Registry Case Status
+The Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Stanford. Each case is assigned a case status to reflect its reporting stage. The primary categories include:
+
+- Completed: Reportable cases that have been fully abstracted and passed all edit checks. These cases are transmitted to the state registry.
+
+- Not Reportable: Cases that do not meet state reporting requirements or have already been abstracted and submitted.
+
+- Incomplete/Suspense: Reportable cases that have been abstracted but cannot yet be transmitted due to missing treatment information or unresolved edit errors. These may result from version changes, coding updates, or other registry requirements.
+
+The case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_thr_case<- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_thoracic_case_status_person_metrics.sql"
 thr_case <- fetch_data_from_sql_file(sql_thr_case, yaml_file_path)
@@ -323,7 +331,6 @@ create_gt_table_v3(
 
 ## Distribution of Thoracic Cancer Cases by Histology Types
 
-**Note:** The following analysis excluded unspecified histology for simplicity and filtered out any groups with less than 20 cases. 
 
 ::: {.panel-tabset}
 
@@ -489,7 +496,7 @@ p2
 
 
 
-### Detailed Pie
+### Detailed Pie Chart
 Detailed Distribution of Thoracic Cancer Subcategories:
 
 ```{r piechart with barplots combined, message=FALSE, warning=FALSE}
@@ -692,7 +699,7 @@ sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/scr/thoracic/scr_
 thr_stg <- fetch_data_from_sql_file(sql_stg, yaml_file_path)
 thr_stg
 
-thr_stg = thr_stg %>% mutate(perc=100*(patient_count/sum(patient_count)) ) %>% arrange(desc(patient_count))
+thr_stg = thr_stg %>% mutate(perc=100*(patient_count/sum_thr_c) ) %>% arrange(desc(patient_count))
 
 
 thr_stg <- thr_stg %>%
@@ -711,9 +718,9 @@ thr_stg <- thr_stg %>%
 ```{r staging table, message=FALSE, warning=FALSE}
 #thr_stg %>% filter(full_stage="Unknown")
 labels <- c(
-  "full_stage"="Staging",
+  "full_stage"="Staging Status",
   "patient_count" = "Patient Count",
-   "perc" = "Percent"
+   "perc" = "Percentage"
 )
 
 create_gt_table_v1(
@@ -770,7 +777,7 @@ tx_thr=thr_tx_long %>%
 labels <- c(
   "Description"="Treatment",
   "Patinet_Counts" = "Patient Count",
-  "percentage"="Percentage (%)"
+  "percentage"="Percentage"
 )
 
 create_gt_table_v1(
@@ -825,6 +832,23 @@ smk_na= sum_thr - sum(thr_smk$unique_person_count)
 ```
 
 
+```{r smoking omop,message=FALSE, warning=FALSE }
+
+smoking_omop=thr_smk %>% select (smoking_status , unique_person_count)%>% arrange(desc(unique_person_count))
+labels <- c(
+  "smoking_status"="Description",
+  "unique_person_count" = "Patient Count"
+)
+
+create_gt_table_v1(
+  data = smoking_omop, 
+  columns = c( "smoking_status" , "unique_person_count"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text = paste0("Note: ", format(smk_na, big.mark = ","), " patients didn't have smoking concept ID in the observation table"))
+```
+
+
 #### Alcohol Use (Neural Frame)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 alcohol_data <- alcohol_data %>%
@@ -846,23 +870,6 @@ create_gt_table_v1(
 ```
 
 
-
-
-```{r smoking omop,message=FALSE, warning=FALSE }
-
-smoking_omop=thr_smk %>% select (smoking_status , unique_person_count)%>% arrange(desc(unique_person_count))
-labels <- c(
-  "smoking_status"="Description",
-  "unique_person_count" = "Patient Count"
-)
-
-create_gt_table_v1(
-  data = smoking_omop, 
-  columns = c( "smoking_status" , "unique_person_count"), 
-  labels = labels, 
-   subtitle_text = "",
-  footnote_text = paste0("Note: ", format(smk_na, big.mark = ","), " patients didn't have smoking concept ID in the observation table"))
-```
 ### Follow-up Outcome 
 The following table summarizes the distribution of thoracic cancer recurrence status with completed cases. 
 ```{r load recurrence, message=FALSE, warning=FALSE, include='FALSE' }

@@ -5,25 +5,10 @@ execute:
 output: html
 ---
 
-```{r setup, include=FALSE}
-if (!require("UpSetR")) {
-  install.packages("UpSetR")
-}
-if (!require("viridis")) {
-  install.packages("viridis")
-}
-library(viridis)
-
-if (!require("ggupset")) {
-  install.packages("ggupset")
-}
-library(ggupset)
-```
 
 
 
-
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r setup, message=FALSE, warning=FALSE, results='hide'}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_params.yml"
@@ -59,7 +44,7 @@ folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/tumor_boar
 res_tb <- fetch_data_from_sql_file(folder_path_tb, yaml_file_path)
 res_tb
 ```
-```{r, message=FALSE, warning=FALSE}
+```{r table1, message=FALSE, warning=FALSE}
 # Modify the data frame to show hierarchy
 labels <- c(
   "data_set"="Data Source",
@@ -102,7 +87,7 @@ den_res_formatted <- den_res %>%
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/sql/arpah_cohort/arpah_overlap_metrics.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
-head (res)
+head(res)
 ```
 
 
@@ -141,17 +126,16 @@ upset(
   )),
   sets = c("Oncology OMOP", "Image Occurrence", "Neural Frame", "Philips ISPM",  "Tumor Board"),
   order.by = "freq",
-  mainbar.y.label = "Number of Patients",
-  sets.x.label = "",
-  #sets.x="", ## remove the xaxis
+  mainbar.y.label = "Number of Patients (Intersection Size)",
+  sets.x.label = "N",
   point.size = 7,
   line.size = 0.8,
-  text.scale = 1.5,
+  text.scale = 1.2,
   mb.ratio = c(0.6, 0.4),
   keep.order = TRUE,
   matrix.color = "#8B0000",  
   main.bar.color = "#8B0000",
-  sets.bar.color = NA,
+  sets.bar.color = "lightgray",
   scale.sets = "binary",
   number.angles = 0 ,# Make ,numbers horizontal
   #text.scale = c(1.3, 1.3, 1)  # Increase text size for better readability
@@ -193,75 +177,12 @@ ggplot(upset_data, aes(x = sources)) +
   )
 ```
 
-test
-```{r}
-library(ComplexUpset)
-library(ggplot2)
-# Prepare the data
-overlap_matrix <- res %>%
-  mutate(value = TRUE) %>%
-  pivot_wider(
-    names_from = data_set,
-    values_from = value,
-    values_fill = FALSE
-  )
 
-plot_data <- overlap_matrix %>% 
-  select(-person_id) %>%
-  mutate(across(everything(), as.logical))
+```{r, message=FALSE, warning=FALSE}
 
-ComplexUpset::upset(
-    plot_data,
-    intersect = colnames(plot_data),
-    width_ratio = 0.1,
-    min_size = 10,
-    mode = 'inclusive_union',
-    intersections = 'all',
-    max_degree = 3,
-    base_annotations = list(
-      'Intersection Size' = (
-        intersection_size(
-          mode = 'inclusive_union',
-          text = list(size = 3),
-          aes = list(
-            label = expression(
-              sprintf(
-                "%d\n(%.1f%%)", 
-                intersection_size,
-                100 * intersection_size/nrow(plot_data)
-              )
-            )
-          )
-        )
-      )
-    ),
-    matrix = intersection_matrix(
-      geom = geom_point(size = 3.5),
-      segment = intersection_segment(color = "#8B0000")
-    ),
-    set_sizes = (
-      upset_set_size(geom = geom_bar(fill = "#8B0000")) +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1))
-    ),
-    themes = upset_modify_themes(
-      list(
-        'intersections_matrix' = theme(
-          text = element_text(size = 12),
-          panel.grid = element_blank()
-        )
-      )
-    ),
-    sort_sets = "descending",
-    sort_intersections = "descending"
-)
-```
-
-```{r}
-# Install and load required package
-if (!require("ggvenn")) {
-  install.packages("ggvenn")
-}
 library(ggvenn)
+library(RColorBrewer)
+
 overlap_matrix <- res %>%
   mutate(value = TRUE) %>%
   pivot_wider(
@@ -284,13 +205,13 @@ ggvenn(
   venn_data,
   fill_color = brewer.pal(5, "Set3"),
   stroke_size = 0.5,
-  set_name_size = 4,
+  set_name_size = 5,
   show_percentage = TRUE,
   text_size = 3
 ) +
   theme_void() +
   theme(
-    plot.margin = margin(20, 20, 20, 20)
+    plot.margin = margin(10, 20, 20, 10)
   ) +
   labs(
     title = "Data Source Overlap",
