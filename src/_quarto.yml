@@ -47,11 +47,11 @@ website:
             href: may_2025/metrics_clinical.qmd
             contents:
               - text: "Neural Frame "
-                href: may_2025/neural_frame.qmd
+                href: neural_frame.qmd
               - text: "Image Occurrence"
-                href: may_2025/image_occ.qmd
+                href: image_occ.qmd
               - text: "Philips ISPM"
-                href: may_2025/philips_metrics.qmd
+                href: philips_metrics.qmd
       - section: "Data Labeling"
         href: data_labeling.qmd
         contents:

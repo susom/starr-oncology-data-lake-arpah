@@ -5,9 +5,6 @@ execute:
 output: html
 ---
 
-
-
-
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
@@ -31,15 +28,15 @@ den_res=den_res %>% arrange(desc(percentage))
 The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
-   - [Neural Frame Metrics](may_2025/neural_frame.qmd)
+   - [Neural Frame Metrics](neural_frame.qmd)
 
   - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
 
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
-   - [Philips ISPM Metrics](may_2025/philips_metrics.qmd)
+   - [Philips ISPM Metrics](philips_metrics.qmd)
 
   - **OMOP Image Occurrence:** A record of image series from the Vendor Neutral Archive. This does not include Echocardiograms, Ophthalmology images, or Pathology slides at present. We are also only including image occurrences that can be linked to the clarity procedure order information.
-   - [Image Occurrence Metrics](may_2025/image_occ.qmd)
+   - [Image Occurrence Metrics](image_occ.qmd)
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -91,6 +88,14 @@ den_res_formatted <- den_res %>%
 sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_overlap_metrics.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
 head(res)
+library(tidyr)
+overlap_matrix <- res %>%
+  mutate(value = TRUE) %>%
+  pivot_wider(
+    names_from = data_set,
+    values_from = value,
+    values_fill = FALSE
+  )
 ```
 
 
@@ -104,81 +109,36 @@ The following plot represents patients overlap between different data sources:
 
 For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the bar above shows how many patients are in both sources.
 
-```{r upset plot, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
 
-library(UpSetR)
-library(tidyr)
-
-# Convert the data to binary presence/absence matrix
-overlap_matrix <- res %>%
-  mutate(value = TRUE) %>%
-  pivot_wider(
-    names_from = data_set,
-    values_from = value,
-    values_fill = FALSE
-  )
-
-# Create the UpSet plot with lighter colors and better labeling
-upset(
-  fromList(list(
-    "Oncology OMOP" = overlap_matrix$person_id[overlap_matrix$`Oncology OMOP`],
-    "Image Occurrence" = overlap_matrix$person_id[overlap_matrix$`Image Occurrence`],
-    "Neural Frame" = overlap_matrix$person_id[overlap_matrix$`Neural Frame`],
-    "Philips ISPM" = overlap_matrix$person_id[overlap_matrix$`Philips ISPM`],
-    "Tumor Board" = overlap_matrix$person_id[overlap_matrix$`Tumor Board`]
-  )),
-  sets = c("Oncology OMOP", "Image Occurrence", "Neural Frame", "Philips ISPM",  "Tumor Board"),
-  order.by = "freq",
-  mainbar.y.label = "Number of Patients (Intersection Size)",
-  sets.x.label = "N",
-  point.size = 7,
-  line.size = 0.8,
-  text.scale = 1.2,
-  mb.ratio = c(0.6, 0.4),
-  keep.order = TRUE,
-  matrix.color = "#8B0000",  
-  main.bar.color = "#8B0000",
-  sets.bar.color = "lightgray",
-  scale.sets = "binary",
-  number.angles = 0 ,# Make ,numbers horizontal
-  #text.scale = c(1.3, 1.3, 1)  # Increase text size for better readability
-)
-
-```
 
 
 
 ## Patient Distribution Across Data Sources
-```{r ggupset, message=FALSE, warning=FALSE}
+```{r complex_upset, message=FALSE, warning=FALSE}
+library(ComplexUpset)
 library(ggplot2)
-library(ggupset)
 
-# Convert data to format needed for ggupset
+upset(
+  overlap_matrix, 
+  c("Oncology OMOP", "Image Occurrence", "Neural Frame", "Philips ISPM", "Tumor Board"),    width_ratio=0.1,
 
-upset_data <- res %>%
-  group_by(person_id) %>%
-  summarize(sources = list(data_set)) %>%
-  ungroup()
-
-# Create the ggupset plot
-ggplot(upset_data, aes(x = sources)) +
-  geom_bar(fill = "#8B0000",  width = 0.9) +
-  scale_x_upset() +
-   geom_text(stat='count', aes(label=after_stat(count)), vjust=-0.4) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    panel.grid.major.x = element_blank(),
-    axis.title.x = element_blank()
-  ) +
-  labs(
-    title = "",
-    y = "Number of Patients"
-  ) +
-  theme(
-    plot.title = element_text( size = 14),
-    axis.text = element_text(size = 14),
-    axis.title = element_text(size = 14)
-  )
+  min_size = 10000, wrap=TRUE, set_sizes=FALSE,
+  mode = 'inclusive_intersection',
+     base_annotations=list(
+        'Intersection size'=intersection_size(
+            counts=TRUE,text=list(
+                vjust=-0.1,
+                hjust=-0.1,
+                angle=90
+            ),
+              mode = 'inclusive_intersection',
+            mapping=aes(fill='bars_color')
+        ) + scale_fill_manual(values=c('bars_color'='#8B0000'), guide='none')
+    )
+,
+  intersections = 'all',
+  max_degree = 3
+)
 ```
+
 

@@ -11,8 +11,8 @@ packages <- c(
   "plotly", "prettyunits", "progress", "promises", "purrr", "rapidjsonr",
   "rappdirs", "readr", "renv", "rlang", "rmarkdown", "sass", "scales", "stringi",
   "stringr", "sys", "tibble", "tidyr", "tidyselect", "tinytex", "tzdb", "utf8",
-  "vctrs", "viridisLite", "vroom", "withr", "xfun", "yaml", "viridis", "forcats", "upsetr"
-"ggvenn", "complexupset", "ggupset")
+  "vctrs", "viridisLite", "vroom", "withr", "xfun", "yaml", "viridis", "forcats", "upsetr","UpSetR",
+"ggvenn", "complexupset", "ggupset", "DT")
 
 # Install packages
 install.packages(packages)

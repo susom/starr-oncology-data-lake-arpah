@@ -11,6 +11,7 @@ source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encodi
 yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 library(RColorBrewer)  
 library(plotly)
+library(DT)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -112,7 +113,7 @@ site <- fetch_data_from_sql_file(site_sql, yaml_file_path)
 
 
 ### All Cancer Types
-The following analysis displays the genes distribution of positive aberration above 200 cases. (ASK Jose)
+The following analysis displays the genes distribution of positive aberration above 200 cases. 
 
 ```{r,message=FALSE, warning=FALSE , results='hide'}
 gene_ch_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_chrom_genes.sql"
@@ -155,11 +156,11 @@ plot_ly(df_bar,
 
 ```
 
- ## Summary Table of HGNC Gene Distribution
+## Summary Table of HGNC Gene Distribution
 ```{r table1, message=FALSE, warning=FALSE }
 # Update the datatable to include percentage
 DT::datatable(
-  gene %>% 
+  gene %>% filter(n_pts>10) %>%
     select(hgnc_gene, n_pts, pts_percent) %>%
     rename(
       "Gene" = hgnc_gene,
@@ -187,6 +188,8 @@ DT::datatable(
 Genes Distribution by Chromosomes 
 
 ```{r plot 3, message=FALSE, warning=FALSE}
+library(DT)
+
   filtered_gene_ch <- gene_ch %>%
   filter(!is.na(hgnc_gene), n_pts > 200) %>%
   mutate(
