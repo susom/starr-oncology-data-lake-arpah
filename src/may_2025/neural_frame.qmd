@@ -9,7 +9,7 @@ execute:
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
-library(RColorBrewer)  # Add RColorBrewer package
+library(RColorBrewer)  
 ```
 
 ```{r nf denominator, message=FALSE, warning=FALSE, results='hide'}

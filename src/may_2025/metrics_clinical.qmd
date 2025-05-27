@@ -28,15 +28,15 @@ den_res=den_res %>% arrange(desc(percentage))
 The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
-   - [Neural Frame Metrics](neural_frame.qmd)
+    - [Neural Frame Metrics](neural_frame.qmd)
 
   - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
 
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
-   - [Philips ISPM Metrics](philips_metrics.qmd)
+    - [Philips ISPM Metrics](philips_metrics.qmd)
 
   - **OMOP Image Occurrence:** A record of image series from the Vendor Neutral Archive. This does not include Echocardiograms, Ophthalmology images, or Pathology slides at present. We are also only including image occurrences that can be linked to the clarity procedure order information.
-   - [Image Occurrence Metrics](image_occ.qmd)
+    - [Image Occurrence Metrics](image_occ.qmd)
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
