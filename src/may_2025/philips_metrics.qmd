@@ -187,63 +187,66 @@ DT::datatable(
 ### Heatmap
 Genes Distribution by Chromosomes 
 
-```{r plot 3, message=FALSE, warning=FALSE}
+
+```{r heatmap, message=FALSE, warning=FALSE}
 library(DT)
 
-  filtered_gene_ch <- gene_ch %>%
-  filter(!is.na(hgnc_gene), n_pts > 200) %>%
+# Filter for more significant genes (increased threshold)
+filtered_gene_ch <- gene_ch %>%
+  filter(!is.na(hgnc_gene), n_pts > 200) %>%  # Increased threshold from 200 to 300
   mutate(
-    # Create proper chromosome ordering
     chrom = factor(chrom, 
                   levels = paste0("chr", c(1:22, "X", "Y")),
                   ordered = TRUE)
   ) %>%
-  # Sort by chromosome and patient count
   arrange(chrom, desc(n_pts))
 
-
-  p <- ggplot(filtered_gene_ch, 
+p <- ggplot(filtered_gene_ch, 
      aes(x = 1, 
          y = reorder(hgnc_gene, n_pts), 
          fill = n_pts,
          text = sprintf(
-           "Gene: %s<br>Patient Count: %d",
-           hgnc_gene, n_pts
+           "Gene: %s<br>Patient Count: %d<br>Chromosome: %s",
+           hgnc_gene, n_pts, chrom
          ))) +
-  geom_tile(aes(width = n_pts/max(n_pts), 
+  geom_tile(aes(width = 0.95,  # Fixed width for more consistent look
                 height = 0.8)) +
-  facet_wrap(~chrom, scales = "free_y", ncol = 5) +
+  facet_wrap(~chrom, scales = "free_y", ncol = 4) +  
   scale_fill_distiller(name = "Patient Count", 
                       palette = "Set3", 
                       direction = 1) +
   theme_minimal() +
-  labs(title = "Patient Counts by Gene and Chromosome",
+  labs(title = "Gene Distribution by Chromosome",
+       subtitle = "Showing genes with >200 patients",
        y = "Gene",
        x = NULL) +
   theme(
     axis.text.x = element_blank(),
-    axis.ticks.x = element_blank(),
+    axis.ticks = element_blank(),
     panel.grid = element_blank(),
-    strip.text = element_text(angle = 0),
+    strip.text = element_text(face = "", size = 10),
+    strip.background = element_rect(fill = "gray95"),
     legend.position = "right",
-    panel.spacing = unit(0.3, "cm")
+    panel.spacing = unit(0.4, "cm"),
+    axis.text.y = element_text(size = 8),  # Smaller text for gene names
+    plot.title = element_text(size = 14),
+    plot.subtitle = element_text(size = 10, color = "gray40")
   )
 
 # Make it interactive with custom hover
 ggplotly(p, 
-         tooltip = "text", # Use only the custom text for hover
-         height = 800, 
-         width = 600) %>%
+         tooltip = "text",
+         height = 900,  # Increased height
+         width = 800) %>%  # Increased width
   layout(
-    margin = list(l = 150, r = 50, b = 50, t = 50),
+    margin = list(l = 150, r = 50, b = 50, t = 80),
     showlegend = TRUE
-  )
+  ) %>%
+  config(displayModeBar = FALSE)  # Remove the plotly toolbar
 ```
 
 
-
-
-### Jitter Plot
+### Jitter plot
 Gene Distribution across Chromosomes:
 
 ```{r plot main, message=FALSE, warning=FALSE}
@@ -299,7 +302,7 @@ ggplotly(p,
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 mu_type_sql<-"/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/philips/philips_abr_type.sql"
 mutation_data <- fetch_data_from_sql_file(mu_type_sql, yaml_file_path)
-mutation_data=mutation_data %>% filter(n_pts>100) 
+mutation_data=mutation_data %>% filter(n_pts>200) 
 ```
 
 ```{r, message=FALSE, warning=FALSE}
@@ -354,7 +357,7 @@ plot_ly(
   )
 ```
  
-```{r, message=FALSE, warning=FALSE}
+```{r mutation type plot, message=FALSE, warning=FALSE}
 gene_order %>% 
   plot_ly(
     x = ~aberration_type,
@@ -373,8 +376,7 @@ gene_order %>%
   layout(
     title = "Mutation Type Distribution Across Genes",
     xaxis = list(title = "Mutation Type"),
-    yaxis = list(title = "Gene"),
-    height = 800
+    yaxis = list(title = "Gene")
     )
   
 ```

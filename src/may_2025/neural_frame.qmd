@@ -513,7 +513,7 @@ p <- plot_ly() %>%
           labels = ~histology_group,
           values = ~patient_count,
           textposition = 'inside',
-          textinfo = 'label+percent',
+          textinfo = 'label',
           hoverinfo = 'text',
           text = ~paste(histology_group, 
                        '\nCount:', patient_count,
