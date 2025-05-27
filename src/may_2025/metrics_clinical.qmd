@@ -31,6 +31,7 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
     - [Neural Frame Metrics](neural_frame.qmd)
 
   - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
+    - [Tumor Board Metrics](tumor_board.qmd)
 
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
     - [Philips ISPM Metrics](philips_metrics.qmd)
