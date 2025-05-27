@@ -126,7 +126,7 @@ upset(
   mode = 'inclusive_intersection',
      base_annotations=list(
         'Intersection size'=intersection_size(
-            counts=TRUE,text=list(
+            counts=FALSE,text=list(
                 vjust=-0.1,
                 hjust=-0.1,
                 angle=90

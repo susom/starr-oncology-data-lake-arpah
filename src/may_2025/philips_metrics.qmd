@@ -232,8 +232,8 @@ library(DT)
 # Make it interactive with custom hover
 ggplotly(p, 
          tooltip = "text", # Use only the custom text for hover
-         height = 1000, 
-         width = 800) %>%
+         height = 800, 
+         width = 600) %>%
   layout(
     margin = list(l = 150, r = 50, b = 50, t = 50),
     showlegend = TRUE
