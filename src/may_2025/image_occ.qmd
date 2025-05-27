@@ -322,9 +322,7 @@ res_thr
 res_thr <- res_thr %>% filter (series_count>500) %>%
   arrange(desc(series_count)) %>%
   mutate(
-    modality_source_value = factor(modality_source_value, levels = unique(modality_source_value)),
-    # Calculate percentage of patients
-    patient_percentage = round((unique_person_count / max(unique_person_count)) * 100, 1)
+    modality_source_value = factor(modality_source_value, levels = unique(modality_source_value))
   )
 
 # Create the plot
@@ -387,9 +385,7 @@ head(res_ana_thr)
 res_ana_thr <- res_ana_thr %>% filter (series_count>500) %>%
   arrange(desc(series_count)) %>%
   mutate(
-    anatomic_site_source_value = factor(anatomic_site_source_value, levels = unique(anatomic_site_source_value)),
-    # Calculate percentage of patients
-    patient_percentage = round((unique_person_count / max(unique_person_count)) * 100, 1)
+    anatomic_site_source_value = factor(anatomic_site_source_value, levels = unique(anatomic_site_source_value))
   )
 
 # Create the plot
