@@ -270,7 +270,6 @@ plot_ly(df_bar_sr,
 ## Patient Population 
 
 ```{r, message=FALSE, warning=FALSE}
-install.packages("forcats")
 library(forcats)
 df_bar <- res_ana %>% filter(person_count>1000)%>%
   arrange(desc(person_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, person_count))
@@ -366,9 +365,9 @@ plot <- plot_ly() %>%
       side = "right",
       overlaying = "y",
       showline = FALSE,          
-    showgrid = FALSE            # Hide grid if desire
+    showgrid = FALSE           
     ),
-    legend = list(x = 0.8, y = 0.9),
+    legend = list(x = 0.8, y = 0.9),margin = list(b = 90),
     hovermode = "x unified"
   )
 
