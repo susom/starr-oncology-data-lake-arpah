@@ -409,7 +409,7 @@ histology_summary <- thr_his %>%
   group_by(histology, histology_group) %>%
   summarize(
     Patient_Count = sum(patient_count),
-    Percentage = round(sum(patient_count) / sum(thr_his$patient_count) * 100, 2)
+    Percentage = round(sum(patient_count) / sum_thr_c * 100, 1)
   ) %>%
   arrange(desc(Patient_Count))
 
@@ -504,7 +504,7 @@ Detailed Distribution of Thoracic Cancer Subcategories:
 hist_summary <- thr_his %>%
   group_by(histology_group) %>%
   summarize(patient_count = sum(patient_count)) %>%
-  mutate(percentage = round(100 * patient_count/sum(patient_count), 1)) %>%
+  mutate(percentage = round(100 * patient_count/sum_thr_c, 1)) %>%
   arrange(desc(patient_count))
 
 # Create the main pie chart
@@ -524,10 +524,10 @@ p <- plot_ly() %>%
          legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.1))
 
 # Create detailed subtype plot (initially hidden)
-subtype_data <- thr_his %>% filter (patient_count>20) %>%
+subtype_data <- thr_his  %>%
   group_by(histology_group, histologicTypeIcdO3Description) %>%
   summarize(patient_count = sum(patient_count)) %>%
-  mutate(percentage = round(100 * patient_count/sum(patient_count), 1))
+  mutate(percentage = round(100 * patient_count/sum_thr_c, 1))
 
 p <- onRender(p, "
   function(el, x) {
@@ -629,10 +629,10 @@ thr_his_summary <- thr_his %>%
     patient_count = sum(patient_count),
     histology_codes = paste(sort(unique(histologicTypeIcdO3)), collapse = ", ")
   ) %>%
-  mutate(percentage = round(100 * patient_count/sum(patient_count), 1)) %>%
+  mutate(percentage = round(100 * patient_count/sum_thr_c, 1)) %>%
   arrange(desc(patient_count))
 
-tab_his<- thr_his_summary %>% select (histology_group, histologicTypeIcdO3Description, histology_codes, patient_count)
+tab_his<- thr_his_summary %>% select (histology_group, histologicTypeIcdO3Description, histology_codes, patient_count)%>% filter(patient_count>10)
 
 
 # Display using DT for interactive table
@@ -787,6 +787,43 @@ create_gt_table_v1(
    subtitle_text = "",
   footnote_text = "")
 ```
+
+### Follow-up Outcome 
+The following table summarizes the distribution of thoracic cancer recurrence status with completed cases. 
+```{r load recurrence, message=FALSE, warning=FALSE, include='FALSE' }
+library(readr)
+
+recurrence <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/may_2025/data/recurrenceType_category.csv")
+
+# Preview the data
+head(recurrence)
+recurrence$patient_count<-NULL
+colnames(recurrence)<-c("recurrencetype1st","recurrencetype1stdescription", "recurrence_Type_category")
+```
+```{r thoracic recurrence, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
+sql_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_recurrence.sql"
+thr_rec <- fetch_data_from_sql_file(sql_rec, yaml_file_path)
+thr_rec=thr_rec %>% inner_join(recurrence, by="recurrencetype1stdescription")
+thr_rec = thr_rec %>% select (-recurrenceType1st) %>% group_by(recurrence_Type_category) %>% summarise(total=sum(n_pts))%>% select(recurrence_Type_category, total)
+```
+```{r recurrence type, message=FALSE, warning=FALSE }
+thr_rec=thr_rec %>% arrange(desc(total))
+
+labels <- c(
+  "recurrence_Type_category"="Recurrence Type Category",
+  "total" = "Patient Count"
+)
+
+create_gt_table_v1(
+  data = thr_rec, 
+  columns = c( "recurrence_Type_category" , "total"), 
+  labels = labels, 
+   subtitle_text = "",
+  footnote_text ="")
+
+```
+
+
 ### Social History 
 From  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic cancer patients, the majority didn't have any records of smoking status and alcohol use in Neural Frame. 
 
@@ -870,41 +907,5 @@ create_gt_table_v1(
 ```
 
 
-### Follow-up Outcome 
-The following table summarizes the distribution of thoracic cancer recurrence status with completed cases. 
-```{r load recurrence, message=FALSE, warning=FALSE, include='FALSE' }
-library(readr)
-
-recurrence <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/may_2025/data/recurrenceType_category.csv")
-
-# Preview the data
-head(recurrence)
-recurrence$patient_count<-NULL
-colnames(recurrence)<-c("recurrencetype1st","recurrencetype1stdescription", "recurrence_Type_category")
-```
-```{r thoracic recurrence, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
-sql_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/scr/thoracic/scr_thoracic_recurrence.sql"
-thr_rec <- fetch_data_from_sql_file(sql_rec, yaml_file_path)
-thr_rec=thr_rec %>% inner_join(recurrence, by="recurrencetype1stdescription")
-thr_rec = thr_rec %>% select (-recurrenceType1st) %>% group_by(recurrence_Type_category) %>% summarise(total=sum(n_pts))%>% select(recurrence_Type_category, total)
-```
-```{r recurrence type, message=FALSE, warning=FALSE }
-thr_rec=thr_rec %>% arrange(desc(total))
-
-labels <- c(
-  "recurrence_Type_category"="Recurrence Type Category",
-  "total" = "Patient Count"
-)
-
-create_gt_table_v1(
-  data = thr_rec, 
-  columns = c( "recurrence_Type_category" , "total"), 
-  labels = labels, 
-   subtitle_text = "",
-  footnote_text ="")
-
-```
-
-:::
 
 :::
