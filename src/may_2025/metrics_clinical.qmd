@@ -11,9 +11,9 @@ source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encodi
 yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 
 ```
+*Release Version: May 2025 (IRB76049)*
 
 ### **Population Summary**
-As of the May 2025 oncology OMOP population:
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 den <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_denominators.sql"
@@ -23,9 +23,8 @@ den_res=den_res %>% arrange(desc(percentage))
 ```
 
 
-*Release Version: May 2025 (IRB76049)*
-
-The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
+Patients are included in the Oncology-OMOP dataset if they have a case in the Neuralframe Stanford Cancer Registry (regardless of case status) or if they have a tumor board encounter in Epic Clarity. 
+As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
     - [Neural Frame Metrics](neural_frame.qmd)
@@ -41,6 +40,7 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
+library(ComplexUpset)
 folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_person_metrics.sql"
 res_tb <- fetch_data_from_sql_file(folder_path_tb, yaml_file_path)
 res_tb

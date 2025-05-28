@@ -12,9 +12,9 @@ packages <- c(
   "rappdirs", "readr", "renv", "rlang", "rmarkdown", "sass", "scales", "stringi",
   "stringr", "sys", "tibble", "tidyr", "tidyselect", "tinytex", "tzdb", "utf8",
   "vctrs", "viridisLite", "vroom", "withr", "xfun", "yaml", "viridis", "forcats", "upsetr","UpSetR",
-"ggvenn", "complexupset", "ggupset", "DT")
+"ggvenn", "complexupset", "ggupset", "DT", "ComplexUpset")
 
 # Install packages
 install.packages(packages)
 
- 
+
