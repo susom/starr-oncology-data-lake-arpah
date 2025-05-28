@@ -236,7 +236,7 @@ fetch_data_from_sql_folder <- function(folder_path) {
 
   on.exit(dbDisconnect(conn), add = TRUE)
 
-  sql_params <- yaml::read_yaml("sql_params.yml")
+  sql_params <- yaml::read_yaml("/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_params.yml")
 
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
 

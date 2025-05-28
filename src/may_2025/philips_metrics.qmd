@@ -183,6 +183,54 @@ DT::datatable(
   ) %>%
   DT::formatRound('Percentage', digits = 1)
 ```
+### Scatter Plot
+Gene Distribution across Chromosomes:
+
+```{r plot main, message=FALSE, warning=FALSE}
+  p <- ggplot(filtered_gene_ch, 
+     aes(x = n_pts, 
+         y = chrom,
+         text = sprintf(
+           "Gene: %s<br>Patient Count: %d<br>Chromosome: %s",
+           hgnc_gene, n_pts, chrom
+         ))) +
+         geom_text(
+    data = . %>% filter(n_pts > 500),  # Filter for text labels
+    aes(label = hgnc_gene),
+    size = 3,
+    hjust = -0.2,
+    check_overlap = TRUE
+  ) +
+  geom_jitter(
+    aes(size = n_pts, color = n_pts),
+    alpha = 0.6,
+    width = 0.3,      # No horizontal jitter
+    height = 0   # Vertical jitter amount
+  ) +
+  scale_size_continuous(range = c(3, 10)) +
+  scale_color_distiller(name = "Patient Count", 
+    palette = "Set3",
+    direction = 1
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Patient Counts by Gene and Chromosome",
+    x = "Patient Count",
+    y = "Chromosome"
+  ) +
+  theme(
+    legend.position = "right",
+    panel.grid.minor = element_blank(),
+    panel.spacing = unit(0.3, "cm")
+  )
+
+# Make it interactive
+ggplotly(p, 
+         tooltip = "text"
+)
+         #height = 800, 
+        # width = 1200) 
+```
 
 ### Heatmap
 Genes Distribution by Chromosomes 
@@ -246,54 +294,6 @@ ggplotly(p,
 ```
 
 
-### Jitter plot
-Gene Distribution across Chromosomes:
-
-```{r plot main, message=FALSE, warning=FALSE}
-  p <- ggplot(filtered_gene_ch, 
-     aes(x = n_pts, 
-         y = chrom,
-         text = sprintf(
-           "Gene: %s<br>Patient Count: %d<br>Chromosome: %s",
-           hgnc_gene, n_pts, chrom
-         ))) +
-         geom_text(
-    data = . %>% filter(n_pts > 500),  # Filter for text labels
-    aes(label = hgnc_gene),
-    size = 3,
-    hjust = -0.2,
-    check_overlap = TRUE
-  ) +
-  geom_jitter(
-    aes(size = n_pts, color = n_pts),
-    alpha = 0.6,
-    width = 0.3,      # No horizontal jitter
-    height = 0   # Vertical jitter amount
-  ) +
-  scale_size_continuous(range = c(3, 10)) +
-  scale_color_distiller(name = "Patient Count", 
-    palette = "Set3",
-    direction = 1
-  ) +
-  theme_minimal() +
-  labs(
-    title = "Patient Counts by Gene and Chromosome",
-    x = "Patient Count",
-    y = "Chromosome"
-  ) +
-  theme(
-    legend.position = "right",
-    panel.grid.minor = element_blank(),
-    panel.spacing = unit(0.3, "cm")
-  )
-
-# Make it interactive
-ggplotly(p, 
-         tooltip = "text"
-)
-         #height = 800, 
-        # width = 1200) 
-```
 
 :::
 
@@ -311,7 +311,6 @@ gene_order <- mutation_data %>%
  mutate(total = sum(n_pts))
 ```
 
-(ASK Jose)
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 gene_order <- mutation_data %>%
   group_by(hgnc_gene) %>%
@@ -462,7 +461,6 @@ table(thr_kras$flag)
 thr_kras=thr_kras%>% arrange(desc(n_pts))
 
 ```
-(ASK Jose)
 ```{r kras plot, message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
