@@ -89,7 +89,7 @@ dat_modality <- data.frame(Value, Description, retired, stringsAsFactors = FALSE
 
 In the OMOP Common Data Model (CDM), the "Image_occurrence" table provides a structured way to represent medical imaging events, bridging the gap between imaging and observational research by integrating image-based measurements into the CDM. 
 
-The OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure, and it also provides a path to deidentified DICOM images.
+The OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure, and it also provides a path to de-identified DICOM images.
 
 Each record includes metadata such as the modality (e.g., CT, MRI) and the anatomic site of the image. The table maintains foreign key links to the procedure_occurrence and visit_occurrence tables, enabling contextual association with the related clinical procedure and patient encounter. 
 

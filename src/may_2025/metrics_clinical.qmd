@@ -36,7 +36,7 @@ The oncology OMOP cohort is defined as all patients with an existing record in S
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
     - [Philips ISPM Metrics](philips_metrics.qmd)
 
-  - **OMOP Image Occurrence:** A record of image series from the Vendor Neutral Archive. This does not include Echocardiograms, Ophthalmology images, or Pathology slides at present. We are also only including image occurrences that can be linked to the clarity procedure order information.
+  - **OMOP Image Occurrence:** The OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure, and it also provides a path to deidentified DICOM images.
     - [Image Occurrence Metrics](image_occ.qmd)
 
 

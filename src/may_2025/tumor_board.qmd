@@ -103,7 +103,7 @@ The Stanford Cancer Registry keeps track of every cancer case at Stanford and us
 
 - **Completed** cases are reportable, have been fully abstracted, and have passed all edit checks. These cases are transmitted to the state.
 
-Please note that the Incomplete case status is eventually updated to either Completed’ or Not Reportable.
+Please note that the Incomplete case status is eventually updated to either Completed or Not Reportable.
 
 ```{r case status, message=FALSE, warning=FALSE, results='hide'}
 # Parameters

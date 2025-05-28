@@ -342,6 +342,7 @@ The following horizontal bar chart presents the hierarchical distribution of tho
 - Hover over bars to see detailed information
 - Double-click legend items to isolate a single category o to restore all categories
 
+
 ```{r histology barplot, message=FALSE, warning=FALSE}
     thr_his=thr_his %>% filter(histology!="Other/Not Specified")
 
@@ -497,7 +498,8 @@ p2
 
 
 ### Detailed Pie Chart
-Detailed Distribution of Thoracic Cancer Subcategories:
+Detailed distribution of thoracic cancer subcategories are shown below.
+
 
 ```{r piechart with barplots combined, message=FALSE, warning=FALSE}
 # Create main summary
