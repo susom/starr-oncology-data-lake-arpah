@@ -51,5 +51,8 @@ In order to protect patient information, various PHI (Protected Health Informati
 | TiDE                         | Pass through [TiDE](https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor), Stanford's text PHI scrubbing algorithm                                                      |
 | RedZip                       | Reduce the Zipcode precision based on Stanford's University Privacy Office guidelines as outlined [here](https://docs.google.com/document/d/1wC_ikzVahKUQuGSod4OfFKVPfedAnqO-tDHjo4O2ygY/edit?tab=t.0), Sec 1.4 |
 | Drop                         | Drop this column in the PHI scrubbed dataset                                                                    |
+| Stable Between Data Refreshes     | Substitute with a stable identifier specific to the project and dataset column that will persist between data refreshes. This may be an integer or alphanumeric based on other  requirements of the table |
+| Not Stable between Data Refreshes | Substitute with an identifier that is only specific and self consistent for that data refresh -could be an integer or alphanumeric based on  requirements of the table                                    |
+| None                              | pass as is- no PHI scrubbing operation                                                                                                                                                                    |
 
 :  {.hover .responsive .sm}

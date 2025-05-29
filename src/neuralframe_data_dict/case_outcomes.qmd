@@ -4,101 +4,472 @@ title: "NeuralFrame Case Outcomes"
 
 This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
 
-| Column Name                           | Type   | Description                             | NAACCR Number                                                                                                   |
-|:--------------------------------------|:-------|:----------------------------------------|:----------------------------------------------------------------------------------------------------------------|
-| stanford_patient_uid                  | STRING |                                         |                                                                                                                 |
-| nfcaseentityid                        | STRING |                                         |                                                                                                                 |
-| nfcasestatus                          | STRING |                                         |                                                                                                                 |
-| nfpatientsetid                        | STRING |                                         |                                                                                                                 |
-| medicalrecordnumber                   | STRING | Medical Record Number                   | [2300](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2300/)     |
-| dateofbirth                           | STRING | Date of Birth                           | [240](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=240/)       |
-| nffacilityid                          | STRING | NF Facility ID                          | [50078](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50078/)   |
-| nffacilityiddescription               | STRING |                                         |                                                                                                                 |
-| date1stcrsrxcoc                       | STRING | Date 1st Crs RX CoC                     | [1270](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1270/)     |
-| date1stcrsrxcocflag                   | STRING | Date 1St Crs Rx Coc Flag                | [1271](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1271/)     |
-| date1stcrsrxcocflagdescription        | STRING |                                         |                                                                                                                 |
-| autopsy                               | STRING | Autopsy                                 | [1930](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1930/)     |
-| autopsydescription                    | STRING |                                         |                                                                                                                 |
-| cancerstatus                          | STRING | Cancer Status                           | [1770](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1770/)     |
-| cancerstatusdescription               | STRING |                                         |                                                                                                                 |
-| causeofdeath                          | STRING | Cause of Death                          | [1910](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1910/)     |
-| causeofdeathdescription               | STRING |                                         |                                                                                                                 |
-| dateabstracted                        | STRING | Date Abstracted                         | [12003](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12003/)   |
-| datecasecompleted                     | STRING | Date Case Completed                     | [2090](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2090/)     |
-| datecasecompletedcoc                  | STRING | Date Case Completed--CoC                | [2092](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2092/)     |
-| datecasefirstcompleted                | STRING | Date Case First Completed               | [12001](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12001/)   |
-| datecaseinitiated                     | STRING | Date Case Initiated                     | [2085](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2085/)     |
-| datecaselastchanged                   | STRING | Date Case Last Changed                  | [2100](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2100/)     |
-| datecaselastvalidated                 | STRING | Date Case Last Validated                | [12000](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12000/)   |
-| datecasereportexported                | STRING | Date Case Report Exported               | [2110](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2110/)     |
-| datecasereportexportedcoc             | STRING | Date Case Report Exported CoC           | [50074](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50074/)   |
-| datecasereportfirstexported           | STRING | Date Case Report First Exported State   | [12010](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12010/)   |
-| datecasereportfirstexportedcoc        | STRING | Date Case Report First Exported CoC     | [50081](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50081/)   |
-| datefirstpositivebx                   | STRING | Date First Positive Bx                  | [10070](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10070/)   |
-| dateinitialrxseer                     | STRING | Date Initial RX SEER                    | [1260](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1260/)     |
-| dateinitialrxseerflag                 | STRING | Date Initial Rx Seer Flag               | [1261](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1261/)     |
-| dateinitialrxseerflagdescription      | STRING |                                         |                                                                                                                 |
-| datekaciintegratedcasefindingadded    | STRING | Date KACI Integrated Casefinding Added  | [43210](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=43210/)   |
-| datekaciintegratedfollowupupdated     | STRING | Date KACI Integrated Follow-Up Updated  | [22325](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=22325/)   |
-| datenorxdecision                      | STRING | Date No Rx Decision                     | [10072](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10072/)   |
-| dateof1stcontact                      | STRING | Date of 1st Contact                     | [580](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=580/)       |
-| dateof1stcontactflag                  | STRING | Date Of 1St Contact Flag                | [581](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=581/)       |
-| dateof1stcontactflagdescription       | STRING |                                         |                                                                                                                 |
-| dateofinptadm                         | STRING | Date of Inpt Adm                        | [590](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=590/)       |
-| dateofinptadmflag                     | STRING | Date of Inpatient Admission Flag        | [591](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=591/)       |
-| dateofinptadmflagdescription          | STRING |                                         |                                                                                                                 |
-| dateofinptdisch                       | STRING | Date of Inpt Disch                      | [600](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=600/)       |
-| dateofinptdischflag                   | STRING | Date of Inpatient Discharge Flag        | [601](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=601/)       |
-| dateofinptdischflagdescription        | STRING |                                         |                                                                                                                 |
-| dateoflastcancerstatus                | STRING | Date of Last Cancer (tumor) Status      | [1772](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1772/)     |
-| dateoflastcancerstatusflag            | STRING | Date Of Last Cancer (Tumor) Status Flag | [1773](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1773/)     |
-| dateoflastcancerstatusflagdescription | STRING |                                         |                                                                                                                 |
-| dateoflastcontact                     | STRING | Date of Last Contact                    | [1750](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1750/)     |
-| dateoflastcontactflag                 | STRING | Date Of Last Contact Flag               | [1751](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1751/)     |
-| dateoflastcontactflagdescription      | STRING |                                         |                                                                                                                 |
-| eventcoursenumber                     | STRING | Event Course                            | [100002](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=100002/) |
-| eventcoursenumberdescription          | STRING |                                         |                                                                                                                 |
-| followupflag                          | STRING | Follow-up Flag                          | [70009](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70009/)   |
-| followupflagdescription               | STRING |                                         |                                                                                                                 |
-| followupsource                        | STRING | Follow-Up Source                        | [1790](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1790/)     |
-| followupsourcedescription             | STRING |                                         |                                                                                                                 |
-| followupoutcomestext                  | STRING | Text-Automatic Followup/Outcomes Only   | [12121](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12121/)   |
-| icdrevisionnumber                     | STRING | ICD Revision Number                     | [1920](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1920/)     |
-| icdrevisionnumberdescription          | STRING |                                         |                                                                                                                 |
-| lpchrefractoryleukemia                | STRING | LPCH Refractory Leukemia                | [10031](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10031/)   |
-| lpchrefractoryleukemiadescription     | STRING |                                         |                                                                                                                 |
-| ncdbcovid19tximpact                   | STRING | NCDB--COVID19--Tx Impact                | [3946](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3946/)     |
-| ncdbcovid19tximpactdescription        | STRING |                                         |                                                                                                                 |
-| ncdbsarscov2pos                       | STRING | NCDB--SARSCoV2--Pos                     | [3944](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3944/)     |
-| ncdbsarscov2posdate                   | STRING | NCDB--SARSCoV2--Pos Date                | [3945](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3945/)     |
-| ncdbsarscov2posdescription            | STRING |                                         |                                                                                                                 |
-| ncdbsarscov2test                      | STRING | NCDB--SARSCoV2--Test                    | [3943](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3943/)     |
-| ncdbsarscov2testdescription           | STRING |                                         |                                                                                                                 |
-| nextfollowupsource                    | STRING | Next Follow-Up Source                   | [1800](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1800/)     |
-| nextfollowupsourcedescription         | STRING |                                         |                                                                                                                 |
-| placeofdeathcountry                   | STRING | Place of Death--Country                 | [1944](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1944/)     |
-| placeofdeathcountrydescription        | STRING |                                         |                                                                                                                 |
-| placeofdeathstate                     | STRING | Place of Death--State                   | [1942](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1942/)     |
-| placeofdeathstatedescription          | STRING |                                         |                                                                                                                 |
-| recurrencedate1st                     | STRING | Recurrence Date--1st                    | [1860](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1860/)     |
-| recurrencedate1stflag                 | STRING | Recurrence Date--1St Flag               | [1861](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1861/)     |
-| recurrencedate1stflagdescription      | STRING |                                         |                                                                                                                 |
-| recurrencetype1st                     | STRING | Recurrence Type--1st                    | [1880](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1880/)     |
-| recurrencetype1stdescription          | STRING |                                         |                                                                                                                 |
-| vitalstatus                           | STRING | Vital Status                            | [1760](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1760/)     |
-| vitalstatusdescription                | STRING |                                         |                                                                                                                 |
-| vitalstatusrecode                     | STRING | Vital Status Recode                     | [1762](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1762/)     |
-| vitalstatusrecodedescription          | STRING |                                         |                                                                                                                 |
-| followingregistry                     | STRING |                                         |                                                                                                                 |
-| followupcontactcountry                | STRING |                                         |                                                                                                                 |
-| inpatientstatus                       | STRING | Inpatient Status                        | [605](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=605/)       |
-| inpatientstatusdescription            | STRING |                                         |                                                                                                                 |
-| institutionreferredfrom               | STRING | Institution Referred From               | [2410](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2410/)     |
-| institutionreferredfromdescription    | STRING |                                         |                                                                                                                 |
-| institutionreferredto                 | STRING | Institution Referred To                 | [2420](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2420/)     |
-| institutionreferredtodescription      | STRING |                                         |                                                                                                                 |
-| lastfollowuphospital                  | STRING | Last Follow-Up Hospital                 | [2430](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2430/)     |
-| placeofdeath                          | STRING |                                         |                                                                                                                 |
-| qualityofsurvival                     | STRING |                                         |                                                                                                                 |
+### Table Columns
+
+| column name                           | type    | phi   | phi-scrubbing operation       | naaccr number                                                                                                   |
+|:--------------------------------------|:--------|:------|:------------------------------|:----------------------------------------------------------------------------------------------------------------|
+| autopsy                               | STRING  |       |                            | [1930](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1930/)     |
+| autopsydescription                    | STRING  |       |                            |                                                                                                                 |
+| cancerstatus                          | STRING  |       |                            | [1770](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1770/)     |
+| cancerstatusdescription               | STRING  |       |                            |                                                                                                                 |
+| causeofdeath                          | STRING  |       |                            | [1910](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1910/)     |
+| causeofdeathdescription               | STRING  |       |                            |                                                                                                                 |
+| date1stcrsrxcoc                       | STRING  | Yes   | Jitter                        | [1270](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1270/)     |
+| date1stcrsrxcocflag                   | STRING  |       |                            | [1271](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1271/)     |
+| date1stcrsrxcocflagdescription        | STRING  |       |                            |                                                                                                                 |
+| dateabstracted                        | STRING  | Yes   | Jitter                        | [12003](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12003/)   |
+| datecasecompleted                     | STRING  | Yes   | Jitter                        | [2090](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2090/)     |
+| datecasecompletedcoc                  | STRING  | Yes   | Jitter                        | [2092](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2092/)     |
+| datecasefirstcompleted                | STRING  | Yes   | Jitter                        | [12001](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12001/)   |
+| datecaseinitiated                     | STRING  | Yes   | Jitter                        | [2085](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2085/)     |
+| datecaselastchanged                   | STRING  | Yes   | Jitter                        | [2100](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2100/)     |
+| datecaselastvalidated                 | STRING  | Yes   | Jitter                        | [12000](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12000/)   |
+| datecasereportexported                | STRING  | Yes   | Jitter                        | [2110](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2110/)     |
+| datecasereportexportedcoc             | STRING  | Yes   | Jitter                        | [50074](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50074/)   |
+| datecasereportfirstexported           | STRING  | Yes   | Jitter                        | [12010](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12010/)   |
+| datecasereportfirstexportedcoc        | STRING  | Yes   | Jitter                        | [50081](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50081/)   |
+| datefirstpositivebx                   | STRING  | Yes   | Jitter                        | [10070](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10070/)   |
+| dateinitialrxseer                     | STRING  | Yes   | Jitter                        | [1260](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1260/)     |
+| dateinitialrxseerflag                 | STRING  |       |                            | [1261](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1261/)     |
+| dateinitialrxseerflagdescription      | STRING  |       |                            |                                                                                                                 |
+| datekaciintegratedcasefindingadded    | STRING  | Yes   | Jitter                        | [43210](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=43210/)   |
+| datekaciintegratedfollowupupdated     | STRING  | Yes   | Jitter                        | [22325](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=22325/)   |
+| datenorxdecision                      | STRING  | Yes   | Jitter                        | [10072](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10072/)   |
+| dateof1stcontact                      | STRING  | Yes   | Jitter                        | [580](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=580/)       |
+| dateof1stcontactflag                  | STRING  |       |                            | [581](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=581/)       |
+| dateof1stcontactflagdescription       | STRING  |       |                            |                                                                                                                 |
+| dateofinptadm                         | STRING  | Yes   | Jitter                        | [590](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=590/)       |
+| dateofinptadmflag                     | STRING  |       |                            | [591](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=591/)       |
+| dateofinptadmflagdescription          | STRING  |       |                            |                                                                                                                 |
+| dateofinptdisch                       | STRING  | Yes   | Jitter                        | [600](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=600/)       |
+| dateofinptdischflag                   | STRING  |       |                            | [601](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=601/)       |
+| dateofinptdischflagdescription        | STRING  |       |                            |                                                                                                                 |
+| dateoflastcancerstatus                | STRING  | Yes   | Jitter                        | [1772](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1772/)     |
+| dateoflastcancerstatusflag            | STRING  |       |                            | [1773](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1773/)     |
+| dateoflastcancerstatusflagdescription | STRING  |       |                            |                                                                                                                 |
+| dateoflastcontact                     | STRING  | Yes   | Jitter                        | [1750](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1750/)     |
+| dateoflastcontactflag                 | STRING  |       |                            | [1751](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1751/)     |
+| dateoflastcontactflagdescription      | STRING  |       |                            |                                                                                                                 |
+| eventcoursenumber                     | STRING  |       |                            | [100002](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=100002/) |
+| eventcoursenumberdescription          | STRING  |       |                            |                                                                                                                 |
+| followingregistry                     | STRING  |       |                            |                                                                                                                 |
+| followupcontactcountry                | STRING  |       |                            |                                                                                                                 |
+| followupflag                          | STRING  |       |                            | [70009](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70009/)   |
+| followupflagdescription               | STRING  |       |                            |                                                                                                                 |
+| followupoutcomestext                  | STRING  | Yes   | TiDE                          | [12121](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=12121/)   |
+| followupsource                        | STRING  |       |                            | [1790](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1790/)     |
+| followupsourcedescription             | STRING  |       |                            |                                                                                                                 |
+| icdrevisionnumber                     | STRING  |       |                            | [1920](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1920/)     |
+| icdrevisionnumberdescription          | STRING  |       |                            |                                                                                                                 |
+| inpatientstatus                       | STRING  |       |                            | [605](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=605/)       |
+| inpatientstatusdescription            | STRING  |       |                            |                                                                                                                 |
+| institutionreferredfrom               | STRING  |       |                            | [2410](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2410/)     |
+| institutionreferredfromdescription    | STRING  |       |                            |                                                                                                                 |
+| institutionreferredto                 | STRING  |       |                            | [2420](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2420/)     |
+| institutionreferredtodescription      | STRING  |       |                            |                                                                                                                 |
+| lastfollowuphospital                  | STRING  |       |                            | [2430](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2430/)     |
+| lpchrefractoryleukemia                | STRING  |       |                            | [10031](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10031/)   |
+| lpchrefractoryleukemiadescription     | STRING  |       |                            |                                                                                                                 |
+| ncdbcovid19tximpact                   | STRING  |       |                            | [3946](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3946/)     |
+| ncdbcovid19tximpactdescription        | STRING  |       |                            |                                                                                                                 |
+| ncdbsarscov2pos                       | STRING  |       |                            | [3944](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3944/)     |
+| ncdbsarscov2posdate                   | STRING  | Yes   | Jitter                        | [3945](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3945/)     |
+| ncdbsarscov2posdescription            | STRING  |       |                            |                                                                                                                 |
+| ncdbsarscov2test                      | STRING  |       |                            | [3943](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3943/)     |
+| ncdbsarscov2testdescription           | STRING  |       |                            |                                                                                                                 |
+| nextfollowupsource                    | STRING  |       |                            | [1800](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1800/)     |
+| nextfollowupsourcedescription         | STRING  |       |                            |                                                                                                                 |
+| nfcaseentityid                        | STRING  | Yes   | Stable Between Data Refreshes |                                                                                                                 |
+| nfcasestatus                          | STRING  |       |                            |                                                                                                                 |
+| nffacilityid                          | STRING  |       |                            | [50078](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50078/)   |
+| nffacilityiddescription               | STRING  |       |                            |                                                                                                                 |
+| person_id                             | INTEGER | Yes   | Stable Between Data Refreshes |                                                                                                                 |
+| placeofdeath                          | STRING  | Yes   | Del                           |                                                                                                                 |
+| placeofdeathcountry                   | STRING  |       |                            | [1944](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1944/)     |
+| placeofdeathcountrydescription        | STRING  |       |                            |                                                                                                                 |
+| placeofdeathstate                     | STRING  |       |                            | [1942](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1942/)     |
+| placeofdeathstatedescription          | STRING  |       |                            |                                                                                                                 |
+| qualityofsurvival                     | STRING  |       |                            |                                                                                                                 |
+| recurrencedate1st                     | STRING  | Yes   | Jitter                        | [1860](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1860/)     |
+| recurrencedate1stflag                 | STRING  |       |                            | [1861](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1861/)     |
+| recurrencedate1stflagdescription      | STRING  |       |                            |                                                                                                                 |
+| recurrencetype1st                     | STRING  |       |                            | [1880](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1880/)     |
+| recurrencetype1stdescription          | STRING  |       |                            |                                                                                                                 |
+| stanford_patient_uid                  | STRING  | Yes   | Del                           |                                                                                                                 |
+| vitalstatus                           | STRING  |       |                            | [1760](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1760/)     |
+| vitalstatusdescription                | STRING  |       |                            |                                                                                                                 |
+| vitalstatusrecode                     | STRING  |       |                            | [1762](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1762/)     |
+| vitalstatusrecodedescription          | STRING  |       |                            |                                                                                                                 |
 
 :  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### stanford_patient_uid
+
+Internal Stanford tracking ID for Neural frame 
+
+##### nfcaseentityid
+
+Unique number corresponding to every new neural frame "case" or event
+
+##### nfcasestatus
+
+nan
+
+##### nffacilityid
+
+NF Facility ID
+
+##### nffacilityiddescription
+
+nan
+
+##### date1stcrsrxcoc
+
+Date 1st Crs RX CoC
+
+##### date1stcrsrxcocflag
+
+Date 1St Crs Rx Coc Flag
+
+##### date1stcrsrxcocflagdescription
+
+nan
+
+##### autopsy
+
+Autopsy
+
+##### autopsydescription
+
+nan
+
+##### cancerstatus
+
+Cancer Status
+
+##### cancerstatusdescription
+
+nan
+
+##### causeofdeath
+
+Cause of Death
+
+##### causeofdeathdescription
+
+nan
+
+##### dateabstracted
+
+Date Abstracted
+
+##### datecasecompleted
+
+Date Case Completed
+
+##### datecasecompletedcoc
+
+Date Case Completed–CoC
+
+##### datecasefirstcompleted
+
+Date Case First Completed
+
+##### datecaseinitiated
+
+Date Case Initiated
+
+##### datecaselastchanged
+
+Date Case Last Changed
+
+##### datecaselastvalidated
+
+Date Case Last Validated
+
+##### datecasereportexported
+
+Date Case Report Exported
+
+##### datecasereportexportedcoc
+
+Date Case Report Exported CoC
+
+##### datecasereportfirstexported
+
+Date Case Report First Exported State
+
+##### datecasereportfirstexportedcoc
+
+Date Case Report First Exported CoC
+
+##### datefirstpositivebx
+
+Date First Positive Bx
+
+##### dateinitialrxseer
+
+Date Initial RX SEER
+
+##### dateinitialrxseerflag
+
+Date Initial Rx Seer Flag
+
+##### dateinitialrxseerflagdescription
+
+nan
+
+##### datekaciintegratedcasefindingadded
+
+Date KACI Integrated Casefinding Added
+
+##### datekaciintegratedfollowupupdated
+
+Date KACI Integrated Follow-Up Updated
+
+##### datenorxdecision
+
+Date No Rx Decision
+
+##### dateof1stcontact
+
+Date of 1st Contact
+
+##### dateof1stcontactflag
+
+Date Of 1St Contact Flag
+
+##### dateof1stcontactflagdescription
+
+nan
+
+##### dateofinptadm
+
+Date of Inpt Adm
+
+##### dateofinptadmflag
+
+Date of Inpatient Admission Flag
+
+##### dateofinptadmflagdescription
+
+nan
+
+##### dateofinptdisch
+
+Date of Inpt Disch
+
+##### dateofinptdischflag
+
+Date of Inpatient Discharge Flag
+
+##### dateofinptdischflagdescription
+
+nan
+
+##### dateoflastcancerstatus
+
+Date of Last Cancer (tumor) Status
+
+##### dateoflastcancerstatusflag
+
+Date Of Last Cancer (Tumor) Status Flag
+
+##### dateoflastcancerstatusflagdescription
+
+nan
+
+##### dateoflastcontact
+
+Date of Last Contact
+
+##### dateoflastcontactflag
+
+Date Of Last Contact Flag
+
+##### dateoflastcontactflagdescription
+
+nan
+
+##### eventcoursenumber
+
+Event Course
+
+##### eventcoursenumberdescription
+
+nan
+
+##### followupflag
+
+Follow-up Flag
+
+##### followupflagdescription
+
+nan
+
+##### followupsource
+
+Follow-Up Source
+
+##### followupsourcedescription
+
+nan
+
+##### followupoutcomestext
+
+Text-Automatic Followup/Outcomes Only
+
+##### icdrevisionnumber
+
+ICD Revision Number
+
+##### icdrevisionnumberdescription
+
+nan
+
+##### lpchrefractoryleukemia
+
+LPCH Refractory Leukemia
+
+##### lpchrefractoryleukemiadescription
+
+nan
+
+##### ncdbcovid19tximpact
+
+NCDB–COVID19–Tx Impact
+
+##### ncdbcovid19tximpactdescription
+
+nan
+
+##### ncdbsarscov2pos
+
+NCDB–SARSCoV2–Pos
+
+##### ncdbsarscov2posdate
+
+NCDB–SARSCoV2–Pos Date
+
+##### ncdbsarscov2posdescription
+
+nan
+
+##### ncdbsarscov2test
+
+NCDB–SARSCoV2–Test
+
+##### ncdbsarscov2testdescription
+
+nan
+
+##### nextfollowupsource
+
+Next Follow-Up Source
+
+##### nextfollowupsourcedescription
+
+nan
+
+##### placeofdeathcountry
+
+Place of Death–Country
+
+##### placeofdeathcountrydescription
+
+nan
+
+##### placeofdeathstate
+
+Place of Death–State
+
+##### placeofdeathstatedescription
+
+nan
+
+##### recurrencedate1st
+
+Recurrence Date–1st
+
+##### recurrencedate1stflag
+
+Recurrence Date–1St Flag
+
+##### recurrencedate1stflagdescription
+
+nan
+
+##### recurrencetype1st
+
+Recurrence Type–1st
+
+##### recurrencetype1stdescription
+
+nan
+
+##### vitalstatus
+
+Vital Status
+
+##### vitalstatusdescription
+
+nan
+
+##### vitalstatusrecode
+
+Vital Status Recode
+
+##### vitalstatusrecodedescription
+
+nan
+
+##### followingregistry
+
+nan
+
+##### followupcontactcountry
+
+nan
+
+##### inpatientstatus
+
+Inpatient Status
+
+##### inpatientstatusdescription
+
+nan
+
+##### institutionreferredfrom
+
+Institution Referred From
+
+##### institutionreferredfromdescription
+
+nan
+
+##### institutionreferredto
+
+Institution Referred To
+
+##### institutionreferredtodescription
+
+nan
+
+##### lastfollowuphospital
+
+Last Follow-Up Hospital
+
+##### placeofdeath
+
+Place of Death
+
+##### qualityofsurvival
+
+nan
+
+##### person_id
+
+Person_id as corresponds to the OMOP dataset
