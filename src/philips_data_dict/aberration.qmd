@@ -1,3 +1,0 @@
----
-title: "Philips ISPM Aberration "
----
