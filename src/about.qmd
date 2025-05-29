@@ -15,7 +15,7 @@ The identified dataset is created using EPIC Clarity tables, which include patie
 
 #### NeuralFrame
 
-Neural Frame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:
+NeuralFrame data encompasses research-eligible patients who have case records in the Neural Frame, also known as the Stanford Cancer Registry. This dataset is categorized into four main areas:
 
 - **Outcome**: This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
 
