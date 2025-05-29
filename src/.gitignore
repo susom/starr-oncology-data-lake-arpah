@@ -4,3 +4,5 @@ demographic_files/
 *.html
 *.rmarkdown
 site_libs/
+.DS_Store
+.DS_Store?

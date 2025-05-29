@@ -1,0 +1,439 @@
+---
+title: "OMOP Image Occurrence"
+execute:
+  echo: false
+---
+```{r setup, include=FALSE}
+
+# Your existing initialization
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
+```
+
+```{r modality sql, message=FALSE, warning=FALSE, results='hide'}
+
+library(forcats)
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_modality.sql"
+res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
+head(res_img_mod)
+res_img_mod$variable_name<-NULL
+colnames(res_img_mod)=c("modality_type", "series_count", "person_count")
+```
+
+```{r modality dictionary,  warning=FALSE, results='hide'}
+
+
+Value <- c("AR", "AS", "ASMT", "AU", "BDUS", "BI", "BMD", "CD", "CF", "CP", 
+           "CR", "CS", "CT", "DD", "DF", "DG", "DM", "DOC", "DS", "DX", 
+           "EC", "ECG", "EPS", "ES", "FA", "FID", "FS", "GM", "HC", "HD", 
+           "IO", "IOL", "IVOCT", "IVUS", "KER", "KO", "LEN", "LP", "LS", 
+           "MA", "MG", "MR", "MS", "NM", "OAM", "OCT", "OP", "OPM", "OPR", 
+           "OPT", "OPV", "OSS", "OT", "PLAN", "PR", "PT", "PX", "REG", 
+           "RESP", "RF", "RG", "RTDOSE", "RTIMAGE", "RTPLAN", "RTRECORD", 
+           "RTSTRUCT", "RWV", "SEG", "SM", "SMR", "SR", "SRF", "ST", 
+           "STAIN", "TG", "US", "VA", "VF", "XA", "XC")
+
+Description <- c("Autorefraction", "Angioscopy", "Content Assessment Results", 
+                 "Audio", "Bone Densitometry (ultrasound)", "Biomagnetic imaging", 
+                 "Bone Densitometry (X-Ray)", "Color flow Doppler", 
+                 "Cinefluorography", "Colposcopy", "Computed Radiography", 
+                 "Cystoscopy", "Computed Tomography", "Duplex Doppler", 
+                 "Digital fluoroscopy", "Diaphanography", "Digital microscopy", 
+                 "Document", "Digital Subtraction Angiography", "Digital Radiography", 
+                 "Echocardiography", "Electrocardiography", 
+                 "Cardiac Electrophysiology", "Endoscopy", 
+                 "Fluorescein angiography", "Fiducials", "Fundoscopy", 
+                 "General Microscopy", "Hard Copy", "Hemodynamic Waveform", 
+                 "Intra-Oral Radiography", "Intraocular Lens Data", 
+                 "Intravascular Optical Coherence Tomography", 
+                 "Intravascular Ultrasound", "Keratometry", 
+                 "Key Object Selection", "Lensometry", "Laparoscopy", 
+                 "Laser surface scan", "Magnetic resonance angiography", 
+                 "Mammography", "Magnetic Resonance", 
+                 "Magnetic resonance spectroscopy", "Nuclear Medicine", 
+                 "Ophthalmic Axial Measurements", 
+                 "Optical Coherence Tomography (non-Ophthalmic)", 
+                 "Ophthalmic Photography", "Ophthalmic Mapping", 
+                 "Ophthalmic Refraction", "Ophthalmic Tomography", 
+                 "Ophthalmic Visual Field", "Optical Surface Scan", 
+                 "Other", "Plan", "Presentation State", 
+                 "Positron emission tomography (PET)", "Panoramic X-Ray", 
+                 "Registration", "Respiratory Waveform", 
+                 "Radio Fluoroscopy", "Radiographic imaging (conventional film/screen)", 
+                 "Radiotherapy Dose", "Radiotherapy Image", 
+                 "Radiotherapy Plan", "RT Treatment Record", 
+                 "Radiotherapy Structure Set", "Real World Value Map", 
+                 "Segmentation", "Slide Microscopy", "Stereometric Relationship", 
+                 "SR Document", "Subjective Refraction", 
+                 "Single-photon emission computed tomography (SPECT)", 
+                 "Automated Slide Stainer", "Thermography", 
+                 "Ultrasound", "Visual Acuity", "Videofluorography", 
+                 "X-Ray Angiography", "External-camera Photography")
+
+retired <- c(NA, "Retired", NA, NA, NA, NA, NA, "Retired", "Retired", 
+             "Retired", NA, "Retired", NA, "Retired", "Retired", NA, 
+             "Retired", NA, NA, NA, "Retired", NA, NA, NA, "Retired", 
+             NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "Retired", 
+             "Retired", NA, NA, "Retired", NA, "Retired", NA, 
+             "Retired", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+             NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+             NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 
+             "Retired", NA)
+
+# Create the data frame
+dat_modality <- data.frame(Value, Description, retired, stringsAsFactors = FALSE)
+
+```
+### Summary:
+
+In the OMOP Common Data Model (CDM), the "Image_occurrence" table provides a structured way to represent medical imaging events, bridging the gap between imaging and observational research by integrating image-based measurements into the CDM. 
+
+The OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure, and it also provides a path to de-identified DICOM images.
+
+Each record includes metadata such as the modality (e.g., CT, MRI) and the anatomic site of the image. The table maintains foreign key links to the procedure_occurrence and visit_occurrence tables, enabling contextual association with the related clinical procedure and patient encounter. 
+
+At Stanford, this table has been extended to include a link to the note table, allowing integration of imaging data with relevant clinical documentation. We expect to have larger number of images in the coming months. 
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## number of pts and number of series 
+path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_person.sql"
+pt_img <- fetch_data_from_sql_file(path_img, yaml_file_path)
+pt_img
+den_series=as.numeric(pt_img$counts)[2]
+den_pts=as.numeric(pt_img$counts)[1]
+```
+
+As of May 2025, this table included images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. **Series** are defined as individual imaging acquisitions within a study.
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## basic counts 
+sql_file_path_image<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_basic.sql"
+res<- fetch_data_from_sql_file(sql_file_path_image, yaml_file_path)
+head(res)
+
+
+##- **>`r format(res$counts[res$flag=="size_gb"], big.mark = ",")` GB** of imaging data 
+```
+::: {.columns}
+
+::: {.column width="40%"}
+### 📊 Data Volume 
+- Patient Count: `r format(pt_img$counts[1], big.mark = ",")`
+- Series Count: `r format(pt_img$counts[2], big.mark = ",")`
+- Study UID: `r format(res$counts[res$flag=="counts_study"], big.mark = ",")`
+:::
+
+::: {.column width="60%"}
+### 🧬 Data Components 
+- `r format(res$counts[res$flag=="counts_modality_type"], big.mark = ",")` Modality types 
+- `r format(res$counts[res$flag=="counts_anatomic_type"], big.mark = ",")` Anatomic sites 
+:::
+
+
+
+## Image Occurrence Metrics {.tabset}
+This visualization summarizes distribution of Modality categories and Anatomic sites by series and patient counts for all cancer types and for thoracic patients. 
+Note: We expect the number of patients with imaging data to increase per release. 
+
+::: {.panel-tabset}
+
+### All Cancer Types 
+## Modality Types
+Top modality  types for series above 5000 are listed as follow.
+
+**Note:** The following modality source values without image pixel were excluded from the analysis
+SR: Structured Report, REG: Registration, KO: Key Object Selection, PR: Presentation State
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+colnames(dat_modality)[1]<-"modality_type"
+res_img_mod=res_img_mod %>% left_join(dat_modality,by="modality_type" )
+res_img_mod=res_img_mod %>% filter(person_count>10)
+res_img_mod$retired<-NULL
+mod_ex=c("SR", "PR", "REG", "KO")
+res_img_mod= res_img_mod %>% filter (!modality_type %in% mod_ex)
+```
+
+```{r, message=FALSE, warning=FALSE}
+## Number of series in each modality - bar plot to keep 
+library(plotly)
+df_bar <- res_img_mod %>% filter(series_count>5000)%>%
+  arrange(desc(series_count)) %>% mutate(modality_type = fct_reorder(modality_type, series_count))
+
+plot_ly(df_bar,
+        y = ~modality_type,
+        x = ~series_count,
+        type = "bar",
+        color = ~modality_type,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Series Count"),
+         yaxis = list(title = ""))%>%layout (title = "Number of Series per Modality")
+
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+
+## hiding the pie ## 
+df_pie <- res_img_mod %>%
+  group_by(modality_type) %>%  filter(series_count>5000)%>%
+  arrange(desc(person_count)) 
+
+plot_ly(
+  df_pie,
+  labels = ~modality_type,
+  values = ~series_count,
+  type = "pie",
+  text = ~paste("Modality:", modality_type, "<br>Series Count:", format(series_count, big.mark = ",")),
+  hoverinfo = "text",
+  marker = list(colors = RColorBrewer::brewer.pal(n = max(3, nrow(df_pie)), "Set3")),
+  textinfo = "label+percent"
+) %>%
+  layout(
+    title = list(text = "Number of Series per Modality", x = 0.5),
+    legend = list(
+      orientation = "v",
+      x = -0.1,     
+      y = 0.5,     
+      xanchor = "left",
+      font = list(size = 12)
+    )
+  )
+```
+
+
+## Patient Population 
+```{r, message=FALSE, warning=FALSE}
+df_bar <- res_img_mod %>% filter(person_count>1000)%>%
+  arrange(desc(person_count)) %>% mutate(modality_type = fct_reorder(modality_type, person_count))
+
+plot_ly(df_bar,
+        y = ~modality_type,
+        x = ~person_count,
+        type = "bar",
+        color = ~modality_type,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Person Count"),
+         yaxis = list(title = ""))%>%layout (title = "Number of Patients per Modality")
+```
+## Modality Descriptions and Frequency by Series and Patients 
+Please note that the modality descriptions are listed here: [Modality Descriptions (DICOM Library)](https://www.dicomlibrary.com/dicom/modality/).
+
+```{r, message=FALSE, warning=FALSE}
+library(DT)
+res_img_mod=res_img_mod %>% mutate(modality_description = paste0(Description, " (", modality_type, ")"))
+res_img_mod$Description[is.na(res_img_mod$Description)]<-"Not Available"
+#res_img_mod$modality_type<-NULL
+res_img_mod<-res_img_mod %>% select (Description,modality_type,series_count,person_count)
+DT::datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLength = 10))%>%
+  formatRound(columns = c("person_count", "series_count"), digits = 0)
+
+## https://www.dicomlibrary.com/dicom/modality/
+
+## drop or regrp the documents and patterns by pixel data 
+## round to 1 decimal not 2
+```
+
+
+## Anatomic Sites
+Top anatomic sites for series above 5000 are listed as follow.
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+#| context: global
+
+sql_file_path_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_anatomic.sql"
+res_ana <- fetch_data_from_sql_file(sql_file_path_image_an, yaml_file_path)
+head(res_ana)
+res_ana$variable_name<-NULL
+colnames(res_ana)=c("anatomic_site", "series_count", "person_count")
+res_ana=res_ana %>% filter(person_count>10)
+```
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+library(plotly)
+library(DT)
+
+df_bar_sr <- res_ana %>% filter(series_count>5000)%>%
+  arrange(desc(series_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, series_count))
+
+plot_ly(df_bar_sr,
+        y = ~anatomic_site,
+        x = ~series_count,
+        type = "bar",
+        color = ~anatomic_site,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Series Count"),
+         yaxis = list(title = "")) %>%layout (title = "Number of Series per Anatomic Site")
+
+```
+## Patient Population 
+
+```{r, message=FALSE, warning=FALSE}
+library(forcats)
+df_bar <- res_ana %>% filter(person_count>1000)%>%
+  arrange(desc(person_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, person_count))
+
+plot_ly(df_bar,
+        y = ~anatomic_site,
+        x = ~person_count,
+        type = "bar",
+        color = ~anatomic_site,
+        colors = "Set3") %>%
+  layout(xaxis = list(title = "Person Count"),
+         yaxis = list(title = "")) %>%layout (title = "Number of Patients per Anatomic Site")
+```
+## Anatomic Site Descriptions and Frequency by Series and Patients 
+
+```{r, message=FALSE, warning=FALSE}
+library(DT)
+
+res_ana=res_ana %>% select (anatomic_site,series_count,person_count)
+
+DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength = 10))%>%
+  formatRound(columns = c("person_count", "series_count"), digits = 0)
+
+```
+### Thoracic Cancer 
+Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## basic counts 
+sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_person_thr.sql"
+res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
+head(res_den_thr)
+```
+
+As of May 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(res_den_thr$counts[2], big.mark = ",")` had imaging data. 
+
+
+
+## Modality Types
+Top modality types for series above 500 are listed as follow.
+```{r modality thoracic, message=FALSE, warning=FALSE, results='hide'}
+## modality
+sql_thr_mod<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_modality_thr.sql"
+res_thr<- fetch_data_from_sql_file(sql_thr_mod, yaml_file_path)
+head(res_thr)
+res_thr
+```
+
+```{r modality plot, message=FALSE, warning=FALSE}
+# Prepare the data
+res_thr <- res_thr %>% filter (series_count>500) %>%
+  arrange(desc(series_count)) %>%
+  mutate(
+    modality_source_value = factor(modality_source_value, levels = unique(modality_source_value))
+  )
+
+# Create the plot
+plot <- plot_ly() %>%
+  # Add bars for series count
+  add_trace(
+    data = res_thr,
+    x = ~modality_source_value,
+    y = ~series_count,
+    type = "bar",
+    name = "Series Count",
+    marker = list(color =  "#8B0000")
+  ) %>%
+  # Add line for person count
+  add_trace(
+    data = res_thr,
+    x = ~modality_source_value,
+    y = ~unique_person_count,
+    type = "scatter",
+    mode = "lines+markers",
+    name = "Person Count",
+    yaxis = "y2",
+    line = list(color = "gray", width = 2),
+    marker = list(color = "gray", size = 8)
+  ) %>%
+  layout(
+    title = "Imaging Modalities: Series Count vs Patient Count",
+    xaxis = list(
+      title = "Modality Type",
+      tickangle = 45
+    ),
+    yaxis = list(
+      title = "Series Count",
+      side = "left"
+    ),
+    yaxis2 = list(
+      title = "",
+      side = "right",
+      overlaying = "y",
+      showline = FALSE,          
+    showgrid = FALSE           
+    ),
+    legend = list(x = 0.8, y = 0.9),margin = list(b = 90),
+    hovermode = "x unified"
+  )
+
+plot
+```
+## Anatomic Sites 
+Top anatomic sites for series above 500 are listed as follow.
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## anatomic
+sql_thr_ana<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_anatomic._thr.sql"
+res_ana_thr<- fetch_data_from_sql_file(sql_thr_ana, yaml_file_path)
+head(res_ana_thr)
+
+```
+```{r anatomic, message=FALSE, warning=FALSE}
+# Prepare the data
+res_ana_thr <- res_ana_thr %>% filter (series_count>500) %>%
+  arrange(desc(series_count)) %>%
+  mutate(
+    anatomic_site_source_value = factor(anatomic_site_source_value, levels = unique(anatomic_site_source_value))
+  )
+
+# Create the plot
+plot <- plot_ly() %>%
+  # Add bars for series count
+  add_trace(
+    data = res_ana_thr,
+    x = ~anatomic_site_source_value,
+    y = ~series_count,
+    type = "bar",
+    name = "Series Count",
+    marker = list(color =  "#8B0000")
+  ) %>%
+  # Add line for person count
+  add_trace(
+    data = res_ana_thr,
+    x = ~anatomic_site_source_value,
+    y = ~unique_person_count,
+    type = "scatter",
+    mode = "lines+markers",
+    name = "Person Count",
+    yaxis = "y2",
+    line = list(color = "gray", width = 2),
+    marker = list(color = "gray", size = 8)
+  ) %>%
+  layout(
+    title = "Imaging Anatomic Site: Series Count vs Patient Count",
+    xaxis = list(
+      title = "Anatomic Sites",
+      tickangle = 45
+    ),
+    yaxis = list(
+      title = "Series Count",
+      side = "left"
+    ),
+    yaxis2 = list(
+      title = "",
+      side = "right",
+      overlaying = "y",
+      showline = FALSE,          
+    showgrid = FALSE  
+    ),
+    legend = list(x = 0.8, y = 0.9),
+    margin = list(b = 90),  # Add bottom margin for rotated labels
+    hovermode = "x unified"
+  )
+
+plot
+```
+:::
+

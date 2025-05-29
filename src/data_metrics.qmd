@@ -16,6 +16,13 @@ The February 2025 release is the first release of the dataset. It includes compr
 
 - [February 2025 Metrics](feb_2025/demographic_clinical.qmd)
 
+### May 2025
+
+The May 2025 release is the second release of the dataset which includes additional data sources such as OMOP image occurrence, Philips ISPM, and Stanford cancer registry. You can find detailed information about this release by following the link below:
+
+- [May 2025 Metrics](may_2025/metrics_clinical.qmd)
+
+
 ## Future Releases
 
 Future releases will include additional metrics and updates to the existing ones.

@@ -95,7 +95,7 @@ fetch_data_from_sql <- function(credentials_path, project, folder_path) {
   )
 
   # List SQL files
-  sql_params <- yaml::read_yaml("../sql_params.yml")
+  sql_params <- yaml::read_yaml("sql_params.yml")
 
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
 
@@ -236,7 +236,7 @@ fetch_data_from_sql_folder <- function(folder_path) {
 
   on.exit(dbDisconnect(conn), add = TRUE)
 
-  sql_params <- yaml::read_yaml("../sql_params.yml")
+  sql_params <- yaml::read_yaml("/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_params.yml")
 
   sql_files <- list.files(path = folder_path, pattern = "\\.sql$", full.names = TRUE)
 
@@ -475,7 +475,7 @@ create_gt_table_v1 <- function(data, columns, labels, title_text = "", subtitle_
 }
 
 ### table with the tab
-create_gt_table_v2 <- function(data, columns, labels, title_text = "", subtitle_text = "", footnote_text = "", pt_column = NULL) {
+create_gt_table_v3 <- function(data, columns, labels, title_text = "", subtitle_text = "", footnote_text = "", pt_column = NULL) {
   col_exprs <- rlang::syms(columns)
   names(labels) <- columns
   
@@ -513,3 +513,5 @@ create_gt_table_v2 <- function(data, columns, labels, title_text = "", subtitle_
   
   return(gt_table)
 }
+
+
