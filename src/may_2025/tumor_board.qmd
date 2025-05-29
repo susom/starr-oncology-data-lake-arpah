@@ -12,7 +12,7 @@ yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_p
 
 ### Summary:
 As of May 2025, Tumor Board encounters are defined using the EPIC patient encounter data tables.
-Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having tumor board encounter. 
+Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter. 
 
 **Note**: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity. 
 
@@ -35,7 +35,7 @@ res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
 
-As of May 2025, From `r format(res_den_thr$counts[2], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$patient_count[1] , big.mark = ",")` also had Tumor Board encounter. 
+As of May 2025, From `r format(res_den_thr$counts[2], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$patient_count[1] , big.mark = ",")` also had a Tumor Board encounter. 
 
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
@@ -88,13 +88,13 @@ create_gt_table(
     "counts" = "Count (N)",
     "percents" = "Percentage (%)"
   ),
-  title_text = "Thoracic Tumor Board Encounter",
+  title_text = "Thoracic Tumor Board",
   subtitle_text = "",
   footnote_text = ""
 )
 ```
 
-### Case Status 
+### Neural Frame Case Status 
 The Stanford Cancer Registry keeps track of every cancer case at Stanford and uses the case status variable to monitor each case’s progress. The major categories are: Completed, Not Reportable, and Incomplete.
 
 - **Not Reportable** cases refer to cases that are not reportable to the state per cancer registry rules, or those that have already been abstracted.
@@ -112,7 +112,7 @@ case <- fetch_data_from_sql_file(sql_case, yaml_file_path)
 case
 colnames(case)[2]<-"pts_count"
 ```
-The distribution of case status for Tumor Board encounter patients are listed below:
+The distribution of case status for Thoracic Tumor Board encounter patients are listed below: 
 
 ```{r, message=FALSE, warning=FALSE}
 labels <- c(
@@ -134,7 +134,7 @@ sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_bo
 tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
 tb_img
 ```
-As of May 2025, `r format(tb_img$patient_count[1] ,big.mark = ",")` with tumor board encounter had image occurrence procedures.
+As of May 2025, `r format(tb_img$patient_count[1] ,big.mark = ",")` with thoracic tumor board encounter had image occurrence procedures.
 
 ::: {.panel-tabset}
 
