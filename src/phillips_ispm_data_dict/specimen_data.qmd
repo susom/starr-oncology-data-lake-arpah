@@ -1,0 +1,65 @@
+---
+title: "Philips ISPM Specimen"
+---
+
+
+
+### Table Columns
+
+| column name                   | type     | phi   | phi-scrubbing operation       |
+|:------------------------------|:---------|:------|:------------------------------|
+| accession_number              | STRING   | Yes   | Hash                          |
+| collection_collected_datetime | STRING   |       |                            |
+| created                       | DATETIME | Yes   | Jitter                        |
+| isprimary                     | STRING   |       |                            |
+| person_id                     |          | Yes   | Stable Between Data Refreshes |
+| sampleid                      | STRING   | Yes   | Nullified                     |
+| sampletype                    | STRING   |       |                            |
+| specimen_identifier           | STRING   |       |                            |
+| stanford_patient_uid          | STRING   | Yes   | Del                           |
+| tumorpercentage               | STRING   |       |                            |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### accession_number
+
+Identifier for the specimen. This field can be used to link to the pat_diag_orders table. Note that there can be multiple records with the same accession number.
+
+##### collection_collected_datetime
+
+Datetime for specimen collection. Entirely null field.
+
+##### created
+
+Timestamp of specimen creation. The combination of created and accession_number is the Primary Key for specimen_data table
+
+##### isprimary
+
+This is a field indicating if the specimen is from the primary tumor site.
+
+##### person_id
+
+Person_id as corresponds to the OMOP dataset
+
+##### sampleid
+
+Free-text field containing a mix of information, such as testing sites and/or accession numbers etc. Nullify for now but we will explore further in the future
+
+##### sampletype
+
+No description available
+
+##### specimen_identifier
+
+Entirely null field
+
+##### stanford_patient_uid
+
+Internal Stanford tracking ID (this is the patient's MRN | DOB)
+
+##### tumorpercentage
+
+Refers to percentage of tumor cells compared to whole sample present in the sample selected, for performing next-generation sequencing (NGS) test.

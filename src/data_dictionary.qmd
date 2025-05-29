@@ -27,14 +27,20 @@ The following OMOP-CDM tables are available in the initial release of dataset:
 
 ### NeuralFrame 
 
-#### List of NeuralFrame tables available
-
-The following NeuralFrame tables are available in the initial release of the dataset:
+The following NeuralFrame tables are available in the release of the dataset:
 
 * [Case Diagnoses](neuralframe_data_dict/case_diagnoses.qmd)
 * [Misc Details](neuralframe_data_dict/case_misc_details.qmd)
 * [Case Outcomes](neuralframe_data_dict/case_outcomes.qmd)
 * [Case Treatments](neuralframe_data_dict/case_treatments.qmd)
+
+### Phillips ISPM
+
+The following tables are available in the initial release of the dataset:
+
+* [Philips ISPM Aberration](phillips_ispm_data_dict/aberrations.qmd)
+* [Philips ISPM Orders](phillips_ispm_data_dict/pat_diag_orders.qmd)
+* [Philips ISPM Specimen](phillips_ispm_data_dict/specimen_data.qmd)
 
 ### PHI Scrubbing Operations Definitions
 

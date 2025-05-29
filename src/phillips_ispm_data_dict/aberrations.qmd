@@ -1,0 +1,130 @@
+---
+title: "Philips ISPM Aberration"
+---
+
+
+
+### Table Columns
+
+| column name                 | type   | phi   | phi-scrubbing operation       |
+|:----------------------------|:-------|:------|:------------------------------|
+| aberration_class            | STRING |       |                            |
+| aberration_type             | STRING |       |                            |
+| accession_number            | STRING | Yes   | Hash                          |
+| chrom                       | STRING |       |                            |
+| hgnc_gene                   | STRING |       |                            |
+| id                          | STRING | Yes   | Stable Between Data Refreshes |
+| is_selected_aberration_flag |        |       |                            |
+| person_id                   |        | Yes   | Stable Between Data Refreshes |
+| stanford_aa_change          | STRING |       |                            |
+| stanford_break_1            | STRING |       |                            |
+| stanford_break_2            | STRING |       |                            |
+| stanford_gene               | STRING |       |                            |
+| stanford_hgvs_coding        | STRING |       |                            |
+| stanford_hgvs_genomic       | STRING |       |                            |
+| stanford_hgvs_protein       | STRING |       |                            |
+| stanford_interpretation     | STRING | Yes   | TiDE                          |
+| stanford_minimum_copies     | STRING |       |                            |
+| stanford_pathogenicity      | STRING |       |                            |
+| stanford_patient_uid        | STRING | Yes   | Del                           |
+| stanford_region_1           | STRING |       |                            |
+| stanford_transcript         | STRING |       |                            |
+| stanford_vaf                | STRING |       |                            |
+| stanford_variant            | STRING |       |                            |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### aberration_class
+
+Aberration class (No description available)
+
+##### aberration_type
+
+Aberration type (No description available)
+
+##### accession_number
+
+Identifier for the specimen. This field can be used to link to the pat_diag_orders table. Note that there can be multiple records with the same accession number.
+
+##### chrom
+
+The chromosome number that the gene impacted by the aberration is located on (No description available)
+
+##### hgnc_gene
+
+The HUGO Gene Nomenclature Committee (HGNC)-approved name for the gene impacted by the aberration (No description available)
+
+##### id
+
+Primary Key for aberrations table (No description available)
+
+##### is_selected_aberration_flag
+
+Flag indicating if the aberration record is a "selected aberration" (id is in the selected_aberrations staging table).
+
+##### person_id
+
+Person_id as corresponds to the OMOP dataset
+
+##### stanford_aa_change
+
+Amino acid (AA) change as reported in the Stanford STAMP results report. First letter indicates the amino acid impacted, indicated by its one-letter code, then a series of numbers which indicate the position of the amino acid within the protein sequence, then a string abbreviation which denotes the type of mutation (example - G646fs is a frameshift mutation occurring at the amino acid Glycine, position 646 within the protein sequence for the protein encoded by the impacted ASXL1 gene). (No description available)
+
+##### stanford_break_1
+
+No description available. This field is not well-populated.
+
+##### stanford_break_2
+
+No description available. This field is not well-populated.
+
+##### stanford_gene
+
+Gene impacted by the aberration, as reported in the Stanford STAMP results report. (No description available)
+
+##### stanford_hgvs_coding
+
+Standardized HGVS nomenclature representation for the variants in the coding DNA sequence of a gene, as reported in the Stanford STAMP results report (No description available)
+
+##### stanford_hgvs_genomic
+
+Standardized HGVS nomenclature representation for the variants in the genomic sequence of a chromosome, as reported in the Stanford STAMP results report (No description available)
+
+##### stanford_hgvs_protein
+
+Standardized HGVS nomenclature representation for the variants in the protein sequence, as reported in the Stanford STAMP results report (No description available)
+
+##### stanford_interpretation
+
+Text field containing interpretation of the aberration found, as reported in the Stanford STAMP results report (No description available)
+
+##### stanford_minimum_copies
+
+No description available. This field is not well-populated.
+
+##### stanford_pathogenicity
+
+Pathogenicity level of the aberration (No description available)
+
+##### stanford_patient_uid
+
+Internal Stanford tracking ID (this is the patient's MRN | DOB)
+
+##### stanford_region_1
+
+No description available. This field is not well-populated.
+
+##### stanford_transcript
+
+No description available.
+
+##### stanford_vaf
+
+Variant allele frequency (VAF), as reported in the Stanford STAMP results report (No description available)
+
+##### stanford_variant
+
+Full variant the aberration causes, as reported in the Stanford STAMP results report (No description available)

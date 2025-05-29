@@ -1,0 +1,150 @@
+---
+title: "Philips ISPM Orders"
+---
+
+
+
+### Table Columns
+
+| column name                          | type   | phi   | phi-scrubbing operation       |
+|:-------------------------------------|:-------|:------|:------------------------------|
+| accession_number                     | STRING | Yes   | Hash                          |
+| date_of_test                         | DATE   | Yes   | Jitter                        |
+| diagnosis_code                       | STRING |       |                            |
+| diagnosis_display                    | STRING |       |                            |
+| diagnosis_for_interpretation_code    | STRING |       |                            |
+| diagnosis_for_interpretation_display | STRING |       |                            |
+| diagnosis_system                     | STRING |       |                            |
+| diagnostic_order_uuid                | STRING | Yes   | Stable Between Data Refreshes |
+| mtb_date                             | DATE   | Yes   | Jitter                        |
+| orderer_name                         | STRING |       | Nullified                     |
+| orderer_npi                          | STRING |       | Nullified                     |
+| patient_data_birthdate               | DATE   | Yes   | Jitter                        |
+| patient_data_ethnicity               | STRING | Yes   | Nullified                     |
+| patient_data_first_name              | STRING | Yes   | Nullified                     |
+| patient_data_gender                  | STRING | Yes   | Nullified                     |
+| patient_data_last_name               | STRING | Yes   | Nullified                     |
+| patient_data_mrn                     | STRING | Yes   | Nullified                     |
+| patient_data_race                    | STRING | Yes   | Nullified                     |
+| person_id                            |        | Yes   | Stable Between Data Refreshes |
+| referring_practitioner_name          | STRING |       | Nullified                     |
+| referring_practitioner_npi           | STRING |       | Nullified                     |
+| site_code                            | STRING |       |                            |
+| site_display                         | STRING |       |                            |
+| specimen_identifier                  | STRING | Yes   | Nullified                     |
+| stanford_patient_uid                 | STRING | Yes   | Del                           |
+| test_type                            | STRING |       |                            |
+| workflow_request_uuid                | STRING | Yes   | Nullified                     |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### accession_number
+
+Identifier for the specimen. This field can be used to link to the pat_diag_orders table. Note that there can be multiple records with the same accession number.
+
+##### date_of_test
+
+Date the STAMP or Foundation One test was performed
+
+##### diagnosis_code
+
+No description available. This field is not well-populated.
+
+##### diagnosis_display
+
+No description available. Entirely null field
+
+##### diagnosis_for_interpretation_code
+
+No description available. This field is not well-populated.
+
+##### diagnosis_for_interpretation_display
+
+No description available. This field is not well-populated.
+
+##### diagnosis_system
+
+No description available. This field is not well-populated.
+
+##### diagnostic_order_uuid
+
+Primary Key for pat_diag_orders table
+
+##### mtb_date
+
+The date of the molecular tumor board (MTB) if it exists in the source data. This field is not well-populated.
+
+##### orderer_name
+
+Name of Provider who ordered the test
+
+##### orderer_npi
+
+NPI of Provider who ordered the test
+
+##### patient_data_birthdate
+
+Patient BirthDate
+
+##### patient_data_ethnicity
+
+Patient Ethnicity
+
+##### patient_data_first_name
+
+Patient First Name
+
+##### patient_data_gender
+
+Patient Gender
+
+##### patient_data_last_name
+
+Patient Last Name
+
+##### patient_data_mrn
+
+Patient MRN
+
+##### patient_data_race
+
+Patient Race
+
+##### person_id
+
+Person_id as corresponds to the OMOP dataset
+
+##### referring_practitioner_name
+
+Name of Provider who referred patient
+
+##### referring_practitioner_npi
+
+NPI of Provider who referred patient
+
+##### site_code
+
+No description available.
+
+##### site_display
+
+No description available.
+
+##### specimen_identifier
+
+String containing either both the patient MRN and accession number (if STAMP test), or the order proc id which starts with ORD (if FoundationOne test)
+
+##### stanford_patient_uid
+
+Internal Stanford tracking ID (this is the patient's MRN | DOB)
+
+##### test_type
+
+Type of Test (STAMP or FoundationOne)
+
+##### workflow_request_uuid
+
+Another unique key which is being nullified. Unsure of definition but it is also a unique identifier.
