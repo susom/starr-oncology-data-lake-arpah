@@ -493,7 +493,8 @@ p2 <- plot_ly(
     showlegend = FALSE
   )
   p2
-  ```
+
+```
 
 
 ### Detailed Pie Chart
