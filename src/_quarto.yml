@@ -38,6 +38,8 @@ website:
             contents: omop_data_dict/*
           - section: "NeuralFrame"
             contents: neuralframe_data_dict/*
+          - section: "Philips ISPM"
+            contents: philips_data_dict/*            
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
