@@ -2,6 +2,7 @@
 title: "Philips ISPM Orders"
 ---
 
+The table `onc_philips_mtb_pat_diag_orders` contains order-level information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to diagnostic orders, patient demographics, and specimen accession numbers which can be used to link to the other Philips ISPM tables.
 
 
 ### Table Columns

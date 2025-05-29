@@ -2,7 +2,7 @@
 title: "NeuralFrame Case Treatments"
 ---
 
-This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
+The table `onc_neuralframe_case_treatments` outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
 
 ### Table Columns
 

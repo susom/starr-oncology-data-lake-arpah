@@ -2,7 +2,7 @@
 title: "NeuralFrame Case Diagnoses"
 ---
 
-This section contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
+The table `onc_neuralframe_case_diagnoses` contains details about the diagnoses made for each patient, including cancer types, staging, and any relevant comorbidities.
 
 ### Table Columns
 

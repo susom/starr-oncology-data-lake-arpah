@@ -38,9 +38,9 @@ The following NeuralFrame tables are available in the release of the dataset:
 
 The following tables are available in the initial release of the dataset:
 
-* [Philips ISPM Aberration](phillips_ispm_data_dict/aberrations.qmd)
-* [Philips ISPM Orders](phillips_ispm_data_dict/pat_diag_orders.qmd)
-* [Philips ISPM Specimen](phillips_ispm_data_dict/specimen_data.qmd)
+* [Philips ISPM Aberration](philips_ispm_data_dict/aberrations.qmd)
+* [Philips ISPM Orders](philips_ispm_data_dict/pat_diag_orders.qmd)
+* [Philips ISPM Specimen](philips_ispm_data_dict/specimen_data.qmd)
 
 ### PHI Scrubbing Operations Definitions
 

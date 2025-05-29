@@ -27,11 +27,11 @@ NeuralFrame data encompasses research-eligible patients who have case records in
 
 #### Philips ISPM
 
-- **pat_diag_orders**: This table contains order-level information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to diagnostic orders, patient demographics, and specimen accession numbers which can be used to link to the other Philips ISPM tables.
+- **Philips ISPM Orders**: This table contains order-level information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to diagnostic orders, patient demographics, and specimen accession numbers which can be used to link to the other Philips ISPM tables.
 
-- **aberrations**: This table contains genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to genomic testing details about each sample, as well as the specimen accession number which can be used to link to the pat_diag_orders table.
+- **Philips ISPM Aberration**: This table contains genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to genomic testing details about each sample, as well as the specimen accession number which can be used to link to the Philips ISPM Orders table.
 
-- **specimen_data**: This table includes specimen-related information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to specimen details, including accession numbers and collection information.
+- **Philips ISPM Specimen**: This table includes specimen-related information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to specimen details, including accession numbers and collection information.
 
 #### Dataset Releases
 

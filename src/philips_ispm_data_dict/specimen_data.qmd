@@ -2,7 +2,7 @@
 title: "Philips ISPM Specimen"
 ---
 
-
+The table `onc_philips_mtb_specimen_data` includes specimen-related information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to specimen details, including accession numbers and collection information.
 
 ### Table Columns
 

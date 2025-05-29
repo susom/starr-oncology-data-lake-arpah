@@ -2,7 +2,7 @@
 title: "NeuralFrame Case Outcomes"
 ---
 
-This category includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
+The table `onc_neuralframe_case_outcomes` includes information related to patient outcomes, such as survival rates, disease progression, and overall health status.
 
 ### Table Columns
 

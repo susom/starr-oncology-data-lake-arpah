@@ -2,7 +2,7 @@
 title: "Philips ISPM Aberration"
 ---
 
-
+The table `onc_philips_mtb_aberrations` contains genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to genomic testing details about each sample, as well as the specimen accession number which can be used to link to the Philips ISPM Orders table.
 
 ### Table Columns
 

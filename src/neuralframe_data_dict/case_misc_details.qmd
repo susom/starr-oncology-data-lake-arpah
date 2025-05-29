@@ -2,7 +2,7 @@
 title: "NeuralFrame Case Miscellaneous Details"
 ---
 
-This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
+The table `onc_neuralframe_case_misc_details` includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
 
 ### Table Columns
 
