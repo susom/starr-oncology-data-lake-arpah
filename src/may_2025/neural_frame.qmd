@@ -329,7 +329,7 @@ create_gt_table_v3(
 
 
 
-## Distribution of Thoracic Cancer Cases by Histology Types
+##  Histology Type Summary
 
 
 ::: {.panel-tabset}
@@ -342,9 +342,9 @@ The following horizontal bar chart presents the hierarchical distribution of tho
 - Hover over bars to see detailed information
 - Double-click legend items to isolate a single category o to restore all categories
 
+## Distribution of Thoracic Cancer Cases by Histology Types
 
 ```{r histology barplot, message=FALSE, warning=FALSE}
-    thr_his=thr_his %>% filter(histology!="Other/Not Specified")
 
 summary_plot <- thr_his %>%
   # First group by main category
@@ -380,7 +380,7 @@ plot_ly(summary_plot,
         colors = brewer.pal(4, "Set3")
 ) %>%
   layout(
-    title = "Distribution of Thoracic Cancer Cases by Histology Types",
+    title = "",
     xaxis = list(title = "Patient Count"),
     yaxis = list(
       title = "",
@@ -434,8 +434,8 @@ datatable(histology_summary,
 ### Sunburst Plot
 
 The following dual-layered classification system by specific histology and then by broader clinical grouping (NSCLC, SCLC, Other Specified, and Other unspecified) represents the thoracic cancer distribution by histology grouping. 
-```{r histology sunburst,message=FALSE, warning=FALSE}
 
+```{r, histology sunburst,message=FALSE, warning=FALSE}
 # Create hierarchical data for sunburst chart
 sunburst_data <- thr_his %>% 
   group_by(histology, histology_group) %>%
@@ -449,6 +449,7 @@ total_count <- sum_thr_c
 labels <- c(unique(sunburst_data$histology), sunburst_data$histology_group)
 parents <- c(rep("", length(unique(sunburst_data$histology))), sunburst_data$histology)
 values <- c(tapply(sunburst_data$value, sunburst_data$histology, sum), sunburst_data$value)
+percentages <- round(100 * values / total_count, 1)
 
 # Create color palette with enough colors
 colors <- colorRampPalette(brewer.pal(8, "Set2"))(length(labels))
@@ -463,8 +464,10 @@ p2 <- plot_ly(
   hovertemplate = ~paste(
     "<b>%{label}</b><br>",
     "Count: %{value}<br>",
+    "Percentage: ", percentages, "%<br>",
     "<extra></extra>"
   ),
+  texttemplate = ~paste0(labels, "<br>", percentages, "%"),
   textposition = "auto",
   insidetextorientation = "horizontal",
   textfont = list(size = 14),
@@ -475,10 +478,10 @@ p2 <- plot_ly(
 ) %>%
   layout(
     title = "(Click to explore subcategories)",
-    width = 600,  # Further increased width for better label spacing
-    height = 400, # Further increased height for better label spacing
+    width = 600,
+    height = 400,
     sunburstcolorway = colors,
-    margin = list(l = 50, r = 50, t = 50, b = 50),  # Added margins for label space
+    margin = list(l = 50, r = 50, t = 50, b = 50),
     annotations = list(
       text = "Click segments to explore subcategories",
       x = 0.5,
@@ -489,12 +492,8 @@ p2 <- plot_ly(
     ),
     showlegend = FALSE
   )
-
-# Display the sunburst chart
-p2
-```
-
-
+  p2
+  ```
 
 
 ### Detailed Pie Chart
@@ -620,6 +619,7 @@ p$x$mainPlot <- list(
 p
 
 ```
+
 
 ## Table Summary of Histology Groups by ICDO3 Codes
 

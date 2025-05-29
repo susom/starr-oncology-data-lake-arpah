@@ -187,6 +187,8 @@ DT::datatable(
 Gene Distribution across Chromosomes:
 
 ```{r plot main, message=FALSE, warning=FALSE}
+filtered_gene_ch <- gene_ch %>%
+  filter(!is.na(hgnc_gene), n_pts > 200)
   p <- ggplot(filtered_gene_ch, 
      aes(x = n_pts, 
          y = chrom,
@@ -241,7 +243,7 @@ library(DT)
 
 # Filter for more significant genes (increased threshold)
 filtered_gene_ch <- gene_ch %>%
-  filter(!is.na(hgnc_gene), n_pts > 200) %>%  # Increased threshold from 200 to 300
+  filter(!is.na(hgnc_gene), n_pts > 200) %>%  # Increased threshold from 200 to
   mutate(
     chrom = factor(chrom, 
                   levels = paste0("chr", c(1:22, "X", "Y")),

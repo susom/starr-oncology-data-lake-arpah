@@ -23,7 +23,8 @@ den_res=den_res %>% arrange(desc(percentage))
 ```
 
 
-Patients are included in the Oncology-OMOP dataset if they have a case in the Neuralframe Stanford Cancer Registry (regardless of case status) or if they have a tumor board encounter in Epic Clarity. 
+Patients are included in the Oncology-OMOP dataset if they have a case in the Neural Frame Stanford Cancer Registry (regardless of case status) or if they have a tumor board encounter in Epic Clarity. 
+
 As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
@@ -35,7 +36,7 @@ As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_s
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
     - [Philips ISPM Metrics](philips_metrics.qmd)
 
-  - **OMOP Image Occurrence:** The OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure, and it also provides a path to deidentified DICOM images.
+  - **OMOP Image Occurrence:** The OMOP image occurrence table captures records of medical imaging events at the series level providing a path to deidentified DICOM images.
     - [Image Occurrence Metrics](image_occ.qmd)
 
 
@@ -89,7 +90,10 @@ den_res_formatted <- den_res %>%
 sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_overlap_metrics.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
 head(res)
+
 library(tidyr)
+library(dplyr)
+
 overlap_matrix <- res %>%
   mutate(value = TRUE) %>%
   pivot_wider(
@@ -111,18 +115,20 @@ The following plot represents patients overlap between different data sources:
 For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the bar above shows how many patients are in both sources.
 
 
-
-
-
 ## Patient Distribution Across Data Sources
-```{r complex_upset, message=FALSE, warning=FALSE}
+```{r complexupset, message=FALSE, warning=FALSE}
 library(ComplexUpset)
 library(ggplot2)
-
-upset(
+overlap_matrix <- res %>%
+  mutate(value = TRUE) %>%
+  pivot_wider(
+    names_from = data_set,
+    values_from = value,
+    values_fill = FALSE
+  )
+ComplexUpset::upset(
   overlap_matrix, 
   c("Oncology OMOP", "Image Occurrence", "Neural Frame", "Philips ISPM", "Tumor Board"),    width_ratio=0.1,
-
   min_size = 10000, wrap=TRUE, set_sizes=FALSE,
   mode = 'inclusive_intersection',
      base_annotations=list(
@@ -140,5 +146,6 @@ upset(
   intersections = 'all',
   max_degree = 3
 )
+
 ```
 
