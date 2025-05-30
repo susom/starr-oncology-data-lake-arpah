@@ -293,8 +293,8 @@ df_bar_sr <- res_ana %>% filter(series_count>5000)%>%
 
 plot_ly(df_bar_sr,
         y = ~anatomic_site,
-        x = ~person_count,
-        text = ~sprintf("%.1f%%", percent_pts),  
+        x = ~series_count,
+        text = ~sprintf("%.1f%%", percent_series),  
         textposition = "outside",  
         type = "bar",
         color = ~anatomic_site,
@@ -307,7 +307,7 @@ plot_ly(df_bar_sr,
   layout(
     xaxis = list(title = "Series Count"),
     yaxis = list(title = ""),
-    title = "Number of Patients by Anatomic Site",
+    title = "Series Count by Anatomic Site",
     showlegend = FALSE,
     uniformtext = list(minsize = 8, mode = "show"), 
     margin = list(r = 220) 
