@@ -130,7 +130,7 @@ case_summary_thr <- aggregate(patient_count ~ nfcasestatus, data = thr_case, sum
 case_thr <- data.frame(
   Status = case_summary_thr$nfcasestatus,
   Count = case_summary_thr$patient_count,
-  Percentage = round(case_summary_thr$patient_count / (thr_den$unique_thoracic_cancer_pts) * 100)
+  Percentage = round(case_summary_thr$patient_count / (thr_den$unique_thoracic_cancer_pts) * 100, 1)
 )
 
 ```
@@ -163,8 +163,8 @@ ggplot(case_thr, aes(x = "", y = Percentage, fill = Status)) +
     axis.ticks = element_blank(),
     axis.text.x = element_blank()
   ) +
-  geom_text(aes(label = paste0(Status, "\n", Percentage, "%")), 
-            position = position_stack(vjust = 0.5)) +
+  geom_text(aes(label = paste0( Percentage)), 
+            position = position_stack(vjust = 0.5),size=8 ) +
   ggtitle("Case Status Distribution of Thoracic Cancer Patients") +
   scale_fill_brewer(palette = "Set3")
 ```
@@ -367,6 +367,14 @@ summary_plot <- thr_his %>%
     )
   )
 
+summary_plot <- summary_plot %>% 
+  mutate(
+    pct_of_total = case_when(
+      count < 15 ~ "<1", 
+      TRUE ~ sprintf("%.1f", pct_of_total)
+    ))
+
+
 plot_ly(summary_plot,
         x = ~count,
         y = ~histology_group,
@@ -431,11 +439,8 @@ datatable(histology_summary,
 ```
 
 
-### Sunburst Plot
 
-The following dual-layered classification system by specific histology and then by broader clinical grouping (NSCLC, SCLC, Other Specified, and Other unspecified) represents the thoracic cancer distribution by histology grouping. 
-
-```{r, histology sunburst,message=FALSE, warning=FALSE}
+```{r, histology sunburst,message=FALSE, warning=FALSE, include='FALSE'}
 # Create hierarchical data for sunburst chart
 sunburst_data <- thr_his %>% 
   group_by(histology, histology_group) %>%
@@ -497,11 +502,8 @@ p2 <- plot_ly(
 ```
 
 
-### Detailed Pie Chart
-Detailed distribution of thoracic cancer subcategories are shown below.
 
-
-```{r piechart with barplots combined, message=FALSE, warning=FALSE}
+```{r piechart with barplots combined, message=FALSE, warning=FALSE, include='FALSE'}
 # Create main summary
 hist_summary <- thr_his %>%
   group_by(histology_group) %>%
@@ -622,7 +624,7 @@ p
 ```
 
 
-## Table Summary of Histology Groups by ICDO3 Codes
+### ICDO3 Table
 
 ```{r icdo code table, message=FALSE, warning=FALSE}
 # Create detailed summary table

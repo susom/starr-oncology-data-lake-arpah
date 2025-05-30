@@ -151,7 +151,8 @@ plot_ly(df_bar,
         type = "bar",
         color = ~hgnc_gene,
         colors = "Set3") %>%
-  layout(xaxis = list(title = "Person Count"),
+  layout(    showlegend = FALSE,
+xaxis = list(title = "Person Count"),
          yaxis = list(title = "")) %>%layout (title = "HGNC Gene Distribution")
 
 ```
@@ -183,56 +184,7 @@ DT::datatable(
   ) %>%
   DT::formatRound('Percentage', digits = 1)
 ```
-### Scatter Plot
-Gene Distribution across Chromosomes:
 
-```{r plot main, message=FALSE, warning=FALSE}
-filtered_gene_ch <- gene_ch %>%
-  filter(!is.na(hgnc_gene), n_pts > 200)
-  p <- ggplot(filtered_gene_ch, 
-     aes(x = n_pts, 
-         y = chrom,
-         text = sprintf(
-           "Gene: %s<br>Patient Count: %d<br>Chromosome: %s",
-           hgnc_gene, n_pts, chrom
-         ))) +
-         geom_text(
-    data = . %>% filter(n_pts > 500),  # Filter for text labels
-    aes(label = hgnc_gene),
-    size = 3,
-    hjust = -0.2,
-    check_overlap = TRUE
-  ) +
-  geom_jitter(
-    aes(size = n_pts, color = n_pts),
-    alpha = 0.6,
-    width = 0.3,      # No horizontal jitter
-    height = 0   # Vertical jitter amount
-  ) +
-  scale_size_continuous(range = c(3, 10)) +
-  scale_color_distiller(name = "Patient Count", 
-    palette = "Set3",
-    direction = 1
-  ) +
-  theme_minimal() +
-  labs(
-    title = "Patient Counts by Gene and Chromosome",
-    x = "Patient Count",
-    y = "Chromosome"
-  ) +
-  theme(
-    legend.position = "right",
-    panel.grid.minor = element_blank(),
-    panel.spacing = unit(0.3, "cm")
-  )
-
-# Make it interactive
-ggplotly(p, 
-         tooltip = "text"
-)
-         #height = 800, 
-        # width = 1200) 
-```
 
 ### Heatmap
 Genes Distribution by Chromosomes 
@@ -416,14 +368,14 @@ pathg_genes <- thr_path %>%
     total_pts = sum(n_pts)
   ) %>%  filter(total_pts > 30) %>%
   ungroup() %>%
-  arrange(desc(total_pts))
+  arrange((desc(total_pts)))
 
 # Create interactive stacked bar plot
 plot_ly() %>%
   add_bars(
     data = pathg_genes,
-    x = ~reorder(hgnc_gene, -total_pts),
-    y = ~n_pts,
+    y = ~reorder(hgnc_gene, total_pts),
+    x = ~n_pts,
     color = ~factor(stanford_pathogenicity),
     colors = brewer.pal(5, "Set3"),
     hovertemplate = paste(
@@ -436,11 +388,10 @@ plot_ly() %>%
   layout(
     title = "Distribution of Pathogenicity Types by Gene",
     barmode = "stack",
-    xaxis = list(
-      title = "Gene",
-      tickangle = 45
-    ),
     yaxis = list(
+      title = "Gene"
+    ),
+    xaxis = list(
       title = "Number of Patients"
     ),
     legend = list(
