@@ -148,7 +148,7 @@ As of May 2025, there are  `r format(thr_den$unique_thoracic_cancer_pts, big.mar
 
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r case pie, message=FALSE, warning=FALSE}
 # Create pie chart
 library(ggplot2)
 ggplot(case_thr, aes(x = "", y = Percentage, fill = Status)) +
@@ -164,7 +164,7 @@ ggplot(case_thr, aes(x = "", y = Percentage, fill = Status)) +
     axis.text.x = element_blank()
   ) +
   geom_text(aes(label = paste0( Percentage)), 
-            position = position_stack(vjust = 0.5),size=8 ) +
+            position = position_stack(vjust = 0.5),size=5 ) +
   ggtitle("Case Status Distribution of Thoracic Cancer Patients") +
   scale_fill_brewer(palette = "Set3")
 ```
@@ -626,6 +626,8 @@ p
 
 ### ICDO3 Table
 
+All the ICDO3 code and histology subgrouping are listed in the following table:
+
 ```{r icdo code table, message=FALSE, warning=FALSE}
 # Create detailed summary table
 thr_his_summary <- thr_his %>%
@@ -725,7 +727,7 @@ thr_stg <- thr_stg %>%
 labels <- c(
   "full_stage"="Staging Status",
   "patient_count" = "Patient Count",
-   "perc" = "Percentage"
+   "perc" = "Percentage (%)"
 )
 
 create_gt_table_v1(
