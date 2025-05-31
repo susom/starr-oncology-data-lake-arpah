@@ -166,7 +166,7 @@ a <- ggplot(res_ana,
            ))) +
   geom_bar(stat = "identity", width = 0.7, show.legend = FALSE, fill = "#8B0000") +
   labs(
-    title = "Patient Count by Anatomic Sites",
+    title = "Series Count by Anatomic Sites",
     y = "",
     x = "Patient Count"
   ) +

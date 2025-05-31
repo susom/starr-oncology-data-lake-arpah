@@ -154,6 +154,7 @@ res_img_mod=res_img_mod %>% filter(person_count>10)
 res_img_mod$retired<-NULL
 mod_ex=c("SR", "PR", "REG", "KO")
 res_img_mod= res_img_mod %>% filter (!modality_type %in% mod_ex)
+res_img_mod = res_img_mod %>% mutate(percent_pts = round(100 * person_count/den_pts, 1)) %>% mutate(percent_series = round(100 * series_count/den_series, 1)) 
 ```
 
 ```{r, message=FALSE, warning=FALSE}
@@ -165,12 +166,24 @@ df_bar <- res_img_mod %>% filter(series_count>5000)%>%
 plot_ly(df_bar,
         y = ~modality_type,
         x = ~series_count,
+        text = ~sprintf("%.1f%%", percent_series),  
+        textposition = "outside",  
         type = "bar",
         color = ~modality_type,
-        colors = "Set3") %>%
-  layout(xaxis = list(title = "Series Count"),
-         yaxis = list(title = ""))%>%layout (title = "Number of Series per Modality")
-
+        colors = "Set3",
+        hovertemplate = paste(
+          "Modality: %{y}<br>",
+          "Series Count: %{x:,.0f}<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Series Count"),
+    yaxis = list(title = ""),
+    title = "Number of Series per Modality",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show"), 
+    margin = list(r = 220) 
+  )
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -208,14 +221,30 @@ plot_ly(
 df_bar <- res_img_mod %>% filter(person_count>1000)%>%
   arrange(desc(person_count)) %>% mutate(modality_type = fct_reorder(modality_type, person_count))
 
+
+
 plot_ly(df_bar,
         y = ~modality_type,
         x = ~person_count,
+        text = ~sprintf("%.1f%%", percent_pts),  
+        textposition = "outside",  
         type = "bar",
         color = ~modality_type,
-        colors = "Set3") %>%
-  layout(xaxis = list(title = "Person Count"),
-         yaxis = list(title = ""))%>%layout (title = "Number of Patients per Modality")
+        colors = "Set3",
+        hovertemplate = paste(
+          "Modality: %{y}<br>",
+          "Series Count: %{x:,.0f}<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Series Count"),
+    yaxis = list(title = ""),
+    title = "Number of Patients per Modality",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show"), 
+    margin = list(r = 220) 
+  )
+
 ```
 ## Modality Descriptions and Frequency by Series and Patients 
 Please note that the modality descriptions are listed here: [Modality Descriptions (DICOM Library)](https://www.dicomlibrary.com/dicom/modality/).
@@ -248,7 +277,11 @@ head(res_ana)
 res_ana$variable_name<-NULL
 colnames(res_ana)=c("anatomic_site", "series_count", "person_count")
 res_ana=res_ana %>% filter(person_count>10)
+
+res_ana = res_ana %>% mutate(percent_pts = round(100 * person_count/den_pts, 1)) %>% mutate(percent_series = round(100 * series_count/den_series, 1)) 
+
 ```
+
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
 library(plotly)
@@ -257,14 +290,28 @@ library(DT)
 df_bar_sr <- res_ana %>% filter(series_count>5000)%>%
   arrange(desc(series_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, series_count))
 
+
 plot_ly(df_bar_sr,
         y = ~anatomic_site,
         x = ~series_count,
+        text = ~sprintf("%.1f%%", percent_series),  
+        textposition = "outside",  
         type = "bar",
         color = ~anatomic_site,
-        colors = "Set3") %>%
-  layout(xaxis = list(title = "Series Count"),
-         yaxis = list(title = "")) %>%layout (title = "Number of Series per Anatomic Site")
+        colors = "Set3",
+        hovertemplate = paste(
+          "Anatomic: %{y}<br>",
+          "Series Count: %{x:,.0f}<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Series Count"),
+    yaxis = list(title = ""),
+    title = "Series Count by Anatomic Site",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show"), 
+    margin = list(r = 220) 
+  )         
 
 ```
 ## Patient Population 
@@ -277,11 +324,25 @@ df_bar <- res_ana %>% filter(person_count>1000)%>%
 plot_ly(df_bar,
         y = ~anatomic_site,
         x = ~person_count,
+        text = ~sprintf("%.1f%%", percent_pts),  
+        textposition = "outside",  
         type = "bar",
         color = ~anatomic_site,
-        colors = "Set3") %>%
-  layout(xaxis = list(title = "Person Count"),
-         yaxis = list(title = "")) %>%layout (title = "Number of Patients per Anatomic Site")
+        colors = "Set3",
+        hovertemplate = paste(
+          "Modality: %{y}<br>",
+          "Series Count: %{x:,.0f}<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Person Count"),
+    yaxis = list(title = ""),
+    title = "Number of Patients per Anatomic Site",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show"), 
+    margin = list(r = 250) 
+  )
+
 ```
 ## Anatomic Site Descriptions and Frequency by Series and Patients 
 
@@ -315,6 +376,11 @@ sql_thr_mod<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image
 res_thr<- fetch_data_from_sql_file(sql_thr_mod, yaml_file_path)
 head(res_thr)
 res_thr
+thr_pts_den=res_den_thr$counts[2]
+thr_ser_den=res_den_thr$counts[3]
+
+res_thr <- res_thr %>% mutate(percent_pts = round(100 * unique_person_count/thr_pts_den, 1),
+    percent_series = round(100 * series_count/thr_ser_den, 1))
 ```
 
 ```{r modality plot, message=FALSE, warning=FALSE}
@@ -325,16 +391,25 @@ res_thr <- res_thr %>% filter (series_count>500) %>%
     modality_source_value = factor(modality_source_value, levels = unique(modality_source_value))
   )
 
-# Create the plot
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+
 plot <- plot_ly() %>%
-  # Add bars for series count
   add_trace(
     data = res_thr,
     x = ~modality_source_value,
     y = ~series_count,
     type = "bar",
     name = "Series Count",
-    marker = list(color =  "#8B0000")
+    marker = list(color = "#8B0000"),
+    hovertemplate = paste(
+      "Series Count: %{y:,.0f}<br>",
+      "Series (%): %{text}%<br>",
+      "<extra></extra>"
+    ),
+    text = ~percent_series
   ) %>%
   # Add line for person count
   add_trace(
@@ -346,7 +421,13 @@ plot <- plot_ly() %>%
     name = "Person Count",
     yaxis = "y2",
     line = list(color = "gray", width = 2),
-    marker = list(color = "gray", size = 8)
+    marker = list(color = "gray", size = 8),
+    hovertemplate = paste(
+      "Patient Count: %{y:,.0f}<br>",
+      "Patient (%): %{text}%<br>",
+      "<extra></extra>"
+    ),
+    text = ~percent_pts
   ) %>%
   layout(
     title = "Imaging Modalities: Series Count vs Patient Count",
@@ -362,15 +443,18 @@ plot <- plot_ly() %>%
       title = "",
       side = "right",
       overlaying = "y",
-      showline = FALSE,          
-    showgrid = FALSE           
+      showline = FALSE,
+      showgrid = FALSE
     ),
-    legend = list(x = 0.8, y = 0.9),margin = list(b = 90),
+    legend = list(x = 0.8, y = 0.9),
+    margin = list(b = 90),
     hovermode = "x unified"
   )
+plot 
 
-plot
 ```
+
+
 ## Anatomic Sites 
 Top anatomic sites for series above 500 are listed as follow.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -378,6 +462,9 @@ Top anatomic sites for series above 500 are listed as follow.
 sql_thr_ana<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_anatomic._thr.sql"
 res_ana_thr<- fetch_data_from_sql_file(sql_thr_ana, yaml_file_path)
 head(res_ana_thr)
+
+res_ana_thr <- res_ana_thr %>% mutate(percent_pts = round(100 * unique_person_count/thr_pts_den, 1),
+    percent_series = round(100 * series_count/thr_ser_den, 1))
 
 ```
 ```{r anatomic, message=FALSE, warning=FALSE}
@@ -388,16 +475,22 @@ res_ana_thr <- res_ana_thr %>% filter (series_count>500) %>%
     anatomic_site_source_value = factor(anatomic_site_source_value, levels = unique(anatomic_site_source_value))
   )
 
-# Create the plot
+
+
 plot <- plot_ly() %>%
-  # Add bars for series count
   add_trace(
     data = res_ana_thr,
     x = ~anatomic_site_source_value,
     y = ~series_count,
     type = "bar",
     name = "Series Count",
-    marker = list(color =  "#8B0000")
+    marker = list(color = "#8B0000"),
+    hovertemplate = paste(
+      "Series Count: %{y:,.0f}<br>",
+      "Series (%): %{text}%<br>",
+      "<extra></extra>"
+    ),
+    text = ~percent_series
   ) %>%
   # Add line for person count
   add_trace(
@@ -409,7 +502,13 @@ plot <- plot_ly() %>%
     name = "Person Count",
     yaxis = "y2",
     line = list(color = "gray", width = 2),
-    marker = list(color = "gray", size = 8)
+    marker = list(color = "gray", size = 8),
+    hovertemplate = paste(
+      "Patient Count: %{y:,.0f}<br>",
+      "Patient (%): %{text}%<br>",
+      "<extra></extra>"
+    ),
+    text = ~percent_pts
   ) %>%
   layout(
     title = "Imaging Anatomic Site: Series Count vs Patient Count",
@@ -425,15 +524,17 @@ plot <- plot_ly() %>%
       title = "",
       side = "right",
       overlaying = "y",
-      showline = FALSE,          
-    showgrid = FALSE  
+      showline = FALSE,
+      showgrid = FALSE
     ),
     legend = list(x = 0.8, y = 0.9),
-    margin = list(b = 90),  # Add bottom margin for rotated labels
+    margin = list(b = 90),
     hovermode = "x unified"
   )
+plot 
 
-plot
+
+
 ```
 :::
 
