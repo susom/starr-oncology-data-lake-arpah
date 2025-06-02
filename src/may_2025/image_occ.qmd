@@ -394,7 +394,7 @@ As of May 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients 
 
 
 ## Modality Types
-Top modality types for series above 500 are listed as follow.
+Top modality types for series above 5k occurrences are listed as follow.
 ```{r modality thoracic, message=FALSE, warning=FALSE, results='hide'}
 ## modality
 sql_thr_mod<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_modality_thr.sql"
@@ -410,7 +410,7 @@ res_thr <- res_thr %>% mutate(percent_pts = round(100 * unique_person_count/thr_
 
 ```{r modality plot, message=FALSE, warning=FALSE}
 # Prepare the data
-res_thr <- res_thr %>% filter (series_count>500) %>%
+res_thr <- res_thr %>% filter (series_count>5000) %>%
   arrange(desc(series_count)) %>%
   mutate(
     modality_source_value = factor(modality_source_value, levels = unique(modality_source_value))
@@ -481,7 +481,7 @@ plot
 
 
 ## Anatomic Sites 
-Top anatomic sites for series above 500 are listed as follow.
+Top anatomic sites for series above 5k occurrences are listed as follow.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## anatomic
 sql_thr_ana<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_anatomic._thr.sql"
@@ -494,7 +494,7 @@ res_ana_thr <- res_ana_thr %>% mutate(percent_pts = round(100 * unique_person_co
 ```
 ```{r anatomic, message=FALSE, warning=FALSE}
 # Prepare the data
-res_ana_thr <- res_ana_thr %>% filter (series_count>500) %>%
+res_ana_thr <- res_ana_thr %>% filter (series_count>5000) %>%
   arrange(desc(series_count)) %>%
   mutate(
     anatomic_site_source_value = factor(anatomic_site_source_value, levels = unique(anatomic_site_source_value))
