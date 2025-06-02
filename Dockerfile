@@ -4,7 +4,9 @@ FROM rocker/rstudio:4.4
 RUN sudo apt-get update && apt-get install -y libxml2-dev \
                                               libcurl4-openssl-dev \
                                               zlib1g-dev \
-                                              xdg-utils
+                                              xdg-utils \
+                                              libpng-dev \
+                                              curl 
 
 # Install R packages
 RUN mkdir /temp
@@ -14,12 +16,11 @@ RUN R -f /temp/install.R
 # install language server
 RUN R -e 'install.packages("languageserver")'
 
-RUN apt-get update && apt-get install -y curl libpng-dev
-    curl
+# Download the latest installer
+ADD https://astral.sh/uv/install.sh /uv-installer.sh
 
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-RUN source $HOME/.local/bin/env
+# Run the installer then remove it
+RUN sh /uv-installer.sh && rm /uv-installer.sh
 
-RUN cd /workspaces/starr-oncology-data-lake-arpah && uv init --bare
-RUN uv add pandas pydicom ipykernel
-RUN .venv/bin/python -m ipykernel install --user --name=starr-oncology-data-lake-arpah
+# Ensure the installed binary is on the `PATH`
+ENV PATH="/root/.local/bin/:$PATH"

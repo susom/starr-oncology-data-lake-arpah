@@ -26,5 +26,7 @@
   },
   "mounts": [
     "source=${localEnv:HOME}/.config/gcloud,target=/home/rstudio/.config/gcloud,type=bind"
-  ]
+  ],
+  "postCreateCommand": "bash post_create.sh",
+
 }
