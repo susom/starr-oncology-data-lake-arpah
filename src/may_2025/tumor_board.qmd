@@ -137,6 +137,7 @@ tb_img
 As of May 2025, `r format(tb_img$patient_count[1] ,big.mark = ",")` with thoracic tumor board encounter had image occurrence procedures.
 
 ::: {.panel-tabset}
+The following analysis is presented for series occurrences above 500. 
 
 ### Anatomic Sites
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -153,32 +154,36 @@ res_ana=res_ana %>% mutate(
  percent=round(100*(unique_person_count/tb_img$patient_count),1
 ))
 ```
-```{r sites plot, message=FALSE, warning=FALSE}
-a <- ggplot(res_ana, 
-       aes(y = anatomic_site_source_value, 
-           x = unique_person_count, 
-          # color = "#8B0000",
-           text = sprintf(
-             "%s<br>Patient Count: %s<br>Percentage: %.1f%%",
-             anatomic_site_source_value,
-             format(unique_person_count, big.mark = ","),
-             percent
-           ))) +
-  geom_bar(stat = "identity", width = 0.7, show.legend = FALSE, fill = "#8B0000") +
-  labs(
-    title = "Series Count by Anatomic Sites",
-    y = "",
-    x = "Patient Count"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(hjust = 1, size = 11),
-    plot.title = element_text(size = 12)
-  ) 
 
-# Convert to plotly with custom hover text
-ggplotly(a, tooltip = "text") %>%
-  layout(hoverlabel = list(bgcolor = "white"))
+```{r sites plot, message=FALSE, warning=FALSE}
+
+library(forcats)
+df_bar_ana <- res_ana %>% 
+  arrange(desc(unique_person_count)) %>% mutate(anatomic_site_source_value = forcats::fct_reorder(anatomic_site_source_value, unique_person_count))
+
+plot_ly(df_bar_ana,
+        y = ~anatomic_site_source_value,
+        x = ~unique_person_count,
+       # text = ~sprintf("%.1f%%", percent_pts),  
+      #  textposition = "outside",  
+       customdata = ~percent,
+        type = "bar",
+         color = ~anatomic_site_source_value,
+        colors = rev(RColorBrewer::brewer.pal(n = length(unique(df_bar_ana$anatomic_site_source_value)), "Set3")),
+        hovertemplate = paste(
+          "Anatomic: %{y}<br>",
+          "Patient Count: %{x:,.0f}<br>",
+          "Patient Percentage: %{customdata:.1f}%<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Person Count"),
+    yaxis = list(title = ""),
+    title = "Patient Distribution by Anatomic Sites",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show")
+  )
+
 ```
 
 
@@ -212,31 +217,34 @@ res_thr=res_thr %>% mutate(
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-pp <- ggplot(res_thr, 
-       aes(y = modality_source_value, 
-           x = unique_person_count, 
-          # color = "#8B0000",
-           text = sprintf(
-             "%s<br>Patient Count: %s<br>Percentage: %.1f%%",
-             modality_source_value,
-             format(unique_person_count, big.mark = ","),
-             percent
-           ))) +
-  geom_bar(stat = "identity", width = 0.7, show.legend = FALSE, fill = "#8B0000") +
-  labs(
-    title = "Patient Count by Imaging Modality Type",
-    y = "",
-    x = "Patient Count"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(hjust = 1, size = 11),
-    plot.title = element_text(size = 12)
-  ) 
+library(forcats)
+df_bar <- res_thr %>% 
+  arrange(desc(unique_person_count)) %>% mutate(modality_source_value = forcats::fct_reorder(modality_source_value, unique_person_count))
 
-# Convert to plotly with custom hover text
-ggplotly(pp, tooltip = "text") %>%
-  layout(hoverlabel = list(bgcolor = "white"))
+plot_ly(df_bar,
+        y = ~modality_source_value,
+        x = ~unique_person_count,
+       # text = ~sprintf("%.1f%%", percent_pts),  
+      #  textposition = "outside",  
+       customdata = ~percent,
+        type = "bar",
+        color = ~modality_source_value,
+        colors = rev(RColorBrewer::brewer.pal(n = length(unique(df_bar$modality_source_value)), "Set3")),
+        hovertemplate = paste(
+          "Anatomic: %{y}<br>",
+          "Patient Count: %{x:,.0f}<br>",
+          "Patient Percentage: %{customdata:.1f}%<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Person Count"),
+    yaxis = list(title = ""),
+    title = "Patient Distribution by Modality Type",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show")
+  )
+
+
 ```
 
 :::
