@@ -20,7 +20,7 @@ The table `onc_neuralframe_case_misc_details` includes additional data that may 
 | addratdxpostalcodedescription          | STRING  |       |                            |                                                                                                                 |
 | addratdxstate                          | STRING  |       |                            | [80](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=80/)         |
 | addratdxstatedescription               | STRING  |       |                            |                                                                                                                 |
-| addratdxsupplementl                    | STRING  |       |                            | [2335](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2335/)     |
+| addratdxsupplementl                    | STRING  |   Yes    |   Del                         | [2335](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2335/)     |
 | addrcurrentcity                        | STRING  | Yes   | Del                           | [1810](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1810/)     |
 | addrcurrentcountry                     | STRING  |       |                            | [1832](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1832/)     |
 | addrcurrentcountrydescription          | STRING  |       |                            |                                                                                                                 |
@@ -102,7 +102,7 @@ The table `onc_neuralframe_case_misc_details` includes additional data that may 
 | paysource2                             | STRING  |       |                            | [70025](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70025/)   |
 | paysource2description                  | STRING  |       |                            |                                                                                                                 |
 | person_id                              | INTEGER | Yes   | Stable between Data Refreshes |                                                                                                                 |
-| placeofdeath                           | STRING  | Yes   | Del                           |                                                                                                                 |
+| placeofdeath                           | STRING  |    |                            |                                                                                                                 |
 | placeofdeathcountry                    | STRING  |       |                            | [1944](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1944/)     |
 | placeofdeathcountrydescription         | STRING  |       |                            |                                                                                                                 |
 | placeofdeathstate                      | STRING  |       |                            | [1942](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1942/)     |
@@ -151,7 +151,6 @@ The table `onc_neuralframe_case_misc_details` includes additional data that may 
 | telephone                              | STRING  | Yes   | Del                           | [2360](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2360/)     |
 | telephonedescription                   | STRING  | Yes   | Del                           |                                                                                                                 |
 | textusualindustry                      | STRING  | Yes   | TiDE                          | [320](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=320/)       |
-| textusualoccupation                    | STRING  | Yes   | TiDE                          |                                                                                                                 |
 | textusualoccupation                    | STRING  | Yes   | Del                           | [310](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=310/)       |
 | tobaccousecigarettes                   | STRING  |       |                            | [9965](https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9965/)     |
 | tobaccousecigarettesdescription        | STRING  |       |                            |                                                                                                                 |
