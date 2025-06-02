@@ -68,6 +68,10 @@ website:
                 href: feb_2025/phi_labeling_report.qmd
               - text: "Labeling Process"
                 href: feb_2025/phi_labeling_process.qmd
+          - section: "May 2025"
+            contents:
+              - text: "AI for Automatic Synoptic Reporting"
+                href: may_2025/cap_forms.qmd
   navbar:
     left:
       - text: "About"

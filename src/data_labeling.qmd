@@ -21,8 +21,8 @@ Our current focus is on labeling Protected Health Information (PHI) in clinical 
   - [Labeling Guidelines](feb_2025/phi_labeling_guidelines.qmd)
   - [Labeling Report](feb_2025/phi_labeling_report.qmd)
 
-## Upcoming Projects
+####  May 2025 Release
 
-### Cancer Information Extraction
+  - [AI for Automatic Synoptic Reporting](may_2025/cap_forms.qmd)
 
-Future projects will focus on annotating cancer-related information in clinical documents, including tumor size, or genetic mutation status, and results of tests.
+

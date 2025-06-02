@@ -1,0 +1,267 @@
+---
+title: "AI for Automatic Synoptic Reporting"
+execute:
+  echo: false
+---
+
+```{r message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+library(readr)
+library(RColorBrewer)
+library(tidyr)
+library(gt)
+
+# Read the CSV file
+df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/may_2025/data/cap_forms_model_performance_comparison.csv")
+
+# Calculate statistics for each model
+model_stats <- df_plot %>%
+  group_by(model_name) %>%
+  summarise(
+    mean = round(mean(avg_score, na.rm = TRUE), 3),
+    median = round(median(avg_score, na.rm = TRUE), 3),
+    q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 3),
+    q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 3),
+    min_val = round(min(avg_score, na.rm = TRUE), 3),
+    max_val = round(max(avg_score, na.rm = TRUE), 3),
+    .groups = 'drop'
+  ) %>%
+  mutate(
+    iqr = round(q3 - q1, 3)
+  )
+
+# Get unique models for consistent ordering
+unique_models <- unique(df_plot$model_name)
+
+# Create enhanced color palette
+n_models <- length(unique_models)
+if(n_models <= 8) {
+  colors <- RColorBrewer::brewer.pal(max(3, n_models), "Set2")
+} else if(n_models <= 12) {
+  colors <- RColorBrewer::brewer.pal(12, "Set3")
+} else {
+  colors <- rainbow(n_models, s = 0.7, v = 0.8)  # More muted rainbow
+}
+
+# Ensure we have enough colors
+if(length(colors) < n_models) {
+  colors <- rep(colors, ceiling(n_models/length(colors)))[1:n_models]
+}
+
+# Initialize empty plot
+p <- plot_ly()
+
+# Add a trace for each model with different colors
+for(i in 1:length(unique_models)) {
+  model <- unique_models[i]
+  model_data <- df_plot %>% filter(model_name == model)
+  model_stat <- model_stats %>% filter(model_name == model)
+  
+  # Create custom hover template with statistics
+  hover_template <- paste0(
+    "<b>Model:</b> %{x}<br>",
+    "<b>Value:</b> %{y}<br>",
+    "<b>Statistics:</b><br>",
+    "Mean: ", model_stat$mean, "<br>",
+    "Median: ", model_stat$median, "<br>",
+    "Q1: ", model_stat$q1, "<br>",
+    "Q3: ", model_stat$q3, "<br>",
+    "IQR: ", model_stat$iqr, "<br>",
+    "Min: ", model_stat$min_val, "<br>",
+    "Max: ", model_stat$max_val,
+    "<extra></extra>"
+  )
+  
+  p <- p %>% add_trace(
+    data = model_data,
+    x = ~model_name,
+    y = ~avg_score,
+    type = "box",
+    name = model,
+    boxpoints = "outliers",
+    marker = list(
+      size = 4,
+      opacity = 0.7,
+      color = colors[i]
+    ),
+    line = list(
+      width = 2,
+      color = colors[i]
+    ),
+    fillcolor = paste0(colors[i], "60"),  # Add transparency
+    boxmean = FALSE,
+    notched = TRUE,
+    jitter = 0.3,
+    pointpos = 0,
+    hovertemplate = hover_template,
+    hoverlabel = list(
+      bgcolor = colors[i],
+      font = list(color = "white", size = 12)
+    )
+  )
+}
+
+# Customize layout with enhanced styling
+p <- p %>% layout(
+  title = list(
+    text = 'BERT F1-Score Distribution by Model',
+    font = list(size = 20, family = "Arial Black"),
+    x = 0.5,
+    y = 0.95
+  ),
+  
+  xaxis = list(
+    title = list(
+      text = '',
+      font = list(size = 14, family = "Arial")
+    ),
+    tickfont = list(size = 11, family = "Arial"),
+    tickangle = 45,
+    showgrid = TRUE,
+    gridwidth = 1,
+    gridcolor = 'rgba(128,128,128,0.2)',
+    zeroline = FALSE,
+    showline = TRUE,
+    linewidth = 2,
+    linecolor = 'rgba(128,128,128,0.8)',
+    type = 'category'  # Ensures only model names appear on x-axis
+  ),
+  
+  yaxis = list(
+    title = list(
+      text = 'BERT f1 Score',  # Updated y-axis title
+      font = list(size = 14, family = "Arial")
+    ),
+    tickfont = list(size = 11, family = "Arial"),
+    showgrid = TRUE,
+    gridwidth = 1,
+    gridcolor = 'rgba(128,128,128,0.2)',
+    zeroline = TRUE,
+    zerolinewidth = 2,
+    zerolinecolor = 'rgba(128,128,128,0.4)',
+    showline = TRUE,  # Fixed: was "True" instead of TRUE
+    linewidth = 2,
+    linecolor = 'rgba(128,128,128,0.8)'
+  ),
+  
+  plot_bgcolor = '#fafafa',
+  paper_bgcolor = 'white',
+  
+  showlegend = FALSE,
+  
+  margin = list(
+    l = 80,
+    r = 60,
+    b = 120,
+    t = 100
+  )
+)
+
+# Display the plot
+p
+
+```
+
+
+
+
+```{r message=FALSE, warning=FALSE}
+#| out-width: "100%"
+
+heatmap_data <- df_plot %>%
+  group_by(question, model_name) %>%
+  summarise(avg_score = mean(avg_score, na.rm = TRUE), .groups = 'drop') %>%
+  pivot_wider(names_from = model_name, values_from = avg_score)
+
+# Convert to matrix for easier handling
+questions <- heatmap_data$question
+heatmap_matrix <- as.matrix(heatmap_data[, -1])
+
+# Create integer labels and mapping
+integer_labels <- 1:length(questions)
+rownames(heatmap_matrix) <- integer_labels
+
+# Calculate center value for color scale
+center_value <- mean(heatmap_matrix, na.rm = TRUE)
+
+# Create custom color scale (equivalent to RdYlBu_r)
+colors <- c('#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', 
+            '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2')
+
+# Create the plotly heatmap
+p <- plot_ly(
+  z = ~heatmap_matrix,
+  x = ~colnames(heatmap_matrix),
+  y = ~integer_labels,  # Use integer labels
+  type = "heatmap",
+  colorscale = list(
+    c(0, colors[1]), c(0.1, colors[2]), c(0.2, colors[3]), c(0.3, colors[4]),
+    c(0.4, colors[5]), c(0.6, colors[6]), c(0.7, colors[7]), c(0.8, colors[8]),
+    c(0.9, colors[9]), c(1, colors[10])
+  ),
+  zmid = center_value,
+  text = ~round(heatmap_matrix, 2),
+  texttemplate = "%{text}",
+  textfont = list(color = "black"),
+  showscale = TRUE,
+  colorbar = list(
+    title = list(text = "BERT F1-Score", side = "right"),
+    thickness = 20,
+    len = 0.8
+  )
+) %>%
+layout(
+  title = list(
+    text = "Model Performance by Question"
+  ),
+  xaxis = list(
+    title = "",
+    tickangle = 45,
+    side = "bottom"
+  ),
+  yaxis = list(
+    title = "Question",
+    tickmode = "array",
+    tickvals = integer_labels,
+    ticktext = integer_labels,
+    automargin = TRUE,
+    autorange = "reversed"  # Show integers 1, 2, 3... from top to bottom
+  ),
+
+  autosize = TRUE
+)
+p
+```
+
+
+
+```{r message=FALSE, warning=FALSE}
+df_legend <- data.frame(
+  "q_number" = 1:length(questions),
+  "question_text" = questions,
+  stringsAsFactors = FALSE
+)
+
+df_legend %>%
+    gt() %>%
+    tab_header(
+        title = "",
+    ) %>%
+    cols_label(
+        q_number = "#",
+        question_text = "Question"
+    ) %>%
+    fmt_number(
+        columns = q_number,
+        decimals = 0,
+        use_seps = FALSE
+    ) %>%
+    tab_options(
+        table.font.size = px(14),
+        heading.align = "left",
+        table.border.top.color = "darkred",
+        table.align = "left"
+    ) %>%
+    opt_row_striping()
+```
