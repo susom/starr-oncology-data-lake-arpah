@@ -1,0 +1,97 @@
+---
+title: "DICOM Data Dictionary"
+jupyter: "starr-oncology-data-lake-arpah"
+execute:
+  echo: false
+---
+
+```{python message=FALSE, warning=FALSE}
+#| output: asis
+#| echo: false
+
+
+import re
+import yaml
+import pandas as pd
+import pydicom
+from pydicom.datadict import dictionary_has_tag, keyword_for_tag, dictionary_description
+from pydicom.tag import Tag
+from IPython.display import HTML
+
+
+def extract_dicom_tags_from_content(content):
+    """Extract DICOM tags from the provided content."""
+    # Pattern to match <e en="T" t="tag_number" ...>
+    pattern = r'<e\s+en="T"\s+t="([0-9A-Fa-f]{8})"'
+    
+    # Find all matches
+    matches = re.findall(pattern, content)
+    
+    # Remove duplicates while preserving order
+    unique_tags = []
+    seen = set()
+    for tag in matches:
+        if tag not in seen:
+            unique_tags.append(tag)
+            seen.add(tag)
+    
+    return unique_tags
+
+
+def get_tag_info(tag_string):
+    """Get DICOM tag information using pydicom."""
+    try:
+        # Convert string to Tag object
+        group = int(tag_string[:4], 16)
+        element = int(tag_string[4:], 16)
+        tag = Tag(group, element)
+        
+        # Check if tag exists in dictionary
+        if dictionary_has_tag(tag):
+            keyword = keyword_for_tag(tag)
+            description = dictionary_description(tag)
+            
+            return {
+                'tag_number': f"({group:04X},{element:04X})",
+                'tag_hex': tag_string.upper(),
+                'keyword': keyword,
+                'description': description
+            }
+        else:
+            return {
+                'tag_number': f"({group:04X},{element:04X})",
+                'tag_hex': tag_string.upper(),
+                'keyword': 'Unknown',
+                'description': 'Tag not found in DICOM dictionary'
+            }
+            
+    except Exception as e:
+        return {
+            'tag_number': tag_string,
+            'tag_hex': tag_string.upper(),
+            'keyword': 'Error',
+            'description': f'Error processing tag: {e}'
+        }
+
+
+# Extract tags
+
+provided_content = open("metadata.xml", "r").read()  # Replace with your actual content source
+tag_strings = extract_dicom_tags_from_content(provided_content)
+
+# Process each tag
+results = []
+for tag_string in tag_strings:
+    tag_info = get_tag_info(tag_string)
+    results.append({
+        'DICOM_Tag_Number': tag_info['tag_number'],
+        'DICOM_Tag_Name': tag_info['keyword'],
+        'DICOM_Tag_Description': tag_info['description']
+    })
+
+# Create DataFrame
+df = pd.DataFrame(results)
+
+# Convert DataFrame to HTML and display
+HTML(df.to_html(escape=False, table_id="df"))
+```

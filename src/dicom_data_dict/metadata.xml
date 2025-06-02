@@ -1,0 +1,373 @@
+<script>
+    <!--
+    MINIMAL DICOM METADATA SCRUBBER (PRE-SCRUB)
+    This script is designed to remove most metadata from DICOM images while keeping
+    the essential information needed for image display. The expectation is that other DICOM
+    elements will be delivered separately through BigQuery.
+
+    Only tags that are guaranteed to be safe can be enabled here.
+    -->
+
+    <!-- Don't ever change this  -->
+    <p t="UIDROOT">1.2.840.4267.32.</p>
+
+    <!-- These will be overriden by the redactor, but this is a safe fallback. -->
+    <p t="SERIES_DESCRIPTION">######</p>
+    <p t="STUDY_DESCRIPTION">######</p>
+    <p t="PROTOCOL_NAME">######</p>
+    <p t="PATIENTID">######</p>
+    <p t="ACCESSION">######</p>
+
+    <!-- Parameterized -->
+    <e en="T" t="00100020" n="PatientID">@param(@PATIENTID)</e>
+    <e en="T" t="00080050" n="AccessionNumber">@param(@ACCESSION)</e>
+    <e en="T" t="00100010" n="PatientName">@param(@PATIENTID)</e>
+
+    <!-- Allow-list redacted attributes -->
+    <e en="T" t="0008103e" n="SeriesDescription">@param(@SERIES_DESCRIPTION)</e>
+    <e en="T" t="00081030" n="StudyDescription">@param(@STUDY_DESCRIPTION)</e>
+    <e en="T" t="00181030" n="ProtocolName">@param(@PROTOCOL_NAME)</e>
+
+    <!-- Image Information -->
+    <e en="T" t="00080005" n="SpecificCharacterSet">@keep()</e>
+    <e en="T" t="00080008" n="ImageType">@keep()</e>
+    <e en="T" t="00080016" n="SOPClassUID">@keep()</e>
+    <e en="T" t="00080060" n="Modality">@keep()</e>
+    <e en="T" t="00080070" n="Manufacturer">@keep()</e>
+    <e en="T" t="00081090" n="ManufacturerModelName">@keep()</e>
+    <e en="T" t="00082111" n="DerivationDescription">@keep()</e>
+
+    <!-- UIDs -->
+    <e en="T" t="00020003" n="MediaStorageSOPInstanceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00080018" n="SOPInstanceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00081140" n="ReferencedImageSequence">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00081155" n="ReferencedSOPInstanceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00083010" n="IrradiationEventUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="0020000D" n="StudyInstanceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="0020000E" n="SeriesInstanceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00200052" n="FrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00200200" n="SynchronizationFrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00281199" n="PaletteColorLookupTableUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00281214" n="LargePaletteColorLookupTableUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="0040a124" n="UID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00701101" n="PresentationDisplayCollectionUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00701102" n="PresentationSequenceCollectionUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="00880140" n="StorageMediaFileSetUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="30060024" n="ReferencedFrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+    <e en="T" t="300600c2" n="RelatedFrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
+
+    <!-- Device and Acquisition Information -->
+    <e en="T" t="00180010" n="ContrastBolusAgent">@keep()</e>
+    <e en="T" t="00180015" n="BodyPartExamined">@keep()</e>
+    <e en="T" t="00180020" n="ScanningSequence">@keep()</e>
+    <e en="T" t="00180021" n="SequenceVariant">@keep()</e>
+    <e en="T" t="00180022" n="ScanOptions">@keep()</e>
+    <e en="T" t="00180023" n="MRAcquisitionType">@keep()</e>
+    <e en="T" t="00180050" n="SliceThickness">@keep()</e>
+    <e en="T" t="00180088" n="SpacingBetweenSlices">@keep()</e>
+    <e en="T" t="00180090" n="DataCollectionDiameter">@keep()</e>
+    <e en="T" t="00181000" n="DeviceSerialNumber">@keep()</e>
+    <e en="T" t="00181020" n="SoftwareVersions">@keep()</e>
+    <e en="T" t="00181164" n="ImagerPixelSpacing">@keep()</e>
+    <e en="T" t="00200011" n="SeriesNumber">@keep()</e>
+    <e en="T" t="00200012" n="AcquisitionNumber">@keep()</e>
+    <e en="T" t="00200013" n="InstanceNumber">@keep()</e>
+    <e en="T" t="00201002" n="ImagesInAcquisition">@keep()</e>
+
+    <!-- Spatial and Positioning Information -->
+    <e en="T" t="00200032" n="ImagePositionPatient">@keep()</e>
+    <e en="T" t="00200037" n="ImageOrientationPatient">@keep()</e>
+    <e en="T" t="00200060" n="Laterality">@keep()</e>
+    <e en="T" t="00201040" n="PositionReferenceIndicator">@keep()</e>
+    <e en="T" t="00201041" n="SliceLocation">@keep()</e>
+    <e en="T" t="00280030" n="PixelSpacing">@keep()</e>
+
+
+    <!-- Image Format and Structure -->
+    <e en="T" t="00280002" n="SamplesPerPixel">@keep()</e>
+    <e en="T" t="00280004" n="PhotometricInterpretation">@keep()</e>
+    <e en="T" t="00280006" n="PlanarConfiguration">@keep()</e>
+    <e en="T" t="00280008" n="NumberOfFrames">@keep()</e>
+    <e en="T" t="00280009" n="FrameIncrementPointer">@keep()</e>
+    <e en="T" t="0028000A" n="FrameDimensionPointer">@keep()</e>
+    <e en="T" t="00280010" n="Rows">@keep()</e>
+    <e en="T" t="00280011" n="Columns">@keep()</e>
+    <e en="T" t="00280012" n="Planes">@keep()</e>
+    <e en="T" t="00280034" n="PixelAspectRatio">@keep()</e>
+    <e en="T" t="00280100" n="BitsAllocated">@keep()</e>
+    <e en="T" t="00280101" n="BitsStored">@keep()</e>
+    <e en="T" t="00280102" n="HighBit">@keep()</e>
+    <e en="T" t="00280103" n="PixelRepresentation">@keep()</e>
+    <e en="T" t="00280106" n="SmallestImagePixelValue">@keep()</e>
+    <e en="T" t="00280107" n="LargestImagePixelValue">@keep()</e>
+    <e en="T" t="00280120" n="PixelPaddingValue">@keep()</e>
+    <e en="T" t="00280121" n="PixelPaddingRangeLimit">@keep()</e>
+    <e en="T" t="00280200" n="ImageLocation">@keep()</e>
+    <e en="T" t="00280300" n="QualityControlImage">@keep()</e>
+    <e en="T" t="00281090" n="RecommendedViewingMode">@keep()</e>
+    <e en="T" t="00289001" n="DataPointRows">@keep()</e>
+    <e en="T" t="00289002" n="DataPointColumns">@keep()</e>
+    <e en="T" t="00289108" n="DataRepresentation">@keep()</e>
+
+    <!-- Display and Windowing Parameters -->
+    <e en="T" t="00281050" n="WindowCenter">@keep()</e>
+    <e en="T" t="00281051" n="WindowWidth">@keep()</e>
+    <e en="T" t="00281052" n="RescaleIntercept">@keep()</e>
+    <e en="T" t="00281053" n="RescaleSlope">@keep()</e>
+    <e en="T" t="00281054" n="RescaleType">@keep()</e>
+    <e en="T" t="00281055" n="WindowCenterWidthExplanation">@keep()</e>
+    <e en="T" t="00281056" n="VOILUTFunction">@keep()</e>
+
+    <!-- Color Palette Information -->
+    <e en="T" t="00281101" n="RedPaletteColorLookupTableDescriptor">@keep()</e>
+    <e en="T" t="00281102" n="GreenPaletteColorLookupTableDescriptor">@keep()</e>
+    <e en="T" t="00281103" n="BluePaletteColorLookupTableDescriptor">@keep()</e>
+    <e en="T" t="00281201" n="RedPaletteColorLookupTableData">@keep()</e>
+    <e en="T" t="00281202" n="GreenPaletteColorLookupTableData">@keep()</e>
+    <e en="T" t="00281203" n="BluePaletteColorLookupTableData">@keep()</e>
+    <e en="T" t="00282000" n="ICCProfile">@keep()</e>
+    <e en="T" t="00282110" n="LossyImageCompression">@keep()</e>
+    <e en="T" t="00282112" n="LossyImageCompressionRatio">@keep()</e>
+    <e en="T" t="00282114" n="LossyImageCompressionMethod">@keep()</e>
+    <e en="T" t="00620002" n="SegmentSequence">@keep()</e>
+
+    <!-- MR-specific Parameters -->
+    <e en="T" t="00180080" n="RepetitionTime">@keep()</e>
+    <e en="T" t="00180081" n="EchoTime">@keep()</e>
+    <e en="T" t="00180082" n="InversionTime">@keep()</e>
+    <e en="T" t="00180083" n="NumberOfAverages">@keep()</e>
+    <e en="T" t="00180084" n="ImagingFrequency">@keep()</e>
+    <e en="T" t="00180085" n="ImagedNucleus">@keep()</e>
+    <e en="T" t="00180086" n="EchoNumbers">@keep()</e>
+    <e en="T" t="00180087" n="MagneticFieldStrength">@keep()</e>
+    <e en="T" t="00180091" n="EchoTrainLength">@keep()</e>
+    <e en="T" t="00180095" n="PixelBandwidth">@keep()</e>
+    <e en="T" t="00181060" n="TriggerTime">@keep()</e>
+    <e en="T" t="00181100" n="ReconstructionDiameter">@keep()</e>
+    <e en="T" t="00189005" n="PulseSequenceName">@keep()</e>
+    <e en="T" t="00189087" n="DiffusionBValue">@keep()</e>
+
+    <!-- PET-specific Parameters -->
+    <e en="T" t="00181074" n="RadionuclideTotalDose">@keep()</e>
+    <e en="T" t="00181075" n="RadionuclideHalfLife">@keep()</e>
+    <e en="T" t="00181088" n="HeartRate">@keep()</e>
+    <e en="T" t="00181201" n="TimeOfLastCalibration">@keep()</e>
+    <e en="T" t="00189732" n="PETFrameAcquisitionSequence">@keep()</e>
+    <e en="T" t="00189733" n="PETDetectorMotionDetailsSequence">@keep()</e>
+    <e en="T" t="00189736" n="PETFrameCorrectionFactorsSequence">@keep()</e>
+    <e en="T" t="00189738" n="AttenuationCorrectionSource">@keep()</e>
+    <e en="T" t="00189810" n="ZeroVelocityPixelValue">@keep()</e>
+    <e en="T" t="00540202" n="TypeOfDetectorMotion">@keep()</e>
+    <e en="T" t="00540300" n="RadionuclideCodeSequence">@keep()</e>
+    <e en="T" t="00541000" n="SeriesType">@keep()</e>
+    <e en="T" t="00541001" n="Units">@keep()</e>
+    <e en="T" t="00541006" n="SUVType">@keep()</e>
+    <e en="T" t="00541102" n="DecayCorrection">@keep()</e>
+    <e en="T" t="00541300" n="FrameReferenceTime">@keep()</e>
+    <e en="T" t="00541323" n="ScatterFractionFactor">@keep()</e>
+
+    <!-- CT-specific Parameters -->
+    <e en="T" t="00180050" n="SliceThickness">@keep()</e>
+    <e en="T" t="00180060" n="KVP">@keep()</e>
+    <e en="T" t="00181100" n="ReconstructionDiameter">@keep()</e>
+    <e en="T" t="00181110" n="DistanceSourceToDetector">@keep()</e>
+    <e en="T" t="00181111" n="DistanceSourceToPatient">@keep()</e>
+    <e en="T" t="00181120" n="GantryDetectorTilt">@keep()</e>
+    <e en="T" t="00181130" n="TableHeight">@keep()</e>
+    <e en="T" t="00181140" n="RotationDirection">@keep()</e>
+    <e en="T" t="00181151" n="XRayTubeCurrent">@keep()</e>
+    <e en="T" t="00181152" n="Exposure">@keep()</e>
+    <e en="T" t="00181160" n="FilterType">@keep()</e>
+    <e en="T" t="00181170" n="GeneratorPower">@keep()</e>
+    <e en="T" t="00181190" n="FocalSpots">@keep()</e>
+    <e en="T" t="00181210" n="ConvolutionKernel">@keep()</e>
+    <e en="T" t="00187050" n="FilterMaterial">@keep()</e>
+
+    <!-- Fluoroscopy-specific Parameters -->
+    <e en="T" t="00181114" n="EstimatedRadiographicMagnificationFactor">@keep()</e>
+    <e en="T" t="00181153" n="ExposureInuAs">@keep()</e>
+    <e en="T" t="00181155" n="RadiationSetting">@keep()</e>
+    <e en="T" t="00181500" n="PositionerMotion">@keep()</e>
+    <e en="T" t="00181510" n="PositionerPrimaryAngle">@keep()</e>
+    <e en="T" t="00181511" n="PositionerSecondaryAngle">@keep()</e>
+    <e en="T" t="00181600" n="ShutterShape">@keep()</e>
+    <e en="T" t="00181620" n="VerticesOfThePolygonalShutter">@keep()</e>
+    <e en="T" t="00181622" n="ShutterPresentationValue">@keep()</e>
+    <e en="T" t="00181624" n="ShutterPresentationColorCIELabValue">@keep()</e>
+
+    <!-- Angiography-specific Parameters -->
+    <e en="T" t="00180010" n="ContrastBolusAgent">@keep()</e>
+    <e en="T" t="00181250" n="ReceiveCoilName">@keep()</e>
+    <e en="T" t="00189417" n="FrameAcquisitionSequence">@keep()</e>
+    <e en="T" t="00189434" n="ExposureControlSensingRegionsSequence">@keep()</e>
+    <e en="T" t="00189435" n="ExposureControlSensingRegionShape">@keep()</e>
+    <e en="T" t="00189436" n="ExposureControlSensingRegionLeftVerticalEdge">@keep()</e>
+    <e en="T" t="00189438" n="ExposureControlSensingRegionUpperHorizontalEdge">@keep()</e>
+
+    <!-- DXA-specific Parameters -->
+    <e en="T" t="00189070" n="CardiacRRIntervalSpecified">@keep()</e>
+    <e en="T" t="00189073" n="AcquisitionDuration">@keep()</e>
+    <e en="T" t="00189075" n="DiffusionDirectionality">@keep()</e>
+    <e en="T" t="00189076" n="DiffusionGradientDirectionSequence">@keep()</e>
+    <e en="T" t="00189077" n="ParallelAcquisition">@keep()</e>
+    <e en="T" t="00189087" n="DiffusionBValue">@keep()</e>
+
+    <!-- OCT-specific Parameters -->
+    <e en="T" t="00220001" n="LightPathFilterPassThroughWavelength">@keep()</e>
+    <e en="T" t="00220002" n="LightPathFilterPassBand">@keep()</e>
+    <e en="T" t="00220003" n="ImagePathFilterPassThroughWavelength">@keep()</e>
+    <e en="T" t="00220005" n="PatientEyeMovementCommanded">@keep()</e>
+    <e en="T" t="00220006" n="PatientEyeMovementCommandCodeSequence">@keep()</e>
+    <e en="T" t="00220007" n="SphericalLensPower">@keep()</e>
+    <e en="T" t="00220008" n="CylinderLensPower">@keep()</e>
+    <e en="T" t="00220009" n="CylinderAxis">@keep()</e>
+    <e en="T" t="00221007" n="OphthalmicAxialMeasurementsRightEyeSequence">@keep()</e>
+    <e en="T" t="00221019" n="OphthalmicAxialLength">@keep()</e>
+    <e en="T" t="00221050" n="OphthalmicAxialLengthMeasurementsSequence">@keep()</e>
+
+    <!-- SPECT-specific Parameters -->
+    <e en="T" t="00180070" n="CountsAccumulated">@keep()</e>
+    <e en="T" t="00180071" n="AcquisitionTerminationCondition">@keep()</e>
+    <e en="T" t="00180073" n="AcquisitionStartCondition">@keep()</e>
+    <e en="T" t="00180075" n="AcquisitionTerminationConditionData">@keep()</e>
+    <e en="T" t="00181040" n="ContrastBolusRoute">@keep()</e>
+    <e en="T" t="00181041" n="ContrastBolusVolume">@keep()</e>
+    <e en="T" t="00181242" n="ActualFrameDuration">@keep()</e>
+    <e en="T" t="00181243" n="CountRate">@keep()</e>
+    <e en="T" t="00181300" n="ScanVelocity">@keep()</e>
+    <e en="T" t="00181301" n="WholeBodyTechnique">@keep()</e>
+    <e en="T" t="00181302" n="ScanLength">@keep()</e>
+    <e en="T" t="00181310" n="AcquisitionMatrix">@keep()</e>
+    <e en="T" t="00181312" n="InPlanePhaseEncodingDirection">@keep()</e>
+    <e en="T" t="00181314" n="FlipAngle">@keep()</e>
+    <e en="T" t="00181320" n="B1rms">@keep()</e>
+    <e en="T" t="00181700" n="CollimatorShape">@keep()</e>
+    <e en="T" t="00181702" n="CollimatorLeftVerticalEdge">@keep()</e>
+    <e en="T" t="00181704" n="CollimatorRightVerticalEdge">@keep()</e>
+    <e en="T" t="00181710" n="CenterOfCircularCollimator">@keep()</e>
+    <e en="T" t="00181720" n="VerticesOfThePolygonalCollimator">@keep()</e>
+    <e en="T" t="00186020" n="ReferencePixelX0">@keep()</e>
+    <e en="T" t="00186040" n="TMLinePositionX1Retired">@keep()</e>
+    <e en="T" t="00540011" n="NumberOfEnergyWindows">@keep()</e>
+    <e en="T" t="00540022" n="DetectorInformationSequence">@keep()</e>
+    <e en="T" t="00540050" n="RotationVector">@keep()</e>
+    <e en="T" t="00540051" n="NumberOfRotations">@keep()</e>
+    <e en="T" t="00540060" n="RRIntervalVector">@keep()</e>
+    <e en="T" t="00540061" n="NumberOfRRIntervals">@keep()</e>
+    <e en="T" t="00540070" n="TimeSlotVector">@keep()</e>
+    <e en="T" t="00540080" n="SliceVector">@keep()</e>
+    <e en="T" t="00540090" n="AngularViewVector">@keep()</e>
+    <e en="T" t="00540100" n="TimeSliceVector">@keep()</e>
+    <e en="T" t="00541330" n="ImageIndex">@keep()</e>
+
+    <!-- Additional Nuclear Medicine (NM) specific Parameters -->
+    <e en="T" t="00180026" n="InterventionDrugInformationSequence">@keep()</e>
+    <e en="T" t="00180031" n="Radiopharmaceutical">@keep()</e>
+    <e en="T" t="00180032" n="EnergyWindowCenterline">@keep()</e>
+    <e en="T" t="00180040" n="CineRate">@keep()</e>
+    <e en="T" t="00189737" n="RadiopharmaceuticalUsageSequence">@keep()</e>
+    <e en="T" t="00189749" n="PETReconstructionSequence">@keep()</e>
+    <e en="T" t="00189751" n="PETFrameTypeSequence">@keep()</e>
+    <e en="T" t="00540016" n="RadiopharmaceuticalInformationSequence">@keep()</e>
+    <e en="T" t="00541000" n="SeriesType">@keep()</e>
+    <e en="T" t="00541400" n="CountsIncluded">@keep()</e>
+    <e en="T" t="00541401" n="DeadTimeCorrectionFlag">@keep()</e>
+
+    <!-- Mammography-specific Parameters -->
+    <e en="T" t="00181166" n="Grid">@keep()</e>
+    <e en="T" t="00181191" n="AnodeTargetMaterial">@keep()</e>
+    <e en="T" t="00181405" n="RelativeXRayExposure">@keep()</e>
+    <e en="T" t="00181508" n="PositionerType">@keep()</e>
+    <e en="T" t="00181530" n="DetectorPrimaryAngle">@keep()</e>
+    <e en="T" t="00181531" n="DetectorSecondaryAngle">@keep()</e>
+    <e en="T" t="00186000" n="Sensitivity">@keep()</e>
+    <e en="T" t="00187060" n="ExposureControlMode">@keep()</e>
+    <e en="T" t="00187062" n="ExposureControlModeDescription">@keep()</e>
+    <e en="T" t="00189538" n="PerProjectionAcquisitionSequence">@keep()</e>
+    <e en="T" t="00400318" n="OrganExposed">@keep()</e>
+    <e en="T" t="00408302" n="EntranceDoseInmGy">@keep()</e>
+
+    <!-- Digital X-ray specific Parameters -->
+    <e en="T" t="00181147" n="FieldOfViewShape">@keep()</e>
+    <e en="T" t="00181149" n="FieldOfViewDimensions">@keep()</e>
+    <e en="T" t="00181180" n="CollimatorGridName">@keep()</e>
+    <e en="T" t="00181400" n="AcquisitionDeviceProcessingDescription">@keep()</e>
+    <e en="T" t="00181401" n="AcquisitionDeviceProcessingCode">@keep()</e>
+    <e en="T" t="00181450" n="ColumnAngulation">@keep()</e>
+    <e en="T" t="00181470" n="TomoAngle">@keep()</e>
+    <e en="T" t="00187000" n="DetectorConditionsNominalFlag">@keep()</e>
+    <e en="T" t="00187030" n="FieldOfViewOrigin">@keep()</e>
+    <e en="T" t="00187032" n="FieldOfViewRotation">@keep()</e>
+    <e en="T" t="00187034" n="FieldOfViewHorizontalFlip">@keep()</e>
+    <e en="T" t="00187040" n="GridAbsorbingMaterial">@keep()</e>
+    <e en="T" t="00187041" n="GridSpacingMaterial">@keep()</e>
+    <e en="T" t="00187042" n="GridThickness">@keep()</e>
+    <e en="T" t="00187044" n="GridPitch">@keep()</e>
+    <e en="T" t="00187046" n="GridAspectRatio">@keep()</e>
+    <e en="T" t="00187052" n="FilterThicknessMinimum">@keep()</e>
+    <e en="T" t="00187054" n="FilterThicknessMaximum">@keep()</e>
+    <e en="T" t="00209116" n="PlaneOrientationSequence">@keep()</e>
+    <e en="T" t="00280200" n="ImageLocation">@keep()</e>
+    <e en="T" t="00280A02" n="PixelSpacingCalibrationType">@keep()</e>
+    <e en="T" t="00280A04" n="PixelSpacingCalibrationDescription">@keep()</e>
+
+    <!-- Breast Tomosynthesis specific Parameters -->
+    <e en="T" t="00089092" n="ReferencedImageEvidenceSequence">@keep()</e>
+    <e en="T" t="00189371" n="XRayDetectorID">@keep()</e>
+    <e en="T" t="00189461" n="FieldOfViewDimensionsInFloat">@keep()</e>
+    <e en="T" t="00189462" n="IsocenterReferenceSystemSequence">@keep()</e>
+    <e en="T" t="00189476" n="XRayGeometrySequence">@keep()</e>
+    <e en="T" t="00189477" n="IrradiationEventIdentificationSequence">@keep()</e>
+    <e en="T" t="00189504" n="XRay3DFrameTypeSequence">@keep()</e>
+    <e en="T" t="00189506" n="ContributingSourcesSequence">@keep()</e>
+    <e en="T" t="00189507" n="XRay3DAcquisitionSequence">@keep()</e>
+    <e en="T" t="00189508" n="PrimaryPositionerScanArc">@keep()</e>
+    <e en="T" t="00189528" n="AlgorithmDescription">@keep()</e>
+    <e en="T" t="00189530" n="XRay3DReconstructionSequence">@keep()</e>
+    <e en="T" t="00189531" n="ReconstructionDescription">@keep()</e>
+
+    <!-- Ultrasound-specific Parameters -->
+    <e en="T" t="00181050" n="SpatialResolution">@keep()</e>
+    <e en="T" t="00181063" n="FrameTime">@keep()</e>
+    <e en="T" t="00181065" n="FrameTimeVector">@keep()</e>
+    <e en="T" t="00181066" n="FrameDelay">@keep()</e>
+    <e en="T" t="0018106E" n="TriggerSamplePosition">@keep()</e>
+    <e en="T" t="00181090" n="CardiacNumberOfImages">@keep()</e>
+    <e en="T" t="00182001" n="PageNumberVector">@keep()</e>
+    <e en="T" t="00185010" n="TransducerData">@keep()</e>
+    <e en="T" t="00185012" n="FocusDepth">@keep()</e>
+    <e en="T" t="00185020" n="ProcessingFunction">@keep()</e>
+    <e en="T" t="00185021" n="PostprocessingFunction">@keep()</e>
+    <e en="T" t="00185022" n="MechanicalIndex">@keep()</e>
+    <e en="T" t="00185024" n="BoneThermalIndex">@keep()</e>
+    <e en="T" t="00185026" n="CranialThermalIndex">@keep()</e>
+    <e en="T" t="00185027" n="SoftTissueThermalIndex">@keep()</e>
+    <e en="T" t="00185028" n="SoftTissueFocusThermalIndex">@keep()</e>
+    <e en="T" t="00185029" n="SoftTissueSurfaceThermalIndex">@keep()</e>
+    <e en="T" t="00185030" n="DynamicRange">@keep()</e>
+    <e en="T" t="00185040" n="TotalGain">@keep()</e>
+    <e en="T" t="00185050" n="DepthOfScanField">@keep()</e>
+    <e en="T" t="00186011" n="SequenceOfUltrasoundRegions">@keep()</e>
+    <e en="T" t="00186031" n="TransducerType">@keep()</e>
+    <e en="T" t="00186032" n="PulseRepetitionFrequency">@keep()</e>
+    <e en="T" t="00187001" n="DetectorTemperature">@keep()</e>
+    <e en="T" t="00187004" n="DetectorType">@keep()</e>
+    <e en="T" t="00187020" n="DetectorElementPhysicalSize">@keep()</e>
+    <e en="T" t="00187022" n="DetectorElementSpacing">@keep()</e>
+    <e en="T" t="00286010" n="RepresentativeFrameNumber">@keep()</e>
+
+    <!-- Pixel data -->
+    <e en="T" t="7FE00010" n="PixelData">@keep()</e>
+
+    <!-- globals -->
+    <r en="T" t="curves">Remove curves</r>
+    <r en="T" t="overlays">Remove overlays</r>
+    <r en="T" t="privategroups">Remove private groups</r>
+
+    <!-- do we trust this? disabled for now -->
+    <k en="F" t="safeprivateelements">Keep safe private elements</k>
+
+    <!-- Finally, anything not mentioned in this file gets tossed -->
+    <r en="T" t="unspecifiedelements">Remove unchecked elements</r>
+
+</script>

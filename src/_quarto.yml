@@ -10,7 +10,8 @@ project:
    - data_labeling.qmd
    - 404.qmd
    - neuralframe_data_dict/*
-   - philips_ispm_data_dict/*     
+   - philips_ispm_data_dict/*
+   - dicom_data_dict/*
 
 website:
   title: "VISTA Oncology Data Lake"
@@ -40,7 +41,9 @@ website:
           - section: "NeuralFrame"
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
-            contents: philips_ispm_data_dict/*            
+            contents: philips_ispm_data_dict/*
+          - text: "DICOM"
+            href: dicom_data_dict/dicom_data_dictionary.qmd             
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
