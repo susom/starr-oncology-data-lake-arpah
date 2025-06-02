@@ -141,10 +141,14 @@ Note: We expect the number of patients with imaging data to increase per release
 
 ### All Cancer Types 
 ## Modality Types
-Top modality  types for series above 5000 are listed as follow.
+Top modality  types for series above 5k occurrences are listed as follow.
 
-**Note:** The following modality source values without image pixel were excluded from the analysis
-SR: Structured Report, REG: Registration, KO: Key Object Selection, PR: Presentation State
+**Note:** The following modality source values without image pixel were excluded from the analysis:
+
+SR: Structured Report
+REG: Registration
+KO: Key Object Selection
+PR: Presentation State
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -160,20 +164,30 @@ res_img_mod = res_img_mod %>% mutate(percent_pts = round(100 * person_count/den_
 ```{r, message=FALSE, warning=FALSE}
 ## Number of series in each modality - bar plot to keep 
 library(plotly)
-df_bar <- res_img_mod %>% filter(series_count>5000)%>%
-  arrange(desc(series_count)) %>% mutate(modality_type = fct_reorder(modality_type, series_count))
+library(plotly)
+df_bar <- res_img_mod %>% 
+  filter(series_count > 5000) %>%
+  arrange(desc(series_count)) %>% 
+  mutate(
+    modality_type = fct_reorder(modality_type, series_count),
+    percent_display = ifelse(percent_series < 2, 
+                            "<2", 
+                            sprintf("%.1f", percent_series))
+  )
 
 plot_ly(df_bar,
         y = ~modality_type,
         x = ~series_count,
-        text = ~sprintf("%.1f%%", percent_series),  
-        textposition = "outside",  
+        customdata = ~percent_display,  
+         text = ~paste0(percent_display, "%"), 
+          textposition = "outside", 
         type = "bar",
         color = ~modality_type,
         colors = "Set3",
         hovertemplate = paste(
           "Modality: %{y}<br>",
           "Series Count: %{x:,.0f}<br>",
+          "Series Percentage: %{customdata}%<br>",
           "<extra></extra>"
         )) %>%
   layout(
@@ -181,8 +195,7 @@ plot_ly(df_bar,
     yaxis = list(title = ""),
     title = "Number of Series per Modality",
     showlegend = FALSE,
-    uniformtext = list(minsize = 8, mode = "show"), 
-    margin = list(r = 220) 
+    uniformtext = list(minsize = 8, mode = "show")
   )
 ```
 
@@ -217,32 +230,40 @@ plot_ly(
 
 
 ## Patient Population 
+**Note:** This visualization shows modality types with more than 1,000 patients.
+
 ```{r, message=FALSE, warning=FALSE}
 df_bar <- res_img_mod %>% filter(person_count>1000)%>%
-  arrange(desc(person_count)) %>% mutate(modality_type = fct_reorder(modality_type, person_count))
+  arrange(desc(person_count)) %>% mutate(modality_type = fct_reorder(modality_type, person_count)) %>% mutate(
+    percent_display = ifelse(percent_pts < 2, 
+                            "<2", 
+                            sprintf("%.1f", percent_pts))
+  )
+
 
 
 
 plot_ly(df_bar,
         y = ~modality_type,
         x = ~person_count,
-        text = ~sprintf("%.1f%%", percent_pts),  
+        text = ~paste0(percent_display, "%") ,
         textposition = "outside",  
+        customdata = ~percent_display,
         type = "bar",
         color = ~modality_type,
         colors = "Set3",
         hovertemplate = paste(
           "Modality: %{y}<br>",
-          "Series Count: %{x:,.0f}<br>",
+          "Patient Count: %{x:,.0f}<br>",
+           "Patient Percentage: %{customdata:.1f}%<br>",
           "<extra></extra>"
         )) %>%
   layout(
-    xaxis = list(title = "Series Count"),
+    xaxis = list(title = "Person Count"),
     yaxis = list(title = ""),
     title = "Number of Patients per Modality",
     showlegend = FALSE,
-    uniformtext = list(minsize = 8, mode = "show"), 
-    margin = list(r = 220) 
+    uniformtext = list(minsize = 8, mode = "show")
   )
 
 ```
@@ -266,7 +287,7 @@ DT::datatable(as.data.frame(res_img_mod), options = list(scrollX = TRUE, pageLen
 
 
 ## Anatomic Sites
-Top anatomic sites for series above 5000 are listed as follow.
+Top anatomic sites for series above 100k occurrences are listed as follow.
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 #| context: global
@@ -287,21 +308,23 @@ library(dplyr)
 library(plotly)
 library(DT)
 
-df_bar_sr <- res_ana %>% filter(series_count>5000)%>%
+df_bar_sr <- res_ana %>% filter(series_count>100000)%>%
   arrange(desc(series_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, series_count))
 
 
 plot_ly(df_bar_sr,
         y = ~anatomic_site,
         x = ~series_count,
-        text = ~sprintf("%.1f%%", percent_series),  
-        textposition = "outside",  
+        #text = ~sprintf("%.1f%%", percent_series),  
+       # textposition = "outside",  
+        customdata = ~percent_series,
         type = "bar",
         color = ~anatomic_site,
         colors = "Set3",
         hovertemplate = paste(
           "Anatomic: %{y}<br>",
           "Series Count: %{x:,.0f}<br>",
+          "Series Percentage: %{customdata:.1f}%<br>",
           "<extra></extra>"
         )) %>%
   layout(
@@ -310,28 +333,31 @@ plot_ly(df_bar_sr,
     title = "Series Count by Anatomic Site",
     showlegend = FALSE,
     uniformtext = list(minsize = 8, mode = "show"), 
-    margin = list(r = 220) 
+    margin = list(r = 150) 
   )         
 
 ```
 ## Patient Population 
+**Note:** This visualization shows anatomic sites with more than 100k series. 
 
 ```{r, message=FALSE, warning=FALSE}
 library(forcats)
-df_bar <- res_ana %>% filter(person_count>1000)%>%
+df_bar <- res_ana %>% filter(series_count>100000)%>%
   arrange(desc(person_count)) %>% mutate(anatomic_site = forcats::fct_reorder(anatomic_site, person_count))
 
 plot_ly(df_bar,
         y = ~anatomic_site,
         x = ~person_count,
-        text = ~sprintf("%.1f%%", percent_pts),  
-        textposition = "outside",  
+       # text = ~sprintf("%.1f%%", percent_pts),  
+      #  textposition = "outside",  
+       customdata = ~percent_pts,
         type = "bar",
         color = ~anatomic_site,
         colors = "Set3",
         hovertemplate = paste(
-          "Modality: %{y}<br>",
-          "Series Count: %{x:,.0f}<br>",
+          "Anatomic: %{y}<br>",
+          "Patient Count: %{x:,.0f}<br>",
+          "Patient Percentage: %{customdata:.1f}%<br>",
           "<extra></extra>"
         )) %>%
   layout(
@@ -339,8 +365,7 @@ plot_ly(df_bar,
     yaxis = list(title = ""),
     title = "Number of Patients per Anatomic Site",
     showlegend = FALSE,
-    uniformtext = list(minsize = 8, mode = "show"), 
-    margin = list(r = 250) 
+    uniformtext = list(minsize = 8, mode = "show")
   )
 
 ```
