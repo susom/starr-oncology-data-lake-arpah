@@ -138,6 +138,7 @@ As of May 2025, `r format(tb_img$patient_count[1] ,big.mark = ",")` with thoraci
 
 ::: {.panel-tabset}
 The following analysis is presented for series occurrences above 500. 
+
 ### Anatomic Sites
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_thoracic_imag_occ_anatomic.sql"
@@ -153,6 +154,7 @@ res_ana=res_ana %>% mutate(
  percent=round(100*(unique_person_count/tb_img$patient_count),1
 ))
 ```
+
 ```{r sites plot, message=FALSE, warning=FALSE}
 
 library(forcats)
@@ -166,8 +168,8 @@ plot_ly(df_bar_ana,
       #  textposition = "outside",  
        customdata = ~percent,
         type = "bar",
+         color = ~anatomic_site_source_value,
         colors = rev(RColorBrewer::brewer.pal(n = length(unique(df_bar_ana$anatomic_site_source_value)), "Set3")),
-        colors = "Set3",
         hovertemplate = paste(
           "Anatomic: %{y}<br>",
           "Patient Count: %{x:,.0f}<br>",
