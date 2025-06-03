@@ -64,17 +64,27 @@ website:
         href: data_labeling.qmd
         contents:
           - section: "February 2025"
-            contents: 
-              - text: "Labeling Guidelines"
-                href: feb_2025/phi_labeling_guidelines.qmd  
-              - text: "Labeling Report"
-                href: feb_2025/phi_labeling_report.qmd
-              - text: "Labeling Process"
-                href: feb_2025/phi_labeling_process.qmd
+            contents:
+              - section: "PHI Labeling" 
+                contents:
+                - text: "Labeling Guidelines"
+                  href: feb_2025/phi_labeling_guidelines.qmd  
+                - text: "Labeling Report"
+                  href: feb_2025/phi_labeling_report.qmd
+                - text: "Labeling Process"
+                  href: feb_2025/phi_labeling_process.qmd
           - section: "May 2025"
             contents:
-              - text: "AI for Automatic Synoptic Reporting"
-                href: may_2025/cap_forms.qmd
+              - section: "AI for Automatic Synoptic Reporting"
+                contents:
+                - text: "Results"
+                  href: may_2025/cap_forms_results.qmd
+                - text: "Methods"
+                  href: may_2025/cap_forms_methods.qmd
+              - section: "PHI labeling"
+                contents:
+                - text: "Labeling Report"
+                  href: may_2025/phi_labeling_report.qmd
   navbar:
     left:
       - text: "About"

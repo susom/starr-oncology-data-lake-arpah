@@ -1,0 +1,7 @@
+---
+title: "AI for Automatic Synoptic Reporting: Methdology"
+execute:
+  echo: false
+---
+
+### Coming soon!

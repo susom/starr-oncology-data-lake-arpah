@@ -14,15 +14,28 @@ Our current focus is on labeling Protected Health Information (PHI) in clinical 
 - Ensuring patient privacy compliance
 - Creating high-quality training data for machine learning models
 
+## AI for Automatic Synoptic Reporting
+
+Our team is using AI models to automatically extract structured information from pathology reports. Key aspects of this work include:
+
+- Identifying key data elements from College of American Pathologists (CAP) cancer protocols
+- Converting unstructured free-text reports into standardized synoptic formats
+- Validating model accuracy against human expert annotation
+
+This initiative aims to improve data standardization, reduce manual extraction efforts, and enhance the completeness of cancer registry data.
+
 ### Project Resources
 
 ####  February 2025 Release
 
-  - [Labeling Guidelines](feb_2025/phi_labeling_guidelines.qmd)
-  - [Labeling Report](feb_2025/phi_labeling_report.qmd)
+  - [PHI Labeling Guidelines](feb_2025/phi_labeling_guidelines.qmd)
+  - [PHI Labeling Report](feb_2025/phi_labeling_report.qmd)
 
 ####  May 2025 Release
 
-  - [AI for Automatic Synoptic Reporting](may_2025/cap_forms.qmd)
+  - [AI for Automatic Synoptic Reporting]
+    - [Methods](may_2025/cap_forms_methods.qmd)
+    - [Results](may_2025/cap_forms_results.qmd)
+  - [PHI Labeling Report](may_2025/phi_labeling_report.qmd)
 
 

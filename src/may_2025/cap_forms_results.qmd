@@ -1,5 +1,5 @@
 ---
-title: "AI for Automatic Synoptic Reporting"
+title: "AI for Automatic Synoptic Reporting: Results"
 execute:
   echo: false
 ---
