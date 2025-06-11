@@ -389,7 +389,7 @@ res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
 
-As of May 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(res_den_thr$counts[2], big.mark = ",")` had imaging data. 
+As of May 2025, from `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons in image_occurrence table"], big.mark = ",")` had imaging data. 
 
 
 
