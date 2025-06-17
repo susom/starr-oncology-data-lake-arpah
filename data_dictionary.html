@@ -621,7 +621,10 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#neuralframe" id="toc-neuralframe" class="nav-link" data-scroll-target="#neuralframe">NeuralFrame</a></li>
   <li><a href="#phillips-ispm" id="toc-phillips-ispm" class="nav-link" data-scroll-target="#phillips-ispm">Phillips ISPM</a></li>
-  <li><a href="#phi-scrubbing-operations-definitions" id="toc-phi-scrubbing-operations-definitions" class="nav-link" data-scroll-target="#phi-scrubbing-operations-definitions">PHI Scrubbing Operations Definitions</a></li>
+  <li><a href="#phi-scrubbing-operations-definitions" id="toc-phi-scrubbing-operations-definitions" class="nav-link" data-scroll-target="#phi-scrubbing-operations-definitions">PHI Scrubbing Operations Definitions</a>
+  <ul>
+  <li><a href="#dicom-phi-scrubbing" id="toc-dicom-phi-scrubbing" class="nav-link" data-scroll-target="#dicom-phi-scrubbing">DICOM PHI Scrubbing</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -774,8 +777,12 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+<section id="dicom-phi-scrubbing" class="level4">
+<h4 class="anchored" data-anchor-id="dicom-phi-scrubbing">DICOM PHI Scrubbing</h4>
+<p>For DICOM data the PHI scrubbing module protects PII and sensitive information by first using regex patterns to identify and mask specific data types like dates, times, email addresses, URLs, numeric identifiers and hexadecimal sequences, then tokenizing the text using configurable delimiters and numeric→alpha and alpha→numeric transitions and replacing any tokens not found in a predefined allowlist with ‘X’ characters of equivalent length. The system preserves the original text structure by maintaining spacing and delimiters while systematically redacting content, with specialized date handling through regex patterns that match various date formats, ensuring that only approved vocabulary passes through unredacted while all other potentially sensitive information is obscured.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
