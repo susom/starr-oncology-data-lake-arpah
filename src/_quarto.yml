@@ -77,9 +77,7 @@ website:
             contents:
               - section: "AI for Automatic Synoptic Reporting"
                 contents:
-                - text: "Results"
-                  href: may_2025/cap_forms_results.qmd
-                - text: "Methods"
+                - text: "Methods and Results"
                   href: may_2025/cap_forms_methods.qmd
               - section: "PHI labeling"
                 contents:

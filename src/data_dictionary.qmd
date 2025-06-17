@@ -62,3 +62,9 @@ In order to protect patient information, various PHI (Protected Health Informati
 | None                              | pass as is- no PHI scrubbing operation                                                                                                                                                                    |
 
 :  {.hover .responsive .sm}
+
+#### DICOM PHI Scrubbing
+
+For DICOM data the PHI scrubbing module protects PII and sensitive information through a two-stage process. First, it uses regex patterns to identify and mask specific data types including dates, times, email addresses, URLs, numeric identifiers, and hexadecimal sequences. Second, it tokenizes the text using configurable delimiters and numeric-to-alpha and alpha-to-numeric transitions, then replaces any tokens not found in a predefined allowlist with 'X' characters of equivalent length. The system preserves the original text structure by maintaining spacing and delimiters while systematically redacting content. It includes specialized date handling through regex patterns that match various date formats, ensuring that only approved vocabulary passes through unredacted while obscuring all other potentially sensitive information.
+
+This redaction only applies to `series_description`, `study_description`, and `protocol_name` attributes (tags).

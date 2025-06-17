@@ -16,12 +16,14 @@ Clinical Data Table (not yet a Standard)
 | wadors_uri                                          | STRING  | No         |       | Del                       |
 | local_path                                          | STRING  | No         |       | Del                       |
 | image_occurrence_date                               | DATE    | Yes        |       | Jitt                      |
+| image_occurrence_datetime                           | DATETIME| Yes        |       | Jitt                      |
 | image_study_uid                                     | STRING  | Yes        |       | Hash                      |
 | image_series_uid                                    | STRING  | Yes        |       | Hash                      |
 | modality_source_value                               | STRING  | Yes        |       | Whitelist                 |
-| _accession_number                                   | STRING  | No         |       | Del                       |
-| source_flag (Stanford construct for traceability.   | STRING  | No         |       |                        |
-| load_table_id (Stanford construct for traceability) | STRING  | No         |       |                        |
+| _accession_number                                   | STRING  | No         |       | Hash                      |
+| _note_id                                            | INTEGER | No         |       | Offset                    |
+| source_flag (Stanford construct for traceability.   | STRING  | No         |       |                           |
+| load_table_id (Stanford construct for traceability) | STRING  | No         |       |                           |
 | trace_id (Stanford construct for traceability)      | STRING  | No         |       | Del                       |
 
 :  {.hover .responsive .sm}

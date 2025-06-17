@@ -93,5 +93,5 @@ for tag_string in tag_strings:
 df = pd.DataFrame(results)
 
 # Convert DataFrame to HTML and display
-HTML(df.to_html(escape=False, table_id="df"))
+HTML(df.to_html(escape=False, table_id="df", index=False))
 ```
