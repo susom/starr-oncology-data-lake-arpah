@@ -682,8 +682,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><a href="#ai-for-automatic-synoptic-reporting">AI for Automatic Synoptic Reporting</a>
 <ul>
-<li><a href="./may_2025/cap_forms_methods.html">Methods</a></li>
-<li><a href="may_2025/cap_forms_results.qmd">Results</a></li>
+<li><a href="./may_2025/cap_forms_methods.html">Methods and Results</a></li>
 </ul></li>
 <li><a href="./may_2025/phi_labeling_report.html">PHI Labeling Report</a></li>
 </ul>
@@ -786,7 +785,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
