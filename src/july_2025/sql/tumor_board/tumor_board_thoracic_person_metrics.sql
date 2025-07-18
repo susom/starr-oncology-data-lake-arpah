@@ -3,7 +3,6 @@
 -------------------------------
 
 with
-person as (select * from `@oncology_prod.@oncology_omop.person`),
 tb_visits as (select * from  `@oncology_prod.@oncology_omop.visit_occurrence`),
 scr as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`),
 tumor_board_patients AS (
