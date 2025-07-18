@@ -4,7 +4,7 @@
 with
 person as (select * from `@oncology_prod.@oncology_omop.person`),
 all_flag as (select * from  `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort`),
-scr_thoracic_patients as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses.onc_neuralframe_case_diagnoses`
+scr_thoracic_patients as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`
 WHERE
 (lower(primarysiteDescription) like '%lung%'
 or lower(primarysiteDescription) like '%bronchus%'
