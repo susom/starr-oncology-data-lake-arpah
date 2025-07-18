@@ -126,41 +126,25 @@ overlap_matrix <- res %>%
     values_from = value,
     values_fill = FALSE
   )
-
-overlap_matrix_renamed <- overlap_matrix %>%
-  rename(
-    OMOP = "Oncology OMOP",
-    Imaging = "Image Occurrence",
-    `Cancer Registry` = "Neural Frame",
-    Genomic = "Philips ISPM",
-    `Tumor Board` = "Tumor Board"
-  )
-
-pg<-ComplexUpset::upset(
-  overlap_matrix_renamed, 
-  c("OMOP", "Imaging", "Cancer Registry", "Genomic", "Tumor Board"),    width_ratio=0.1, wrap=TRUE, set_sizes=FALSE,
-  mode = 'inclusive_intersection', min_degree = 2,
+ComplexUpset::upset(
+  overlap_matrix, 
+  c("Oncology OMOP", "Image Occurrence", "Neural Frame", "Philips ISPM", "Tumor Board"),    width_ratio=0.1,
+  min_size = 10000, wrap=TRUE, set_sizes=FALSE,
+  mode = 'inclusive_intersection',
      base_annotations=list(
         'Intersection size'=intersection_size(
-            counts=TRUE,text=list(
+            counts=FALSE,text=list(
                 vjust=-0.1,
                 hjust=-0.1,
-                size=4,
-                angle=90,
-                margin=margin(b=10)
+                angle=90
             ),
-              mode = 'exclusive_intersection',
-            mapping=aes(fill='bars_color'),
-            format_count = scales::comma 
-        ) + scale_fill_manual(values=c('bars_color'='#8B0000'), guide='none')+
-         scale_y_continuous(labels = scales::comma, 
-               expand = expansion(mult = c(0, 0.2))  # Add more space at the top
-)
+              mode = 'inclusive_intersection',
+            mapping=aes(fill='bars_color')
+        ) + scale_fill_manual(values=c('bars_color'='#8B0000'), guide='none')
     )
 ,
   intersections = 'all',
-  max_degree = 4
+  max_degree = 3
 )
 
-#ggsave("plot.png", pg, width = 10, height = 9, dpi = 300)
 ```
