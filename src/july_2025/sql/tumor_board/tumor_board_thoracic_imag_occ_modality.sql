@@ -3,9 +3,6 @@
 --- Number of pts with thoracic cancer, tb, and image occur records
 -----------------------------------------------------------------------
 WITH
-person AS (
-    SELECT * FROM `@oncology_prod.@oncology_omop.person`
-),
 tb_visits AS (
     SELECT * FROM  `@oncology_prod.@oncology_omop.visit_occurrence`
 ),
@@ -16,27 +13,21 @@ scr AS (
     SELECT * FROM `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`
 ),
 tumor_board_patients AS (
-    SELECT person_source_value 
+    SELECT person_id 
     FROM tb_visits
     WHERE  LOWER(visit_source_value) LIKE '%tumor board%'
 ),
 scr_thoracic_patients AS (
-    SELECT DISTINCT stanford_patient_uid
+    SELECT DISTINCT person_id
     FROM scr
     WHERE LOWER(primarysiteDescription) LIKE '%lung%'
        OR LOWER(primarysiteDescription) LIKE '%bronchus%'
        OR LOWER(primarysiteDescription) LIKE '%thymus%'
 ),
-person_img AS (
-    SELECT person_source_value , image_occ.person_id
-    FROM person 
-    INNER JOIN image_occ USING (person_id)
-),
 tb_thoracic_patients AS (
-    SELECT DISTINCT person_img.person_id
+    SELECT DISTINCT tb.person_id
     FROM tumor_board_patients tb
-    INNER JOIN person_img ON person_img.person_source_value = tb.person_source_value
-    INNER JOIN scr_thoracic_patients ON person_img.person_source_value = scr_thoracic_patients.stanford_patient_uid
+    INNER JOIN scr_thoracic_patients using (person_id)
 ) ,
 modality_counts AS (
     SELECT 

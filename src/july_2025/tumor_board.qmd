@@ -10,8 +10,8 @@ yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql_
 ```
 
 
-### Summary:
-As of july 2025, Tumor Board encounters are defined -- TBD
+### July Update:
+Tumor Board encounters are defined using the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter. 
 
 **Note**: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity. 
@@ -35,7 +35,7 @@ res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
 
-As of July 2025, From `r format(res_den_thr$counts[2], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$patient_count[1] , big.mark = ",")` also had a Tumor Board encounter. 
+As of July 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$patient_count[1] , big.mark = ",")` also had a Tumor Board encounter. 
 
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
@@ -134,7 +134,7 @@ sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_b
 tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
 tb_img
 ```
-As of july 2025, `r format(tb_img$patient_count[1] ,big.mark = ",")` with thoracic tumor board encounter had image occurrence procedures.
+As of July 2025, `r format(tb_img$patient_count[1] ,big.mark = ",")` with thoracic tumor board encounter had image occurrence procedures.
 
 ::: {.panel-tabset}
 The following analysis is presented for series occurrences above 500. 
