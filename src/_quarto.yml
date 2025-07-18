@@ -60,6 +60,11 @@ website:
                 href: may_2025/philips_metrics.qmd
               - text: "Tumor Board"
                 href: may_2025/tumor_board.qmd
+          - section: "July 2025"
+            href: july_2025
+            contents:
+              - text: "Tumor Board"
+                href: july_2025/tumor_board.qmd
       - section: "Data Labeling"
         href: data_labeling.qmd
         contents:
