@@ -158,7 +158,7 @@ res_ana=res_ana %>% mutate(
 ```{r sites plot, message=FALSE, warning=FALSE}
 
 library(forcats)
-df_bar_ana <- res_ana %>% 
+df_bar_ana <- res_ana %>% filter (unique_person_count>45)%>%
   arrange(desc(unique_person_count)) %>% mutate(anatomic_site_source_value = forcats::fct_reorder(anatomic_site_source_value, unique_person_count))
 
 plot_ly(df_bar_ana,
