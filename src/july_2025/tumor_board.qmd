@@ -36,6 +36,60 @@ head(res_den_thr)
 ```
 
 As of July 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$patient_count[1] , big.mark = ",")` also had a Tumor Board encounter. 
+```{r time trend, message=FALSE, warning=FALSE, results='hide'}
+# time trend
+tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_over_time.sql"
+dt <- fetch_data_from_sql_file(tb_time, yaml_file_path)
+head(dt)
+
+```
+```{r time plot, message=FALSE, warning=FALSE, results='hide'}
+# time trend
+dt=dt %>% filter(year>2011)
+#dt=dt %>% mutate(ratio=(n_tb_encounters/total_patients))
+
+dt_long <- dt %>%
+  select(year, n_tb_encounters, total_patients) %>%
+  pivot_longer(
+    cols = c(n_tb_encounters, total_patients),
+    names_to = "flag",
+    values_to = "count"
+  ) %>%
+  mutate(
+    flag = case_when(
+      flag == "n_tb_encounters" ~ "Thoracic TB",
+      flag == "total_patients" ~ "All TB"
+    ),
+    ratio = dt$ratio[1]  # Add ratio for hovering
+  )
+
+```
+
+```{r time trend plot, message=FALSE, warning=FALSE}
+# Create ggplot with hover
+dt=dt %>% filter(year>2011)
+
+p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = flag, group = flag)) +geom_point(aes(y = n_tb_encounters), size = 3)+
+  geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se=FALSE) + # Add smoothed lines
+  theme_minimal() +
+  labs(
+    title = "Tumor Board Encounters Over Time",
+    x = "Year",
+    y = "Number of Encounters"
+  ) +
+  theme(
+    strip.text = element_text(size = 12, face = "bold"),
+    strip.background = element_rect(fill = "white", color = "gray80")
+  )
+
+# Convert to plotly for interactivity
+ggplotly(p, tooltip = "text") %>%
+  layout(
+    hoverlabel = list(bgcolor = "white"),
+    margin = list(t = 50)
+  ) %>%
+  style(hoverinfo = "text")  
+```
 
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
@@ -215,6 +269,7 @@ res_thr=res_thr %>% mutate(
  percent=round(100*(unique_person_count/tb_img$patient_count),1
 ))
 ```
+
 
 ```{r, message=FALSE, warning=FALSE}
 library(forcats)
