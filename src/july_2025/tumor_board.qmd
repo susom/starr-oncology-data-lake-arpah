@@ -46,7 +46,7 @@ head(dt)
 ```{r time plot, message=FALSE, warning=FALSE, results='hide'}
 # time trend
 dt=dt %>% filter(year>2011)
-#dt=dt %>% mutate(ratio=(n_tb_encounters/total_patients))
+dt=dt %>% mutate(ratio=(n_tb_encounters/total_patients))
 
 dt_long <- dt %>%
   select(year, n_tb_encounters, total_patients) %>%
@@ -68,27 +68,35 @@ dt_long <- dt %>%
 ```{r time trend plot, message=FALSE, warning=FALSE}
 # Create ggplot with hover
 dt=dt %>% filter(year>2011)
+dt$ratio=round(dt$ratio, 1)
 
-p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = flag, group = flag)) +geom_point(aes(y = n_tb_encounters), size = 3)+
-  geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se=FALSE) + # Add smoothed lines
+
+# Convert to plotly for interactivity
+p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = flag, group = flag)) +
+  geom_point(aes(
+    text = paste0(
+      "Year: ", year,
+      "<br>n_encounters: ", n_tb_encounters,
+      "<br>n_patients: ", total_patients,
+      "<br>ratio: ", round(ratio, 3)
+    )
+  ), size = 3) +
+  geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
   theme_minimal() +
   labs(
     title = "Tumor Board Encounters Over Time",
     x = "Year",
     y = "Number of Encounters"
+    color = NULL  # <-- This removes the legend title
   ) +
-  theme(
+  theme(legend.position = "bottom",  # Move legend below the plot
+    legend.title = element_blank(),
     strip.text = element_text(size = 12, face = "bold"),
     strip.background = element_rect(fill = "white", color = "gray80")
   )
 
-# Convert to plotly for interactivity
-ggplotly(p, tooltip = "text") %>%
-  layout(
-    hoverlabel = list(bgcolor = "white"),
-    margin = list(t = 50)
-  ) %>%
-  style(hoverinfo = "text")  
+# Convert to interactive plot with hover
+ggplotly(p, tooltip = "text")
 ```
 
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
