@@ -101,13 +101,49 @@ ggplotly(p, tooltip = "text")
 
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
+sql_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_overlap.sql"
+res<- fetch_data_from_sql_file(sql_overlap, yaml_file_path)
+res$percent=100*(res$total_patients/res$total_patients[res$flag=="all_tb"])
+res$percent=round(res$percent,1)
+# Compute percentages
+#res$fraction <- res$total_patients / res$all_tb
+#res$ymax <- cumsum(res$fraction)
+#res$ymin <- c(0, head(res$ymax, n = -1))
+#res$label_pos <- (res$ymax + res$ymin) / 2
+#res$label <- paste0(res$flag, "\n", round(res$fraction * 100), "%")
+```
+```{r}
+ggplot(res, aes(x = reorder(flag, total_patients), y = total_patients, fill = flag)) +
+  geom_col(width = 0.8) +
+  coord_flip() +
+  labs(x = NULL, y = "Patient Count", title = "Tumor Board Subgroup Sizes") +
+  geom_text(aes(label = total_patients), hjust = -0.1) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+
+create_gt_table(
+  data = res,
+  columns = c("flag", "total_patients"),
+  labels = c(
+    "flag" = "Data Sources",
+    "total_patients" = "Count (N)",
+    "percents" = "Percentage (%)"
+  ),
+  title_text = "Data Sources Across Tumor Board",
+  subtitle_text = "",
+  footnote_text = ""
+)
+```
+```{r demographic, message=FALSE, warning=FALSE, results='hide'}
+# Parameters
 sql_demg <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_thoracic_demographic_all.sql"
-df <- fetch_data_from_sql_file(sql_demg, yaml_file_path)
+res <- fetch_data_from_sql_file(sql_demg, yaml_file_path)
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## demographic table ##
-all.dat = df %>%
+all.dat = res %>%
 dplyr::mutate(
     Variable = dplyr::case_when(
       grepl("n_age", description) ~ "Age",
@@ -220,10 +256,10 @@ res_ana=res_ana %>% mutate(
 ```{r sites plot, message=FALSE, warning=FALSE}
 
 library(forcats)
-df_bar_ana <- res_ana %>% filter (unique_person_count>45)%>%
+res_bar_ana <- res_ana %>% filter (unique_person_count>45)%>%
   arrange(desc(unique_person_count)) %>% mutate(anatomic_site_source_value = forcats::fct_reorder(anatomic_site_source_value, unique_person_count))
 
-plot_ly(df_bar_ana,
+plot_ly(res_bar_ana,
         y = ~anatomic_site_source_value,
         x = ~unique_person_count,
        # text = ~sprintf("%.1f%%", percent_pts),  
@@ -231,7 +267,7 @@ plot_ly(df_bar_ana,
        customdata = ~percent,
         type = "bar",
          color = ~anatomic_site_source_value,
-        colors = rev(RColorBrewer::brewer.pal(n = length(unique(df_bar_ana$anatomic_site_source_value)), "Set3")),
+        colors = rev(RColorBrewer::brewer.pal(n = length(unique(res_bar_ana$anatomic_site_source_value)), "Set3")),
         hovertemplate = paste(
           "Anatomic: %{y}<br>",
           "Patient Count: %{x:,.0f}<br>",
@@ -281,10 +317,10 @@ res_thr=res_thr %>% mutate(
 
 ```{r, message=FALSE, warning=FALSE}
 library(forcats)
-df_bar <- res_thr %>% 
+res_bar <- res_thr %>% 
   arrange(desc(unique_person_count)) %>% mutate(modality_source_value = forcats::fct_reorder(modality_source_value, unique_person_count))
 
-plot_ly(df_bar,
+plot_ly(res_bar,
         y = ~modality_source_value,
         x = ~unique_person_count,
        # text = ~sprintf("%.1f%%", percent_pts),  
@@ -292,7 +328,7 @@ plot_ly(df_bar,
        customdata = ~percent,
         type = "bar",
         color = ~modality_source_value,
-        colors = rev(RColorBrewer::brewer.pal(n = length(unique(df_bar$modality_source_value)), "Set3")),
+        colors = rev(RColorBrewer::brewer.pal(n = length(unique(res_bar$modality_source_value)), "Set3")),
         hovertemplate = paste(
           "Anatomic: %{y}<br>",
           "Patient Count: %{x:,.0f}<br>",
