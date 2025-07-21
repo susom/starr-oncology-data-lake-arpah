@@ -17,8 +17,7 @@ person_id
     or lower(primarysiteDescription) like '%bronchus%'
     or lower(primarysiteDescription) like '%thymus%'
 )
-select count(distinct person.person_id) patient_count
+select count(distinct person_id) as n_pts
 from
 tumor_board_patients tb
-inner join person on person.person_id = tb.person_id
-inner join scr_thoracic_patients on person.person_id = scr_thoracic_patients.person_id
+inner join scr_thoracic_patients using (person_id)

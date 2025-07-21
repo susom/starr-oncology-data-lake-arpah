@@ -6,11 +6,11 @@ execute:
 ```{r setup, include=FALSE}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql_params.yml"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 ```
 
 
-### July Update:
+### Summary:
 Tumor Board encounters are defined using the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter. 
 
@@ -23,26 +23,26 @@ library(DT)
 library(tidyr)
 library(plotly)
 
-tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_thoracic_person_metrics.sql"
+tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_thoracic_person_metrics.sql"
 tb_den<- fetch_data_from_sql_file(tb_sql, yaml_file_path)
 tb_den
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
-sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/image_occ_thoracic/image_occ_person_thr.sql"
+sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ_thoracic/image_occ_person_thr.sql"
 res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
 
-As of July 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$patient_count[1] , big.mark = ",")` also had a Tumor Board encounter. 
+As of July 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
 ```{r time trend, message=FALSE, warning=FALSE, results='hide'}
 # time trend
-tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_over_time.sql"
+tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_over_time.sql"
 dt <- fetch_data_from_sql_file(tb_time, yaml_file_path)
 head(dt)
-
 ```
+
 ```{r time plot, message=FALSE, warning=FALSE, results='hide'}
 # time trend
 dt=dt %>% filter(year>2011)
@@ -64,15 +64,16 @@ dt_long <- dt %>%
   )
 
 ```
+## Tumor Board Encounter 
 
 ```{r time trend plot, message=FALSE, warning=FALSE}
 # Create ggplot with hover
 dt=dt %>% filter(year>2011)
 dt$ratio=round(dt$ratio, 1)
-
+dt$data=dt$flag
 
 # Convert to plotly for interactivity
-p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = flag, group = flag)) +
+p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) +
   geom_point(aes(
     text = paste0(
       "Year: ", year,
@@ -82,11 +83,13 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = flag, group = flag)) 
     )
   ), size = 3) +
   geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
+    geom_vline(xintercept = 2020, linetype = "dashed", color = "grey", size = 0.5) +  # Add vertical line for year 2020
+
   theme_minimal() +
   labs(
     title = "Tumor Board Encounters Over Time",
     x = "Year",
-    y = "Number of Encounters"
+    y = "Number of Encounters",
     color = NULL  # <-- This removes the legend title
   ) +
   theme(legend.position = "bottom",  # Move legend below the plot
@@ -96,48 +99,55 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = flag, group = flag)) 
   )
 
 # Convert to interactive plot with hover
-ggplotly(p, tooltip = "text")
+# Convert to interactive plot with hover
+ ggplotly(p, tooltip = "text")
+
+
 ```
 
-```{r demographic, message=FALSE, warning=FALSE, results='hide'}
+## Data Sources Across Tumor Board 
+
+```{r overlap, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_overlap.sql"
+sql_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_overlap.sql"
 res<- fetch_data_from_sql_file(sql_overlap, yaml_file_path)
 res$percent=100*(res$total_patients/res$total_patients[res$flag=="all_tb"])
 res$percent=round(res$percent,1)
-# Compute percentages
-#res$fraction <- res$total_patients / res$all_tb
-#res$ymax <- cumsum(res$fraction)
-#res$ymin <- c(0, head(res$ymax, n = -1))
-#res$label_pos <- (res$ymax + res$ymin) / 2
-#res$label <- paste0(res$flag, "\n", round(res$fraction * 100), "%")
-```
-```{r}
-ggplot(res, aes(x = reorder(flag, total_patients), y = total_patients, fill = flag)) +
-  geom_col(width = 0.8) +
-  coord_flip() +
-  labs(x = NULL, y = "Patient Count", title = "Tumor Board Subgroup Sizes") +
-  geom_text(aes(label = total_patients), hjust = -0.1) +
-  theme_minimal() +
-  theme(legend.position = "none")
 
+
+```
+```{r, overlap table, message=FALSE, warning=FALSE}
+res=res %>% arrange(desc(total_patients))
+res <- res %>%
+  mutate(
+    description = case_when(
+      flag == "tb_nf" ~ "Tumor Board Patients with Registry Data",
+      flag == "thoracic_tb" ~ "Tumor Board Patients with Thoracic Cancer",
+      flag == "tb_imaging_nf" ~ "Tumor Board Patients with Imaging and Registry Data",
+      flag == "all_tb" ~ "Tumor Board Patients",
+      flag == "tb_genomic_nf_imaging" ~ "Tumor Board Patients with Imaging and Genomic Data",
+      TRUE ~ "Other"
+    )
+  )
+res$flag<-NULL
 
 create_gt_table(
   data = res,
-  columns = c("flag", "total_patients"),
+  columns = c( "description", "total_patients", "percent" ),
   labels = c(
-    "flag" = "Data Sources",
+    "description" = "Data Sources",
     "total_patients" = "Count (N)",
-    "percents" = "Percentage (%)"
+    "percent" = "Percentage (%)"
   ),
   title_text = "Data Sources Across Tumor Board",
   subtitle_text = "",
   footnote_text = ""
 )
 ```
+
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_demg <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_thoracic_demographic_all.sql"
+sql_demg <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_thoracic_demographic_all.sql"
 res <- fetch_data_from_sql_file(sql_demg, yaml_file_path)
 ```
 
@@ -205,7 +215,7 @@ Please note that the Incomplete case status is eventually updated to either C
 
 ```{r case status, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_case <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_thoracic_case_status.sql"
+sql_case <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_thoracic_case_status.sql"
 case <- fetch_data_from_sql_file(sql_case, yaml_file_path)
 case
 colnames(case)[2]<-"pts_count"
@@ -228,7 +238,7 @@ labels <- c(
 ### Image Occurrence 
 ```{r image, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_thoracic_imag_occ.sql"
+sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_thoracic_imag_occ.sql"
 tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
 tb_img
 ```
@@ -239,7 +249,7 @@ The following analysis is presented for series occurrences above 500.
 
 ### Anatomic Sites
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_thoracic_imag_occ_anatomic.sql"
+sql_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_thoracic_imag_occ_anatomic.sql"
 res_ana <- fetch_data_from_sql_file(sql_image_an, yaml_file_path)
 head(res_ana)
 res_ana<- res_ana%>% filter (series_count>500) %>%
@@ -289,7 +299,7 @@ plot_ly(res_bar_ana,
 ### Modality Types 
 ```{r image occ, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_img_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/july_2025/sql/tumor_board/tumor_board_thoracic_imag_occ_modality.sql"
+sql_img_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board_updated/tumor_board_thoracic_imag_occ_modality.sql"
 tb_img_mod<- fetch_data_from_sql_file(sql_img_mod, yaml_file_path)
 tb_img_mod
 ```
