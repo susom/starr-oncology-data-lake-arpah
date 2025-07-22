@@ -8,7 +8,7 @@ rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 ```
-Please note that the previous Tumor Board definition has been updated and the previous released metrics are presented here:
+Please note that the Tumor Board definition has been updated and the previous released metrics are presented here:
 [Old Tumor Board](tumor_board.qmd)
 
 ### Summary:
@@ -31,7 +31,7 @@ tb_den
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
-sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ_thoracic/image_occ_person_thr.sql"
+sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_person_thr.sql"
 res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
@@ -65,7 +65,7 @@ dt_long <- dt %>%
   )
 
 ```
-## Tumor Board Encounter 
+## Tumor Board Encounter ##
 
 ```{r time trend plot, message=FALSE, warning=FALSE}
 # Create ggplot with hover
@@ -84,7 +84,7 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) 
     )
   ), size = 3) +
   geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
-    geom_vline(xintercept = 2020, linetype = "dashed", color = "grey", size = 0.5) +  # Add vertical line for year 2020
+    geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +  # Add vertical line for year 2020
 
   theme_minimal() +
   labs(
@@ -106,7 +106,7 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) 
 
 ```
 
-## Data Sources Across Tumor Board 
+## Data Sources Across Tumor Board ##
 
 ```{r overlap, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
