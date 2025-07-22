@@ -44,27 +44,27 @@ website:
             contents: philips_ispm_data_dict/*
           - text: "DICOM"
             href: dicom_data_dict/dicom_data_dictionary.qmd             
-      - section: "Data Metrics"
-        href: data_metrics.qmd
-        contents:
-          - text: "February 2025"
-            href: feb_2025/demographic_clinical.qmd
-          - section: "May 2025"
-            href: may_2025/metrics_clinical.qmd
-            contents:
-              - text: "Neural Frame "
-                href: may_2025/neural_frame.qmd
-              - text: "Image Occurrence"
-                href: may_2025/image_occ.qmd
-              - text: "Philips ISPM"
-                href: may_2025/philips_metrics.qmd
-              - text: "Tumor Board"
-                href: may_2025/tumor_board.qmd
-          - section: "July 2025"
-            href: july_2025
-            contents:
-              - text: "Tumor Board"
-                href: july_2025/tumor_board.qmd
+      # - section: "Data Metrics"
+      #   href: data_metrics.qmd
+      #   contents:
+      #     - text: "February 2025"
+      #       href: feb_2025/demographic_clinical.qmd
+      #     - section: "May 2025"
+      #       href: may_2025/metrics_clinical.qmd
+      #       contents:
+      #         - text: "Neural Frame "
+      #           href: may_2025/neural_frame.qmd
+      #         - text: "Image Occurrence"
+      #           href: may_2025/image_occ.qmd
+      #         - text: "Philips ISPM"
+      #           href: may_2025/philips_metrics.qmd
+      #         - text: "Tumor Board"
+      #           href: may_2025/tumor_board.qmd
+      #     - section: "July 2025"
+      #       href: july_2025
+      #       contents:
+      #         - text: "Tumor Board"
+      #           href: july_2025/tumor_board.qmd
       - section: "Data Labeling"
         href: data_labeling.qmd
         contents:
@@ -94,8 +94,8 @@ website:
         href: about.qmd
       - href: data_dictionary.qmd
         text: "Data Dictionary"
-      - href: data_metrics.qmd
-        text: "Data Metrics"
+      # - href: data_metrics.qmd
+      #   text: "Data Metrics"
       - href: data_labeling.qmd
         text: "Data Labeling"
     tools:
