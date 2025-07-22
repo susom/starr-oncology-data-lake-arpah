@@ -122,7 +122,7 @@ df_demographics <- fetch_data_from_sql(sql)
 ```
 
 ```{r}
-install.packages("table1")  # Install if not already installed
+#install.packages("table1") 
 library(table1)  
 table1(~ Age + Race + Ethnicity | Sex , df_demographics)
 ```
