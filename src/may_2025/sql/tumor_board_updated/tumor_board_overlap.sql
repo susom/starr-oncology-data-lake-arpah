@@ -7,7 +7,7 @@ WITH
       visit.visit_start_datetime,
       visit.person_id
     FROM
-      `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_may2025.visit_occurrence` visit
+      `@oncology_prod.@oncology_omop.visit_occurrence` visit
     WHERE
       LOWER(visit_source_value) LIKE '%tumor board%'
       AND visit.visit_start_datetime IS NOT NULL
@@ -16,13 +16,13 @@ WITH
     SELECT 
       DISTINCT person_id
     FROM 
-      som-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_may2025.onc_neuralframe_case_diagnoses
+      `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`
   ),
   thoracic_pts AS (
     SELECT 
       DISTINCT person_id
     FROM 
-      som-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_may2025.onc_neuralframe_case_diagnoses
+      `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`
     WHERE 
       LOWER(primarysiteDescription) LIKE '%lung%'
       OR LOWER(primarysiteDescription) LIKE '%bronchus%'
@@ -62,7 +62,7 @@ WITH
     INNER JOIN 
       nf ON tb.person_id = nf.person_id
     INNER JOIN 
-      `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_may2025.image_occurrence` img ON tb.person_id = img.person_id
+      `@oncology_prod.@oncology_omop.image_occurrence` img ON tb.person_id = img.person_id
   ),
   tb_genomic_nf_imaging AS (
     SELECT 
@@ -73,9 +73,9 @@ WITH
     INNER JOIN 
       nf ON tb.person_id = nf.person_id
     INNER JOIN 
-      `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_may2025.image_occurrence` img ON tb.person_id = img.person_id
+      `@oncology_prod.@oncology_omop.image_occurrence` img ON tb.person_id = img.person_id
     INNER JOIN 
-      `som-rit-phi-oncology-prod.oncology_philips_phi_irb76049_may2025.onc_philips_mtb_pat_diag_orders` genomic ON tb.person_id = genomic.person_id
+      `@oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders` genomic ON tb.person_id = genomic.person_id
   )
 SELECT * FROM all_tb
 UNION ALL
