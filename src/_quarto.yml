@@ -110,8 +110,8 @@ website:
         href: about.qmd
       - icon: github
         href: https://github.com/susom/starr-oncology-data-lake-arpah
-  search:
-    show-item-context: true
+  search: false
+  #   show-item-context: true
 
 
 format:
