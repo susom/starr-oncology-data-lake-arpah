@@ -8,7 +8,8 @@ rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
 ```
-
+Please note that the previous Tumor Board definition has been updated and the previous released metrics are presented here:
+[Old Tumor Board](tumor_board.qmd)
 
 ### Summary:
 Tumor Board encounters are defined using the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
