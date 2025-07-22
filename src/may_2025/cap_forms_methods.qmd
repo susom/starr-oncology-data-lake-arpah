@@ -26,7 +26,6 @@ library(glue)
 library(plotly)
 library(dplyr)
 library(gt)
-library(table1)
 
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 project_id <- "som-rit-phi-oncology-dev"
@@ -123,6 +122,8 @@ df_demographics <- fetch_data_from_sql(sql)
 ```
 
 ```{r}
+#install.packages("table1") 
+library(table1)  
 table1(~ Age + Race + Ethnicity | Sex , df_demographics)
 ```
 
