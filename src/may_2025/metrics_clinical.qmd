@@ -38,7 +38,7 @@ As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_s
     - [Neural Frame Metrics](neural_frame.qmd)
 
   - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
-    - [Tumor Board Metrics](tumor_board.qmd)
+    - [Tumor Board Metrics](tumor_board_updated.qmd)
 
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
     - [Philips ISPM Metrics](philips_metrics.qmd)
@@ -147,7 +147,7 @@ pg<-ComplexUpset::upset(
   mode = 'inclusive_intersection', min_degree = 2,
      base_annotations=list(
         'Intersection size'=intersection_size(
-            counts=TRUE,text=list(
+            counts=FALSE,text=list(
                 vjust=-0.1,
                 hjust=-0.1,
                 size=4,
