@@ -16,10 +16,17 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_
 ### **Population Summary**
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-den <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_denominators.sql"
+den <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_denominators_update.sql"
 den_res <- fetch_data_from_sql_file(den, yaml_file_path)
 
+den_old <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_denominators.sql"
+den_res_old <- fetch_data_from_sql_file(den_old, yaml_file_path)
+
 den_res=den_res %>% arrange(desc(percentage))
+colnames(den_res)<-c("counts_pts_updated", "data_set", "percent_updated")
+den_res_old=den_res_old %>% arrange(desc(percentage))
+
+den_res=den_res %>% inner_join(den_res_old, by="data_set")
 ```
 
 
@@ -40,16 +47,12 @@ As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_s
     - [Image Occurrence Metrics](image_occ.qmd)
 
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
-library(ComplexUpset)
-folder_path_tb <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_person_metrics.sql"
-res_tb <- fetch_data_from_sql_file(folder_path_tb, yaml_file_path)
-res_tb
-```
+
 ```{r table1, message=FALSE, warning=FALSE}
 # Modify the data frame to show hierarchy
 labels <- c(
   "data_set"="Data Source",
+  "counts_pts_updated" = "Updated Number of Patients",
   "counts_pts" = "Number of Patients"
 )
 
@@ -74,8 +77,9 @@ den_res_formatted <- den_res %>%
   # Create the formatted table
   create_gt_table_v1(
     data = den_res_formatted,
-    columns = c("data_set", "counts_pts"),
-    labels = labels
+    columns = c("data_set", "counts_pts_updated", "counts_pts"),
+    labels = labels,
+    footnote_text = "Note: Tumor Board definition has been updated"
   ) %>%
   tab_style(
     style = cell_text(indent = px(20)),
@@ -87,7 +91,7 @@ den_res_formatted <- den_res %>%
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_overlap_metrics.sql"
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/arpah_cohort/arpah_overlap_metrics_updated.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
 head(res)
 
@@ -117,6 +121,7 @@ For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the b
 
 ## Patient Distribution Across Data Sources
 ```{r complexupset, message=FALSE, warning=FALSE}
+
 library(ComplexUpset)
 library(ggplot2)
 overlap_matrix <- res %>%
@@ -126,25 +131,42 @@ overlap_matrix <- res %>%
     values_from = value,
     values_fill = FALSE
   )
-ComplexUpset::upset(
-  overlap_matrix, 
-  c("Oncology OMOP", "Image Occurrence", "Neural Frame", "Philips ISPM", "Tumor Board"),    width_ratio=0.1,
-  min_size = 10000, wrap=TRUE, set_sizes=FALSE,
-  mode = 'inclusive_intersection',
+
+overlap_matrix_renamed <- overlap_matrix %>%
+  rename(
+    OMOP = "Oncology OMOP",
+    Imaging = "Image Occurrence",
+    `Cancer Registry` = "Neural Frame",
+    Genomic = "Philips ISPM",
+    `Tumor Board` = "Tumor Board"
+  )
+
+pg<-ComplexUpset::upset(
+  overlap_matrix_renamed, 
+  c("OMOP", "Imaging", "Cancer Registry", "Genomic", "Tumor Board"),  width_ratio=0.1, wrap=TRUE, set_sizes=FALSE,
+  mode = 'inclusive_intersection', min_degree = 2,
      base_annotations=list(
         'Intersection size'=intersection_size(
-            counts=FALSE,text=list(
+            counts=TRUE,text=list(
                 vjust=-0.1,
                 hjust=-0.1,
-                angle=90
+                size=4,
+                angle=90,
+                margin=margin(b=10)
             ),
               mode = 'inclusive_intersection',
-            mapping=aes(fill='bars_color')
-        ) + scale_fill_manual(values=c('bars_color'='#8B0000'), guide='none')
+            mapping=aes(fill='bars_color'),
+            format_count = scales::comma 
+        ) + scale_fill_manual(values=c('bars_color'='#8B0000'), guide='none')+
+         scale_y_continuous(labels = scales::comma, 
+               expand = expansion(mult = c(0, 0.2))  # Add more space at the top
+)
     )
 ,
   intersections = 'all',
-  max_degree = 3
+  max_degree = 4
 )
+pg
+#ggsave("plot.png", pg, width = 10, height = 9, dpi = 300)
 
 ```
