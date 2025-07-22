@@ -4,127 +4,70 @@
     "href": "feb_2025/demographic_clinical.html",
     "title": "Oncology Cohort Characteristics",
     "section": "",
-    "text": "Release Version: Feb 2025 (IRB76049)\nThe oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.\nThese metrics have been generated using the latest Stanford OMOP data and Neural Frame data.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2025"
-    ]
+    "text": "Release Version: Feb 2025 (IRB76049)\nThe oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.\nThese metrics have been generated using the latest Stanford OMOP data and Neural Frame data."
   },
   {
     "objectID": "feb_2025/demographic_clinical.html#demographics",
     "href": "feb_2025/demographic_clinical.html#demographics",
     "title": "Oncology Cohort Characteristics",
     "section": "Demographics",
-    "text": "Demographics\n\nAge Distribution\nBelow is the distribution of persons by year of birth.\n\n\n\n\n\n\n\n\nSummary of Patient Population\nThe demographic categories examined include Age, Sex, Race, and Ethnicity.\n\n\n\n\n\n\n\n\nAll Category Metrics - Oncology OMOP\n\n\nCharacteristic\n\nCount (N)\nPercentage (%)\n\n\n\n\nTotal\nTotal number of pts\n201,554\n100\n\n\nAge\n0-17\n2,743\n1\n\n\nAge\n18-44\n20,626\n10\n\n\nAge\n45-64\n60,730\n30\n\n\nAge\n65+\n117,400\n58\n\n\nAge\nNo OMOP Visit\n55\n0\n\n\nSex\nMale\n99,000\n49\n\n\nSex\nFemale\n102,523\n51\n\n\nSex\nOther\n0\n0\n\n\nSex\nUnknown\n31\n0\n\n\nRace\nAmerican Indian-Alaska Native\n720\n0\n\n\nRace\nAsian\n30,374\n15\n\n\nRace\nNative Hawaii\n1,575\n1\n\n\nRace\nBlack\n6,015\n3\n\n\nRace\nWhite\n117,697\n58\n\n\nRace\nOther-Unknown\n45,173\n22\n\n\nEthnicity\nHispanic Latino\n24,229\n12\n\n\nEthnicity\nNOT Hispanic Latino\n159,016\n79\n\n\nEthnicity\nOther-Missing\n18,309\n9",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2025"
-    ]
+    "text": "Demographics\n\nAge Distribution\nBelow is the distribution of persons by year of birth.\n\n\n\n\n\n\n\n\nSummary of Patient Population\nThe demographic categories examined include Age, Sex, Race, and Ethnicity.\n\n\n\n\n\n\n\n\nAll Category Metrics - Oncology OMOP\n\n\nCharacteristic\n\nCount (N)\nPercentage (%)\n\n\n\n\nTotal\nTotal number of pts\n201,554\n100\n\n\nAge\n0-17\n2,743\n1\n\n\nAge\n18-44\n20,626\n10\n\n\nAge\n45-64\n60,730\n30\n\n\nAge\n65+\n117,400\n58\n\n\nAge\nNo OMOP Visit\n55\n0\n\n\nSex\nMale\n99,000\n49\n\n\nSex\nFemale\n102,523\n51\n\n\nSex\nOther\n0\n0\n\n\nSex\nUnknown\n31\n0\n\n\nRace\nAmerican Indian-Alaska Native\n720\n0\n\n\nRace\nAsian\n30,374\n15\n\n\nRace\nNative Hawaii\n1,575\n1\n\n\nRace\nBlack\n6,015\n3\n\n\nRace\nWhite\n117,697\n58\n\n\nRace\nOther-Unknown\n45,173\n22\n\n\nEthnicity\nHispanic Latino\n24,229\n12\n\n\nEthnicity\nNOT Hispanic Latino\n159,016\n79\n\n\nEthnicity\nOther-Missing\n18,309\n9"
   },
   {
     "objectID": "feb_2025/demographic_clinical.html#clinical-metrics",
     "href": "feb_2025/demographic_clinical.html#clinical-metrics",
     "title": "Oncology Cohort Characteristics",
     "section": "Clinical Metrics",
-    "text": "Clinical Metrics\n\n\n\n\n\n\n\n\n\n\n\nClinical Metric Description\nOncology OMOP N(%)* (Total=201,554)\nTumor Board N(%)* (Total=24,662)\n\n\n\n\nNumber of patients with imaging reports, also a proxy for radiology imaging data\n184,854 (91.7%)\n23,746 (96.3%)\n\n\nNumber of patients with pathology/cytology clinical report\n169,774 (84.2%)\n22,777 (92.4%)\n\n\nNumber of patients given chemo medication\n89,183 (44.2%)\n13,452 (54.5%)\n\n\nNumber of patients with either a Hospital or Stanford Cancer Registry death date\n49,270 (24.4%)\n5,493 (22.3%)\n\n\nNumber of patients with pathology report\n168,052 (83.4%)\n22,910 (92.9%)\n\n\n\n* N(%) represents the counts and the corresponding percentage of the total\n\n\n\n\n\n\n\n\n\nThoracic Cancer Sub-Cohort\nThe following metrics were identified for individuals with thoracic cancer within the oncology OMOP (200k).\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nNumber of patients in Neural Frame and diagnosed with thoracic cancer\n13,379\n\n\nNumber of patients in Neural Frame and diagnosed with thoracic cancer with a death date\n6,212\n\n\nNumber of patients diagnosed with thoracic cancer and have a tumor board encounter\n2,583\n\n\n\n*Death date was defined either within STARR-OMOP or Neural Frame\n\n\n\n\n\n\n\n\n\n\nOMOP Image Occurrence\nAs of the February 2025 oncology OMOP population:\n\n93,333 (46.3%) out of 201,554 patients in the oncology cohort had image occurrence procedures.\n6,736 (50.3%) out of 13,379 thoracic patients had image occurrence procedures.\n2,435 (94.3%) out of 2,583 thoracic patients with tumor board encounter had image occurrence procedures.\n\n\n\nCTSA Metrics\nCTSA metrics are a common set of metrics developed in collaboration with the National Center for Advancing Translational Sciences (NCATS) to compare performance against other institutions within the network, facilitate benchmarking, and measure progress in translating basic science discoveries into clinical applications and patient benefits.\n\n\n\n\n\n\n\n\n\n\n\nCTSA Metrics\nPatient Count\n\n\n\n\nDistinct patients with atleast one address (SDOH)\n201,362\n\n\nDistinct patients with a lab test coded in LOINC\n198,393\n\n\nDistinct patients with an insurance provider (SDOH)\n195,431\n\n\nDistinct patients with a diagnosis coded in SNOMED\n187,552\n\n\nDistinct patients with a diagnosis coded in ICD 9/10\n187,551\n\n\nDistinct patients with a procedure coded in HCPCS or CPT\n184,685\n\n\nDistinct patients with a procedure coded in SNOMED\n182,655\n\n\nDistinct patients with at least one vital sign coded (height, weight, BP, BMI or temp)\n182,037\n\n\nDistinct patients with a medication coded in RxNorm/NDC\n178,101\n\n\nDistinct patients with a procedure coded in ICD 9/10 PCS\n127,946\n\n\nDistinct patients with a smoking status coded at least once\n89,177\n\n\nDistinct patients with opioid use disorder coded\n6,835\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Data\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Outcome Metrics\n\nPatient Count\n\n\n\n\nVital Status\nAlive\n92,689\n\n\nVital Status\nMissing (NA)\n63,893\n\n\nVital Status\nDead\n46,103\n\n\nCancer Status\nEvidence of this tumor\n73,202\n\n\nCancer Status\nMissing (NA)\n70,146\n\n\nCancer Status\nNo evidence of this tumor\n62,400\n\n\nCancer Status\nUnknown, indeterminate whether this tumor is present, not stated in patient record\n5,641\n\n\n\nNumber of Neural Frame Patients: 197,903\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRecurrence Type\nPatient Count\n\n\n\n\nPatient became disease-free after treatment and has not had a recurrence; leukemia in remission.\n109,502\n\n\nSince diagnosis, patient has never been disease-free. This includes cases with distant metastasis at diagnosis, systemic disease, unknown primary, or minimal disease that is not treated.\n78,504\n\n\nIt is unknown whether the disease has recurred or if the patient was ever disease-free.\n4,809\n\n\nLocal recurrence and there is insufficient information available to code to 13-17. Recurrence is confined to the remnant of the organ of origin; to the organ of origin; to the anastomosis; or to scar tissue where the organ previously existed.\n2,543\n\n\nDisease has recurred, but the type of recurrence is unknown.\n2,284\n\n\nLocal recurrence of an invasive tumor.\n1,835\n\n\nDistant systemic recurrence of an invasive tumor only. This includes leukemia, bone marrow metastasis, carcinomatosis, and generalized disease.\n945\n\n\nDistant recurrence of an invasive tumor in the lung only. Lung includes the visceral pleura.\n772\n\n\nDistant recurrence and there is insufficient information available to code to 46-62.\n683\n\n\nDistant recurrence of an invasive tumor in the liver only.\n671\n\n\nDistant recurrence of an invasive tumor in multiple sites (recurrences that can be coded to more than one category 51-59).\n667\n\n\nDistant recurrence of an invasive tumor in bone only. This includes bones other than the primary site.\n657\n\n\nRegional recurrence, and there is insufficient information available to code to 21-27.\n425\n\n\nDistant recurrence of an invasive tumor in the CNS only. This includes the brain and spinal cord, but not the external eye.\n415\n\n\nRecurrence of an invasive tumor in regional lymph nodes only.\n390\n\n\nBoth regional recurrence of an invasive tumor in adjacent tissue or organ(s) and/or regional lymph nodes (20-25) and local and/or trocar recurrence (10, 13, 14, or 15).\n295\n\n\nDistant recurrence of an invasive tumor in lymph node only. Refer to the staging scheme for a description of lymph nodes that are distant for a particular site.\n220\n\n\nRecurrence of an invasive tumor in adjacent tissue or organ(s) only.\n210\n\n\nIn situ recurrence of an in situ tumor.\n100\n\n\nDistant recurrence of an invasive tumor in the peritoneum only. Peritoneum includes peritoneal surfaces of all structures within the abdominal cavity and/or positive ascitic fluid.\n98\n\n\nDistant recurrence of an invasive tumor in a single distant site (51-58) and local, trocar, and/or regional recurrence (10-15, 20-25, or 30).\n85\n\n\nLocal recurrence of an in situ tumor.\n82\n\n\nIn situ recurrence of an invasive tumor.\n61\n\n\nRecurrence of an invasive tumor in adjacent tissue or organ(s) and in regional lymph nodes (both 21 and 22) at the same time.\n42\n\n\nDistant recurrence of an invasive tumor in the pleura only. Pleura includes the pleural surface of all structures within the thoracic cavity and/or positive pleural fluid.\n32\n\n\nBoth local and trocar recurrence of an invasive tumor (both 13 and 14)\n32\n\n\nDistant recurrence of an invasive tumor in the skin only. This includes skin other than the primary site.\n24\n\n\nBoth regional recurrence of an in situ tumor in adjacent tissue or organ(s) and/or regional lymph nodes (26 or 27) and local and/or trocar recurrence (16 or 17).\n16\n\n\nRegional recurrence of an in situ tumor, NOS.\n15\n\n\nBoth local and trocar recurrence of an in situ tumor.\n7\n\n\nDistant recurrence of an in situ tumor.\n7\n\n\nTrocar recurrence of an invasive tumor. Includes recurrence in the trocar path or entrance site following prior surgery.\n5\n\n\nNA\n3\n\n\nRecurrence of an in situ tumor in adjacent tissue or organ(s) and in regional lymph nodes at the same time.\n2\n\n\n\nNumber of Neural Frame Patients: 197,903",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2025"
-    ]
+    "text": "Clinical Metrics\n\n\n\n\n\n\n\n\n\n\n\nClinical Metric Description\nOncology OMOP N(%)* (Total=201,554)\nTumor Board N(%)* (Total=24,662)\n\n\n\n\nNumber of patients with imaging reports, also a proxy for radiology imaging data\n184,854 (91.7%)\n23,746 (96.3%)\n\n\nNumber of patients with pathology/cytology clinical report\n169,774 (84.2%)\n22,777 (92.4%)\n\n\nNumber of patients given chemo medication\n89,183 (44.2%)\n13,452 (54.5%)\n\n\nNumber of patients with either a Hospital or Stanford Cancer Registry death date\n49,270 (24.4%)\n5,493 (22.3%)\n\n\nNumber of patients with pathology report\n168,052 (83.4%)\n22,910 (92.9%)\n\n\n\n* N(%) represents the counts and the corresponding percentage of the total\n\n\n\n\n\n\n\n\n\nThoracic Cancer Sub-Cohort\nThe following metrics were identified for individuals with thoracic cancer within the oncology OMOP (200k).\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nNumber of patients in Neural Frame and diagnosed with thoracic cancer\n13,379\n\n\nNumber of patients in Neural Frame and diagnosed with thoracic cancer with a death date\n6,212\n\n\nNumber of patients diagnosed with thoracic cancer and have a tumor board encounter\n2,583\n\n\n\n*Death date was defined either within STARR-OMOP or Neural Frame\n\n\n\n\n\n\n\n\n\n\nOMOP Image Occurrence\nAs of the February 2025 oncology OMOP population:\n\n93,333 (46.3%) out of 201,554 patients in the oncology cohort had image occurrence procedures.\n6,736 (50.3%) out of 13,379 thoracic patients had image occurrence procedures.\n2,435 (94.3%) out of 2,583 thoracic patients with tumor board encounter had image occurrence procedures.\n\n\n\nCTSA Metrics\nCTSA metrics are a common set of metrics developed in collaboration with the National Center for Advancing Translational Sciences (NCATS) to compare performance against other institutions within the network, facilitate benchmarking, and measure progress in translating basic science discoveries into clinical applications and patient benefits.\n\n\n\n\n\n\n\n\n\n\n\nCTSA Metrics\nPatient Count\n\n\n\n\nDistinct patients with atleast one address (SDOH)\n201,362\n\n\nDistinct patients with a lab test coded in LOINC\n198,393\n\n\nDistinct patients with an insurance provider (SDOH)\n195,431\n\n\nDistinct patients with a diagnosis coded in SNOMED\n187,552\n\n\nDistinct patients with a diagnosis coded in ICD 9/10\n187,551\n\n\nDistinct patients with a procedure coded in HCPCS or CPT\n184,685\n\n\nDistinct patients with a procedure coded in SNOMED\n182,655\n\n\nDistinct patients with at least one vital sign coded (height, weight, BP, BMI or temp)\n182,037\n\n\nDistinct patients with a medication coded in RxNorm/NDC\n178,101\n\n\nDistinct patients with a procedure coded in ICD 9/10 PCS\n127,946\n\n\nDistinct patients with a smoking status coded at least once\n89,177\n\n\nDistinct patients with opioid use disorder coded\n6,835\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Data\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Outcome Metrics\n\nPatient Count\n\n\n\n\nVital Status\nAlive\n92,689\n\n\nVital Status\nMissing (NA)\n63,893\n\n\nVital Status\nDead\n46,103\n\n\nCancer Status\nEvidence of this tumor\n73,202\n\n\nCancer Status\nMissing (NA)\n70,146\n\n\nCancer Status\nNo evidence of this tumor\n62,400\n\n\nCancer Status\nUnknown, indeterminate whether this tumor is present, not stated in patient record\n5,641\n\n\n\nNumber of Neural Frame Patients: 197,903\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRecurrence Type\nPatient Count\n\n\n\n\nPatient became disease-free after treatment and has not had a recurrence; leukemia in remission.\n109,502\n\n\nSince diagnosis, patient has never been disease-free. This includes cases with distant metastasis at diagnosis, systemic disease, unknown primary, or minimal disease that is not treated.\n78,504\n\n\nIt is unknown whether the disease has recurred or if the patient was ever disease-free.\n4,809\n\n\nLocal recurrence and there is insufficient information available to code to 13-17. Recurrence is confined to the remnant of the organ of origin; to the organ of origin; to the anastomosis; or to scar tissue where the organ previously existed.\n2,543\n\n\nDisease has recurred, but the type of recurrence is unknown.\n2,284\n\n\nLocal recurrence of an invasive tumor.\n1,835\n\n\nDistant systemic recurrence of an invasive tumor only. This includes leukemia, bone marrow metastasis, carcinomatosis, and generalized disease.\n945\n\n\nDistant recurrence of an invasive tumor in the lung only. Lung includes the visceral pleura.\n772\n\n\nDistant recurrence and there is insufficient information available to code to 46-62.\n683\n\n\nDistant recurrence of an invasive tumor in the liver only.\n671\n\n\nDistant recurrence of an invasive tumor in multiple sites (recurrences that can be coded to more than one category 51-59).\n667\n\n\nDistant recurrence of an invasive tumor in bone only. This includes bones other than the primary site.\n657\n\n\nRegional recurrence, and there is insufficient information available to code to 21-27.\n425\n\n\nDistant recurrence of an invasive tumor in the CNS only. This includes the brain and spinal cord, but not the external eye.\n415\n\n\nRecurrence of an invasive tumor in regional lymph nodes only.\n390\n\n\nBoth regional recurrence of an invasive tumor in adjacent tissue or organ(s) and/or regional lymph nodes (20-25) and local and/or trocar recurrence (10, 13, 14, or 15).\n295\n\n\nDistant recurrence of an invasive tumor in lymph node only. Refer to the staging scheme for a description of lymph nodes that are distant for a particular site.\n220\n\n\nRecurrence of an invasive tumor in adjacent tissue or organ(s) only.\n210\n\n\nIn situ recurrence of an in situ tumor.\n100\n\n\nDistant recurrence of an invasive tumor in the peritoneum only. Peritoneum includes peritoneal surfaces of all structures within the abdominal cavity and/or positive ascitic fluid.\n98\n\n\nDistant recurrence of an invasive tumor in a single distant site (51-58) and local, trocar, and/or regional recurrence (10-15, 20-25, or 30).\n85\n\n\nLocal recurrence of an in situ tumor.\n82\n\n\nIn situ recurrence of an invasive tumor.\n61\n\n\nRecurrence of an invasive tumor in adjacent tissue or organ(s) and in regional lymph nodes (both 21 and 22) at the same time.\n42\n\n\nDistant recurrence of an invasive tumor in the pleura only. Pleura includes the pleural surface of all structures within the thoracic cavity and/or positive pleural fluid.\n32\n\n\nBoth local and trocar recurrence of an invasive tumor (both 13 and 14)\n32\n\n\nDistant recurrence of an invasive tumor in the skin only. This includes skin other than the primary site.\n24\n\n\nBoth regional recurrence of an in situ tumor in adjacent tissue or organ(s) and/or regional lymph nodes (26 or 27) and local and/or trocar recurrence (16 or 17).\n16\n\n\nRegional recurrence of an in situ tumor, NOS.\n15\n\n\nBoth local and trocar recurrence of an in situ tumor.\n7\n\n\nDistant recurrence of an in situ tumor.\n7\n\n\nTrocar recurrence of an invasive tumor. Includes recurrence in the trocar path or entrance site following prior surgery.\n5\n\n\nNA\n3\n\n\nRecurrence of an in situ tumor in adjacent tissue or organ(s) and in regional lymph nodes at the same time.\n2\n\n\n\nNumber of Neural Frame Patients: 197,903"
   },
   {
     "objectID": "may_2025/philips_metrics.html",
     "href": "may_2025/philips_metrics.html",
     "title": "Philips ISPM",
     "section": "",
-    "text": "Philips IntelliSpace Precision Medicine (ISPM) includes genomics database at Stanford. This data is geared towards identifying genetic mutations that can be targeted for precision medicine, with the goal of improving therapeutic outcomes through personalized treatment strategies. As of May 2025, 15,541 STAMP tests were ordered for 10,972 patients.\n\n\n\n\n\n\n\n\n\n\n\nTest Types\nN_Case\nMin_Date\nMax_Date\n\n\n\n\nStanford Stamp Test\n15,369\n2018-03\n2025-03\n\n\nFoundation One Ckb Test\n172\n2016-10\n2025-03\n\n\n\nTotal number of ordered tests: 15,541",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Philips ISPM"
-    ]
+    "text": "Philips IntelliSpace Precision Medicine (ISPM) includes genomics database at Stanford. This data is geared towards identifying genetic mutations that can be targeted for precision medicine, with the goal of improving therapeutic outcomes through personalized treatment strategies. As of May 2025, 15,541 STAMP tests were ordered for 10,972 patients.\n\n\n\n\n\n\n\n\n\n\n\nTest Types\nN_Case\nMin_Date\nMax_Date\n\n\n\n\nStanford Stamp Test\n15,369\n2018-03\n2025-03\n\n\nFoundation One Ckb Test\n172\n2016-10\n2025-03\n\n\n\nTotal number of ordered tests: 15,541"
   },
   {
     "objectID": "may_2025/philips_metrics.html#aberration-metrics",
     "href": "may_2025/philips_metrics.html#aberration-metrics",
     "title": "Philips ISPM",
     "section": "Aberration Metrics:",
-    "text": "Aberration Metrics:\nThe aberration table provides a structured overview of genetic changes, categorizing them into specific types and broader classes. Each entry in the table includes the following key components:\n\nAberration Types: An aberration type describes a specific change to DNA. These are specific alterations in DNA that can affect gene function and contribute to various diseases. Each type represents a distinct change, such as missense variant, deletions, duplications, or point mutations.\nChromosomes: This field indicates the chromosomal location of the gene associated with the aberration. For example if a gene is located on chromosome 17, it will be presented as “chr17”.\nHGNC Gene and Detected Mutations: The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine.\n\n\nAll Cancer TypesThoracic Cancer\n\n\nThe following analysis displays the genes distribution of positive aberration above 200 cases.\n\nBarplotHeatmap\n\n\nHGNC Gene Distribution:\n\n\n\n\n\n\n\nSummary Table of HGNC Gene Distribution\n\n\n\n\n\n\n\n\n\nGenes Distribution by Chromosomes\n\n\n\n\n\n\n\n\n\n\nDistribution of Genes by Aberration Type\n\n\n\n\n\n\n\n\n\nThoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.\nFrom 13,598 unique thoracic patients, 2,161 patients were included in Philips ISPM database with 2,135 aberration cases.\n\nDistribution of Gene Types by Pathogenicity\n\n\n\n\n\n\n\n\nKRAS Mutations\nThe KRAS gene is a critical component in cell signaling pathways that regulate cell growth and division, and mutations in this gene are frequently associated with various cancers including thoracic cancers. Among patients with thoracic cancer with mutations in the KRAS gene, the most common amino acid alterations occurring are listed as follow:",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Philips ISPM"
-    ]
+    "text": "Aberration Metrics:\nThe aberration table provides a structured overview of genetic changes, categorizing them into specific types and broader classes. Each entry in the table includes the following key components:\n\nAberration Types: An aberration type describes a specific change to DNA. These are specific alterations in DNA that can affect gene function and contribute to various diseases. Each type represents a distinct change, such as missense variant, deletions, duplications, or point mutations.\nChromosomes: This field indicates the chromosomal location of the gene associated with the aberration. For example if a gene is located on chromosome 17, it will be presented as “chr17”.\nHGNC Gene and Detected Mutations: The HGNC (HUGO Gene Nomenclature Committee) provides standardized names for human genes. Detected mutations refer to specific changes found in these genes that may be important for specific therapies, such as gene therapy or personalized medicine.\n\n\nAll Cancer TypesThoracic Cancer\n\n\nThe following analysis displays the genes distribution of positive aberration above 200 cases.\n\nBarplotHeatmap\n\n\nHGNC Gene Distribution:\n\n\n\n\n\n\n\nSummary Table of HGNC Gene Distribution\n\n\n\n\n\n\n\n\n\nGenes Distribution by Chromosomes\n\n\n\n\n\n\n\n\n\n\nDistribution of Genes by Aberration Type\n\n\n\n\n\n\n\n\n\nThoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.\nFrom 13,598 unique thoracic patients, 2,161 patients were included in Philips ISPM database with 2,135 aberration cases.\n\nDistribution of Gene Types by Pathogenicity\n\n\n\n\n\n\n\n\nKRAS Mutations\nThe KRAS gene is a critical component in cell signaling pathways that regulate cell growth and division, and mutations in this gene are frequently associated with various cancers including thoracic cancers. Among patients with thoracic cancer with mutations in the KRAS gene, the most common amino acid alterations occurring are listed as follow:"
   },
   {
     "objectID": "may_2025/philips_metrics.html#summary-table-of-hgnc-gene-distribution",
     "href": "may_2025/philips_metrics.html#summary-table-of-hgnc-gene-distribution",
     "title": "Philips ISPM",
     "section": "Summary Table of HGNC Gene Distribution",
-    "text": "Summary Table of HGNC Gene Distribution",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Philips ISPM"
-    ]
+    "text": "Summary Table of HGNC Gene Distribution"
   },
   {
     "objectID": "may_2025/philips_metrics.html#distribution-of-genes-by-aberration-type",
     "href": "may_2025/philips_metrics.html#distribution-of-genes-by-aberration-type",
     "title": "Philips ISPM",
     "section": "Distribution of Genes by Aberration Type",
-    "text": "Distribution of Genes by Aberration Type",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Philips ISPM"
-    ]
+    "text": "Distribution of Genes by Aberration Type"
   },
   {
     "objectID": "may_2025/philips_metrics.html#distribution-of-gene-types-by-pathogenicity",
     "href": "may_2025/philips_metrics.html#distribution-of-gene-types-by-pathogenicity",
     "title": "Philips ISPM",
     "section": "Distribution of Gene Types by Pathogenicity",
-    "text": "Distribution of Gene Types by Pathogenicity",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Philips ISPM"
-    ]
+    "text": "Distribution of Gene Types by Pathogenicity"
   },
   {
     "objectID": "may_2025/philips_metrics.html#kras-mutations",
     "href": "may_2025/philips_metrics.html#kras-mutations",
     "title": "Philips ISPM",
     "section": "KRAS Mutations",
-    "text": "KRAS Mutations\nThe KRAS gene is a critical component in cell signaling pathways that regulate cell growth and division, and mutations in this gene are frequently associated with various cancers including thoracic cancers. Among patients with thoracic cancer with mutations in the KRAS gene, the most common amino acid alterations occurring are listed as follow:",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Philips ISPM"
-    ]
+    "text": "KRAS Mutations\nThe KRAS gene is a critical component in cell signaling pathways that regulate cell growth and division, and mutations in this gene are frequently associated with various cancers including thoracic cancers. Among patients with thoracic cancer with mutations in the KRAS gene, the most common amino acid alterations occurring are listed as follow:"
   },
   {
     "objectID": "may_2025/tumor_board.html",
     "href": "may_2025/tumor_board.html",
     "title": "Tumor Board",
     "section": "",
-    "text": "Summary:\nAs of May 2025, Tumor Board encounters are defined using the EPIC patient encounter data tables. Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter.\nNote: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity.\nAs of May 2025, From 12,975 patients with thoracic cancer, 2,662 also had a Tumor Board encounter.\n\n\nSummary of Patient Population\nThe demographic categories examined include Age, Sex, Race, and Ethnicity.\n\n\n\n\n\n\n\n\nThoracic Tumor Board\n\n\nCharacteristic\n\nCount (N)\nPercentage (%)\n\n\n\n\nTotal\nTotal number of pts\n2,662\n100\n\n\nAge\n0-17\n2\n0\n\n\nAge\n18-44\n92\n3\n\n\nAge\n45-64\n627\n24\n\n\nAge\n65+\n1,941\n73\n\n\nSex\nMale\n1,222\n46\n\n\nSex\nFemale\n1,439\n54\n\n\nSex\nUnknown\n1\n0\n\n\nRace\nAmerican Indian-Alaska Native\n8\n0\n\n\nRace\nAsian\n834\n31\n\n\nRace\nNative Hawaii\n26\n1\n\n\nRace\nBlack\n71\n3\n\n\nRace\nWhite\n1,420\n53\n\n\nRace\nOther-Unknown\n303\n11\n\n\nEthnicity\nHispanic Latino\n193\n7\n\n\nEthnicity\nNOT Hispanic Latino\n2,407\n90\n\n\nEthnicity\nOther-Missing\n62\n2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Case Status\nThe Stanford Cancer Registry keeps track of every cancer case at Stanford and uses the case status variable to monitor each case’s progress. The major categories are: Completed, Not Reportable, and Incomplete.\n\nNot Reportable cases refer to cases that are not reportable to the state per cancer registry rules, or those that have already been abstracted.\nIncomplete cases are reportable and have been abstracted, but are marked as incomplete due to pending treatment information or unresolved edit errors. These edits can arise for a variety of reasons, such as version changes by the state registry or code updates by standard-setting agencies.\nCompleted cases are reportable, have been fully abstracted, and have passed all edit checks. These cases are transmitted to the state.\n\nPlease note that the Incomplete case status is eventually updated to either Completed or Not Reportable.\nThe distribution of case status for Thoracic Tumor Board encounter patients are listed below:\n\n\n\n\n\n\n\n\n\n\n\nCase Status\nNumber of Patients\n\n\n\n\nComplete\n2,228\n\n\nNot Reportable\n304\n\n\nIncomplete\n130\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImage Occurrence\nAs of May 2025, 2,659 with thoracic tumor board encounter had image occurrence procedures.\n\nAnatomic SitesModality Types\n\n\n\n\n\n\n\n\n\n\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report, REG: Registration, KO: Key Object Selection, PR: Presentation State",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Tumor Board"
-    ]
+    "text": "Summary:\nAs of May 2025, Tumor Board encounters are defined using the EPIC patient encounter data tables. Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter.\nNote: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity.\nAs of May 2025, From 13,598 patients with thoracic cancer, 2,662 also had a Tumor Board encounter.\n\n\nSummary of Patient Population\nThe demographic categories examined include Age, Sex, Race, and Ethnicity.\n\n\n\n\n\n\n\n\nThoracic Tumor Board\n\n\nCharacteristic\n\nCount (N)\nPercentage (%)\n\n\n\n\nTotal\nTotal number of pts\n2,662\n100\n\n\nAge\n0-17\n2\n0\n\n\nAge\n18-44\n92\n3\n\n\nAge\n45-64\n627\n24\n\n\nAge\n65+\n1,941\n73\n\n\nSex\nMale\n1,222\n46\n\n\nSex\nFemale\n1,439\n54\n\n\nSex\nUnknown\n1\n0\n\n\nRace\nAmerican Indian-Alaska Native\n8\n0\n\n\nRace\nAsian\n834\n31\n\n\nRace\nNative Hawaii\n26\n1\n\n\nRace\nBlack\n71\n3\n\n\nRace\nWhite\n1,420\n53\n\n\nRace\nOther-Unknown\n303\n11\n\n\nEthnicity\nHispanic Latino\n193\n7\n\n\nEthnicity\nNOT Hispanic Latino\n2,407\n90\n\n\nEthnicity\nOther-Missing\n62\n2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Case Status\nThe Stanford Cancer Registry keeps track of every cancer case at Stanford and uses the case status variable to monitor each case’s progress. The major categories are: Completed, Not Reportable, and Incomplete.\n\nNot Reportable cases refer to cases that are not reportable to the state per cancer registry rules, or those that have already been abstracted.\nIncomplete cases are reportable and have been abstracted, but are marked as incomplete due to pending treatment information or unresolved edit errors. These edits can arise for a variety of reasons, such as version changes by the state registry or code updates by standard-setting agencies.\nCompleted cases are reportable, have been fully abstracted, and have passed all edit checks. These cases are transmitted to the state.\n\nPlease note that the Incomplete case status is eventually updated to either Completed or Not Reportable.\nThe distribution of case status for Thoracic Tumor Board encounter patients are listed below:\n\n\n\n\n\n\n\n\n\n\n\nCase Status\nNumber of Patients\n\n\n\n\nComplete\n2,228\n\n\nIncomplete\n130\n\n\nNot Reportable\n304\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImage Occurrence\nAs of May 2025, 2,659 with thoracic tumor board encounter had image occurrence procedures.\n\nAnatomic SitesModality Types\n\n\n\n\n\n\n\n\n\n\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report, REG: Registration, KO: Key Object Selection, PR: Presentation State"
   },
   {
     "objectID": "feb_2025/phi_labeling_report.html",
@@ -247,7 +190,7 @@
     "href": "data_labeling.html#ai-for-automatic-synoptic-reporting",
     "title": "Data Labeling",
     "section": "AI for Automatic Synoptic Reporting",
-    "text": "AI for Automatic Synoptic Reporting\nOur team is using AI models to automatically extract structured information from pathology reports. Key aspects of this work include:\n\nIdentifying key data elements from College of American Pathologists (CAP) cancer protocols\nConverting unstructured free-text reports into standardized synoptic formats\nValidating model accuracy against human expert annotation\n\nThis initiative aims to improve data standardization, reduce manual extraction efforts, and enhance the completeness of cancer registry data.\n\nProject Resources\n\nFebruary 2025 Release\n\nPHI Labeling Guidelines\nPHI Labeling Report\n\n\n\nMay 2025 Release\n\nAI for Automatic Synoptic Reporting\n\nMethods\nResults\n\nPHI Labeling Report",
+    "text": "AI for Automatic Synoptic Reporting\nOur team is using AI models to automatically extract structured information from pathology reports. Key aspects of this work include:\n\nIdentifying key data elements from College of American Pathologists (CAP) cancer protocols\nConverting unstructured free-text reports into standardized synoptic formats\nValidating model accuracy against human expert annotation\n\nThis initiative aims to improve data standardization, reduce manual extraction efforts, and enhance the completeness of cancer registry data.\n\nProject Resources\n\nFebruary 2025 Release\n\nPHI Labeling Guidelines\nPHI Labeling Report\n\n\n\nMay 2025 Release\n\nAI for Automatic Synoptic Reporting\n\nMethods and Results\n\nPHI Labeling Report",
     "crumbs": [
       "About",
       "Data Labeling"
@@ -752,33 +695,21 @@
     "href": "data_metrics.html",
     "title": "Data Metrics",
     "section": "",
-    "text": "This page provides an overview of the various data metrics available in the dataset. The metrics are designed to give insights into the contents of the dataset.",
-    "crumbs": [
-      "About",
-      "Data Metrics"
-    ]
+    "text": "This page provides an overview of the various data metrics available in the dataset. The metrics are designed to give insights into the contents of the dataset."
   },
   {
     "objectID": "data_metrics.html#release-overview",
     "href": "data_metrics.html#release-overview",
     "title": "Data Metrics",
     "section": "Release Overview",
-    "text": "Release Overview\nThis project will have multiple data releases over time. Each release will include updated and new metrics. Below is the list of available releases:\n\nFebruary 2025\nThe February 2025 release is the first release of the dataset. It includes comprehensive demographic metrics and other key data points. You can find detailed information about this release by following the link below:\n\nFebruary 2025 Metrics\n\n\n\nMay 2025\nThe May 2025 release is the second release of the dataset which includes additional data sources such as OMOP image occurrence, Philips ISPM, and Stanford cancer registry. You can find detailed information about this release by following the link below:\n\nMay 2025 Metrics",
-    "crumbs": [
-      "About",
-      "Data Metrics"
-    ]
+    "text": "Release Overview\nThis project will have multiple data releases over time. Each release will include updated and new metrics. Below is the list of available releases:\n\nFebruary 2025\nThe February 2025 release is the first release of the dataset. It includes comprehensive demographic metrics and other key data points. You can find detailed information about this release by following the link below:\n\nFebruary 2025 Metrics\n\n\n\nMay 2025\nThe May 2025 release is the second release of the dataset which includes additional data sources such as OMOP image occurrence, Philips ISPM, and Stanford cancer registry. You can find detailed information about this release by following the link below:\n\nMay 2025 Metrics"
   },
   {
     "objectID": "data_metrics.html#future-releases",
     "href": "data_metrics.html#future-releases",
     "title": "Data Metrics",
     "section": "Future Releases",
-    "text": "Future Releases\nFuture releases will include additional metrics and updates to the existing ones.",
-    "crumbs": [
-      "About",
-      "Data Metrics"
-    ]
+    "text": "Future Releases\nFuture releases will include additional metrics and updates to the existing ones."
   },
   {
     "objectID": "feb_2025/phi_labeling_process.html",
@@ -932,24 +863,14 @@
     "href": "may_2025/metrics_clinical.html",
     "title": "Oncology Cohort",
     "section": "",
-    "text": "Release Version: May 2025 (IRB76049)",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025"
-    ]
+    "text": "Release Version: May 2025 (IRB76049)"
   },
   {
     "objectID": "may_2025/metrics_clinical.html#patient-distribution-across-data-sources",
     "href": "may_2025/metrics_clinical.html#patient-distribution-across-data-sources",
     "title": "Oncology Cohort",
     "section": "Patient Distribution Across Data Sources",
-    "text": "Patient Distribution Across Data Sources",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025"
-    ]
+    "text": "Patient Distribution Across Data Sources"
   },
   {
     "objectID": "may_2025/phi_labeling_report.html",
@@ -970,298 +891,160 @@
     "href": "may_2025/image_occ.html",
     "title": "OMOP Image Occurrence",
     "section": "",
-    "text": "In the OMOP Common Data Model (CDM), the “Image_occurrence” table provides a structured way to represent medical imaging events, bridging the gap between imaging and observational research by integrating image-based measurements into the CDM.\nThe OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure, and it also provides a path to de-identified DICOM images.\nEach record includes metadata such as the modality (e.g., CT, MRI) and the anatomic site of the image. The table maintains foreign key links to the procedure_occurrence and visit_occurrence tables, enabling contextual association with the related clinical procedure and patient encounter.\nAt Stanford, this table has been extended to include a link to the note table, allowing integration of imaging data with relevant clinical documentation. We expect to have larger number of images in the coming months.\nAs of May 2025, this table included images for 182,155 patients with 34,929,018 series. Series are defined as individual imaging acquisitions within a study.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "In the OMOP Common Data Model (CDM), the “Image_occurrence” table provides a structured way to represent medical imaging events, bridging the gap between imaging and observational research by integrating image-based measurements into the CDM.\nThe OMOP image_occurrence table captures records of medical imaging events at the series level, representing events where one or more related images are acquired as part of a clinical procedure, and it also provides a path to de-identified DICOM images.\nEach record includes metadata such as the modality (e.g., CT, MRI) and the anatomic site of the image. The table maintains foreign key links to the procedure_occurrence and visit_occurrence tables, enabling contextual association with the related clinical procedure and patient encounter.\nAt Stanford, this table has been extended to include a link to the note table, allowing integration of imaging data with relevant clinical documentation. We expect to have larger number of images in the coming months.\nAs of May 2025, this table included images for 182,155 patients with 34,929,018 series. Series are defined as individual imaging acquisitions within a study."
   },
   {
     "objectID": "may_2025/image_occ.html#image-occurrence-metrics",
     "href": "may_2025/image_occ.html#image-occurrence-metrics",
     "title": "OMOP Image Occurrence",
     "section": "Image Occurrence Metrics",
-    "text": "Image Occurrence Metrics\nThis visualization summarizes distribution of Modality categories and Anatomic sites by series and patient counts for all cancer types and for thoracic patients. Note: We expect the number of patients with imaging data to increase per release.\n\nAll Cancer TypesThoracic Cancer\n\n\n\nModality Types\nTop modality types for series above 5k occurrences are listed as follow.\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report REG: Registration KO: Key Object Selection PR: Presentation State\n\n\n\n\n\n\n\n\nPatient Population\nNote: This visualization shows modality types with more than 1,000 patients.\n\n\n\n\n\n\n\n\nModality Descriptions and Frequency by Series and Patients\nPlease note that the modality descriptions are listed here: Modality Descriptions (DICOM Library).\n\n\n\n\n\n\n\n\nAnatomic Sites\nTop anatomic sites for series above 100k occurrences are listed as follow.\n\n\n\n\n\n\n\n\nPatient Population\nNote: This visualization shows anatomic sites with more than 100k series.\n\n\n\n\n\n\n\n\nAnatomic Site Descriptions and Frequency by Series and Patients\n\n\n\n\n\n\n\n\n\nThoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.\nAs of May 2025, from 13,598 patients with thoracic cancer, 12,975 had imaging data.\n\nModality Types\nTop modality types for series above 5k occurrences are listed as follow.\n\n\n\n\n\n\n\n\nAnatomic Sites\nTop anatomic sites for series above 5k occurrences are listed as follow.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Image Occurrence Metrics\nThis visualization summarizes distribution of Modality categories and Anatomic sites by series and patient counts for all cancer types and for thoracic patients. Note: We expect the number of patients with imaging data to increase per release.\n\nAll Cancer TypesThoracic Cancer\n\n\n\nModality Types\nTop modality types for series above 5k occurrences are listed as follow.\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report REG: Registration KO: Key Object Selection PR: Presentation State\n\n\n\n\n\n\n\n\nPatient Population\nNote: This visualization shows modality types with more than 1,000 patients.\n\n\n\n\n\n\n\n\nModality Descriptions and Frequency by Series and Patients\nPlease note that the modality descriptions are listed here: Modality Descriptions (DICOM Library).\n\n\n\n\n\n\n\n\nAnatomic Sites\nTop anatomic sites for series above 100k occurrences are listed as follow.\n\n\n\n\n\n\n\n\nPatient Population\nNote: This visualization shows anatomic sites with more than 100k series.\n\n\n\n\n\n\n\n\nAnatomic Site Descriptions and Frequency by Series and Patients\n\n\n\n\n\n\n\n\n\nThoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.\nAs of May 2025, from 13,598 patients with thoracic cancer, 12,975 had imaging data.\n\nModality Types\nTop modality types for series above 5k occurrences are listed as follow.\n\n\n\n\n\n\n\n\nAnatomic Sites\nTop anatomic sites for series above 5k occurrences are listed as follow."
   },
   {
     "objectID": "may_2025/image_occ.html#modality-types",
     "href": "may_2025/image_occ.html#modality-types",
     "title": "OMOP Image Occurrence",
     "section": "Modality Types",
-    "text": "Modality Types\nTop modality types for series above 5k occurrences are listed as follow.\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report REG: Registration KO: Key Object Selection PR: Presentation State",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Modality Types\nTop modality types for series above 5k occurrences are listed as follow.\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report REG: Registration KO: Key Object Selection PR: Presentation State"
   },
   {
     "objectID": "may_2025/image_occ.html#patient-population",
     "href": "may_2025/image_occ.html#patient-population",
     "title": "OMOP Image Occurrence",
     "section": "Patient Population",
-    "text": "Patient Population\nNote: This visualization shows modality types with more than 1,000 patients.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Patient Population\nNote: This visualization shows modality types with more than 1,000 patients."
   },
   {
     "objectID": "may_2025/image_occ.html#modality-descriptions-and-frequency-by-series-and-patients",
     "href": "may_2025/image_occ.html#modality-descriptions-and-frequency-by-series-and-patients",
     "title": "OMOP Image Occurrence",
     "section": "Modality Descriptions and Frequency by Series and Patients",
-    "text": "Modality Descriptions and Frequency by Series and Patients\nPlease note that the modality descriptions are listed here: Modality Descriptions (DICOM Library).",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Modality Descriptions and Frequency by Series and Patients\nPlease note that the modality descriptions are listed here: Modality Descriptions (DICOM Library)."
   },
   {
     "objectID": "may_2025/image_occ.html#anatomic-sites",
     "href": "may_2025/image_occ.html#anatomic-sites",
     "title": "OMOP Image Occurrence",
     "section": "Anatomic Sites",
-    "text": "Anatomic Sites\nTop anatomic sites for series above 100k occurrences are listed as follow.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Anatomic Sites\nTop anatomic sites for series above 100k occurrences are listed as follow."
   },
   {
     "objectID": "may_2025/image_occ.html#patient-population-1",
     "href": "may_2025/image_occ.html#patient-population-1",
     "title": "OMOP Image Occurrence",
     "section": "Patient Population",
-    "text": "Patient Population\nNote: This visualization shows anatomic sites with more than 100k series.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Patient Population\nNote: This visualization shows anatomic sites with more than 100k series."
   },
   {
     "objectID": "may_2025/image_occ.html#anatomic-site-descriptions-and-frequency-by-series-and-patients",
     "href": "may_2025/image_occ.html#anatomic-site-descriptions-and-frequency-by-series-and-patients",
     "title": "OMOP Image Occurrence",
     "section": "Anatomic Site Descriptions and Frequency by Series and Patients",
-    "text": "Anatomic Site Descriptions and Frequency by Series and Patients",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Anatomic Site Descriptions and Frequency by Series and Patients"
   },
   {
     "objectID": "may_2025/image_occ.html#modality-types-1",
     "href": "may_2025/image_occ.html#modality-types-1",
     "title": "OMOP Image Occurrence",
     "section": "Modality Types",
-    "text": "Modality Types\nTop modality types for series above 5k occurrences are listed as follow.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Modality Types\nTop modality types for series above 5k occurrences are listed as follow."
   },
   {
     "objectID": "may_2025/image_occ.html#anatomic-sites-1",
     "href": "may_2025/image_occ.html#anatomic-sites-1",
     "title": "OMOP Image Occurrence",
     "section": "Anatomic Sites",
-    "text": "Anatomic Sites\nTop anatomic sites for series above 5k occurrences are listed as follow.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Image Occurrence"
-    ]
+    "text": "Anatomic Sites\nTop anatomic sites for series above 5k occurrences are listed as follow."
   },
   {
     "objectID": "may_2025/neural_frame.html",
     "href": "may_2025/neural_frame.html",
     "title": "Neural Frame Metrics",
     "section": "",
-    "text": "The Stanford Cancer Registry data is integrated with the California Cancer Registry and updated monthly, encompassing approximately 800 variables related to various cancer. As of January 2022, the KACI® application from NeuralFrame was approved for abstracting and transmitting diagnosed cases, with Stanford adopting it in 2023. Neural Frame connects to EPIC to extract relevant data, including pathology notes.\nWithin Neural Frame, Class of Case (CoC) divides cases into two groups: cancer cases are categorized as Analytic (reportable with complete data) or Non-analytic (not reportable by law, with complete data only from 2022 onward).\n\nAnalytic: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment.\nNon-analytic: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) can be abstracted by the facility to fulfill central registry requirements or upon request from the facility’s cancer program. The grouping of non-analytic cases is based on the reason for their classification, whether they received care at the facility or were abstracted for other reasons.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "The Stanford Cancer Registry data is integrated with the California Cancer Registry and updated monthly, encompassing approximately 800 variables related to various cancer. As of January 2022, the KACI® application from NeuralFrame was approved for abstracting and transmitting diagnosed cases, with Stanford adopting it in 2023. Neural Frame connects to EPIC to extract relevant data, including pathology notes.\nWithin Neural Frame, Class of Case (CoC) divides cases into two groups: cancer cases are categorized as Analytic (reportable with complete data) or Non-analytic (not reportable by law, with complete data only from 2022 onward).\n\nAnalytic: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment.\nNon-analytic: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) can be abstracted by the facility to fulfill central registry requirements or upon request from the facility’s cancer program. The grouping of non-analytic cases is based on the reason for their classification, whether they received care at the facility or were abstracted for other reasons."
   },
   {
     "objectID": "may_2025/neural_frame.html#thoracic-cancer-cohort",
     "href": "may_2025/neural_frame.html#thoracic-cancer-cohort",
     "title": "Neural Frame Metrics",
     "section": "Thoracic Cancer Cohort",
-    "text": "Thoracic Cancer Cohort\nThoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancer. The thoracic cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by the following ICD-O-3 topography codes:\n\nC34.0 – Main bronchus\nC34.1 – Upper lobe, lung\nC34.2 – Middle lobe, lung\nC34.3 – Lower lobe, lung\nC34.8 – Overlapping lesion of lung\nC34.9 – Lung, not otherwise specified (NOS)\nC37.9 – Thymus",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Thoracic Cancer Cohort\nThoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancer. The thoracic cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by the following ICD-O-3 topography codes:\n\nC34.0 – Main bronchus\nC34.1 – Upper lobe, lung\nC34.2 – Middle lobe, lung\nC34.3 – Lower lobe, lung\nC34.8 – Overlapping lesion of lung\nC34.9 – Lung, not otherwise specified (NOS)\nC37.9 – Thymus"
   },
   {
     "objectID": "may_2025/neural_frame.html#multiple-primary",
     "href": "may_2025/neural_frame.html#multiple-primary",
     "title": "Neural Frame Metrics",
     "section": "Multiple Primary",
-    "text": "Multiple Primary\nWithin the thoracic cancer cohort, a subset of patients presents with multiple primary thoracic malignancies. This designation refers to the presence of two or more histologically distinct malignant tumors arising independently within the thoracic cavity, rather than as metastases from a single primary site. These neoplasms may occur synchronously, identified concurrently or within a short time interval, or metachronously, developing at distinct time points.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Multiple Primary\nWithin the thoracic cancer cohort, a subset of patients presents with multiple primary thoracic malignancies. This designation refers to the presence of two or more histologically distinct malignant tumors arising independently within the thoracic cavity, rather than as metastases from a single primary site. These neoplasms may occur synchronously, identified concurrently or within a short time interval, or metachronously, developing at distinct time points."
   },
   {
     "objectID": "may_2025/neural_frame.html#thoracic-cancer-metrics",
     "href": "may_2025/neural_frame.html#thoracic-cancer-metrics",
     "title": "Neural Frame Metrics",
     "section": "Thoracic Cancer Metrics",
-    "text": "Thoracic Cancer Metrics\nThis visualization summarizes the characteristics of thoracic cancer cases by:\n\nCases, Diagnoses, Staging\nTreatment\nSocial History\nFollow up Outcome\n\n\nCases & DiagnosesTreatmentFollow-up OutcomeSocial History\n\n\n\nStanford Cancer Registry Case Status\nThe Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Stanford. Each case is assigned a case status to reflect its reporting stage. The primary categories include:\n\nCompleted: Reportable cases that have been fully abstracted and passed all edit checks. These cases are transmitted to the state registry.\nNot Reportable: Cases that do not meet state reporting requirements or have already been abstracted and submitted.\nIncomplete/Suspense: Reportable cases that have been abstracted but cannot yet be transmitted due to missing treatment information or unresolved edit errors. These may result from version changes, coding updates, or other registry requirements.\n\nThe case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.\nAs of May 2025, there are 13,598 unique thoracic patients with 78.2 % completed cases.\n\n\n\n\n\n\n\n\n\n\n\nPatient Summary by Diagnosis Year\nThe following distribution summarizes the number of diagnosed thoracic patients over time.\n\n\n\n\n\n\n\n\nHistology Distribution & ICDO3 Codes\nThoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer (NSCLC) representing the majority of cases and Small Cell Lung Cancer (SCLC).\nThoracic cancer is categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:\n\nNon-Small Cell Lung Carcinoma (NSCLC): This group encompasses the majority of lung cancer and includes subtypes such as:\n\nAdenocarcinoma (8140–8147)\nSquamous Cell Carcinoma (8070–8080)\nLarge Cell Carcinoma (8010–8015)\nNon-Small Cell Carcinoma NOS (8046)\n\nSmall Cell Lung Carcinoma (SCLC): Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.\nOther Specified Histologies: These include a range of less common thoracic cancer such as:\n\nCarcinoid Tumors (8240–8249)\nSarcoma (8800–8806)\nMesothelioma (9050–9053)\nAcinar Cell Carcinoma (8550–8551)\nBronchiolo-alveolar Carcinoma (8250–8257)\nNeoplasms (8000–8005)\nPapillary Adenocarcinoma (8260–8265)\nPapillary Carcinoma (8050–8052)\n\nOther/Unspecified Histologies: Any histology not falling into the categories above.\n\n\n\nThoracic Cancer Histology Distribution\nFrom 10,634 thoracic patients with completed cases, the majority 7,420 were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC).\n\n\n\n\n\n\n\n\n\n\n\n\nHistology\nN(%) of Patients\n\n\n\n\nNSCLC\n7,420 (69.8%)\n\n\nOther Specified\n1,835 (17.3%)\n\n\nOther Unspecified\n1,118 (10.5%)\n\n\nSCLC\n551 (5.2%)\n\n\n\nNote: Patients could have multiple histologies\n\n\n\n\n\n\n\n\n\n\n\nHistology Type Summary\n\nBar PlotICDO3 Table\n\n\nThe following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, Other Specified, and Other Unspecified) and their corresponding histological subtypes.\n\nClick legend items to show/hide specific main categories\nHover over bars to see detailed information\nDouble-click legend items to isolate a single category o to restore all categories\n\n\nDistribution of Thoracic Cancer Cases by Histology Types\n\n\n\n\n\n\n\n\nTable Summary of Histology Groups\n\n\n\n\n\n\n\n\n\nAll the ICDO3 code and histology subgrouping are listed in the following table:\n\n\n\n\n\n\n\n\n\n\n\nCancer Staging\nCancer staging is categorized as:\n\nStage 0: Carcinoma in situ (neoplastic cells confined to the epithelium without invasion) with no evidence of invasion beyond the basement membrane.\nOccult: A malignancy is confirmed by cytology or metastatic presentation without a known primary, meaning that the primary tumor is not clinically or radiologically identifiable.\nStage I: A localized tumor confined to the organ of origin, with no regional lymph node involvement or distant metastasis.\nStage II: A tumor of larger size or with limited regional extension that may involve adjacent structures or limited regional lymph nodes.\nStage III: Locally advanced disease characterized by involvement of regional lymph nodes and/or extension to nearby tissues.\nStage IV: Distant metastatic disease where the tumor has spread to distant organs or non-regional lymph nodes.\n\n\n\nSummary of Staging of Thoracic Cancer Patients\nThe following table summarizes the staging status of thoracic patients with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nStaging Status\nPatient Count\nPercentage (%)\n\n\n\n\nStage IV: Distant metastatic disease\n4,351\n41\n\n\nStage I: Localized tumor confined to the organ of origin\n2,785\n26\n\n\nStage III: Locally advanced disease\n1,796\n17\n\n\nUnknown\n1,023\n10\n\n\nStage II: Larger tumor size or limited regional extension\n782\n7\n\n\nOccult: Malignancy confirmed by cytology or metastatic presentation without known primary\n48\n0\n\n\nStage 0: Carcinoma in situ\n37\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe following table summarizes the distribution of thoracic cancer treatment types including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nTreatment\nPatient Count\nPercentage\n\n\n\n\nChemotherapy\n5,252\n49\n\n\nSurgery\n4,643\n44\n\n\nRadiation Therapy\n4,243\n40\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe following table summarizes the distribution of thoracic cancer recurrence status with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nRecurrence Type Category\nPatient Count\n\n\n\n\nNever been disease-free\n6,126\n\n\nDisease-free after treatment and has not had a recurrence\n4,202\n\n\nDistant recurrence\n427\n\n\nIt is unknown whether the disease has recurred or if the patient was ever disease-free.\n304\n\n\nLocal recurrence\n248\n\n\nDisease has recurred, but the type of recurrence is unknown.\n189\n\n\nRegional recurrence\n97\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFrom 13,598 unique thoracic cancer patients, the majority didn’t have any records of smoking status and alcohol use in Neural Frame.\n\nSmoking Status (Neural Frame)\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nNot Available\n13,435\n\n\nNever used\n98\n\n\nPrevious use\n72\n\n\nCigarette smoker, current\n29\n\n\nUnknown\n3\n\n\n\nNote: sum of sungroups exceeds the denominator due to multiple responses by patients\n\n\n\n\n\n\n\n\n\n\nSmoking Status (OMOP)\nThe information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow.\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nFormer\n6,088\n\n\nNever\n4,293\n\n\nEvery Day\n674\n\n\nNever Assessed\n317\n\n\nSome Days\n115\n\n\nPassive Smoke Exposure - Never Smoker\n29\n\n\nUnknown\n27\n\n\nLight Smoker\n18\n\n\nHeavy Smoker\n12\n\n\nSmoker, Current Status Unknown\n8\n\n\n\nNote: 2,017 patients didn't have smoking concept ID in the observation table\n\n\n\n\n\n\n\n\n\n\nAlcohol Use (Neural Frame)\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nNot Available\n13,517\n\n\nNo history of alcohol use\n61\n\n\nCurrent use of alcohol\n31\n\n\nPast history of alcohol use, does not currently use\n10\n\n\nAlcohol usage unknown\n3\n\n\n\nNote: sum of sungroups exceeds the denominator due to multiple responses by patients",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Thoracic Cancer Metrics\nThis visualization summarizes the characteristics of thoracic cancer cases by:\n\nCases, Diagnoses, Staging\nTreatment\nSocial History\nFollow up Outcome\n\n\nCases & DiagnosesTreatmentFollow-up OutcomeSocial History\n\n\n\nStanford Cancer Registry Case Status\nThe Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Stanford. Each case is assigned a case status to reflect its reporting stage. The primary categories include:\n\nCompleted: Reportable cases that have been fully abstracted and passed all edit checks. These cases are transmitted to the state registry.\nNot Reportable: Cases that do not meet state reporting requirements or have already been abstracted and submitted.\nIncomplete/Suspense: Reportable cases that have been abstracted but cannot yet be transmitted due to missing treatment information or unresolved edit errors. These may result from version changes, coding updates, or other registry requirements.\n\nThe case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.\nAs of May 2025, there are 13,598 unique thoracic patients with 78.2 % completed cases.\n\n\n\n\n\n\n\n\n\n\n\nPatient Summary by Diagnosis Year\nThe following distribution summarizes the number of diagnosed thoracic patients over time.\n\n\n\n\n\n\n\n\nHistology Distribution & ICDO3 Codes\nThoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer (NSCLC) representing the majority of cases and Small Cell Lung Cancer (SCLC).\nThoracic cancer is categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:\n\nNon-Small Cell Lung Carcinoma (NSCLC): This group encompasses the majority of lung cancer and includes subtypes such as:\n\nAdenocarcinoma (8140–8147)\nSquamous Cell Carcinoma (8070–8080)\nLarge Cell Carcinoma (8010–8015)\nNon-Small Cell Carcinoma NOS (8046)\n\nSmall Cell Lung Carcinoma (SCLC): Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.\nOther Specified Histologies: These include a range of less common thoracic cancer such as:\n\nCarcinoid Tumors (8240–8249)\nSarcoma (8800–8806)\nMesothelioma (9050–9053)\nAcinar Cell Carcinoma (8550–8551)\nBronchiolo-alveolar Carcinoma (8250–8257)\nNeoplasms (8000–8005)\nPapillary Adenocarcinoma (8260–8265)\nPapillary Carcinoma (8050–8052)\n\nOther/Unspecified Histologies: Any histology not falling into the categories above.\n\n\n\nThoracic Cancer Histology Distribution\nFrom 10,634 thoracic patients with completed cases, the majority 7,420 were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC).\n\n\n\n\n\n\n\n\n\n\n\n\nHistology\nN(%) of Patients\n\n\n\n\nNSCLC\n7,420 (69.8%)\n\n\nOther Specified\n1,835 (17.3%)\n\n\nOther Unspecified\n1,118 (10.5%)\n\n\nSCLC\n551 (5.2%)\n\n\n\nNote: Patients could have multiple histologies\n\n\n\n\n\n\n\n\n\n\n\nHistology Type Summary\n\nBar PlotICDO3 Table\n\n\nThe following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, Other Specified, and Other Unspecified) and their corresponding histological subtypes.\n\nClick legend items to show/hide specific main categories\nHover over bars to see detailed information\nDouble-click legend items to isolate a single category o to restore all categories\n\n\nDistribution of Thoracic Cancer Cases by Histology Types\n\n\n\n\n\n\n\n\nTable Summary of Histology Groups\n\n\n\n\n\n\n\n\n\nAll the ICDO3 code and histology subgrouping are listed in the following table:\n\n\n\n\n\n\n\n\n\n\n\nCancer Staging\nCancer staging is categorized as:\n\nStage 0: Carcinoma in situ (neoplastic cells confined to the epithelium without invasion) with no evidence of invasion beyond the basement membrane.\nOccult: A malignancy is confirmed by cytology or metastatic presentation without a known primary, meaning that the primary tumor is not clinically or radiologically identifiable.\nStage I: A localized tumor confined to the organ of origin, with no regional lymph node involvement or distant metastasis.\nStage II: A tumor of larger size or with limited regional extension that may involve adjacent structures or limited regional lymph nodes.\nStage III: Locally advanced disease characterized by involvement of regional lymph nodes and/or extension to nearby tissues.\nStage IV: Distant metastatic disease where the tumor has spread to distant organs or non-regional lymph nodes.\n\n\n\nSummary of Staging of Thoracic Cancer Patients\nThe following table summarizes the staging status of thoracic patients with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nStaging Status\nPatient Count\nPercentage (%)\n\n\n\n\nStage IV: Distant metastatic disease\n4,351\n41\n\n\nStage I: Localized tumor confined to the organ of origin\n2,785\n26\n\n\nStage III: Locally advanced disease\n1,796\n17\n\n\nUnknown\n1,023\n10\n\n\nStage II: Larger tumor size or limited regional extension\n782\n7\n\n\nOccult: Malignancy confirmed by cytology or metastatic presentation without known primary\n48\n0\n\n\nStage 0: Carcinoma in situ\n37\n0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe following table summarizes the distribution of thoracic cancer treatment types including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nTreatment\nPatient Count\nPercentage\n\n\n\n\nChemotherapy\n5,252\n49\n\n\nSurgery\n4,643\n44\n\n\nRadiation Therapy\n4,243\n40\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe following table summarizes the distribution of thoracic cancer recurrence status with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nRecurrence Type Category\nPatient Count\n\n\n\n\nNever been disease-free\n6,126\n\n\nDisease-free after treatment and has not had a recurrence\n4,202\n\n\nDistant recurrence\n427\n\n\nIt is unknown whether the disease has recurred or if the patient was ever disease-free.\n304\n\n\nLocal recurrence\n248\n\n\nDisease has recurred, but the type of recurrence is unknown.\n189\n\n\nRegional recurrence\n97\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFrom 13,598 unique thoracic cancer patients, the majority didn’t have any records of smoking status and alcohol use in Neural Frame.\n\nSmoking Status (Neural Frame)\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nNot Available\n13,435\n\n\nNever used\n98\n\n\nPrevious use\n72\n\n\nCigarette smoker, current\n29\n\n\nUnknown\n3\n\n\n\nNote: sum of sungroups exceeds the denominator due to multiple responses by patients\n\n\n\n\n\n\n\n\n\n\nSmoking Status (OMOP)\nThe information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow.\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nFormer\n6,088\n\n\nNever\n4,293\n\n\nEvery Day\n674\n\n\nNever Assessed\n317\n\n\nSome Days\n115\n\n\nPassive Smoke Exposure - Never Smoker\n29\n\n\nUnknown\n27\n\n\nLight Smoker\n18\n\n\nHeavy Smoker\n12\n\n\nSmoker, Current Status Unknown\n8\n\n\n\nNote: 2,017 patients didn't have smoking concept ID in the observation table\n\n\n\n\n\n\n\n\n\n\nAlcohol Use (Neural Frame)\n\n\n\n\n\n\n\n\n\n\n\nDescription\nPatient Count\n\n\n\n\nNot Available\n13,517\n\n\nNo history of alcohol use\n61\n\n\nCurrent use of alcohol\n31\n\n\nPast history of alcohol use, does not currently use\n10\n\n\nAlcohol usage unknown\n3\n\n\n\nNote: sum of sungroups exceeds the denominator due to multiple responses by patients"
   },
   {
     "objectID": "may_2025/neural_frame.html#stanford-cancer-registry-case-status",
     "href": "may_2025/neural_frame.html#stanford-cancer-registry-case-status",
     "title": "Neural Frame Metrics",
     "section": "Stanford Cancer Registry Case Status",
-    "text": "Stanford Cancer Registry Case Status\nThe Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Stanford. Each case is assigned a case status to reflect its reporting stage. The primary categories include:\n\nCompleted: Reportable cases that have been fully abstracted and passed all edit checks. These cases are transmitted to the state registry.\nNot Reportable: Cases that do not meet state reporting requirements or have already been abstracted and submitted.\nIncomplete/Suspense: Reportable cases that have been abstracted but cannot yet be transmitted due to missing treatment information or unresolved edit errors. These may result from version changes, coding updates, or other registry requirements.\n\nThe case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.\nAs of May 2025, there are 13,598 unique thoracic patients with 78.2 % completed cases.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Stanford Cancer Registry Case Status\nThe Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Stanford. Each case is assigned a case status to reflect its reporting stage. The primary categories include:\n\nCompleted: Reportable cases that have been fully abstracted and passed all edit checks. These cases are transmitted to the state registry.\nNot Reportable: Cases that do not meet state reporting requirements or have already been abstracted and submitted.\nIncomplete/Suspense: Reportable cases that have been abstracted but cannot yet be transmitted due to missing treatment information or unresolved edit errors. These may result from version changes, coding updates, or other registry requirements.\n\nThe case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.\nAs of May 2025, there are 13,598 unique thoracic patients with 78.2 % completed cases."
   },
   {
     "objectID": "may_2025/neural_frame.html#patient-summary-by-diagnosis-year",
     "href": "may_2025/neural_frame.html#patient-summary-by-diagnosis-year",
     "title": "Neural Frame Metrics",
     "section": "Patient Summary by Diagnosis Year",
-    "text": "Patient Summary by Diagnosis Year\nThe following distribution summarizes the number of diagnosed thoracic patients over time.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Patient Summary by Diagnosis Year\nThe following distribution summarizes the number of diagnosed thoracic patients over time."
   },
   {
     "objectID": "may_2025/neural_frame.html#histology-distribution-icdo3-codes",
     "href": "may_2025/neural_frame.html#histology-distribution-icdo3-codes",
     "title": "Neural Frame Metrics",
     "section": "Histology Distribution & ICDO3 Codes",
-    "text": "Histology Distribution & ICDO3 Codes\nThoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer (NSCLC) representing the majority of cases and Small Cell Lung Cancer (SCLC).\nThoracic cancer is categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:\n\nNon-Small Cell Lung Carcinoma (NSCLC): This group encompasses the majority of lung cancer and includes subtypes such as:\n\nAdenocarcinoma (8140–8147)\nSquamous Cell Carcinoma (8070–8080)\nLarge Cell Carcinoma (8010–8015)\nNon-Small Cell Carcinoma NOS (8046)\n\nSmall Cell Lung Carcinoma (SCLC): Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.\nOther Specified Histologies: These include a range of less common thoracic cancer such as:\n\nCarcinoid Tumors (8240–8249)\nSarcoma (8800–8806)\nMesothelioma (9050–9053)\nAcinar Cell Carcinoma (8550–8551)\nBronchiolo-alveolar Carcinoma (8250–8257)\nNeoplasms (8000–8005)\nPapillary Adenocarcinoma (8260–8265)\nPapillary Carcinoma (8050–8052)\n\nOther/Unspecified Histologies: Any histology not falling into the categories above.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Histology Distribution & ICDO3 Codes\nThoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer (NSCLC) representing the majority of cases and Small Cell Lung Cancer (SCLC).\nThoracic cancer is categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:\n\nNon-Small Cell Lung Carcinoma (NSCLC): This group encompasses the majority of lung cancer and includes subtypes such as:\n\nAdenocarcinoma (8140–8147)\nSquamous Cell Carcinoma (8070–8080)\nLarge Cell Carcinoma (8010–8015)\nNon-Small Cell Carcinoma NOS (8046)\n\nSmall Cell Lung Carcinoma (SCLC): Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.\nOther Specified Histologies: These include a range of less common thoracic cancer such as:\n\nCarcinoid Tumors (8240–8249)\nSarcoma (8800–8806)\nMesothelioma (9050–9053)\nAcinar Cell Carcinoma (8550–8551)\nBronchiolo-alveolar Carcinoma (8250–8257)\nNeoplasms (8000–8005)\nPapillary Adenocarcinoma (8260–8265)\nPapillary Carcinoma (8050–8052)\n\nOther/Unspecified Histologies: Any histology not falling into the categories above."
   },
   {
     "objectID": "may_2025/neural_frame.html#thoracic-cancer-histology-distribution",
     "href": "may_2025/neural_frame.html#thoracic-cancer-histology-distribution",
     "title": "Neural Frame Metrics",
     "section": "Thoracic Cancer Histology Distribution",
-    "text": "Thoracic Cancer Histology Distribution\nFrom 10,634 thoracic patients with completed cases, the majority 7,420 were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC).\n\n\n\n\n\n\n\n\n\n\n\n\nHistology\nN(%) of Patients\n\n\n\n\nNSCLC\n7,420 (69.8%)\n\n\nOther Specified\n1,835 (17.3%)\n\n\nOther Unspecified\n1,118 (10.5%)\n\n\nSCLC\n551 (5.2%)\n\n\n\nNote: Patients could have multiple histologies",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Thoracic Cancer Histology Distribution\nFrom 10,634 thoracic patients with completed cases, the majority 7,420 were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC).\n\n\n\n\n\n\n\n\n\n\n\n\nHistology\nN(%) of Patients\n\n\n\n\nNSCLC\n7,420 (69.8%)\n\n\nOther Specified\n1,835 (17.3%)\n\n\nOther Unspecified\n1,118 (10.5%)\n\n\nSCLC\n551 (5.2%)\n\n\n\nNote: Patients could have multiple histologies"
   },
   {
     "objectID": "may_2025/neural_frame.html#histology-type-summary",
     "href": "may_2025/neural_frame.html#histology-type-summary",
     "title": "Neural Frame Metrics",
     "section": "Histology Type Summary",
-    "text": "Histology Type Summary\n\nBar PlotICDO3 Table\n\n\nThe following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, Other Specified, and Other Unspecified) and their corresponding histological subtypes.\n\nClick legend items to show/hide specific main categories\nHover over bars to see detailed information\nDouble-click legend items to isolate a single category o to restore all categories\n\n\nDistribution of Thoracic Cancer Cases by Histology Types\n\n\n\n\n\n\n\n\nTable Summary of Histology Groups\n\n\n\n\n\n\n\n\n\nAll the ICDO3 code and histology subgrouping are listed in the following table:",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Histology Type Summary\n\nBar PlotICDO3 Table\n\n\nThe following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, Other Specified, and Other Unspecified) and their corresponding histological subtypes.\n\nClick legend items to show/hide specific main categories\nHover over bars to see detailed information\nDouble-click legend items to isolate a single category o to restore all categories\n\n\nDistribution of Thoracic Cancer Cases by Histology Types\n\n\n\n\n\n\n\n\nTable Summary of Histology Groups\n\n\n\n\n\n\n\n\n\nAll the ICDO3 code and histology subgrouping are listed in the following table:"
   },
   {
     "objectID": "may_2025/neural_frame.html#distribution-of-thoracic-cancer-cases-by-histology-types",
     "href": "may_2025/neural_frame.html#distribution-of-thoracic-cancer-cases-by-histology-types",
     "title": "Neural Frame Metrics",
     "section": "Distribution of Thoracic Cancer Cases by Histology Types",
-    "text": "Distribution of Thoracic Cancer Cases by Histology Types",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Distribution of Thoracic Cancer Cases by Histology Types"
   },
   {
     "objectID": "may_2025/neural_frame.html#table-summary-of-histology-groups",
     "href": "may_2025/neural_frame.html#table-summary-of-histology-groups",
     "title": "Neural Frame Metrics",
     "section": "Table Summary of Histology Groups",
-    "text": "Table Summary of Histology Groups",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Table Summary of Histology Groups"
   },
   {
     "objectID": "may_2025/neural_frame.html#cancer-staging",
     "href": "may_2025/neural_frame.html#cancer-staging",
     "title": "Neural Frame Metrics",
     "section": "Cancer Staging",
-    "text": "Cancer Staging\nCancer staging is categorized as:\n\nStage 0: Carcinoma in situ (neoplastic cells confined to the epithelium without invasion) with no evidence of invasion beyond the basement membrane.\nOccult: A malignancy is confirmed by cytology or metastatic presentation without a known primary, meaning that the primary tumor is not clinically or radiologically identifiable.\nStage I: A localized tumor confined to the organ of origin, with no regional lymph node involvement or distant metastasis.\nStage II: A tumor of larger size or with limited regional extension that may involve adjacent structures or limited regional lymph nodes.\nStage III: Locally advanced disease characterized by involvement of regional lymph nodes and/or extension to nearby tissues.\nStage IV: Distant metastatic disease where the tumor has spread to distant organs or non-regional lymph nodes.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Cancer Staging\nCancer staging is categorized as:\n\nStage 0: Carcinoma in situ (neoplastic cells confined to the epithelium without invasion) with no evidence of invasion beyond the basement membrane.\nOccult: A malignancy is confirmed by cytology or metastatic presentation without a known primary, meaning that the primary tumor is not clinically or radiologically identifiable.\nStage I: A localized tumor confined to the organ of origin, with no regional lymph node involvement or distant metastasis.\nStage II: A tumor of larger size or with limited regional extension that may involve adjacent structures or limited regional lymph nodes.\nStage III: Locally advanced disease characterized by involvement of regional lymph nodes and/or extension to nearby tissues.\nStage IV: Distant metastatic disease where the tumor has spread to distant organs or non-regional lymph nodes."
   },
   {
     "objectID": "may_2025/neural_frame.html#summary-of-staging-of-thoracic-cancer-patients",
     "href": "may_2025/neural_frame.html#summary-of-staging-of-thoracic-cancer-patients",
     "title": "Neural Frame Metrics",
     "section": "Summary of Staging of Thoracic Cancer Patients",
-    "text": "Summary of Staging of Thoracic Cancer Patients\nThe following table summarizes the staging status of thoracic patients with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nStaging Status\nPatient Count\nPercentage (%)\n\n\n\n\nStage IV: Distant metastatic disease\n4,351\n41\n\n\nStage I: Localized tumor confined to the organ of origin\n2,785\n26\n\n\nStage III: Locally advanced disease\n1,796\n17\n\n\nUnknown\n1,023\n10\n\n\nStage II: Larger tumor size or limited regional extension\n782\n7\n\n\nOccult: Malignancy confirmed by cytology or metastatic presentation without known primary\n48\n0\n\n\nStage 0: Carcinoma in situ\n37\n0",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "May 2025",
-      "Neural Frame "
-    ]
+    "text": "Summary of Staging of Thoracic Cancer Patients\nThe following table summarizes the staging status of thoracic patients with completed cases.\n\n\n\n\n\n\n\n\n\n\n\nStaging Status\nPatient Count\nPercentage (%)\n\n\n\n\nStage IV: Distant metastatic disease\n4,351\n41\n\n\nStage I: Localized tumor confined to the organ of origin\n2,785\n26\n\n\nStage III: Locally advanced disease\n1,796\n17\n\n\nUnknown\n1,023\n10\n\n\nStage II: Larger tumor size or limited regional extension\n782\n7\n\n\nOccult: Malignancy confirmed by cytology or metastatic presentation without known primary\n48\n0\n\n\nStage 0: Carcinoma in situ\n37\n0"
   }
 ]
