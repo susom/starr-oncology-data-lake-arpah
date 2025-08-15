@@ -1,0 +1,2946 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>NeuralFrame Case Miscellaneous Details – VISTA Oncology Data Lake</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../neuralframe_data_dict/case_outcomes.html" rel="next">
+<link href="../neuralframe_data_dict/case_diagnoses.html" rel="prev">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="NeuralFrame Case Miscellaneous Details – VISTA Oncology Data Lake">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="VISTA Oncology Data Lake">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">VISTA Oncology Data Lake</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../about.html" aria-current="page"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_dictionary.html"> 
+<span class="menu-text">Data Dictionary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_labeling.html"> 
+<span class="menu-text">Data Labeling</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/susom/starr-oncology-data-lake-arpah" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_diagnoses.html">NeuralFrame</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_misc_details.html">NeuralFrame Case Miscellaneous Details</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Dictionary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP-CDM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">NeuralFrame</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_diagnoses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Diagnoses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_misc_details.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">NeuralFrame Case Miscellaneous Details</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_outcomes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_treatments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Treatments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Philips ISPM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/aberrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Aberration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/pat_diag_orders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Orders</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/specimen_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Specimen</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dicom_data_dict/dicom_data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DICOM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_labeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_guidelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Guidelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Process</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/cap_forms_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods and Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#table-columns" id="toc-table-columns" class="nav-link active" data-scroll-target="#table-columns">Table Columns</a></li>
+  <li><a href="#columns-description" id="toc-columns-description" class="nav-link" data-scroll-target="#columns-description">Columns Description</a>
+  <ul>
+  <li><a href="#abstractedby" id="toc-abstractedby" class="nav-link" data-scroll-target="#abstractedby">abstractedby</a></li>
+  <li><a href="#abstractedbydescription" id="toc-abstractedbydescription" class="nav-link" data-scroll-target="#abstractedbydescription">abstractedbydescription</a></li>
+  <li><a href="#addratdxcity" id="toc-addratdxcity" class="nav-link" data-scroll-target="#addratdxcity">addratdxcity</a></li>
+  <li><a href="#addratdxcitydescription" id="toc-addratdxcitydescription" class="nav-link" data-scroll-target="#addratdxcitydescription">addratdxcitydescription</a></li>
+  <li><a href="#addratdxcountry" id="toc-addratdxcountry" class="nav-link" data-scroll-target="#addratdxcountry">addratdxcountry</a></li>
+  <li><a href="#addratdxcountrydescription" id="toc-addratdxcountrydescription" class="nav-link" data-scroll-target="#addratdxcountrydescription">addratdxcountrydescription</a></li>
+  <li><a href="#addratdxnostreet" id="toc-addratdxnostreet" class="nav-link" data-scroll-target="#addratdxnostreet">addratdxnostreet</a></li>
+  <li><a href="#addratdxnostreetdescription" id="toc-addratdxnostreetdescription" class="nav-link" data-scroll-target="#addratdxnostreetdescription">addratdxnostreetdescription</a></li>
+  <li><a href="#addratdxpostalcode" id="toc-addratdxpostalcode" class="nav-link" data-scroll-target="#addratdxpostalcode">addratdxpostalcode</a></li>
+  <li><a href="#addratdxpostalcodedescription" id="toc-addratdxpostalcodedescription" class="nav-link" data-scroll-target="#addratdxpostalcodedescription">addratdxpostalcodedescription</a></li>
+  <li><a href="#addratdxstate" id="toc-addratdxstate" class="nav-link" data-scroll-target="#addratdxstate">addratdxstate</a></li>
+  <li><a href="#addratdxstatedescription" id="toc-addratdxstatedescription" class="nav-link" data-scroll-target="#addratdxstatedescription">addratdxstatedescription</a></li>
+  <li><a href="#addratdxsupplementl" id="toc-addratdxsupplementl" class="nav-link" data-scroll-target="#addratdxsupplementl">addratdxsupplementl</a></li>
+  <li><a href="#addrcurrentcity" id="toc-addrcurrentcity" class="nav-link" data-scroll-target="#addrcurrentcity">addrcurrentcity</a></li>
+  <li><a href="#addrcurrentcountry" id="toc-addrcurrentcountry" class="nav-link" data-scroll-target="#addrcurrentcountry">addrcurrentcountry</a></li>
+  <li><a href="#addrcurrentcountrydescription" id="toc-addrcurrentcountrydescription" class="nav-link" data-scroll-target="#addrcurrentcountrydescription">addrcurrentcountrydescription</a></li>
+  <li><a href="#addrcurrentcounty" id="toc-addrcurrentcounty" class="nav-link" data-scroll-target="#addrcurrentcounty">addrcurrentcounty</a></li>
+  <li><a href="#addrcurrentnostreet" id="toc-addrcurrentnostreet" class="nav-link" data-scroll-target="#addrcurrentnostreet">addrcurrentnostreet</a></li>
+  <li><a href="#addrcurrentpostalcode" id="toc-addrcurrentpostalcode" class="nav-link" data-scroll-target="#addrcurrentpostalcode">addrcurrentpostalcode</a></li>
+  <li><a href="#addrcurrentpostalcodedescription" id="toc-addrcurrentpostalcodedescription" class="nav-link" data-scroll-target="#addrcurrentpostalcodedescription">addrcurrentpostalcodedescription</a></li>
+  <li><a href="#addrcurrentstate" id="toc-addrcurrentstate" class="nav-link" data-scroll-target="#addrcurrentstate">addrcurrentstate</a></li>
+  <li><a href="#addrcurrentstatedescription" id="toc-addrcurrentstatedescription" class="nav-link" data-scroll-target="#addrcurrentstatedescription">addrcurrentstatedescription</a></li>
+  <li><a href="#addrcurrentsupplementl" id="toc-addrcurrentsupplementl" class="nav-link" data-scroll-target="#addrcurrentsupplementl">addrcurrentsupplementl</a></li>
+  <li><a href="#ageatdiagnosis" id="toc-ageatdiagnosis" class="nav-link" data-scroll-target="#ageatdiagnosis">ageatdiagnosis</a></li>
+  <li><a href="#ageatdiagnosisdescription" id="toc-ageatdiagnosisdescription" class="nav-link" data-scroll-target="#ageatdiagnosisdescription">ageatdiagnosisdescription</a></li>
+  <li><a href="#agedecadediagnosis" id="toc-agedecadediagnosis" class="nav-link" data-scroll-target="#agedecadediagnosis">agedecadediagnosis</a></li>
+  <li><a href="#archivefin" id="toc-archivefin" class="nav-link" data-scroll-target="#archivefin">archivefin</a></li>
+  <li><a href="#archivefindescription" id="toc-archivefindescription" class="nav-link" data-scroll-target="#archivefindescription">archivefindescription</a></li>
+  <li><a href="#birthplacecountry" id="toc-birthplacecountry" class="nav-link" data-scroll-target="#birthplacecountry">birthplacecountry</a></li>
+  <li><a href="#birthplacecountrydescription" id="toc-birthplacecountrydescription" class="nav-link" data-scroll-target="#birthplacecountrydescription">birthplacecountrydescription</a></li>
+  <li><a href="#birthplacestate" id="toc-birthplacestate" class="nav-link" data-scroll-target="#birthplacestate">birthplacestate</a></li>
+  <li><a href="#birthplacestatedescription" id="toc-birthplacestatedescription" class="nav-link" data-scroll-target="#birthplacestatedescription">birthplacestatedescription</a></li>
+  <li><a href="#californiacountyatdx" id="toc-californiacountyatdx" class="nav-link" data-scroll-target="#californiacountyatdx">californiacountyatdx</a></li>
+  <li><a href="#californiacountyatdxdescription" id="toc-californiacountyatdxdescription" class="nav-link" data-scroll-target="#californiacountyatdxdescription">californiacountyatdxdescription</a></li>
+  <li><a href="#californiareportingfacility" id="toc-californiareportingfacility" class="nav-link" data-scroll-target="#californiareportingfacility">californiareportingfacility</a></li>
+  <li><a href="#californiareportingfacilitydescription" id="toc-californiareportingfacilitydescription" class="nav-link" data-scroll-target="#californiareportingfacilitydescription">californiareportingfacilitydescription</a></li>
+  <li><a href="#caseassignedto" id="toc-caseassignedto" class="nav-link" data-scroll-target="#caseassignedto">caseassignedto</a></li>
+  <li><a href="#caseassignedtodescription" id="toc-caseassignedtodescription" class="nav-link" data-scroll-target="#caseassignedtodescription">caseassignedtodescription</a></li>
+  <li><a href="#casefindingreviewstatus" id="toc-casefindingreviewstatus" class="nav-link" data-scroll-target="#casefindingreviewstatus">casefindingreviewstatus</a></li>
+  <li><a href="#casefindingreviewstatusdescription" id="toc-casefindingreviewstatusdescription" class="nav-link" data-scroll-target="#casefindingreviewstatusdescription">casefindingreviewstatusdescription</a></li>
+  <li><a href="#causeofdeath" id="toc-causeofdeath" class="nav-link" data-scroll-target="#causeofdeath">causeofdeath</a></li>
+  <li><a href="#causeofdeathdescription" id="toc-causeofdeathdescription" class="nav-link" data-scroll-target="#causeofdeathdescription">causeofdeathdescription</a></li>
+  <li><a href="#censusindcode19702000" id="toc-censusindcode19702000" class="nav-link" data-scroll-target="#censusindcode19702000">censusindcode19702000</a></li>
+  <li><a href="#censusocccode19702000" id="toc-censusocccode19702000" class="nav-link" data-scroll-target="#censusocccode19702000">censusocccode19702000</a></li>
+  <li><a href="#contactname" id="toc-contactname" class="nav-link" data-scroll-target="#contactname">contactname</a></li>
+  <li><a href="#countyatdx" id="toc-countyatdx" class="nav-link" data-scroll-target="#countyatdx">countyatdx</a></li>
+  <li><a href="#countyatdxdescription" id="toc-countyatdxdescription" class="nav-link" data-scroll-target="#countyatdxdescription">countyatdxdescription</a></li>
+  <li><a href="#dcstatefilenumber" id="toc-dcstatefilenumber" class="nav-link" data-scroll-target="#dcstatefilenumber">dcstatefilenumber</a></li>
+  <li><a href="#dateofbirth" id="toc-dateofbirth" class="nav-link" data-scroll-target="#dateofbirth">dateofbirth</a></li>
+  <li><a href="#followupcontactcity" id="toc-followupcontactcity" class="nav-link" data-scroll-target="#followupcontactcity">followupcontactcity</a></li>
+  <li><a href="#followupcontactcountry" id="toc-followupcontactcountry" class="nav-link" data-scroll-target="#followupcontactcountry">followupcontactcountry</a></li>
+  <li><a href="#followupcontactnost" id="toc-followupcontactnost" class="nav-link" data-scroll-target="#followupcontactnost">followupcontactnost</a></li>
+  <li><a href="#followupcontactpostal" id="toc-followupcontactpostal" class="nav-link" data-scroll-target="#followupcontactpostal">followupcontactpostal</a></li>
+  <li><a href="#followupcontactstate" id="toc-followupcontactstate" class="nav-link" data-scroll-target="#followupcontactstate">followupcontactstate</a></li>
+  <li><a href="#followupcontactsuppl" id="toc-followupcontactsuppl" class="nav-link" data-scroll-target="#followupcontactsuppl">followupcontactsuppl</a></li>
+  <li><a href="#followuplasttypepatient" id="toc-followuplasttypepatient" class="nav-link" data-scroll-target="#followuplasttypepatient">followuplasttypepatient</a></li>
+  <li><a href="#followuplasttypepatientdescription" id="toc-followuplasttypepatientdescription" class="nav-link" data-scroll-target="#followuplasttypepatientdescription">followuplasttypepatientdescription</a></li>
+  <li><a href="#followupnexttype" id="toc-followupnexttype" class="nav-link" data-scroll-target="#followupnexttype">followupnexttype</a></li>
+  <li><a href="#followupnexttypedescription" id="toc-followupnexttypedescription" class="nav-link" data-scroll-target="#followupnexttypedescription">followupnexttypedescription</a></li>
+  <li><a href="#height" id="toc-height" class="nav-link" data-scroll-target="#height">height</a></li>
+  <li><a href="#heightdescription" id="toc-heightdescription" class="nav-link" data-scroll-target="#heightdescription">heightdescription</a></li>
+  <li><a href="#hosppatno" id="toc-hosppatno" class="nav-link" data-scroll-target="#hosppatno">hosppatno</a></li>
+  <li><a href="#maritalstatusatdx" id="toc-maritalstatusatdx" class="nav-link" data-scroll-target="#maritalstatusatdx">maritalstatusatdx</a></li>
+  <li><a href="#maritalstatusatdxdescription" id="toc-maritalstatusatdxdescription" class="nav-link" data-scroll-target="#maritalstatusatdxdescription">maritalstatusatdxdescription</a></li>
+  <li><a href="#medicarebeneficiaryidentifier" id="toc-medicarebeneficiaryidentifier" class="nav-link" data-scroll-target="#medicarebeneficiaryidentifier">medicarebeneficiaryidentifier</a></li>
+  <li><a href="#naaccralcohol" id="toc-naaccralcohol" class="nav-link" data-scroll-target="#naaccralcohol">naaccralcohol</a></li>
+  <li><a href="#naaccralcoholdescription" id="toc-naaccralcoholdescription" class="nav-link" data-scroll-target="#naaccralcoholdescription">naaccralcoholdescription</a></li>
+  <li><a href="#naaccrrecordversion" id="toc-naaccrrecordversion" class="nav-link" data-scroll-target="#naaccrrecordversion">naaccrrecordversion</a></li>
+  <li><a href="#naaccrrecordversiondescription" id="toc-naaccrrecordversiondescription" class="nav-link" data-scroll-target="#naaccrrecordversiondescription">naaccrrecordversiondescription</a></li>
+  <li><a href="#naaccrtobacco" id="toc-naaccrtobacco" class="nav-link" data-scroll-target="#naaccrtobacco">naaccrtobacco</a></li>
+  <li><a href="#naaccrtobaccodescription" id="toc-naaccrtobaccodescription" class="nav-link" data-scroll-target="#naaccrtobaccodescription">naaccrtobaccodescription</a></li>
+  <li><a href="#namealias" id="toc-namealias" class="nav-link" data-scroll-target="#namealias">namealias</a></li>
+  <li><a href="#namealiasfirst" id="toc-namealiasfirst" class="nav-link" data-scroll-target="#namealiasfirst">namealiasfirst</a></li>
+  <li><a href="#namebirthsurname" id="toc-namebirthsurname" class="nav-link" data-scroll-target="#namebirthsurname">namebirthsurname</a></li>
+  <li><a href="#namefirst" id="toc-namefirst" class="nav-link" data-scroll-target="#namefirst">namefirst</a></li>
+  <li><a href="#namelast" id="toc-namelast" class="nav-link" data-scroll-target="#namelast">namelast</a></li>
+  <li><a href="#namemaiden" id="toc-namemaiden" class="nav-link" data-scroll-target="#namemaiden">namemaiden</a></li>
+  <li><a href="#namemiddle" id="toc-namemiddle" class="nav-link" data-scroll-target="#namemiddle">namemiddle</a></li>
+  <li><a href="#nameprefix" id="toc-nameprefix" class="nav-link" data-scroll-target="#nameprefix">nameprefix</a></li>
+  <li><a href="#namespouseparent" id="toc-namespouseparent" class="nav-link" data-scroll-target="#namespouseparent">namespouseparent</a></li>
+  <li><a href="#namesuffix" id="toc-namesuffix" class="nav-link" data-scroll-target="#namesuffix">namesuffix</a></li>
+  <li><a href="#nfcaseentityid" id="toc-nfcaseentityid" class="nav-link" data-scroll-target="#nfcaseentityid">nfcaseentityid</a></li>
+  <li><a href="#nfcasestatus" id="toc-nfcasestatus" class="nav-link" data-scroll-target="#nfcasestatus">nfcasestatus</a></li>
+  <li><a href="#nfcreatedat" id="toc-nfcreatedat" class="nav-link" data-scroll-target="#nfcreatedat">nfcreatedat</a></li>
+  <li><a href="#nfupdatedat" id="toc-nfupdatedat" class="nav-link" data-scroll-target="#nfupdatedat">nfupdatedat</a></li>
+  <li><a href="#overridespanishbpl" id="toc-overridespanishbpl" class="nav-link" data-scroll-target="#overridespanishbpl">overridespanishbpl</a></li>
+  <li><a href="#overridespanishbpldescription" id="toc-overridespanishbpldescription" class="nav-link" data-scroll-target="#overridespanishbpldescription">overridespanishbpldescription</a></li>
+  <li><a href="#patientsystemidhosp" id="toc-patientsystemidhosp" class="nav-link" data-scroll-target="#patientsystemidhosp">patientsystemidhosp</a></li>
+  <li><a href="#patnocontact" id="toc-patnocontact" class="nav-link" data-scroll-target="#patnocontact">patnocontact</a></li>
+  <li><a href="#patnocontactdescription" id="toc-patnocontactdescription" class="nav-link" data-scroll-target="#patnocontactdescription">patnocontactdescription</a></li>
+  <li><a href="#paymentsourcetext" id="toc-paymentsourcetext" class="nav-link" data-scroll-target="#paymentsourcetext">paymentsourcetext</a></li>
+  <li><a href="#paysource2" id="toc-paysource2" class="nav-link" data-scroll-target="#paysource2">paysource2</a></li>
+  <li><a href="#paysource2description" id="toc-paysource2description" class="nav-link" data-scroll-target="#paysource2description">paysource2description</a></li>
+  <li><a href="#person_id" id="toc-person_id" class="nav-link" data-scroll-target="#person_id">person_id</a></li>
+  <li><a href="#placeofdeath" id="toc-placeofdeath" class="nav-link" data-scroll-target="#placeofdeath">placeofdeath</a></li>
+  <li><a href="#placeofdeathcountry" id="toc-placeofdeathcountry" class="nav-link" data-scroll-target="#placeofdeathcountry">placeofdeathcountry</a></li>
+  <li><a href="#placeofdeathcountrydescription" id="toc-placeofdeathcountrydescription" class="nav-link" data-scroll-target="#placeofdeathcountrydescription">placeofdeathcountrydescription</a></li>
+  <li><a href="#placeofdeathstate" id="toc-placeofdeathstate" class="nav-link" data-scroll-target="#placeofdeathstate">placeofdeathstate</a></li>
+  <li><a href="#placeofdeathstatedescription" id="toc-placeofdeathstatedescription" class="nav-link" data-scroll-target="#placeofdeathstatedescription">placeofdeathstatedescription</a></li>
+  <li><a href="#primarypayeratdx" id="toc-primarypayeratdx" class="nav-link" data-scroll-target="#primarypayeratdx">primarypayeratdx</a></li>
+  <li><a href="#primarypayeratdxdescription" id="toc-primarypayeratdxdescription" class="nav-link" data-scroll-target="#primarypayeratdxdescription">primarypayeratdxdescription</a></li>
+  <li><a href="#race1" id="toc-race1" class="nav-link" data-scroll-target="#race1">race1</a></li>
+  <li><a href="#race1description" id="toc-race1description" class="nav-link" data-scroll-target="#race1description">race1description</a></li>
+  <li><a href="#race2" id="toc-race2" class="nav-link" data-scroll-target="#race2">race2</a></li>
+  <li><a href="#race2description" id="toc-race2description" class="nav-link" data-scroll-target="#race2description">race2description</a></li>
+  <li><a href="#race3" id="toc-race3" class="nav-link" data-scroll-target="#race3">race3</a></li>
+  <li><a href="#race3description" id="toc-race3description" class="nav-link" data-scroll-target="#race3description">race3description</a></li>
+  <li><a href="#race4" id="toc-race4" class="nav-link" data-scroll-target="#race4">race4</a></li>
+  <li><a href="#race4description" id="toc-race4description" class="nav-link" data-scroll-target="#race4description">race4description</a></li>
+  <li><a href="#race5" id="toc-race5" class="nav-link" data-scroll-target="#race5">race5</a></li>
+  <li><a href="#race5description" id="toc-race5description" class="nav-link" data-scroll-target="#race5description">race5description</a></li>
+  <li><a href="#racecodingsyscurrent" id="toc-racecodingsyscurrent" class="nav-link" data-scroll-target="#racecodingsyscurrent">racecodingsyscurrent</a></li>
+  <li><a href="#racecodingsyscurrentdescription" id="toc-racecodingsyscurrentdescription" class="nav-link" data-scroll-target="#racecodingsyscurrentdescription">racecodingsyscurrentdescription</a></li>
+  <li><a href="#racecodingsysoriginal" id="toc-racecodingsysoriginal" class="nav-link" data-scroll-target="#racecodingsysoriginal">racecodingsysoriginal</a></li>
+  <li><a href="#racecodingsysoriginaldescription" id="toc-racecodingsysoriginaldescription" class="nav-link" data-scroll-target="#racecodingsysoriginaldescription">racecodingsysoriginaldescription</a></li>
+  <li><a href="#reasoncasenotsubmittedstate" id="toc-reasoncasenotsubmittedstate" class="nav-link" data-scroll-target="#reasoncasenotsubmittedstate">reasoncasenotsubmittedstate</a></li>
+  <li><a href="#reasoncasenr" id="toc-reasoncasenr" class="nav-link" data-scroll-target="#reasoncasenr">reasoncasenr</a></li>
+  <li><a href="#reasoncasenrdescription" id="toc-reasoncasenrdescription" class="nav-link" data-scroll-target="#reasoncasenrdescription">reasoncasenrdescription</a></li>
+  <li><a href="#recordtype" id="toc-recordtype" class="nav-link" data-scroll-target="#recordtype">recordtype</a></li>
+  <li><a href="#recordtypedescription" id="toc-recordtypedescription" class="nav-link" data-scroll-target="#recordtypedescription">recordtypedescription</a></li>
+  <li><a href="#registryid" id="toc-registryid" class="nav-link" data-scroll-target="#registryid">registryid</a></li>
+  <li><a href="#registryiddescription" id="toc-registryiddescription" class="nav-link" data-scroll-target="#registryiddescription">registryiddescription</a></li>
+  <li><a href="#registrytype" id="toc-registrytype" class="nav-link" data-scroll-target="#registrytype">registrytype</a></li>
+  <li><a href="#registrytypedescription" id="toc-registrytypedescription" class="nav-link" data-scroll-target="#registrytypedescription">registrytypedescription</a></li>
+  <li><a href="#religion" id="toc-religion" class="nav-link" data-scroll-target="#religion">religion</a></li>
+  <li><a href="#religiondescription" id="toc-religiondescription" class="nav-link" data-scroll-target="#religiondescription">religiondescription</a></li>
+  <li><a href="#reportingfacility" id="toc-reportingfacility" class="nav-link" data-scroll-target="#reportingfacility">reportingfacility</a></li>
+  <li><a href="#reportingfacilitydescription" id="toc-reportingfacilitydescription" class="nav-link" data-scroll-target="#reportingfacilitydescription">reportingfacilitydescription</a></li>
+  <li><a href="#researchthisfacility" id="toc-researchthisfacility" class="nav-link" data-scroll-target="#researchthisfacility">researchthisfacility</a></li>
+  <li><a href="#researchthisfacilitydescription" id="toc-researchthisfacilitydescription" class="nav-link" data-scroll-target="#researchthisfacilitydescription">researchthisfacilitydescription</a></li>
+  <li><a href="#sex" id="toc-sex" class="nav-link" data-scroll-target="#sex">sex</a></li>
+  <li><a href="#sexdescription" id="toc-sexdescription" class="nav-link" data-scroll-target="#sexdescription">sexdescription</a></li>
+  <li><a href="#socialsecuritynumber" id="toc-socialsecuritynumber" class="nav-link" data-scroll-target="#socialsecuritynumber">socialsecuritynumber</a></li>
+  <li><a href="#socialsecuritynumberdescription" id="toc-socialsecuritynumberdescription" class="nav-link" data-scroll-target="#socialsecuritynumberdescription">socialsecuritynumberdescription</a></li>
+  <li><a href="#spanishhispanicorigin" id="toc-spanishhispanicorigin" class="nav-link" data-scroll-target="#spanishhispanicorigin">spanishhispanicorigin</a></li>
+  <li><a href="#spanishhispanicorigindescription" id="toc-spanishhispanicorigindescription" class="nav-link" data-scroll-target="#spanishhispanicorigindescription">spanishhispanicorigindescription</a></li>
+  <li><a href="#ssnsuffix" id="toc-ssnsuffix" class="nav-link" data-scroll-target="#ssnsuffix">ssnsuffix</a></li>
+  <li><a href="#stanford_patient_uid" id="toc-stanford_patient_uid" class="nav-link" data-scroll-target="#stanford_patient_uid">stanford_patient_uid</a></li>
+  <li><a href="#stateexportflag" id="toc-stateexportflag" class="nav-link" data-scroll-target="#stateexportflag">stateexportflag</a></li>
+  <li><a href="#stateexportflagdescription" id="toc-stateexportflagdescription" class="nav-link" data-scroll-target="#stateexportflagdescription">stateexportflagdescription</a></li>
+  <li><a href="#telephone" id="toc-telephone" class="nav-link" data-scroll-target="#telephone">telephone</a></li>
+  <li><a href="#telephonedescription" id="toc-telephonedescription" class="nav-link" data-scroll-target="#telephonedescription">telephonedescription</a></li>
+  <li><a href="#textusualindustry" id="toc-textusualindustry" class="nav-link" data-scroll-target="#textusualindustry">textusualindustry</a></li>
+  <li><a href="#textusualoccupation" id="toc-textusualoccupation" class="nav-link" data-scroll-target="#textusualoccupation">textusualoccupation</a></li>
+  <li><a href="#textusualoccupation-1" id="toc-textusualoccupation-1" class="nav-link" data-scroll-target="#textusualoccupation-1">textusualoccupation</a></li>
+  <li><a href="#tobaccousecigarettes" id="toc-tobaccousecigarettes" class="nav-link" data-scroll-target="#tobaccousecigarettes">tobaccousecigarettes</a></li>
+  <li><a href="#tobaccousecigarettesdescription" id="toc-tobaccousecigarettesdescription" class="nav-link" data-scroll-target="#tobaccousecigarettesdescription">tobaccousecigarettesdescription</a></li>
+  <li><a href="#tobaccousenos" id="toc-tobaccousenos" class="nav-link" data-scroll-target="#tobaccousenos">tobaccousenos</a></li>
+  <li><a href="#tobaccousenosdescription" id="toc-tobaccousenosdescription" class="nav-link" data-scroll-target="#tobaccousenosdescription">tobaccousenosdescription</a></li>
+  <li><a href="#tobaccouseothersmoke" id="toc-tobaccouseothersmoke" class="nav-link" data-scroll-target="#tobaccouseothersmoke">tobaccouseothersmoke</a></li>
+  <li><a href="#tobaccouseothersmokedescription" id="toc-tobaccouseothersmokedescription" class="nav-link" data-scroll-target="#tobaccouseothersmokedescription">tobaccouseothersmokedescription</a></li>
+  <li><a href="#tobaccousesmokeless" id="toc-tobaccousesmokeless" class="nav-link" data-scroll-target="#tobaccousesmokeless">tobaccousesmokeless</a></li>
+  <li><a href="#tobaccousesmokelessdescription" id="toc-tobaccousesmokelessdescription" class="nav-link" data-scroll-target="#tobaccousesmokelessdescription">tobaccousesmokelessdescription</a></li>
+  <li><a href="#tobaccousesmokingstatus" id="toc-tobaccousesmokingstatus" class="nav-link" data-scroll-target="#tobaccousesmokingstatus">tobaccousesmokingstatus</a></li>
+  <li><a href="#tobaccousesmokingstatusdescription" id="toc-tobaccousesmokingstatusdescription" class="nav-link" data-scroll-target="#tobaccousesmokingstatusdescription">tobaccousesmokingstatusdescription</a></li>
+  <li><a href="#weight" id="toc-weight" class="nav-link" data-scroll-target="#weight">weight</a></li>
+  <li><a href="#weightdescription" id="toc-weightdescription" class="nav-link" data-scroll-target="#weightdescription">weightdescription</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_diagnoses.html">NeuralFrame</a></li><li class="breadcrumb-item"><a href="../neuralframe_data_dict/case_misc_details.html">NeuralFrame Case Miscellaneous Details</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">NeuralFrame Case Miscellaneous Details</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The table <code>onc_neuralframe_case_misc_details</code> includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.</p>
+<section id="table-columns" class="level3">
+<h3 class="anchored" data-anchor-id="table-columns">Table Columns</h3>
+<div class="table-responsive">
+<table class="table-hover table-sm small caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">column name</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">phi</th>
+<th style="text-align: left;">phi-scrubbing operation</th>
+<th style="text-align: left;">naaccr number</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">abstractedby</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=570/">570</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">abstractedbydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addratdxcity</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addratdxcitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addratdxcountry</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=102/">102</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addratdxcountrydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addratdxnostreet</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2330/">2330</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addratdxnostreetdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addratdxpostalcode</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">RedZip</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=100/">100</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addratdxpostalcodedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addratdxstate</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=80/">80</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addratdxstatedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addratdxsupplementl</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2335/">2335</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addrcurrentcity</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1810/">1810</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addrcurrentcountry</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1832/">1832</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addrcurrentcountrydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addrcurrentcounty</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addrcurrentnostreet</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2350/">2350</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addrcurrentpostalcode</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">RedZip</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1830/">1830</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addrcurrentpostalcodedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addrcurrentstate</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1820/">1820</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">addrcurrentstatedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">addrcurrentsupplementl</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2355/">2355</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ageatdiagnosis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=230/">230</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ageatdiagnosisdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">agedecadediagnosis</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">archivefin</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=3100/">3100</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">archivefindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">birthplacecountry</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=254/">254</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">birthplacecountrydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">birthplacestate</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=252/">252</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">birthplacestatedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">californiacountyatdx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=23002/">23002</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">californiacountyatdxdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">californiareportingfacility</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=23001/">23001</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">californiareportingfacilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">caseassignedto</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50070/">50070</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">caseassignedtodescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">casefindingreviewstatus</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50010/">50010</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">casefindingreviewstatusdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">causeofdeath</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1910/">1910</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">causeofdeathdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">censusindcode19702000</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">censusocccode19702000</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">contactname</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70001/">70001</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">countyatdx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=90/">90</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">countyatdxdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dateofbirth</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dcstatefilenumber</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2380/">2380</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">followupcontactcity</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">followupcontactcountry</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">followupcontactnost</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">followupcontactpostal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">RedZip</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">followupcontactstate</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">followupcontactsuppl</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">followuplasttypepatient</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70010/">70010</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">followuplasttypepatientdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">followupnexttype</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70012/">70012</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">followupnexttypedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">height</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9960/">9960</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">heightdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hosppatno</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70013/">70013</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">maritalstatusatdx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=150/">150</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">maritalstatusatdxdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">medicarebeneficiaryidentifier</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2315/">2315</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">naaccralcohol</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=350/">350</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">naaccralcoholdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">naaccrrecordversion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50/">50</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">naaccrrecordversiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">naaccrtobacco</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=340/">340</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">naaccrtobaccodescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">namealias</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2280/">2280</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">namealiasfirst</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70016/">70016</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">namebirthsurname</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2232/">2232</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">namefirst</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2240/">2240</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">namelast</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2230/">2230</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">namemaiden</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">namemiddle</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2250/">2250</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nameprefix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">namespouseparent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">namesuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nfcaseentityid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Stable between Data Refreshes</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nfcasestatus</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nfcreatedat</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nfupdatedat</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Jitter</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overridespanishbpl</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70023/">70023</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overridespanishbpldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">patientsystemidhosp</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=21/">21</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">patnocontact</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70024/">70024</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">patnocontactdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">paymentsourcetext</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70026/">70026</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">paysource2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70025/">70025</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">paysource2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">person_id</td>
+<td style="text-align: left;">INTEGER</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Stable between Data Refreshes</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">placeofdeath</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">placeofdeathcountry</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1944/">1944</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">placeofdeathcountrydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">placeofdeathstate</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=1942/">1942</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">placeofdeathstatedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">primarypayeratdx</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=630/">630</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">primarypayeratdxdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">race1</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=160/">160</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">race1description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">race2</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=161/">161</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">race2description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">race3</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=162/">162</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">race3description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">race4</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=163/">163</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">race4description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">race5</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=164/">164</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">race5description</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racecodingsyscurrent</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=170/">170</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racecodingsyscurrentdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racecodingsysoriginal</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=180/">180</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racecodingsysoriginaldescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">reasoncasenotsubmittedstate</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50014/">50014</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">reasoncasenr</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">reasoncasenrdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">recordtype</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=10/">10</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">recordtypedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">registryid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=40/">40</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">registryiddescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">registrytype</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=30/">30</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">registrytypedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">religion</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=260/">260</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">religiondescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">reportingfacility</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=540/">540</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">reportingfacilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">researchthisfacility</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=100048/">100048</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">researchthisfacilitydescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=220/">220</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sexdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">socialsecuritynumber</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2320/">2320</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">socialsecuritynumberdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">spanishhispanicorigin</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=190/">190</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">spanishhispanicorigindescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ssnsuffix</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=70048/">70048</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stanford_patient_uid</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">stateexportflag</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=50080/">50080</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">stateexportflagdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">telephone</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=2360/">2360</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">telephonedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">textusualindustry</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">TiDE</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=320/">320</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">textusualoccupation</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: left;">Del</td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=310/">310</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tobaccousecigarettes</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9965/">9965</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tobaccousecigarettesdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tobaccousenos</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9968/">9968</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tobaccousenosdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tobaccouseothersmoke</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9966/">9966</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tobaccouseothersmokedescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tobaccousesmokeless</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9967/">9967</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tobaccousesmokelessdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tobaccousesmokingstatus</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=344/">344</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tobaccousesmokingstatusdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">weight</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><a href="https://apps.naaccr.org/data-dictionary/data-dictionary/version=25/data-item-view/item-number=9961/">9961</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">weightdescription</td>
+<td style="text-align: left;">STRING</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="columns-description" class="level3">
+<h3 class="anchored" data-anchor-id="columns-description">Columns Description</h3>
+<section id="abstractedby" class="level5">
+<h5 class="anchored" data-anchor-id="abstractedby">abstractedby</h5>
+<p>Abstracted By</p>
+</section>
+<section id="abstractedbydescription" class="level5">
+<h5 class="anchored" data-anchor-id="abstractedbydescription">abstractedbydescription</h5>
+<p>nan</p>
+</section>
+<section id="addratdxcity" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxcity">addratdxcity</h5>
+<p>nan</p>
+</section>
+<section id="addratdxcitydescription" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxcitydescription">addratdxcitydescription</h5>
+<p>nan</p>
+</section>
+<section id="addratdxcountry" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxcountry">addratdxcountry</h5>
+<p>Addr at DX–Country</p>
+</section>
+<section id="addratdxcountrydescription" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxcountrydescription">addratdxcountrydescription</h5>
+<p>nan</p>
+</section>
+<section id="addratdxnostreet" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxnostreet">addratdxnostreet</h5>
+<p>Addr at DX–No &amp; Street</p>
+</section>
+<section id="addratdxnostreetdescription" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxnostreetdescription">addratdxnostreetdescription</h5>
+<p>nan</p>
+</section>
+<section id="addratdxpostalcode" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxpostalcode">addratdxpostalcode</h5>
+<p>Addr at DX–Postal Code</p>
+</section>
+<section id="addratdxpostalcodedescription" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxpostalcodedescription">addratdxpostalcodedescription</h5>
+<p>nan</p>
+</section>
+<section id="addratdxstate" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxstate">addratdxstate</h5>
+<p>Addr at DX–State</p>
+</section>
+<section id="addratdxstatedescription" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxstatedescription">addratdxstatedescription</h5>
+<p>nan</p>
+</section>
+<section id="addratdxsupplementl" class="level5">
+<h5 class="anchored" data-anchor-id="addratdxsupplementl">addratdxsupplementl</h5>
+<p>Addr at DX–Supplementl</p>
+</section>
+<section id="addrcurrentcity" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentcity">addrcurrentcity</h5>
+<p>Addr Current–City</p>
+</section>
+<section id="addrcurrentcountry" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentcountry">addrcurrentcountry</h5>
+<p>Addr Current–Country</p>
+</section>
+<section id="addrcurrentcountrydescription" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentcountrydescription">addrcurrentcountrydescription</h5>
+<p>nan</p>
+</section>
+<section id="addrcurrentcounty" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentcounty">addrcurrentcounty</h5>
+<p>nan</p>
+</section>
+<section id="addrcurrentnostreet" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentnostreet">addrcurrentnostreet</h5>
+<p>Addr Current–No &amp; Street</p>
+</section>
+<section id="addrcurrentpostalcode" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentpostalcode">addrcurrentpostalcode</h5>
+<p>Addr Current–Postal Code</p>
+</section>
+<section id="addrcurrentpostalcodedescription" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentpostalcodedescription">addrcurrentpostalcodedescription</h5>
+<p>nan</p>
+</section>
+<section id="addrcurrentstate" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentstate">addrcurrentstate</h5>
+<p>Addr Current–State</p>
+</section>
+<section id="addrcurrentstatedescription" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentstatedescription">addrcurrentstatedescription</h5>
+<p>nan</p>
+</section>
+<section id="addrcurrentsupplementl" class="level5">
+<h5 class="anchored" data-anchor-id="addrcurrentsupplementl">addrcurrentsupplementl</h5>
+<p>Addr Current–Supplementl</p>
+</section>
+<section id="ageatdiagnosis" class="level5">
+<h5 class="anchored" data-anchor-id="ageatdiagnosis">ageatdiagnosis</h5>
+<p>Age at Diagnosis</p>
+</section>
+<section id="ageatdiagnosisdescription" class="level5">
+<h5 class="anchored" data-anchor-id="ageatdiagnosisdescription">ageatdiagnosisdescription</h5>
+<p>nan</p>
+</section>
+<section id="agedecadediagnosis" class="level5">
+<h5 class="anchored" data-anchor-id="agedecadediagnosis">agedecadediagnosis</h5>
+<p>Decade of Diagnosis</p>
+</section>
+<section id="archivefin" class="level5">
+<h5 class="anchored" data-anchor-id="archivefin">archivefin</h5>
+<p>Archive FIN</p>
+</section>
+<section id="archivefindescription" class="level5">
+<h5 class="anchored" data-anchor-id="archivefindescription">archivefindescription</h5>
+<p>nan</p>
+</section>
+<section id="birthplacecountry" class="level5">
+<h5 class="anchored" data-anchor-id="birthplacecountry">birthplacecountry</h5>
+<p>Birthplace–Country</p>
+</section>
+<section id="birthplacecountrydescription" class="level5">
+<h5 class="anchored" data-anchor-id="birthplacecountrydescription">birthplacecountrydescription</h5>
+<p>nan</p>
+</section>
+<section id="birthplacestate" class="level5">
+<h5 class="anchored" data-anchor-id="birthplacestate">birthplacestate</h5>
+<p>Birthplace–State</p>
+</section>
+<section id="birthplacestatedescription" class="level5">
+<h5 class="anchored" data-anchor-id="birthplacestatedescription">birthplacestatedescription</h5>
+<p>nan</p>
+</section>
+<section id="californiacountyatdx" class="level5">
+<h5 class="anchored" data-anchor-id="californiacountyatdx">californiacountyatdx</h5>
+<p>California County At Dx</p>
+</section>
+<section id="californiacountyatdxdescription" class="level5">
+<h5 class="anchored" data-anchor-id="californiacountyatdxdescription">californiacountyatdxdescription</h5>
+<p>nan</p>
+</section>
+<section id="californiareportingfacility" class="level5">
+<h5 class="anchored" data-anchor-id="californiareportingfacility">californiareportingfacility</h5>
+<p>California Reporting Facility</p>
+</section>
+<section id="californiareportingfacilitydescription" class="level5">
+<h5 class="anchored" data-anchor-id="californiareportingfacilitydescription">californiareportingfacilitydescription</h5>
+<p>nan</p>
+</section>
+<section id="caseassignedto" class="level5">
+<h5 class="anchored" data-anchor-id="caseassignedto">caseassignedto</h5>
+<p>Case Assigned To</p>
+</section>
+<section id="caseassignedtodescription" class="level5">
+<h5 class="anchored" data-anchor-id="caseassignedtodescription">caseassignedtodescription</h5>
+<p>nan</p>
+</section>
+<section id="casefindingreviewstatus" class="level5">
+<h5 class="anchored" data-anchor-id="casefindingreviewstatus">casefindingreviewstatus</h5>
+<p>Case Finding Review Status</p>
+</section>
+<section id="casefindingreviewstatusdescription" class="level5">
+<h5 class="anchored" data-anchor-id="casefindingreviewstatusdescription">casefindingreviewstatusdescription</h5>
+<p>nan</p>
+</section>
+<section id="causeofdeath" class="level5">
+<h5 class="anchored" data-anchor-id="causeofdeath">causeofdeath</h5>
+<p>Cause of Death</p>
+</section>
+<section id="causeofdeathdescription" class="level5">
+<h5 class="anchored" data-anchor-id="causeofdeathdescription">causeofdeathdescription</h5>
+<p>nan</p>
+</section>
+<section id="censusindcode19702000" class="level5">
+<h5 class="anchored" data-anchor-id="censusindcode19702000">censusindcode19702000</h5>
+<p>nan</p>
+</section>
+<section id="censusocccode19702000" class="level5">
+<h5 class="anchored" data-anchor-id="censusocccode19702000">censusocccode19702000</h5>
+<p>nan</p>
+</section>
+<section id="contactname" class="level5">
+<h5 class="anchored" data-anchor-id="contactname">contactname</h5>
+<p>Contact Name</p>
+</section>
+<section id="countyatdx" class="level5">
+<h5 class="anchored" data-anchor-id="countyatdx">countyatdx</h5>
+<p>County at DX Reported</p>
+</section>
+<section id="countyatdxdescription" class="level5">
+<h5 class="anchored" data-anchor-id="countyatdxdescription">countyatdxdescription</h5>
+<p>nan</p>
+</section>
+<section id="dcstatefilenumber" class="level5">
+<h5 class="anchored" data-anchor-id="dcstatefilenumber">dcstatefilenumber</h5>
+<p>DC State File Number</p>
+</section>
+<section id="dateofbirth" class="level5">
+<h5 class="anchored" data-anchor-id="dateofbirth">dateofbirth</h5>
+<p>Date of Birth</p>
+</section>
+<section id="followupcontactcity" class="level5">
+<h5 class="anchored" data-anchor-id="followupcontactcity">followupcontactcity</h5>
+<p>nan</p>
+</section>
+<section id="followupcontactcountry" class="level5">
+<h5 class="anchored" data-anchor-id="followupcontactcountry">followupcontactcountry</h5>
+<p>nan</p>
+</section>
+<section id="followupcontactnost" class="level5">
+<h5 class="anchored" data-anchor-id="followupcontactnost">followupcontactnost</h5>
+<p>nan</p>
+</section>
+<section id="followupcontactpostal" class="level5">
+<h5 class="anchored" data-anchor-id="followupcontactpostal">followupcontactpostal</h5>
+<p>nan</p>
+</section>
+<section id="followupcontactstate" class="level5">
+<h5 class="anchored" data-anchor-id="followupcontactstate">followupcontactstate</h5>
+<p>nan</p>
+</section>
+<section id="followupcontactsuppl" class="level5">
+<h5 class="anchored" data-anchor-id="followupcontactsuppl">followupcontactsuppl</h5>
+<p>nan</p>
+</section>
+<section id="followuplasttypepatient" class="level5">
+<h5 class="anchored" data-anchor-id="followuplasttypepatient">followuplasttypepatient</h5>
+<p>Follow-Up Last Type Patient</p>
+</section>
+<section id="followuplasttypepatientdescription" class="level5">
+<h5 class="anchored" data-anchor-id="followuplasttypepatientdescription">followuplasttypepatientdescription</h5>
+<p>nan</p>
+</section>
+<section id="followupnexttype" class="level5">
+<h5 class="anchored" data-anchor-id="followupnexttype">followupnexttype</h5>
+<p>Follow-Up Next Type</p>
+</section>
+<section id="followupnexttypedescription" class="level5">
+<h5 class="anchored" data-anchor-id="followupnexttypedescription">followupnexttypedescription</h5>
+<p>nan</p>
+</section>
+<section id="height" class="level5">
+<h5 class="anchored" data-anchor-id="height">height</h5>
+<p>Height</p>
+</section>
+<section id="heightdescription" class="level5">
+<h5 class="anchored" data-anchor-id="heightdescription">heightdescription</h5>
+<p>nan</p>
+</section>
+<section id="hosppatno" class="level5">
+<h5 class="anchored" data-anchor-id="hosppatno">hosppatno</h5>
+<p>Hosp Pat No</p>
+</section>
+<section id="maritalstatusatdx" class="level5">
+<h5 class="anchored" data-anchor-id="maritalstatusatdx">maritalstatusatdx</h5>
+<p>Marital Status at DX</p>
+</section>
+<section id="maritalstatusatdxdescription" class="level5">
+<h5 class="anchored" data-anchor-id="maritalstatusatdxdescription">maritalstatusatdxdescription</h5>
+<p>nan</p>
+</section>
+<section id="medicarebeneficiaryidentifier" class="level5">
+<h5 class="anchored" data-anchor-id="medicarebeneficiaryidentifier">medicarebeneficiaryidentifier</h5>
+<p>Medicare Beneficiary Identifier</p>
+</section>
+<section id="naaccralcohol" class="level5">
+<h5 class="anchored" data-anchor-id="naaccralcohol">naaccralcohol</h5>
+<p>Alcohol History</p>
+</section>
+<section id="naaccralcoholdescription" class="level5">
+<h5 class="anchored" data-anchor-id="naaccralcoholdescription">naaccralcoholdescription</h5>
+<p>nan</p>
+</section>
+<section id="naaccrrecordversion" class="level5">
+<h5 class="anchored" data-anchor-id="naaccrrecordversion">naaccrrecordversion</h5>
+<p>NAACCR Record Version</p>
+</section>
+<section id="naaccrrecordversiondescription" class="level5">
+<h5 class="anchored" data-anchor-id="naaccrrecordversiondescription">naaccrrecordversiondescription</h5>
+<p>nan</p>
+</section>
+<section id="naaccrtobacco" class="level5">
+<h5 class="anchored" data-anchor-id="naaccrtobacco">naaccrtobacco</h5>
+<p>Tobacco History</p>
+</section>
+<section id="naaccrtobaccodescription" class="level5">
+<h5 class="anchored" data-anchor-id="naaccrtobaccodescription">naaccrtobaccodescription</h5>
+<p>nan</p>
+</section>
+<section id="namealias" class="level5">
+<h5 class="anchored" data-anchor-id="namealias">namealias</h5>
+<p>Name–Alias</p>
+</section>
+<section id="namealiasfirst" class="level5">
+<h5 class="anchored" data-anchor-id="namealiasfirst">namealiasfirst</h5>
+<p>Name–Alias First</p>
+</section>
+<section id="namebirthsurname" class="level5">
+<h5 class="anchored" data-anchor-id="namebirthsurname">namebirthsurname</h5>
+<p>Name–Birth Surname</p>
+</section>
+<section id="namefirst" class="level5">
+<h5 class="anchored" data-anchor-id="namefirst">namefirst</h5>
+<p>Name–First</p>
+</section>
+<section id="namelast" class="level5">
+<h5 class="anchored" data-anchor-id="namelast">namelast</h5>
+<p>Name–Last</p>
+</section>
+<section id="namemaiden" class="level5">
+<h5 class="anchored" data-anchor-id="namemaiden">namemaiden</h5>
+<p>nan</p>
+</section>
+<section id="namemiddle" class="level5">
+<h5 class="anchored" data-anchor-id="namemiddle">namemiddle</h5>
+<p>Name–Middle</p>
+</section>
+<section id="nameprefix" class="level5">
+<h5 class="anchored" data-anchor-id="nameprefix">nameprefix</h5>
+<p>nan</p>
+</section>
+<section id="namespouseparent" class="level5">
+<h5 class="anchored" data-anchor-id="namespouseparent">namespouseparent</h5>
+<p>nan</p>
+</section>
+<section id="namesuffix" class="level5">
+<h5 class="anchored" data-anchor-id="namesuffix">namesuffix</h5>
+<p>nan</p>
+</section>
+<section id="nfcaseentityid" class="level5">
+<h5 class="anchored" data-anchor-id="nfcaseentityid">nfcaseentityid</h5>
+<p>Unique number corresponding to every new neural frame “case” or event</p>
+</section>
+<section id="nfcasestatus" class="level5">
+<h5 class="anchored" data-anchor-id="nfcasestatus">nfcasestatus</h5>
+<p>nan</p>
+</section>
+<section id="nfcreatedat" class="level5">
+<h5 class="anchored" data-anchor-id="nfcreatedat">nfcreatedat</h5>
+<p>date created</p>
+</section>
+<section id="nfupdatedat" class="level5">
+<h5 class="anchored" data-anchor-id="nfupdatedat">nfupdatedat</h5>
+<p>date created</p>
+</section>
+<section id="overridespanishbpl" class="level5">
+<h5 class="anchored" data-anchor-id="overridespanishbpl">overridespanishbpl</h5>
+<p>Over-ride Spanish BPL</p>
+</section>
+<section id="overridespanishbpldescription" class="level5">
+<h5 class="anchored" data-anchor-id="overridespanishbpldescription">overridespanishbpldescription</h5>
+<p>nan</p>
+</section>
+<section id="patientsystemidhosp" class="level5">
+<h5 class="anchored" data-anchor-id="patientsystemidhosp">patientsystemidhosp</h5>
+<p>Patient System ID-Hosp</p>
+</section>
+<section id="patnocontact" class="level5">
+<h5 class="anchored" data-anchor-id="patnocontact">patnocontact</h5>
+<p>Pat No Contact</p>
+</section>
+<section id="patnocontactdescription" class="level5">
+<h5 class="anchored" data-anchor-id="patnocontactdescription">patnocontactdescription</h5>
+<p>nan</p>
+</section>
+<section id="paymentsourcetext" class="level5">
+<h5 class="anchored" data-anchor-id="paymentsourcetext">paymentsourcetext</h5>
+<p>Payment Source Text</p>
+</section>
+<section id="paysource2" class="level5">
+<h5 class="anchored" data-anchor-id="paysource2">paysource2</h5>
+<p>Pay Source 2</p>
+</section>
+<section id="paysource2description" class="level5">
+<h5 class="anchored" data-anchor-id="paysource2description">paysource2description</h5>
+<p>nan</p>
+</section>
+<section id="person_id" class="level5">
+<h5 class="anchored" data-anchor-id="person_id">person_id</h5>
+<p>Person_id as corresponds to the OMOP dataset</p>
+</section>
+<section id="placeofdeath" class="level5">
+<h5 class="anchored" data-anchor-id="placeofdeath">placeofdeath</h5>
+<p>Place of Death</p>
+</section>
+<section id="placeofdeathcountry" class="level5">
+<h5 class="anchored" data-anchor-id="placeofdeathcountry">placeofdeathcountry</h5>
+<p>Place of Death–Country</p>
+</section>
+<section id="placeofdeathcountrydescription" class="level5">
+<h5 class="anchored" data-anchor-id="placeofdeathcountrydescription">placeofdeathcountrydescription</h5>
+<p>nan</p>
+</section>
+<section id="placeofdeathstate" class="level5">
+<h5 class="anchored" data-anchor-id="placeofdeathstate">placeofdeathstate</h5>
+<p>Place of Death–State</p>
+</section>
+<section id="placeofdeathstatedescription" class="level5">
+<h5 class="anchored" data-anchor-id="placeofdeathstatedescription">placeofdeathstatedescription</h5>
+<p>nan</p>
+</section>
+<section id="primarypayeratdx" class="level5">
+<h5 class="anchored" data-anchor-id="primarypayeratdx">primarypayeratdx</h5>
+<p>Primary Payer at DX</p>
+</section>
+<section id="primarypayeratdxdescription" class="level5">
+<h5 class="anchored" data-anchor-id="primarypayeratdxdescription">primarypayeratdxdescription</h5>
+<p>nan</p>
+</section>
+<section id="race1" class="level5">
+<h5 class="anchored" data-anchor-id="race1">race1</h5>
+<p>Race 1</p>
+</section>
+<section id="race1description" class="level5">
+<h5 class="anchored" data-anchor-id="race1description">race1description</h5>
+<p>nan</p>
+</section>
+<section id="race2" class="level5">
+<h5 class="anchored" data-anchor-id="race2">race2</h5>
+<p>Race 2</p>
+</section>
+<section id="race2description" class="level5">
+<h5 class="anchored" data-anchor-id="race2description">race2description</h5>
+<p>nan</p>
+</section>
+<section id="race3" class="level5">
+<h5 class="anchored" data-anchor-id="race3">race3</h5>
+<p>Race 3</p>
+</section>
+<section id="race3description" class="level5">
+<h5 class="anchored" data-anchor-id="race3description">race3description</h5>
+<p>nan</p>
+</section>
+<section id="race4" class="level5">
+<h5 class="anchored" data-anchor-id="race4">race4</h5>
+<p>Race 4</p>
+</section>
+<section id="race4description" class="level5">
+<h5 class="anchored" data-anchor-id="race4description">race4description</h5>
+<p>nan</p>
+</section>
+<section id="race5" class="level5">
+<h5 class="anchored" data-anchor-id="race5">race5</h5>
+<p>Race 5</p>
+</section>
+<section id="race5description" class="level5">
+<h5 class="anchored" data-anchor-id="race5description">race5description</h5>
+<p>nan</p>
+</section>
+<section id="racecodingsyscurrent" class="level5">
+<h5 class="anchored" data-anchor-id="racecodingsyscurrent">racecodingsyscurrent</h5>
+<p>Race Coding Sys–Current</p>
+</section>
+<section id="racecodingsyscurrentdescription" class="level5">
+<h5 class="anchored" data-anchor-id="racecodingsyscurrentdescription">racecodingsyscurrentdescription</h5>
+<p>nan</p>
+</section>
+<section id="racecodingsysoriginal" class="level5">
+<h5 class="anchored" data-anchor-id="racecodingsysoriginal">racecodingsysoriginal</h5>
+<p>Race Coding Sys–Original</p>
+</section>
+<section id="racecodingsysoriginaldescription" class="level5">
+<h5 class="anchored" data-anchor-id="racecodingsysoriginaldescription">racecodingsysoriginaldescription</h5>
+<p>nan</p>
+</section>
+<section id="reasoncasenotsubmittedstate" class="level5">
+<h5 class="anchored" data-anchor-id="reasoncasenotsubmittedstate">reasoncasenotsubmittedstate</h5>
+<p>Reason Case Not Submitted to State</p>
+</section>
+<section id="reasoncasenr" class="level5">
+<h5 class="anchored" data-anchor-id="reasoncasenr">reasoncasenr</h5>
+<p>nan</p>
+</section>
+<section id="reasoncasenrdescription" class="level5">
+<h5 class="anchored" data-anchor-id="reasoncasenrdescription">reasoncasenrdescription</h5>
+<p>nan</p>
+</section>
+<section id="recordtype" class="level5">
+<h5 class="anchored" data-anchor-id="recordtype">recordtype</h5>
+<p>Record Type</p>
+</section>
+<section id="recordtypedescription" class="level5">
+<h5 class="anchored" data-anchor-id="recordtypedescription">recordtypedescription</h5>
+<p>nan</p>
+</section>
+<section id="registryid" class="level5">
+<h5 class="anchored" data-anchor-id="registryid">registryid</h5>
+<p>Registry ID</p>
+</section>
+<section id="registryiddescription" class="level5">
+<h5 class="anchored" data-anchor-id="registryiddescription">registryiddescription</h5>
+<p>nan</p>
+</section>
+<section id="registrytype" class="level5">
+<h5 class="anchored" data-anchor-id="registrytype">registrytype</h5>
+<p>Registry Type</p>
+</section>
+<section id="registrytypedescription" class="level5">
+<h5 class="anchored" data-anchor-id="registrytypedescription">registrytypedescription</h5>
+<p>nan</p>
+</section>
+<section id="religion" class="level5">
+<h5 class="anchored" data-anchor-id="religion">religion</h5>
+<p>Religion</p>
+</section>
+<section id="religiondescription" class="level5">
+<h5 class="anchored" data-anchor-id="religiondescription">religiondescription</h5>
+<p>nan</p>
+</section>
+<section id="reportingfacility" class="level5">
+<h5 class="anchored" data-anchor-id="reportingfacility">reportingfacility</h5>
+<p>Reporting Facility</p>
+</section>
+<section id="reportingfacilitydescription" class="level5">
+<h5 class="anchored" data-anchor-id="reportingfacilitydescription">reportingfacilitydescription</h5>
+<p>nan</p>
+</section>
+<section id="researchthisfacility" class="level5">
+<h5 class="anchored" data-anchor-id="researchthisfacility">researchthisfacility</h5>
+<p>Research This Facility</p>
+</section>
+<section id="researchthisfacilitydescription" class="level5">
+<h5 class="anchored" data-anchor-id="researchthisfacilitydescription">researchthisfacilitydescription</h5>
+<p>nan</p>
+</section>
+<section id="sex" class="level5">
+<h5 class="anchored" data-anchor-id="sex">sex</h5>
+<p>Sex</p>
+</section>
+<section id="sexdescription" class="level5">
+<h5 class="anchored" data-anchor-id="sexdescription">sexdescription</h5>
+<p>nan</p>
+</section>
+<section id="socialsecuritynumber" class="level5">
+<h5 class="anchored" data-anchor-id="socialsecuritynumber">socialsecuritynumber</h5>
+<p>Social Security Number</p>
+</section>
+<section id="socialsecuritynumberdescription" class="level5">
+<h5 class="anchored" data-anchor-id="socialsecuritynumberdescription">socialsecuritynumberdescription</h5>
+<p>nan</p>
+</section>
+<section id="spanishhispanicorigin" class="level5">
+<h5 class="anchored" data-anchor-id="spanishhispanicorigin">spanishhispanicorigin</h5>
+<p>Spanish/Hispanic Origin</p>
+</section>
+<section id="spanishhispanicorigindescription" class="level5">
+<h5 class="anchored" data-anchor-id="spanishhispanicorigindescription">spanishhispanicorigindescription</h5>
+<p>nan</p>
+</section>
+<section id="ssnsuffix" class="level5">
+<h5 class="anchored" data-anchor-id="ssnsuffix">ssnsuffix</h5>
+<p>SSN Suffix</p>
+</section>
+<section id="stanford_patient_uid" class="level5">
+<h5 class="anchored" data-anchor-id="stanford_patient_uid">stanford_patient_uid</h5>
+<p>Internal Stanford tracking ID for Neural frame</p>
+</section>
+<section id="stateexportflag" class="level5">
+<h5 class="anchored" data-anchor-id="stateexportflag">stateexportflag</h5>
+<p>State Export Flag</p>
+</section>
+<section id="stateexportflagdescription" class="level5">
+<h5 class="anchored" data-anchor-id="stateexportflagdescription">stateexportflagdescription</h5>
+<p>nan</p>
+</section>
+<section id="telephone" class="level5">
+<h5 class="anchored" data-anchor-id="telephone">telephone</h5>
+<p>Telephone</p>
+</section>
+<section id="telephonedescription" class="level5">
+<h5 class="anchored" data-anchor-id="telephonedescription">telephonedescription</h5>
+<p>nan</p>
+</section>
+<section id="textusualindustry" class="level5">
+<h5 class="anchored" data-anchor-id="textusualindustry">textusualindustry</h5>
+<p>Text–Usual Industry</p>
+</section>
+<section id="textusualoccupation" class="level5">
+<h5 class="anchored" data-anchor-id="textusualoccupation">textusualoccupation</h5>
+<p>nan</p>
+</section>
+<section id="textusualoccupation-1" class="level5">
+<h5 class="anchored" data-anchor-id="textusualoccupation-1">textusualoccupation</h5>
+<p>Text–Usual Occupation</p>
+</section>
+<section id="tobaccousecigarettes" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousecigarettes">tobaccousecigarettes</h5>
+<p>Tobacco Use Cigarettes</p>
+</section>
+<section id="tobaccousecigarettesdescription" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousecigarettesdescription">tobaccousecigarettesdescription</h5>
+<p>nan</p>
+</section>
+<section id="tobaccousenos" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousenos">tobaccousenos</h5>
+<p>Tobacco Use NOS</p>
+</section>
+<section id="tobaccousenosdescription" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousenosdescription">tobaccousenosdescription</h5>
+<p>nan</p>
+</section>
+<section id="tobaccouseothersmoke" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccouseothersmoke">tobaccouseothersmoke</h5>
+<p>Tobacco Use Other Smoke</p>
+</section>
+<section id="tobaccouseothersmokedescription" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccouseothersmokedescription">tobaccouseothersmokedescription</h5>
+<p>nan</p>
+</section>
+<section id="tobaccousesmokeless" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousesmokeless">tobaccousesmokeless</h5>
+<p>Tobacco Use Smokeless</p>
+</section>
+<section id="tobaccousesmokelessdescription" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousesmokelessdescription">tobaccousesmokelessdescription</h5>
+<p>nan</p>
+</section>
+<section id="tobaccousesmokingstatus" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousesmokingstatus">tobaccousesmokingstatus</h5>
+<p>Tobacco Use Smoking Status</p>
+</section>
+<section id="tobaccousesmokingstatusdescription" class="level5">
+<h5 class="anchored" data-anchor-id="tobaccousesmokingstatusdescription">tobaccousesmokingstatusdescription</h5>
+<p>nan</p>
+</section>
+<section id="weight" class="level5">
+<h5 class="anchored" data-anchor-id="weight">weight</h5>
+<p>Weight</p>
+</section>
+<section id="weightdescription" class="level5">
+<h5 class="anchored" data-anchor-id="weightdescription">weightdescription</h5>
+<p>nan</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../neuralframe_data_dict/case_diagnoses.html" class="pagination-link" aria-label="NeuralFrame Case Diagnoses">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">NeuralFrame Case Diagnoses</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../neuralframe_data_dict/case_outcomes.html" class="pagination-link" aria-label="NeuralFrame Case Outcomes">
+        <span class="nav-page-text">NeuralFrame Case Outcomes</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+<p>About</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

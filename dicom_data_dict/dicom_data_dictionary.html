@@ -1,0 +1,2491 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>DICOM Data Dictionary – VISTA Oncology Data Lake</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../data_labeling.html" rel="next">
+<link href="../philips_ispm_data_dict/specimen_data.html" rel="prev">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="DICOM Data Dictionary – VISTA Oncology Data Lake">
+<meta property="og:site_name" content="VISTA Oncology Data Lake">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">VISTA Oncology Data Lake</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../about.html" aria-current="page"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_dictionary.html"> 
+<span class="menu-text">Data Dictionary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_labeling.html"> 
+<span class="menu-text">Data Labeling</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/susom/starr-oncology-data-lake-arpah" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../dicom_data_dict/dicom_data_dictionary.html">DICOM</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Dictionary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP-CDM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">NeuralFrame</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_diagnoses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Diagnoses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_misc_details.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Miscellaneous Details</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_outcomes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_treatments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Treatments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Philips ISPM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/aberrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Aberration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/pat_diag_orders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Orders</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/specimen_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Specimen</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dicom_data_dict/dicom_data_dictionary.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">DICOM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_labeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_guidelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Guidelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Process</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/cap_forms_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods and Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_dictionary.html">Data Dictionary</a></li><li class="breadcrumb-item"><a href="../dicom_data_dict/dicom_data_dictionary.html">DICOM</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">DICOM Data Dictionary</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<table id="df" class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">DICOM_Tag_Number</th>
+<th data-quarto-table-cell-role="th">DICOM_Tag_Name</th>
+<th data-quarto-table-cell-role="th">DICOM_Tag_Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(0010,0020)</td>
+<td>PatientID</td>
+<td>Patient ID</td>
+</tr>
+<tr class="even">
+<td>(0008,0050)</td>
+<td>AccessionNumber</td>
+<td>Accession Number</td>
+</tr>
+<tr class="odd">
+<td>(0010,0010)</td>
+<td>PatientName</td>
+<td>Patient's Name</td>
+</tr>
+<tr class="even">
+<td>(0008,103E)</td>
+<td>SeriesDescription</td>
+<td>Series Description</td>
+</tr>
+<tr class="odd">
+<td>(0008,1030)</td>
+<td>StudyDescription</td>
+<td>Study Description</td>
+</tr>
+<tr class="even">
+<td>(0018,1030)</td>
+<td>ProtocolName</td>
+<td>Protocol Name</td>
+</tr>
+<tr class="odd">
+<td>(0008,0005)</td>
+<td>SpecificCharacterSet</td>
+<td>Specific Character Set</td>
+</tr>
+<tr class="even">
+<td>(0008,0008)</td>
+<td>ImageType</td>
+<td>Image Type</td>
+</tr>
+<tr class="odd">
+<td>(0008,0016)</td>
+<td>SOPClassUID</td>
+<td>SOP Class UID</td>
+</tr>
+<tr class="even">
+<td>(0008,0060)</td>
+<td>Modality</td>
+<td>Modality</td>
+</tr>
+<tr class="odd">
+<td>(0008,0070)</td>
+<td>Manufacturer</td>
+<td>Manufacturer</td>
+</tr>
+<tr class="even">
+<td>(0008,1090)</td>
+<td>ManufacturerModelName</td>
+<td>Manufacturer's Model Name</td>
+</tr>
+<tr class="odd">
+<td>(0008,2111)</td>
+<td>DerivationDescription</td>
+<td>Derivation Description</td>
+</tr>
+<tr class="even">
+<td>(0002,0003)</td>
+<td>MediaStorageSOPInstanceUID</td>
+<td>Media Storage SOP Instance UID</td>
+</tr>
+<tr class="odd">
+<td>(0008,0018)</td>
+<td>SOPInstanceUID</td>
+<td>SOP Instance UID</td>
+</tr>
+<tr class="even">
+<td>(0008,1140)</td>
+<td>ReferencedImageSequence</td>
+<td>Referenced Image Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0008,1155)</td>
+<td>ReferencedSOPInstanceUID</td>
+<td>Referenced SOP Instance UID</td>
+</tr>
+<tr class="even">
+<td>(0008,3010)</td>
+<td>IrradiationEventUID</td>
+<td>Irradiation Event UID</td>
+</tr>
+<tr class="odd">
+<td>(0020,000D)</td>
+<td>StudyInstanceUID</td>
+<td>Study Instance UID</td>
+</tr>
+<tr class="even">
+<td>(0020,000E)</td>
+<td>SeriesInstanceUID</td>
+<td>Series Instance UID</td>
+</tr>
+<tr class="odd">
+<td>(0020,0052)</td>
+<td>FrameOfReferenceUID</td>
+<td>Frame of Reference UID</td>
+</tr>
+<tr class="even">
+<td>(0020,0200)</td>
+<td>SynchronizationFrameOfReferenceUID</td>
+<td>Synchronization Frame of Reference UID</td>
+</tr>
+<tr class="odd">
+<td>(0028,1199)</td>
+<td>PaletteColorLookupTableUID</td>
+<td>Palette Color Lookup Table UID</td>
+</tr>
+<tr class="even">
+<td>(0028,1214)</td>
+<td>LargePaletteColorLookupTableUID</td>
+<td>Large Palette Color Lookup Table UID</td>
+</tr>
+<tr class="odd">
+<td>(0040,A124)</td>
+<td>UID</td>
+<td>UID</td>
+</tr>
+<tr class="even">
+<td>(0070,1101)</td>
+<td>PresentationDisplayCollectionUID</td>
+<td>Presentation Display Collection UID</td>
+</tr>
+<tr class="odd">
+<td>(0070,1102)</td>
+<td>PresentationSequenceCollectionUID</td>
+<td>Presentation Sequence Collection UID</td>
+</tr>
+<tr class="even">
+<td>(0088,0140)</td>
+<td>StorageMediaFileSetUID</td>
+<td>Storage Media File-set UID</td>
+</tr>
+<tr class="odd">
+<td>(3006,0024)</td>
+<td>ReferencedFrameOfReferenceUID</td>
+<td>Referenced Frame of Reference UID</td>
+</tr>
+<tr class="even">
+<td>(3006,00C2)</td>
+<td>RelatedFrameOfReferenceUID</td>
+<td>Related Frame of Reference UID</td>
+</tr>
+<tr class="odd">
+<td>(0018,0010)</td>
+<td>ContrastBolusAgent</td>
+<td>Contrast/Bolus Agent</td>
+</tr>
+<tr class="even">
+<td>(0018,0015)</td>
+<td>BodyPartExamined</td>
+<td>Body Part Examined</td>
+</tr>
+<tr class="odd">
+<td>(0018,0020)</td>
+<td>ScanningSequence</td>
+<td>Scanning Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,0021)</td>
+<td>SequenceVariant</td>
+<td>Sequence Variant</td>
+</tr>
+<tr class="odd">
+<td>(0018,0022)</td>
+<td>ScanOptions</td>
+<td>Scan Options</td>
+</tr>
+<tr class="even">
+<td>(0018,0023)</td>
+<td>MRAcquisitionType</td>
+<td>MR Acquisition Type</td>
+</tr>
+<tr class="odd">
+<td>(0018,0050)</td>
+<td>SliceThickness</td>
+<td>Slice Thickness</td>
+</tr>
+<tr class="even">
+<td>(0018,0088)</td>
+<td>SpacingBetweenSlices</td>
+<td>Spacing Between Slices</td>
+</tr>
+<tr class="odd">
+<td>(0018,0090)</td>
+<td>DataCollectionDiameter</td>
+<td>Data Collection Diameter</td>
+</tr>
+<tr class="even">
+<td>(0018,1000)</td>
+<td>DeviceSerialNumber</td>
+<td>Device Serial Number</td>
+</tr>
+<tr class="odd">
+<td>(0018,1020)</td>
+<td>SoftwareVersions</td>
+<td>Software Versions</td>
+</tr>
+<tr class="even">
+<td>(0018,1164)</td>
+<td>ImagerPixelSpacing</td>
+<td>Imager Pixel Spacing</td>
+</tr>
+<tr class="odd">
+<td>(0020,0011)</td>
+<td>SeriesNumber</td>
+<td>Series Number</td>
+</tr>
+<tr class="even">
+<td>(0020,0012)</td>
+<td>AcquisitionNumber</td>
+<td>Acquisition Number</td>
+</tr>
+<tr class="odd">
+<td>(0020,0013)</td>
+<td>InstanceNumber</td>
+<td>Instance Number</td>
+</tr>
+<tr class="even">
+<td>(0020,1002)</td>
+<td>ImagesInAcquisition</td>
+<td>Images in Acquisition</td>
+</tr>
+<tr class="odd">
+<td>(0020,0032)</td>
+<td>ImagePositionPatient</td>
+<td>Image Position (Patient)</td>
+</tr>
+<tr class="even">
+<td>(0020,0037)</td>
+<td>ImageOrientationPatient</td>
+<td>Image Orientation (Patient)</td>
+</tr>
+<tr class="odd">
+<td>(0020,0060)</td>
+<td>Laterality</td>
+<td>Laterality</td>
+</tr>
+<tr class="even">
+<td>(0020,1040)</td>
+<td>PositionReferenceIndicator</td>
+<td>Position Reference Indicator</td>
+</tr>
+<tr class="odd">
+<td>(0020,1041)</td>
+<td>SliceLocation</td>
+<td>Slice Location</td>
+</tr>
+<tr class="even">
+<td>(0028,0030)</td>
+<td>PixelSpacing</td>
+<td>Pixel Spacing</td>
+</tr>
+<tr class="odd">
+<td>(0028,0002)</td>
+<td>SamplesPerPixel</td>
+<td>Samples per Pixel</td>
+</tr>
+<tr class="even">
+<td>(0028,0004)</td>
+<td>PhotometricInterpretation</td>
+<td>Photometric Interpretation</td>
+</tr>
+<tr class="odd">
+<td>(0028,0006)</td>
+<td>PlanarConfiguration</td>
+<td>Planar Configuration</td>
+</tr>
+<tr class="even">
+<td>(0028,0008)</td>
+<td>NumberOfFrames</td>
+<td>Number of Frames</td>
+</tr>
+<tr class="odd">
+<td>(0028,0009)</td>
+<td>FrameIncrementPointer</td>
+<td>Frame Increment Pointer</td>
+</tr>
+<tr class="even">
+<td>(0028,000A)</td>
+<td>FrameDimensionPointer</td>
+<td>Frame Dimension Pointer</td>
+</tr>
+<tr class="odd">
+<td>(0028,0010)</td>
+<td>Rows</td>
+<td>Rows</td>
+</tr>
+<tr class="even">
+<td>(0028,0011)</td>
+<td>Columns</td>
+<td>Columns</td>
+</tr>
+<tr class="odd">
+<td>(0028,0012)</td>
+<td>Planes</td>
+<td>Planes</td>
+</tr>
+<tr class="even">
+<td>(0028,0034)</td>
+<td>PixelAspectRatio</td>
+<td>Pixel Aspect Ratio</td>
+</tr>
+<tr class="odd">
+<td>(0028,0100)</td>
+<td>BitsAllocated</td>
+<td>Bits Allocated</td>
+</tr>
+<tr class="even">
+<td>(0028,0101)</td>
+<td>BitsStored</td>
+<td>Bits Stored</td>
+</tr>
+<tr class="odd">
+<td>(0028,0102)</td>
+<td>HighBit</td>
+<td>High Bit</td>
+</tr>
+<tr class="even">
+<td>(0028,0103)</td>
+<td>PixelRepresentation</td>
+<td>Pixel Representation</td>
+</tr>
+<tr class="odd">
+<td>(0028,0106)</td>
+<td>SmallestImagePixelValue</td>
+<td>Smallest Image Pixel Value</td>
+</tr>
+<tr class="even">
+<td>(0028,0107)</td>
+<td>LargestImagePixelValue</td>
+<td>Largest Image Pixel Value</td>
+</tr>
+<tr class="odd">
+<td>(0028,0120)</td>
+<td>PixelPaddingValue</td>
+<td>Pixel Padding Value</td>
+</tr>
+<tr class="even">
+<td>(0028,0121)</td>
+<td>PixelPaddingRangeLimit</td>
+<td>Pixel Padding Range Limit</td>
+</tr>
+<tr class="odd">
+<td>(0028,0200)</td>
+<td>ImageLocation</td>
+<td>Image Location</td>
+</tr>
+<tr class="even">
+<td>(0028,0300)</td>
+<td>QualityControlImage</td>
+<td>Quality Control Image</td>
+</tr>
+<tr class="odd">
+<td>(0028,1090)</td>
+<td>RecommendedViewingMode</td>
+<td>Recommended Viewing Mode</td>
+</tr>
+<tr class="even">
+<td>(0028,9001)</td>
+<td>DataPointRows</td>
+<td>Data Point Rows</td>
+</tr>
+<tr class="odd">
+<td>(0028,9002)</td>
+<td>DataPointColumns</td>
+<td>Data Point Columns</td>
+</tr>
+<tr class="even">
+<td>(0028,9108)</td>
+<td>DataRepresentation</td>
+<td>Data Representation</td>
+</tr>
+<tr class="odd">
+<td>(0028,1050)</td>
+<td>WindowCenter</td>
+<td>Window Center</td>
+</tr>
+<tr class="even">
+<td>(0028,1051)</td>
+<td>WindowWidth</td>
+<td>Window Width</td>
+</tr>
+<tr class="odd">
+<td>(0028,1052)</td>
+<td>RescaleIntercept</td>
+<td>Rescale Intercept</td>
+</tr>
+<tr class="even">
+<td>(0028,1053)</td>
+<td>RescaleSlope</td>
+<td>Rescale Slope</td>
+</tr>
+<tr class="odd">
+<td>(0028,1054)</td>
+<td>RescaleType</td>
+<td>Rescale Type</td>
+</tr>
+<tr class="even">
+<td>(0028,1055)</td>
+<td>WindowCenterWidthExplanation</td>
+<td>Window Center &amp; Width Explanation</td>
+</tr>
+<tr class="odd">
+<td>(0028,1056)</td>
+<td>VOILUTFunction</td>
+<td>VOI LUT Function</td>
+</tr>
+<tr class="even">
+<td>(0028,1101)</td>
+<td>RedPaletteColorLookupTableDescriptor</td>
+<td>Red Palette Color Lookup Table Descriptor</td>
+</tr>
+<tr class="odd">
+<td>(0028,1102)</td>
+<td>GreenPaletteColorLookupTableDescriptor</td>
+<td>Green Palette Color Lookup Table Descriptor</td>
+</tr>
+<tr class="even">
+<td>(0028,1103)</td>
+<td>BluePaletteColorLookupTableDescriptor</td>
+<td>Blue Palette Color Lookup Table Descriptor</td>
+</tr>
+<tr class="odd">
+<td>(0028,1201)</td>
+<td>RedPaletteColorLookupTableData</td>
+<td>Red Palette Color Lookup Table Data</td>
+</tr>
+<tr class="even">
+<td>(0028,1202)</td>
+<td>GreenPaletteColorLookupTableData</td>
+<td>Green Palette Color Lookup Table Data</td>
+</tr>
+<tr class="odd">
+<td>(0028,1203)</td>
+<td>BluePaletteColorLookupTableData</td>
+<td>Blue Palette Color Lookup Table Data</td>
+</tr>
+<tr class="even">
+<td>(0028,2000)</td>
+<td>ICCProfile</td>
+<td>ICC Profile</td>
+</tr>
+<tr class="odd">
+<td>(0028,2110)</td>
+<td>LossyImageCompression</td>
+<td>Lossy Image Compression</td>
+</tr>
+<tr class="even">
+<td>(0028,2112)</td>
+<td>LossyImageCompressionRatio</td>
+<td>Lossy Image Compression Ratio</td>
+</tr>
+<tr class="odd">
+<td>(0028,2114)</td>
+<td>LossyImageCompressionMethod</td>
+<td>Lossy Image Compression Method</td>
+</tr>
+<tr class="even">
+<td>(0062,0002)</td>
+<td>SegmentSequence</td>
+<td>Segment Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,0080)</td>
+<td>RepetitionTime</td>
+<td>Repetition Time</td>
+</tr>
+<tr class="even">
+<td>(0018,0081)</td>
+<td>EchoTime</td>
+<td>Echo Time</td>
+</tr>
+<tr class="odd">
+<td>(0018,0082)</td>
+<td>InversionTime</td>
+<td>Inversion Time</td>
+</tr>
+<tr class="even">
+<td>(0018,0083)</td>
+<td>NumberOfAverages</td>
+<td>Number of Averages</td>
+</tr>
+<tr class="odd">
+<td>(0018,0084)</td>
+<td>ImagingFrequency</td>
+<td>Imaging Frequency</td>
+</tr>
+<tr class="even">
+<td>(0018,0085)</td>
+<td>ImagedNucleus</td>
+<td>Imaged Nucleus</td>
+</tr>
+<tr class="odd">
+<td>(0018,0086)</td>
+<td>EchoNumbers</td>
+<td>Echo Number(s)</td>
+</tr>
+<tr class="even">
+<td>(0018,0087)</td>
+<td>MagneticFieldStrength</td>
+<td>Magnetic Field Strength</td>
+</tr>
+<tr class="odd">
+<td>(0018,0091)</td>
+<td>EchoTrainLength</td>
+<td>Echo Train Length</td>
+</tr>
+<tr class="even">
+<td>(0018,0095)</td>
+<td>PixelBandwidth</td>
+<td>Pixel Bandwidth</td>
+</tr>
+<tr class="odd">
+<td>(0018,1060)</td>
+<td>TriggerTime</td>
+<td>Trigger Time</td>
+</tr>
+<tr class="even">
+<td>(0018,1100)</td>
+<td>ReconstructionDiameter</td>
+<td>Reconstruction Diameter</td>
+</tr>
+<tr class="odd">
+<td>(0018,9005)</td>
+<td>PulseSequenceName</td>
+<td>Pulse Sequence Name</td>
+</tr>
+<tr class="even">
+<td>(0018,9087)</td>
+<td>DiffusionBValue</td>
+<td>Diffusion b-value</td>
+</tr>
+<tr class="odd">
+<td>(0018,1074)</td>
+<td>RadionuclideTotalDose</td>
+<td>Radionuclide Total Dose</td>
+</tr>
+<tr class="even">
+<td>(0018,1075)</td>
+<td>RadionuclideHalfLife</td>
+<td>Radionuclide Half Life</td>
+</tr>
+<tr class="odd">
+<td>(0018,1088)</td>
+<td>HeartRate</td>
+<td>Heart Rate</td>
+</tr>
+<tr class="even">
+<td>(0018,1201)</td>
+<td>TimeOfLastCalibration</td>
+<td>Time of Last Calibration</td>
+</tr>
+<tr class="odd">
+<td>(0018,9732)</td>
+<td>PETFrameAcquisitionSequence</td>
+<td>PET Frame Acquisition Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9733)</td>
+<td>PETDetectorMotionDetailsSequence</td>
+<td>PET Detector Motion Details Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9736)</td>
+<td>PETFrameCorrectionFactorsSequence</td>
+<td>PET Frame Correction Factors Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9738)</td>
+<td>AttenuationCorrectionSource</td>
+<td>Attenuation Correction Source</td>
+</tr>
+<tr class="odd">
+<td>(0018,9810)</td>
+<td>ZeroVelocityPixelValue</td>
+<td>Zero Velocity Pixel Value</td>
+</tr>
+<tr class="even">
+<td>(0054,0202)</td>
+<td>TypeOfDetectorMotion</td>
+<td>Type of Detector Motion</td>
+</tr>
+<tr class="odd">
+<td>(0054,0300)</td>
+<td>RadionuclideCodeSequence</td>
+<td>Radionuclide Code Sequence</td>
+</tr>
+<tr class="even">
+<td>(0054,1000)</td>
+<td>SeriesType</td>
+<td>Series Type</td>
+</tr>
+<tr class="odd">
+<td>(0054,1001)</td>
+<td>Units</td>
+<td>Units</td>
+</tr>
+<tr class="even">
+<td>(0054,1006)</td>
+<td>SUVType</td>
+<td>SUV Type</td>
+</tr>
+<tr class="odd">
+<td>(0054,1102)</td>
+<td>DecayCorrection</td>
+<td>Decay Correction</td>
+</tr>
+<tr class="even">
+<td>(0054,1300)</td>
+<td>FrameReferenceTime</td>
+<td>Frame Reference Time</td>
+</tr>
+<tr class="odd">
+<td>(0054,1323)</td>
+<td>ScatterFractionFactor</td>
+<td>Scatter Fraction Factor</td>
+</tr>
+<tr class="even">
+<td>(0018,0060)</td>
+<td>KVP</td>
+<td>KVP</td>
+</tr>
+<tr class="odd">
+<td>(0018,1110)</td>
+<td>DistanceSourceToDetector</td>
+<td>Distance Source to Detector</td>
+</tr>
+<tr class="even">
+<td>(0018,1111)</td>
+<td>DistanceSourceToPatient</td>
+<td>Distance Source to Patient</td>
+</tr>
+<tr class="odd">
+<td>(0018,1120)</td>
+<td>GantryDetectorTilt</td>
+<td>Gantry/Detector Tilt</td>
+</tr>
+<tr class="even">
+<td>(0018,1130)</td>
+<td>TableHeight</td>
+<td>Table Height</td>
+</tr>
+<tr class="odd">
+<td>(0018,1140)</td>
+<td>RotationDirection</td>
+<td>Rotation Direction</td>
+</tr>
+<tr class="even">
+<td>(0018,1151)</td>
+<td>XRayTubeCurrent</td>
+<td>X-Ray Tube Current</td>
+</tr>
+<tr class="odd">
+<td>(0018,1152)</td>
+<td>Exposure</td>
+<td>Exposure</td>
+</tr>
+<tr class="even">
+<td>(0018,1160)</td>
+<td>FilterType</td>
+<td>Filter Type</td>
+</tr>
+<tr class="odd">
+<td>(0018,1170)</td>
+<td>GeneratorPower</td>
+<td>Generator Power</td>
+</tr>
+<tr class="even">
+<td>(0018,1190)</td>
+<td>FocalSpots</td>
+<td>Focal Spot(s)</td>
+</tr>
+<tr class="odd">
+<td>(0018,1210)</td>
+<td>ConvolutionKernel</td>
+<td>Convolution Kernel</td>
+</tr>
+<tr class="even">
+<td>(0018,7050)</td>
+<td>FilterMaterial</td>
+<td>Filter Material</td>
+</tr>
+<tr class="odd">
+<td>(0018,1114)</td>
+<td>EstimatedRadiographicMagnificationFactor</td>
+<td>Estimated Radiographic Magnification Factor</td>
+</tr>
+<tr class="even">
+<td>(0018,1153)</td>
+<td>ExposureInuAs</td>
+<td>Exposure in uAs</td>
+</tr>
+<tr class="odd">
+<td>(0018,1155)</td>
+<td>RadiationSetting</td>
+<td>Radiation Setting</td>
+</tr>
+<tr class="even">
+<td>(0018,1500)</td>
+<td>PositionerMotion</td>
+<td>Positioner Motion</td>
+</tr>
+<tr class="odd">
+<td>(0018,1510)</td>
+<td>PositionerPrimaryAngle</td>
+<td>Positioner Primary Angle</td>
+</tr>
+<tr class="even">
+<td>(0018,1511)</td>
+<td>PositionerSecondaryAngle</td>
+<td>Positioner Secondary Angle</td>
+</tr>
+<tr class="odd">
+<td>(0018,1600)</td>
+<td>ShutterShape</td>
+<td>Shutter Shape</td>
+</tr>
+<tr class="even">
+<td>(0018,1620)</td>
+<td>VerticesOfThePolygonalShutter</td>
+<td>Vertices of the Polygonal Shutter</td>
+</tr>
+<tr class="odd">
+<td>(0018,1622)</td>
+<td>ShutterPresentationValue</td>
+<td>Shutter Presentation Value</td>
+</tr>
+<tr class="even">
+<td>(0018,1624)</td>
+<td>ShutterPresentationColorCIELabValue</td>
+<td>Shutter Presentation Color CIELab Value</td>
+</tr>
+<tr class="odd">
+<td>(0018,1250)</td>
+<td>ReceiveCoilName</td>
+<td>Receive Coil Name</td>
+</tr>
+<tr class="even">
+<td>(0018,9417)</td>
+<td>FrameAcquisitionSequence</td>
+<td>Frame Acquisition Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9434)</td>
+<td>ExposureControlSensingRegionsSequence</td>
+<td>Exposure Control Sensing Regions Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9435)</td>
+<td>ExposureControlSensingRegionShape</td>
+<td>Exposure Control Sensing Region Shape</td>
+</tr>
+<tr class="odd">
+<td>(0018,9436)</td>
+<td>ExposureControlSensingRegionLeftVerticalEdge</td>
+<td>Exposure Control Sensing Region Left Vertical Edge</td>
+</tr>
+<tr class="even">
+<td>(0018,9438)</td>
+<td>ExposureControlSensingRegionUpperHorizontalEdge</td>
+<td>Exposure Control Sensing Region Upper Horizontal Edge</td>
+</tr>
+<tr class="odd">
+<td>(0018,9070)</td>
+<td>CardiacRRIntervalSpecified</td>
+<td>Cardiac R-R Interval Specified</td>
+</tr>
+<tr class="even">
+<td>(0018,9073)</td>
+<td>AcquisitionDuration</td>
+<td>Acquisition Duration</td>
+</tr>
+<tr class="odd">
+<td>(0018,9075)</td>
+<td>DiffusionDirectionality</td>
+<td>Diffusion Directionality</td>
+</tr>
+<tr class="even">
+<td>(0018,9076)</td>
+<td>DiffusionGradientDirectionSequence</td>
+<td>Diffusion Gradient Direction Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9077)</td>
+<td>ParallelAcquisition</td>
+<td>Parallel Acquisition</td>
+</tr>
+<tr class="even">
+<td>(0022,0001)</td>
+<td>LightPathFilterPassThroughWavelength</td>
+<td>Light Path Filter Pass-Through Wavelength</td>
+</tr>
+<tr class="odd">
+<td>(0022,0002)</td>
+<td>LightPathFilterPassBand</td>
+<td>Light Path Filter Pass Band</td>
+</tr>
+<tr class="even">
+<td>(0022,0003)</td>
+<td>ImagePathFilterPassThroughWavelength</td>
+<td>Image Path Filter Pass-Through Wavelength</td>
+</tr>
+<tr class="odd">
+<td>(0022,0005)</td>
+<td>PatientEyeMovementCommanded</td>
+<td>Patient Eye Movement Commanded</td>
+</tr>
+<tr class="even">
+<td>(0022,0006)</td>
+<td>PatientEyeMovementCommandCodeSequence</td>
+<td>Patient Eye Movement Command Code Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0022,0007)</td>
+<td>SphericalLensPower</td>
+<td>Spherical Lens Power</td>
+</tr>
+<tr class="even">
+<td>(0022,0008)</td>
+<td>CylinderLensPower</td>
+<td>Cylinder Lens Power</td>
+</tr>
+<tr class="odd">
+<td>(0022,0009)</td>
+<td>CylinderAxis</td>
+<td>Cylinder Axis</td>
+</tr>
+<tr class="even">
+<td>(0022,1007)</td>
+<td>OphthalmicAxialMeasurementsRightEyeSequence</td>
+<td>Ophthalmic Axial Measurements Right Eye Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0022,1019)</td>
+<td>OphthalmicAxialLength</td>
+<td>Ophthalmic Axial Length</td>
+</tr>
+<tr class="even">
+<td>(0022,1050)</td>
+<td>OphthalmicAxialLengthMeasurementsSequence</td>
+<td>Ophthalmic Axial Length Measurements Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,0070)</td>
+<td>CountsAccumulated</td>
+<td>Counts Accumulated</td>
+</tr>
+<tr class="even">
+<td>(0018,0071)</td>
+<td>AcquisitionTerminationCondition</td>
+<td>Acquisition Termination Condition</td>
+</tr>
+<tr class="odd">
+<td>(0018,0073)</td>
+<td>AcquisitionStartCondition</td>
+<td>Acquisition Start Condition</td>
+</tr>
+<tr class="even">
+<td>(0018,0075)</td>
+<td>AcquisitionTerminationConditionData</td>
+<td>Acquisition Termination Condition Data</td>
+</tr>
+<tr class="odd">
+<td>(0018,1040)</td>
+<td>ContrastBolusRoute</td>
+<td>Contrast/Bolus Route</td>
+</tr>
+<tr class="even">
+<td>(0018,1041)</td>
+<td>ContrastBolusVolume</td>
+<td>Contrast/Bolus Volume</td>
+</tr>
+<tr class="odd">
+<td>(0018,1242)</td>
+<td>ActualFrameDuration</td>
+<td>Actual Frame Duration</td>
+</tr>
+<tr class="even">
+<td>(0018,1243)</td>
+<td>CountRate</td>
+<td>Count Rate</td>
+</tr>
+<tr class="odd">
+<td>(0018,1300)</td>
+<td>ScanVelocity</td>
+<td>Scan Velocity</td>
+</tr>
+<tr class="even">
+<td>(0018,1301)</td>
+<td>WholeBodyTechnique</td>
+<td>Whole Body Technique</td>
+</tr>
+<tr class="odd">
+<td>(0018,1302)</td>
+<td>ScanLength</td>
+<td>Scan Length</td>
+</tr>
+<tr class="even">
+<td>(0018,1310)</td>
+<td>AcquisitionMatrix</td>
+<td>Acquisition Matrix</td>
+</tr>
+<tr class="odd">
+<td>(0018,1312)</td>
+<td>InPlanePhaseEncodingDirection</td>
+<td>In-plane Phase Encoding Direction</td>
+</tr>
+<tr class="even">
+<td>(0018,1314)</td>
+<td>FlipAngle</td>
+<td>Flip Angle</td>
+</tr>
+<tr class="odd">
+<td>(0018,1320)</td>
+<td>B1rms</td>
+<td>B1rms</td>
+</tr>
+<tr class="even">
+<td>(0018,1700)</td>
+<td>CollimatorShape</td>
+<td>Collimator Shape</td>
+</tr>
+<tr class="odd">
+<td>(0018,1702)</td>
+<td>CollimatorLeftVerticalEdge</td>
+<td>Collimator Left Vertical Edge</td>
+</tr>
+<tr class="even">
+<td>(0018,1704)</td>
+<td>CollimatorRightVerticalEdge</td>
+<td>Collimator Right Vertical Edge</td>
+</tr>
+<tr class="odd">
+<td>(0018,1710)</td>
+<td>CenterOfCircularCollimator</td>
+<td>Center of Circular Collimator</td>
+</tr>
+<tr class="even">
+<td>(0018,1720)</td>
+<td>VerticesOfThePolygonalCollimator</td>
+<td>Vertices of the Polygonal Collimator</td>
+</tr>
+<tr class="odd">
+<td>(0018,6020)</td>
+<td>ReferencePixelX0</td>
+<td>Reference Pixel X0</td>
+</tr>
+<tr class="even">
+<td>(0018,6040)</td>
+<td>TMLinePositionX1Retired</td>
+<td>TM-Line Position X1 (Retired)</td>
+</tr>
+<tr class="odd">
+<td>(0054,0011)</td>
+<td>NumberOfEnergyWindows</td>
+<td>Number of Energy Windows</td>
+</tr>
+<tr class="even">
+<td>(0054,0022)</td>
+<td>DetectorInformationSequence</td>
+<td>Detector Information Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0054,0050)</td>
+<td>RotationVector</td>
+<td>Rotation Vector</td>
+</tr>
+<tr class="even">
+<td>(0054,0051)</td>
+<td>NumberOfRotations</td>
+<td>Number of Rotations</td>
+</tr>
+<tr class="odd">
+<td>(0054,0060)</td>
+<td>RRIntervalVector</td>
+<td>R-R Interval Vector</td>
+</tr>
+<tr class="even">
+<td>(0054,0061)</td>
+<td>NumberOfRRIntervals</td>
+<td>Number of R-R Intervals</td>
+</tr>
+<tr class="odd">
+<td>(0054,0070)</td>
+<td>TimeSlotVector</td>
+<td>Time Slot Vector</td>
+</tr>
+<tr class="even">
+<td>(0054,0080)</td>
+<td>SliceVector</td>
+<td>Slice Vector</td>
+</tr>
+<tr class="odd">
+<td>(0054,0090)</td>
+<td>AngularViewVector</td>
+<td>Angular View Vector</td>
+</tr>
+<tr class="even">
+<td>(0054,0100)</td>
+<td>TimeSliceVector</td>
+<td>Time Slice Vector</td>
+</tr>
+<tr class="odd">
+<td>(0054,1330)</td>
+<td>ImageIndex</td>
+<td>Image Index</td>
+</tr>
+<tr class="even">
+<td>(0018,0026)</td>
+<td>InterventionDrugInformationSequence</td>
+<td>Intervention Drug Information Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,0031)</td>
+<td>Radiopharmaceutical</td>
+<td>Radiopharmaceutical</td>
+</tr>
+<tr class="even">
+<td>(0018,0032)</td>
+<td>EnergyWindowCenterline</td>
+<td>Energy Window Centerline</td>
+</tr>
+<tr class="odd">
+<td>(0018,0040)</td>
+<td>CineRate</td>
+<td>Cine Rate</td>
+</tr>
+<tr class="even">
+<td>(0018,9737)</td>
+<td>RadiopharmaceuticalUsageSequence</td>
+<td>Radiopharmaceutical Usage Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9749)</td>
+<td>PETReconstructionSequence</td>
+<td>PET Reconstruction Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9751)</td>
+<td>PETFrameTypeSequence</td>
+<td>PET Frame Type Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0054,0016)</td>
+<td>RadiopharmaceuticalInformationSequence</td>
+<td>Radiopharmaceutical Information Sequence</td>
+</tr>
+<tr class="even">
+<td>(0054,1400)</td>
+<td>CountsIncluded</td>
+<td>Counts Included</td>
+</tr>
+<tr class="odd">
+<td>(0054,1401)</td>
+<td>DeadTimeCorrectionFlag</td>
+<td>Dead Time Correction Flag</td>
+</tr>
+<tr class="even">
+<td>(0018,1166)</td>
+<td>Grid</td>
+<td>Grid</td>
+</tr>
+<tr class="odd">
+<td>(0018,1191)</td>
+<td>AnodeTargetMaterial</td>
+<td>Anode Target Material</td>
+</tr>
+<tr class="even">
+<td>(0018,1405)</td>
+<td>RelativeXRayExposure</td>
+<td>Relative X-Ray Exposure</td>
+</tr>
+<tr class="odd">
+<td>(0018,1508)</td>
+<td>PositionerType</td>
+<td>Positioner Type</td>
+</tr>
+<tr class="even">
+<td>(0018,1530)</td>
+<td>DetectorPrimaryAngle</td>
+<td>Detector Primary Angle</td>
+</tr>
+<tr class="odd">
+<td>(0018,1531)</td>
+<td>DetectorSecondaryAngle</td>
+<td>Detector Secondary Angle</td>
+</tr>
+<tr class="even">
+<td>(0018,6000)</td>
+<td>Sensitivity</td>
+<td>Sensitivity</td>
+</tr>
+<tr class="odd">
+<td>(0018,7060)</td>
+<td>ExposureControlMode</td>
+<td>Exposure Control Mode</td>
+</tr>
+<tr class="even">
+<td>(0018,7062)</td>
+<td>ExposureControlModeDescription</td>
+<td>Exposure Control Mode Description</td>
+</tr>
+<tr class="odd">
+<td>(0018,9538)</td>
+<td>PerProjectionAcquisitionSequence</td>
+<td>Per Projection Acquisition Sequence</td>
+</tr>
+<tr class="even">
+<td>(0040,0318)</td>
+<td>OrganExposed</td>
+<td>Organ Exposed</td>
+</tr>
+<tr class="odd">
+<td>(0040,8302)</td>
+<td>EntranceDoseInmGy</td>
+<td>Entrance Dose in mGy</td>
+</tr>
+<tr class="even">
+<td>(0018,1147)</td>
+<td>FieldOfViewShape</td>
+<td>Field of View Shape</td>
+</tr>
+<tr class="odd">
+<td>(0018,1149)</td>
+<td>FieldOfViewDimensions</td>
+<td>Field of View Dimension(s)</td>
+</tr>
+<tr class="even">
+<td>(0018,1180)</td>
+<td>CollimatorGridName</td>
+<td>Collimator/grid Name</td>
+</tr>
+<tr class="odd">
+<td>(0018,1400)</td>
+<td>AcquisitionDeviceProcessingDescription</td>
+<td>Acquisition Device Processing Description</td>
+</tr>
+<tr class="even">
+<td>(0018,1401)</td>
+<td>AcquisitionDeviceProcessingCode</td>
+<td>Acquisition Device Processing Code</td>
+</tr>
+<tr class="odd">
+<td>(0018,1450)</td>
+<td>ColumnAngulation</td>
+<td>Column Angulation</td>
+</tr>
+<tr class="even">
+<td>(0018,1470)</td>
+<td>TomoAngle</td>
+<td>Tomo Angle</td>
+</tr>
+<tr class="odd">
+<td>(0018,7000)</td>
+<td>DetectorConditionsNominalFlag</td>
+<td>Detector Conditions Nominal Flag</td>
+</tr>
+<tr class="even">
+<td>(0018,7030)</td>
+<td>FieldOfViewOrigin</td>
+<td>Field of View Origin</td>
+</tr>
+<tr class="odd">
+<td>(0018,7032)</td>
+<td>FieldOfViewRotation</td>
+<td>Field of View Rotation</td>
+</tr>
+<tr class="even">
+<td>(0018,7034)</td>
+<td>FieldOfViewHorizontalFlip</td>
+<td>Field of View Horizontal Flip</td>
+</tr>
+<tr class="odd">
+<td>(0018,7040)</td>
+<td>GridAbsorbingMaterial</td>
+<td>Grid Absorbing Material</td>
+</tr>
+<tr class="even">
+<td>(0018,7041)</td>
+<td>GridSpacingMaterial</td>
+<td>Grid Spacing Material</td>
+</tr>
+<tr class="odd">
+<td>(0018,7042)</td>
+<td>GridThickness</td>
+<td>Grid Thickness</td>
+</tr>
+<tr class="even">
+<td>(0018,7044)</td>
+<td>GridPitch</td>
+<td>Grid Pitch</td>
+</tr>
+<tr class="odd">
+<td>(0018,7046)</td>
+<td>GridAspectRatio</td>
+<td>Grid Aspect Ratio</td>
+</tr>
+<tr class="even">
+<td>(0018,7052)</td>
+<td>FilterThicknessMinimum</td>
+<td>Filter Thickness Minimum</td>
+</tr>
+<tr class="odd">
+<td>(0018,7054)</td>
+<td>FilterThicknessMaximum</td>
+<td>Filter Thickness Maximum</td>
+</tr>
+<tr class="even">
+<td>(0020,9116)</td>
+<td>PlaneOrientationSequence</td>
+<td>Plane Orientation Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0028,0A02)</td>
+<td>PixelSpacingCalibrationType</td>
+<td>Pixel Spacing Calibration Type</td>
+</tr>
+<tr class="even">
+<td>(0028,0A04)</td>
+<td>PixelSpacingCalibrationDescription</td>
+<td>Pixel Spacing Calibration Description</td>
+</tr>
+<tr class="odd">
+<td>(0008,9092)</td>
+<td>ReferencedImageEvidenceSequence</td>
+<td>Referenced Image Evidence Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9371)</td>
+<td>XRayDetectorID</td>
+<td>X-Ray Detector ID</td>
+</tr>
+<tr class="odd">
+<td>(0018,9461)</td>
+<td>FieldOfViewDimensionsInFloat</td>
+<td>Field of View Dimension(s) in Float</td>
+</tr>
+<tr class="even">
+<td>(0018,9462)</td>
+<td>IsocenterReferenceSystemSequence</td>
+<td>Isocenter Reference System Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9476)</td>
+<td>XRayGeometrySequence</td>
+<td>X-Ray Geometry Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9477)</td>
+<td>IrradiationEventIdentificationSequence</td>
+<td>Irradiation Event Identification Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9504)</td>
+<td>XRay3DFrameTypeSequence</td>
+<td>X-Ray 3D Frame Type Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9506)</td>
+<td>ContributingSourcesSequence</td>
+<td>Contributing Sources Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9507)</td>
+<td>XRay3DAcquisitionSequence</td>
+<td>X-Ray 3D Acquisition Sequence</td>
+</tr>
+<tr class="even">
+<td>(0018,9508)</td>
+<td>PrimaryPositionerScanArc</td>
+<td>Primary Positioner Scan Arc</td>
+</tr>
+<tr class="odd">
+<td>(0018,9528)</td>
+<td>AlgorithmDescription</td>
+<td>Algorithm Description</td>
+</tr>
+<tr class="even">
+<td>(0018,9530)</td>
+<td>XRay3DReconstructionSequence</td>
+<td>X-Ray 3D Reconstruction Sequence</td>
+</tr>
+<tr class="odd">
+<td>(0018,9531)</td>
+<td>ReconstructionDescription</td>
+<td>Reconstruction Description</td>
+</tr>
+<tr class="even">
+<td>(0018,1050)</td>
+<td>SpatialResolution</td>
+<td>Spatial Resolution</td>
+</tr>
+<tr class="odd">
+<td>(0018,1063)</td>
+<td>FrameTime</td>
+<td>Frame Time</td>
+</tr>
+<tr class="even">
+<td>(0018,1065)</td>
+<td>FrameTimeVector</td>
+<td>Frame Time Vector</td>
+</tr>
+<tr class="odd">
+<td>(0018,1066)</td>
+<td>FrameDelay</td>
+<td>Frame Delay</td>
+</tr>
+<tr class="even">
+<td>(0018,106E)</td>
+<td>TriggerSamplePosition</td>
+<td>Trigger Sample Position</td>
+</tr>
+<tr class="odd">
+<td>(0018,1090)</td>
+<td>CardiacNumberOfImages</td>
+<td>Cardiac Number of Images</td>
+</tr>
+<tr class="even">
+<td>(0018,2001)</td>
+<td>PageNumberVector</td>
+<td>Page Number Vector</td>
+</tr>
+<tr class="odd">
+<td>(0018,5010)</td>
+<td>TransducerData</td>
+<td>Transducer Data</td>
+</tr>
+<tr class="even">
+<td>(0018,5012)</td>
+<td>FocusDepth</td>
+<td>Focus Depth</td>
+</tr>
+<tr class="odd">
+<td>(0018,5020)</td>
+<td>ProcessingFunction</td>
+<td>Processing Function</td>
+</tr>
+<tr class="even">
+<td>(0018,5021)</td>
+<td>PostprocessingFunction</td>
+<td>Postprocessing Function</td>
+</tr>
+<tr class="odd">
+<td>(0018,5022)</td>
+<td>MechanicalIndex</td>
+<td>Mechanical Index</td>
+</tr>
+<tr class="even">
+<td>(0018,5024)</td>
+<td>BoneThermalIndex</td>
+<td>Bone Thermal Index</td>
+</tr>
+<tr class="odd">
+<td>(0018,5026)</td>
+<td>CranialThermalIndex</td>
+<td>Cranial Thermal Index</td>
+</tr>
+<tr class="even">
+<td>(0018,5027)</td>
+<td>SoftTissueThermalIndex</td>
+<td>Soft Tissue Thermal Index</td>
+</tr>
+<tr class="odd">
+<td>(0018,5028)</td>
+<td>SoftTissueFocusThermalIndex</td>
+<td>Soft Tissue-focus Thermal Index</td>
+</tr>
+<tr class="even">
+<td>(0018,5029)</td>
+<td>SoftTissueSurfaceThermalIndex</td>
+<td>Soft Tissue-surface Thermal Index</td>
+</tr>
+<tr class="odd">
+<td>(0018,5030)</td>
+<td>DynamicRange</td>
+<td>Dynamic Range</td>
+</tr>
+<tr class="even">
+<td>(0018,5040)</td>
+<td>TotalGain</td>
+<td>Total Gain</td>
+</tr>
+<tr class="odd">
+<td>(0018,5050)</td>
+<td>DepthOfScanField</td>
+<td>Depth of Scan Field</td>
+</tr>
+<tr class="even">
+<td>(0018,6011)</td>
+<td>SequenceOfUltrasoundRegions</td>
+<td>Sequence of Ultrasound Regions</td>
+</tr>
+<tr class="odd">
+<td>(0018,6031)</td>
+<td>TransducerType</td>
+<td>Transducer Type</td>
+</tr>
+<tr class="even">
+<td>(0018,6032)</td>
+<td>PulseRepetitionFrequency</td>
+<td>Pulse Repetition Frequency</td>
+</tr>
+<tr class="odd">
+<td>(0018,7001)</td>
+<td>DetectorTemperature</td>
+<td>Detector Temperature</td>
+</tr>
+<tr class="even">
+<td>(0018,7004)</td>
+<td>DetectorType</td>
+<td>Detector Type</td>
+</tr>
+<tr class="odd">
+<td>(0018,7020)</td>
+<td>DetectorElementPhysicalSize</td>
+<td>Detector Element Physical Size</td>
+</tr>
+<tr class="even">
+<td>(0018,7022)</td>
+<td>DetectorElementSpacing</td>
+<td>Detector Element Spacing</td>
+</tr>
+<tr class="odd">
+<td>(0028,6010)</td>
+<td>RepresentativeFrameNumber</td>
+<td>Representative Frame Number</td>
+</tr>
+<tr class="even">
+<td>(7FE0,0010)</td>
+<td>PixelData</td>
+<td>Pixel Data</td>
+</tr>
+</tbody>
+</table>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../philips_ispm_data_dict/specimen_data.html" class="pagination-link" aria-label="Philips ISPM Specimen">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Philips ISPM Specimen</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../data_labeling.html" class="pagination-link" aria-label="Data Labeling">
+        <span class="nav-page-text">Data Labeling</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+<p>About</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
