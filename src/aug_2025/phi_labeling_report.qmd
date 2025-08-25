@@ -1,0 +1,1014 @@
+---
+title: "PHI Labeling Metrics"
+execute:
+  echo: false
+---
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(DBI)
+library(bigrquery)
+library(glue)
+library(plotly)
+library(dplyr)
+library(gt)
+
+credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+project_id <- "som-rit-phi-oncology-dev"
+Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+red_color <- "rgb(111, 34, 34)"
+black_color <- "rgb(0, 0, 0)"
+
+fetch_data_from_sql <- function(sql) {
+    # Connect to BigQuery
+
+    conn <- dbConnect(
+        bigrquery::bigquery(),
+        project = project_id,
+        use_legacy_sql = FALSE
+    )
+
+    on.exit(dbDisconnect(conn), add = TRUE)
+
+    # Run query
+    result <- tryCatch(
+        {
+            dbGetQuery(conn, sql)
+        },
+        error = function(e) {
+            message(glue("\n⚠️ Query failed: {e$message}"))
+            return(NULL)
+        }
+    )
+
+    # Return the result as a single data frame
+    return(result)
+}
+
+create_bar_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
+    plot_ly(
+        data = data,
+        x = data[[x_var]],
+        y = data[[y_var]],
+        type = "bar",
+        marker = list(color = red_color, line = list(color = black_color, width = 1.5))
+    ) %>%
+        layout(
+            title = list(
+                text = plot_title,
+                x = 0.01, # Align to the left (0 = far left, 1 = far right)
+                xanchor = "left"
+            ),
+            xaxis = list(
+                title = x_axis_title,
+                tickangle = -45,
+                showgrid = FALSE
+            ),
+            yaxis = list(
+                title = y_axis_title,
+                rangemode = "tozero"
+            ),
+            margin = list(b = 100),
+            showlegend = FALSE
+        )
+}
+
+create_histogram_plot <- function(data,
+                                  column,
+                                  bins = 30,
+                                  title = "Histogram",
+                                  x_label = "Value",
+                                  y_label = NULL,
+                                  show_percentage = FALSE,
+                                  x_limits = NULL) {
+    # Input validation
+    if (!is.numeric(data[[column]])) {
+        stop("Column must be numeric")
+    }
+
+    # Calculate the histogram data
+    hist_data <- hist(data[[column]],
+        breaks = bins,
+        plot = FALSE
+    )
+
+    # Calculate percentages if requested
+    if (show_percentage) {
+        y_values <- hist_data$counts / sum(hist_data$counts) * 100
+        default_y_label <- "Percentage (%)"
+    } else {
+        y_values <- hist_data$counts
+        default_y_label <- "Count"
+    }
+
+    # Use provided y_label if available, otherwise use default
+    y_label <- ifelse(is.null(y_label), default_y_label, y_label)
+
+    # Create the plotly histogram
+    p <- plot_ly(
+        x = hist_data$mids,
+        y = y_values,
+        type = "bar",
+        # width = diff(hist_data$breaks),
+        name = "Frequency",
+        marker = list(color = red_color, line = list(color = black_color, width = 1.5))
+    ) %>%
+        layout(
+            title = list(
+                text = title,
+                x = 0.5, # Center the title
+                font = list(size = 20)
+            ),
+            xaxis = list(
+                title = x_label,
+                tickfont = list(size = 12),
+                titlefont = list(size = 14),
+                range = x_limits, # Set x-axis limits if provided
+                rangemode = "tozero",
+                zeroline = TRUE, # Add a line at x=0
+                zerolinecolor = "black", # Color of the zero line
+                zerolinewidth = 2 # Width of the zero line
+            ),
+            yaxis = list(
+                title = y_label,
+                tickfont = list(size = 12),
+                titlefont = list(size = 14)
+            ),
+            showlegend = FALSE,
+            margin = list(b = 100)
+        )
+
+    return(p)
+}
+
+
+
+create_box_plot <- function(data, x_var, y_var, plot_title, x_axis_title, y_axis_title) {
+    plot_ly(
+        data = data,
+        x = data[[x_var]],
+        y = data[[y_var]],
+        type = "box",
+        fillcolor = red_color, # Red fill with some transparency
+        line = list(color = black_color), # Darker red for the box outline
+        marker = list(color = red_color) # Red for the points
+    ) %>%
+        layout(
+            title = list(
+                text = plot_title,
+                x = 0.01,
+                xanchor = "left"
+            ),
+            xaxis = list(
+                title = x_axis_title,
+                tickangle = -45,
+                showgrid = FALSE
+            ),
+            yaxis = list(
+                title = y_axis_title,
+                rangemode = "tozero"
+            ),
+            margin = list(b = 100),
+            showlegend = FALSE
+        )
+}
+
+create_histogram_from_counts <- function(data, x_axis_title, plot_title, x_limits = NULL, show_percentage = FALSE) {
+    if (show_percentage) {
+        data <- data %>%
+            mutate(frequency = frequency / sum(frequency) * 100)
+        y_axis_title <- "Percentage (%)"
+    } else {
+        y_axis_title <- "Frequency"
+    }
+
+    width <- data$bin_end - data$bin_start
+    plot_ly(
+        data = data,
+        x = ~bin_start,
+        y = ~frequency,
+        type = "bar",
+        # width = width,
+        name = "Frequency",
+        marker = list(
+            color = red_color,
+            line = list(color = black_color, width = 1.5)
+        )
+    ) %>%
+        layout(
+            title = list(
+                text = plot_title,
+                xanchor = "left"
+            ),
+            xaxis = list(
+                title = x_axis_title,
+                showgrid = FALSE,
+                rangemode = "tozero",
+                zeroline = TRUE, # Add a line at x=0
+                zerolinecolor = "black", # Color of the zero line
+                zerolinewidth = 2, # Width of the zero line
+                range = x_limits # Set x-axis limits if provided
+            ),
+            yaxis = list(
+                title = y_axis_title,
+                rangemode = "tozero"
+            ),
+            margin = list(b = 100),
+            showlegend = FALSE
+        )
+}
+```
+
+
+```{r}
+# get all the data required in a single cell
+
+sql <- "
+SELECT
+  DISTINCT ns.*
+FROM
+  `som-rit-phi-oncology-dev.jdposada_explore.note_sampling` ns
+JOIN
+  som-rit-phi-oncology-dev.phi_annotations.gold_standard_spans_20250402 gs
+ON
+  gs.note_id = CAST(ns.note_id AS string)
+"
+df_note_characteristics <- fetch_data_from_sql(sql)
+
+sql <- "
+WITH stats AS (
+  -- First, get the count, min, and max of the data
+  SELECT
+    COUNT(*) as n,
+    MIN(age) as min_val,
+    MAX(age) as max_val,
+    1 + 3.322 * LOG10(COUNT(*)) as num_bins
+  FROM som-rit-phi-oncology-dev.jdposada_explore.note_sampling
+),
+bin_params AS (
+  -- Calculate bin width
+  SELECT
+    n,
+    min_val,
+    max_val,
+    num_bins,
+    (max_val - min_val) / num_bins as bin_width
+  FROM stats
+),
+histogram AS (
+  -- Create the histogram
+  SELECT
+    FLOOR((age - min_val) / bin_width) * bin_width + min_val as bin_start,
+    FLOOR((age - min_val) / bin_width) * bin_width + min_val + bin_width as bin_end,
+    COUNT(*) as frequency
+  FROM som-rit-phi-oncology-dev.jdposada_explore.note_sampling
+  CROSS JOIN bin_params
+  GROUP BY
+    bin_start,
+    bin_end
+  ORDER BY bin_start
+)
+SELECT
+  ROUND(bin_start, 2) as bin_start,
+  ROUND(bin_end, 2) as bin_end,
+  frequency,
+FROM histogram;
+"
+
+df_ages_omop <- fetch_data_from_sql(sql)
+
+sql <- "
+WITH
+  age_groups AS (
+  SELECT
+    note_id,
+    CASE
+      WHEN age < 18 THEN '0-17'
+      WHEN age >= 18
+    AND age < 45 THEN '18-44'
+      WHEN age >= 45 AND age < 65 THEN '45-64'
+      WHEN age >= 65 THEN '65+'
+      ELSE 'Unknown'
+  END
+    AS age_group
+  FROM
+    som-rit-phi-oncology-dev.jdposada_explore.note_sampling )
+SELECT
+  COALESCE(age_group, 'Unknown') AS category,
+  COUNT(*) AS count
+FROM
+  age_groups
+GROUP BY
+  age_group
+"
+
+df_age_groups_omop <- fetch_data_from_sql(sql)
+
+sql <- "
+SELECT
+  CASE
+    WHEN sex NOT IN ('FEMALE', 'MALE') THEN 'Unknown'
+    ELSE sex
+END
+  AS sex,
+  COUNT(*) AS count
+FROM
+  som-rit-phi-oncology-dev.jdposada_explore.note_sampling
+GROUP BY
+  sex
+ORDER BY
+  count desc
+"
+
+df_sex_groups_omop <- fetch_data_from_sql(sql)
+
+sql <- "
+SELECT
+  CASE
+    WHEN race = 'No matching concept' THEN 'Unknown'
+    ELSE race
+END
+  AS race,
+  COUNT(*) AS count
+FROM
+  som-rit-phi-oncology-dev.jdposada_explore.note_sampling
+GROUP BY
+  race
+ORDER BY
+  count desc
+"
+
+df_race_groups_omop <- fetch_data_from_sql(sql)
+
+sql <- "
+SELECT
+  CASE
+    WHEN ethnicity = 'No matching concept' THEN 'Unknown'
+    ELSE ethnicity
+END
+  AS ethnicity,
+  COUNT(*) AS count
+FROM
+  som-rit-phi-oncology-dev.jdposada_explore.note_sampling
+GROUP BY
+  ethnicity
+ORDER BY
+  count desc
+"
+
+df_ethnicity_groups_omop <- fetch_data_from_sql(sql)
+
+sql <- "
+SELECT
+  note_title,
+  COUNT(*) AS count
+FROM
+  som-rit-phi-oncology-dev.jdposada_explore.note_sampling
+GROUP BY
+  note_title
+ORDER BY
+  count desc
+"
+
+df_note_titles_omop <- fetch_data_from_sql(sql)
+
+sql <- "
+SELECT *
+FROM
+som-rit-phi-oncology-dev.phi_annotations.gold_standard_spans_20250402
+"
+df_gs <- fetch_data_from_sql(sql)
+
+sql <- "
+WITH bin_boundaries AS (
+  -- Define your custom bin boundaries here
+  SELECT * FROM UNNEST(ARRAY[
+    0, 500, 2500, 10000, 50000, 100000, 1150000
+  ]) AS boundary
+),
+bin_edges AS (
+  -- Create bin start and end points from boundaries
+  SELECT
+    boundary as bin_start,
+    LEAD(boundary) OVER (ORDER BY boundary) as bin_end
+  FROM bin_boundaries
+  WHERE boundary IS NOT NULL
+),
+histogram AS (
+  -- Create the histogram using custom bins
+  SELECT
+    bin_start,
+    bin_end,
+    COUNT(*) as frequency
+  FROM som-rit-phi-oncology-dev.jdposada_explore.note_sampling
+  CROSS JOIN bin_edges
+  WHERE
+    note_length >= bin_start
+    AND (bin_end IS NULL OR note_length < bin_end)
+  GROUP BY
+    bin_start,
+    bin_end
+  ORDER BY bin_start
+)
+SELECT
+  ROUND(bin_start, 2) as bin_start,
+  ROUND(bin_end, 2) as bin_end,
+  frequency,
+FROM histogram;
+"
+
+df_note_length_omop <- fetch_data_from_sql(sql)
+
+sql <- "
+WITH bin_boundaries AS (
+  -- Define your custom bin boundaries here
+  SELECT * FROM UNNEST(ARRAY[
+    0, 500, 2500, 10000, 50000, 100000, 1150000
+  ]) AS boundary
+),
+bin_edges AS (
+  -- Create bin start and end points from boundaries
+  SELECT
+    boundary as bin_start,
+    LEAD(boundary) OVER (ORDER BY boundary) as bin_end
+  FROM bin_boundaries
+  WHERE boundary IS NOT NULL
+),
+note_sample as (
+SELECT
+  DISTINCT ns.*
+FROM
+  `som-rit-phi-oncology-dev.jdposada_explore.note_sampling` ns
+JOIN
+  som-rit-phi-oncology-dev.phi_annotations.gold_standard_spans_20250402 gs
+ON
+  gs.note_id = CAST(ns.note_id AS string)
+
+),
+histogram AS (
+  -- Create the histogram using custom bins
+  SELECT
+    bin_start,
+    bin_end,
+    COUNT(*) as frequency
+  FROM note_sample
+  CROSS JOIN bin_edges
+  WHERE
+    note_length >= bin_start
+    AND (bin_end IS NULL OR note_length < bin_end)
+  GROUP BY
+    bin_start,
+    bin_end
+  ORDER BY bin_start
+)
+SELECT
+  ROUND(bin_start, 2) as bin_start,
+  ROUND(bin_end, 2) as bin_end,
+  frequency,
+FROM histogram;
+"
+df_note_length_sample <- fetch_data_from_sql(sql)
+
+## get percent columns
+df_age_groups_omop <- df_age_groups_omop %>%
+    mutate(percentage = count / sum(count) * 100)
+
+df_sex_groups_omop <- df_sex_groups_omop %>%
+    mutate(percentage = count / sum(count) * 100)
+
+df_race_groups_omop <- df_race_groups_omop %>%
+    mutate(percentage = count / sum(count) * 100)
+
+df_ethnicity_groups_omop <- df_ethnicity_groups_omop %>%
+    mutate(percentage = count / sum(count) * 100)
+
+df_note_titles_omop <- df_note_titles_omop %>%
+    mutate(percentage = count / sum(count) * 100)
+
+df_note_length_omop <- df_note_length_omop %>%
+    mutate(percentage = frequency / sum(frequency) * 100)
+
+df_note_length_sample <- df_note_length_sample %>%
+    mutate(percentage = frequency / sum(frequency) * 100)
+
+```
+
+
+In this section, we present an analysis of the population characteristics and note attributes for the labeled sample used in our study. We compare these characteristics with the broader STARR-OMOP population to provide context and highlight any significant differences. The analysis includes age distribution, note length distribution and and note types. For PHI (Protected Health Information) distribution it is only shown on the labeled sample. 
+
+### Age Distribution
+
+Below a histogram of the distribution of ages of the population represented in the labeled notes. For comparison the characteristics of the entire STARR-OMOP population are shown as well. The Age of the patient is calculated as at the moment of the extraction and not at the moment the note was written. 
+
+::: {.panel-tabset}
+
+#### Labeled Sample
+```{r, message=FALSE, warning=FALSE}
+min_max <- c(min(df_ages_omop$bin_start), max(df_ages_omop$bin_end))
+
+create_histogram_plot(
+    data = df_note_characteristics,
+    column = "age",
+    bins = 20,
+    title = "",
+    x_label = "Age",
+    y_label = NULL,
+    show_percentage = TRUE,
+    x_limits = min_max
+)
+```
+
+#### STARR-OMOP
+```{r, message=FALSE, warning=FALSE}
+create_histogram_from_counts(
+    data = df_ages_omop,
+    x_axis_title = "Age",
+    plot_title = "",
+    x_limits = min_max,
+    show_percentage = TRUE
+)
+```
+
+:::
+
+### Demographic Groups
+In this section, we present a detailed analysis of the demographic characteristics of the labeled sample used in our study. We compare these characteristics with the broader STARR-OMOP population to provide context and highlight any significant differences. The analysis includes age distribution, sex, race, and ethnicity. This comparison helps to understand the representativeness of the labeled sample and identify teh characteristics of the biased sample.
+
+::: {.panel-tabset}
+
+#### Age
+```{r, message=FALSE, warning=FALSE}
+# Combine Labeled Sample and STARR-OMOP data for Age
+df_age_combined <- df_note_characteristics %>%
+    mutate(age = cut(age,
+        breaks = c(0, 18, 45, 65, 120),
+        labels = c("0-17", "18-44", "45-64", "65+")
+    )) %>%
+    group_by(age) %>%
+    summarise(labeled_count = n()) %>%
+    mutate(labeled_percentage = labeled_count / sum(labeled_count) * 100) %>%
+    rename(group = age) %>%
+    full_join(
+        df_age_groups_omop %>%
+            rename(starr_count = count, starr_percentage = percentage, group = category),
+        by = "group"
+    )
+
+df_age_combined %>%
+    gt() %>%
+    tab_header(
+        title = "",
+    ) %>%
+    cols_label(
+        group = "Age Group",
+        labeled_count = "n",
+        labeled_percentage = "%",
+        starr_count = "n",
+        starr_percentage = "%"
+    ) %>%
+    tab_spanner(
+        label = "Labeled Sample",
+        columns = c(labeled_count, labeled_percentage)
+    ) %>%
+    tab_spanner(
+        label = "STARR-OMOP",
+        columns = c(starr_count, starr_percentage)
+    ) %>%
+    fmt_number(
+        columns = c(labeled_percentage, starr_percentage),
+        decimals = 2
+    ) %>%
+    fmt_number(
+        columns = c(labeled_count, starr_count),
+        decimals = 0,
+        use_seps = TRUE
+    ) %>%
+    tab_options(
+        table.font.size = px(14),
+        heading.align = "left",
+        table.border.top.color = "darkred",
+        table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(
+        footnote = "Note: 'n' represents the number of notes, not the number of patients.",
+        locations = cells_column_labels(columns = c(labeled_count, starr_count))
+    )
+```
+
+#### Sex
+```{r, message=FALSE, warning=FALSE}
+# Combine Labeled Sample and STARR-OMOP data for Sex
+df_sex_combined <- df_note_characteristics %>%
+    group_by(sex) %>%
+    summarise(labeled_count = n()) %>%
+    mutate(labeled_percentage = labeled_count / sum(labeled_count) * 100) %>%
+    rename(group = sex) %>%
+    full_join(
+        df_sex_groups_omop %>%
+            rename(starr_count = count, starr_percentage = percentage, group = sex),
+        by = "group"
+    )
+
+df_sex_combined %>%
+    gt() %>%
+    tab_header(
+        title = "",
+    ) %>%
+    cols_label(
+        group = "Sex",
+        labeled_count = "n",
+        labeled_percentage = "%",
+        starr_count = "n",
+        starr_percentage = "%"
+    ) %>%
+    tab_spanner(
+        label = "Labeled Sample",
+        columns = c(labeled_count, labeled_percentage)
+    ) %>%
+    tab_spanner(
+        label = "STARR-OMOP",
+        columns = c(starr_count, starr_percentage)
+    ) %>%
+    fmt_number(
+        columns = c(labeled_percentage, starr_percentage),
+        decimals = 2
+    ) %>%
+    fmt_number(
+        columns = c(labeled_count, starr_count),
+        decimals = 0,
+        use_seps = TRUE
+    ) %>%
+    tab_options(
+        table.font.size = px(14),
+        heading.align = "left",
+        table.border.top.color = "darkred",
+        table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(
+        footnote = "Note: 'n' represents the number of notes, not the number of patients.",
+        locations = cells_column_labels(columns = c(labeled_count, starr_count))
+    )
+```
+
+#### Race
+
+```{r, message=FALSE, warning=FALSE}
+# Combine Labeled Sample and STARR-OMOP data for Race
+df_race_combined <- df_note_characteristics %>%
+    mutate(race = ifelse(race == "No matching concept", "Unknown", race)) %>%
+    group_by(race) %>%
+    summarise(labeled_count = n()) %>%
+    mutate(labeled_percentage = labeled_count / sum(labeled_count) * 100) %>%
+    rename(group = race) %>%
+    full_join(
+        df_race_groups_omop %>%
+            rename(starr_count = count, starr_percentage = percentage, group = race),
+        by = "group"
+    )
+
+df_race_combined %>%
+    gt() %>%
+    tab_header(
+        title = "",
+    ) %>%
+    cols_label(
+        group = "Race",
+        labeled_count = "n",
+        labeled_percentage = "%",
+        starr_count = "n",
+        starr_percentage = "%"
+    ) %>%
+    tab_spanner(
+        label = "Labeled Sample",
+        columns = c(labeled_count, labeled_percentage)
+    ) %>%
+    tab_spanner(
+        label = "STARR-OMOP",
+        columns = c(starr_count, starr_percentage)
+    ) %>%
+    fmt_number(
+        columns = c(labeled_percentage, starr_percentage),
+        decimals = 2
+    ) %>%
+    fmt_number(
+        columns = c(labeled_count, starr_count),
+        decimals = 0,
+        use_seps = TRUE
+    ) %>%
+    tab_options(
+        table.font.size = px(14),
+        heading.align = "left",
+        table.border.top.color = "darkred",
+        table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(
+        footnote = "Note: 'n' represents the number of notes, not the number of patients.",
+        locations = cells_column_labels(columns = c(labeled_count, starr_count))
+    )
+```
+
+#### Ethnicity
+```{r, message=FALSE, warning=FALSE}
+df_ethnicity_combined <- df_note_characteristics %>%
+    mutate(ethnicity = ifelse(ethnicity == "No matching concept", "Unknown", ethnicity)) %>%
+    group_by(ethnicity) %>%
+    summarise(labeled_count = n()) %>%
+    mutate(labeled_percentage = labeled_count / sum(labeled_count) * 100) %>%
+    rename(group = ethnicity) %>%
+    full_join(
+        df_ethnicity_groups_omop %>%
+            rename(starr_count = count, starr_percentage = percentage, group = ethnicity),
+        by = "group"
+    )
+
+df_ethnicity_combined %>%
+    gt() %>%
+    tab_header(
+        title = "",
+    ) %>%
+    cols_label(
+        group = "Ethnicity",
+        labeled_count = "n",
+        labeled_percentage = "%",
+        starr_count = "n",
+        starr_percentage = "%"
+    ) %>%
+    tab_spanner(
+        label = "Labeled Sample",
+        columns = c(labeled_count, labeled_percentage)
+    ) %>%
+    tab_spanner(
+        label = "STARR-OMOP",
+        columns = c(starr_count, starr_percentage)
+    ) %>%
+    fmt_number(
+        columns = c(labeled_percentage, starr_percentage),
+        decimals = 2
+    ) %>%
+    fmt_number(
+        columns = c(labeled_count, starr_count),
+        decimals = 0,
+        use_seps = TRUE
+    ) %>%
+    tab_options(
+        table.font.size = px(14),
+        heading.align = "left",
+        table.border.top.color = "darkred",
+        table.align = "left"
+    ) %>%
+    opt_row_striping() %>%
+    tab_footnote(
+        footnote = "Note: 'n' represents the number of notes, not the number of patients.",
+        locations = cells_column_labels(columns = c(labeled_count, starr_count))
+    )
+```
+
+:::
+
+### Note Length Distribution
+
+Below the note length distribution for the clinical notes sampled for the labeling task. For comparison the distribution of the lengths for STARR-OMOP is shown. The note length distribution is shown in characters.
+
+::: {.panel-tabset}
+
+#### Labeled Sample
+```{r, message=FALSE, warning=FALSE}
+
+create_histogram_plot(
+    data = df_note_characteristics,
+    column = "note_length",
+    bins = 30,
+    title = "",
+    x_label = "Note Length (characters)",
+    y_label = NULL,
+    show_percentage = FALSE,
+    x_limits = c(min(df_note_characteristics$note_length) - 150, max(df_note_characteristics$note_length) + 100)
+)
+```
+
+#### Comparison with STARR-OMOP
+
+```{r}
+
+df_note_length_combined <- df_note_length_omop %>%
+    rename(labeled_frequency = frequency, labeled_percentage = percentage) %>%
+    left_join(
+        df_note_length_sample %>%
+            rename(starr_frequency = frequency, starr_percentage = percentage),
+        by = c("bin_start", "bin_end")
+    ) %>%
+    mutate(
+        bin_range = paste(floor(bin_start), "-", floor(bin_end))
+    ) %>%
+    select(bin_range, labeled_frequency, labeled_percentage, starr_frequency, starr_percentage)
+
+df_note_length_combined %>%
+    gt() %>%
+    tab_header(
+        title = ""
+    ) %>%
+    cols_label(
+        bin_range = "Range",
+        labeled_frequency = "n",
+        labeled_percentage = "%",
+        starr_frequency = "n",
+        starr_percentage = "%"
+    ) %>%
+    tab_spanner(
+        label = "STARR-OMOP",
+        columns = c(labeled_frequency, labeled_percentage)
+    ) %>%
+    tab_spanner(
+        label = "Labeled Sample",
+        columns = c(starr_frequency, starr_percentage)
+    ) %>%
+    fmt_number(
+        columns = c(labeled_frequency, starr_frequency),
+        decimals = 0
+    ) %>%
+    fmt_number(
+        columns = c(labeled_percentage, starr_percentage),
+        decimals = 2
+    ) %>%
+    tab_style(
+        style = list(
+            cell_text(weight = "bold")
+        ),
+        locations = cells_column_labels()
+    ) %>%
+    opt_row_striping() %>%
+    tab_style(
+        style = cell_borders(
+            sides = "all",
+            color = "gray",
+            weight = px(1)
+        ),
+        locations = cells_body()
+    )
+```
+
+:::
+
+### PHI Distribution
+
+In this section, we present an analysis of the distribution of PHI  entities within the labeled sample. The analysis includes the frequency of different PHI entities and their distribution across documents. This helps to understand the prevalence of various PHI types in the dataset and provides insights into the labeling process. The analysis is divided into two parts: the total count of each PHI entity type and the distribution of PHI entities per document. It is important to clarify that `DOCTOR` and `HOSPITAL` are not classified as PHI in the Safe-Harbor definition. However, being able to identify and obfuscate such information may be important for potential data sharing use cases. 
+
+::: {.panel-tabset}
+
+#### Overall
+
+```{r, message=FALSE, warning=FALSE}
+
+df_total_spans <- df_gs %>%
+    group_by(span_tag) %>%
+    summarise(total_spans = n()) %>%
+    arrange(desc(total_spans)) %>%
+    mutate(percentage = total_spans / sum(total_spans) * 100) %>%
+    # Convert span_tag to a factor with levels in descending order
+    mutate(span_tag = factor(span_tag, levels = span_tag))
+
+# Create a bar plot for total spans
+plot_ly(
+    data = df_total_spans,
+    y = ~span_tag,
+    x = ~total_spans,
+    type = "bar",
+    orientation = "h",
+    marker = list(color = red_color, line = list(color = black_color, width = 1.5)),
+    text = ~ sprintf("%.1f%%", percentage), # Format percentage with 1 decimal place
+    textposition = "outside",
+    hoverinfo = "text",
+    hovertext = ~ sprintf(
+        "Entity: %s<br>Count: %d<br>Percentage: %.1f%%",
+        span_tag, total_spans, percentage
+    )
+) %>%
+    layout(
+        title = list(
+            text = "",
+            x = 0.01,
+            xanchor = "left"
+        ),
+        yaxis = list(
+            title = "",
+            showgrid = FALSE,
+            autorange = "reversed", # This ensures highest value appears at the top
+            ticktext = ~span_tag,
+            side = "left",
+            tickcolor = black_color,
+            tickfont = list(size = 12),
+            showline = FALSE,
+            showticklabels = TRUE,
+            ticksuffix = "   " # Add space after labels
+        ),
+        xaxis = list(
+            title = "Count",
+            showgrid = TRUE,
+            gridcolor = "rgba(0,0,0,0.1)", # Light grid lines
+            zeroline = TRUE,
+            showline = TRUE,
+            showticklabels = TRUE,
+            tickmode = "auto",
+            nticks = 10 # Adjust this value to control the number of tick marks
+        ),
+        showlegend = FALSE,
+        bargap = 0.01 # Adjust space between bars
+    )
+```
+
+
+#### Per Document
+
+```{r, message=FALSE, warning=FALSE}
+# Group by note_id and span_tag, then calculate counts
+df_by_note_by_span <- df_gs %>%
+    group_by(note_id, span_tag) %>%
+    summarise(n = n()) %>%
+    ungroup()
+
+df_by_note_by_span <- df_gs %>%
+    group_by(note_id, span_tag) %>%
+    summarise(n = n()) %>%
+    ungroup()
+
+# Create a box plot for span tags
+create_box_plot(
+    data = df_by_note_by_span,
+    x_var = "span_tag",
+    y_var = "n",
+    plot_title = "",
+    x_axis_title = "",
+    y_axis_title = "Count"
+)
+```
+
+:::
+
+### Note Types
+
+In this section, we present an analysis of the different types of clinical notes included in the labeled sample used in our study. We compare these note types with the broader STARR-OMOP population to provide context and highlight any significant differences. This comparison helps to understand the representativeness of the labeled sample and identify the differences in the bias sample in the types of notes included. The analysis includes the distribution of note types and their frequencies in both the labeled sample and the STARR-OMOP population. In the distribution below there are several types that contain radiology and pathology reports. Among those are the notes labeled as procedures. Those are a combination of clinical results that are a result of procedures. 
+
+
+```{r, message=FALSE, warning=FALSE}
+
+# Group by note_title and calculate counts and percentages for the labeled sample
+df_note_titles <- df_note_characteristics %>%
+    group_by(note_title) %>%
+    summarise(labeled_count = n()) %>%
+    mutate(labeled_percentage = labeled_count / sum(labeled_count) * 100) %>%
+    arrange(desc(labeled_percentage))
+
+# Join with STARR-OMOP data
+df_note_titles_combined <- df_note_titles %>%
+    left_join(
+        df_note_titles_omop %>%
+            rename(starr_count = count, starr_percentage = percentage),
+        by = "note_title"
+    )
+
+# Display the grouped data using gt
+df_note_titles_combined %>%
+    gt() %>%
+    tab_header(
+        title = "Distribution of Note Types in the Dataset",
+        subtitle = ""
+    ) %>%
+    cols_label(
+        note_title = "Note Type",
+        labeled_count = "n",
+        labeled_percentage = "%",
+        starr_count = "n",
+        starr_percentage = "%"
+    ) %>%
+    tab_spanner(
+        label = "Labeled Sample",
+        columns = c(labeled_count, labeled_percentage)
+    ) %>%
+    tab_spanner(
+        label = "STARR-OMOP",
+        columns = c(starr_count, starr_percentage)
+    ) %>%
+    fmt_number(
+        columns = c(labeled_percentage, starr_percentage),
+        decimals = 2
+    ) %>%
+    fmt_number(
+        columns = c(labeled_count, starr_count),
+        decimals = 0,
+        use_seps = TRUE
+    ) %>%
+    tab_options(
+        table.font.size = px(14),
+        heading.align = "left",
+        table.border.top.color = "darkred",
+        table.align = "left"
+    ) %>%
+    opt_row_striping()
+
+```
+
+
+
