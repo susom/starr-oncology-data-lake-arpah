@@ -76,20 +76,20 @@ SELECT
     ethnicity_concept.concept_name as ethnicity,
     gender_concept.concept_name AS sex
 FROM
- `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_may2025.person` AS person
+ `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_aug2025.person` AS person
 JOIN identifiers
 ON
     person.person_source_value = identifiers.stanford_patient_uid
 JOIN
-  `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_may2025.concept` AS race_concept
+  `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_aug2025.concept` AS race_concept
 ON
  person.race_concept_id = race_concept.concept_id
 JOIN
-    `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_may2025.concept` AS ethnicity_concept
+    `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_aug2025.concept` AS ethnicity_concept
 ON
  person.ethnicity_concept_id = ethnicity_concept.concept_id
 JOIN
-    `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_may2025.concept` AS gender_concept
+    `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_aug2025.concept` AS gender_concept
 ON
  person.gender_concept_id = gender_concept.concept_id
  )
@@ -143,7 +143,7 @@ library(tidyr)
 library(gt)
 
 # Read the CSV file
-df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/may_2025/data/cap_forms_model_performance_comparison.csv")
+df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
 
 # Calculate statistics for each model
 model_stats <- df_plot %>%
