@@ -2,7 +2,7 @@
 title: "Philips ISPM Specimen"
 ---
 
-stamp_pipeline_gene_data includes 
+stamp_pipeline_gene_data:
 
 ### Table Columns
 

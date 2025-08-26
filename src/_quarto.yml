@@ -7,6 +7,7 @@ project:
    - data_metrics.qmd
    - feb_2025/*
    - may_2025/*
+   - aug_2025/*
    - data_labeling.qmd
    - 404.qmd
    - neuralframe_data_dict/*
