@@ -60,6 +60,17 @@ website:
       #           href: may_2025/philips_metrics.qmd
       #         - text: "Tumor Board"
       #           href: may_2025/tumor_board_updated.qmd
+      #     - section: "August 2025"
+      #       href: aug_2025/metrics_clinical.qmd
+      #       contents:
+      #         - text: "Neural Frame "
+      #           href: aug_2025/neural_frame.qmd
+      #         - text: "Image Occurrence"
+      #           href: aug_2025/image_occ.qmd
+      #         - text: "Philips ISPM"
+      #           href: aug_2025/philips_metrics.qmd
+      #         - text: "Tumor Board"
+      #           href: aug_2025/tumor_board_updated.qmd
       - section: "Data Labeling"
         href: data_labeling.qmd
         contents:

@@ -1,0 +1,31 @@
+---
+title: "Philips ISPM Specimen"
+---
+
+stamp_pipeline_gene_data includes 
+
+### Table Columns
+
+| Column Name              | Type   | PHI  | PHI-Scrubbing Operation        |
+|:-------------------------|:-------|:-----|:-------------------------------|
+| assay_performed          | STRING | No   | None                           |
+| pipeline_version         | STRING | No   | None                           |
+| gene                     | STRING | No   | None                           |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### assay_performed
+
+Stanford Molecular Pathology Lab panel name
+
+##### pipeline_version
+
+Stanford Molecular Pathology Lab panel pipeline version
+
+##### gene
+
+Gene entirely or partly covered in the STAMP panel
+

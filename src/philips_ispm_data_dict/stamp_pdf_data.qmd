@@ -1,0 +1,53 @@
+---
+title: "Philips ISPM Specimen"
+---
+
+oncology_stamp_pdf_data includes 
+
+### Table Columns
+
+| Column Name              | Type   | PHI  | PHI-Scrubbing Operation        |
+|:-------------------------|:-------|:-----|:-------------------------------|
+| accession_number         | STRING | Yes  | Hash                           |
+| assay_performed_derived  | STRING | No   | None                           |
+| assay_performed_source   | STRING | No   | None                           |
+| person_id                | INT64  | Yes  | Stable Between Data Refreshes  |
+| pipeline_version_derived | STRING | No   | None                           |
+| pipeline_version_source  | STRING | No   | None                           |
+| stanford_patient_uid     | STRING | Yes  | Del                            |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### accession_number
+
+Identifier for the specimen. This field can be used to link to the pat_diag_orders table. Note that there can be multiple records with the same accession number.
+
+##### assay_performed_derived
+
+This value is derived from the assay_performed_source field and is used to link to the assay_performed column in the stamp_pipeline_gene_data table.
+
+##### assay_performed_source
+
+Stanford Molecular Pathology Lab panel name
+
+##### person_id
+
+Person_id as corresponds to the OMOP dataset
+
+##### pipeline_version_derived
+
+This value is derived from the pipeline_version_source field and is used to link to the pipeline_version column in the stamp_pipeline_gene_data table.
+
+##### pipeline_version_source
+
+Stanford Molecular Pathology Lab panel pipeline version
+
+##### stanford_patient_uid
+
+Internal Stanford tracking ID (this is the patient's MRN | DOB)
+
+
