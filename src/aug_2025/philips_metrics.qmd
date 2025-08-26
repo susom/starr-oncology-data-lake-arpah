@@ -38,15 +38,20 @@ test_type=test_type %>% mutate(test_type=ifelse(test_type=="StanfordStampTest", 
     max_order_ym = format(max_order_date, "%Y-%m")
   )
 
-
-
 ```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+test_year_sql="/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/philips/philips_tests_date_ordered_year.sql"
+test_year=fetch_data_from_sql_file(test_year_sql, yaml_file_path)
+```
+
 
 ### Summary:
 
 Philips IntelliSpace Precision Medicine (ISPM) includes genomics database at Stanford.
 This data is geared towards identifying genetic mutations that can be targeted for precision medicine, with the goal of improving therapeutic outcomes through personalized treatment strategies.
 As of August 2025, `r format(sum(test_type$test_type_counts), big.mark=",")` STAMP tests were ordered for `r format(ph_den$counts_pts[1], big.mark = ",")` patients. 
+
+**Note**: Additional FoundationOne (F1) test data was backfilled between the May release and the Philips export dated from 07/13/25 to 08/05/25, which was used for the August release. More data is expected in future releases
 
 ```{r, message=FALSE, warning=FALSE}
 labels <- c(
@@ -65,6 +70,81 @@ create_gt_table_v1(
 , big.mark = ",") ))
 ```
 
+
+```{r time trend plot, message=FALSE, warning=FALSE, include=FALSE}
+# Create ggplot with hover
+
+p <- ggplot(test_year, aes(x = order_year, y = n_orders, color = test_type, group = test_type)) +
+  geom_point(aes(
+    text = paste0(
+      "Year: ", order_year,
+      "<br>n_ordered: ", n_orders,
+      if ("ratio" %in% names(test_year)) paste0("<br>Ratio: ", round(ratio, 3)) else ""
+    )
+  ), size = 3) +
+  geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
+  #geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +
+  theme_minimal() +
+  labs(
+    title = "Tests Ordered Over Time",
+    x = "Year",
+    y = "Number of Orders",
+    color = NULL
+  ) +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    strip.text = element_text(size = 12, face = "bold"),
+    strip.background = element_rect(fill = "white", color = "gray80")
+  )
+
+# Convert to interactive plot with hover
+ggplotly(p, tooltip = "text")
+
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+
+# Combine years before 2018
+test_year_bar <- test_year %>%
+  mutate(order_year = ifelse(order_year < 2018, "<2018", as.character(order_year))) %>%
+  group_by(order_year, test_type) %>%
+  summarise(
+    n_orders = sum(n_orders),
+    .groups = "drop"
+  )
+
+# Bar plot with combined years
+p_bar <- ggplot(test_year_bar, aes(x = factor(order_year, levels = c("<2018", sort(unique(test_year$order_year))[sort(unique(test_year$order_year)) >= 2018])), 
+                                   y = n_orders, fill = test_type, group = test_type)) +
+  geom_bar(
+    aes(
+      text = paste0(
+        "Year: ", order_year,
+        "<br>n_ordered: ", n_orders
+      )
+    ),
+    stat = "identity", position = position_dodge(width = 0.8), width = 0.7
+  ) +
+  scale_fill_brewer(palette = "Set3") +
+  theme_minimal() +
+  labs(
+    title = "Number of Tests Ordered per Year ",
+    x = "Year",
+    y = "Number of Orders",
+    fill = NULL
+  ) +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    strip.text = element_text(size = 12, face = "bold"),
+    strip.background = element_rect(fill = "white", color = "gray80")
+  )
+
+ggplotly(p_bar, tooltip = "text")
+```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 pathg_sql<- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/philips/philips_abr_pathg.sql"
