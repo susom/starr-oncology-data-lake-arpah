@@ -42,6 +42,12 @@ The following tables are available in the initial release of the dataset:
 * [Philips ISPM Orders](philips_ispm_data_dict/pat_diag_orders.qmd)
 * [Philips ISPM Specimen](philips_ispm_data_dict/specimen_data.qmd)
 
+### STAMP
+
+* [Oncology STAMP PDF Data](philips_ispm_data_dict/stamp_pdf_data.qmd)
+* [STAMP Pipeline Gene Data](philips_ispm_data_dict/stamp_gene_data.qmd)
+
+
 ### PHI Scrubbing Operations Definitions
 
 In order to protect patient information, various PHI (Protected Health Information) scrubbing operations are applied to the dataset. These operations are designed to scrub sensitive data elements. Below are the definitions of the PHI scrubbing operations used in this dataset:

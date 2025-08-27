@@ -1,0 +1,250 @@
+---
+title: "Tumor Board"
+execute:
+  echo: false
+---
+```{r setup, include=FALSE}
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql_params.yml"
+```
+
+
+### Summary:
+As of May 2025, Tumor Board encounters are defined using the EPIC patient encounter data tables.
+Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter. 
+
+**Note**: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity. 
+
+
+```{r tb den, message=FALSE, warning=FALSE, results='hide'}
+library(ggplot2)
+library(DT)
+library(tidyr)
+library(plotly)
+
+tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_thoracic_person_metrics.sql"
+tb_den<- fetch_data_from_sql_file(tb_sql, yaml_file_path)
+tb_den
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## basic counts 
+sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/image_occ/image_occ_thoracic/image_occ_person_thr.sql"
+res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
+head(res_den_thr)
+```
+
+As of May 2025, From `r format(res_den_thr$counts[1], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$patient_count[1] , big.mark = ",")` also had a Tumor Board encounter. 
+
+```{r demographic, message=FALSE, warning=FALSE, results='hide'}
+# Parameters
+sql_demg <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_thoracic_demographic_all.sql"
+df <- fetch_data_from_sql_file(sql_demg, yaml_file_path)
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## demographic table ##
+all.dat = df %>%
+dplyr::mutate(
+    Variable = dplyr::case_when(
+      grepl("n_age", description) ~ "Age",
+      grepl("n_sex", description) ~ "Sex",
+      grepl("n_race", description) ~ "Race",
+       grepl("n_ethnicity", description) ~ "Ethnicity",
+      grepl("n_patients", description) ~ "Total",
+      grepl("pct", description) ~ NA_character_  # Skip pure percent entries for the type
+    )) %>%
+  select(Variable, everything())
+  print(all.dat)
+dim(all.dat)
+colnames(all.dat)[1]<-"Characteristic"
+```
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(gt)
+all.dat$percents=100*(as.numeric(all.dat$percents))
+dplyr::glimpse (all.dat)
+all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45-64", "65+",
+"No OMOP Visit", "Male", "Female", "Other", "Unknown", "American Indian-Alaska Native",
+"Asian", "Native Hawaii", "Black", "White", "Other-Unknown", "Hispanic Latino ", "NOT Hispanic Latino", "Other-Missing" ))
+
+ all.dat=all.dat%>% select(Characteristic, values, everything())
+```
+
+### Summary of Patient Population
+
+The demographic categories examined include Age, Sex, Race, and Ethnicity.
+
+```{r, message=FALSE, warning=FALSE}
+all.dat=all.dat %>% filter (counts>0)
+create_gt_table(
+  data = all.dat %>% select(-description),
+  columns = c("Characteristic", "values", "counts", "percents"),
+  labels = c(
+    "Characteristic" = "Characteristic",
+    "values" = "",
+    "counts" = "Count (N)",
+    "percents" = "Percentage (%)"
+  ),
+  title_text = "Thoracic Tumor Board",
+  subtitle_text = "",
+  footnote_text = ""
+)
+```
+
+### Neural Frame Case Status 
+The Stanford Cancer Registry keeps track of every cancer case at Stanford and uses the case status variable to monitor each case’s progress. The major categories are: Completed, Not Reportable, and Incomplete.
+
+- **Not Reportable** cases refer to cases that are not reportable to the state per cancer registry rules, or those that have already been abstracted.
+
+- **Incomplete** cases are reportable and have been abstracted, but are marked as incomplete due to pending treatment information or unresolved edit errors. These edits can arise for a variety of reasons, such as version changes by the state registry or code updates by standard-setting agencies.
+
+- **Completed** cases are reportable, have been fully abstracted, and have passed all edit checks. These cases are transmitted to the state.
+
+Please note that the Incomplete case status is eventually updated to either Completed or Not Reportable.
+
+```{r case status, message=FALSE, warning=FALSE, results='hide'}
+# Parameters
+sql_case <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_thoracic_case_status.sql"
+case <- fetch_data_from_sql_file(sql_case, yaml_file_path)
+case
+colnames(case)[2]<-"pts_count"
+```
+The distribution of case status for Thoracic Tumor Board encounter patients are listed below: 
+
+```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "patient_status"="Case Status",
+  "pts_count" = "Number of Patients"
+)
+  create_gt_table_v1(
+    data = case,
+    columns = c("patient_status", "pts_count"),
+    labels = labels
+  )
+```
+
+
+### Image Occurrence 
+```{r image, message=FALSE, warning=FALSE, results='hide'}
+# Parameters
+sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_thoracic_imag_occ.sql"
+tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
+tb_img
+```
+As of May 2025, `r format(tb_img$patient_count[1] ,big.mark = ",")` with thoracic tumor board encounter had image occurrence procedures.
+
+::: {.panel-tabset}
+The following analysis is presented for series occurrences above 500. 
+
+### Anatomic Sites
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_thoracic_imag_occ_anatomic.sql"
+res_ana <- fetch_data_from_sql_file(sql_image_an, yaml_file_path)
+head(res_ana)
+res_ana<- res_ana%>% filter (series_count>500) %>%
+  arrange(desc(series_count)) %>%
+  mutate(
+    anatomic_site_source_value = factor(anatomic_site_source_value, levels = rev(unique(anatomic_site_source_value)))
+  )
+
+res_ana=res_ana %>% mutate(
+ percent=round(100*(unique_person_count/tb_img$patient_count),1
+))
+```
+
+```{r sites plot, message=FALSE, warning=FALSE}
+
+library(forcats)
+df_bar_ana <- res_ana %>% 
+  arrange(desc(unique_person_count)) %>% mutate(anatomic_site_source_value = forcats::fct_reorder(anatomic_site_source_value, unique_person_count))
+
+plot_ly(df_bar_ana,
+        y = ~anatomic_site_source_value,
+        x = ~unique_person_count,
+       # text = ~sprintf("%.1f%%", percent_pts),  
+      #  textposition = "outside",  
+       customdata = ~percent,
+        type = "bar",
+         color = ~anatomic_site_source_value,
+        colors = rev(RColorBrewer::brewer.pal(n = length(unique(df_bar_ana$anatomic_site_source_value)), "Set3")),
+        hovertemplate = paste(
+          "Anatomic: %{y}<br>",
+          "Patient Count: %{x:,.0f}<br>",
+          "Patient Percentage: %{customdata:.1f}%<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Person Count"),
+    yaxis = list(title = ""),
+    title = "Patient Distribution by Anatomic Sites",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show")
+  )
+
+```
+
+
+
+### Modality Types 
+```{r image occ, message=FALSE, warning=FALSE, results='hide'}
+# Parameters
+sql_img_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2025/sql/tumor_board/tumor_board_thoracic_imag_occ_modality.sql"
+tb_img_mod<- fetch_data_from_sql_file(sql_img_mod, yaml_file_path)
+tb_img_mod
+```
+
+
+**Note:** The following modality source values without image pixel were excluded from the analysis:
+
+SR: Structured Report, REG: Registration, KO: Key Object Selection, PR: Presentation State
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(plotly)
+# Prepare the data
+res_thr <- tb_img_mod %>% filter (series_count>500) %>%
+  arrange(desc(series_count)) %>%
+  mutate(
+    modality_source_value = factor(modality_source_value, levels = rev(unique(modality_source_value)))
+  )
+
+res_thr=res_thr %>% mutate(
+ percent=round(100*(unique_person_count/tb_img$patient_count),1
+))
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(forcats)
+df_bar <- res_thr %>% 
+  arrange(desc(unique_person_count)) %>% mutate(modality_source_value = forcats::fct_reorder(modality_source_value, unique_person_count))
+
+plot_ly(df_bar,
+        y = ~modality_source_value,
+        x = ~unique_person_count,
+       # text = ~sprintf("%.1f%%", percent_pts),  
+      #  textposition = "outside",  
+       customdata = ~percent,
+        type = "bar",
+        color = ~modality_source_value,
+        colors = rev(RColorBrewer::brewer.pal(n = length(unique(df_bar$modality_source_value)), "Set3")),
+        hovertemplate = paste(
+          "Anatomic: %{y}<br>",
+          "Patient Count: %{x:,.0f}<br>",
+          "Patient Percentage: %{customdata:.1f}%<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Person Count"),
+    yaxis = list(title = ""),
+    title = "Patient Distribution by Modality Type",
+    showlegend = FALSE,
+    uniformtext = list(minsize = 8, mode = "show")
+  )
+
+
+```
+
+:::

@@ -6,3 +6,9 @@ demographic_files/
 site_libs/
 .DS_Store
 .DS_Store?
+*.js
+*.css
+*.map
+*.woff
+*.scss
+*.png
