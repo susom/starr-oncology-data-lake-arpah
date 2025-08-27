@@ -99,16 +99,6 @@ website:
                 contents:
                 - text: "Labeling Report"
                   href: may_2025/phi_labeling_report.qmd
-          - section: "August 2025"
-            contents:
-              - section: "AI for Automatic Synoptic Reporting"
-                contents:
-                - text: "Methods and Results"
-                  href: aug_2025/cap_forms_methods.qmd
-              - section: "PHI labeling"
-                contents:
-                - text: "Labeling Report"
-                  href: aug_2025/phi_labeling_report.qmd
   navbar:
     left:
       - text: "About"

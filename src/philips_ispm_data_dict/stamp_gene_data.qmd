@@ -1,8 +1,8 @@
 ---
-title: "Philips ISPM Specimen"
+title: "STAMP Gene Data"
 ---
 
-stamp_pipeline_gene_data:
+Stamp pipeline gene data includes the following columns: 
 
 ### Table Columns
 

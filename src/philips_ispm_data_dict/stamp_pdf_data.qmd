@@ -1,8 +1,8 @@
 ---
-title: "Philips ISPM Specimen"
+title: "STAMP PDF Data"
 ---
 
-oncology_stamp_pdf_data includes 
+Oncology STAMP  PDF Data includes:
 
 ### Table Columns
 

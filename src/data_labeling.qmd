@@ -37,8 +37,4 @@ This initiative aims to improve data standardization, reduce manual extraction e
     - [Methods and Results](may_2025/cap_forms_methods.qmd)
   - [PHI Labeling Report](may_2025/phi_labeling_report.qmd)
 
-####  August 2025 Release
 
-  - [AI for Automatic Synoptic Reporting]
-    - [Methods and Results](aug_2025/cap_forms_methods.qmd)
-  - [PHI Labeling Report](aug_2025/phi_labeling_report.qmd)
