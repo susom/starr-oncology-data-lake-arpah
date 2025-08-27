@@ -39,6 +39,7 @@ test_type=test_type %>% mutate(test_type=ifelse(test_type=="StanfordStampTest", 
   )
 
 ```
+
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 test_year_sql="/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/philips/philips_tests_date_ordered_year.sql"
 test_year=fetch_data_from_sql_file(test_year_sql, yaml_file_path)
@@ -128,7 +129,7 @@ p_bar <- ggplot(test_year_bar, aes(x = factor(order_year, levels = c("<2018", so
     ),
     stat = "identity", position = position_dodge(width = 0.8), width = 0.7
   ) +
-  scale_fill_brewer(palette = "Set3") +
+  scale_fill_brewer(palette = "Set1") +
   theme_minimal() +
   labs(
     title = "Number of Tests Ordered per Year ",
