@@ -1,0 +1,4769 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Neural Frame Metrics – VISTA Oncology Data Lake</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="../site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="../site_libs/datatables-binding-0.33/datatables.js"></script>
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="../site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Neural Frame Metrics – VISTA Oncology Data Lake">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="VISTA Oncology Data Lake">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">VISTA Oncology Data Lake</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../about.html" aria-current="page"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_dictionary.html"> 
+<span class="menu-text">Data Dictionary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_labeling.html"> 
+<span class="menu-text">Data Labeling</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/susom/starr-oncology-data-lake-arpah" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Neural Frame Metrics</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Dictionary</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP-CDM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">NeuralFrame</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_diagnoses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Diagnoses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_misc_details.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Miscellaneous Details</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_outcomes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_treatments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Treatments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Philips ISPM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/aberrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Aberration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/pat_diag_orders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Orders</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/specimen_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Specimen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/stamp_gene_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP Gene Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/stamp_pdf_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP PDF Data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dicom_data_dict/dicom_data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DICOM</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_labeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_guidelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Guidelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Process</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/cap_forms_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods and Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary:</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Neural Frame Metrics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">Summary:</h3>
+<p>The Stanford Cancer Registry data is integrated with the California Cancer Registry and updated monthly, encompassing approximately 800 variables related to various cancer. As of January 2022, the KACI® application from NeuralFrame was approved for abstracting and transmitting diagnosed cases, with Stanford adopting it in 2023. Neural Frame connects to EPIC to extract relevant data, including pathology notes.</p>
+<p>Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer cases are categorized as <strong>Analytic</strong> (reportable with complete data) or <strong>Non-analytic</strong> (not reportable by law, with complete data only from 2022 onward).</p>
+<ul>
+<li><p><strong>Analytic</strong>: Analytic cases include patients with initial diagnoses and full or partial treatments at Stanford. Analytic cases (codes 00-22) are those that are required by CoC to be abstracted because of the program’s primary responsibility in managing the cancer. Analytic cases are grouped according to the location of diagnosis and treatment.</p></li>
+<li><p><strong>Non-analytic</strong>: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) can be abstracted by the facility to fulfill central registry requirements or upon request from the facility’s cancer program. The grouping of non-analytic cases is based on the reason for their classification, whether they received care at the facility or were abstracted for other reasons.</p></li>
+</ul>
+</section>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="data-volume" class="level3">
+<h3 class="anchored" data-anchor-id="data-volume">📊 Data Volume</h3>
+<ul>
+<li>Patients Count: 208,071</li>
+<li>Patients with Completed Cases: 141,847</li>
+</ul>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="data-components" class="level3">
+<h3 class="anchored" data-anchor-id="data-components">🧬 Data Components</h3>
+<ul>
+<li>Outcome</li>
+<li>Diagnoses</li>
+<li>Treatment</li>
+<li>Miscellaneous</li>
+</ul>
+</section>
+</div><section id="thoracic-cancer-cohort" class="level2">
+<h2 class="anchored" data-anchor-id="thoracic-cancer-cohort">Thoracic Cancer Cohort</h2>
+<p>Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancer. The thoracic cancer cohort includes patients diagnosed with primary malignancies located in the thoracic cavity, as defined by the International Classification of Diseases for Oncology, 3rd Edition (ICD-O-3) primary site codes. Specifically, the cohort is defined by the following ICD-O-3 topography codes:</p>
+<ul>
+<li>C34.0 – Main bronchus</li>
+<li>C34.1 – Upper lobe, lung</li>
+<li>C34.2 – Middle lobe, lung</li>
+<li>C34.3 – Lower lobe, lung</li>
+<li>C34.8 – Overlapping lesion of lung</li>
+<li>C34.9 – Lung, not otherwise specified (NOS)</li>
+<li>C37.9 – Thymus</li>
+</ul>
+</section><section id="multiple-primary" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-primary">Multiple Primary</h2>
+<p>Within the thoracic cancer cohort, a subset of patients presents with multiple primary thoracic malignancies. This designation refers to the presence of two or more histologically distinct malignant tumors arising independently within the thoracic cavity, rather than as metastases from a single primary site. These neoplasms may occur synchronously, identified concurrently or within a short time interval, or metachronously, developing at distinct time points.</p>
+</section><section id="thoracic-cancer-metrics" class="level2 tabset">
+<h2 class="tabset anchored" data-anchor-id="thoracic-cancer-metrics">Thoracic Cancer Metrics</h2>
+<p>This visualization summarizes the characteristics of thoracic cancer cases by:</p>
+<ul>
+<li>Cases, Diagnoses, Staging</li>
+<li>Treatment</li>
+<li>Social History</li>
+<li>Follow up Outcome</li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Cases &amp; Diagnoses</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Treatment</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Follow-up Outcome</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-4" role="tab" aria-controls="tabset-2-4" aria-selected="false">Social History</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<section id="stanford-cancer-registry-case-status" class="level2">
+<h2 class="anchored" data-anchor-id="stanford-cancer-registry-case-status">Stanford Cancer Registry Case Status</h2>
+<p>The Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Stanford. Each case is assigned a case status to reflect its reporting stage. The primary categories include:</p>
+<ul>
+<li><p>Completed: Reportable cases that have been fully abstracted and passed all edit checks. These cases are transmitted to the state registry.</p></li>
+<li><p>Not Reportable: Cases that do not meet state reporting requirements or have already been abstracted and submitted.</p></li>
+<li><p>Incomplete/Suspense: Reportable cases that have been abstracted but cannot yet be transmitted due to missing treatment information or unresolved edit errors. These may result from version changes, coding updates, or other registry requirements.</p></li>
+</ul>
+<p>The case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.</p>
+<p>As of August 2025, there are 13,880 unique thoracic cancer patients with 78% completed cases.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="neural_frame_files/figure-html/case pie-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="patient-summary-by-diagnosis-year" class="level2">
+<h2 class="anchored" data-anchor-id="patient-summary-by-diagnosis-year">Patient Summary by Diagnosis Year</h2>
+<p>The following distribution summarizes the number of diagnosed thoracic patients over time.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-ad8c03cd16950a85fa4d" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ad8c03cd16950a85fa4d">{"x":{"visdat":{"22cc15f28f1e":["function () ","plotlyVisDat"]},"cur_data":"22cc15f28f1e","attrs":{"22cc15f28f1e":{"x":{},"y":{},"text":{},"textposition":"auto","marker":{"color":"#8B0000"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":{"text":"Number of Thoracic Cancer Patients by Diagnosis Year"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Diagnosis Year","tickangle":45,"type":"category","categoryorder":"array","categoryarray":["<2000","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Unique Patient Count"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","<2000"],"y":[177,208,164,221,243,256,308,302,287,312,361,415,373,414,464,543,493,587,543,610,548,667,819,803,699,4,98],"text":["1.6","1.9","1.5","2","2.2","2.3","2.8","2.8","2.6","2.8","3.3","3.8","3.4","3.8","4.2","5","4.5","5.4","5","5.6","5","6.1","7.5","7.3","6.4","0","0.9"],"textposition":["auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto"],"marker":{"color":"#8B0000","line":{"color":"rgba(31,119,180,1)"}},"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="histology-distribution-icdo3-codes" class="level2">
+<h2 class="anchored" data-anchor-id="histology-distribution-icdo3-codes">Histology Distribution &amp; ICDO3 Codes</h2>
+<p>Thoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer <strong>(NSCLC)</strong> representing the majority of cases and Small Cell Lung Cancer <strong>(SCLC)</strong>.</p>
+<p>Thoracic cancer is categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:</p>
+<ul>
+<li><p><strong>Non-Small Cell Lung Carcinoma (NSCLC):</strong> This group encompasses the majority of lung cancer and includes subtypes such as:</p>
+<ul>
+<li>Adenocarcinoma (8140–8147)</li>
+<li>Squamous Cell Carcinoma (8070–8080)</li>
+<li>Large Cell Carcinoma (8010–8015)</li>
+<li>Non-Small Cell Carcinoma NOS (8046)</li>
+</ul></li>
+<li><p><strong>Small Cell Lung Carcinoma (SCLC):</strong> Represented by ICD-O-3 codes 8041–8045, this group is characterized by more aggressive, rapidly progressing tumors.</p></li>
+<li><p><strong>Other Specified Histologies:</strong> These include a range of less common thoracic cancer such as:</p>
+<ul>
+<li>Carcinoid Tumors (8240–8249)</li>
+<li>Sarcoma (8800–8806)</li>
+<li>Mesothelioma (9050–9053)</li>
+<li>Acinar Cell Carcinoma (8550–8551)</li>
+<li>Bronchiolo-alveolar Carcinoma (8250–8257)</li>
+<li>Neoplasms (8000–8005)</li>
+<li>Papillary Adenocarcinoma (8260–8265)</li>
+<li>Papillary Carcinoma (8050–8052)</li>
+</ul></li>
+<li><p><strong>Other/Unspecified Histologies:</strong> Any histology not falling into the categories above.</p></li>
+</ul>
+</section>
+<section id="thoracic-cancer-histology-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="thoracic-cancer-histology-distribution">Thoracic Cancer Histology Distribution</h2>
+<p>From 10,826 thoracic patients with completed cases, the majority 7,602 were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC).</p>
+<div style="text-align: center">
+<div class="cell">
+<div class="cell-output-display">
+<div id="ehmilxrazi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ehmilxrazi table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ehmilxrazi thead, #ehmilxrazi tbody, #ehmilxrazi tfoot, #ehmilxrazi tr, #ehmilxrazi td, #ehmilxrazi th {
+  border-style: none;
+}
+
+#ehmilxrazi p {
+  margin: 0;
+  padding: 0;
+}
+
+#ehmilxrazi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ehmilxrazi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ehmilxrazi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ehmilxrazi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ehmilxrazi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ehmilxrazi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ehmilxrazi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ehmilxrazi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ehmilxrazi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ehmilxrazi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ehmilxrazi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ehmilxrazi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ehmilxrazi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ehmilxrazi .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ehmilxrazi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ehmilxrazi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ehmilxrazi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ehmilxrazi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ehmilxrazi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ehmilxrazi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ehmilxrazi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ehmilxrazi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ehmilxrazi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ehmilxrazi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ehmilxrazi .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ehmilxrazi .gt_left {
+  text-align: left;
+}
+
+#ehmilxrazi .gt_center {
+  text-align: center;
+}
+
+#ehmilxrazi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ehmilxrazi .gt_font_normal {
+  font-weight: normal;
+}
+
+#ehmilxrazi .gt_font_bold {
+  font-weight: bold;
+}
+
+#ehmilxrazi .gt_font_italic {
+  font-style: italic;
+}
+
+#ehmilxrazi .gt_super {
+  font-size: 65%;
+}
+
+#ehmilxrazi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ehmilxrazi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ehmilxrazi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ehmilxrazi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ehmilxrazi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ehmilxrazi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ehmilxrazi .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ehmilxrazi .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ehmilxrazi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="histology" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Histology</th>
+<th id="count_perc" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">N(%) of Patients</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="histology">NSCLC</td>
+<td class="gt_row gt_right" headers="count_perc">7,602 (70.2%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="histology">Other Specified</td>
+<td class="gt_row gt_right gt_striped" headers="count_perc">1,891 (17.5%)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="histology">Other Unspecified</td>
+<td class="gt_row gt_right" headers="count_perc">1,138 (10.5%)</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="histology">SCLC</td>
+<td class="gt_row gt_right gt_striped" headers="count_perc">561 (5.2%)</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="even">
+<td colspan="2" class="gt_footnote">Note: Patients could have multiple histologies</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="histology-type-summary" class="level2">
+<h2 class="anchored" data-anchor-id="histology-type-summary">Histology Type Summary</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Bar Plot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ICDO3 Table</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>The following horizontal bar chart presents the hierarchical distribution of thoracic cancer cases, showing both major categories (NSCLC, SCLC, Other Specified, and Other Unspecified) and their corresponding histological subtypes.</p>
+<ul>
+<li>Click legend items to show/hide specific main categories</li>
+<li>Hover over bars to see detailed information</li>
+<li>Double-click legend items to isolate a single category o to restore all categories</li>
+</ul>
+<section id="distribution-of-thoracic-cancer-cases-by-histology-types" class="level2">
+<h2 class="anchored" data-anchor-id="distribution-of-thoracic-cancer-cases-by-histology-types">Distribution of Thoracic Cancer Cases by Histology Types</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-cfbdf1d0a3af166ef241" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-cfbdf1d0a3af166ef241">{"x":{"visdat":{"22cc460c4ed6":["function () ","plotlyVisDat"]},"cur_data":"22cc460c4ed6","attrs":{"22cc460c4ed6":{"x":{},"y":{},"orientation":"h","text":{},"textposition":"auto","hovertext":{},"hoverinfo":"text","color":{},"colors":["#8DD3C7","#FFFFB3","#BEBADA","#FB8072"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"","xaxis":{"domain":[0,1],"automargin":true,"title":"Patient Count"},"yaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"total ascending","type":"category","categoryarray":["Adenocarcinoma","Squamous Cell Carcinoma","Other/Not Specified","Non-Small Cell Carcinoma NOS","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Large Cell Carcinoma","Sarcoma","Mesothelioma","Papillary Carcinoma"]},"barmode":"stack","showlegend":true,"legend":{"title":{"text":"Histology"},"x":0.69999999999999996,"y":0.90000000000000002},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[5269,1401,795,137],"y":["Adenocarcinoma","Squamous Cell Carcinoma","Non-Small Cell Carcinoma NOS","Large Cell Carcinoma"],"orientation":"h","text":["5269 (48.7%)","1401 (12.9%)","795 (7.3%)","137 (1.3%)"],"textposition":["auto","auto","auto","auto"],"hovertext":["Category: NSCLC<br>Subtype: Adenocarcinoma<br>Count: 5269<br>Percent of Total: 48.7%","Category: NSCLC<br>Subtype: Squamous Cell Carcinoma<br>Count: 1401<br>Percent of Total: 12.9%","Category: NSCLC<br>Subtype: Non-Small Cell Carcinoma NOS<br>Count: 795<br>Percent of Total: 7.3%","Category: NSCLC<br>Subtype: Large Cell Carcinoma<br>Count: 137<br>Percent of Total: 1.3%"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"NSCLC","marker":{"color":"rgba(141,211,199,1)","line":{"color":"rgba(141,211,199,1)"}},"textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1138],"y":["Other/Not Specified"],"orientation":"h","text":"1138 (10.5%)","textposition":"auto","hovertext":"Category: Other Unspecified<br>Subtype: Other/Not Specified<br>Count: 1138<br>Percent of Total: 10.5%","hoverinfo":"text","type":"bar","name":"Other Unspecified","marker":{"color":"rgba(255,255,179,1)","line":{"color":"rgba(255,255,179,1)"}},"textfont":{"color":"rgba(255,255,179,1)"},"error_y":{"color":"rgba(255,255,179,1)"},"error_x":{"color":"rgba(255,255,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[561],"y":["Small Cell Carcinoma"],"orientation":"h","text":"561 (5.2%)","textposition":"auto","hovertext":"Category: SCLC<br>Subtype: Small Cell Carcinoma<br>Count: 561<br>Percent of Total: 5.2%","hoverinfo":"text","type":"bar","name":"SCLC","marker":{"color":"rgba(190,186,218,1)","line":{"color":"rgba(190,186,218,1)"}},"textfont":{"color":"rgba(190,186,218,1)"},"error_y":{"color":"rgba(190,186,218,1)"},"error_x":{"color":"rgba(190,186,218,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[532,492,469,208,171,12,4,3],"y":["Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Sarcoma","Mesothelioma","Papillary Carcinoma"],"orientation":"h","text":["532 (4.9%)","492 (4.5%)","469 (4.3%)","208 (1.9%)","171 (1.6%)","12 (<1%)","4 (<1%)","3 (<1%)"],"textposition":["auto","auto","auto","auto","auto","auto","auto","auto"],"hovertext":["Category: Other Specified<br>Subtype: Bronchiolo-alveolar Carcinoma<br>Count: 532<br>Percent of Total: 4.9%","Category: Other Specified<br>Subtype: Acinar Cell Carcinoma<br>Count: 492<br>Percent of Total: 4.5%","Category: Other Specified<br>Subtype: Carcinoid Tumor<br>Count: 469<br>Percent of Total: 4.3%","Category: Other Specified<br>Subtype: Papillary Adenocarcinoma<br>Count: 208<br>Percent of Total: 1.9%","Category: Other Specified<br>Subtype: Neoplasm<br>Count: 171<br>Percent of Total: 1.6%","Category: Other Specified<br>Subtype: Sarcoma<br>Count: 12<br>Percent of Total: 0.1%","Category: Other Specified<br>Subtype: Mesothelioma<br>Count: 4<br>Percent of Total: 0.0%","Category: Other Specified<br>Subtype: Papillary Carcinoma<br>Count: 3<br>Percent of Total: 0.0%"],"hoverinfo":["text","text","text","text","text","text","text","text"],"type":"bar","name":"Other Specified","marker":{"color":"rgba(251,128,114,1)","line":{"color":"rgba(251,128,114,1)"}},"textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="table-summary-of-histology-groups" class="level2">
+<h2 class="anchored" data-anchor-id="table-summary-of-histology-groups">Table Summary of Histology Groups</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-9309b2cc65a998c06cc7" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9309b2cc65a998c06cc7">{"x":{"filter":"none","vertical":false,"data":[["NSCLC","NSCLC","Other Unspecified","NSCLC","SCLC","Other Specified","Other Specified","Other Specified","Other Specified","Other Specified","NSCLC","Other Specified","Other Specified","Other Specified"],["Adenocarcinoma","Squamous Cell Carcinoma","Other/Not Specified","Non-Small Cell Carcinoma NOS","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Large Cell Carcinoma","Sarcoma","Mesothelioma","Papillary Carcinoma"],[5269,1401,1138,795,561,532,492,469,208,171,137,12,4,3],[48.7,12.9,10.5,7.3,5.2,4.9,4.5,4.3,1.9,1.6,1.3,0.1,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Histology<\/th>\n      <th>Histology Group<\/th>\n      <th>Patient Count<\/th>\n      <th>Percentage (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"dom":"Bfrtip","ordering":true,"columnDefs":[{"className":"dt-right","targets":[2,3]},{"name":"histology","targets":0},{"name":"histology_group","targets":1},{"name":"Patient_Count","targets":2},{"name":"Percentage","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background':isNaN(parseFloat(value)) || value <= 0.000000 ? '' : 'linear-gradient(90.000000deg, transparent ' + Math.max(48.700000 - value, 0)/48.700000 * 100 + '%, lightgray ' + Math.max(48.700000 - value, 0)/48.700000 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>All the ICDO3 code and histology subgrouping are listed in the following table:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-a9ec0c1722585d24a09a" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a9ec0c1722585d24a09a">{"x":{"filter":"none","vertical":false,"data":[["NSCLC","NSCLC","NSCLC","SCLC","Other Specified","Other Unspecified","Other Specified","NSCLC","Other Specified","Other Specified","Other Specified","Other Specified","NSCLC","Other Specified","NSCLC","Other Unspecified","NSCLC","Other Unspecified","Other Specified","NSCLC","NSCLC","SCLC","Other Unspecified","Other Unspecified","Other Specified","Other Unspecified","NSCLC","Other Unspecified","Other Unspecified","Other Unspecified","Other Specified","Other Unspecified","Other Unspecified","Other Specified","Other Unspecified","Other Specified","Other Specified","NSCLC","Other Specified","Other Specified","Other Unspecified","Other Specified","Other Unspecified","SCLC","Other Specified","Other Specified","Other Specified","Other Unspecified","Other Unspecified","Other Specified","Other Unspecified","Other Specified","Other Specified","Other Specified","Other Specified","Other Unspecified","Other Unspecified","Other Unspecified"],["Adenocarcinoma","Squamous Cell Carcinoma","Non-Small Cell Carcinoma NOS","Small Cell Carcinoma","Acinar Cell Carcinoma","Other/Not Specified","Carcinoid Tumor","Adenocarcinoma","Bronchiolo-alveolar Carcinoma","Neoplasm","Bronchiolo-alveolar Carcinoma","Papillary Adenocarcinoma","Squamous Cell Carcinoma","Carcinoid Tumor","Large Cell Carcinoma","Other/Not Specified","Squamous Cell Carcinoma","Other/Not Specified","Acinar Cell Carcinoma","Adenocarcinoma","Squamous Cell Carcinoma","Small Cell Carcinoma","Other/Not Specified","Other/Not Specified","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Large Cell Carcinoma","Other/Not Specified","Other/Not Specified","Other/Not Specified","Carcinoid Tumor","Other/Not Specified","Other/Not Specified","Papillary Adenocarcinoma","Other/Not Specified","Acinar Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Adenocarcinoma","Papillary Adenocarcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Acinar Cell Carcinoma","Other/Not Specified","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Bronchiolo-alveolar Carcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Carcinoid Tumor","Papillary Adenocarcinoma","Bronchiolo-alveolar Carcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified","Other/Not Specified"],["Adenocarcinoma, NOS","Squamous cell carcinoma, usual type","Non-small cell carcinoma","Small cell carcinoma, pulmonary type","Acinar adenocarcinoma of lung","Carcinoma, NOS","Neuroendocrine tumor, NOS","Adenocarcinoma","Bronchiolo-alveolar carcinoma, NOS","Neoplasm, malignant","Adenocarcinoma, pancreatobiliary-type","Papillary renal cell carcinoma","Squamous cell carcinoma, NOS","Tumor, neuroendocrine, well differentiated","Combined large cell neuroendocrine carcinoma","Mixed adenocarcinoma and squamous cell carcinoma","Squamous cell carcinoma, keratinizing, NOS","Mucoid adenocarcinoma","Acinar carcinoma","Adenocarcinoma, usual type","Squamous cell carcinoma, large cell, nonkeratinizing, NOS","Small cell carcinoma, NOS","Thymoma, type B2","Thymic carcinoma, NOS","Bronchiolo-alveolar carcinoma, mucinous","Intrapulmonary thymoma","Large cell carcinoma, NOS","Malignant lymphoma, noncleaved, diffuse, NOS","Solid carcinoma with mucin formation","MALT lymphoma","Neuroendocrine tumor, grade 3","Thymoma, atypical","Mixed cell adenocarcinoma","Papillary adenocarcinoma, NOS","Thymoma, type AB","Acinar adenocarcinoma","Adenocarcinoma of lung, mucinous","Adenocarcinoma in situ, NOS","Micropapillary carcinoma, NOS","Adenocarcinoma in situ of lung, non-mucinous","Sarcomatoid carcinoma","Acinar cell cystadenocarcinoma","Pleomorphic carcinoma","Mixed small cell carcinoma","Bronchiolo-alveolar carcinoma, Clara cell","Bronchiolo-alveolar carcinoma, indeterminate type","Non-mucinous adenocarcinoma, minimally invasive","Thymoma, medullary","Thymoma, predominantly cortical","Lepidic adenocarcinoma","Adenosquamous carcinoma","Carcinoid tumor, NOS","Micropapillary adenocarcinoma","Minimally invasive adenocarcinoma, non-mucinous","Adenocarcinoma with mixed subtypes","Adenocarcinoma, cylindroid","Signet ring cell/histiocytoid carcinoma","Solid adenocarcinoma, NOS"],["8140","8070","8046","8041","8551","8010","8240","8140","8250","8000","8255","8260","8070","8246","8013","8560","8071","8480","8550","8140","8072","8041","8584","8586","8253","8580","8012","9680","8230","9699","8249","8585","8323","8260","8582","8551","8253","8140","8265","8250","8033","8551","8022","8045","8252","8254","8256","8581","8583","8250","8560","8240","8265","8256","8255","8200","8490","8230"],[4954,1116,795,465,381,320,257,223,205,160,141,139,124,122,94,90,82,82,67,54,53,52,41,39,38,38,35,35,35,34,31,30,28,26,25,24,23,22,22,21,21,19,17,17,16,16,16,16,16,15,15,14,14,13,12,11,11,11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Histology<\/th>\n      <th>Histology Group<\/th>\n      <th>Original Histology<\/th>\n      <th>ICD-O-3<\/th>\n      <th>Patient Count<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"searching":true,"ordering":true,"dom":"f<\"clear\">lrtip","language":{"search":""},"columnDefs":[{"className":"dt-right","targets":4},{"name":"histology","targets":0},{"name":"histology_group","targets":1},{"name":"histologicTypeIcdO3Description","targets":2},{"name":"histology_codes","targets":3},{"name":"patient_count","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="cancer-staging" class="level2">
+<h2 class="anchored" data-anchor-id="cancer-staging">Cancer Staging</h2>
+<p>Cancer staging is categorized as:</p>
+<ul>
+<li><strong>Stage 0</strong>: Carcinoma in situ (neoplastic cells confined to the epithelium without invasion) with no evidence of invasion beyond the basement membrane.</li>
+<li><strong>Occult</strong>: A malignancy is confirmed by cytology or metastatic presentation without a known primary, meaning that the primary tumor is not clinically or radiologically identifiable.</li>
+<li><strong>Stage I</strong>: A localized tumor confined to the organ of origin, with no regional lymph node involvement or distant metastasis.</li>
+<li><strong>Stage II</strong>: A tumor of larger size or with limited regional extension that may involve adjacent structures or limited regional lymph nodes.</li>
+<li><strong>Stage III</strong>: Locally advanced disease characterized by involvement of regional lymph nodes and/or extension to nearby tissues.</li>
+<li><strong>Stage IV</strong>: Distant metastatic disease where the tumor has spread to distant organs or non-regional lymph nodes.</li>
+</ul>
+</section>
+<section id="summary-of-staging-of-thoracic-cancer-patients" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-staging-of-thoracic-cancer-patients">Summary of Staging of Thoracic Cancer Patients</h2>
+<p>The following table summarizes the staging status of thoracic patients with completed cases.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="ctzzrzzcbr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ctzzrzzcbr table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ctzzrzzcbr thead, #ctzzrzzcbr tbody, #ctzzrzzcbr tfoot, #ctzzrzzcbr tr, #ctzzrzzcbr td, #ctzzrzzcbr th {
+  border-style: none;
+}
+
+#ctzzrzzcbr p {
+  margin: 0;
+  padding: 0;
+}
+
+#ctzzrzzcbr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ctzzrzzcbr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ctzzrzzcbr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ctzzrzzcbr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ctzzrzzcbr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ctzzrzzcbr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ctzzrzzcbr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ctzzrzzcbr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ctzzrzzcbr .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ctzzrzzcbr .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ctzzrzzcbr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ctzzrzzcbr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ctzzrzzcbr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ctzzrzzcbr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ctzzrzzcbr .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ctzzrzzcbr .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ctzzrzzcbr .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ctzzrzzcbr .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ctzzrzzcbr .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ctzzrzzcbr .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ctzzrzzcbr .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ctzzrzzcbr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ctzzrzzcbr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ctzzrzzcbr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ctzzrzzcbr .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ctzzrzzcbr .gt_left {
+  text-align: left;
+}
+
+#ctzzrzzcbr .gt_center {
+  text-align: center;
+}
+
+#ctzzrzzcbr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ctzzrzzcbr .gt_font_normal {
+  font-weight: normal;
+}
+
+#ctzzrzzcbr .gt_font_bold {
+  font-weight: bold;
+}
+
+#ctzzrzzcbr .gt_font_italic {
+  font-style: italic;
+}
+
+#ctzzrzzcbr .gt_super {
+  font-size: 65%;
+}
+
+#ctzzrzzcbr .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ctzzrzzcbr .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ctzzrzzcbr .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ctzzrzzcbr .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ctzzrzzcbr .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ctzzrzzcbr .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ctzzrzzcbr .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ctzzrzzcbr .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ctzzrzzcbr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="full_stage" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Staging Status</th>
+<th id="patient_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Patient Count</th>
+<th id="perc" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Percentage (%)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="full_stage">Stage IV: Distant metastatic disease</td>
+<td class="gt_row gt_right" headers="patient_count">4,416</td>
+<td class="gt_row gt_right" headers="perc">41</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="full_stage">Stage I: Localized tumor confined to the organ of origin</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">2,859</td>
+<td class="gt_row gt_right gt_striped" headers="perc">26</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="full_stage">Stage III: Locally advanced disease</td>
+<td class="gt_row gt_right" headers="patient_count">1,832</td>
+<td class="gt_row gt_right" headers="perc">17</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="full_stage">Unknown</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">1,034</td>
+<td class="gt_row gt_right gt_striped" headers="perc">10</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="full_stage">Stage II: Larger tumor size or limited regional extension</td>
+<td class="gt_row gt_right" headers="patient_count">790</td>
+<td class="gt_row gt_right" headers="perc">7</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="full_stage">Occult: Malignancy confirmed by cytology or metastatic presentation without known primary</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">49</td>
+<td class="gt_row gt_right gt_striped" headers="perc">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="full_stage">Stage 0: Carcinoma in situ</td>
+<td class="gt_row gt_right" headers="patient_count">39</td>
+<td class="gt_row gt_right" headers="perc">0</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="3" class="gt_footnote"></td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<p>The following table summarizes the distribution of thoracic cancer treatment types including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="pejtwmoagr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pejtwmoagr table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#pejtwmoagr thead, #pejtwmoagr tbody, #pejtwmoagr tfoot, #pejtwmoagr tr, #pejtwmoagr td, #pejtwmoagr th {
+  border-style: none;
+}
+
+#pejtwmoagr p {
+  margin: 0;
+  padding: 0;
+}
+
+#pejtwmoagr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#pejtwmoagr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#pejtwmoagr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#pejtwmoagr .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#pejtwmoagr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#pejtwmoagr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#pejtwmoagr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#pejtwmoagr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#pejtwmoagr .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#pejtwmoagr .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#pejtwmoagr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#pejtwmoagr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#pejtwmoagr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#pejtwmoagr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#pejtwmoagr .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pejtwmoagr .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#pejtwmoagr .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#pejtwmoagr .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#pejtwmoagr .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pejtwmoagr .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#pejtwmoagr .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pejtwmoagr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#pejtwmoagr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pejtwmoagr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pejtwmoagr .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pejtwmoagr .gt_left {
+  text-align: left;
+}
+
+#pejtwmoagr .gt_center {
+  text-align: center;
+}
+
+#pejtwmoagr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#pejtwmoagr .gt_font_normal {
+  font-weight: normal;
+}
+
+#pejtwmoagr .gt_font_bold {
+  font-weight: bold;
+}
+
+#pejtwmoagr .gt_font_italic {
+  font-style: italic;
+}
+
+#pejtwmoagr .gt_super {
+  font-size: 65%;
+}
+
+#pejtwmoagr .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#pejtwmoagr .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#pejtwmoagr .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#pejtwmoagr .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#pejtwmoagr .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#pejtwmoagr .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#pejtwmoagr .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#pejtwmoagr .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#pejtwmoagr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="3" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="treatment_name" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Treatment</th>
+<th id="total_patients" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Patient Count</th>
+<th id="percentage" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Percentage</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="treatment_name">Chemotherapy</td>
+<td class="gt_row gt_right" headers="total_patients">5,336</td>
+<td class="gt_row gt_right" headers="percentage">49</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="treatment_name">Surgery</td>
+<td class="gt_row gt_right gt_striped" headers="total_patients">4,717</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">44</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="treatment_name">Radiation Therapy</td>
+<td class="gt_row gt_right" headers="total_patients">4,311</td>
+<td class="gt_row gt_right" headers="percentage">40</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="3" class="gt_footnote"></td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<p>The following table summarizes the distribution of thoracic cancer recurrence status with completed cases.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="lyiwcakmvh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lyiwcakmvh table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#lyiwcakmvh thead, #lyiwcakmvh tbody, #lyiwcakmvh tfoot, #lyiwcakmvh tr, #lyiwcakmvh td, #lyiwcakmvh th {
+  border-style: none;
+}
+
+#lyiwcakmvh p {
+  margin: 0;
+  padding: 0;
+}
+
+#lyiwcakmvh .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#lyiwcakmvh .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#lyiwcakmvh .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#lyiwcakmvh .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#lyiwcakmvh .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#lyiwcakmvh .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#lyiwcakmvh .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#lyiwcakmvh .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#lyiwcakmvh .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#lyiwcakmvh .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#lyiwcakmvh .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#lyiwcakmvh .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#lyiwcakmvh .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#lyiwcakmvh .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#lyiwcakmvh .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lyiwcakmvh .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#lyiwcakmvh .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#lyiwcakmvh .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#lyiwcakmvh .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lyiwcakmvh .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#lyiwcakmvh .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lyiwcakmvh .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#lyiwcakmvh .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lyiwcakmvh .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lyiwcakmvh .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lyiwcakmvh .gt_left {
+  text-align: left;
+}
+
+#lyiwcakmvh .gt_center {
+  text-align: center;
+}
+
+#lyiwcakmvh .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#lyiwcakmvh .gt_font_normal {
+  font-weight: normal;
+}
+
+#lyiwcakmvh .gt_font_bold {
+  font-weight: bold;
+}
+
+#lyiwcakmvh .gt_font_italic {
+  font-style: italic;
+}
+
+#lyiwcakmvh .gt_super {
+  font-size: 65%;
+}
+
+#lyiwcakmvh .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#lyiwcakmvh .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#lyiwcakmvh .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#lyiwcakmvh .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#lyiwcakmvh .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#lyiwcakmvh .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#lyiwcakmvh .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#lyiwcakmvh .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#lyiwcakmvh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="recurrence_Type_category" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Recurrence Type Category</th>
+<th id="total" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Patient Count</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="recurrence_Type_category">Never been disease-free</td>
+<td class="gt_row gt_right" headers="total">6,346</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="recurrence_Type_category">Disease-free after treatment and has not had a recurrence</td>
+<td class="gt_row gt_right gt_striped" headers="total">4,229</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="recurrence_Type_category">Distant recurrence</td>
+<td class="gt_row gt_right" headers="total">436</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="recurrence_Type_category">It is unknown whether the disease has recurred or if the patient was ever disease-free.</td>
+<td class="gt_row gt_right gt_striped" headers="total">304</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="recurrence_Type_category">Local recurrence</td>
+<td class="gt_row gt_right" headers="total">248</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="recurrence_Type_category">Disease has recurred, but the type of recurrence is unknown.</td>
+<td class="gt_row gt_right gt_striped" headers="total">190</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="recurrence_Type_category">Regional recurrence</td>
+<td class="gt_row gt_right" headers="total">97</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="2" class="gt_footnote"></td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-4-tab">
+<p>From 13,880 unique thoracic cancer patients, the majority didn’t have any records of smoking status and alcohol use in Neural Frame.</p>
+<section id="smoking-status-neural-frame" class="level4">
+<h4 class="anchored" data-anchor-id="smoking-status-neural-frame">Smoking Status (Neural Frame)</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fwnxoniuvc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fwnxoniuvc table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#fwnxoniuvc thead, #fwnxoniuvc tbody, #fwnxoniuvc tfoot, #fwnxoniuvc tr, #fwnxoniuvc td, #fwnxoniuvc th {
+  border-style: none;
+}
+
+#fwnxoniuvc p {
+  margin: 0;
+  padding: 0;
+}
+
+#fwnxoniuvc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#fwnxoniuvc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#fwnxoniuvc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#fwnxoniuvc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#fwnxoniuvc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#fwnxoniuvc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#fwnxoniuvc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#fwnxoniuvc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#fwnxoniuvc .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#fwnxoniuvc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#fwnxoniuvc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#fwnxoniuvc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#fwnxoniuvc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#fwnxoniuvc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#fwnxoniuvc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fwnxoniuvc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#fwnxoniuvc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#fwnxoniuvc .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#fwnxoniuvc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fwnxoniuvc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#fwnxoniuvc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fwnxoniuvc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#fwnxoniuvc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fwnxoniuvc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#fwnxoniuvc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#fwnxoniuvc .gt_left {
+  text-align: left;
+}
+
+#fwnxoniuvc .gt_center {
+  text-align: center;
+}
+
+#fwnxoniuvc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#fwnxoniuvc .gt_font_normal {
+  font-weight: normal;
+}
+
+#fwnxoniuvc .gt_font_bold {
+  font-weight: bold;
+}
+
+#fwnxoniuvc .gt_font_italic {
+  font-style: italic;
+}
+
+#fwnxoniuvc .gt_super {
+  font-size: 65%;
+}
+
+#fwnxoniuvc .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#fwnxoniuvc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#fwnxoniuvc .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#fwnxoniuvc .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#fwnxoniuvc .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#fwnxoniuvc .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#fwnxoniuvc .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#fwnxoniuvc .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#fwnxoniuvc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="Description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Description</th>
+<th id="Patinet_Counts" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Patient Count</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Description">Not Available</td>
+<td class="gt_row gt_right" headers="Patinet_Counts">13,707</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Description">Never used</td>
+<td class="gt_row gt_right gt_striped" headers="Patinet_Counts">110</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Description">Previous use</td>
+<td class="gt_row gt_right" headers="Patinet_Counts">79</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Description">Cigarette smoker, current</td>
+<td class="gt_row gt_right gt_striped" headers="Patinet_Counts">31</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Description">Unknown</td>
+<td class="gt_row gt_right" headers="Patinet_Counts">3</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="2" class="gt_footnote">Note: sum of sungroups exceeds the denominator due to multiple responses by patients</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="smoking-status-omop" class="level4">
+<h4 class="anchored" data-anchor-id="smoking-status-omop">Smoking Status (OMOP)</h4>
+<p>The information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="vhrytoydhi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vhrytoydhi table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#vhrytoydhi thead, #vhrytoydhi tbody, #vhrytoydhi tfoot, #vhrytoydhi tr, #vhrytoydhi td, #vhrytoydhi th {
+  border-style: none;
+}
+
+#vhrytoydhi p {
+  margin: 0;
+  padding: 0;
+}
+
+#vhrytoydhi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#vhrytoydhi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#vhrytoydhi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#vhrytoydhi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#vhrytoydhi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#vhrytoydhi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#vhrytoydhi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#vhrytoydhi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#vhrytoydhi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#vhrytoydhi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#vhrytoydhi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vhrytoydhi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#vhrytoydhi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#vhrytoydhi .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#vhrytoydhi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhrytoydhi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#vhrytoydhi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#vhrytoydhi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#vhrytoydhi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhrytoydhi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#vhrytoydhi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhrytoydhi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#vhrytoydhi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhrytoydhi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vhrytoydhi .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vhrytoydhi .gt_left {
+  text-align: left;
+}
+
+#vhrytoydhi .gt_center {
+  text-align: center;
+}
+
+#vhrytoydhi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#vhrytoydhi .gt_font_normal {
+  font-weight: normal;
+}
+
+#vhrytoydhi .gt_font_bold {
+  font-weight: bold;
+}
+
+#vhrytoydhi .gt_font_italic {
+  font-style: italic;
+}
+
+#vhrytoydhi .gt_super {
+  font-size: 65%;
+}
+
+#vhrytoydhi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#vhrytoydhi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#vhrytoydhi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#vhrytoydhi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#vhrytoydhi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#vhrytoydhi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#vhrytoydhi .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#vhrytoydhi .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#vhrytoydhi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="smoking_status" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Description</th>
+<th id="unique_person_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Patient Count</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="smoking_status">Former</td>
+<td class="gt_row gt_right" headers="unique_person_count">6,219</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="smoking_status">Never</td>
+<td class="gt_row gt_right gt_striped" headers="unique_person_count">4,425</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="smoking_status">Every Day</td>
+<td class="gt_row gt_right" headers="unique_person_count">685</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="smoking_status">Never Assessed</td>
+<td class="gt_row gt_right gt_striped" headers="unique_person_count">313</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="smoking_status">Some Days</td>
+<td class="gt_row gt_right" headers="unique_person_count">120</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="smoking_status">Unknown</td>
+<td class="gt_row gt_right gt_striped" headers="unique_person_count">29</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="smoking_status">Passive Smoke Exposure - Never Smoker</td>
+<td class="gt_row gt_right" headers="unique_person_count">29</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="smoking_status">Light Smoker</td>
+<td class="gt_row gt_right gt_striped" headers="unique_person_count">18</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="smoking_status">Heavy Smoker</td>
+<td class="gt_row gt_right" headers="unique_person_count">12</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="smoking_status">Smoker, Current Status Unknown</td>
+<td class="gt_row gt_right gt_striped" headers="unique_person_count">8</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="even">
+<td colspan="2" class="gt_footnote">Note: 2,022 patients didn't have smoking concept ID in the observation table</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="alcohol-use-neural-frame" class="level4">
+<h4 class="anchored" data-anchor-id="alcohol-use-neural-frame">Alcohol Use (Neural Frame)</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div id="jimcvkfhnn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jimcvkfhnn table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jimcvkfhnn thead, #jimcvkfhnn tbody, #jimcvkfhnn tfoot, #jimcvkfhnn tr, #jimcvkfhnn td, #jimcvkfhnn th {
+  border-style: none;
+}
+
+#jimcvkfhnn p {
+  margin: 0;
+  padding: 0;
+}
+
+#jimcvkfhnn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jimcvkfhnn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jimcvkfhnn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jimcvkfhnn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jimcvkfhnn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jimcvkfhnn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jimcvkfhnn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jimcvkfhnn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jimcvkfhnn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jimcvkfhnn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jimcvkfhnn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jimcvkfhnn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jimcvkfhnn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jimcvkfhnn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jimcvkfhnn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jimcvkfhnn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jimcvkfhnn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jimcvkfhnn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jimcvkfhnn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jimcvkfhnn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jimcvkfhnn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jimcvkfhnn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jimcvkfhnn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jimcvkfhnn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jimcvkfhnn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jimcvkfhnn .gt_left {
+  text-align: left;
+}
+
+#jimcvkfhnn .gt_center {
+  text-align: center;
+}
+
+#jimcvkfhnn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jimcvkfhnn .gt_font_normal {
+  font-weight: normal;
+}
+
+#jimcvkfhnn .gt_font_bold {
+  font-weight: bold;
+}
+
+#jimcvkfhnn .gt_font_italic {
+  font-style: italic;
+}
+
+#jimcvkfhnn .gt_super {
+  font-size: 65%;
+}
+
+#jimcvkfhnn .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jimcvkfhnn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jimcvkfhnn .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jimcvkfhnn .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jimcvkfhnn .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jimcvkfhnn .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jimcvkfhnn .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#jimcvkfhnn .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#jimcvkfhnn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="2" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="Description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Description</th>
+<th id="Patinet_Counts" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Patient Count</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Description">Not Available</td>
+<td class="gt_row gt_right" headers="Patinet_Counts">13,795</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Description">No history of alcohol use</td>
+<td class="gt_row gt_right gt_striped" headers="Patinet_Counts">72</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Description">Current use of alcohol</td>
+<td class="gt_row gt_right" headers="Patinet_Counts">35</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Description">Past history of alcohol use, does not currently use</td>
+<td class="gt_row gt_right gt_striped" headers="Patinet_Counts">10</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Description">Alcohol usage unknown</td>
+<td class="gt_row gt_right" headers="Patinet_Counts">3</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="2" class="gt_footnote">Note: sum of sungroups exceeds the denominator due to multiple responses by patients</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+
+
+</section>
+</div>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+<p>About</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
