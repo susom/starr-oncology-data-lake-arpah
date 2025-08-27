@@ -2,7 +2,7 @@
 title: "STAMP Gene Data"
 ---
 
-Stamp pipeline gene data includes the following columns: 
+The stamp_pipeline_gene_data table contains a list of genes that are either fully or partially covered by the panel, along with the name and pipeline version of the Stanford Molecular Pathology Lab panel.
 
 ### Table Columns
 
