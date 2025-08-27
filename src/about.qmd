@@ -35,6 +35,18 @@ NeuralFrame data encompasses research-eligible patients who have case records in
 
 - **STAMP**: The **Stanford Actionable Mutation Panel for Solid Tumors (STAMP)** is a targeted next-generation sequencing (NGS) assay designed to detect clinically actionable mutations as well as other genes frequently altered in cancer. STAMP employs a target enrichment-based sequencing method to capture specific genomic regions of interest. The sequencing approach and integrated bio informatics pipeline are optimized for ultra-deep sequencing of formalin-fixed, paraffin-embedded (FFPE) tumor biopsy specimens.
 
+    - **Gene Selection Criteria**:
+        - Their utility as targets of current or emerging anti-cancer therapies
+        - Their prognostic value
+        - Their mutation frequency across known cancer types
+
+    - **Technical Specifications**:
+        - Sequencing is performed using an **Illumina** platform
+        - Minimum limit of detection (LOD) of **5% variant allele frequency (VAF)**
+        - Genomic coordinates reported relative to **GRCh37 (hg19)**
+
+
+
 #### Dataset Releases
 
 We periodically release updated versions of our datasets to ensure that researchers have access to the most current and comprehensive data available. Below are the details of our latest dataset releases:
