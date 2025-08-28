@@ -15,7 +15,7 @@ The table `onc_philips_mtb_specimen_data` includes specimen-related information 
 | person_id                     |          | Yes   | Stable Between Data Refreshes |
 | sampleid                      | STRING   | Yes   | Nullified                     |
 | sampletype                    | STRING   |       |                            |
-| specimen_identifier           | STRING   |       |                            |
+| specimen_identifier           | STRING   |       | Nullified                         |
 | stanford_patient_uid          | STRING   | Yes   | Del                           |
 | tumorpercentage               | STRING   |       |                            |
 
