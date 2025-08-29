@@ -9,7 +9,7 @@ The table `onc_philips_mtb_specimen_data` includes specimen-related information 
 | column name                   | type     | phi   | phi-scrubbing operation       |
 |:------------------------------|:---------|:------|:------------------------------|
 | accession_number              | STRING   | Yes   | Hash                          |
-| collection_collected_datetime | STRING   |       |                            |
+| collection_collected_datetime | STRING   |       | Jitter                        |
 | created                       | DATETIME | Yes   | Jitter                        |
 | isprimary                     | STRING   |       |                            |
 | person_id                     |          | Yes   | Stable Between Data Refreshes |
