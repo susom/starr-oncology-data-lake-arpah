@@ -44,8 +44,7 @@ The following tables are available in the initial release of the dataset:
 
 ### STAMP
 
-* [Oncology STAMP PDF Data](philips_ispm_data_dict/stamp_pdf_data.qmd)
-* [STAMP Pipeline Gene Data](philips_ispm_data_dict/stamp_gene_data.qmd)
+* [STAMP Add On Data](philips_ispm_data_dict/stamp_addon_data.qmd)
 
 
 ### PHI Scrubbing Operations Definitions
