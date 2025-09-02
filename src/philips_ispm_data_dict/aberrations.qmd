@@ -14,8 +14,8 @@ The table `onc_philips_mtb_aberrations` contains genomic testing information fro
 | chrom                       | STRING |       |                            |
 | hgnc_gene                   | STRING |       |                            |
 | id                          | STRING | Yes   | Stable Between Data Refreshes |
-| is_selected_aberration_flag |        |       |                            |
-| person_id                   |        | Yes   | Stable Between Data Refreshes |
+| is_selected_aberration_flag |  INT64 |       |                            |
+| person_id                   | INT64  | Yes   | Stable Between Data Refreshes |
 | stanford_aa_change          | STRING |       |                            |
 | stanford_break_1            | STRING |       |                            |
 | stanford_break_2            | STRING |       |                            |
