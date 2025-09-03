@@ -46,6 +46,21 @@ The following tables are available in the initial release of the dataset:
 
 * [STAMP Add On Data](philips_ispm_data_dict/stamp_addon_data.qmd)
 
+### Starr-Deid
+
+This internal fully identified dataset consists of two tables:
+
+* [Gold Standard Full Text](starr_deid_data_dict/phi_dataset.qmd#full-text): This table contains the clinical text from which the annotations were gathered. It also contains basic demographic information about the patients to whom the notes refer.
+
+* [Gold Standard Spans](starr_deid_data_dict/phi_dataset.qmd#spans): This table contains the annotated spans where PHI was identified, along with the corresponding labels and the note identifier to which the spans correspond.
+
+### Lung Resection CAP Forms
+
+This dataset is composed by two groups of tables and one cleaned dataset in QA format:
+
+* [EPIC Clarity tables](cap_forms_data_dict/clarity_tables.qmd): These are the source EPIC Clarity tables required to assemble the information contained in the CAP forms as well as the pathology reports. The description of those   
+* [Processed tables](cap_forms_data_dict/processed_tables.qmd): These are two tables: `cap_forms` and `shc_pathology_reports`. The first table contains the structured information with the CAP forms. The second table contains the pathology reports with the individual elements that compose them each one separated. 
+* [QA cleaned dataset](cap_forms_data_dict/qa_dataset.qmd): This is a QA dataset where the questions, answers and context and clearly defined. This dataset is formatted as a HuggingFace dataset and can be loaded directly for training. 
 
 ### PHI Scrubbing Operations Definitions
 

@@ -6,6 +6,5 @@ src/may_2025/*_files/
 .DS_Store
 .log
 VennDiagram*.log
-pyproject.toml
 uv.lock
 .venv
