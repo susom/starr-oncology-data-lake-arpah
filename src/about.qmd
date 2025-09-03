@@ -45,7 +45,7 @@ NeuralFrame data encompasses research-eligible patients who have case records in
         - Minimum limit of detection (LOD) of **5% variant allele frequency (VAF)**
         - Genomic coordinates reported relative to **GRCh37 (hg19)**
 
-#### Starr-Deid
+#### STARR-Deid
 
 This is a corpus of 1,394 clinical notes sampled from STARR-OMOP. The PHI within the corpus was annotated by expert annotators. The full methodology describing dataset generation can be found [here](feb_2025/phi_labeling_process.qmd).
 

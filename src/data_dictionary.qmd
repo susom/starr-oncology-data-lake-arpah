@@ -46,7 +46,7 @@ The following tables are available in the initial release of the dataset:
 
 * [STAMP Add On Data](philips_ispm_data_dict/stamp_addon_data.qmd)
 
-### Starr-Deid
+### STARR-Deid
 
 This internal fully identified dataset consists of two tables:
 
