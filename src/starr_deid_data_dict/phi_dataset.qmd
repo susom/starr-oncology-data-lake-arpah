@@ -1,0 +1,113 @@
+---
+title: "Starr-Deid Dataset"
+---
+
+## Gold Standard Full Text {#full-text}
+
+This table contains the full text of the clinical notes, plus some patient demographics. 
+
+| field                                               | type    |
+|:----------------------------------------------------|:--------|
+| note_id                                             | STRING  |
+| note_text                                           | STRING  |
+| note_title                                          | STRING  |
+| note_length                                         | INTEGER |
+| sex                                                 | STRING  |
+| age                                                 | INTEGER |
+| race                                                | STRING  |
+| ethnicity                                           | STRING  |
+| note_source_value                                   | STRING  |
+| stanford_patient_uid                                | STRING  |
+| load_table_id                                       | STRING  |
+
+:  {.hover .responsive .sm}
+
+
+### Columns Description
+
+##### note_id
+
+Unique identifier for the clinical note
+
+##### note_text
+
+Text of the clinical note
+
+##### note_title
+
+Short description with the type of note
+
+##### note_length
+
+Length of the clinical note text in characters
+
+##### sex
+
+Biological Sex of the person to whom the note is about. 
+
+##### age
+
+This is the years difference since 2025 and the birth date. 
+
+##### race
+
+This is the self reported race of the person to whom the note is about. 
+
+##### ethnicity
+
+Self reported ethnicity of the person to whom the note is about. 
+
+
+##### note_source_value
+
+This is the unique identifier of the note in EPIC Clarity.
+
+##### stanford_patient_uid
+
+Unique patient identifier within the STARR DataLake that consist on the concatenation of patient MRN and DOB
+
+##### load_table_id
+
+Internal identifier for the data loading process that brought this record into the system.
+
+---
+
+## Gold Standard Spans {#spans}
+
+This table contains the annotated spans.
+
+| field                                               | type    |
+|:----------------------------------------------------|:--------|
+| uuid                                                | STRING  |
+| note_id                                             | STRING  |
+| span_start                                          | INTEGER |
+| span_end                                            | INTEGER |
+| span_tag                                            | STRING  |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### uuid
+
+Unique identifier of the sample
+
+##### note_id
+
+Unique identifier for the clinical note to whom the spans corresponds.
+
+##### span_start
+
+Integer index of the start of the annotation inside the `note_text`.
+
+##### span_end
+
+Integer index of the end of the annotation inside the `note_text`.
+
+##### span_tag
+
+Label of the annotation.
+
+
+---
+
