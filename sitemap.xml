@@ -37,6 +37,14 @@
     <lastmod>2025-08-15T00:18:16.259Z</lastmod>
   </url>
   <url>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/dicom_data_dict/dicom_data_dictionary.html</loc>
+    <lastmod>2025-08-15T00:10:01.416Z</lastmod>
+  </url>
+  <url>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/cap_forms_data_dict/qa_dataset.html</loc>
+    <lastmod>2025-09-03T20:17:18.431Z</lastmod>
+  </url>
+  <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/philips_ispm_data_dict/stamp_addon_data.html</loc>
     <lastmod>2025-09-02T16:09:40.158Z</lastmod>
   </url>
@@ -130,11 +138,11 @@
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/about.html</loc>
-    <lastmod>2025-09-03T20:17:18.428Z</lastmod>
+    <lastmod>2025-09-03T20:33:25.707Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/data_dictionary.html</loc>
-    <lastmod>2025-09-03T20:17:18.432Z</lastmod>
+    <lastmod>2025-09-03T20:33:32.379Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/cdm_source.html</loc>
@@ -229,12 +237,20 @@
     <lastmod>2025-09-02T16:09:40.157Z</lastmod>
   </url>
   <url>
-    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/dicom_data_dict/dicom_data_dictionary.html</loc>
-    <lastmod>2025-08-15T00:10:01.416Z</lastmod>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/cap_forms_data_dict/processed_tables.html</loc>
+    <lastmod>2025-09-03T20:17:18.430Z</lastmod>
+  </url>
+  <url>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/starr_deid_data_dict/phi_dataset.html</loc>
+    <lastmod>2025-09-03T20:33:42.807Z</lastmod>
+  </url>
+  <url>
+    <loc>https://susom.github.io/starr-oncology-data-lake-arpah/cap_forms_data_dict/clarity_tables.html</loc>
+    <lastmod>2025-09-03T20:17:18.430Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/aug_2025/metrics_clinical.html</loc>
-    <lastmod>2025-08-27T21:03:18.470Z</lastmod>
+    <lastmod>2025-09-03T20:47:23.275Z</lastmod>
   </url>
   <url>
     <loc>https://susom.github.io/starr-oncology-data-lake-arpah/aug_2025/cap_forms_methods.html</loc>
