@@ -49,12 +49,15 @@ website:
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
-          - text: "DICOM"
-            href: dicom_data_dict/dicom_data_dictionary.qmd     
           - text: "STARR-Deid"
             href: starr_deid_data_dict/phi_dataset.qmd
           - section: "Lung Resection CAP Forms"
-            contents: cap_forms_data_dict/*             
+            contents: cap_forms_data_dict/* 
+      - section: "Metadata"
+        href: metadata.qmd
+        contents:
+          - text: "DICOM"
+            href: dicom_data_dict/dicom_data_dictionary.qmd              
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
@@ -115,6 +118,8 @@ website:
         text: "Data Metrics"
       - href: data_labeling.qmd
         text: "Data Labeling"
+      - href: metadata.qmd
+        text: "Metadata"
     tools:
       - icon: github
         href: https://github.com/susom/starr-oncology-data-lake-arpah

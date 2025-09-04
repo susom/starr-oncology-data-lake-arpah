@@ -1,0 +1,16 @@
+---
+title: "STAMP Versions"
+execute:
+  echo: false
+---
+
+### STAMP Versions
+
+```{r}
+
+dat=readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_data_dict/oncology_stamp_metadata.tsv")
+
+
+DT::datatable(dat, options = list(pageLength = 25))
+
+```

@@ -106,10 +106,6 @@ den_pts=as.numeric(pt_img$counts)[1]
 
 As of August 2025, this table included images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. **Series** are defined as individual imaging acquisitions within a study.
 
-### Source Queries:
-The queries related to the following analysis can be accessed [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/image_occ). 
-The queries related to the following tables and graphs can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/image_occ.qmd).
-The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/image_occ/image_occ_thoracic)
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
@@ -563,8 +559,12 @@ plot <- plot_ly() %>%
   )
 plot 
 
-
-
 ```
+
 :::
+
+
+### Source Code:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/image_occ.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/image_occ).
+The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/image_occ/image_occ_thoracic).
 
