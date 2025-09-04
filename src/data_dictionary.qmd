@@ -68,7 +68,7 @@ In order to protect patient information, various PHI (Protected Health Informati
 
 | PHi-Scrubbing Operation Name | Description                                                                                                     |
 |------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| Offset                       | Offset specific to the project and dataset column                                                               |
+| Not Stable between Data Refreshes                       | Not Stable between Data Refreshes specific to the project and dataset column                                                               |
 | Jitter                       | Jitter specific to the project and dataset column                                                               |
 | Del                          | Delete the values in this Column                                                                                |
 | Sub                          | Substitute with a value specific to the project and dataset column                                              |

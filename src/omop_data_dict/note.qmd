@@ -8,7 +8,7 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| note_id                                             | INTEGER  | Yes        |       | Offset                    |
+| note_id                                             | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        |       | Sub                       |
 | note_date                                           | DATE     | No         | Yes   | Jitt                      |
 | note_datetime                                       | DATETIME | Yes        | Yes   | Jitt                      |
@@ -18,10 +18,10 @@ Standard Clinical Data Table
 | note_text                                           | STRING   | Yes        | Yes   | TiDE                      |
 | encoding_concept_id                                 | INTEGER  | Yes        |       |                        |
 | language_concept_id                                 | INTEGER  | Yes        |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Offset                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Offset                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Offset                    |
-| note_source_value                                   | STRING   | No         |       | Offset                    |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| note_source_value                                   | STRING   | No         |       | Not Stable between Data Refreshes                    |
 | load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 | unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
 

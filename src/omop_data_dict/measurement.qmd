@@ -8,7 +8,7 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| measurement_id                                      | INTEGER  | Yes        |       | Offset                    |
+| measurement_id                                      | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        |       | Sub                       |
 | measurement_concept_id                              | INTEGER  | Yes        |       |                        |
 | measurement_date                                    | DATE     | No         | Yes   | Jitter                    |
@@ -21,14 +21,14 @@ Standard Clinical Data Table
 | unit_concept_id                                     | INTEGER  | No         |       |                        |
 | range_low                                           | FLOAT    | No         |       |                        |
 | range_high                                          | FLOAT    | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Offset                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Offset                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Offset                    |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
 | measurement_source_value                            | STRING   | No         | Yes   | TiDE?                     |
 | measurement_source_concept_id                       | INTEGER  | Yes        |       |                        |
 | unit_source_value                                   | STRING   | No         |       |                        |
 | value_source_value                                  | STRING   | No         | Yes   | TiDE                      |
-| modifier_of_event_id                                |          | No         |       | Offset                    |
+| modifier_of_event_id                                |          | No         |       | Not Stable between Data Refreshes                    |
 | modifier_of_field_concept_id                        |          | No         |       |                        |
 | trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
 | unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
