@@ -16,6 +16,7 @@ Specifically, Thoracic Tumor Board patients are identified based on their primar
 **Note**: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity. 
 
 
+
 ```{r tb den, message=FALSE, warning=FALSE, results='hide'}
 library(ggplot2)
 library(DT)
@@ -35,6 +36,11 @@ head(res_den_thr)
 ```
 
 As of August 2025, From `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
+
+### Source Queries: 
+The queries related to the following analysis can be accessed [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated). 
+The queries related to the following tables and graphs can be found [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/tumor_board_updated.qmd).
+
 ```{r time trend, message=FALSE, warning=FALSE, results='hide'}
 # time trend
 tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_over_time.sql"
@@ -81,7 +87,7 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) 
       "<br>ratio: ", round(ratio, 3)
     )
   ), size = 3) +
-  geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
+  ##geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
     geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +  
 
   theme_minimal() +
@@ -99,7 +105,7 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) 
 
 # Convert to interactive plot with hover
 # Convert to interactive plot with hover
- ggplotly(p, tooltip = "text")
+plotly::ggplotly(p, tooltip = "text")
 
 
 ```

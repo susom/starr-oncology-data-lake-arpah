@@ -14,10 +14,9 @@
         "\n",
         "\n",
         "\n",
-        "\n",
         "Below the list of the EPIC Clarity tables needed to assemble the CAP forms and the pathology reports. The table name contains the link for the full public description of the table including the columns of each one and the description of the columns. \n"
       ],
-      "id": "d72ae77b"
+      "id": "050d8f73"
     },
     {
       "cell_type": "code",
@@ -132,7 +131,7 @@
         "# Convert DataFrame to HTML and display\n",
         "HTML(df.to_html(escape=False, table_id=\"df\", index=False, render_links=True))"
       ],
-      "id": "a75f774c",
+      "id": "8624693b",
       "execution_count": null,
       "outputs": []
     }
