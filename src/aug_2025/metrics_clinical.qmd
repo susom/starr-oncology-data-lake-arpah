@@ -41,8 +41,8 @@ As of the August 2025 OMOP population, `r format( den_res$counts_pts[den_res$dat
     - [Image Occurrence Metrics](image_occ.qmd)
 
 ### Source Queries:
-The queries related to the following analysis can be accessed [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/arpah-cohort). 
-The queries related to the following tables and graphs can be found [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/metrics_clinical.qmd).
+The queries related to the following analysis can be accessed [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/arpah_cohort). 
+The queries related to the following tables and graphs can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/aug_2025/metrics_clinical.qmd).
 
 
 ```{r table1, message=FALSE, warning=FALSE}

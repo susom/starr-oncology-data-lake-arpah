@@ -36,9 +36,9 @@ Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer c
 
 
 ### Source Queries:
-The queries related to the following analysis can be accessed [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/neuralframe). 
-The queries related to the following tables and graphs can be found [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/neural_frame.qmd).
-The queries regarding thoracic cancer can be found [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/scr/thoracic)
+The queries related to the following analysis can be accessed [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/neuralframe). 
+The queries related to the following tables and graphs can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/neural_frame.qmd).
+The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/scr/thoracic)
 
 ::: {.columns}
 
