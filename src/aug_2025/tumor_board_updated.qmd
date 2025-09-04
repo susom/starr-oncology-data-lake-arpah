@@ -37,7 +37,7 @@ head(res_den_thr)
 
 As of August 2025, From `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
 
-### Source Queries: 
+### Source Queries:
 The queries related to the following analysis can be accessed [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated). 
 The queries related to the following tables and graphs can be found [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/tumor_board_updated.qmd).
 

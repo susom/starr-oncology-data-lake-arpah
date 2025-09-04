@@ -40,6 +40,9 @@ As of the August 2025 OMOP population, `r format( den_res$counts_pts[den_res$dat
   - **OMOP Image Occurrence:** The OMOP image occurrence table captures records of medical imaging events at the series level providing a path to deidentified DICOM images.
     - [Image Occurrence Metrics](image_occ.qmd)
 
+### Source Queries:
+The queries related to the following analysis can be accessed [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/arpah-cohort). 
+The queries related to the following tables and graphs can be found [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/metrics_clinical.qmd).
 
 
 ```{r table1, message=FALSE, warning=FALSE}

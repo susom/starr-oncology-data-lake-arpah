@@ -106,6 +106,10 @@ ggplotly(p, tooltip = "text")
 
 **Note**: Additional FoundationOne (F1) test data was backfilled between the May release and the Philips export dated from 07/13/25 to 08/05/25, which was used for the August release. More data is expected in future releases
 
+### Source Queries:
+The queries related to the following analysis can be accessed [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/philips). 
+The queries related to the following tables and graphs can be found [here](/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/philips_metrics.qmd).
+
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
 
