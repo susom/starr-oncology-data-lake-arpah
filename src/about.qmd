@@ -33,6 +33,8 @@ NeuralFrame data encompasses research-eligible patients who have case records in
 
 - **Philips ISPM Specimen**: This table includes specimen-related information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford. The fields in this table are related to specimen details, including accession numbers and collection information.
 
+#### STAMP Add-On
+
 - **STAMP**: The **Stanford Actionable Mutation Panel for Solid Tumors (STAMP)** is a targeted next-generation sequencing (NGS) assay designed to detect clinically actionable mutations as well as other genes frequently altered in cancer. STAMP employs a target enrichment-based sequencing method to capture specific genomic regions of interest. The sequencing approach and integrated bio informatics pipeline are optimized for ultra-deep sequencing of formalin-fixed, paraffin-embedded (FFPE) tumor biopsy specimens. This panel focuses on clinically actionable genes, selected based on:
 
     - **Gene Selection Criteria**:
