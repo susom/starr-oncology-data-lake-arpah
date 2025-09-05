@@ -4,6 +4,8 @@ project:
    - about.qmd
    - data_dictionary.qmd
    - omop_data_dict/*
+   - metadata.qmd
+   - stamp_data_dict/*
    - data_metrics.qmd
    - feb_2025/*
    - may_2025/*
@@ -12,7 +14,6 @@ project:
    - 404.qmd
    - neuralframe_data_dict/*
    - philips_ispm_data_dict/*
-   - stamp_data_dict/*
    - dicom_data_dict/*
    - cap_forms_data_dict/*
    - starr_deid_data_dict/*
@@ -50,8 +51,8 @@ website:
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
-          - section: "STAMP"
-            contents: stamp_data_dict/*
+          - section: "STAMP Add-On"
+            contents: stamp_add_on_dict_data_dict/*
           - text: "STARR-Deid"
             href: starr_deid_data_dict/phi_dataset.qmd
           - section: "Lung Resection CAP Forms"
@@ -60,7 +61,9 @@ website:
         href: metadata.qmd
         contents:
           - text: "DICOM"
-            href: dicom_data_dict/dicom_data_dictionary.qmd              
+            href: dicom_data_dict/dicom_data_dictionary.qmd  
+          - section: "Genetics"
+            contents: stamp_data_dict/*.qmd  
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
