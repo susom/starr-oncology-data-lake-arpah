@@ -12,6 +12,7 @@ project:
    - 404.qmd
    - neuralframe_data_dict/*
    - philips_ispm_data_dict/*
+   - stamp_data_dict/*
    - dicom_data_dict/*
    - cap_forms_data_dict/*
    - starr_deid_data_dict/*
@@ -49,6 +50,8 @@ website:
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
+          - section: "STAMP"
+            contents: stamp_data_dict/*
           - text: "STARR-Deid"
             href: starr_deid_data_dict/phi_dataset.qmd
           - section: "Lung Resection CAP Forms"
