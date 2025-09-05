@@ -1,0 +1,22 @@
+---
+title: "Metadata"
+execute:
+  echo: false
+---
+
+
+### DICOM 
+
+[DICOM Dictionary](dicom_data_dict/dicom_data_dictionary.qmd)
+
+### Genetic
+
+The following tables list STAMP gene versions 1 to 4:
+
+* [STAMP V1](stamp_data_dict/stamp_v1.qmd)
+
+* [STAMP V2](stamp_data_dict/stamp_v2.qmd)
+
+* [STAMP V3](stamp_data_dict/stamp_v3.qmd)
+
+* [STAMP V4](stamp_data_dict/stamp_v4.qmd)

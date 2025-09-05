@@ -116,6 +116,7 @@ head(res)
 
 ##- **>`r format(res$counts[res$flag=="size_gb"], big.mark = ",")` GB** of imaging data 
 ```
+
 ::: {.columns}
 
 ::: {.column width="40%"}
@@ -558,8 +559,12 @@ plot <- plot_ly() %>%
   )
 plot 
 
-
-
 ```
+
 :::
+
+
+### Source Code:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/image_occ.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/image_occ).
+The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/image_occ/image_occ_thoracic).
 

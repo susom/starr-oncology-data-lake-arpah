@@ -8,7 +8,7 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| observation_id                                      | INTEGER  | Yes        |       | Offset                    |
+| observation_id                                      | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        |       | Sub                       |
 | observation_concept_id                              | INTEGER  | Yes        |       |                        |
 | observation_date                                    | DATE     | No         | Yes   | Jitt                      |
@@ -19,7 +19,7 @@ Standard Clinical Data Table
 | value_as_concept_id                                 | INTEGER  | No         |       | TiDE                      |
 | qualifier_concept_id                                | INTEGER  | No         |       |                        |
 | unit_concept_id                                     | INTEGER  | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Offset                    |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
 | visit_occurrence_id                                 | INTEGER  | No         |       |                        |
 | visit_detail_id                                     | INTEGER  | No         |       |                        |
 | observation_source_value                            | STRING   | No         | Yes   |                        |

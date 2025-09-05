@@ -42,9 +42,9 @@ The following tables are available in the initial release of the dataset:
 * [Philips ISPM Orders](philips_ispm_data_dict/pat_diag_orders.qmd)
 * [Philips ISPM Specimen](philips_ispm_data_dict/specimen_data.qmd)
 
-### STAMP
+### STAMP Add-On
 
-* [STAMP Add On Data](philips_ispm_data_dict/stamp_addon_data.qmd)
+* [STAMP Add On Data](stamp_addon_data_dict/stamp_addon_data.qmd)
 
 ### STARR-Deid
 
@@ -68,7 +68,7 @@ In order to protect patient information, various PHI (Protected Health Informati
 
 | PHi-Scrubbing Operation Name | Description                                                                                                     |
 |------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| Offset                       | Offset specific to the project and dataset column                                                               |
+| Not Stable between Data Refreshes                       | Not Stable between Data Refreshes specific to the project and dataset column                                                               |
 | Jitter                       | Jitter specific to the project and dataset column                                                               |
 | Del                          | Delete the values in this Column                                                                                |
 | Sub                          | Substitute with a value specific to the project and dataset column                                              |

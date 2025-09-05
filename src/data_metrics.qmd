@@ -24,7 +24,7 @@ The May 2025 release is the second release of the dataset which includes additio
 
 ### August 2025
 
-The August 2025 release is the third release of the dataset which includes additional data sources such as OMOP image occurrence, Philips ISPM, and Stanford cancer registry. You can find detailed information about this release by following the link below:
+The August 2025 release is the third release of the dataset which includes additional data sources such as OMOP image occurrence, Philips ISPM, Stanford cancer registry, and STAMP Add-On data. You can find detailed information about this release by following the link below:
 
 - [August 2025 Metrics](aug_2025/metrics_clinical.qmd)
 
