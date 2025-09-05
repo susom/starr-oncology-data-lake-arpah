@@ -44,7 +44,7 @@ The following tables are available in the initial release of the dataset:
 
 ### STAMP Add-On
 
-* [STAMP Add On Data](philips_ispm_data_dict/stamp_addon_data.qmd)
+* [STAMP Add On Data](stamp_addon_data_dict/stamp_addon_data.qmd)
 
 ### STARR-Deid
 
