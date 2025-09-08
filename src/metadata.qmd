@@ -7,7 +7,7 @@ execute:
 
 ### DICOM 
 
-[DICOM Dictionary](dicom_data_dict/dicom_data_dictionary.qmd)
+[DICOM Metadata](dicom_data_dict/dicom_data_dictionary.qmd)
 
 ### Genetic
 
