@@ -1,0 +1,26 @@
+---
+title: "HEME-STAMP V1"
+execute:
+  echo: false
+---
+
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+dat=readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_data_dict/oncology_stamp_metadata.tsv")
+
+```
+
+The following genes are listed under STAMP V4:
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr)
+
+# Read the data
+dat = readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_data_dict/oncology_stamp_metadata.tsv")
+
+# Create the subsets
+heme_v1= dat %>% 
+  filter(pipeline_version == "v1" & assay_performed == "HEME-STAMP")
+
+DT::datatable(heme_v1, options = list(pageLength = 25))
+```

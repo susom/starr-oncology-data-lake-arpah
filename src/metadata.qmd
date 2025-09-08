@@ -20,3 +20,9 @@ The following tables list STAMP gene versions 1 to 4:
 * [STAMP V3](stamp_data_dict/stamp_v3.qmd)
 
 * [STAMP V4](stamp_data_dict/stamp_v4.qmd)
+
+* [HEME-STAMP V1](stamp_data_dict/heme_stamp_v1.qmd)
+
+* [HEME-STAMP V2](stamp_data_dict/heme_stamp_v2.qmd)
+
+* [HEME-STAMP V4](stamp_data_dict/heme_stamp_v4.qmd)

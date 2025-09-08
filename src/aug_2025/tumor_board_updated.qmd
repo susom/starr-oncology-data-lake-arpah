@@ -363,5 +363,5 @@ plot_ly(res_bar,
 ```
 :::
 
-### Source Queries:
+### Source Codes:
 The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/tumor_board_updated.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/tumor_board_updated). 

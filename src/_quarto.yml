@@ -64,7 +64,7 @@ website:
         contents:
           - text: "DICOM"
             href: dicom_data_dict/dicom_data_dictionary.qmd  
-          - section: "Genetics"
+          - section: "Genetic"
             contents: stamp_data_dict/*.qmd  
       - section: "Data Metrics"
         href: data_metrics.qmd
