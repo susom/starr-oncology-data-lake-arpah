@@ -29,15 +29,15 @@ The following tables list HEME-STAMP genes versions 1, 2, and 4:
 
 * [HEME-STAMP V4](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4)
 
-### Bed Files
+### BED Files
 
-* [Bed File: HEME-STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v1)
+* [BED File: HEME-STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v1)
 
-* [Bed File: HEME-STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v2)
+* [BED File: HEME-STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v2)
 
-* [Bed File: STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v1)
+* [BED File: STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v1)
 
-* [Bed File: STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v2)
+* [BED File: STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v2)
 
-* [Bed File: STAMP V3](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v3)
+* [BED File: STAMP V3](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v3)
 
