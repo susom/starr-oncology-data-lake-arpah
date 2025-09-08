@@ -5,7 +5,7 @@ execute:
 ---
 
 
-## HEME-STAMP-V1 Bed File{#Bed-HEME-STAMP-V1}
+## HEME-STAMP-V1 Bed File {#Bed-HEME-STAMP-V1}
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 
@@ -18,7 +18,7 @@ DT::datatable(heme_stamp_v1_bed_data, options = list(pageLength = 25))
 
 ```
 
-## HEME-STAMP-V2 Bed Files{#Bed-HEME-STAMP-V2}
+## HEME-STAMP-V2 Bed File {#Bed-HEME-STAMP-V2}
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 
@@ -31,7 +31,7 @@ DT::datatable(heme_stamp_v2_bed_data, options = list(pageLength = 25))
 
 ```
 
-## STAMP-V1 Bed Files {#Bed-STAMP-V1}
+## STAMP-V1 Bed File {#Bed-STAMP-V1}
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 

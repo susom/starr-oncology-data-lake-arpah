@@ -73,11 +73,11 @@ website:
               - text: "STAMP-V1"
                 href: stamp_data_dict/stamp_all_versions.qmd#stamp-v1
               - text: "STAMP-V2"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v2
               - text: "STAMP-V3"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v3
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v3
               - text: "STAMP-V4"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v4
               - text: "Heme-STAMP V1"
                 href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1
               - text: "Heme-STAMP V2"
