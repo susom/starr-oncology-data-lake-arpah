@@ -47,6 +47,17 @@ NeuralFrame data encompasses research-eligible patients who have case records in
         - Minimum limit of detection (LOD) of **5% variant allele frequency (VAF)**
         - Genomic coordinates reported relative to **GRCh37 (hg19)**
 
+- **Heme-STAMP**: The Stanford Actionable Mutation Panel for Hematopoietic and Lymphoid Malignancies (Heme-STAMP) is a targeted next-generation sequencing (NGS) assay designed to detect single nucleotide variants (SNVs), short insertion–deletions (indels), and selected gene fusions across 203 genes recurrently altered in myeloid and lymphoid neoplasms. Heme-STAMP employs a target enrichment–based sequencing method, beginning with acoustic shearing of genomic DNA, followed by sequencing library preparation and capture of genomic regions of interest using custom-designed oligonucleotide probes.
+    -**Gene Selection Criteria**:
+       - Clinical relevance as targets of existing or emerging anti-cancer therapies
+       - Prognostic significance in hematopoietic malignancies
+       - Recurrence frequency across patients with myeloid and lymphoid neoplasms
+     -**Technical Specifications**:
+       - Sequencing performed on an Illumina platform
+       - Minimum limit of detection (LOD) of 5% variant allele frequency (VAF) for SNVs and indels
+       - Targets 203 genes (either fully or partially covered)
+       - Pooled libraries prepared through acoustic shearing and targeted enrichment
+
 #### STARR-Deid
 
 This is a corpus of 1,394 clinical notes sampled from STARR-OMOP. The PHI within the corpus was annotated by expert annotators. The full methodology describing dataset generation can be found [here](feb_2025/phi_labeling_process.qmd).
