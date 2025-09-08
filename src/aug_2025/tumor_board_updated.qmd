@@ -88,7 +88,7 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) 
   ##geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
     geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +  
 
-  theme_minimal() +
+  theme_bw() +
   labs(
     title = "Tumor Board Encounters Over Time",
     x = "Year",
@@ -107,6 +107,7 @@ plotly::ggplotly(p, tooltip = "text")
 
 
 ```
+Please note that starting in 2018, Stanford Cancer Center standardized and rationalized the tagging of tumor boards in the EHR.
 
 ## Data Sources Across Tumor Board ##
 

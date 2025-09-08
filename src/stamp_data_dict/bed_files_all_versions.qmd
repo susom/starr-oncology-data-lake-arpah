@@ -1,5 +1,5 @@
 ---
-title: "Bed Files All Version"
+title: "BED Files All Version"
 execute:
   echo: false
 ---
