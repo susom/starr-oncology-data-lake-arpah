@@ -88,7 +88,7 @@ website:
                    href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
                  - text: "HEME-STAMP-V4"
                    href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
-             - section: "Bed Files All Versions"
+             - section: "BED Files All Versions"
                contents: 
                  - text: "BF HEME-STAMP-V1"
                    href: stamp_data_dict/bed_files_all_versions.qmd#Bed-HEME-STAMP-V1

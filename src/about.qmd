@@ -59,7 +59,7 @@ This is a fully identified dataset that contains a combination of structured and
 
 ### Metadata
 
-The metadata includes DICOM dictionary and listed genes for STAMP and HEME-STAMP versions. 
+The metadata includes DICOM dictionary, listed genes for STAMP and HEME-STAMP versions, and relative BED files. 
 
 
 ### Dataset Releases

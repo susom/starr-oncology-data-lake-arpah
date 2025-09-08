@@ -31,6 +31,13 @@ The following tables list HEME-STAMP genes versions 1, 2, and 4:
 
 ### BED Files
 
+BED files are text-based file formats used in bioinformatics to define genomic regions. The required BED fields are:
+ - chrom: The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671). 
+ - chromStart: The starting position of the feature in the chromosome or scaffold. The first base in a chromosome is numbered 0.
+ - chromEnd: The ending position of the feature in the chromosome or scaffold. The chromEnd base is not included in the display of the feature, however, the number in position format will be represented.
+ - name: Defines the name of the BED line. 
+
+
 * [BED File: HEME-STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v1)
 
 * [BED File: HEME-STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v2)
