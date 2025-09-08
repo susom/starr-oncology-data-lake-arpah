@@ -1,0 +1,74 @@
+---
+title: "Bed Files"
+execute:
+  echo: false
+---
+
+
+## Bed File: HEME-STAMP-V1 {#Bed-HEME-STAMP-V1}
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+
+heme_stamp_v1_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/bed_files/Heme-STAMP_v1_APR2018.bed", 
+                      sep="\t", 
+                      header=FALSE,
+                      col.names=c("chrom", "chromStart", "chromEnd", "name"))
+
+DT::datatable(heme_stamp_v1_bed_data, options = list(pageLength = 25))
+
+```
+
+## Bed File: HEME-STAMP-V2 {#Bed-HEME-STAMP-V2}
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+
+heme_stamp_v2_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/bed_files/Heme-STAMP_v2_AUG2018.bed", 
+                      sep="\t", 
+                      header=FALSE,
+                      col.names=c("chrom", "chromStart", "chromEnd", "name"))
+
+DT::datatable(heme_stamp_v2_bed_data, options = list(pageLength = 25))
+
+```
+
+## Bed File: HEME-STAMP-V2 {#Bed-STAMP-V1}
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+
+stamp1_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/bed_files/STAMP1_OCT2014.bed", 
+                      sep="\t", 
+                      header=FALSE,
+                      col.names=c("chrom", "chromStart", "chromEnd", "name"))
+
+DT::datatable(stamp1_bed_data, options = list(pageLength = 25))
+
+```
+
+## Bed File: STAMP-V2 {#Bed-STAMP-V2}
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+
+stamp2_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/bed_files/STAMP2_OCT2015.bed", 
+                      sep="\t", 
+                      header=FALSE,
+                      col.names=c("chrom", "chromStart", "chromEnd", "name"))
+
+DT::datatable(stamp2_bed_data, options = list(pageLength = 25))
+
+```
+
+## Bed File: STAMP-V3 {#Bed-STAMP-V3}
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+
+stamp3_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/bed_files/STAMP3_SEP2018.bed", 
+                      sep="\t", 
+                      header=FALSE,
+                      col.names=c("chrom", "chromStart", "chromEnd", "name"))
+
+DT::datatable(stamp3_bed_data, options = list(pageLength = 25))
+
+```
+
+
+
