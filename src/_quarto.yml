@@ -4,6 +4,10 @@ project:
    - about.qmd
    - data_dictionary.qmd
    - omop_data_dict/*
+   - stamp_addon_data.qmd
+   - stamp_add_on_data_dict/*
+   - metadata.qmd
+   - stamp_data_dict/*
    - data_metrics.qmd
    - feb_2025/*
    - may_2025/*
@@ -49,12 +53,53 @@ website:
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
-          - text: "DICOM"
-            href: dicom_data_dict/dicom_data_dictionary.qmd     
-          - text: "STARR-Deid"
-            href: starr_deid_data_dict/phi_dataset.qmd
+          - section: "STAMP Add-On"
+            contents: stamp_add_on_data_dict/*.qmd
+          - section: "STARR-Deid"
+            contents: 
+              - text: "Gold Standard Full Text"
+                href: starr_deid_data_dict/phi_dataset.qmd#full-text
+              - text: "Gold Standard Spans"
+                href: starr_deid_data_dict/phi_dataset.qmd#spans
           - section: "Lung Resection CAP Forms"
-            contents: cap_forms_data_dict/*             
+            contents: cap_forms_data_dict/* 
+      - section: "Metadata"
+        href: metadata.qmd
+        contents:
+          - text: "DICOM"
+            href: dicom_data_dict/dicom_data_dictionary.qmd  
+          - section: "Genetic"
+            contents: 
+             - section: "STAMP All Versions"
+               contents: 
+                 - text: "STAMP-V1"
+                   href: stamp_data_dict/stamp_all_versions.qmd#stamp-v1
+                 - text: "STAMP-V2"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v2
+                 - text: "STAMP-V3"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v3
+                 - text: "STAMP-V4"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v4
+             - section: "HEME-STAMP All Versions"
+               contents: 
+                 - text: "HEME-STAMP-V1"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1
+                 - text: "HEME-STAMP-V2"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
+                 - text: "HEME-STAMP-V4"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
+             - section: "BED Files All Versions"
+               contents: 
+                 - text: "BF HEME-STAMP-V1"
+                   href: stamp_data_dict/bed_files_all_versions.qmd#Bed-HEME-STAMP-V1
+                 - text: "BF HEME-STAMP-V2"
+                   href: stamp_data_dict/bed_files_all_versions.qmd#Bed-HEME-STAMP-V2
+                 - text: "BF STAMP-V1"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v1
+                 - text: "BF STAMP-V2"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v2
+                 - text: "BF STAMP-V3"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v3
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
@@ -63,7 +108,7 @@ website:
           - section: "May 2025"
             href: may_2025/metrics_clinical.qmd
             contents:
-              - text: "Neural Frame "
+              - text: "Neural Frame"
                 href: may_2025/neural_frame.qmd
               - text: "Image Occurrence"
                 href: may_2025/image_occ.qmd
@@ -115,6 +160,8 @@ website:
         text: "Data Metrics"
       - href: data_labeling.qmd
         text: "Data Labeling"
+      - href: metadata.qmd
+        text: "Metadata"
     tools:
       - icon: github
         href: https://github.com/susom/starr-oncology-data-lake-arpah

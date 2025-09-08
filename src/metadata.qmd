@@ -1,0 +1,61 @@
+---
+title: "Metadata"
+execute:
+  echo: false
+---
+
+
+### DICOM 
+
+[DICOM Metadata](dicom_data_dict/dicom_data_dictionary.qmd)
+
+### Genetic
+
+The following tables list STAMP genes versions 1 to 4:
+
+* [STAMP V1](stamp_data_dict/stamp_all_versions.qmd#stamp-v1)
+
+* [STAMP V2](stamp_data_dict/stamp_all_versions.qmd#stamp-v2)
+
+* [STAMP V3](stamp_data_dict/stamp_all_versions.qmd#stamp-v3)
+
+* [STAMP V4](stamp_data_dict/stamp_all_versions.qmd#stamp-v4)
+
+The following tables list HEME-STAMP genes versions 1, 2, and 4:
+
+* [HEME-STAMP V1](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1)
+
+* [HEME-STAMP V2](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2)
+
+* [HEME-STAMP V4](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4)
+
+#### Raw Data Files:
+The raw data files for STAMP and HEME-STAMP can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/stamp_data_dict/oncology_stamp_metadata.tsv).
+
+### BED Files
+
+BED files are text-based file formats used in bioinformatics to define genomic regions. The required BED fields are:
+
+ - chrom: The name of the chromosome (e.g. chr3, chrY, chr2_random) or scaffold (e.g. scaffold10671). 
+
+ - chromStart: The starting position of the feature in the chromosome or scaffold. The first base in a chromosome is numbered 0.
+
+ - chromEnd: The ending position of the feature in the chromosome or scaffold. The chromEnd base is not included in the display of the feature, however, the number in position format will be represented.
+ 
+ - name: Defines the name of the BED line. 
+
+The following BED files for STAMP versions and HEME-STAMP versions are listed below: 
+
+* [BED File: HEME-STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v1)
+
+* [BED File: HEME-STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v2)
+
+* [BED File: STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v1)
+
+* [BED File: STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v2)
+
+* [BED File: STAMP V3](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v3)
+
+#### Raw Data Files:
+The raw data files for the above BED files can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/bed_files).
+

@@ -16,6 +16,7 @@ Specifically, Thoracic Tumor Board patients are identified based on their primar
 **Note**: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity. 
 
 
+
 ```{r tb den, message=FALSE, warning=FALSE, results='hide'}
 library(ggplot2)
 library(DT)
@@ -35,6 +36,9 @@ head(res_den_thr)
 ```
 
 As of August 2025, From `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
+
+
+
 ```{r time trend, message=FALSE, warning=FALSE, results='hide'}
 # time trend
 tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_over_time.sql"
@@ -81,10 +85,10 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) 
       "<br>ratio: ", round(ratio, 3)
     )
   ), size = 3) +
-  geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
-    geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +  # Add vertical line for year 2020
+  ##geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
+    geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +  
 
-  theme_minimal() +
+  theme_bw() +
   labs(
     title = "Tumor Board Encounters Over Time",
     x = "Year",
@@ -99,10 +103,11 @@ p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) 
 
 # Convert to interactive plot with hover
 # Convert to interactive plot with hover
- ggplotly(p, tooltip = "text")
+plotly::ggplotly(p, tooltip = "text")
 
 
 ```
+Please note that starting in 2018, Stanford Cancer Center standardized and rationalized the tagging of tumor boards in the EHR.
 
 ## Data Sources Across Tumor Board ##
 
@@ -356,7 +361,8 @@ plot_ly(res_bar,
     uniformtext = list(minsize = 8, mode = "show")
   )
 
-
 ```
-
 :::
+
+### Source Codes:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/tumor_board_updated.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/tumor_board_updated). 

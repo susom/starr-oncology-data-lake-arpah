@@ -34,6 +34,8 @@ Within Neural Frame, Class of Case (CoC) divides cases into two groups: cancer c
 
  - **Non-analytic**: Non-analytic cases include recurrences, consults only, and in-transit patients. Non-analytic cases (codes 30-49 and 99) can be abstracted by the facility to fulfill central registry requirements or upon request from the facility’s cancer program. The grouping of non-analytic cases is based on the reason for their classification, whether they received care at the facility or were abstracted for other reasons. 
 
+
+
 ::: {.columns}
 
 ::: {.column width="50%"}
@@ -331,7 +333,6 @@ create_gt_table_v3(
 
 
 ##  Histology Type Summary
-
 
 ::: {.panel-tabset}
 
@@ -915,6 +916,9 @@ create_gt_table_v1(
   footnote_text = "Note: sum of sungroups exceeds the denominator due to multiple responses by patients")
 ```
 
-
-
 :::
+
+### Source Codes:
+
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/neural_frame.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/neuralframe). 
+The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/scr/thoracic).
