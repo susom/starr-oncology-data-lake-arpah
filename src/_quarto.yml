@@ -70,20 +70,36 @@ website:
             href: dicom_data_dict/dicom_data_dictionary.qmd  
           - section: "Genetic"
             contents: 
-              - text: "STAMP-V1"
-                href: stamp_data_dict/stamp_all_versions.qmd#stamp-v1
-              - text: "STAMP-V2"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v2
-              - text: "STAMP-V3"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v3
-              - text: "STAMP-V4"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v4
-              - text: "Heme-STAMP V1"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1
-              - text: "Heme-STAMP V2"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
-              - text: "Heme-STAMP V4"
-                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
+             - section: "STAMP All Versions"
+               contents: 
+                 - text: "STAMP-V1"
+                   href: stamp_data_dict/stamp_all_versions.qmd#stamp-v1
+                 - text: "STAMP-V2"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v2
+                 - text: "STAMP-V3"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v3
+                 - text: "STAMP-V4"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v4
+             - section: "HEME-STAMP All Versions"
+               contents: 
+                 - text: "HEME-STAMP-V1"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1
+                 - text: "HEME-STAMP-V2"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
+                 - text: "HEME-STAMP-V4"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
+             - section: "Bed Files All Versions"
+               contents: 
+                 - text: "BF HEME-STAMP-V1"
+                   href: stamp_data_dict/bed_files_all_versions.qmd#Bed-HEME-STAMP-V1
+                 - text: "BF HEME-STAMP-V2"
+                   href: stamp_data_dict/bed_files_all_versions.qmd#Bed-HEME-STAMP-V2
+                 - text: "BF STAMP-V1"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v1
+                 - text: "BF STAMP-V2"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v2
+                 - text: "BF STAMP-V3"
+                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v3
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
