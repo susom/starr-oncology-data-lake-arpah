@@ -56,7 +56,11 @@ website:
           - section: "STAMP Add-On"
             contents: stamp_add_on_data_dict/*.qmd
           - section: "STARR-Deid"
-            contents: starr_deid_data_dict/*.qmd
+            contents: 
+              - text: "Gold Standard Full Text"
+                href: starr_deid_data_dict/phi_dataset.qmd#full-text
+              - text: "Gold Standard Spans"
+                href: starr_deid_data_dict/phi_dataset.qmd#spans
           - section: "Lung Resection CAP Forms"
             contents: cap_forms_data_dict/* 
       - section: "Metadata"
@@ -65,7 +69,21 @@ website:
           - text: "DICOM"
             href: dicom_data_dict/dicom_data_dictionary.qmd  
           - section: "Genetic"
-            contents: stamp_data_dict/*.qmd  
+            contents: 
+              - text: "STAMP-V1"
+                href: stamp_data_dict/stamp_all_versions.qmd#stamp-v1
+              - text: "STAMP-V2"
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
+              - text: "STAMP-V3"
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v3
+              - text: "STAMP-V4"
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
+              - text: "Heme-STAMP V1"
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1
+              - text: "Heme-STAMP V2"
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
+              - text: "Heme-STAMP V4"
+                href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:

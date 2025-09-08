@@ -13,18 +13,20 @@ execute:
 
 The following tables list STAMP genes versions 1 to 4:
 
-* [STAMP V1](stamp_data_dict/stamp_v1.qmd)
+* [STAMP V1](stamp_data_dict/stamp_all_versions.qmd#stamp-v1)
 
-* [STAMP V2](stamp_data_dict/stamp_v2.qmd)
+* [STAMP V2](stamp_data_dict/stamp_all_versions.qmd#stamp-v2)
 
-* [STAMP V3](stamp_data_dict/stamp_v3.qmd)
+* [STAMP V3](stamp_data_dict/stamp_all_versions.qmd#stamp-v3)
 
-* [STAMP V4](stamp_data_dict/stamp_v4.qmd)
+* [STAMP V4](stamp_data_dict/stamp_all_versions.qmd#stamp-v4)
 
 The following tables list HEME-STAMP genes versions 1, 2, and 4:
 
-* [HEME-STAMP V1](stamp_data_dict/heme_stamp_v1.qmd)
+* [HEME-STAMP V1](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1)
 
-* [HEME-STAMP V2](stamp_data_dict/heme_stamp_v2.qmd)
+* [HEME-STAMP V2](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2)
 
-* [HEME-STAMP V4](stamp_data_dict/heme_stamp_v4.qmd)
+* [HEME-STAMP V4](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4)
+
+### Bed Files
