@@ -4,8 +4,8 @@ project:
    - about.qmd
    - data_dictionary.qmd
    - omop_data_dict/*
-   - stamp_addon_data.qmd
    - stamp_add_on_data_dict/*
+   - stamp_addon_data.qmd
    - metadata.qmd
    - stamp_data_dict/*
    - data_metrics.qmd
@@ -54,7 +54,7 @@ website:
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
           - section: "STAMP Add-On"
-            contents: stamp_add_on_data_dict/*.qmd
+            contents: stamp_add_on_data_dict/stamp_addon_data.qmd
           - section: "STARR-Deid"
             contents: 
               - text: "Gold Standard Full Text"

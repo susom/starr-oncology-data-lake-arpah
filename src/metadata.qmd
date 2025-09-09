@@ -29,7 +29,7 @@ The following tables list HEME-STAMP genes versions 1, 2, and 4:
 
 * [HEME-STAMP V4](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4)
 
-#### Raw Data Files:
+
 The raw data files for STAMP and HEME-STAMP can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/stamp_data_dict/oncology_stamp_metadata.tsv).
 
 ### BED Files
@@ -44,7 +44,7 @@ BED files are text-based file formats used in bioinformatics to define genomic r
  
  - name: Defines the name of the BED line. 
 
-The following BED files for STAMP versions and HEME-STAMP versions are listed below: 
+The downloadable raw data files for the above BED files can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/bed_files) and are listed below:
 
 * [BED File: HEME-STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v1)
 
@@ -56,6 +56,6 @@ The following BED files for STAMP versions and HEME-STAMP versions are listed be
 
 * [BED File: STAMP V3](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v3)
 
-#### Raw Data Files:
-The raw data files for the above BED files can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/bed_files).
+
+
 
