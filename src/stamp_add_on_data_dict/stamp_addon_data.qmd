@@ -6,7 +6,7 @@ The oncology_stamp_add_on_data table includes the panel name and pipeline versio
 
  Please note that multiple records may correspond to the same accession number. The assay_performed_derived and pipeline_version_derived fields can be used to link to the STAMP panel metadata. 
 
-### Table Columns
+### August 2025 Release: Table Columns  
 
 | Column Name              | Type   | PHI  | PHI-Scrubbing Operation        |
 |:-------------------------|:-------|:-----|:-------------------------------|
@@ -18,6 +18,15 @@ The oncology_stamp_add_on_data table includes the panel name and pipeline versio
 | pipeline_version_source  | STRING | No   | None                           |
 | stanford_patient_uid     | STRING | Yes  | Del                            |
 
+### May 2025 Release: Table Columns
+
+| Column Name              | Type   | PHI  | PHI-Scrubbing Operation        |
+|:-------------------------|:-------|:-----|:-------------------------------|
+| accession_number         | STRING | Yes  | Hash                           |
+| assay_performed          | STRING | No   | None                           |
+| person_id                | INT64  | Yes  | Stable Between Data Refreshes  |
+| pipeline_version.        | STRING | No   | None                           |
+| stanford_patient_uid     | STRING | Yes  | Del                            |
 
 :  {.hover .responsive .sm}
 
