@@ -19,6 +19,7 @@ project:
    - dicom_data_dict/*
    - cap_forms_data_dict/*
    - starr_deid_data_dict/*
+   - robots.txt
 
 website:
   title: "VISTA Oncology Data Lake"
