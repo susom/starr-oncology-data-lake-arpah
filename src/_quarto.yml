@@ -55,7 +55,7 @@ website:
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
           - section: "STAMP Add-On"
-            contents: stamp_add_on_data_dict/stamp_addon_data.qmd
+            contents: stamp_add_on_data_dict/stamp_addon_data
           - section: "STARR-Deid"
             contents: 
               - text: "Gold Standard Full Text"
