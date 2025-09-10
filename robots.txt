@@ -1,1 +1,55 @@
-Sitemap: https://susom.github.io/starr-oncology-data-lake-arpah/sitemap.xml
+# robots.txt for VISTA Oncology Data Lake - Stanford ARPA-H
+# This site provides comprehensive oncology datasets and research tools
+# for Stanford VISTA (Verifiable Intelligence for Systems and Technology Applications) project
+
+User-agent: *
+Allow: /
+
+# Primary content areas - encourage indexing
+Allow: /about.html
+Allow: /data_dictionary.html
+Allow: /data_metrics.html
+Allow: /data_labeling.html
+Allow: /metadata.html
+
+# Dataset documentation - highly relevant for search
+Allow: /feb_2025/
+Allow: /may_2025/
+Allow: /aug_2025/
+
+# Data dictionaries - important reference material
+Allow: /omop_data_dict/
+Allow: /neuralframe_data_dict/
+Allow: /philips_ispm_data_dict/
+Allow: /stamp_add_on_data_dict/
+Allow: /stamp_data_dict/
+Allow: /starr_deid_data_dict/
+Allow: /cap_forms_data_dict/
+Allow: /dicom_data_dict/
+
+# Essential metadata and navigation
+Allow: /sitemap.xml
+Allow: /search.json
+Allow: /robots.txt
+
+# Static assets
+Allow: /images/
+Allow: /fonts/
+Allow: /styles.css
+Allow: /site_libs/
+
+# Crawl delay to be respectful to server resources
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: /sitemap.xml
+
+# Keywords and content description for search engines:
+# Stanford VISTA, Stanford ARPA-H VISTA, oncology Stanford VISTA
+# OMOP-CDM, NeuralFrame, Philips ISPM, STAMP genomics
+# oncology data lake, cancer research datasets
+# PHI labeling, clinical data standards
+# Stanford Cancer Registry, precision medicine
+# STARR-Deid, CAP forms, DICOM metadata
+# healthcare data analysis, observational research
+# machine learning training data, clinical informatics
