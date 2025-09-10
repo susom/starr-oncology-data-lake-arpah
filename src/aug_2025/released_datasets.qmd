@@ -27,7 +27,7 @@ This document provides a list of datasets as part of the August 2025 released. E
 ### STAMP Add-On Data
 | Dataset Name | Description |
 |:------------|:------------|
-|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_aug2025.oncology_stamp_add_on_data_phi`| STAMP add on dataset with PHI | 
+|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_aug2025.stamp_add_on_data_phi`| STAMP add on dataset with PHI | 
 |`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_aug2025.stamp_add_on_data_confidential`| STAMP add on dataset Scrubbed |
 :  {.hover .responsive .sm}
 
