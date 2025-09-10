@@ -8,23 +8,67 @@ The Oncology Data Lake project provides comprehensive datasets and tools for ana
 
 ## Repository Structure
 
-- **src/**: Contains the source files for the project, including Quarto documents and styles.
-  - **about.qmd**: Information about the Oncology Data Lake project.
-  - **data_labeling.qmd**: Documentation and code for data labeling initiatives.
-  - **data_metrics.qmd**: Documentation and code for data metrics and descriptive statistics about the dataset.
-  - **data_dictionary.qmd**: Detailed descriptions of the OMOP-CDM tables available in the dataset.
-  - **styles.css**: Custom CSS styles for the Quarto documents.
-  - **_quarto.yml**: Configuration file for the Quarto project.
-  - **fonts**: Directory containing custom fonts for the Quarto documents.
-  - **images**: Directory containing images used in the Quarto documents.
-  - **omop_data_dict**: Directory containing data dictionary files for the OMOP-CDM tables.
-  - **sql**: Directory containing SQL queries for data analysis and transformation.
-  - **feb_2025**: Directory containing data files for the February 2025 Release.
-- **.devcontainer/**: Contains the configuration files for the development container.
-- **.cspell**: Configuration file for the Code Spell Checker extension.
-- **Dockerfile**: Specifies the development container image. This file is used to build the container image where the development environment will run.
-- **install.R**: Installs the R packages required for the project. This is used withing the Dockerfile
-- **README.md**: The main documentation file for the project.
+**Core Documentation (`src/`)**
+- Primary Documents
+  - `about.qmd` - Project overview and dataset descriptions
+  - `data_labeling.qmd` - Data labeling guidelines and methods
+  - `data_metrics.qmd` - Dataset statistics and quality analysis
+  - `data_dictionary.qmd` - OMOP-CDM schema reference
+  - `metadata.qmd` - Metadata standards and documentation
+
+- Configuration Files
+  - `_quarto.yml` - Quarto project settings
+  - `sql_params.yml` - Database parameters
+  - `styles.css` - Custom styling
+
+- Source Code & Assets
+  - `R/` - R analysis scripts and utilities
+  - `fonts/` - Typography resources
+  - `images/` - Documentation images and diagrams
+
+- Genomic Data
+  - `bed_files/`
+    - `Heme-STAMP_v1_APR2018.bed`
+    - `Heme-STAMP_v2_AUG2018.bed`
+    - `STAMP1_OCT2014.bed`
+    - `STAMP2_OCT2015.bed`
+    - `STAMP3_SEP2018.bed`
+
+- Data Dictionaries
+  - `cap_forms_data_dict/` - CAP Forms reference
+  - `dicom_data_dict/` - DICOM metadata schema
+  - `neuralframe_data_dict/` - NeuralFrame documentation
+  - `omop_data_dict/` - OMOP CDM specifications
+  - `philips_ispm_data_dict/` - Philips ISPM reference
+  - `stamp_data_dict/` - STAMP assay documentation
+  - `starr_deid_data_dict/` - De-identification protocols
+
+- Data Releases
+  - `aug_2025/` (Current)
+    - Clinical metrics and analyses
+    - Tumor board documentation
+    - Imaging data analysis
+    - SQL queries and datasets
+  - `may_2025/` - Previous release
+  - `feb_2025/` - Initial release
+    - Demographic studies
+    - PHI labeling protocols
+    - Release documentation
+
+**Development Setup**
+- `.devcontainer/` - Development environment configuration
+- `.github/` - GitHub workflows and templates
+- `.vscode/` - VS Code workspace settings
+- `.venv/` - Python virtual environment
+- `.cspell/` - Spell check rules
+
+**Build & Configuration**
+- `Dockerfile` - Container definition
+- `pyproject.toml` - Python dependencies
+- `install.R` - R package installer
+- `post_create.sh` - Setup script
+- `uv.lock` - Python dependency lock
+- `README.md` - Main documentation
 
 ## Using the Repository in Visual Studio Code with Devcontainer
 
