@@ -31,9 +31,7 @@ scr_data
 inner join person p on p.person_source_value = scr_data.stanford_patient_uid
 )
 select
-case when histologicTypeIcdO3Description = 'Acinar adenocarcinoma of prostate' then 'Adenocarcinoma' -- NF data issue
-else histologicTypeIcdO3Description 
-end histologicTypeIcdO3Description,
+histologicTypeIcdO3Description,
 histologicTypeIcdO3,
 count(distinct person_source_value) patient_count
 from scr_omop

@@ -27,7 +27,7 @@ This document provides a list of datasets as part of the August 2025 released. E
 ### STAMP Add-On Data
 | Dataset Name | Description |
 |:------------|:------------|
-|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_aug2025.oncology_stamp_add_on_data_phi`| STAMP add on dataset with PHI | 
+|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_aug2025.stamp_add_on_data_phi`| STAMP add on dataset with PHI | 
 |`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_aug2025.stamp_add_on_data_confidential`| STAMP add on dataset Scrubbed |
 :  {.hover .responsive .sm}
 
@@ -43,4 +43,10 @@ This document provides a list of datasets as part of the August 2025 released. E
 |:------------|:------------|
 |`som-rit-phi-oncology-prod.oncology_cap_forms_phi_irb76049_aug2025`| BigQuery Dataset with CAP Forms tables| 
 |`gs://oncology-cap-forms.us-west1.starr-data.us/shc_cap_forms_qa_20250825.tar.gz`| GCS bucket with QA cleaned dataset |
+:  {.hover .responsive .sm}
+
+### Epic Media Server Documents
+| Dataset Name | Description |
+|:------------|:------------|
+|`som-rit-phi-oncology-prod.epic_media_server_documents.pdfs_arpah_cancer_patients`| BigQuery dataset with the metadata and GCS location for all the PDFs that we downloaded from the EPIC Media Server for all Cancer patients | 
 :  {.hover .responsive .sm}

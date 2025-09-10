@@ -6,7 +6,7 @@ The oncology_stamp_add_on_data table includes the panel name and pipeline versio
 
  Please note that multiple records may correspond to the same accession number. The assay_performed_derived and pipeline_version_derived fields can be used to link to the STAMP panel metadata. 
 
-### Table Columns
+### August 2025 Release: Table Columns  
 
 | Column Name              | Type   | PHI  | PHI-Scrubbing Operation        |
 |:-------------------------|:-------|:-----|:-------------------------------|
@@ -18,6 +18,15 @@ The oncology_stamp_add_on_data table includes the panel name and pipeline versio
 | pipeline_version_source  | STRING | No   | None                           |
 | stanford_patient_uid     | STRING | Yes  | Del                            |
 
+### May 2025 Release: Table Columns
+
+| Column Name              | Type   | PHI  | PHI-Scrubbing Operation        |
+|:-------------------------|:-------|:-----|:-------------------------------|
+| accession_number         | STRING | Yes  | Hash                           |
+| assay_performed          | STRING | No   | None                           |
+| person_id                | INT64  | Yes  | Stable Between Data Refreshes  |
+| pipeline_version         | STRING | No   | None                           |
+| stanford_patient_uid     | STRING | Yes  | Del                            |
 
 :  {.hover .responsive .sm}
 
@@ -32,7 +41,7 @@ Identifier for the specimen. This field can be used to link to the pat_diag_orde
 
 This value is derived from the assay_performed_source field and is used to link to the assay_performed column in the stamp_pipeline_gene_data table.
 
-##### assay_performed_source
+##### assay_performed_source (assay_performed)
 
 Stanford Molecular Pathology Lab panel name
 
@@ -44,7 +53,7 @@ Person_id as corresponds to the OMOP dataset
 
 This value is derived from the pipeline_version_source field and is used to link to the pipeline_version column in the stamp_pipeline_gene_data table.
 
-##### pipeline_version_source
+##### pipeline_version_source (pipeline_version)
 
 Stanford Molecular Pathology Lab panel pipeline version
 

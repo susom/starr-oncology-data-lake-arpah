@@ -103,7 +103,7 @@ This visualization summarizes the characteristics of thoracic cancer cases by:
 
 ### Cases & Diagnoses
 
-## Stanford Cancer Registry Case Status
+#### Stanford Cancer Registry Case Status
 The Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Stanford. Each case is assigned a case status to reflect its reporting stage. The primary categories include:
 
 - Completed: Reportable cases that have been fully abstracted and passed all edit checks. These cases are transmitted to the state registry.
@@ -172,7 +172,7 @@ ggplot(case_thr, aes(x = "", y = Percentage, fill = Status)) +
   scale_fill_brewer(palette = "Set3")
 ```
 
-## Patient Summary by Diagnosis Year 
+#### Patient Summary by Diagnosis Year 
 The following distribution summarizes the number of diagnosed thoracic patients over time. 
 
 ```{r dx year calculate, message=FALSE, warning=FALSE, results='hide'}
@@ -220,7 +220,7 @@ p <- p %>%
 p
 ```
 
-## Histology Distribution & ICDO3 Codes
+#### Histology Distribution & ICDO3 Codes
 Thoracic cancer encompasses a diverse group of histologic subtypes, with Non-Small Cell Lung Cancer **(NSCLC)** representing the majority of cases and Small Cell Lung Cancer **(SCLC)**.
 
 Thoracic cancer is categorized into detailed histologic groups using ICD-O-3 codes and then further grouped into four overarching categories for simplified analysis. The main histology groups include:
@@ -312,7 +312,7 @@ thr_his <- thr_his %>%
 
 
 
-## Thoracic Cancer Histology Distribution
+#### Thoracic Cancer Histology Distribution
 From `r format(thr_den_c$unique_thoracic_cancer_pts[1], big.mark = ",")` thoracic patients with completed cases, the majority `r format(tab_res$total[tab_res$histology=="NSCLC"], big.mark = ",")` were diagnosed with Non-Small Cell Lung Carcinoma (NSCLC). 
 
 ::: {style="text-align: center"}
@@ -332,7 +332,7 @@ create_gt_table_v3(
 
 
 
-##  Histology Type Summary
+####  Histology Type Summary
 
 ::: {.panel-tabset}
 
@@ -344,7 +344,7 @@ The following horizontal bar chart presents the hierarchical distribution of tho
 - Hover over bars to see detailed information
 - Double-click legend items to isolate a single category o to restore all categories
 
-## Distribution of Thoracic Cancer Cases by Histology Types
+#### Distribution of Thoracic Cancer Cases by Histology Types
 
 ```{r histology barplot, message=FALSE, warning=FALSE}
 
@@ -409,7 +409,7 @@ plot_ly(summary_plot,
   )
 ```
 
-## Table Summary of Histology Groups
+#### Table Summary of Histology Groups
 
 ```{r histology table, message=FALSE, warning=FALSE}
 #thr_his=thr_his %>% filter (patient_count>20)
@@ -661,7 +661,7 @@ DT::datatable(tab_his,
 
 :::
 
-## Cancer Staging 
+#### Cancer Staging 
 Cancer staging is categorized as:
 
 - **Stage 0**: Carcinoma in situ (neoplastic cells confined to the epithelium without invasion) with no evidence of invasion beyond the basement membrane.
@@ -701,7 +701,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-## Summary of Staging of Thoracic Cancer Patients
+#### Summary of Staging of Thoracic Cancer Patients
 The following table summarizes the staging status of thoracic patients with completed cases. 
 ```{r staging counts, message=FALSE, warning=FALSE, results='hide'}
 sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/scr/thoracic/scr_thoracic_stage_person_metrics.sql"

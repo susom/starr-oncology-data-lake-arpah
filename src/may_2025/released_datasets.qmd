@@ -24,6 +24,11 @@ This document provides a list of datasets as part of the May 2025 released. Each
 | `som-rit-phi-oncology-prod.oncology_philips_phi_irb76049_may2025`| Philips ISPM dataset with PHI | 
 | `som-rit-phi-oncology-prod.oncology_philips_confidential_irb76049_may2025`| Philips ISPM dataset with PHI Scrubbed |
 
+### STAMP Add-On Data
+| Dataset Name | Description |
+|:------------|:------------|
+|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_may2025.stamp_add_on_data_phi`| STAMP add on dataset with PHI | 
+|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_may2025.stamp_add_on_data_confidential`| STAMP add on dataset Scrubbed |
 
 :  {.hover .responsive .sm}
 
