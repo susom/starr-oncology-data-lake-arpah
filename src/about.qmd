@@ -78,6 +78,9 @@ This is a corpus of 1,394 clinical notes sampled from STARR-OMOP. The PHI within
 
 This is a fully identified dataset that contains a combination of structured and unstructured information. A description of the CAP forms itself and their purpose can be found [here](may_2025/cap_forms_methods.qmd) and [here](https://www.cap.org/protocols-and-guidelines/cancer-reporting-tools/cancer-protocol-templates). This dataset only contains Lung Resection CAP forms.
 
+#### Epic Media Server Documents
+
+This is a BigQuery dataset with the metadata and GCS location for all the PDFs downloaded from the EPIC Media Server for all Cancer patients
 
 ### Metadata
 
