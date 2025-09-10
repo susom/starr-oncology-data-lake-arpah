@@ -41,7 +41,7 @@ Identifier for the specimen. This field can be used to link to the pat_diag_orde
 
 This value is derived from the assay_performed_source field and is used to link to the assay_performed column in the stamp_pipeline_gene_data table.
 
-##### assay_performed_source
+##### assay_performed_source (assay_performed)
 
 Stanford Molecular Pathology Lab panel name
 
@@ -53,7 +53,7 @@ Person_id as corresponds to the OMOP dataset
 
 This value is derived from the pipeline_version_source field and is used to link to the pipeline_version column in the stamp_pipeline_gene_data table.
 
-##### pipeline_version_source
+##### pipeline_version_source (pipeline_version)
 
 Stanford Molecular Pathology Lab panel pipeline version
 
