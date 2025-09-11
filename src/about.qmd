@@ -82,9 +82,9 @@ This is a fully identified dataset that contains a combination of structured and
 
 This is a fully identified dataset that contains all PDFs for cancer patients that currently exist in the EPIC Media (BLOB) Server and are included in the VISTA data lake. These documents:
 
-- are displayed in the Media and Lab tab in Epic Hyperspace
-- typically originate from third party service providers 
-- are pulled into VISTA via the Mulesoft API
+- Are displayed in the Media and Lab tab in Epic Hyperspace
+- Typically originate from third party service providers 
+- Are pulled into VISTA via the Mulesoft API
 
 ### Metadata
 
