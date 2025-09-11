@@ -5,8 +5,7 @@ project:
    - data_dictionary.qmd
    - omop_data_dict/*
    - stamp_add_on_data_dict/*
-   - stamp_addon_data.qmd
-   - epic_media_server.qmd
+   - epic_media_server_dict/*
    - metadata.qmd
    - stamp_data_dict/*
    - data_metrics.qmd
