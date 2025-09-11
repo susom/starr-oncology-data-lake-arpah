@@ -55,7 +55,9 @@ website:
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
           - section: "STAMP Add-On"
-            contents: stamp_add_on_data_dict/stamp_addon_data
+            contents: stamp_add_on_data_dict/*
+          - section: "Epic Media Server Documents"
+            contents: epic_media_server_dict/*
           - section: "STARR-Deid"
             contents: 
               - text: "Gold Standard Full Text"
