@@ -6,6 +6,7 @@ project:
    - omop_data_dict/*
    - stamp_add_on_data_dict/*
    - stamp_addon_data.qmd
+   - epic_media_server.qmd
    - metadata.qmd
    - stamp_data_dict/*
    - data_metrics.qmd
@@ -54,10 +55,14 @@ website:
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
-          - section: "STAMP Add-On"
-            contents: stamp_add_on_data_dict/stamp_addon_data.qmd
+          - section: "STAMP Add-On Data"
+            contents: 
+              - text: "STAMP Add-On"
+                href: stamp_add_on_data_dict/stamp_addon_data.qmd
           - section: "Epic Media Server Documents"
-            contents: epic_media_server_dict/epic_media_server.qmd
+            contents: 
+              - text: "Epic Media Server Documents"
+                href: epic_media_server_dict/epic_media_server.qmd
           - section: "STARR-Deid"
             contents: 
               - text: "Gold Standard Full Text"
