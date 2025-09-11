@@ -46,6 +46,10 @@ The following tables are available in the initial release of the dataset:
 
 * [STAMP Add On Data](stamp_add_on_data_dict/stamp_addon_data.qmd)
 
+### Epic Media Server Documents 
+
+* [Epic Media Server Documents](epic_media_server_dict/epic_media_server.qmd)
+
 ### STARR-Deid
 
 This internal fully identified dataset consists of two tables:
