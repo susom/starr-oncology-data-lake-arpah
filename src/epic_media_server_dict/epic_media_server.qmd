@@ -1,0 +1,69 @@
+---
+title: "Epic Media Server Dictionary"
+---
+
+
+###  Table Columns  
+
+| Column Name              | Type   | PHI  | 
+|:-------------------------|:-------|:-----|
+| pat_id         | STRING | Yes  | 
+| pat_mrn_id  | STRING | Yes   | 
+| birth_date   | DATE | Yes   |
+| document_id                | STRING  | No  | 
+| document_name | STRING | No   | 
+| doc_recv_or_scan_time  | DATETIME | No   | 
+| document_description     | STRING | No  | 
+| document_information_type | STRING | No |
+| document_type | STRING | No |
+| document_current_status | STRING | No|
+| document_gcs_location | STRING | No|
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### pat_id
+
+Internally generated identifier for a patient
+
+##### pat_mrn_id
+
+MRN for the patient
+
+##### birth_date
+
+Birth date of the patient
+
+##### document_id
+
+Unique identifier of the document in Clarity
+
+##### document_name
+
+Unique name of the document in Clarity as well as on the EPIC Media Server
+
+##### doc_recv_or_scan_time
+
+Data and time when the document was received or scanned
+
+##### document_description
+
+A short free text description of the document described by this document information
+
+##### document_information_type
+
+The type of document described by this document information
+
+##### document_type
+
+The file type of the scanned document
+
+##### document_current_status
+
+The current status of the document
+
+##### document_gcs_location
+
+Location of the ZIP file in GCS which has the document
