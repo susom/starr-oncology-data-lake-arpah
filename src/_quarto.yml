@@ -5,7 +5,7 @@ project:
    - data_dictionary.qmd
    - omop_data_dict/*
    - stamp_add_on_data_dict/*
-   - stamp_addon_data.qmd
+   - epic_media_server_dict/*
    - metadata.qmd
    - stamp_data_dict/*
    - data_metrics.qmd
@@ -54,8 +54,14 @@ website:
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
             contents: philips_ispm_data_dict/*
-          - section: "STAMP Add-On"
-            contents: stamp_add_on_data_dict/stamp_addon_data
+          - section: "STAMP Add-On Data"
+            contents: 
+              - text: "STAMP Add-On"
+                href: stamp_add_on_data_dict/stamp_addon_data.qmd
+          - section: "Epic Media Server Documents"
+            contents: 
+              - text: "Epic Media Server Documents"
+                href: epic_media_server_dict/epic_media_server.qmd
           - section: "STARR-Deid"
             contents: 
               - text: "Gold Standard Full Text"
@@ -74,33 +80,33 @@ website:
              - section: "STAMP All Versions"
                contents: 
                  - text: "STAMP-V1"
-                   href: stamp_data_dict/stamp_all_versions.qmd#stamp-v1
+                   href: stamp_metadata/stamp_all_versions.qmd#stamp-v1
                  - text: "STAMP-V2"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v2
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#stamp-v2
                  - text: "STAMP-V3"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v3
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#stamp-v3
                  - text: "STAMP-V4"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#stamp-v4
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#stamp-v4
              - section: "HEME-STAMP All Versions"
                contents: 
                  - text: "HEME-STAMP-V1"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#heme-stamp-v1
                  - text: "HEME-STAMP-V2"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#heme-stamp-v2
                  - text: "HEME-STAMP-V4"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#heme-stamp-v4
              - section: "BED Files All Versions"
                contents: 
                  - text: "BF HEME-STAMP-V1"
-                   href: stamp_data_dict/bed_files_all_versions.qmd#Bed-HEME-STAMP-V1
+                   href: stamp_metadata/bed_files_all_versions.qmd#Bed-HEME-STAMP-V1
                  - text: "BF HEME-STAMP-V2"
-                   href: stamp_data_dict/bed_files_all_versions.qmd#Bed-HEME-STAMP-V2
+                   href: stamp_metadata/bed_files_all_versions.qmd#Bed-HEME-STAMP-V2
                  - text: "BF STAMP-V1"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v1
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v1
                  - text: "BF STAMP-V2"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v2
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v2
                  - text: "BF STAMP-V3"
-                   href: stamp_data_dict/heme_stamp_all_versions.qmd#bed-stamp-v3
+                   href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v3
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:

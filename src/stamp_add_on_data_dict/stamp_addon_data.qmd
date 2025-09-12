@@ -4,7 +4,7 @@ title: "STAMP Add-On Data"
 
 The oncology_stamp_add_on_data table includes the panel name and pipeline version from the Stanford Molecular Pathology Lab, as well as the patient identifier and accession number. These fields (patient identifier and accession number) can be used to establish a link to the Philips ISPM onc_philips_mtb_pat_diag_orders table.
 
- Please note that multiple records may correspond to the same accession number. The assay_performed_derived and pipeline_version_derived fields can be used to link to the STAMP panel metadata. 
+Please note that multiple records may correspond to the same accession number. The assay_performed_derived and pipeline_version_derived fields can be used to link to the STAMP panel metadata. 
 
 ### August 2025 Release: Table Columns  
 

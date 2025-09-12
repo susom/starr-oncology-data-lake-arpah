@@ -13,24 +13,24 @@ execute:
 
 The following tables list STAMP genes versions 1 to 4:
 
-* [STAMP V1](stamp_data_dict/stamp_all_versions.qmd#stamp-v1)
+* [STAMP V1](stamp_metadata/stamp_all_versions.qmd#stamp-v1)
 
-* [STAMP V2](stamp_data_dict/stamp_all_versions.qmd#stamp-v2)
+* [STAMP V2](stamp_metadata/stamp_all_versions.qmd#stamp-v2)
 
-* [STAMP V3](stamp_data_dict/stamp_all_versions.qmd#stamp-v3)
+* [STAMP V3](stamp_metadata/stamp_all_versions.qmd#stamp-v3)
 
-* [STAMP V4](stamp_data_dict/stamp_all_versions.qmd#stamp-v4)
+* [STAMP V4](stamp_metadata/stamp_all_versions.qmd#stamp-v4)
 
 The following tables list HEME-STAMP genes versions 1, 2, and 4:
 
-* [HEME-STAMP V1](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v1)
+* [HEME-STAMP V1](stamp_metadata/heme_stamp_all_versions.qmd#heme-stamp-v1)
 
-* [HEME-STAMP V2](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v2)
+* [HEME-STAMP V2](stamp_metadata/heme_stamp_all_versions.qmd#heme-stamp-v2)
 
-* [HEME-STAMP V4](stamp_data_dict/heme_stamp_all_versions.qmd#heme-stamp-v4)
+* [HEME-STAMP V4](stamp_metadata/heme_stamp_all_versions.qmd#heme-stamp-v4)
 
 
-The raw data files for STAMP and HEME-STAMP can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/stamp_data_dict/oncology_stamp_metadata.tsv).
+The raw data files for STAMP and HEME-STAMP can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/stamp_metadata/oncology_stamp_metadata.tsv).
 
 ### BED Files
 
@@ -46,15 +46,15 @@ BED files are text-based file formats used in bioinformatics to define genomic r
 
 The downloadable raw data files for the above BED files can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/bed_files) and are listed below:
 
-* [BED File: HEME-STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v1)
+* [BED File: HEME-STAMP V1](stamp_metadata/bed_files_all_versions.qmd#bed-heme-stamp-v1)
 
-* [BED File: HEME-STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-heme-stamp-v2)
+* [BED File: HEME-STAMP V2](stamp_metadata/bed_files_all_versions.qmd#bed-heme-stamp-v2)
 
-* [BED File: STAMP V1](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v1)
+* [BED File: STAMP V1](stamp_metadata/bed_files_all_versions.qmd#bed-stamp-v1)
 
-* [BED File: STAMP V2](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v2)
+* [BED File: STAMP V2](stamp_metadata/bed_files_all_versions.qmd#bed-stamp-v2)
 
-* [BED File: STAMP V3](stamp_data_dict/bed_files_all_versions.qmd#bed-stamp-v3)
+* [BED File: STAMP V3](stamp_metadata/bed_files_all_versions.qmd#bed-stamp-v3)
 
 
 
