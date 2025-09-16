@@ -50,6 +50,6 @@ Sitemap: /sitemap.xml
 # oncology data lake, cancer research datasets
 # PHI labeling, clinical data standards
 # Stanford Cancer Registry, precision medicine
-# STARR-Deid, CAP forms, DICOM metadata
+# HIPPO Benchmark, CAP forms, DICOM metadata
 # healthcare data analysis, observational research
 # machine learning training data, clinical informatics

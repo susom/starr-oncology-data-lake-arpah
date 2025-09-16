@@ -50,9 +50,9 @@ The following tables are available in the initial release of the dataset:
 
 * [Epic Media Server Documents](epic_media_server_dict/epic_media_server.qmd)
 
-### STARR-Deid
+### HIPPO Benchmark
 
-This internal fully identified dataset consists of two tables:
+HIPPO stands for Human-in-the-loop Identification of PHI with Preserved Output. This internal fully identified dataset consists of two tables:
 
 * [Gold Standard Full Text](starr_deid_data_dict/phi_dataset.qmd#full-text): This table contains the clinical text from which the annotations were gathered. It also contains basic demographic information about the patients to whom the notes refer.
 

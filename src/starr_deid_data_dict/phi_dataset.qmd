@@ -1,5 +1,5 @@
 ---
-title: "STARR-Deid Dataset"
+title: "HIPPO Benchmark"
 ---
 
 ## Gold Standard Full Text {#full-text}

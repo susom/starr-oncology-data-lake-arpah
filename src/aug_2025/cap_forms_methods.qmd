@@ -6,17 +6,20 @@ execute:
   echo: false
 ---
 
+### CAP forms Description
 CAP (College of American Pathologists) forms are standardized cancer reporting protocols that have revolutionized pathology practice by replacing inconsistent narrative reports with structured, synoptic formats containing essential diagnostic and prognostic information. Developed over 35 years ago to address significant variability in cancer reporting, these evidence-based protocols ensure complete, uniform documentation of malignant tumors across all healthcare institutions, directly improving patient outcomes and clinical decision-making. 
 
 Lung resection CAP forms are particularly critical in thoracic oncology, providing standardized reporting templates for primary lung cancers that include essential elements such as tumor size, histologic type and grade, surgical margins, lymph node status, and staging classifications. These lung-specific protocols have demonstrated measurable clinical impact, with studies showing that synoptic reporting achieves 88.4% completeness compared to only 2.6% for traditional descriptive reports, leading to more accurate staging, better treatment planning, and improved survival rates.
 
 By establishing consistent terminology and data capture requirements, CAP lung resection forms enhance communication between pathologists and oncologists, ensure regulatory compliance with Commission on Cancer standards, and provide the structured data foundation necessary for personalized cancer care, targeted therapy selection, and multidisciplinary treatment coordination. The widespread adoption of these standardized protocols, supported by electronic integration into laboratory information systems, has positioned pathologists as key members of the lung cancer care team while enabling seamless data exchange for cancer registries, research, and quality improvement initiatives.
 
+### CAP forms Dataset Description
+
 At Stanford, CAP forms were implemented within Epic using SmartForms. SmartForms is an Epic product that allows the capture of semi-structured information within the EHR that can later be used to generate free-form reports. In this case, the structured information from the CAP forms is captured on SmartForms, which later generate the synoptic reporting section within the pathology report. As a consequence, for relevant cases, the pathology report will contain this section.
 
 For this task, we aim to use AI to populate the CAP forms automatically by using all the other elements from the pathology report. We formulated this as a question-answering problem, where the context for each question is the entire pathology report, the question is the particular CAP form element, and the answer is the value/selection to be populated.
 
-For this initial experiment, we collected a dataset with 390 patients and 390 lung resection forms. The forms were reported between November 2022 and April 2025. The table below summarizes the demographics for this dataset.
+For this initial experiment, we collected a dataset with 609 patients and 615 lung resection forms. The forms were reported between November 2022 and March 2025. The table below summarizes the demographics for this dataset. It is important to notice that this a silver standard dataset, since no actual annotations from Pathologist were made to confirm that the rest of the pathology report contained sufficient information to populate the associated CAP form. 
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -26,6 +29,7 @@ library(glue)
 library(plotly)
 library(dplyr)
 library(gt)
+library(table1)
 
 credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 project_id <- "som-rit-phi-oncology-dev"
@@ -63,9 +67,9 @@ sql <- "
 with identifiers as (
           select distinct stanford_patient_uid, 
                           order_proc_id, 
-                          max(event_date) as event_date 
+                          max(taken_time) as event_date 
          from 
-           `som-rit-phi-oncology-dev.cap_forms.final_train_data_identifiers`
+           `som-rit-phi-oncology-prod.oncology_cap_forms_phi_irb76049_aug2025.cap_forms`
          group by stanford_patient_uid, order_proc_id
            ),
 t1 as (
@@ -121,15 +125,14 @@ FROM
 df_demographics <- fetch_data_from_sql(sql)
 ```
 
-```{r}
-library(table1)  
+```{r, message=FALSE} 
 table1(~ Age + Race + Ethnicity | Sex , df_demographics)
 ```
 
 
 ## Methods and Results
 
-For this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers.
+For this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. The full set of top level questions for the Lung Resection CAp forms alongside the descriptions for each one of them can be found [here](cap_forms_appendix.qmd#capforms-toplevel-questions). Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers. The prompt used can be found [here](cap_forms_appendix.qmd#capforms-zeroshot-prompt)
 
 To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.
 
@@ -292,97 +295,8 @@ p
 
 ```
 
-Here, we can see that Claude 3.5 is slightly better than Llama 4. However, the distribution for most LLMs is certainly wide, showing lack of consistency across all questions. To investigate this further, a heatmap was constructed and is shown in the figure below. Here, we can clearly see the variability across different questions and how GPT-4 consistently underperforms for this particular task. The questions itself and the descriptions of each question can be found below the graph.
+In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. it has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
+In this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81. 
 
-```{r message=FALSE, warning=FALSE}
-#| out-width: "100%"
-
-heatmap_data <- df_plot %>%
-  group_by(question, model_name) %>%
-  summarise(avg_score = mean(avg_score, na.rm = TRUE), .groups = 'drop') %>%
-  pivot_wider(names_from = model_name, values_from = avg_score)
-
-# Convert to matrix for easier handling
-questions <- heatmap_data$question
-heatmap_matrix <- as.matrix(heatmap_data[, -1])
-
-# Create integer labels and mapping
-integer_labels <- 1:length(questions)
-rownames(heatmap_matrix) <- integer_labels
-
-# Calculate center value for color scale
-center_value <- mean(heatmap_matrix, na.rm = TRUE)
-
-# Create custom color scale (equivalent to RdYlBu_r)
-colors <- c('#d73027', '#f46d43', '#fdae61', '#fee08b', '#ffffbf', 
-            '#e6f598', '#abdda4', '#66c2a5', '#3288bd', '#5e4fa2')
-
-# Create the plotly heatmap
-p <- plot_ly(
-  z = ~heatmap_matrix,
-  x = ~colnames(heatmap_matrix),
-  y = ~integer_labels,  # Use integer labels
-  type = "heatmap",
-  colorscale = list(
-    c(0, colors[1]), c(0.1, colors[2]), c(0.2, colors[3]), c(0.3, colors[4]),
-    c(0.4, colors[5]), c(0.6, colors[6]), c(0.7, colors[7]), c(0.8, colors[8]),
-    c(0.9, colors[9]), c(1, colors[10])
-  ),
-  zmid = center_value,
-  text = ~round(heatmap_matrix, 2),
-  texttemplate = "%{text}",
-  textfont = list(color = "black"),
-  showscale = TRUE,
-  colorbar = list(
-    title = list(text = "BERT F1-Score", side = "right"),
-    thickness = 20,
-    len = 0.8
-  )
-) %>%
-layout(
-  title = list(
-    text = "Model Performance by Question"
-  ),
-  xaxis = list(
-    title = "",
-    tickangle = 45,
-    side = "bottom"
-  ),
-  yaxis = list(
-    title = "Question",
-    tickmode = "array",
-    tickvals = integer_labels,
-    ticktext = integer_labels,
-    automargin = TRUE,
-    autorange = "reversed"  # Show integers 1, 2, 3... from top to bottom
-  ),
-
-  autosize = TRUE
-)
-p
-```
-
-1. **ADDITIONAL FINDINGS** \- Documents other pathologic findings in the specimen beyond the primary tumor, such as atypical adenomatous hyperplasia, granulomatous inflammation, or emphysema.  
-2. **CLOSEST MARGIN(S) TO INVASIVE CARCINOMA** \- Identifies which specific surgical margin (bronchial, vascular, parenchymal, or chest wall) is nearest to the invasive tumor.  
-3. **DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN** \- Measures in centimeters how far the invasive tumor extends from the nearest surgical margin.  
-4. **HISTOLOGIC GRADE** \- Assesses the degree of tumor differentiation using grading schemes specific to tumor type (G1-well differentiated to G4-undifferentiated).  
-5. **LYMPH NODE(S) FROM PRIOR PROCEDURES** \- Documents whether lymph nodes from previous surgical procedures are included in the current specimen.  
-6. **LYMPHOVASCULAR INVASION** \- Reports the presence of tumor cells within lymphatic vessels, arteries, or veins.  
-7. **MARGIN STATUS FOR INVASIVE CARCINOMA** \- Determines whether invasive tumor is present at any surgical margin or if all margins are negative.  
-8. **MARGIN STATUS FOR NON-INVASIVE TUMOR** \- Assesses whether carcinoma in situ or lepidic components are present at surgical margins.  
-9. **NODAL SITE(S) EXAMINED** \- Documents which specific lymph node stations according to the IASLC map were sampled and examined.  
-10. **NODAL SITE(S) WITH TUMOR** \- Identifies which specific lymph node stations contain metastatic tumor.  
-11. **NUMBER OF LYMPH NODES EXAMINED** \- Provides the total count of lymph nodes examined in the specimen.  
-12. **NUMBER OF LYMPH NODES WITH TUMOR** \- Reports the count of lymph nodes containing metastatic tumor.  
-13. **PROCEDURE** \- Specifies the type of surgical resection performed (wedge resection, lobectomy, pneumonectomy, etc.).  
-14. **REGIONAL LYMPH NODE STATUS** \- Provides overall assessment of whether regional lymph nodes contain tumor or are negative.  
-15. **SPECIMEN LATERALITY** \- Indicates whether the lung specimen is from the right or left side.  
-16. **SPREAD THROUGH AIR SPACES (STAS)** \- Documents the presence of tumor cells extending beyond the main tumor into surrounding air spaces as micropapillary clusters, solid nests, or single cells.  
-17. **TNM DESCRIPTORS** \- Assigns pathologic TNM staging categories (pT, pN, pM) based on tumor size, nodal involvement, and distant metastasis.  
-18. **TOTAL TUMOR SIZE (SIZE OF ENTIRE TUMOR)** \- Measures the greatest dimension of the entire tumor including both invasive and non-invasive components.  
-19. **TUMOR FOCALITY** \- Determines whether there is a single tumor focus, multiple separate nodules, or multifocal disease.  
-20. **TUMOR SITE** \- Identifies the specific anatomic location of the tumor within the lung (upper lobe, lower lobe, bronchus, etc.).  
-21. **VISCERAL PLEURA INVASION** \- Assesses whether tumor penetrates beyond the elastic layer of the visceral pleura or extends to the pleural surface.
-
-Further investigation is required to evaluate and characterize the failure modes of each of the LLMs. Additionally, the baseline performance indicates that fine-tuning an open-source model like Llama 4 may yield better results.
+We also attempted an experiment were we used LLM a Judge to verify that the answers were aligned with the reference answer from the CAP form. At this moment that work requires more experimentation and refinement using Pathologist expert annotations to ensure the Judging process can be used as an objective measure of performance. 

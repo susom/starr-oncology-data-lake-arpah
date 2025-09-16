@@ -70,13 +70,13 @@ NeuralFrame data encompasses research-eligible patients who have case records in
 - The STAMP Add-On includes the ‘assay performed’ value, which specifies the type of STAMP test result; For example, the Stanford Actionable Mutation Panel for Solid Tumors (STAMP, Order Code: STAMPT) or Heme-STAMP, which includes both Heme-STAMP, Blood (Order Code: HSTAMPB) and Heme-STAMP, Non-Blood (Order Code: HSTAMPT). In addition, the Add-On contains pipeline version information, along with patient identifiers and accession numbers.
 
 
-#### STARR-Deid
+#### HIPPO Benchmark
 
-This is a corpus of 1,394 clinical notes sampled from STARR-OMOP. The PHI within the corpus was annotated by expert annotators. The full methodology describing dataset generation can be found [here](feb_2025/phi_labeling_process.qmd).
+HIPPO stands for Human-in-the-loop Identification of PHI with Preserved Output. This is a corpus of 1,394 clinical notes sampled from STARR-OMOP. The PHI within the corpus was annotated by expert annotators. The full methodology describing dataset generation can be found [here](feb_2025/phi_labeling_process.qmd).
 
 #### Lung Resection CAP Forms
 
-This is a fully identified dataset that contains a combination of structured and unstructured information. A description of the CAP forms itself and their purpose can be found [here](may_2025/cap_forms_methods.qmd) and [here](https://www.cap.org/protocols-and-guidelines/cancer-reporting-tools/cancer-protocol-templates). This dataset only contains Lung Resection CAP forms.
+This is a fully identified dataset that contains a combination of structured and unstructured information. A description of the CAP forms itself and their purpose can be found [here](aug_2025/cap_forms_methods.qmd) and [here](https://www.cap.org/protocols-and-guidelines/cancer-reporting-tools/cancer-protocol-templates). This dataset only contains Lung Resection CAP forms.
 
 #### Epic Media Server Documents
 

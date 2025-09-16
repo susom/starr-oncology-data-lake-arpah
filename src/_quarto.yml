@@ -62,7 +62,7 @@ website:
             contents: 
               - text: "Epic Media Server Documents"
                 href: epic_media_server_dict/epic_media_server.qmd
-          - section: "STARR-Deid"
+          - section: "HIPPO Benchmark"
             contents: 
               - text: "Gold Standard Full Text"
                 href: starr_deid_data_dict/phi_dataset.qmd#full-text
@@ -134,7 +134,7 @@ website:
                 href: aug_2025/philips_metrics.qmd
               - text: "Tumor Board"
                 href: aug_2025/tumor_board_updated.qmd
-      - section: "Data Labeling"
+      - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:
           - section: "February 2025"
@@ -157,6 +157,16 @@ website:
                 contents:
                 - text: "Labeling Report"
                   href: may_2025/phi_labeling_report.qmd
+          - section: "August 2025"
+            contents:
+              - section: "AI for Automatic Synoptic Reporting"
+                contents:
+                - text: "Methods and Results"
+                  href: aug_2025/cap_forms_methods.qmd
+              - section: "PHI labeling and Modeling"
+                contents:
+                - text: "Labeling and Modeling Report"
+                  href: aug_2025/phi_labeling_modeling_report.qmd
   navbar:
     left:
       - text: "About"
@@ -166,7 +176,7 @@ website:
       - href: data_metrics.qmd
         text: "Data Metrics"
       - href: data_labeling.qmd
-        text: "Data Labeling"
+        text: "Data Labeling and Modeling"
       - href: metadata.qmd
         text: "Metadata"
     tools:

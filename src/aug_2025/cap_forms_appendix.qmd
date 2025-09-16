@@ -1,0 +1,832 @@
+---
+title: "CAP Forms Reference Material"
+execute:
+  echo: false
+---
+
+## Zero Shot Prompt {#capforms-zeroshot-prompt}
+
+```yml
+You are an expert Pathologist.
+
+    Your task is to generate comprehensive and accurate answers to the question
+    based solely on the provided context. Your answers should be generative rather
+    than extractive, meaning you should formulate complete responses in your own
+    words that address all aspects of the question.
+
+       Remember:
+
+       1. Only use information from the provided context.
+
+       2. If the context doesn't contain sufficient information, acknowledge the limitations by writing: NOT ENOUGH INFORMATION.
+
+       3. Provide a confidence score that honestly reflects how certain you are about each answer.
+
+       4. Generate diverse answers with different perspectives, details, or approaches when possible.
+
+       5. Please be concise in your answers. Prefer short and concrete answers.
+
+       6. For answers that require only a numeric value, please only write the number.
+
+       7. Only write the reasoning on the reasoning field. DO NOT write the reasoning as part of the answer.
+
+       8. Below are the instructions provided to answer the questions alongside explanations and possible answers. Use this to answer the questions.
+
+              **Protocol for the Examination of Resection Specimens from Patients with Primary Non-Small Cell Carcinoma, Small Cell Carcinoma, or Carcinoid Tumor of the Lung**
+              **Version:** 5.0.0.0
+              **Protocol Posting Date:** December 2024
+              **CAP Laboratory Accreditation Program Protocol Required Use Date:** September 2025
+              The changes included in this current protocol version affect accreditation requirements. The new deadline for implementing this protocol version is reflected in the above accreditation date.
+
+              **For accreditation purposes, this protocol should be used for the following procedures AND tumor types:** 
+
+              | Procedure | Description |
+              | :---- | :---- |
+              | Resection | Includes pneumonectomy, lobectomy, segmentectomy, and wedge resection |
+              | **Tumor Type** | **Description** |
+              | Carcinoma | Includes non-small cell carcinoma, small cell carcinoma, and carcinoid tumor of the lung |
+
+              **This protocol is NOT required for accreditation purposes for the following:** 
+
+              | Procedure |
+              | :---- |
+              | Biopsy |
+              | Primary resection specimen with no residual cancer (e.g., following neoadjuvant therapy) |
+              | Cytologic specimens |
+
+              **The following tumor types should NOT be reported using this protocol:**
+
+              | Tumor Type |
+              | :---- |
+              | Mesothelioma (consider the Diffuse Pleural Mesothelioma protocol) |
+              | Lymphoma (consider the Precursor and Mature Lymphoid Malignancies protocol) |
+              | Sarcoma (consider the Soft Tissue protocol) |
+
+              **Version Contributors**
+              **Cancer Committee Authors:** Frank Schneider, MD\*, Kirtee Raparia, MD, FCAP\*
+              **Other Expert Contributors:** Kelly J. Butnor, MD, Mary Beth Beasley, MD, Sanja Dacic, MD, PhD
+              \* Denotes primary author.
+
+              For any questions or comments, contact: [cancerprotocols@cap.org.](mailto:cancerprotocols@cap.org)
+
+              **Glossary:**
+              **Author:** Expert who is a current member of the Cancer Committee, or an expert designated by the chair of the Cancer Committee.
+              **Expert Contributors:** Includes members of other CAP committees or external subject matter experts who contribute to the current version of the protocol.
+              **Accreditation Requirements**
+              Synoptic reporting with core and conditional data elements for designated specimen types\* is required for accreditation.
+
+              * Data elements designated as core must be reported.
+              * Data elements designated as conditional only need to be reported if applicable.
+              * Data elements designated as optional are identified with “+”. Although not required for accreditation, they may be considered for reporting.
+
+              This protocol is not required for recurrent or metastatic tumors resected at a different time than the primary tumor. This protocol is also not required for pathology reviews performed at a second institution (i.e., second opinion and referrals to another institution).
+              Full accreditation requirements can be found on the CAP website under [Accreditation Checklists](https://www.cap.org/laboratory-improvement/accreditation/accreditation-checklists).
+              A list of core and conditional data elements can be found in the Summary of Required Elements under Resources on the CAP Cancer Protocols [website](https://www.cap.org/protocols-and-guidelines/cancer-reporting-tools/cancer-protocol-templates).
+              *\*Includes definitive primary cancer resection and pediatric biopsy tumor types.*
+
+              **Synoptic Reporting**
+              All core and conditionally required data elements outlined on the surgical case summary from this cancer protocol must be displayed in synoptic report format. Synoptic format is defined as:
+
+              * Data element: followed by its answer (response), outline format without the paired Data element: Response format is NOT considered synoptic.
+              * The data element should be represented in the report as it is listed in the case summary. The response for any data element may be modified from those listed in the case summary, including “Cannot be determined” if appropriate.
+              * Each diagnostic parameter pair (Data element: Response) is listed on a separate line or in a tabular format to achieve visual separation. The following exceptions are allowed to be listed on one line:
+              * Anatomic site or specimen, laterality, and procedure
+              * Pathologic Stage Classification (pTNM) elements
+              * Negative margins, as long as all negative margins are specifically enumerated where applicable
+              * The synoptic portion of the report can appear in the diagnosis section of the pathology report, at the end of the report or in a separate section, but all Data element: Responses must be listed together in one location
+              * Organizations and pathologists may choose to list the required elements in any order, use additional methods in order to enhance or achieve visual separation, or add optional items within the synoptic report. The report may have required elements in a summary format elsewhere in the report IN ADDITION TO but not as replacement for the synoptic report i.e., all required elements must be in the synoptic portion of the report in the format defined above.
+
+
+              **Reporting Template**
+              **Protocol Posting Date:** December 2024
+              **Select a single response unless otherwise indicated.**
+              **CASE SUMMARY: (LUNG) **
+              **Standard(s)**: AJCC 9
+
+              **SPECIMEN **
+
+              **Synchronous Tumors (required if morphologically distinct unrelated multiple primary tumors are present) **
+              \_\_\_ Not applicable 
+              *\# Morphologically distinct tumors that are considered to represent separate primary lung cancers should have separate synoptic reports *
+              \_\_\_ Present\# 
+              **Total Number of Primary Tumors: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              **Specimen ID(s): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              \_\_\_ Cannot be determined 
+
+              **Procedure (select all that apply)**
+              \_\_\_ Wedge resection 
+              \_\_\_ Segmentectomy 
+              \_\_\_ Lobectomy 
+              \_\_\_ Completion lobectomy 
+              \_\_\_ Sleeve lobectomy 
+              \_\_\_ Bilobectomy 
+              \_\_\_ Pneumonectomy 
+              \_\_\_ Major airway resection (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Adjacent structures (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Not specified 
+
+              **Specimen Laterality **
+              \_\_\_ Right 
+              \_\_\_ Left 
+              \_\_\_ Not specified 
+
+              **TUMOR **
+
+              **Tumor Focality (Note [A](#bookmark=id.d93muik2eubw))**
+              \_\_\_ Single focus 
+              \_\_\_ Separate tumor nodules (metastases) in same lobe (pT3) 
+              **\+Number of Intrapulmonary Metastases: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              \_\_\_ Separate tumor nodules (metastases) in different ipsilateral lobe (pT4) 
+              **\+Number of Intrapulmonary Metastases: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              \_\_\_ Separate tumor nodule(s) (metastases) in a contralateral lobe (pM1a) 
+              **\+Number of Distant Metastases: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              \_\_\_ Multifocal tumor nodules of similar histology type not considered intrapulmonary metastases or too numerous for separate synoptic reports (e.g., multiple ground-glass / lepidic nodules or carcinoid tumors) (use m suffix) 
+              **\+Number of Tumor Nodules **
+              \_\_\_ Specify number: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Pneumonic-type adenocarcinoma 
+              \_\_\_ Cannot be determined 
+
+              **Tumor Site (select all that apply)**
+              \_\_\_ Upper lobe of lung: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Middle lobe of lung: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Lower lobe of lung: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Bronchus, main: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Bronchus intermedius: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Bronchus, lobar (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Not specified 
+
+              **Tumor Size (Note [B](#bookmark=id.5q8pnuf1bwbf))**
+              **Invasive Tumor Size\# **
+              *\# Invasive tumor size equals total tumor size for all tumor types other than invasive non-mucinous*
+              *adenocarcinoma with lepidic component. For invasive non-mucinous adenocarcinoma with lepidic component,*
+              *invasive tumor size equals the size of the invasive (non-lepidic) component.  *
+              \_\_\_ Greatest dimension in Centimeters (cm): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ cm
+              **\+Additional Dimension in Centimeters (cm): \_\_\_\_ x \_\_\_\_ cm**
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **Total Tumor Size\#\# (required only if invasive non-mucinous adenocarcinoma with lepidic**
+              **component is present) **
+              *\#\# For invasive non-mucinous adenocarcinomas with lepidic component, total tumor equals the size of the non-*
+              *mucinous adenocarcinoma including the invasive and the lepidic components. *
+              \_\_\_ Not applicable 
+              \_\_\_ Greatest dimension in Centimeters (cm): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ cm
+              **\+Additional Dimension in Centimeters (cm): \_\_\_\_ x \_\_\_\_ cm**
+              **\+Percentage of Total Tumor Size that is Invasive **
+              \_\_\_ Specify percentage: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined 
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **Histologic Type (Note [C](#bookmark=id.cbla6hbf73pp))**
+              \_\_\_ Adenocarcinoma in situ (AIS), non-mucinous 
+              \_\_\_ Adenocarcinoma in situ (AIS), mucinous 
+              \_\_\_ Minimally invasive adenocarcinoma, non-mucinous 
+              \_\_\_ Minimally invasive adenocarcinoma, mucinous 
+              \_\_\_ Invasive lepidic adenocarcinoma 
+              \_\_\_ Invasive acinar adenocarcinoma 
+              \_\_\_ Invasive papillary adenocarcinoma 
+              \_\_\_ Invasive micropapillary adenocarcinoma 
+              \_\_\_ Invasive solid adenocarcinoma 
+              \_\_\_ Invasive mucinous adenocarcinoma 
+              \_\_\_ Mixed invasive mucinous and non-mucinous adenocarcinoma 
+              \_\_\_ Colloid adenocarcinoma 
+              \_\_\_ Fetal adenocarcinoma 
+              \_\_\_ Enteric-type adenocarcinoma 
+              \_\_\_ Squamous cell carcinoma in situ (SCIS) 
+              \_\_\_ Invasive squamous cell carcinoma, keratinizing 
+              \_\_\_ Invasive squamous cell carcinoma, non-keratinizing 
+              \_\_\_ Invasive squamous cell carcinoma, basaloid 
+              \_\_\_ Lymphoepithelial carcinoma 
+              \_\_\_ Large cell carcinoma 
+              \_\_\_ Adenosquamous carcinoma 
+              \_\_\_ Pleomorphic carcinoma 
+              **Histologic Component(s) Present (may include percentages) (select all that apply)**
+              \_\_\_ Spindle cell carcinoma: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Giant cell carcinoma: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Adenocarcinoma: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Squamous cell carcinoma: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Large cell carcinoma: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Pulmonary blastoma 
+              **Percentage of Fetal Adenocarcinoma Component: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %**
+              **Percentage of Primitive Mesenchymal Stromal Component: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %**
+              \_\_\_ Carcinosarcoma 
+              **Percentage of Non-small Cell Carcinoma Component: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %**
+              **Specify Histologic Type(s): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              **Percentage of Sarcomatous Component: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %**
+              **Specify Histologic Type(s): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              \_\_\_ NUT carcinoma 
+              \_\_\_ Thoracic SMARCA4-deficient undifferentiated tumor 
+              \_\_\_ Adenoid cystic carcinoma 
+              \_\_\_ Epithelial-myoepithelial carcinoma 
+              \_\_\_ Mucoepidermoid carcinoma 
+              \_\_\_ Hyalinizing clear cell carcinoma 
+              \_\_\_ Myoepithelial carcinoma 
+              \_\_\_ Typical carcinoid / Neuroendocrine tumor, grade 1 
+              \_\_\_ Atypical carcinoid / Neuroendocrine tumor, grade 2 
+              \_\_\_ Carcinoid tumor, NOS / Neuroendocrine tumor, NOS 
+              \_\_\_ Small cell carcinoma 
+              \_\_\_ Combined small cell carcinoma (small cell carcinoma and non-small cell component) (specify type of
+                     non-small cell component): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Large cell neuroendocrine carcinoma 
+              \_\_\_ Combined large cell neuroendocrine carcinoma (LCNEC and other non-small cell component)
+                     (specify other type of non-small cell component): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Carcinoma, type cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Non-small cell carcinoma, subtype cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other histologic type not listed (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ No viable tumor present (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **\+Histologic Type Comment: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+
+              **Histologic Patterns (may include percentages in 5% increments totaling 100%) (applicable to non-mucinous adenocarcinomas only) (select all that apply)**
+              \_\_\_ Not applicable 
+              \_\_\_ Acinar: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Papillary: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Lepidic: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Solid: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Micropapillary: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Complex glands (cribriform and fused glands): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **\+Histologic Grade\# (Note [D](#bookmark=id.8qe62hsr6u00))**
+              *\# High-grade patterns in invasive non-mucinous adenocarcinoma include solid, micropapillary, cribriform, and fused glands patterns. *
+              \_\_\_ G1, well-differentiated (includes invasive lepidic adenocarcinoma with less than 20% high-grade
+                     pattern; typical carcinoid tumor) 
+              \_\_\_ G2, moderately differentiated (includes invasive acinar and papillary adenocarcinoma with less than
+                     20% high-grade pattern; atypical carcinoid tumor) 
+              \_\_\_ G3, poorly differentiated (includes invasive non-mucinous adenocarcinoma with equal to or greater
+                     than 20% high-grade pattern) 
+              \_\_\_ G4, undifferentiated (includes small cell carcinoma; large cell carcinoma) 
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ GX, cannot be assessed: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Not applicable: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **Spread Through Air Spaces (STAS) (Note [C](#bookmark=id.cbla6hbf73pp))**
+              \_\_\_ Not identified 
+              \_\_\_ Present 
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Not applicable: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **Visceral Pleura Invasion (Note [E](#bookmark=id.c680kj59bjpp))**
+              \_\_\_ Not identified 
+              \_\_\_ Present 
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **Direct Invasion of Other Structures (Note [F](#bookmark=id.8lbnj5knsvam))**
+              \_\_\_ Not applicable (no other structures present) 
+              \_\_\_ Not identified 
+              \_\_\_ Present 
+              **Involved Other Structures (select all that apply)**
+              \_\_\_ Adjacent lobe of lung 
+              \_\_\_ Parietal pleura 
+              \_\_\_ Chest wall 
+              *Select all that apply *
+              \_\_\_ Fibroadipose tissue 
+              \_\_\_ Skeletal muscle 
+              \_\_\_ Rib(s): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Main bronchus (up to but not including the carina) 
+              \_\_\_ Associated with atelectasis or obstructive pneumonitis extending to the hilar regions, involving
+                     either part of or all of the entire lung 
+              \_\_\_ Hilar soft tissues 
+              \_\_\_ Phrenic nerve 
+              \_\_\_ Parietal pericardium 
+              \_\_\_ Visceral pericardium (epicardium) 
+              \_\_\_ Azygos vein 
+              \_\_\_ Cervical nerve roots 
+              \_\_\_ Thoracic nerve roots 
+              \_\_\_ Brachial plexus (trunks, divisions, cords, or terminal nerves) 
+              \_\_\_ Stellate ganglion 
+              \_\_\_ Diaphragm 
+              \_\_\_ Heart 
+              \_\_\_ Great vessels (aorta, superior / inferior vena cava, intrapericardial pulmonary arteries / veins) 
+              \_\_\_ Supra-aortic arteries 
+              \_\_\_ Brachiocephalic vein 
+              \_\_\_ Subclavian vessels 
+              \_\_\_ Thymus 
+              \_\_\_ Trachea 
+              \_\_\_ Carina 
+              \_\_\_ Recurrent laryngeal nerve 
+              \_\_\_ Vagus nerve 
+              \_\_\_ Esophagus 
+              \_\_\_ Vertebral body 
+              \_\_\_ Lamina 
+              \_\_\_ Spinal canal 
+              \_\_\_ Other (including mediastinal structures not listed above) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **Treatment Effect (Note [G](#bookmark=id.os2a59o57jcf))**
+              \_\_\_ No known presurgical therapy 
+              \_\_\_ Not identified 
+              \_\_\_ Present 
+              **Percentage of Residual Viable Tumor **
+              \_\_\_ Specify percentage: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **\+Percentage of Necrosis **
+              \_\_\_ Specify percentage: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **\+Percentage of Stroma (includes fibrosis and inflammation) **
+              \_\_\_ Specify percentage: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ %
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **\+Inflammation **
+              \_\_\_ Mild 
+              \_\_\_ Moderate 
+              \_\_\_ Severe 
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **Lymphatic and / or Vascular Invasion (Note [H](#bookmark=id.yfjoiegc1op2))**
+              \_\_\_ Not identified 
+              \_\_\_ Present 
+              *Select all that apply *
+              \_\_\_ Lymphatic invasion present 
+              \_\_\_ Arterial invasion present 
+              \_\_\_ Venous invasion present 
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **\+Tumor Comment: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+
+              **MARGINS (Note [I](#bookmark=id.wki6slh5hci))**
+
+              **Margin Status for Invasive Tumor **
+              \_\_\_ All margins negative for invasive tumor 
+              **Closest Margin(s) to Invasive Tumor (select all that apply)**
+              \_\_\_ Bronchial: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Vascular: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Parenchymal: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Chest wall margin: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other attached tissue margin(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **Distance from Invasive Tumor to Closest Margin **
+              *Specify in Centimeters (cm)*
+              \_\_\_ Exact distance: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ cm
+              \_\_\_ Greater than: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ cm
+              \_\_\_ At least: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ cm
+              \_\_\_ Less than: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ cm
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Not applicable: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Invasive tumor present at margin 
+              **Margin(s) Involved by Invasive Tumor (select all that apply)**
+              \_\_\_ Bronchial: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              *Select all that apply *
+              \+\_\_\_ Tumor involves bronchial mucosa 
+              \+\_\_\_ Tumor in submucosal lymphatics 
+              \+\_\_\_ Tumor in peribronchial soft tissue 
+              \_\_\_ Vascular: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Parenchymal: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other attached tissue margin(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Not applicable: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **Margin Status for Non-Invasive Tumor (select all that apply)**
+              \_\_\_ All margins negative for non-invasive tumor 
+              \_\_\_ Carcinoma in situ present at bronchial margin: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Carcinoma in situ present at parenchymal margin: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Lepidic component of invasive carcinoma present at parenchymal margin: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Not applicable: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **\+Margin Comment: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+
+              **REGIONAL LYMPH NODES **
+
+              **Lymph Node(s) from Prior Procedures **
+              \_\_\_ No known prior lymph node sampling performed 
+              \_\_\_ Not included 
+              \_\_\_ Included 
+              **Prior Lymph Node Procedure(s) Included (describe and specify case ID): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+
+              **Regional Lymph Node Status **
+              \_\_\_ Not applicable (no regional lymph nodes submitted or found) 
+              \_\_\_ Regional lymph nodes present 
+              \_\_\_ All regional lymph nodes negative for tumor 
+              \_\_\_ Tumor present in regional lymph node(s) 
+              **Number of Lymph Nodes with Tumor **
+              \_\_\_ Exact number (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ At least (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **Nodal Site(s) with Tumor (select all that apply)**
+              *Right Nodal Stations Involved *
+              \_\_\_ 1R: Low cervical, supraclavicular, scalene and sternal notch 
+              \_\_\_ 2R: Upper paratracheal 
+              \_\_\_ 4R: Lower paratracheal 
+              \_\_\_ 8R: Para-esophageal (below carina) 
+              \_\_\_ 9R: Pulmonary ligament 
+              \_\_\_ 10R: Hilar 
+              \_\_\_ 11R: Interlobar 
+              \_\_\_ 12R-14R: Intrapulmonary 
+              *Select all that apply *
+              \+\_\_\_ 12R: Lobar 
+              \+\_\_\_ 13R: Segmental 
+              \+\_\_\_ 14R: Subsegmental 
+              \_\_\_ Other right node(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              *Central Nodal Stations Involved *
+              \_\_\_ 3a: Pre-vascular 
+              \_\_\_ 3p: Retrotracheal 
+              \_\_\_ 7: Subcarinal 
+              \_\_\_ Other central node(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              *Left Nodal Stations Involved *
+              \_\_\_ 1L: Low cervical, supraclavicular, scalene and sternal notch 
+              \_\_\_ 2L: Upper paratracheal 
+              \_\_\_ 4L: Lower paratracheal 
+              \_\_\_ 5: Subaortic / aortopulmonary (AP) / AP window 
+              \_\_\_ 6: Para-aortic (ascending aorta or phrenic) 
+              \_\_\_ 8L: Para-esophageal (below carina) 
+              \_\_\_ 9L: Pulmonary ligament 
+              \_\_\_ 10L: Hilar 
+              \_\_\_ 11L: Interlobar 
+              \_\_\_ 12L-14L: Intrapulmonary 
+              *Select all that apply *
+              \+\_\_\_ 12L: Lobar 
+              \+\_\_\_ 13L: Segmental 
+              \+\_\_\_ 14L: Subsegmental 
+              \_\_\_ Other left node(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **\+Extranodal Extension (Note [J](#bookmark=id.izr8k2hv59ax))**
+              \_\_\_ Not identified 
+              \_\_\_ Present 
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **\+Specify Size of Largest Metastatic Deposit in Millimeters (mm): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ mm**
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **Number of Lymph Nodes Examined **
+              \_\_\_ Exact number (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ At least (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined (explain): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              **Nodal Site(s) Examined (select all that apply)**
+              *Right Nodal Stations Examined *
+              \_\_\_ 1R: Low cervical, supraclavicular, scalene and sternal notch 
+              \_\_\_ 2R: Upper paratracheal 
+              \_\_\_ 4R: Lower paratracheal 
+              \_\_\_ 8R: Para-esophageal (below carina) 
+              \_\_\_ 9R: Pulmonary ligament 
+              \_\_\_ 10R: Hilar 
+              \_\_\_ 11R: Interlobar 
+              \_\_\_ 12R-14R: Intrapulmonary 
+              *Select all that apply *
+              \+\_\_\_ 12R: Lobar 
+              \+\_\_\_ 13R: Segmental 
+              \+\_\_\_ 14R: Subsegmental 
+              \_\_\_ Other right node(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              *Central Nodal Stations Examined *
+              \_\_\_ 3a: Pre-vascular 
+              \_\_\_ 3p: Retrotracheal 
+              \_\_\_ 7: Subcarinal 
+              \_\_\_ Other central node(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              *Left Nodal Stations Examined *
+              \_\_\_ 1L: Low cervical, supraclavicular, scalene and sternal notch 
+              \_\_\_ 2L: Upper paratracheal 
+              \_\_\_ 4L: Lower paratracheal 
+              \_\_\_ 5: Subaortic / aortopulmonary (AP) / AP window 
+              \_\_\_ 6: Para-aortic (ascending aorta or phrenic) 
+              \_\_\_ 8L: Para-esophageal (below carina) 
+              \_\_\_ 9L: Pulmonary ligament 
+              \_\_\_ 10L: Hilar 
+              \_\_\_ 11L: Interlobar 
+              \_\_\_ 12L-14L: Intrapulmonary 
+              *Select all that apply *
+              \+\_\_\_ 12L: Lobar 
+              \+\_\_\_ 13L: Segmental 
+              \+\_\_\_ 14L: Subsegmental 
+              \_\_\_ Other left node(s) (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **\+Regional Lymph Node Comment: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+
+              **DISTANT METASTASIS **
+
+              **Distant Site(s) Involved, if applicable (select all that apply)**
+              \_\_\_ Not applicable 
+              \_\_\_ Separate tumor nodule(s) in contralateral lobe: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Pleural nodule(s): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Pericardial nodule(s): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Malignant pleural effusion: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Malignant pericardial effusion: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Single extrathoracic metastasis in one organ (including a single nonregional lymph node): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Multiple extrathoracic metastases in a single organ: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Multiple extrathoracic metastasis in multiple organs: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Cannot be determined: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **pTNM CLASSIFICATION (AJCC Version 9) (Note [J](#bookmark=id.izr8k2hv59ax))**
+              *Reporting of pT, pN, and (when applicable) pM categories is based on information available to the pathologist at the time the report is issued. As per the AJCC (Chapter 1, 8th Ed.) it is the managing physician’s responsibility to establish the final pathologic stage based upon all pertinent information, including but potentially not limited to this pathology report. *
+
+              **Modified Classification (required only if applicable) (select all that apply)**
+              \_\_\_ Not applicable 
+              \_\_\_ y (post-neoadjuvant therapy) 
+              \_\_\_ r (recurrence) 
+
+              **pT Category **
+              \_\_\_ pT not assigned (cannot be determined based on available pathological information) 
+              \_\_\_ pT0: No evidence of primary tumor 
+              \_\_\_ pTis: Carcinoma in situ; or Squamous cell carcinoma in situ (SCIS); or Adenocarcinoma in situ (AIS):
+                     adenocarcinoma with pure lepidic pattern, less than or equal to 3 cm in greatest dimension 
+              *pT1: Tumor is less than or equal to 3 cm in greatest dimension surrounded by lung or visceral pleura, or in a lobar or more peripheral bronchus *
+              \_\_\_ pT1mi: Minimally invasive adenocarcinoma: adenocarcinoma (less than or equal to 3 cm in greatest
+                     dimension) with a predominantly lepidic pattern and less than or equal to 5 mm invasion in greatest
+                     dimension 
+              \_\_\_ pT1a: Tumor less than or equal to 1 cm in greatest dimension OR Tumor of any size whose invasive
+                     component is limited to the bronchial wall and may extend proximal to the main bronchus (this is an
+                     uncommon superficial, spreading tumor) 
+              \_\_\_ pT1b: Tumor greater than 1 cm but less than or equal to 2 cm in greatest dimension 
+              \_\_\_ pT1c: Tumor greater than 2 cm but less than or equal to 3 cm in greatest dimension 
+              \_\_\_ pT1 (subgroup cannot be determined) 
+              *pT2: Tumor greater than 3 cm but less than or equal to 5 cm in greatest dimension OR tumor less than or equal to 4 cm with one or more of the following features: Invades visceral pleura; or Invades an adjacent lobe; or Involves main bronchus (up to but not including the carina) or associated with atelectasis or obstructive pneumonitis, extending to the hilar regions, involving either part of or the entire lung *
+              \_\_\_ pT2a: Tumor greater than 3 cm but less than or equal to 4 cm in greatest dimension OR Tumor less
+                     than or equal to 4 cm in greatest dimension with one or more of the following features: Invades
+                     visceral pleura; or Invades an adjacent lobe; or Involves main bronchus (up to but not including the
+                     carina) or associated with atelectasis or obstructive pneumonitis, extending to the hilar regions,
+                     involving either part of or the entire lung 
+              \_\_\_ pT2b: Tumor greater than 4 cm but less than or equal to 5 cm in greatest dimension with or without
+                     any of the following features: Invades visceral pleura; or Invades an adjacent lobe; or Involves main
+                     bronchus (up to but not including the carina) or associated with atelectasis or obstructive pneumonitis
+                     extending to the hilar regions, involving either part of or the entire lung 
+              \_\_\_ pT2 (subgroup cannot be determined) 
+              \_\_\_ pT3: Tumor greater than 5 cm but less than or equal to 7 cm in greatest dimension OR Tumor less
+                     than or equal to 7 cm with one or more of the following features: Invades parietal pleura or chest wall;
+                     or Invades pericardium, phrenic nerve or azygos vein (although these structures lie within the
+                     mediastinum, the degree of mediastinal penetration by the tumor needed to invade these structures
+                     is not counted as T4); or Invades thoracic nerve roots (i.e., T1, T2) or stellate ganglion; or Separate
+                     tumor nodule(s) in the same lobe as the primary 
+              \_\_\_ pT4: Tumor greater than 7 cm in greatest dimension OR Tumor of any size with one or more of the
+                     following features: Invades mediastinum (except structures listed in T3), thymus, trachea, carina,
+                     recurrent laryngeal nerve, vagus nerve, esophagus or diaphragm; or Invades heart, great vessels
+              (aorta, superior / inferior vena cava, intrapericardial pulmonary arteries / veins), supra-aortic arteries
+              or brachiocephalic veins; or Invades subclavian vessels, vertebral body, lamina, spinal canal, cervical
+              nerve roots or brachial plexus (i.e., trunks, divisions, cords or terminal nerves); or Separate tumor
+              nodule(s) in a different ipsilateral lobe than that of the primary 
+
+              **T Suffix (required only if applicable) **
+              *The suffix m (or a specific number) should only be used in the setting of multifocal ground-glass / lepidic nodules that histologically present as adenocarcinomas with prominent lepidic component or multifocal tumors of same histologic type that are too numerous for individual separate synoptic report and that are not better classified as intrapulmonary metastases (e.g. numerous carcinoid tumors). Multiple primary lung cancers showing different histologic type or different morphology based on comprehensive histologic subtyping are better staged as independent tumors without m suffix. *
+              \_\_\_ Not applicable 
+              \_\_\_ (m) multiple primary synchronous tumors in a single organ 
+
+              **pN Category **
+              \_\_\_ pN not assigned (no nodes submitted or found) 
+              \_\_\_ pN not assigned (cannot be determined based on available pathological information) 
+              \_\_\_ pN0: No tumor involvement of regional lymph node(s) 
+              \_\_\_ pN1: Tumor involvement of ipsilateral peribronchial and / or ipsilateral hilar and / or ipsilateral
+                     intrapulmonary lymph node station(s), including involvement by direct extension 
+              *pN2: Tumor involvement of ipsilateral mediastinal nodal station(s) and / or subcarinal lymph node station *
+              \_\_\_ pN2a: Tumor involvement of a single ipsilateral mediastinal nodal station or of the subcarinal nodal
+                     station 
+              \_\_\_ pN2b: Tumor involvement of multiple ipsilateral mediastinal nodal stations with or without
+                     involvement of the subcarinal nodal station 
+              \_\_\_ pN2 (subgroup cannot be determined) 
+              \_\_\_ pN3: Tumor involvement of contralateral mediastinal, contralateral hilar, ipsilateral / contralateral
+                     scalene, or ipsilateral / contralateral supraclavicular lymph node station(s) 
+
+              **N Suffix (required only if applicable) (select all that apply)**
+              \_\_\_ Not applicable 
+              \_\_\_ (sn) Sentinel node procedure 
+              \_\_\_ (f) FNA or core needle biopsy 
+
+              **pM Category (required only if confirmed pathologically) **
+              \_\_\_ Not applicable \- pM cannot be determined from the submitted specimen(s) 
+              *pM1: Microscopic confirmation of distant metastasis *
+              *\# Most pleural (pericardial) effusions with lung cancer are a result of the tumor. In a few patients, however, multiple microscopic examinations of pleural (pericardial) fluid are negative for tumor, and the fluid is non-bloody and not an exudate. If these elements and clinical judgment dictate that the effusion is not related to the tumor, the effusion should be excluded as a staging descriptor. *
+              \_\_\_ pM1a: Microscopic confirmation of metastasis in pleural or pericardial nodules, and / or malignant
+                     pleural or pericardial effusions, and / or separate tumor nodule(s) in a contralateral lobe\# 
+              \_\_\_ pM1b: Microscopic confirmation of single extrathoracic metastasis in a single organ system (including
+                     involvement of a single non-regional node) 
+              *pM1c: Microscopic confirmation of multiple extrathoracic metastases in a single or multiple organ system(s) *
+              \_\_\_ pM1c1: Microscopic confirmation of multiple extrathoracic metastases in a single organ system (For
+                     example, the skeleton is considered one organ. Several metastases in a single bone or several
+                     metastases in several bones are classified as M1c1.) 
+              \_\_\_ pM1c2: Microscopic confirmation of multiple extrathoracic metastases in multiple organ systems 
+              \_\_\_ pM1c (subgroup cannot be determined) 
+              \_\_\_ pM1 (subgroup cannot be determined) 
+
+              **ADDITIONAL FINDINGS **
+
+              **\+Additional Findings (select all that apply)**
+              \_\_\_ None identified 
+              \_\_\_ Atypical adenomatous hyperplasia: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Tumorlets: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Squamous dysplasia 
+              \_\_\_ Diffuse neuroendocrine hyperplasia 
+              \_\_\_ Biopsy site changes 
+              \_\_\_ Granulomatous inflammation (specify necrotizing or non-necrotizing if discernible): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Post-obstructive changes 
+              \_\_\_ Fibrosis (specify pattern if discernable): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+              \_\_\_ Emphysema 
+              \_\_\_ Other (specify): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+              **SPECIAL STUDIES **
+              *For reporting cancer biomarker testing results, the CAP Lung Biomarker Template may be used. Pending biomarker studies should be listed in the Comments section of this report. *
+
+              **COMMENTS **
+
+              **Comment(s): \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_**
+              **Explanatory Notes**
+
+              **A. Tumor Focality**
+              When more than one tumor nodule is identified in resection specimens, it is important to attempt distinction of synchronous primary tumors from a tumor with intrapulmonary metastasis. These scenarios have different prognoses and are staged differently. Multiple tumor nodules of different histologic types (e.g., one squamous cell carcinoma and one adenocarcinoma) are considered synchronous primaries and should be recorded as such in the pathology report with an individual TNM category assigned to each tumor.[1](#bookmark=id.djkxfss33lzh) In such cases, required reporting elements should be recorded for each primary tumor, and this is most easily achieved by issuing two synoptic reports (one for each of the cancers). For lung adenocarcinomas, comprehensive histologic assessment has been proposed for the distinction of synchronous primaries from separate tumor nodules (intrapulmonary metastasis).[2](#bookmark=id.hpa4f5a60o4w) Other pathologic criteria for distinguishing synchronous primary lung adenocarcinomas from separate tumor nodules (intrapulmonary metastasis) that are not based strictly on histologic assessment (e.g., assessing similarity of breakpoints using comparative genomic hybridization) are detailed in the 8th edition of the AJCC staging manual.[3](#bookmark=id.fw8za221gfe7)
+
+              Multifocal lung adenocarcinoma with lepidic features is the designation applied to multiple discrete foci of lepidic-predominant adenocarcinoma (LPA), minimally invasive adenocarcinoma (MIA), or adenocarcinoma in situ (AIS) with or without other subtypes of adenocarcinoma as lesser components that manifest on computed tomography (CT) as multiple subsolid (either pure ground glass or part solid) nodules.[4](#bookmark=id.bghnuxh0fgis) This designation applies whether a detailed histologic assessment shows a matching or different appearance among the tumor foci. Data suggest that in most cases, the multiple lesions represent synchronous primary tumors.[5](#bookmark=id.44vkxskw7et7) Assignment of T category in these cases is based on the highest T lesion, followed by the suffix “m”, indicating multiplicity, or the number of tumors in parentheses (e.g., T1b(m) or T1b(2)) (Table 1).[3](#bookmark=id.fw8za221gfe7) It should be noted that foci of atypical adenomatous hyperplasia (AAH) are not counted for the purpose of TNM classification.
+
+              In some patients, adenocarcinoma manifests radiographically as diffuse consolidation, which has been designated as “pneumonic-type” lung adenocarcinoma. Such imaging findings typically correspond pathologically to invasive mucinous adenocarcinoma, but mixed mucinous and non-mucinous patterns may also be seen.[5](#bookmark=id.44vkxskw7et7) Invasive mucinous adenocarcinoma often exhibits lepidic-predominant growth, but robust sampling usually discloses invasive foci. Occasionally, invasive mucinous adenocarcinoma shows a heterogeneous mixture of other growth patterns. To qualify as pneumonic-type adenocarcinoma, tumor should be diffusely distributed throughout a region(s) of lung, as opposed to forming discrete single or multiple well-demarcated nodules or masses.[5](#bookmark=id.44vkxskw7et7)
+
+              The size of diffuse pneumonic-type adenocarcinomas, as well as miliary forms of adenocarcinoma, is often difficult to measure. When a single tumor area is present, it is categorized according to standard TNM criteria. Multiple tumor areas are categorized according to the extent of lobar involvement: T3 when limited to a single lobe, T4 when there is involvement of other ipsilateral lobe, and M1a is used to indicate the presence of contralateral lung involvement.[3](#bookmark=id.fw8za221gfe7)
+
+              In the setting of multiple lung cancers other than adenocarcinoma, pathologists may use the suffix m for multiple tumors of same histology as long as those tumors are not better considered intrapulmonary metastases. In this situation, AJCC suggests assigning the T category based on the size of the largest tumor nodule and using the m suffix to indicate an increased tumor burden.
+
+              **Table 1\. Schematic Summary of Disease Patterns and TNM Classification of Patients with Lung Cancer with Multiple Pulmonary Sites of Involvement**
+
+              |   | Second Primary Lung Cancer | Multifocal GG/L Nodules | Pneumonic-type Adenocarcinoma | Separate Tumor Nodule |
+              | :---- | :---- | :---- | :---- | :---- |
+              | Imaging features | Two or more distinct masses with imaging characteristic of lung cancer (e.g., spiculated) | Multiple ground-glass or part-solid nodules | Patchy areas of ground glass and consolidation | Typical lung cancer (e.g., solid, spiculated) with separate solid nodule |
+              | Pathological features | Different histotype or different morphology based on comprehensive histologic assessment | Adenocarcinomas with prominent lepidic component (typically varying degrees of AIS, MIA, LPA) | Same histology throughout (most often invasive mucinous adenocarcinoma) | Distinct masses with the same morphologic features based on comprehensive histologic assessment |
+              | TNM classification | Separate cTNM and pTNM for each cancer | T based on highest T lesion, with (\#/m) indicating multiplicity; single N and M | T based on size or T3 if in single lobe, T4 or M1a if in different ipsilateral or contralateral lobes; single N and M | Location of separate nodule relative to primary site determines whether T3, T4, or M1a; single N and M |
+              | Conceptual view | Unrelated tumors | Separate tumors, albeit with similarities | Single tumor, diffuse pulmonary involvement | Single tumor with intrapulmonary metastasis |
+
+              AIS, adenocarcinoma in situ; GG/L, ground-glass/lepidic; LPA, lepidic-predominant adenocarcinoma; MIA, minimally invasive adenocarcinoma. From AJCC Cancer Staging Manual, 8th edition. Used with permission.
+
+              **B. Tumor Size**
+              Based on data showing prognosis correlates with invasive size in non-mucinous adenocarcinomas with lepidic and invasive components, the AJCC has adopted a rule that for non-mucinous adenocarcinomas with a lepidic component, only the size of the invasive component is used to assign T category.[1,](#bookmark=id.k7bnuns2qeb3)[2,](#bookmark=id.fqpk04orkcat)[3,](#bookmark=id.uevotd6f7qvq)[4,](#bookmark=id.tivn27vedf9j)[5](#bookmark=id.c99jorfxwu4l) This rule aligns with the recommendation previously set forth by the Union for International Cancer Control (UICC) of using invasive size for T descriptor size.[6](#bookmark=id.aqnbsyp8jzs3) This rule does not apply to other histologic types of lung cancer, including invasive mucinous lung adenocarcinoma. Data available to establish Version 9 TNM categories were insufficient to analyze the eighth-edition proposal to distinguish invasive from non-invasive tumor size in part-solid and part-lepidic non-mucinous lung adenocarcinomas. Therefore, reporting both invasive size and total tumor size of these tumors remains important for validation of this concept.[2](#bookmark=id.fqpk04orkcat)
+
+              The invasive component to be measured in non-mucinous adenocarcinomas with a lepidic component includes any histologic subtype other than a lepidic pattern (i.e., acinar, papillary, micropapillary, and/or solid) and/or tumor cells infiltrating myofibroblastic stroma.[7](#bookmark=id.nw1mre1zfy3u) In tumors where the invasive component is not a single discrete measurable focus, estimating the percentage of the total tumor that is invasive and then multiplying by the total tumor size to estimate invasive tumor size is recommended.[7](#bookmark=id.nw1mre1zfy3u)
+
+
+              **C. Histologic Type**
+              For consistency in reporting, the histologic classification published by the World Health Organization (WHO) for tumors of the lung, including carcinoids, is recommended.[1](#bookmark=id.j12f738zwp1d) Although acceptable in small biopsies, a designation of non-small cell lung carcinoma is not acceptable in resection specimens.
+
+              Lung carcinomas should be adequately sampled in order to ensure defining features are satisfactorily represented in the sections examined histologically and the presence or absence of invasion can be thoroughly assessed. The WHO defines invasion in adenocarcinoma as: (1) any histologic subtype other than a lepidic pattern (i.e., acinar, papillary, micropapillary, and/or solid), (2) tumor cells infiltrating myofibroblastic stroma, (3) vascular or pleural invasion, or (4) spread through air spaces (STAS).[1](#bookmark=id.j12f738zwp1d)
+
+              STAS is defined as micropapillary clusters, solid nests or single cells of tumor extending beyond the edge of the tumor into the air spaces of the surrounding lung parenchyma. Studies and meta-analyses have shown STAS to be an independent prognostic factor in the major histologic types of lung cancer and increased incidence of recurrence in tumors that have undergone limited resection (e.g., segmentectomy, wedge resection).[1,](#bookmark=id.j12f738zwp1d)[2](#bookmark=id.o5rc4mootlu2) STAS should not be incorporated into the measurement of tumor size.
+
+              For cases in which a diagnosis of adenocarcinoma in situ (AIS) or minimally invasive adenocarcinoma (MIA) is being considered, the lesion must be entirely submitted for histopathologic examination. A diagnosis of MIA is applied to a lepidic-predominant tumor ≤3 cm in size with an invasive component measuring ≤0.5 cm provided it does not exhibit any of the following: (1) tumor invades lymphatics, blood vessels or pleura, (2) tumor necrosis is present, (3) STAS is present.[1](#bookmark=id.j12f738zwp1d) Tumors ≤3 cm with ≤0.5 cm of invasion exhibiting 1 or more of these exclusionary features are classified as lepidic-predominant adenocarcinoma. A diagnosis of AIS or MIA should only be made on solitary lesions ≤3 cm in diameter. Specimens showing only AIS are categorized as Tis (AIS). MIA is classified as T1mi.[3](#bookmark=id.b6jst9kig3s1)
+
+              For the uncommon occurrence of a lepidic-predominant tumor \>3.0 cm with either no invasion or ≤0.5 cm of invasion, it is recommended that such tumors be classified as lepidic-predominant adenocarcinoma and categorized as pT1a, as there is insufficient data to conclude they have the same prognostic features as ≤3.0 cm tumors meeting criteria for AIS or MIA.[3](#bookmark=id.b6jst9kig3s1)
+
+              Classification of adenocarcinomas by predominant histologic pattern can be useful for assessing pathologic grade and distinguishing separate independent tumors from intrapulmonary metastases. The WHO recommends classifying invasive non-mucinous adenocarcinomas according to the predominant subtype and specifying non-predominant subtypes semi-quantitatively in 5% increments.[1](#bookmark=id.j12f738zwp1d) In poorly differentiated cases, immunohistochemistry can greatly aid in classification. This is particularly useful in making a diagnosis of solid-type adenocarcinoma or nonkeratinizing squamous cell carcinoma.
+
+
+              **D. Histopathologic Grade**
+              The predominant histological pattern of non-mucinous adenocarcinomas is associated with prognosis with lepidic-predominant tumors having the best prognosis, acinar and papillary-predominant tumors having an intermediate prognosis, and solid-predominant and micropapillary-predominant tumors having the worst prognosis.[1](#bookmark=id.v6vsjosqfx6u) A recent study by the International Association for the Study of Lung Cancer (IASLC) Pathology Committee found that a combination of predominant and worst histological pattern improves prediction of patient outcome.[1](#bookmark=id.v6vsjosqfx6u) The following grading scheme was recommended for resected early-stage non-mucinous lung adenocarcinoma.
+
+              IASLC Histopathologic Grading Scheme for Non-mucinous Lung Adenocarcinoma:
+
+              Grade 1 (G1):  Well-differentiated (lepidic-predominant with no or \< 20% high-grade pattern)
+              Grade 2 (G2):  Moderately differentiated (acinar or papillary-predominant with no or \< 20% high-grade
+                                   pattern)
+              Grade 3 (G3):  Poorly differentiated (any tumor with ≥ 20% high-grade pattern (i.e., solid, micropapillary,
+                                   cribriform, or complex glandular pattern).
+
+              Note: A complex glandular pattern is defined by fused glands or single cells infiltrating in a desmoplastic stroma.
+
+              Neuroendocrine tumors continue to be classified based on their diagnostic criteria as low-grade (typical carcinoid/neuroendocrine tumor, grade 1), intermediate-grade (atypical carcinoid/neuroendocrine tumor, grade 2\) and neuroendocrine carcinoma (large cell carcinoma and small cell carcinoma).[2](#bookmark=id.tmze642qthmg)
+
+              Use of the above grading schemes is required for non-mucinous adenocarcinomas and neuroendocrine tumors. There is currently no established grading scheme for invasive mucinous adenocarcinoma or squamous cell carcinoma of the lung.[2](#bookmark=id.tmze642qthmg)
+
+              For other tumors, the four-tiered grading scheme for lung cancer (shown below) has been put forth by the American Joint Committee on Cancer (AJCC) may be used.[1,](#bookmark=id.v6vsjosqfx6u)[3](#bookmark=id.wbk3tbqedobw)
+
+              AJCC Histopathologic Grading Scheme:[3](#bookmark=id.wbk3tbqedobw)
+              Grade X (GX): Cannot be assessed
+              Grade 1 (G1):  Well-differentiated
+              Grade 2 (G2):  Moderately differentiated
+              Grade 3 (G3):  Poorly differentiated
+              Grade 4 (G4):  Undifferentiated
+
+
+              **E. Visceral Pleural Invasion**
+              The presence of visceral pleural invasion by tumors ≤ 3 cm changes the T category from pT1 to pT2a.[1](#bookmark=id.qtmxupheceeg) Studies have shown that tumors ≤ 3 cm that penetrate beyond the elastic layer of the visceral pleura behave similarly to similar-size tumors that extend to the visceral pleural surface.[2,](#bookmark=id.jm0n1e8zhkjo)[3](#bookmark=id.349xixxbtlw5) Visceral pleural invasion should therefore be considered present not only in tumors that extend to the visceral pleural surface, but also in tumors that penetrate beyond the elastic layer of the visceral pleura (Figure 1).[4,](#bookmark=id.bfvqnlba1vvn)[5,](#bookmark=id.nvhgsjkrijq1)[6](#bookmark=id.95o0d5kinqgf) To qualify for visceral pleural invasion, tumor cells must have crossed the thickest visceral pleural elastic layer, which is usually the outermost (external) elastic layer in the visceral pleura (the layer closest to the visceral pleural mesothelial-lined surface). In many patients, a thinner, sometimes discontinuous, elastic layer (internal visceral pleural elastic layer) can be appreciated closer to the lung parenchyma. Penetration of tumor through this thinner, variably discontinuous internal (i.e., closer to the lung parenchyma)) elastic layer does not qualify as visceral pleura invasion.[7](#bookmark=id.3y6m8ul4y515) The pleural elastic layers can be difficult to appreciate in hematoxylin-eosin stains. Elastic stains may facilitate the assessment of visceral pleural invasion.[2,](#bookmark=id.jm0n1e8zhkjo)[3,](#bookmark=id.349xixxbtlw5)[7](#bookmark=id.3y6m8ul4y515)
+
+              ![A collage of images of cellsDescription automatically generated][image1]
+              **Figure 1**. Types of visceral pleural invasion. Staining for elastin (e.g., elastic-Van Gieson \[EVG\] stain) can aid in detection of visceral pleural invasion where it is indeterminate by hematoxylin-eosin (H\&E) stain. A and B. Visceral pleural invasion is present when a tumor penetrates beyond the thick (external) elastic layer of the visceral pleura (type PL1 pleural invasion) C. Tumor extension to the visceral pleural surface is also categorized as visceral pleural invasion (type PL2). Both types of visceral pleural invasion raise the T category of otherwise T1 tumors to T2a. D. Visceral pleural invasion is categorized as absent in tumors that do not penetrate the visceral pleural elastic layer (type PL0). (Original magnifications x200 \[A\], x400 \[B and C\], x600 \[D\]).
+
+              Based on available data, a tumor with direct invasion across a fissure or directly if the fissure is incomplete into an adjacent ipsilateral lobe should be classified as T2a unless the size of the tumor or other criteria that would dictate a higher T category are met.[7](#bookmark=id.3y6m8ul4y515)
+
+              Pleural tumor nodules, including same lobe visceral pleural nodules, separate from the primary tumor (non-contiguous) should be categorized as M1a.[1](#bookmark=id.qtmxupheceeg)
+
+
+              **F. Direct Invasion of Other Structures**
+              Lung tumors sometimes exhibit direct invasion of structures surrounding the lung parenchyma in which the arise. Direct hilar fat/soft tissue invasion without evidence of direct extension into other structures that would meet a higher T designation is categorized as T2a.[1](#bookmark=id.qnlgwqxlx9p0) Occasionally, lung cancer specimens consist of en bloc resections that incorporate extrapulmonary structures directly invaded by tumor. Accurate assessment of such specimens might require carefully study of the operative note and preoperative imaging, or communication with the surgeon regarding the nature and location of any attached extrapulmonary structures.
+
+              According to the AJCC, direct invasion of the parietal pleura is categorized as T3, as is direct invasion of the chest wall (including the superior sulcus).[1](#bookmark=id.qnlgwqxlx9p0) Although parietal pleural invasion appears to portend a worse prognosis within the pT3 category than an intralobar metastasis, evidence was insufficient to classify it as pT4 in Version 9 of the TNM Classification for Lung Cancer.[1](#bookmark=id.qnlgwqxlx9p0) Specifying the chest wall structures directly invaded by tumor (e.g., intercostal muscle\[s\], rib\[s\], pectoralis muscle, latissimus muscle, serratus muscle) can facilitate patient management. Direct phrenic nerve and parietal pericardial invasion are also categorized as T3. Tumor extension into the visceral pericardium (epicardium) is categorized as T4.
+
+              Direct invasion of central thoracic structures, including the heart, great vessels, mediastinum, trachea, recurrent laryngeal nerve, esophagus, vertebral body, and carina is considered T4. Direct invasion of the diaphragm is also categorized as T4.
+
+              References
+
+              1. Van Schil PE, Asamura H, Nishimura KK, et al. The International Association for the Study of Lung Cancer Lung Cancer Staging Project: Proposals for the Revisions of the T-Descriptors in the Forthcoming Ninth Edition of the TNM Classification for Lung Cancer. *J Thorac Oncol*. 2024;19(5):749-765.
+
+              **G. Treatment Effect**
+              For patients who have received neoadjuvant chemotherapy, immunotherapy and/or radiation therapy before surgical resection, quantifying the extent of therapy-induced tumor regression provides prognostically relevant information.[1,](#bookmark=id.u2ohybp1xhq)[2](#bookmark=id.382e1h5dpjbm) Measuring residual tumor size in patients with a partial response can be challenging, as there are often discontinuous clusters of viable tumor at the peripheral edges of an irregular area of treatment-related necrosis. The IASLC recently published multidisciplinary recommendations for the pathologic assessment of lung cancer resection specimens after neoadjuvant therapy.[2](#bookmark=id.382e1h5dpjbm) To evaluate treatment effect, the resection specimen should be sectioned in the plane that shows the maximum dimension of the tumor bed and its relationship to structures relevant for determining pT category and margin status. Three-dimensional size of the tumor bed and an estimated percentage of gross necrosis should be recorded. Tumor beds up to 3.0 cm may be submitted entirely for microscopic examination. For larger tumors, the IASLC recommends complete sampling of an entire cross-section of tumor bed with mapping of each section to a gross photograph. The percentages of viable tumor, stromal tissue (i.e., fibrosis and inflammation) and necrosis (in increments of 10% totaling 100%) should be determined based on review of all microscopic sections of tumor bed. If a component amounts to less than 5%, an estimate of single percentages should be recorded. This approach to evaluating residual tumor refines that suggested by the AJCC of multiplying the percentage of the mass that is composed of viable tumor by the size of the total mass to estimate post-neoadjuvant tumor size.[3](#bookmark=id.ontpdtg3iv2v) A “y” prefix is applied to the TNM classification in resections following multimodality therapy (see Note J). If no viable tumor is identified on resection, ypT0 is the appropriate designation.
+
+
+              **H. Lymphatic and/or Vascular Invasion**
+              There are data showing lymphatic invasion by tumor represents an unfavorable prognostic finding, but studies on the role of large vessel invasion have produced somewhat conflicting results.[1,](#bookmark=id.n9stziwou80k)[2](#bookmark=id.s8a25xnafg55) The presence of lymphovascular invasion is exclusionary of adenocarcinoma in situ (AIS) and minimally invasive adenocarcinoma (MIA).[3](#bookmark=id.xboycpaa5x9) Angiolymphatic invasion does not alter the pT and pN classifications or the TNM stage grouping.
+
+
+              **I. Margins**
+              Surgical margins represent sites that have either been cut or bluntly dissected by the surgeon to resect the specimen. The presence of tumor at a surgical margin is an important finding, because there is the potential for residual tumor remaining in the patient in the area surrounding a positive margin. Peripheral wedge resections contain a parenchymal margin, which is represented by the tissue at the staple line(s). Lobectomy and pneumonectomy specimens contain bronchial and vascular margins and, depending on the completeness of the interlobar fissures and other anatomic factors, may also contain parenchymal margins in the form of staple lines. En bloc resections that contain extrapulmonary structures as part of the specimen have additional margins (e.g., parietal pleura, chest wall), which should be designated by the surgeon for appropriate handling. Note that the visceral pleura is not a surgical margin.
+
+              **J. pTNM Classification**
+              The TNM staging system of the AJCC and the UICC is recommended for both non-small cell lung cancer and small cell lung cancer.[1](#bookmark=id.bapzlatzwsu0) Typical carcinoid and atypical carcinoid tumors should also be classified according to the TNM staging system.
+
+              By AJCC/UICC convention, the designation “T” refers to a primary tumor that has not been previously treated. The symbol “p” refers to the pathologic classification of the TNM, as opposed to the clinical classification, and is based clinical stage information modified/refined by operative findings and pathological evaluation of the resected specimen. The pTNM classification is applicable when surgery is performed before adjuvant systemic or radiation therapy is initiated. pT entails a resection of the primary tumor or biopsy adequate to evaluate the highest pT category, pN entails removal of nodes adequate to validate lymph node metastasis, and pM implies microscopic examination of distant lesions.
+
+              **TNM Descriptors**
+              For identification of special cases of TNM or pTNM classifications, the “m” suffix and “y,” and “r” prefixes are used. Although they do not affect the stage grouping, they indicate cases needing separate analysis.
+
+              The “m” suffix can indicate the presence of multiple ground-glass/lepidic adenocarcinomas or be used to indicate increased tumor burden of multifocal tumors of same histologic type that are too numerous for individual separate synoptic reports. It is recorded in parentheses: pT(m) (see Note A).
+
+              The “y” prefix indicates those cases in which classification is performed during or following initial multimodality therapy (i.e., neoadjuvant chemotherapy, radiation therapy, or both chemotherapy and radiation therapy). The cTNM or pTNM category is identified by a “y” prefix. The ycTNM or ypTNM categorizes the extent of tumor actually present at the time of that examination. The “y” categorization is not an estimate of tumor prior to multimodality therapy (i.e., before initiation of neoadjuvant therapy) (see Note G).
+
+              The “r” prefix indicates a recurrent tumor when staged after a documented disease-free interval and is identified by the “r” prefix: rTNM.
+
+              **T Category Considerations**
+              Version 9 of the TNM classification for lung cancer maintains the eighth-edition T descriptors.[2](#bookmark=id.x3iq3zkezhjf)
+
+              Although obstructive pneumonitis associated with tumor is sometimes seen histologically, accurate assessment of tumor-associated obstructive pneumonitis as well as atelectasis requires integration of clinical and radiographic information. Atelectasis and obstructive pneumonitis recognized by pathology only should not be used for TNM staging.
+
+              **N Category Considerations**
+              Lymph node metastases are an adverse prognostic factor, the extent of which is dependent on the location and number of the involved lymph node stations.[3](#bookmark=id.5ocbd5ehsshi) The involved lymph node stations should be recorded according to the International Association for the Study of Lung Cancer (IASLC) lymph node map. Given the nature of the procedure, lymph nodes obtained by mediastinoscopy are often received fragmented, and it may not be possible to distinguish a single fragmented lymph node from fragments of multiple lymph nodes. For this reason, only if the actual number of nodes is known or provided should it be quantified. Otherwise, it is permissible to report the sites of nodal metastases without specifying the number involved.
+
+              Although extranodal extension of a positive mediastinal lymph node may represent an unfavorable prognostic finding, it does not change the pN classification or the TNM stage grouping. Extranodal extension refers to the extension of metastatic intranodal tumor beyond the lymph node capsule into the surrounding tissue. Direct extension of a primary tumor into a nearby lymph node does not qualify as extranodal extension.
+
+              The anatomic classification of regional lymph nodes proposed by the IASLC is shown below. A complete description of the anatomic limits of each nodal station can be found in the AJCC Staging Manual.[1](#bookmark=id.bapzlatzwsu0)
+
+              Station 1    Lower cervical, supraclavicular, and sternal notch nodes
+              Station 2    Upper paratracheal nodes
+              Station 3    Prevascular and retrotracheal nodes
+              Station 4    Lower paratracheal nodes
+              Station 5    Subaortic nodes (aorto-pulmonary window)
+              Station 6    Paraaortic nodes (ascending aorta or phrenic)
+              Station 7    Subcarinal nodes
+              Station 8    Paraesophageal nodes (below carina)
+              Station 9    Pulmonary ligament nodes
+              Station 10  Hilar nodes
+              Station 11   Interlobar nodes
+              Station 12   Lobar nodes
+              Station 13   Segmental nodes
+              Station 14   Subsegmental nodes
+
+              Metastasis to nonregional lymph nodes (i.e., lymph nodes that are not included in the IASLC lymph node map) are assigned to the M1b or M1c category depending or whether single or multiple metastases are present.
+
+              **M Category Considerations**
+              With respect to this protocol, reporting a pM designation is required only if metastasis is pathologically confirmed in the specimen(s) being examined. The designation pMX should not be used.
+
+              In addition to malignant pleural effusion, malignant pericardial effusion, as well as separate tumor nodule(s) in a contralateral lobe are categorized as M1a.[4](#bookmark=id.3is2d4k3wdks) Visceral or parietal ipsilateral pleural tumor nodules and pericardial tumor nodules that are not in direct continuity with the primary lung tumor are also categorized as M1a. A single extrathoracic metastasis in a single organ system is categorized as M1b. Multiple extrathoracic metastases are categorized as M1c1 when they occur in a single organ system and M1c2 when they occur in multiple organ systems.
+
+
+       Context: {context}
+
+       Question: {question}
+
+       Do not include any explanations, introductory text, or Markdown code formatting. Your response must start with [{{ and end with }}]. There can be multiple answers to a single question.
+
+       The JSON object must conform to the following schema:
+
+       - answer_text: string (This is the answer to the question presented)
+       - reasoning: string (This is a short explanation for the answer based on the context provided and the instructions provided)
+       - confidence: float (This is how confident you are on your answer based on the context and instructions provided)
+
+       Example Output
+       [{{"answer_text": "your response here", "reasoning": "your response here", "confidence": 0.95}},
+       {{"answer_text": "your response here", "reasoning": "your response here", "confidence": 0.95}}].
+       
+       Do not include any explanations or text outside of the JSON structure. 
+
+       Generate comprehensive answers to the question based on the context provided.
+
+```
+
+
+## Lung Resection CAP forms Top Level Questions {#capforms-toplevel-questions}
+
+1. **ADDITIONAL FINDINGS** \- Documents other pathologic findings in the specimen beyond the primary tumor, such as atypical adenomatous hyperplasia, granulomatous inflammation, or emphysema.  
+2. **CLOSEST MARGIN(S) TO INVASIVE CARCINOMA** \- Identifies which specific surgical margin (bronchial, vascular, parenchymal, or chest wall) is nearest to the invasive tumor.  
+3. **DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN** \- Measures in centimeters how far the invasive tumor extends from the nearest surgical margin.  
+4. **HISTOLOGIC GRADE** \- Assesses the degree of tumor differentiation using grading schemes specific to tumor type (G1-well differentiated to G4-undifferentiated).  
+5. **LYMPH NODE(S) FROM PRIOR PROCEDURES** \- Documents whether lymph nodes from previous surgical procedures are included in the current specimen.  
+6. **LYMPHOVASCULAR INVASION** \- Reports the presence of tumor cells within lymphatic vessels, arteries, or veins.  
+7. **MARGIN STATUS FOR INVASIVE CARCINOMA** \- Determines whether invasive tumor is present at any surgical margin or if all margins are negative.  
+8. **MARGIN STATUS FOR NON-INVASIVE TUMOR** \- Assesses whether carcinoma in situ or lepidic components are present at surgical margins.  
+9. **NODAL SITE(S) EXAMINED** \- Documents which specific lymph node stations according to the IASLC map were sampled and examined.  
+10. **NODAL SITE(S) WITH TUMOR** \- Identifies which specific lymph node stations contain metastatic tumor.  
+11. **NUMBER OF LYMPH NODES EXAMINED** \- Provides the total count of lymph nodes examined in the specimen.  
+12. **NUMBER OF LYMPH NODES WITH TUMOR** \- Reports the count of lymph nodes containing metastatic tumor.  
+13. **PROCEDURE** \- Specifies the type of surgical resection performed (wedge resection, lobectomy, pneumonectomy, etc.).  
+14. **REGIONAL LYMPH NODE STATUS** \- Provides overall assessment of whether regional lymph nodes contain tumor or are negative.  
+15. **SPECIMEN LATERALITY** \- Indicates whether the lung specimen is from the right or left side.  
+16. **SPREAD THROUGH AIR SPACES (STAS)** \- Documents the presence of tumor cells extending beyond the main tumor into surrounding air spaces as micropapillary clusters, solid nests, or single cells.  
+17. **TNM DESCRIPTORS** \- Assigns pathologic TNM staging categories (pT, pN, pM) based on tumor size, nodal involvement, and distant metastasis.  
+18. **TOTAL TUMOR SIZE (SIZE OF ENTIRE TUMOR)** \- Measures the greatest dimension of the entire tumor including both invasive and non-invasive components.  
+19. **TUMOR FOCALITY** \- Determines whether there is a single tumor focus, multiple separate nodules, or multifocal disease.  
+20. **TUMOR SITE** \- Identifies the specific anatomic location of the tumor within the lung (upper lobe, lower lobe, bronchus, etc.).  
+21. **VISCERAL PLEURA INVASION** \- Assesses whether tumor penetrates beyond the elastic layer of the visceral pleura or extends to the pleural surface.

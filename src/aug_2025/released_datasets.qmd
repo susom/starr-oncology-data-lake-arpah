@@ -31,7 +31,7 @@ This document provides a list of datasets as part of the August 2025 released. E
 |`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_aug2025.stamp_add_on_data_confidential`| STAMP add on dataset Scrubbed |
 :  {.hover .responsive .sm}
 
-### STARR-Deid
+### HIPPO Benchmark
 | Dataset Name | Description |
 |:------------|:------------|
 |`som-rit-phi-oncology-prod.oncology_annotations_phi_irb76049_aug2025`| BigQuery Dataset with the PHI annotations| 
