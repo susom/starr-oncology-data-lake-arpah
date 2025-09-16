@@ -21,6 +21,7 @@ For this task, we aim to use AI to populate the CAP forms automatically by using
 
 For this initial experiment, we collected a dataset with 609 patients and 615 lung resection forms. The forms were reported between November 2022 and March 2025. The table below summarizes the demographics for this dataset. It is important to notice that this a silver standard dataset, since no actual annotations from Pathologist were made to confirm that the rest of the pathology report contained sufficient information to populate the associated CAP form. 
 
+### Demographic Analysis 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 library(DBI)
