@@ -287,10 +287,7 @@ p <- p %>% layout(
     l = 80,
     r = 60,
     b = 120,
-    t = 100
-  )
-)
-
+    t =
 # Display the plot
 p
 
