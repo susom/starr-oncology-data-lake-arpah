@@ -128,7 +128,7 @@ website:
           - section: "August 2025"
             href: aug_2025/metrics_clinical.qmd
             contents:
-              - text: "Neural Frame "
+              - text: "Neural Frame"
                 href: aug_2025/neural_frame.qmd
               - text: "Image Occurrence"
                 href: aug_2025/image_occ.qmd

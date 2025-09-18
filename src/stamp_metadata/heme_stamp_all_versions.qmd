@@ -6,7 +6,7 @@ execute:
 
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
-dat=readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_data_dict/oncology_stamp_metadata.tsv")
+dat=readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_metadata/oncology_stamp_metadata.tsv")
 
 ```
 ## HEME-STAMP-V1 {#HEME-STAMP-V1}
@@ -17,7 +17,7 @@ The following genes are listed under HEME-STAMP V1:
 library(dplyr)
 
 # Read the data
-dat = readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_data_dict/oncology_stamp_metadata.tsv")
+dat = readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_metadata/oncology_stamp_metadata.tsv")
 
 # Create the subsets
 heme_v1= dat %>% 
@@ -35,7 +35,7 @@ The following genes are listed under HEME-STAMP V2:
 library(dplyr)
 
 # Read the data
-dat = readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_data_dict/oncology_stamp_metadata.tsv")
+dat = readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_metadata/oncology_stamp_metadata.tsv")
 
 # Create the subsets
 heme_v2= dat %>% 
@@ -54,7 +54,7 @@ The following genes are listed under HEME-STAMP V4:
 library(dplyr)
 
 # Read the data
-dat = readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_data_dict/oncology_stamp_metadata.tsv")
+dat = readr::read_tsv(file="/workspaces/starr-oncology-data-lake-arpah/src/stamp_metadata/oncology_stamp_metadata.tsv")
 
 # Create the subsets
 heme_v4= dat %>% 

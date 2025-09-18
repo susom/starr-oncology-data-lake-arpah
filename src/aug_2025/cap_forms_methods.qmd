@@ -6,14 +6,14 @@ execute:
   echo: false
 ---
 
-### CAP forms Description
+### CAP Forms Description
 CAP (College of American Pathologists) forms are standardized cancer reporting protocols that have revolutionized pathology practice by replacing inconsistent narrative reports with structured, synoptic formats containing essential diagnostic and prognostic information. Developed over 35 years ago to address significant variability in cancer reporting, these evidence-based protocols ensure complete, uniform documentation of malignant tumors across all healthcare institutions, directly improving patient outcomes and clinical decision-making. 
 
 Lung resection CAP forms are particularly critical in thoracic oncology, providing standardized reporting templates for primary lung cancers that include essential elements such as tumor size, histologic type and grade, surgical margins, lymph node status, and staging classifications. These lung-specific protocols have demonstrated measurable clinical impact, with studies showing that synoptic reporting achieves 88.4% completeness compared to only 2.6% for traditional descriptive reports, leading to more accurate staging, better treatment planning, and improved survival rates.
 
 By establishing consistent terminology and data capture requirements, CAP lung resection forms enhance communication between pathologists and oncologists, ensure regulatory compliance with Commission on Cancer standards, and provide the structured data foundation necessary for personalized cancer care, targeted therapy selection, and multidisciplinary treatment coordination. The widespread adoption of these standardized protocols, supported by electronic integration into laboratory information systems, has positioned pathologists as key members of the lung cancer care team while enabling seamless data exchange for cancer registries, research, and quality improvement initiatives.
 
-### CAP forms Dataset Description
+### CAP Forms Dataset Description
 
 At Stanford, CAP forms were implemented within Epic using SmartForms. SmartForms is an Epic product that allows the capture of semi-structured information within the EHR that can later be used to generate free-form reports. In this case, the structured information from the CAP forms is captured on SmartForms, which later generate the synoptic reporting section within the pathology report. As a consequence, for relevant cases, the pathology report will contain this section.
 
@@ -21,6 +21,7 @@ For this task, we aim to use AI to populate the CAP forms automatically by using
 
 For this initial experiment, we collected a dataset with 609 patients and 615 lung resection forms. The forms were reported between November 2022 and March 2025. The table below summarizes the demographics for this dataset. It is important to notice that this a silver standard dataset, since no actual annotations from Pathologist were made to confirm that the rest of the pathology report contained sufficient information to populate the associated CAP form. 
 
+### Demographic Analysis 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 library(DBI)
@@ -66,11 +67,11 @@ fetch_data_from_sql <- function(sql) {
 sql <- "
 with identifiers as (
           select distinct stanford_patient_uid, 
-                          order_proc_id, 
+                         
                           max(taken_time) as event_date 
          from 
            `som-rit-phi-oncology-prod.oncology_cap_forms_phi_irb76049_aug2025.cap_forms`
-         group by stanford_patient_uid, order_proc_id
+         group by stanford_patient_uid
            ),
 t1 as (
 SELECT 
@@ -286,16 +287,16 @@ p <- p %>% layout(
     l = 80,
     r = 60,
     b = 120,
-    t = 100
+    t =100
   )
 )
-
 # Display the plot
-p
 
+p
 ```
 
-In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. it has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
+
+In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
 In this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81. 
 
