@@ -14,7 +14,10 @@ heme_stamp_v1_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah
                       header=FALSE,
                       col.names=c("chrom", "chromStart", "chromEnd", "name"))
 
-DT::datatable(heme_stamp_v1_bed_data, options = list(pageLength = 25))
+DT::datatable(heme_stamp_v1_bed_data,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 
 ```
 
@@ -27,7 +30,10 @@ heme_stamp_v2_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah
                       header=FALSE,
                       col.names=c("chrom", "chromStart", "chromEnd", "name"))
 
-DT::datatable(heme_stamp_v2_bed_data, options = list(pageLength = 25))
+DT::datatable(heme_stamp_v2_bed_data,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 
 ```
 
@@ -40,7 +46,10 @@ stamp1_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/be
                       header=FALSE,
                       col.names=c("chrom", "chromStart", "chromEnd", "name"))
 
-DT::datatable(stamp1_bed_data, options = list(pageLength = 25))
+DT::datatable(stamp1_bed_data,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 
 ```
 
@@ -53,7 +62,10 @@ stamp2_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/be
                       header=FALSE,
                       col.names=c("chrom", "chromStart", "chromEnd", "name"))
 
-DT::datatable(stamp2_bed_data, options = list(pageLength = 25))
+DT::datatable(stamp2_bed_data,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 
 ```
 
@@ -66,7 +78,10 @@ stamp3_bed_data <- read.table("/workspaces/starr-oncology-data-lake-arpah/src/be
                       header=FALSE,
                       col.names=c("chrom", "chromStart", "chromEnd", "name"))
 
-DT::datatable(stamp3_bed_data, options = list(pageLength = 25))
+DT::datatable(stamp3_bed_data,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 
 ```
 

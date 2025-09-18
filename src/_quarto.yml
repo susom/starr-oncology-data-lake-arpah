@@ -30,6 +30,7 @@ website:
   back-to-top-navigation: false
   sidebar:
     collapse-level: 1
+    show-item-context: true
     contents:
       - section: "About"
         href: about.qmd
@@ -192,7 +193,7 @@ website:
         href: about.qmd
       - icon: github
         href: https://github.com/susom/starr-oncology-data-lake-arpah
-  search: false
+  search: true
   #   show-item-context: true
 
 

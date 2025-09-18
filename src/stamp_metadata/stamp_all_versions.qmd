@@ -25,7 +25,10 @@ stamp_v1 = dat %>%
   filter(pipeline_version == "v1" & assay_performed == "STAMP")
 
 stamp_v1$pipeline_version<-NULL
-DT::datatable(stamp_v1, options = list(pageLength = 25))
+DT::datatable(stamp_v1,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 ```
 
 ## STAMP-V2 {#STAMP-V2}
@@ -43,7 +46,10 @@ stamp_v2 = dat %>%
   filter(pipeline_version == "v2" & assay_performed == "STAMP")
 stamp_v2$pipeline_version<-NULL
 
-DT::datatable(stamp_v2, options = list(pageLength = 25))
+DT::datatable(stamp_v2,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 ```
 ## STAMP-V3 {#STAMP-V3}
 
@@ -60,7 +66,10 @@ stamp_v3 = dat %>%
   filter(pipeline_version == "v3" & assay_performed == "STAMP")
 stamp_v3$pipeline_version<-NULL
 
-DT::datatable(stamp_v3, options = list(pageLength = 25))
+DT::datatable(stamp_v3,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 ```
 
 ## STAMP-V4 {#STAMP-V4}
@@ -78,5 +87,8 @@ stamp_v4 = dat %>%
   filter(pipeline_version == "v4" & assay_performed == "STAMP")
 stamp_v4$pipeline_version<-NULL
 
-DT::datatable(stamp_v4, options = list(pageLength = 25))
+DT::datatable(stamp_v4,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 ```

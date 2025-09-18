@@ -204,6 +204,21 @@ border-bottom: 0;
 }
 /* End of table styles */
 
+/* DataTables-specific overrides to ensure site table styles apply to DT widgets */
+.datatables table.table tbody tr:nth-child(odd) {
+  background-color: var(--red-extra-light) !important;
+}
+
+.datatables table.table tbody tr:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* Small helper: make header text use site font and weight */
+.datatables table.table thead th {
+  font-family: inherit;
+  font-weight: 600;
+}
+
 /* Tabset styles */
 .nav-tabs {
   border: 1px solid #dfe2e5;

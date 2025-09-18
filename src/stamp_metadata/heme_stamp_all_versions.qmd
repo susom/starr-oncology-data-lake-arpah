@@ -24,7 +24,10 @@ heme_v1= dat %>%
   filter(pipeline_version == "v1" & assay_performed == "HEME-STAMP")
 
 heme_v1$pipeline_version<-NULL
-DT::datatable(heme_v1, options = list(pageLength = 25))
+DT::datatable(heme_v1,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 ```
 
 ## HEME-STAMP-V2 {#HEME-STAMP-V2}
@@ -43,7 +46,10 @@ heme_v2= dat %>%
 
 heme_v2$pipeline_version<-NULL
 
-DT::datatable(heme_v2, options = list(pageLength = 25))
+DT::datatable(heme_v2,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 ```
 
 ## HEME-STAMP-V4 {#HEME-STAMP-V4}
@@ -62,5 +68,8 @@ heme_v4= dat %>%
 
 heme_v4$pipeline_version<-NULL
 
-DT::datatable(heme_v4, options = list(pageLength = 25))
+DT::datatable(heme_v4,
+              class = "table hover responsive sm",
+              extensions = 'Responsive',
+              options = list(pageLength = 25, responsive = TRUE))
 ```
