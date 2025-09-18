@@ -287,11 +287,14 @@ p <- p %>% layout(
     l = 80,
     r = 60,
     b = 120,
-    t =
+    t =100
+  )
+)
 # Display the plot
-p
 
+p
 ```
+
 
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
