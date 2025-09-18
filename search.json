@@ -1510,7 +1510,7 @@
     "href": "aug_2025/cap_forms_methods.html#methods-and-results",
     "title": "AI for Automatic Synoptic Reporting",
     "section": "Methods and Results",
-    "text": "Methods and Results\nFor this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. The full set of top level questions for the Lung Resection CAp forms alongside the descriptions for each one of them can be found here. Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers. The prompt used can be found here\nTo automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.\n\n\n\n\n\n\nIn this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. it has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: openai/gpt-oss-20b-maas for OpenAI OSS, gemini-2.5-flash for the latest Gemini model and meta/llama-4-scout-17b-16e-instruct-maas for the latest LLAMA model.\nIn this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81.\nWe also attempted an experiment were we used LLM a Judge to verify that the answers were aligned with the reference answer from the CAP form. At this moment that work requires more experimentation and refinement using Pathologist expert annotations to ensure the Judging process can be used as an objective measure of performance.",
+    "text": "Methods and Results\nFor this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. The full set of top level questions for the Lung Resection CAp forms alongside the descriptions for each one of them can be found here. Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers. The prompt used can be found here\nTo automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.\n\n\n\n\n\n\nIn this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: openai/gpt-oss-20b-maas for OpenAI OSS, gemini-2.5-flash for the latest Gemini model and meta/llama-4-scout-17b-16e-instruct-maas for the latest LLAMA model.\nIn this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81.\nWe also attempted an experiment were we used LLM a Judge to verify that the answers were aligned with the reference answer from the CAP form. At this moment that work requires more experimentation and refinement using Pathologist expert annotations to ensure the Judging process can be used as an objective measure of performance.",
     "crumbs": [
       "About",
       "Data Labeling and Modeling",
@@ -1783,7 +1783,7 @@
       "About",
       "Data Metrics",
       "August 2025",
-      "Neural Frame "
+      "Neural Frame"
     ]
   },
   {
@@ -1796,7 +1796,7 @@
       "About",
       "Data Metrics",
       "August 2025",
-      "Neural Frame "
+      "Neural Frame"
     ]
   },
   {
@@ -1809,7 +1809,7 @@
       "About",
       "Data Metrics",
       "August 2025",
-      "Neural Frame "
+      "Neural Frame"
     ]
   },
   {
@@ -1822,7 +1822,7 @@
       "About",
       "Data Metrics",
       "August 2025",
-      "Neural Frame "
+      "Neural Frame"
     ]
   }
 ]
