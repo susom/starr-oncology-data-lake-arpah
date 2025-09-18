@@ -23,7 +23,7 @@ Allow: /neuralframe_data_dict/
 Allow: /philips_ispm_data_dict/
 Allow: /stamp_add_on_data_dict/
 Allow: /stamp_data_dict/
-Allow: /starr_deid_data_dict/
+Allow: /hippo_data_dict/
 Allow: /cap_forms_data_dict/
 Allow: /dicom_data_dict/
 

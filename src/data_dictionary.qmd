@@ -54,9 +54,9 @@ The following tables are available in the initial release of the dataset:
 
 HIPPO stands for Human-in-the-loop Identification of PHI with Preserved Output. This internal fully identified dataset consists of two tables:
 
-* [Gold Standard Full Text](starr_deid_data_dict/phi_dataset.qmd#full-text): This table contains the clinical text from which the annotations were gathered. It also contains basic demographic information about the patients to whom the notes refer.
+* [Gold Standard Full Text](hippo_data_dict/phi_dataset.qmd#full-text): This table contains the clinical text from which the annotations were gathered. It also contains basic demographic information about the patients to whom the notes refer.
 
-* [Gold Standard Spans](starr_deid_data_dict/phi_dataset.qmd#spans): This table contains the annotated spans where PHI was identified, along with the corresponding labels and the note identifier to which the spans correspond.
+* [Gold Standard Spans](hippo_data_dict/phi_dataset.qmd#spans): This table contains the annotated spans where PHI was identified, along with the corresponding labels and the note identifier to which the spans correspond.
 
 ### Lung Resection CAP Forms
 

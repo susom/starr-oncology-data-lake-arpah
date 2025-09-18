@@ -5,24 +5,23 @@ project:
   render:
    - about.qmd
    - data_dictionary.qmd
-   - omop_data_dict/*
-   - stamp_add_on_data_dict/*
-   - epic_media_server_dict/*
-   - metadata.qmd
-   - stamp_data_dict/*
    - data_metrics.qmd
-   - feb_2025/*
-   - may_2025/*
-   - aug_2025/*
    - data_labeling.qmd
+   - metadata.qmd
    - 404.qmd
-   - neuralframe_data_dict/*
-   - philips_ispm_data_dict/*
-   - dicom_data_dict/*
-   - cap_forms_data_dict/*
-   - starr_deid_data_dict/*
    - robots.txt
-
+   - aug_2025/*
+   - cap_forms_data_dict/*
+   - dicom_data_dict/*
+   - epic_media_server_dict/*
+   - feb_2025/*
+   - hippo_data_dict/*
+   - may_2025/*
+   - neuralframe_data_dict/*
+   - omop_data_dict/*
+   - philips_ispm_data_dict/*
+   - stamp_add_on_data_dict/*
+   - stamp_metadata/*
 website:
   title: "VISTA Oncology Data Lake"
   site-path: "/about/"
@@ -67,9 +66,9 @@ website:
           - section: "HIPPO Benchmark"
             contents: 
               - text: "Gold Standard Full Text"
-                href: starr_deid_data_dict/phi_dataset.qmd#full-text
+                href: hippo_data_dict/phi_dataset.qmd#full-text
               - text: "Gold Standard Spans"
-                href: starr_deid_data_dict/phi_dataset.qmd#spans
+                href: hippo_data_dict/phi_dataset.qmd#spans
           - section: "Lung Resection CAP Forms"
             contents: cap_forms_data_dict/* 
       - section: "Metadata"
