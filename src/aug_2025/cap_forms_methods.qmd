@@ -176,7 +176,7 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - HISTOLOGIC TYPE (NOTE C)  
 - LUNG || HISTOLOGIC TYPE COMMENT  
 - HISTOLOGIC GRADE  
-- HISTOLOGIC PATTERNS (MAY INCLUDE PERCENTAGES …)  
+- HISTOLOGIC PATTERNS (MAY INCLUDE PERCENTAGES)  
 - HISTOLOGIC COMPONENT(S) PRESENT (MAY INCLUDE PERCENTAGES)  
 - LUNG || COMMENT(S)  
 
@@ -189,7 +189,7 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - LYMPHOVASCULAR INVASION (NOTE F)  
 - SPREAD THROUGH AIR SPACES (STAS)  
 
-### Lymph Nodes
+### Regional Lymph Nodes
 - LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED  
 - LUNG || REGIONAL LYMPH NODE COMMENT  
 - LYMPH NODE(S) FROM PRIOR PROCEDURES  
@@ -223,7 +223,7 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - PERCENTAGE OF RESIDUAL VIABLE TUMOR  
 - PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)  
 
-### Additional Findings / Metadata
+### Additional Findings 
 - ADDITIONAL FINDINGS
 
 
@@ -434,6 +434,8 @@ p <- p %>% layout(
 
 p
 ```
+
+
 Distribution of average scores (avg_score) across models is shown below. Histograms with dashed median lines indicate a minor differences in central tendency and variability between models. Summary statistics (mean, median, quartiles) are provided as follow.
 
 ```{r, warning=FALSE, message=FALSE}
@@ -518,10 +520,10 @@ df_plot <- df_plot %>%
           question, ignore.case = TRUE) ~ "Tumor Histology & Subtypes",
     
     # Local Extension & Invasion
-    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|EXTRANODAL|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA|DISTANT SITE", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
+    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|EXTRANODAL|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
     
     # Lymph Nodes
-    grepl("LYMPH NODE|NODAL", question, ignore.case = TRUE) ~ "Lymph Nodes",
+    grepl("LYMPH NODE|NODAL|DISTANT SITE", question, ignore.case = TRUE) ~ "Regional Lymph Nodes & Distant Metastasis",
     
     # Margins
     grepl("MARGIN", question, ignore.case = TRUE) ~ "Margins",
@@ -550,26 +552,46 @@ library(dplyr)
 medians <- df_plot %>%
   group_by(model_name, category) %>%
   summarise(median_score = median(avg_score))
+library(ggplot2)
+library(dplyr)
+
+# Function to plot one or more categories
+plot_categories <- function(df, category_names) {
+  
+  # filter for selected categories
+  df_cat <- df %>% filter(category %in% category_names)
+  
+  # compute medians for selected categories
+  medians_cat <- df_cat %>%
+    group_by(model_name, category) %>%
+    summarise(median_score = median(avg_score), .groups = "drop")
+  
+  # plot with facetting (one facet per category)
+  p <- ggplot(df_cat, aes(x = avg_score, fill = model_name)) +
+    geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.8, position = "identity") +
+    geom_density(aes(y = ..count.. * 25), color = "grey", size = 1, alpha = 0.7) +
+    geom_vline(data = medians_cat, aes(xintercept = median_score, color = model_name),
+               linetype = "dashed", size = 0.5) +
+    scale_fill_brewer(palette = "Set2") +
+    scale_color_brewer(palette = "Set2") +
+    theme_minimal() +
+    labs(
+      title = paste("Histogram and Distribution of Avg Scores for:", 
+                    paste(category_names, collapse = ", ")),
+      x = "Average BERT F1-Score",
+      y = "Count",
+      fill = "Model Name",
+      color = "Model Name"
+    ) +
+    facet_wrap(~category, scales = "free_y")
+  
+  return(p)
+}
+
+# Example: plot multiple categories
+plot_categories(df_plot, c("Staging", "Margins"))
 
 
- p <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
-   # histogram (counts)
-   geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.8, position = "identity") +
-   # density curve scaled to counts
-   geom_density(aes(y=..count..*25), color = "grey", size = 1, alpha=0.7) +
-   # median line with legend
-     geom_vline(data = medians, aes(xintercept = median_score, color = model_name),
-             linetype = "dashed", size = 0.5) +       # median line
-  scale_fill_brewer(palette = "Set2") +
-  scale_color_brewer(palette = "Set2") +
-  theme_minimal() +
-  labs(title = "Histogram and Distribution of Average Scores by Model",
-       x = "Average Score",
-       y = "Density",
-       fill = "Model Name",
-       color = "Model Name")+facet_wrap(~category)
-
-p+facet_wrap(~category, scales="free_y", nrow=9, ncol=1)
 ```
 ```{r}
  model_stats_grp <- df_plot %>%
@@ -581,6 +603,32 @@ p+facet_wrap(~category, scales="free_y", nrow=9, ncol=1)
      q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
      n = n()
    )
+
+
+
+# Create interactive datatable
+DT::datatable(
+  model_stats_grp,
+  rownames = FALSE
+)
+```
+```{r}
+datT=df_plot %>% filter(category %in% c("Tumor Histology & Subtypes", "Tumor Size, Focality, Distribution"))
+# boxplot
+p_box <- ggplot(datT, aes(x = model_name, y = avg_score, fill = model_name)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = NA) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal() +
+  labs(
+    title = "Boxplot of Avg Scores for Tumor Characteristics",
+    x = "Model Name",
+    y = "Average BERT F1-Score",
+    fill = "Model Name"
+  ) +
+  facet_wrap(~category)
+
+p_box
+
 ```
 
 ### Model Performance 
@@ -600,12 +648,6 @@ df_summary <- df_plot %>%
 
 df_summary
 
- create_gt_table_v1(
-    data = df_summary,
-    columns = c("category", "gemini", "llama4", "openai_oss", "best_model"),
-    labels = labels,
-    footnote_text = ""
-  )
 ```
 
 ```{r,warning=FALSE, message=FALSE}
