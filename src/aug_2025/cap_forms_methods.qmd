@@ -491,7 +491,8 @@ model_stats_table
 ```
 
 To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. 
-
+The distributions of avg_score for each model were visualized using overlaid histograms with dashed lines indicating the median score per model within each category.
+Across categories, Gemini generally exhibits the highest median scores and narrow distributions, indicating consistently strong performance. Llama4 shows slightly lower medians with moderate variability, while OpenAI_OSS is more variable across tasks but performs well in certain categories such as Specimen & Procedure. Category-specific differences highlight that some tasks, like Local Extension & Invasion, are easier for all models, whereas Treatment Effect and Tumor Histology & Subtypes remain more challenging.
 ```{r, warning=FALSE, message=FALSE}
 
 library(plotly)
@@ -539,6 +540,50 @@ df_plot <- df_plot %>%
   ))
 
 ```
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+
+# Compute medians per model
+medians <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = median(avg_score))
+
+
+ p <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
+   # histogram (counts)
+   geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.8, position = "identity") +
+   # density curve scaled to counts
+   geom_density(aes(y=..count..*25), color = "grey", size = 1, alpha=0.7) +
+   # median line with legend
+     geom_vline(data = medians, aes(xintercept = median_score, color = model_name),
+             linetype = "dashed", size = 0.5) +       # median line
+  scale_fill_brewer(palette = "Set2") +
+  scale_color_brewer(palette = "Set2") +
+  theme_minimal() +
+  labs(title = "Histogram and Distribution of Average Scores by Model",
+       x = "Average Score",
+       y = "Density",
+       fill = "Model Name",
+       color = "Model Name")+facet_wrap(~category)
+
+p+facet_wrap(~category, scales="free_y", nrow=9, ncol=1)
+```
+```{r}
+ model_stats_grp <- df_plot %>%
+   group_by(model_name, category) %>%
+   summarise(
+     mean = round(mean(avg_score, na.rm = TRUE), 2),
+     median = round(median(avg_score, na.rm = TRUE), 2),
+     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
+     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
+     n = n()
+   )
+```
+
+
 
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
