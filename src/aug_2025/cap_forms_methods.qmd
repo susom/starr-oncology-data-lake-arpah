@@ -137,6 +137,130 @@ For this experiment, we used several state-of-the-art LLMs to assess their capab
 
 To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.
 
+To facilitate analysis, we organized individual CAP form elements into high-level categories based on clinical and reporting similarity. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follows:
+
+- **Specimen & Procedure**: Information about the surgical specimen and procedure, including specimen ID, laterality, and general notes.
+- **Tumor Size, Focality, Distribution**: Details on tumor dimensions, number of nodules, total and invasive sizes, focality, and presence of synchronous tumors.
+- **Tumor Histology & Subtypes**: Histologic type, grade, patterns, components, and any descriptive comments from the pathologist.
+- **Local Extension & Invasion**: Extent of tumor spread, including invasion of adjacent structures, visceral pleura, lymphovascular spaces, and STAS.
+- **Lymph Nodes**: Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
+- **Margins**: Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments.
+- **Staging**: AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
+- **Treatment Effect**: Evidence of therapy response, including necrosis, viable tumor, and stromal changes.
+- **Metadata**: Additional findings and miscellaneous notes not captured in other categories.
+
+
+
+## Lung CAP Form Questions {.tabset}
+
+### Specimen & Procedure
+- LUNG || SPECIMEN ID(S)  
+- PROCEDURE  
+- SPECIMEN LATERALITY  
+- NOTE  
+
+### Tumor Size, Focality, Distribution
+- LUNG || ADDITIONAL DIMENSION (CENTIMETERS)  
+- LUNG || NUMBER OF INTRAPULMONARY METASTASES  
+- LUNG || TOTAL NUMBER OF PRIMARY TUMORS  
+- TOTAL TUMOR SIZE (SIZE OF ENTIRE TUMOR)  
+- SIZE OF INVASIVE COMPONENT (REQUIRED ONLY IF INVASIVE NONMUCINOUS ADENOCARCINOMAS WITH LEPIDIC COMPO)  
+- TUMOR FOCALITY  
+- NUMBER OF TUMOR NODULES  
+- SYNCHRONOUS TUMORS (REQUIRED IF MORPHOLOGICALLY DISTINCT UNRELATED MULTIPLE PRIMARY TUMORS ARE PRESENT)  
+- TUMOR SITE  
+- PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)  
+
+### Tumor Histology & Subtypes
+- HISTOLOGIC TYPE (NOTE A)  
+- HISTOLOGIC TYPE (NOTE C)  
+- LUNG || HISTOLOGIC TYPE COMMENT  
+- HISTOLOGIC GRADE  
+- HISTOLOGIC PATTERNS (MAY INCLUDE PERCENTAGES …)  
+- HISTOLOGIC COMPONENT(S) PRESENT (MAY INCLUDE PERCENTAGES)  
+- LUNG || COMMENT(S)  
+
+### Local Extension / Invasion
+- DIRECT INVASION OF ADJACENT STRUCTURES (NOTE G)  
+- DIRECT INVASION OF OTHER STRUCTURES  
+- INVOLVED ADJACENT STRUCTURES  
+- VISCERAL PLEURA INVASION  
+- LYMPHOVASCULAR INVASION  
+- LYMPHOVASCULAR INVASION (NOTE F)  
+- SPREAD THROUGH AIR SPACES (STAS)  
+
+### Lymph Nodes
+- LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED  
+- LUNG || REGIONAL LYMPH NODE COMMENT  
+- LYMPH NODE(S) FROM PRIOR PROCEDURES  
+- NUMBER OF LYMPH NODES EXAMINED  
+- NUMBER OF LYMPH NODES WITH TUMOR  
+- REGIONAL LYMPH NODE STATUS  
+- REGIONAL LYMPH NODES  
+- REGIONAL LYMPH NODES (PN)  
+- NODAL SITE(S) EXAMINED  
+- NODAL SITE(S) WITH TUMOR  
+- EXTRANODAL EXTENSION  
+
+### Margins
+- CLOSEST MARGIN(S) TO INVASIVE CARCINOMA  
+- DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN  
+- LUNG || MARGIN COMMENT  
+- MARGIN STATUS FOR INVASIVE CARCINOMA  
+- MARGIN STATUS FOR NON-INVASIVE TUMOR  
+- MARGIN(S) INVOLVED BY INVASIVE CARCINOMA  
+
+### Staging (AJCC/UICC)
+- PRIMARY TUMOR (PT)  
+- PN CATEGORY  
+- PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)  
+- TNM DESCRIPTORS  
+
+### Treatment Effect
+- TREATMENT EFFECT  
+- TREATMENT EFFECT (NOTE I)  
+- PERCENTAGE OF NECROSIS  
+- PERCENTAGE OF RESIDUAL VIABLE TUMOR  
+- PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)  
+
+### Additional Findings / Metadata
+- ADDITIONAL FINDINGS
+
+
+```{r, echo=FALSE, include=FALSE}
+#| label: lung-cap-bucket-tables
+#| echo: false
+#| message: false
+#| warning: false
+
+library(gt)
+library(dplyr)
+library(tidyr)
+library(purrr)
+
+# Original mapping as list
+lung_questions <- tribble(
+  ~Bucket, ~CAP_Questions,
+  "Specimen & Procedure", c("LUNG || SPECIMEN ID(S)", "PROCEDURE", "SPECIMEN LATERALITY", "NOTE"),
+  "Tumor Size, Focality, Distribution", c("LUNG || ADDITIONAL DIMENSION (CENTIMETERS)", "LUNG || NUMBER OF INTRAPULMONARY METASTASES", "LUNG || TOTAL NUMBER OF PRIMARY TUMORS", "TOTAL TUMOR SIZE (SIZE OF ENTIRE TUMOR)", "SIZE OF INVASIVE COMPONENT", "TUMOR FOCALITY", "NUMBER OF TUMOR NODULES", "SYNCHRONOUS TUMORS", "TUMOR SITE", "PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)"),
+  "Tumor Histology & Subtypes", c("HISTOLOGIC TYPE (NOTE A)", "HISTOLOGIC TYPE (NOTE C)", "LUNG || HISTOLOGIC TYPE COMMENT", "HISTOLOGIC GRADE", "HISTOLOGIC PATTERNS", "HISTOLOGIC COMPONENT(S) PRESENT", "LUNG || COMMENT(S)"),
+  "Local Extension / Invasion", c("DIRECT INVASION OF ADJACENT STRUCTURES (NOTE G)", "DIRECT INVASION OF OTHER STRUCTURES", "INVOLVED ADJACENT STRUCTURES", "VISCERAL PLEURA INVASION", "LYMPHOVASCULAR INVASION", "LYMPHOVASCULAR INVASION (NOTE F)", "SPREAD THROUGH AIR SPACES (STAS)"),
+  "Lymph Nodes", c("LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED", "LUNG || REGIONAL LYMPH NODE COMMENT", "LYMPH NODE(S) FROM PRIOR PROCEDURES", "NUMBER OF LYMPH NODES EXAMINED", "NUMBER OF LYMPH NODES WITH TUMOR", "REGIONAL LYMPH NODE STATUS", "REGIONAL LYMPH NODES", "REGIONAL LYMPH NODES (PN)", "NODAL SITE(S) EXAMINED", "NODAL SITE(S) WITH TUMOR", "EXTRANODAL EXTENSION"),
+  "Margins", c("CLOSEST MARGIN(S) TO INVASIVE CARCINOMA", "DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN", "LUNG || MARGIN COMMENT", "MARGIN STATUS FOR INVASIVE CARCINOMA", "MARGIN STATUS FOR NON-INVASIVE TUMOR", "MARGIN(S) INVOLVED BY INVASIVE CARCINOMA"),
+  "Staging (AJCC/UICC)", c("PRIMARY TUMOR (PT)", "PN CATEGORY", "PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)", "TNM DESCRIPTORS"),
+  "Treatment Effect", c("TREATMENT EFFECT", "TREATMENT EFFECT (NOTE I)", "PERCENTAGE OF NECROSIS", "PERCENTAGE OF RESIDUAL VIABLE TUMOR", "PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)"),
+  "Additional Findings / Metadata", c("ADDITIONAL FINDINGS")
+)
+
+
+
+
+
+
+
+```
+
+
 ```{r message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
