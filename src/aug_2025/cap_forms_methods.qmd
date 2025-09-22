@@ -233,30 +233,46 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 #| message: false
 #| warning: false
 
+
 library(gt)
 library(dplyr)
 library(tidyr)
 library(purrr)
 
-# Original mapping as list
+# Define the lung CAP questions per bucket
 lung_questions <- tribble(
   ~Bucket, ~CAP_Questions,
   "Specimen & Procedure", c("LUNG || SPECIMEN ID(S)", "PROCEDURE", "SPECIMEN LATERALITY", "NOTE"),
   "Tumor Size, Focality, Distribution", c("LUNG || ADDITIONAL DIMENSION (CENTIMETERS)", "LUNG || NUMBER OF INTRAPULMONARY METASTASES", "LUNG || TOTAL NUMBER OF PRIMARY TUMORS", "TOTAL TUMOR SIZE (SIZE OF ENTIRE TUMOR)", "SIZE OF INVASIVE COMPONENT", "TUMOR FOCALITY", "NUMBER OF TUMOR NODULES", "SYNCHRONOUS TUMORS", "TUMOR SITE", "PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)"),
   "Tumor Histology & Subtypes", c("HISTOLOGIC TYPE (NOTE A)", "HISTOLOGIC TYPE (NOTE C)", "LUNG || HISTOLOGIC TYPE COMMENT", "HISTOLOGIC GRADE", "HISTOLOGIC PATTERNS", "HISTOLOGIC COMPONENT(S) PRESENT", "LUNG || COMMENT(S)"),
-  "Local Extension / Invasion", c("DIRECT INVASION OF ADJACENT STRUCTURES (NOTE G)", "DIRECT INVASION OF OTHER STRUCTURES", "INVOLVED ADJACENT STRUCTURES", "VISCERAL PLEURA INVASION", "LYMPHOVASCULAR INVASION", "LYMPHOVASCULAR INVASION (NOTE F)", "SPREAD THROUGH AIR SPACES (STAS)"),
+  "Local Extension & Invasion", c("DIRECT INVASION OF ADJACENT STRUCTURES (NOTE G)", "DIRECT INVASION OF OTHER STRUCTURES", "INVOLVED ADJACENT STRUCTURES", "VISCERAL PLEURA INVASION", "LYMPHOVASCULAR INVASION", "LYMPHOVASCULAR INVASION (NOTE F)", "SPREAD THROUGH AIR SPACES (STAS)"),
   "Lymph Nodes", c("LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED", "LUNG || REGIONAL LYMPH NODE COMMENT", "LYMPH NODE(S) FROM PRIOR PROCEDURES", "NUMBER OF LYMPH NODES EXAMINED", "NUMBER OF LYMPH NODES WITH TUMOR", "REGIONAL LYMPH NODE STATUS", "REGIONAL LYMPH NODES", "REGIONAL LYMPH NODES (PN)", "NODAL SITE(S) EXAMINED", "NODAL SITE(S) WITH TUMOR", "EXTRANODAL EXTENSION"),
   "Margins", c("CLOSEST MARGIN(S) TO INVASIVE CARCINOMA", "DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN", "LUNG || MARGIN COMMENT", "MARGIN STATUS FOR INVASIVE CARCINOMA", "MARGIN STATUS FOR NON-INVASIVE TUMOR", "MARGIN(S) INVOLVED BY INVASIVE CARCINOMA"),
-  "Staging (AJCC/UICC)", c("PRIMARY TUMOR (PT)", "PN CATEGORY", "PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)", "TNM DESCRIPTORS"),
+  "Staging", c("PRIMARY TUMOR (PT)", "PN CATEGORY", "PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)", "TNM DESCRIPTORS"),
   "Treatment Effect", c("TREATMENT EFFECT", "TREATMENT EFFECT (NOTE I)", "PERCENTAGE OF NECROSIS", "PERCENTAGE OF RESIDUAL VIABLE TUMOR", "PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)"),
-  "Additional Findings / Metadata", c("ADDITIONAL FINDINGS")
+  "Metadata", c("ADDITIONAL FINDINGS")
 )
 
+# Function to create gt table per bucket
+create_gt_table <- function(bucket_name, questions) {
+  tibble(`CAP Form Question` = questions) %>%
+    gt() %>%
+    tab_header(title = paste0("Bucket: ", bucket_name)) %>%
+    tab_options(
+      table.font.size = px(12),
+      data_row.padding = px(4),
+      row.striping.background_color = "#f9f9f9"
+    ) %>%
+    opt_row_striping()
+}
 
-
-
-
-
+# Print each table under Quarto tabs
+cat("## Lung CAP Form Questions {.tabset}\n\n")
+walk2(lung_questions$Bucket, lung_questions$CAP_Questions, function(bucket, questions) {
+  cat(paste0("### ", bucket, "\n\n"))
+  print(create_gt_table(bucket, questions))
+  cat("\n\n")
+})
 
 ```
 
@@ -418,7 +434,53 @@ p <- p %>% layout(
 
 p
 ```
+```{r, warning=FALSE, message=FALSE}
 
+library(plotly)
+library(dplyr)
+library(readr)
+library(RColorBrewer)
+library(tidyr)
+library(gt)
+
+# Read the CSV file
+df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
+df_plot <- df_plot %>%
+  mutate(category = case_when(
+    # Specimen & Procedure
+    grepl("SPECIMEN ID|PROCEDURE|LATERALITY|NOTE", question, ignore.case = TRUE) ~ "Specimen & Procedure",
+    
+    # Tumor Size, Focality, Distribution
+    grepl("ADD(ITIONAL)? DIMENSION|NUMBER OF INTRAPULMONARY METASTASES|TOTAL NUMBER OF PRIMARY TUMORS|TOTAL TUMOR SIZE|SIZE OF INVASIVE COMPONENT|FOCALITY|NUMBER OF TUMOR NODULES|SYNCHRONOUS|TUMOR SITE|PERCENTAGE OF TOTAL TUMOR SIZE", 
+          question, ignore.case = TRUE) ~ "Tumor Size, Focality, Distribution",
+    
+    # Tumor Histology & Subtypes
+    grepl("HISTOLOGIC TYPE|HISTOLOGIC GRADE|HISTOLOGIC PATTERNS|HISTOLOGIC COMPONENT|COMMENT\\(S\\)|LUNG \\|\\| HISTOLOGIC TYPE COMMENT", 
+          question, ignore.case = TRUE) ~ "Tumor Histology & Subtypes",
+    
+    # Local Extension & Invasion
+    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|EXTRANODAL|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
+    
+    # Lymph Nodes
+    grepl("LYMPH NODE|NODAL", question, ignore.case = TRUE) ~ "Lymph Nodes",
+    
+    # Margins
+    grepl("MARGIN", question, ignore.case = TRUE) ~ "Margins",
+    
+    # Staging
+    grepl("\\bPT\\b|PN CATEGORY|PM CATEGORY|TNM DESCRIPTORS", question, ignore.case = TRUE) ~ "Staging",
+    
+    # Treatment Effect
+    grepl("TREATMENT EFFECT|NECROSIS|RESIDUAL VIABLE TUMOR|STROMA", question, ignore.case = TRUE) ~ "Treatment Effect",
+    
+    # Metadata / Additional Findings
+    grepl("ADDITIONAL FINDINGS", question, ignore.case = TRUE) ~ "Metadata",
+    
+    # Default
+    TRUE ~ "Uncategorized"
+  ))
+
+```
 
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
