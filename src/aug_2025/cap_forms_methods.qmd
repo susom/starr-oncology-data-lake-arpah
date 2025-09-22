@@ -541,7 +541,7 @@ df_plot <- df_plot %>%
 
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 
 library(ggplot2)
 library(dplyr)
@@ -583,8 +583,119 @@ p+facet_wrap(~category, scales="free_y", nrow=9, ncol=1)
    )
 ```
 
+### Model Performance 
 
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 
+# Prepare table
+df_summary <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = median(avg_score)) %>%
+  pivot_wider(names_from = model_name, values_from = median_score) %>%
+  rowwise() %>%
+  mutate(best_model = names(.)[which.max(c_across(-category)) + 1])  # +1 because first column is category
+
+df_summary
+
+ create_gt_table_v1(
+    data = df_summary,
+    columns = c("category", "gemini", "llama4", "openai_oss", "best_model"),
+    labels = labels,
+    footnote_text = ""
+  )
+```
+
+```{r,warning=FALSE, message=FALSE}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+# Compute median per model-category
+df_median <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = median(avg_score)) %>%
+  ungroup()
+
+# Prepare matrix for heatmap
+heatmap_matrix <- df_median %>%
+  tidyr::pivot_wider(names_from = model_name, values_from = median_score) %>%
+ tibble:: column_to_rownames("category") %>%
+  as.matrix()
+
+# Interactive heatmap
+plot_ly(
+  z = heatmap_matrix,
+  x = colnames(heatmap_matrix),
+  y = rownames(heatmap_matrix),
+  type = "heatmap",
+  colorscale = list(c(0,1), c("white", "darkred")), # black → white
+  reversescale = FALSE
+) %>%
+  layout(
+    title = "Interactive Heatmap of Median Scores by Model and Category",
+    xaxis = list(title = "Model", tickfont = list(color = "white")),
+    yaxis = list(title = "Category", tickfont = list(color = "white")),
+    paper_bgcolor = "black",
+    plot_bgcolor = "black",
+    font = list(color = "white")
+  )
+
+plot_ly(
+  z = heatmap_matrix,
+  x = colnames(heatmap_matrix),
+  y = rownames(heatmap_matrix),
+  type = "heatmap",
+  colorscale = "Viridis",    # perceptually uniform, works on dark background
+  reversescale = FALSE,
+  zmin = 0, zmax = 1
+) %>%
+  layout(
+    title = "Interactive Heatmap of Median Scores by Model and Category",
+    xaxis = list(title = "Model", tickangle = -45, tickfont = list(color = "white")),
+    yaxis = list(title = "Category", tickfont = list(color = "white")),
+    paper_bgcolor = "black",
+    plot_bgcolor = "black",
+    font = list(color = "white")
+  )
+
+```
+
+```{r ,warning=FALSE, message=FALSE}
+library(plotly)
+library(dplyr)
+
+# Compute median per model-category
+df_median <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = median(avg_score)) %>%
+  ungroup()
+
+# Bubble plot
+plot_ly(
+  df_median,
+  x = ~model_name,
+  y = ~category,
+  size = ~median_score,
+  color = ~median_score,
+  colors = colorRamp(c("darkred", "lightyellow", "darkgreen")),  # low → high
+  text = ~paste("Category:", category, "<br>Model:", model_name, "<br>Median Score:", round(median_score,3)),
+  hoverinfo = "text",
+  type = "scatter",
+  mode = "markers"
+) %>%
+  layout(
+    title = "Bubble Plot of Median Scores by Model and Category",
+    xaxis = list(title = "Model", tickfont = list(color = "white")),
+    yaxis = list(title = "Category", tickfont = list(color = "white")),
+    paper_bgcolor = "black",
+    plot_bgcolor = "black",
+    font = list(color = "white")
+  )
+
+```
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
 In this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81. 
