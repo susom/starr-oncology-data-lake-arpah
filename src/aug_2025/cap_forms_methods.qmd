@@ -137,6 +137,66 @@ For this experiment, we used several state-of-the-art LLMs to assess their capab
 
 To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.
 
+
+Distribution of average BERT scores across models is shown below. Histograms with dashed median lines indicate a minor differences in central tendency and variability between models. Summary statistics (mean, median, quartiles) are provided as follow.
+
+```{r, warning=FALSE, message=FALSE}
+library(plotly)
+library(dplyr)
+library(readr)
+library(RColorBrewer)
+library(tidyr)
+library(gt)
+
+# Read the CSV file
+df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
+
+
+
+ model_stats <- df_plot %>%
+   group_by(model_name) %>%
+   summarise(
+     mean = round(mean(avg_score, na.rm = TRUE), 2),
+     median = round(median(avg_score, na.rm = TRUE), 2),
+     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
+     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
+     n = n()
+   )
+ 
+ 
+ p <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
+   # histogram (counts)
+   geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.4, position = "identity") +
+   # density curve scaled to counts
+   geom_density(aes(y=..count..*25), color = "grey", size = 1, alpha=0.7) +
+   # median line with legend
+   geom_vline(data = model_stats, aes(xintercept = median, color = "Median"), linetype = "dashed", size = 1) +
+   # add median value as text
+   geom_text(data = model_stats, aes(x = median, y = Inf, label = paste0(median)),
+             color = "darkred", vjust = 2, hjust = -0.99, inherit.aes = FALSE, size = 3) +
+   facet_wrap(~model_name, scales = "free_y", ncol=1) +
+   theme_minimal() +
+   scale_fill_brewer(palette = "Set2") +
+   scale_color_manual(name = "", values = c("Median" = "darkred")) +  # legend for median
+   labs(
+     title = "Model Distribution",
+     x = "Average BERT Score",
+     y = "Count",
+     fill = "Model Name"
+   )
+ 
+# Summary table
+model_stats_table <- model_stats %>%
+  knitr::kable(caption = "Summary Statistics per Model")
+
+# Display
+print(p)
+model_stats_table
+```
+
+To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. 
+The distributions of avg_score for each model were visualized using overlaid histograms with dashed lines indicating the median score per model within each category.
+Across categories, Gemini generally exhibits the highest median scores and narrow distributions, indicating consistently strong performance. Llama4 shows slightly lower medians with moderate variability, while OpenAI_OSS is more variable across tasks but performs well in certain categories such as Specimen & Procedure. Category-specific differences highlight that some tasks, like Local Extension & Invasion, are easier for all models, whereas Treatment Effect and Tumor Histology & Subtypes remain more challenging.
 To facilitate analysis, we organized individual CAP form elements into high-level categories based on clinical and reporting similarity. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follows:
 
 - **Specimen & Procedure**: Information about the surgical specimen and procedure, including specimen ID, laterality, and general notes.
@@ -154,12 +214,14 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 ## Lung CAP Form Questions {.tabset}
 
 ### Specimen & Procedure
+Information about the surgical specimen and procedure, including specimen ID, laterality, and general notes.
 - LUNG || SPECIMEN ID(S)  
 - PROCEDURE  
 - SPECIMEN LATERALITY  
 - NOTE  
 
 ### Tumor Size, Focality, Distribution
+Details on tumor dimensions, number of nodules, total and invasive sizes, focality, and presence of synchronous tumors.
 - LUNG || ADDITIONAL DIMENSION (CENTIMETERS)  
 - LUNG || NUMBER OF INTRAPULMONARY METASTASES  
 - LUNG || TOTAL NUMBER OF PRIMARY TUMORS  
@@ -172,6 +234,7 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)  
 
 ### Tumor Histology & Subtypes
+Histologic type, grade, patterns, components, and any descriptive comments from the pathologist.
 - HISTOLOGIC TYPE (NOTE A)  
 - HISTOLOGIC TYPE (NOTE C)  
 - LUNG || HISTOLOGIC TYPE COMMENT  
@@ -180,7 +243,8 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - HISTOLOGIC COMPONENT(S) PRESENT (MAY INCLUDE PERCENTAGES)  
 - LUNG || COMMENT(S)  
 
-### Local Extension / Invasion
+### Local Extension & Invasion
+Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
 - DIRECT INVASION OF ADJACENT STRUCTURES (NOTE G)  
 - DIRECT INVASION OF OTHER STRUCTURES  
 - INVOLVED ADJACENT STRUCTURES  
@@ -189,7 +253,8 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - LYMPHOVASCULAR INVASION (NOTE F)  
 - SPREAD THROUGH AIR SPACES (STAS)  
 
-### Regional Lymph Nodes
+### Regional Lymph Nodes & Distant Metastis
+Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension
 - LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED  
 - LUNG || REGIONAL LYMPH NODE COMMENT  
 - LYMPH NODE(S) FROM PRIOR PROCEDURES  
@@ -203,6 +268,7 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - EXTRANODAL EXTENSION  
 
 ### Margins
+Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments:
 - CLOSEST MARGIN(S) TO INVASIVE CARCINOMA  
 - DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN  
 - LUNG || MARGIN COMMENT  
@@ -211,12 +277,14 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - MARGIN(S) INVOLVED BY INVASIVE CARCINOMA  
 
 ### Staging (AJCC/UICC)
+AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging
 - PRIMARY TUMOR (PT)  
 - PN CATEGORY  
 - PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)  
 - TNM DESCRIPTORS  
 
 ### Treatment Effect
+Evidence of therapy response, including necrosis, viable tumor, and stromal changes
 - TREATMENT EFFECT  
 - TREATMENT EFFECT (NOTE I)  
 - PERCENTAGE OF NECROSIS  
@@ -224,57 +292,10 @@ To facilitate analysis, we organized individual CAP form elements into high-leve
 - PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)  
 
 ### Additional Findings 
+Additional findings and miscellaneous notes not captured in other categories
 - ADDITIONAL FINDINGS
 
 
-```{r, echo=FALSE, include=FALSE}
-#| label: lung-cap-bucket-tables
-#| echo: false
-#| message: false
-#| warning: false
-
-
-library(gt)
-library(dplyr)
-library(tidyr)
-library(purrr)
-
-# Define the lung CAP questions per bucket
-lung_questions <- tribble(
-  ~Bucket, ~CAP_Questions,
-  "Specimen & Procedure", c("LUNG || SPECIMEN ID(S)", "PROCEDURE", "SPECIMEN LATERALITY", "NOTE"),
-  "Tumor Size, Focality, Distribution", c("LUNG || ADDITIONAL DIMENSION (CENTIMETERS)", "LUNG || NUMBER OF INTRAPULMONARY METASTASES", "LUNG || TOTAL NUMBER OF PRIMARY TUMORS", "TOTAL TUMOR SIZE (SIZE OF ENTIRE TUMOR)", "SIZE OF INVASIVE COMPONENT", "TUMOR FOCALITY", "NUMBER OF TUMOR NODULES", "SYNCHRONOUS TUMORS", "TUMOR SITE", "PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)"),
-  "Tumor Histology & Subtypes", c("HISTOLOGIC TYPE (NOTE A)", "HISTOLOGIC TYPE (NOTE C)", "LUNG || HISTOLOGIC TYPE COMMENT", "HISTOLOGIC GRADE", "HISTOLOGIC PATTERNS", "HISTOLOGIC COMPONENT(S) PRESENT", "LUNG || COMMENT(S)"),
-  "Local Extension & Invasion", c("DIRECT INVASION OF ADJACENT STRUCTURES (NOTE G)", "DIRECT INVASION OF OTHER STRUCTURES", "INVOLVED ADJACENT STRUCTURES", "VISCERAL PLEURA INVASION", "LYMPHOVASCULAR INVASION", "LYMPHOVASCULAR INVASION (NOTE F)", "SPREAD THROUGH AIR SPACES (STAS)"),
-  "Lymph Nodes", c("LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED", "LUNG || REGIONAL LYMPH NODE COMMENT", "LYMPH NODE(S) FROM PRIOR PROCEDURES", "NUMBER OF LYMPH NODES EXAMINED", "NUMBER OF LYMPH NODES WITH TUMOR", "REGIONAL LYMPH NODE STATUS", "REGIONAL LYMPH NODES", "REGIONAL LYMPH NODES (PN)", "NODAL SITE(S) EXAMINED", "NODAL SITE(S) WITH TUMOR", "EXTRANODAL EXTENSION"),
-  "Margins", c("CLOSEST MARGIN(S) TO INVASIVE CARCINOMA", "DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN", "LUNG || MARGIN COMMENT", "MARGIN STATUS FOR INVASIVE CARCINOMA", "MARGIN STATUS FOR NON-INVASIVE TUMOR", "MARGIN(S) INVOLVED BY INVASIVE CARCINOMA"),
-  "Staging", c("PRIMARY TUMOR (PT)", "PN CATEGORY", "PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)", "TNM DESCRIPTORS"),
-  "Treatment Effect", c("TREATMENT EFFECT", "TREATMENT EFFECT (NOTE I)", "PERCENTAGE OF NECROSIS", "PERCENTAGE OF RESIDUAL VIABLE TUMOR", "PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)"),
-  "Metadata", c("ADDITIONAL FINDINGS")
-)
-
-# Function to create gt table per bucket
-create_gt_table <- function(bucket_name, questions) {
-  tibble(`CAP Form Question` = questions) %>%
-    gt() %>%
-    tab_header(title = paste0("Bucket: ", bucket_name)) %>%
-    tab_options(
-      table.font.size = px(12),
-      data_row.padding = px(4),
-      row.striping.background_color = "#f9f9f9"
-    ) %>%
-    opt_row_striping()
-}
-
-# Print each table under Quarto tabs
-cat("## Lung CAP Form Questions {.tabset}\n\n")
-walk2(lung_questions$Bucket, lung_questions$CAP_Questions, function(bucket, questions) {
-  cat(paste0("### ", bucket, "\n\n"))
-  print(create_gt_table(bucket, questions))
-  cat("\n\n")
-})
-
-```
 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -436,65 +457,6 @@ p
 ```
 
 
-Distribution of average scores (avg_score) across models is shown below. Histograms with dashed median lines indicate a minor differences in central tendency and variability between models. Summary statistics (mean, median, quartiles) are provided as follow.
-
-```{r, warning=FALSE, message=FALSE}
-library(plotly)
-library(dplyr)
-library(readr)
-library(RColorBrewer)
-library(tidyr)
-library(gt)
-
-# Read the CSV file
-df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
-
-
-
- model_stats <- df_plot %>%
-   group_by(model_name) %>%
-   summarise(
-     mean = round(mean(avg_score, na.rm = TRUE), 2),
-     median = round(median(avg_score, na.rm = TRUE), 2),
-     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
-     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
-     n = n()
-   )
- 
- 
- p <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
-   # histogram (counts)
-   geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.4, position = "identity") +
-   # density curve scaled to counts
-   geom_density(aes(y=..count..*25), color = "grey", size = 1, alpha=0.7) +
-   # median line with legend
-   geom_vline(data = model_stats, aes(xintercept = median, color = "Median"), linetype = "dashed", size = 1) +
-   # add median value as text
-   geom_text(data = model_stats, aes(x = median, y = Inf, label = paste0(median)),
-             color = "darkred", vjust = 2, hjust = -0.99, inherit.aes = FALSE, size = 3) +
-   facet_wrap(~model_name, scales = "free_y", ncol=1) +
-   theme_minimal() +
-   scale_fill_brewer(palette = "Set2") +
-   scale_color_manual(name = "", values = c("Median" = "darkred")) +  # legend for median
-   labs(
-     title = "Model Distribution",
-     x = "Average Score",
-     y = "Count",
-     fill = "Model Name"
-   )
- 
-# Summary table
-model_stats_table <- model_stats %>%
-  knitr::kable(caption = "Summary Statistics per Model")
-
-# Display
-print(p)
-model_stats_table
-```
-
-To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. 
-The distributions of avg_score for each model were visualized using overlaid histograms with dashed lines indicating the median score per model within each category.
-Across categories, Gemini generally exhibits the highest median scores and narrow distributions, indicating consistently strong performance. Llama4 shows slightly lower medians with moderate variability, while OpenAI_OSS is more variable across tasks but performs well in certain categories such as Specimen & Procedure. Category-specific differences highlight that some tasks, like Local Extension & Invasion, are easier for all models, whereas Treatment Effect and Tumor Histology & Subtypes remain more challenging.
 ```{r, warning=FALSE, message=FALSE}
 
 library(plotly)
@@ -543,7 +505,7 @@ df_plot <- df_plot %>%
 
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, include=FALSE}
 
 library(ggplot2)
 library(dplyr)
@@ -593,7 +555,7 @@ plot_categories(df_plot, c("Staging", "Margins"))
 
 
 ```
-```{r}
+```{r, warning=FALSE, message=FALSE}
  model_stats_grp <- df_plot %>%
    group_by(model_name, category) %>%
    summarise(
@@ -612,7 +574,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-```{r}
+```{r, warning=FALSE, message=FALSE}
 datT=df_plot %>% filter(category %in% c("Tumor Histology & Subtypes", "Tumor Size, Focality, Distribution"))
 # boxplot
 p_box <- ggplot(datT, aes(x = model_name, y = avg_score, fill = model_name)) +
@@ -620,7 +582,7 @@ p_box <- ggplot(datT, aes(x = model_name, y = avg_score, fill = model_name)) +
   scale_fill_brewer(palette = "Set2") +
   theme_minimal() +
   labs(
-    title = "Boxplot of Avg Scores for Tumor Characteristics",
+    title = "Distribution of BERT F1-Score for Tumor Characteristics",
     x = "Model Name",
     y = "Average BERT F1-Score",
     fill = "Model Name"
