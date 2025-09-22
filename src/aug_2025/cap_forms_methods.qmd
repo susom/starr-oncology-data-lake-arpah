@@ -277,7 +277,7 @@ walk2(lung_questions$Bucket, lung_questions$CAP_Questions, function(bucket, ques
 ```
 
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 library(plotly)
 library(dplyr)
 library(readr)
@@ -434,6 +434,63 @@ p <- p %>% layout(
 
 p
 ```
+Distribution of average scores (avg_score) across models is shown below. Histograms with dashed median lines indicate a minor differences in central tendency and variability between models. Summary statistics (mean, median, quartiles) are provided as follow.
+
+```{r, warning=FALSE, message=FALSE}
+library(plotly)
+library(dplyr)
+library(readr)
+library(RColorBrewer)
+library(tidyr)
+library(gt)
+
+# Read the CSV file
+df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
+
+
+
+ model_stats <- df_plot %>%
+   group_by(model_name) %>%
+   summarise(
+     mean = round(mean(avg_score, na.rm = TRUE), 2),
+     median = round(median(avg_score, na.rm = TRUE), 2),
+     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
+     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
+     n = n()
+   )
+ 
+ 
+ p <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
+   # histogram (counts)
+   geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.4, position = "identity") +
+   # density curve scaled to counts
+   geom_density(aes(y=..count..*25), color = "grey", size = 1, alpha=0.7) +
+   # median line with legend
+   geom_vline(data = model_stats, aes(xintercept = median, color = "Median"), linetype = "dashed", size = 1) +
+   # add median value as text
+   geom_text(data = model_stats, aes(x = median, y = Inf, label = paste0(median)),
+             color = "darkred", vjust = 2, hjust = -0.99, inherit.aes = FALSE, size = 3) +
+   facet_wrap(~model_name, scales = "free_y", ncol=1) +
+   theme_minimal() +
+   scale_fill_brewer(palette = "Set2") +
+   scale_color_manual(name = "", values = c("Median" = "darkred")) +  # legend for median
+   labs(
+     title = "Model Distribution",
+     x = "Average Score",
+     y = "Count",
+     fill = "Model Name"
+   )
+ 
+# Summary table
+model_stats_table <- model_stats %>%
+  knitr::kable(caption = "Summary Statistics per Model")
+
+# Display
+print(p)
+model_stats_table
+```
+
+
 ```{r, warning=FALSE, message=FALSE}
 
 library(plotly)
