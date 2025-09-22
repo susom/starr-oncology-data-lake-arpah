@@ -459,7 +459,7 @@ df_plot <- df_plot %>%
           question, ignore.case = TRUE) ~ "Tumor Histology & Subtypes",
     
     # Local Extension & Invasion
-    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|EXTRANODAL|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
+    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|EXTRANODAL|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA|DISTANT SITE", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
     
     # Lymph Nodes
     grepl("LYMPH NODE|NODAL", question, ignore.case = TRUE) ~ "Lymph Nodes",
