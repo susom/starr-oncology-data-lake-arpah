@@ -490,6 +490,7 @@ print(p)
 model_stats_table
 ```
 
+To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. 
 
 ```{r, warning=FALSE, message=FALSE}
 
