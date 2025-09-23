@@ -133,11 +133,9 @@ table1(~ Age + Race + Ethnicity | Sex , df_demographics)
 
 ## Methods and Results
 
-For this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. The full set of top level questions for the Lung Resection CAp forms alongside the descriptions for each one of them can be found [here](cap_forms_appendix.qmd#capforms-toplevel-questions). Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers. The prompt used can be found [here](cap_forms_appendix.qmd#capforms-zeroshot-prompt)
+For this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. The full set of top level questions for the Lung Resection CAP forms alongside the descriptions for each one of them can be found [here](cap_forms_appendix.qmd#capforms-toplevel-questions). Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers. The prompt used can be found [here](cap_forms_appendix.qmd#capforms-zeroshot-prompt).
 
-To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.
-
-
+To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer.
 Distribution of average BERT scores across models is shown below. Histograms with dashed median lines indicate a minor differences in central tendency and variability between models. Summary statistics (mean, median, quartiles) are provided as follow.
 
 ```{r, warning=FALSE, message=FALSE}
@@ -194,22 +192,8 @@ print(p)
 model_stats_table
 ```
 
-To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. 
-The distributions of average BERT score for each model were visualized using overlaid histograms with dashed lines indicating the median score per model within each category.
-Across categories, Gemini generally exhibits the highest median scores and narrow distributions, indicating consistently strong performance. Llama4 shows slightly lower medians with moderate variability, while OpenAI_OSS is more variable across tasks but performs well in certain categories such as Specimen & Procedure. Category-specific differences highlight that some tasks, like Local Extension & Invasion, are easier for all models, whereas Treatment Effect and Tumor Histology & Subtypes remain more challenging.
-To facilitate analysis, we organized individual CAP form elements into high-level categories based on clinical and reporting similarity. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follows:
-
-- **Specimen & Procedure**: Information about the surgical specimen and procedure, including specimen ID, laterality, and general notes.
-- **Tumor Size, Focality, Distribution**: Details on tumor dimensions, number of nodules, total and invasive sizes, focality, and presence of synchronous tumors.
-- **Tumor Histology & Subtypes**: Histologic type, grade, patterns, components, and any descriptive comments from the pathologist.
-- **Local Extension & Invasion**: Extent of tumor spread, including invasion of adjacent structures, visceral pleura, lymphovascular spaces, and STAS.
-- **Lymph Nodes**: Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
-- **Margins**: Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments.
-- **Staging**: AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
-- **Treatment Effect**: Evidence of therapy response, including necrosis, viable tumor, and stromal changes.
-- **Metadata**: Additional findings and miscellaneous notes not captured in other categories.
-
-
+## Category-Based Evaluation of LLMs for Lung Resection CAP Forms
+To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follow:
 
 ## Lung CAP Form Questions {.tabset}
 
@@ -244,8 +228,7 @@ Histologic type, grade, patterns, components, and any descriptive comments from 
 - LUNG || COMMENT(S)  
 
 ### Local Extension & Invasion
-Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
-- DIRECT INVASION OF ADJACENT STRUCTURES (NOTE G)  
+Extent of tumor spread, including invasion of adjacent structures, visceral pleura, lymphovascular spaces, and STAS.
 - DIRECT INVASION OF OTHER STRUCTURES  
 - INVOLVED ADJACENT STRUCTURES  
 - VISCERAL PLEURA INVASION  
@@ -253,8 +236,9 @@ Nodal involvement, number of nodes examined and positive, prior lymph node proce
 - LYMPHOVASCULAR INVASION (NOTE F)  
 - SPREAD THROUGH AIR SPACES (STAS)  
 
-### Regional Lymph Nodes & Distant Metastis
+### Regional Lymph Nodes & Distant Metastisis 
 Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
+- DISTANT SITE(S) INVOLVED, IF APPLICABLE
 - LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED  
 - LUNG || REGIONAL LYMPH NODE COMMENT  
 - LYMPH NODE(S) FROM PRIOR PROCEDURES  
@@ -277,14 +261,14 @@ Status and distance of surgical margins (bronchial, vascular, parenchymal, pleur
 - MARGIN(S) INVOLVED BY INVASIVE CARCINOMA  
 
 ### Staging (AJCC/UICC)
-AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging
+AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
 - PRIMARY TUMOR (PT)  
 - PN CATEGORY  
 - PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)  
 - TNM DESCRIPTORS  
 
 ### Treatment Effect
-Evidence of therapy response, including necrosis, viable tumor, and stromal changes
+Evidence of therapy response, including necrosis, viable tumor, and stromal changes.
 - TREATMENT EFFECT  
 - TREATMENT EFFECT (NOTE I)  
 - PERCENTAGE OF NECROSIS  
@@ -297,164 +281,6 @@ Additional findings and miscellaneous notes not captured in other categories
 
 
 
-
-```{r message=FALSE, warning=FALSE, include=FALSE}
-library(plotly)
-library(dplyr)
-library(readr)
-library(RColorBrewer)
-library(tidyr)
-library(gt)
-
-# Read the CSV file
-df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
-
-# Calculate statistics for each model
-model_stats <- df_plot %>%
-  group_by(model_name) %>%
-  summarise(
-    mean = round(mean(avg_score, na.rm = TRUE), 3),
-    median = round(median(avg_score, na.rm = TRUE), 3),
-    q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 3),
-    q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 3),
-    min_val = round(min(avg_score, na.rm = TRUE), 3),
-    max_val = round(max(avg_score, na.rm = TRUE), 3),
-    .groups = 'drop'
-  ) %>%
-  mutate(
-    iqr = round(q3 - q1, 3)
-  )
-
-# Get unique models for consistent ordering
-unique_models <- unique(df_plot$model_name)
-
-# Create enhanced color palette
-n_models <- length(unique_models)
-if(n_models <= 8) {
-  colors <- RColorBrewer::brewer.pal(max(3, n_models), "Set2")
-} else if(n_models <= 12) {
-  colors <- RColorBrewer::brewer.pal(12, "Set3")
-} else {
-  colors <- rainbow(n_models, s = 0.7, v = 0.8)  # More muted rainbow
-}
-
-# Ensure we have enough colors
-if(length(colors) < n_models) {
-  colors <- rep(colors, ceiling(n_models/length(colors)))[1:n_models]
-}
-
-# Initialize empty plot
-p <- plot_ly()
-
-# Add a trace for each model with different colors
-for(i in 1:length(unique_models)) {
-  model <- unique_models[i]
-  model_data <- df_plot %>% filter(model_name == model)
-  model_stat <- model_stats %>% filter(model_name == model)
-  
-  # Create custom hover template with statistics
-  hover_template <- paste0(
-    "<b>Model:</b> %{x}<br>",
-    "<b>Value:</b> %{y}<br>",
-    "<b>Statistics:</b><br>",
-    "Mean: ", model_stat$mean, "<br>",
-    "Median: ", model_stat$median, "<br>",
-    "Q1: ", model_stat$q1, "<br>",
-    "Q3: ", model_stat$q3, "<br>",
-    "IQR: ", model_stat$iqr, "<br>",
-    "Min: ", model_stat$min_val, "<br>",
-    "Max: ", model_stat$max_val,
-    "<extra></extra>"
-  )
-  
-  p <- p %>% add_trace(
-    data = model_data,
-    x = ~model_name,
-    y = ~avg_score,
-    type = "box",
-    name = model,
-    boxpoints = "outliers",
-    marker = list(
-      size = 4,
-      opacity = 0.7,
-      color = colors[i]
-    ),
-    line = list(
-      width = 2,
-      color = colors[i]
-    ),
-    fillcolor = paste0(colors[i], "60"),  # Add transparency
-    boxmean = FALSE,
-    notched = TRUE,
-    jitter = 0.3,
-    pointpos = 0,
-    hovertemplate = hover_template,
-    hoverlabel = list(
-      bgcolor = colors[i],
-      font = list(color = "white", size = 12)
-    )
-  )
-}
-
-# Customize layout with enhanced styling
-p <- p %>% layout(
-  title = list(
-    text = 'BERT F1-Score Distribution by Model',
-    font = list(size = 20, family = "Arial Black"),
-    x = 0.5,
-    y = 0.95
-  ),
-  
-  xaxis = list(
-    title = list(
-      text = '',
-      font = list(size = 14, family = "Arial")
-    ),
-    tickfont = list(size = 11, family = "Arial"),
-    tickangle = 45,
-    showgrid = TRUE,
-    gridwidth = 1,
-    gridcolor = 'rgba(128,128,128,0.2)',
-    zeroline = FALSE,
-    showline = TRUE,
-    linewidth = 2,
-    linecolor = 'rgba(128,128,128,0.8)',
-    type = 'category'  # Ensures only model names appear on x-axis
-  ),
-  
-  yaxis = list(
-    title = list(
-      text = 'BERT f1 Score',  # Updated y-axis title
-      font = list(size = 14, family = "Arial")
-    ),
-    tickfont = list(size = 11, family = "Arial"),
-    showgrid = TRUE,
-    gridwidth = 1,
-    gridcolor = 'rgba(128,128,128,0.2)',
-    zeroline = TRUE,
-    zerolinewidth = 2,
-    zerolinecolor = 'rgba(128,128,128,0.4)',
-    showline = TRUE,  # Fixed: was "True" instead of TRUE
-    linewidth = 2,
-    linecolor = 'rgba(128,128,128,0.8)'
-  ),
-  
-  plot_bgcolor = '#fafafa',
-  paper_bgcolor = 'white',
-  
-  showlegend = FALSE,
-  
-  margin = list(
-    l = 80,
-    r = 60,
-    b = 120,
-    t =100
-  )
-)
-# Display the plot
-
-p
-```
 
 
 ```{r, warning=FALSE, message=FALSE}
@@ -505,7 +331,7 @@ df_plot <- df_plot %>%
 
 ```
 
-```{r, warning=FALSE, message=FALSE, include=FALSE}
+```{r, warning=FALSE, message=FALSE}
 
 library(ggplot2)
 library(dplyr)
@@ -551,48 +377,14 @@ library(dplyr)
 pg
 
 ```
-```{r, warning=FALSE, message=FALSE, include=FALSE}
- model_stats_grp <- df_plot %>%
-   group_by(category, model_name) %>%
-   summarise(
-     mean = round(mean(avg_score, na.rm = TRUE), 2),
-     median = round(median(avg_score, na.rm = TRUE), 2),
-     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
-     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
-     n = n()
-   )
 
 
 
-# Create interactive datatable
-DT::datatable(
-  model_stats_grp,
-  rownames = FALSE
-)
-```
-
-```{r, warning=FALSE, message=FALSE, include=FALSE}
-datT=df_plot %>% filter(category %in% c("Tumor Histology & Subtypes", "Tumor Size, Focality, Distribution"))
-# boxplot
-p_box <- ggplot(datT, aes(x = model_name, y = avg_score, fill = model_name)) +
-  geom_boxplot(alpha = 0.7, outlier.shape = NA) +
-  scale_fill_brewer(palette = "Set2") +
-  theme_minimal() +
-  labs(
-    title = "Distribution of BERT F1-Score for Tumor Characteristics",
-     subtitle = "Dashed lines = model-specific medians",
-    caption = "Solid red line = reference threshold at 0.85",
-    x = "Model Name",
-    y = "Average BERT F1-Score",
-    fill = "Model Name"
-  ) +
-  facet_wrap(~category)
-
-p_box
-
-```
 
 ### Model Performance 
+We assessed model performance across clinical categories using median BERT similarity scores. The following table summarizes median BERT F1-scores for each model across high-level categories. For each category, the model with the highest median score is flagged in the “Best Model” column, highlighting domain-specific strengths. This comparison enables quick identification of areas where models excel (e.g., Gemini in Staging and Tumor Histology) and areas where performance is more competitive.
+
+In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. Summary statistics included the count of successful categories, the total number of categories, the overall success rate, the mean of category-level medians, and a weighted average median adjusted for sample size. Results were visualized using interactive grouped bar plots to compare category-level medians by model, supplemented with a tabular summary for cross-model evaluation.
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
@@ -661,7 +453,7 @@ plot_ly(
 
 ```
 
-We assessed model performance across clinical categories using median BERT similarity scores. A success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. Summary statistics included the count of successful categories, the total number of categories, the overall success rate, the mean of category-level medians, and a weighted average median adjusted for sample size. Results were visualized using interactive grouped bar plots to compare category-level medians by model, supplemented with a tabular summary for cross-model evaluation.
+Across the nine categories, OpenAI_OSS achieved the highest overall success rate (56%) and the highest average median score (0.85), indicating that it most often met or exceeded the 0.85 threshold. In contrast, Gemini demonstrated the highest weighted average score (0.84), suggesting more consistent performance across categories, though it exceeded the threshold less frequently (33%). Llama4 showed balanced but slightly weaker results, with moderate success (44%) and an average median of 0.83. Taken together, OpenAI_OSS appears stronger in terms of peak performance across domains, while Gemini offers steadier but slightly lower results.
 
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
