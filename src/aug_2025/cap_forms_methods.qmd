@@ -195,7 +195,7 @@ model_stats_table
 ```
 
 To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. 
-The distributions of avg_score for each model were visualized using overlaid histograms with dashed lines indicating the median score per model within each category.
+The distributions of average BERT score for each model were visualized using overlaid histograms with dashed lines indicating the median score per model within each category.
 Across categories, Gemini generally exhibits the highest median scores and narrow distributions, indicating consistently strong performance. Llama4 shows slightly lower medians with moderate variability, while OpenAI_OSS is more variable across tasks but performs well in certain categories such as Specimen & Procedure. Category-specific differences highlight that some tasks, like Local Extension & Invasion, are easier for all models, whereas Treatment Effect and Tumor Histology & Subtypes remain more challenging.
 To facilitate analysis, we organized individual CAP form elements into high-level categories based on clinical and reporting similarity. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follows:
 
@@ -268,7 +268,7 @@ Nodal involvement, number of nodes examined and positive, prior lymph node proce
 - EXTRANODAL EXTENSION  
 
 ### Margins
-Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments:
+Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments
 - CLOSEST MARGIN(S) TO INVASIVE CARCINOMA  
 - DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN  
 - LUNG || MARGIN COMMENT  
@@ -511,48 +511,44 @@ library(ggplot2)
 library(dplyr)
 
 # Compute medians per model
-medians <- df_plot %>%
+median_cats <- df_plot %>%
   group_by(model_name, category) %>%
   summarise(median_score = median(avg_score))
 library(ggplot2)
 library(dplyr)
 
-# Function to plot one or more categories
-plot_categories <- function(df, category_names) {
-  
-  # filter for selected categories
-  df_cat <- df %>% filter(category %in% category_names)
-  
-  # compute medians for selected categories
-  medians_cat <- df_cat %>%
-    group_by(model_name, category) %>%
-    summarise(median_score = median(avg_score), .groups = "drop")
+
   
   # plot with facetting (one facet per category)
-  p <- ggplot(df_cat, aes(x = avg_score, fill = model_name)) +
-    geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.8, position = "identity") +
-    geom_density(aes(y = ..count.. * 25), color = "grey", size = 1, alpha = 0.7) +
-    geom_vline(data = medians_cat, aes(xintercept = median_score, color = model_name),
+  pg <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
+    geom_histogram(aes(y = ..count..), bins = 35, color = "black", alpha = 0.5, position = "identity") +
+    #geom_density(aes(y = ..count.. * 25), color = "grey", size = 1, alpha = 0.7) +
+    geom_vline(data = median_cats, aes(xintercept = median_score, color = model_name),
                linetype = "dashed", size = 0.5) +
+               geom_vline(aes(xintercept = 0.85, linetype = "Threshold"), color = "darkred", size = 0.7) +   # reference line
     scale_fill_brewer(palette = "Set2") +
     scale_color_brewer(palette = "Set2") +
     theme_minimal() +
     labs(
-      title = paste("Histogram and Distribution of Avg Scores for:", 
-                    paste(category_names, collapse = ", ")),
+      title = "Distribution of Avg BERT Scores across Categories",
+       subtitle ="",
+        caption = "Solid red line = reference threshold at 0.85 \n  Dashed lines = model-specific medians",
       x = "Average BERT F1-Score",
       y = "Count",
       fill = "Model Name",
       color = "Model Name"
     ) +
-    facet_wrap(~category, scales = "free_y")
+    facet_wrap(~category)+theme(
+    plot.margin = margin(t = 20, r = 20, b = 20, l = 20),   # top, right, bottom, left
+    strip.text = element_text(size = 11, face = "bold")     # optional: clearer facet labels
+  )+
+   scale_linetype_manual(
+    name = "Reference Lines",
+    values = c("Median" = "dashed", "Threshold" = "solid")
+  ) 
   
-  return(p)
-}
 
-# Example: plot multiple categories
-plot_categories(df_plot, c("Staging", "Margins"))
-
+pg
 
 ```
 ```{r, warning=FALSE, message=FALSE}
@@ -583,6 +579,8 @@ p_box <- ggplot(datT, aes(x = model_name, y = avg_score, fill = model_name)) +
   theme_minimal() +
   labs(
     title = "Distribution of BERT F1-Score for Tumor Characteristics",
+     subtitle = "Dashed lines = model-specific medians",
+    caption = "Solid red line = reference threshold at 0.85",
     x = "Model Name",
     y = "Average BERT F1-Score",
     fill = "Model Name"
