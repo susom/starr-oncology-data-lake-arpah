@@ -254,7 +254,7 @@ Nodal involvement, number of nodes examined and positive, prior lymph node proce
 - SPREAD THROUGH AIR SPACES (STAS)  
 
 ### Regional Lymph Nodes & Distant Metastis
-Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension
+Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
 - LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED  
 - LUNG || REGIONAL LYMPH NODE COMMENT  
 - LYMPH NODE(S) FROM PRIOR PROCEDURES  
@@ -268,7 +268,7 @@ Nodal involvement, number of nodes examined and positive, prior lymph node proce
 - EXTRANODAL EXTENSION  
 
 ### Margins
-Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments
+Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments.
 - CLOSEST MARGIN(S) TO INVASIVE CARCINOMA  
 - DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN  
 - LUNG || MARGIN COMMENT  
@@ -471,7 +471,7 @@ df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/dat
 df_plot <- df_plot %>%
   mutate(category = case_when(
     # Specimen & Procedure
-    grepl("SPECIMEN ID|PROCEDURE|LATERALITY|NOTE", question, ignore.case = TRUE) ~ "Specimen & Procedure",
+    grepl("^(LUNG \\|\\| )?SPECIMEN ID|^PROCEDURE$|^SPECIMEN LATERALITY$|^NOTE$", question, ignore.case = TRUE) ~ "Specimen & Procedure",
     
     # Tumor Size, Focality, Distribution
     grepl("ADD(ITIONAL)? DIMENSION|NUMBER OF INTRAPULMONARY METASTASES|TOTAL NUMBER OF PRIMARY TUMORS|TOTAL TUMOR SIZE|SIZE OF INVASIVE COMPONENT|FOCALITY|NUMBER OF TUMOR NODULES|SYNCHRONOUS|TUMOR SITE|PERCENTAGE OF TOTAL TUMOR SIZE", 
@@ -482,10 +482,10 @@ df_plot <- df_plot %>%
           question, ignore.case = TRUE) ~ "Tumor Histology & Subtypes",
     
     # Local Extension & Invasion
-    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|EXTRANODAL|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
+    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA|DIRECT INVASION OF ADJACENT STRUCTURES", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
     
     # Lymph Nodes
-    grepl("LYMPH NODE|NODAL|DISTANT SITE", question, ignore.case = TRUE) ~ "Regional Lymph Nodes & Distant Metastasis",
+    grepl("LYMPH NODE|NODAL|DISTANT SITE|EXTRANODAL", question, ignore.case = TRUE) ~ "Regional Lymph Nodes & Distant Metastasis",
     
     # Margins
     grepl("MARGIN", question, ignore.case = TRUE) ~ "Margins",
@@ -649,21 +649,19 @@ plot_ly(
   reversescale = FALSE
 ) %>%
   layout(
-    title = "Interactive Heatmap of Median Scores by Model and Category",
+    title = "Heatmap of Median Scores by Model and Category",
     xaxis = list(title = "Model"),
-    yaxis = list(title = "Category"),
+    yaxis = list(title = ""),
     paper_bgcolor = "darkgrey",
     plot_bgcolor = "darkgrey",
     font = list(color = "white")
   )
 
-# 2. Box Plot with Jittered Points
 ```
 
 
 
-```{r}
-# Success Rate Analysis using model_stats_grp
+```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
   mutate(
     performance_category = case_when(
@@ -692,7 +690,7 @@ plot_ly() %>%
   # Add bars for median scores
   add_trace(
     data = success_analysis,
-    x = ~reorder(category, median),
+    x = ~category,
     y = ~median,
     color = ~model_name,
     type = "bar",
@@ -704,26 +702,17 @@ plot_ly() %>%
       "%{text}<br>",
       "Performance: %{customdata}<extra></extra>"
     ),
-    customdata = ~performance_category
-  ) %>%
-  # Add shadow effect for the threshold line
-  add_segments(
-    x = -1, xend = length(unique(success_analysis$category)),
-    y = 0.845, yend = 0.845,           # Slightly below main line
-    line = list(
-      color = "rgba(255, 0, 0, 0.2)",  # Very transparent red
-      width = 4                         # Wider for shadow effect
-    ),
+    customdata = ~performance_category,
     showlegend = FALSE
   ) %>%
   layout(
     title = list(
-      text = "Model Performance by Category<br><sup>Threshold = 0.85 (Sample Size Indicated)</sup>",
+      text = "Model Performance by Category<br></sup>",
       x = 0.5,
       xanchor = "center"
     ),
     xaxis = list(
-      title = "Category",
+      title = "",
       tickangle = 45,
       tickfont = list(size = 10)
     ),
@@ -734,10 +723,16 @@ plot_ly() %>%
     barmode = "group",
     showlegend = TRUE,
     legend = list(
-      orientation = "h",
-      y = -0.2
+      orientation = "v",
+      x = 1.15,
+      y = 1,
+      xanchor = "left",
+      yanchor = "top",
+      bgcolor = "rgba(255, 255, 255, 0.9)",
+      bordercolor = "rgba(0, 0, 0, 0.2)",
+      borderwidth = 1
     ),
-    margin = list(b = 150),
+    margin = list(b = 150, r = 150),  # Increased right margin to accommodate legend
     hovermode = "closest"
   )
 

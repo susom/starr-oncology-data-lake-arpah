@@ -67,8 +67,7 @@ NeuralFrame data encompasses research-eligible patients who have case records in
 
 #### STAMP Add-On
 
-- The STAMP Add-On includes the ‘assay performed’ value, which specifies the type of STAMP test result; For example, the Stanford Actionable Mutation Panel for Solid Tumors (STAMP, Order Code: STAMPT) or Heme-STAMP, which includes both Heme-STAMP, Blood (Order Code: HSTAMPB) and Heme-STAMP, Non-Blood (Order Code: HSTAMPT). In addition, the Add-On contains pipeline version information, along with patient identifiers and accession numbers.
-
+- The STAMP Add-On includes the ‘assay performed’ value, which specifies the type of STAMP test result; For example, the Stanford Actionable Mutation Panel for Solid Tumors (STAMP, Order Code: [STAMPT](https://stanfordlab.com/test-details/s/STAMPT.html) or Heme-STAMP, which includes both Heme-STAMP, Blood (Order Code: [HSTAMPB](https://stanfordlab.com/content/stanfordlab/en/test-details/h/HSTAMPB.html)) and Heme-STAMP, Non-Blood (Order Code: [HSTAMPT](https://stanfordlab.com/content/stanfordlab/en/test-details/h/HSTAMPT.html). In addition, the Add-On contains pipeline version information, along with patient identifiers and accession numbers.
 
 #### HIPPO Benchmark
 
