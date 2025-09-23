@@ -392,7 +392,7 @@ We assessed model performance across clinical categories using median BERT simil
 
 In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. 
 
-## Performance Results 
+#### Performance Results 
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
@@ -483,7 +483,7 @@ DT::datatable(
 )
 ```
 
-### Model Performance by Category
+#### Model Performance by Category
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
   mutate(

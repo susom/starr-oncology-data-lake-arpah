@@ -293,7 +293,7 @@ p
 
 ```
 
-Here, we can see that Claude 3.5 is slightly better than Llama 4. However, the distribution for most LLMs is certainly wide, showing lack of consistency across all questions. To investigate this further, a heatmap was constructed and is shown in the figure below. Here, we can clearly see the variability across different questions and how GPT-4 consistently underperforms for this particular task. The questions itself and the descriptions of each question can be found below the graph.
+Here, we can see that Claude 3.7 is slightly better than Llama 4. However, the distribution for most LLMs is certainly wide, showing lack of consistency across all questions. To investigate this further, a heatmap was constructed and is shown in the figure below. Here, we can clearly see the variability across different questions and how GPT-4 consistently underperforms for this particular task. The questions itself and the descriptions of each question can be found below the graph.
 
 
 ```{r message=FALSE, warning=FALSE}
@@ -363,6 +363,8 @@ layout(
 )
 p
 ```
+
+### CAP Form Questions 
 
 1. **ADDITIONAL FINDINGS** \- Documents other pathologic findings in the specimen beyond the primary tumor, such as atypical adenomatous hyperplasia, granulomatous inflammation, or emphysema.  
 2. **CLOSEST MARGIN(S) TO INVASIVE CARCINOMA** \- Identifies which specific surgical margin (bronchial, vascular, parenchymal, or chest wall) is nearest to the invasive tumor.  
