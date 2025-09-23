@@ -570,6 +570,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
+
 ```{r, warning=FALSE, message=FALSE, include=FALSE}
 datT=df_plot %>% filter(category %in% c("Tumor Histology & Subtypes", "Tumor Size, Focality, Distribution"))
 # boxplot
@@ -612,6 +613,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
+
 
 ```{r,warning=FALSE, message=FALSE}
 # Compute median per model-category
@@ -659,7 +661,7 @@ plot_ly(
 
 ```
 
-
+We assessed model performance across clinical categories using median BERT similarity scores. A success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. Summary statistics included the count of successful categories, the total number of categories, the overall success rate, the mean of category-level medians, and a weighted average median adjusted for sample size. Results were visualized using interactive grouped bar plots to compare category-level medians by model, supplemented with a tabular summary for cross-model evaluation.
 
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
@@ -669,8 +671,7 @@ success_analysis <- model_stats_grp %>%
       median >= 0.75 ~ "Medium Performance",
       TRUE ~ "Low Performance"
     ),
-    success_rate = median >= 0.85,
-    relative_performance = (median - 0.85) / 0.85 * 100  # Percentage difference from threshold
+    success_rate = median >= 0.85
   ) %>%
   arrange(desc(median))
 
@@ -746,37 +747,6 @@ knitr::kable(model_summary,
 
 
 
-```{r}
-# 5. Model Correlation Analysis
-model_wide <- df_plot %>%
-  select(model_name, category, avg_score) %>%
-  pivot_wider(
-    names_from = model_name,
-    values_from = avg_score
-  )
-
-correlation_matrix <- cor(model_wide[,-1], use = "complete.obs")
-
-plot_ly(
-  x = rownames(correlation_matrix),
-  y = colnames(correlation_matrix),
-  z = correlation_matrix,
-  type = "heatmap",
-  colorscale = "RdBu",
-  zmin = -1,
-  zmax = 1
-) %>%
-  layout(
-    title = "Model Score Correlation Matrix",
-    xaxis = list(title = "Model"),
-    yaxis = list(title = "Model")
-  )
-```
-
-```{r ,warning=FALSE, message=FALSE}
-
-
-```
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
 In this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81. 
