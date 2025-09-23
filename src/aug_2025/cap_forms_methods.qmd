@@ -530,7 +530,7 @@ library(dplyr)
     scale_color_brewer(palette = "Set2") +
     theme_minimal() +
     labs(
-      title = "Distribution of Avg BERT Scores across Categories",
+      title = "Distribution of Avg BERT Scores by Categories",
        subtitle ="",
         caption = "Solid red line = reference threshold at 0.85 \n  Dashed lines = model-specific medians",
       x = "Average BERT F1-Score",
