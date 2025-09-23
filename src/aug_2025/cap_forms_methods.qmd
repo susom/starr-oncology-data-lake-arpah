@@ -184,19 +184,17 @@ df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/dat
    )
  
 # Summary table
-model_stats_table <- model_stats %>%
-  knitr::kable(caption = "Summary Statistics per Model")
+#model_stats_table <- model_stats %>%
+  #knitr::kable(caption = "Summary Statistics per Model")
 
-# Display
-print(p)
-model_stats_table
+
 ```
 
-## Category-Based Evaluation of LLMs 
+### Category-Based Evaluation of LLMs 
 To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follow:
 
 
-### Specimen & Procedure
+#### Specimen & Procedure
 Information about the surgical specimen and procedure, including specimen ID, laterality, and general notes.
 
 - LUNG || SPECIMEN ID(S)  
@@ -204,7 +202,7 @@ Information about the surgical specimen and procedure, including specimen ID, la
 - SPECIMEN LATERALITY  
 - NOTE  
 
-### Tumor Size, Focality, Distribution
+#### Tumor Size, Focality, Distribution
 Details on tumor dimensions, number of nodules, total and invasive sizes, focality, and presence of synchronous tumors.
 
 - LUNG || ADDITIONAL DIMENSION (CENTIMETERS)  
@@ -218,7 +216,7 @@ Details on tumor dimensions, number of nodules, total and invasive sizes, focali
 - TUMOR SITE  
 - PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)  
 
-### Tumor Histology & Subtypes
+#### Tumor Histology & Subtypes
 Histologic type, grade, patterns, components, and any descriptive comments from the pathologist.
 
 - HISTOLOGIC TYPE (NOTE A)  
@@ -229,7 +227,7 @@ Histologic type, grade, patterns, components, and any descriptive comments from 
 - HISTOLOGIC COMPONENT(S) PRESENT (MAY INCLUDE PERCENTAGES)  
 - LUNG || COMMENT(S)  
 
-### Local Extension & Invasion
+#### Local Extension & Invasion
 Extent of tumor spread, including invasion of adjacent structures, visceral pleura, lymphovascular spaces, and STAS.
 
 - DIRECT INVASION OF OTHER STRUCTURES  
@@ -239,7 +237,7 @@ Extent of tumor spread, including invasion of adjacent structures, visceral pleu
 - LYMPHOVASCULAR INVASION (NOTE F)  
 - SPREAD THROUGH AIR SPACES (STAS)  
 
-### Regional Lymph Nodes & Distant Metastisis 
+#### Regional Lymph Nodes & Distant Metastisis 
 Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
 
 - DISTANT SITE(S) INVOLVED, IF APPLICABLE
@@ -255,7 +253,7 @@ Nodal involvement, number of nodes examined and positive, prior lymph node proce
 - NODAL SITE(S) WITH TUMOR  
 - EXTRANODAL EXTENSION  
 
-### Margins
+#### Margins
 Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments.
 
 - CLOSEST MARGIN(S) TO INVASIVE CARCINOMA  
@@ -265,7 +263,7 @@ Status and distance of surgical margins (bronchial, vascular, parenchymal, pleur
 - MARGIN STATUS FOR NON-INVASIVE TUMOR  
 - MARGIN(S) INVOLVED BY INVASIVE CARCINOMA  
 
-### Staging (AJCC/UICC)
+#### Staging (AJCC/UICC)
 AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
 
 - PRIMARY TUMOR (PT)  
@@ -273,7 +271,7 @@ AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
 - PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)  
 - TNM DESCRIPTORS  
 
-### Treatment Effect
+#### Treatment Effect
 Evidence of therapy response, including necrosis, viable tumor, and stromal changes.
 
 - TREATMENT EFFECT  
@@ -282,7 +280,7 @@ Evidence of therapy response, including necrosis, viable tumor, and stromal chan
 - PERCENTAGE OF RESIDUAL VIABLE TUMOR  
 - PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)  
 
-### Additional Findings 
+#### Additional Findings 
 Additional findings and miscellaneous notes not captured in other categories
 
 - ADDITIONAL FINDINGS
@@ -331,7 +329,7 @@ df_plot <- df_plot %>%
     grepl("TREATMENT EFFECT|NECROSIS|RESIDUAL VIABLE TUMOR|STROMA", question, ignore.case = TRUE) ~ "Treatment Effect",
     
     # Metadata / Additional Findings
-    grepl("ADDITIONAL FINDINGS", question, ignore.case = TRUE) ~ "Metadata",
+    grepl("ADDITIONAL FINDINGS", question, ignore.case = TRUE) ~ "Additional Findings",
     
     # Default
     TRUE ~ "Uncategorized"
@@ -392,7 +390,9 @@ pg
 ### Model Performance 
 We assessed model performance across clinical categories using median BERT similarity scores. The following table summarizes median BERT F1-scores for each model across high-level categories. For each category, the model with the highest median score is flagged in the “Best Model” column, highlighting domain-specific strengths. This comparison enables quick identification of areas where models excel (e.g., Gemini in Staging and Tumor Histology) and areas where performance is more competitive.
 
+In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. 
 
+## Performance Results 
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
@@ -413,6 +413,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
+
 
 ```{r,warning=FALSE, message=FALSE, include =FALSE}
 # Compute median per model-category
@@ -460,9 +461,8 @@ plot_ly(
 
 ```
 
-In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. Summary statistics included the count of successful categories, the total number of categories, the overall success rate, the mean of category-level medians, and a weighted average median adjusted for sample size. Results were visualized using interactive grouped bar plots to compare category-level medians by model, supplemented with a tabular summary for cross-model evaluation.
 
-Across the nine categories, OpenAI_OSS achieved the highest overall success rate (56%) and the highest average median score (0.85), indicating that it most often met or exceeded the 0.85 threshold. In contrast, Gemini demonstrated the highest weighted average score (0.84), suggesting more consistent performance across categories, though it exceeded the threshold less frequently (33%). Llama4 showed balanced but slightly weaker results, with moderate success (44%) and an average median of 0.83. Taken together, OpenAI_OSS appears stronger in terms of peak performance across domains, while Gemini offers steadier but slightly lower results.
+
 ```{r, warning=FALSE, message=FALSE, include=FALSE}
  model_stats_grp <- df_plot %>%
    group_by(category, model_name) %>%
@@ -482,7 +482,8 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-## Performance Results 
+
+### Model Performance by Category
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
   mutate(
@@ -524,7 +525,7 @@ plot_ly() %>%
       "Performance: %{customdata}<extra></extra>"
     ),
     customdata = ~performance_category,
-    showlegend = FALSE
+    showlegend = TRUE
   ) %>%
   layout(
     title = list(
@@ -558,17 +559,19 @@ plot_ly() %>%
   )
 
 # Add summary table
-knitr::kable(model_summary, 
-             col.names = c("Model", "Categories ≥ 0.85", "Total Categories", 
-                         "Success Rate", "Avg Median", "Weighted Avg"),
-             caption = "Model Performance Summary",
-             digits = 2)
+#knitr::kable(model_summary, 
+           #  col.names = c("Model", "Categories ≥ 0.85", "Total Categories", 
+           #              "Success Rate", "Avg Median", "Weighted Avg"),
+           #  caption = "Model Performance Summary",
+            # digits = 2)
 ```
 
 
 ## Summary
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
-In this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81. 
+Across the nine categories, OpenAI OSS achieved the highest overall success rate (56%), most frequently exceeding the 0.85 threshold. In contrast, Gemini demonstrated consistent performance across categories, ranking highest in Specimen & Procedure, Staging, and Tumor Characteristics. Llama4 showed more balanced but slightly weaker results overall, though it outperformed Gemini in Treatment Effect and Local Extension & Invasion.
 
-We also attempted an experiment were we used LLM a Judge to verify that the answers were aligned with the reference answer from the CAP form. At this moment that work requires more experimentation and refinement using Pathologist expert annotations to ensure the Judging process can be used as an objective measure of performance. 
+Taken together, OpenAI OSS appears strongest in terms of peak performance across domains, while Gemini offers steadier but slightly lower results, and Llama4 provides competitive performance in select categories.
+
+Lastly, we piloted an LLM-as-a-Judge experiment to assess whether model-generated answers aligned with CAP form reference answers. While promising, this approach requires further refinement and validation with expert pathologist annotations before it can be considered an objective and reliable measure of performance.
