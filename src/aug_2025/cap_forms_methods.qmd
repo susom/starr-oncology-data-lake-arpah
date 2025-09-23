@@ -551,9 +551,9 @@ library(dplyr)
 pg
 
 ```
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, include=FALSE}
  model_stats_grp <- df_plot %>%
-   group_by(model_name, category) %>%
+   group_by(category, model_name) %>%
    summarise(
      mean = round(mean(avg_score, na.rm = TRUE), 2),
      median = round(median(avg_score, na.rm = TRUE), 2),
@@ -570,7 +570,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, include=FALSE}
 datT=df_plot %>% filter(category %in% c("Tumor Histology & Subtypes", "Tumor Size, Focality, Distribution"))
 # boxplot
 p_box <- ggplot(datT, aes(x = model_name, y = avg_score, fill = model_name)) +
@@ -601,101 +601,185 @@ source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encodi
 # Prepare table
 df_summary <- df_plot %>%
   group_by(model_name, category) %>%
-  summarise(median_score = median(avg_score)) %>%
+  summarise(median_score = round(median(avg_score),2)) %>%
   pivot_wider(names_from = model_name, values_from = median_score) %>%
   rowwise() %>%
   mutate(best_model = names(.)[which.max(c_across(-category)) + 1])  # +1 because first column is category
 
-df_summary
 
+DT::datatable(
+  df_summary,
+  rownames = FALSE
+)
 ```
 
 ```{r,warning=FALSE, message=FALSE}
-library(ggplot2)
-library(plotly)
-library(dplyr)
-
 # Compute median per model-category
 df_median <- df_plot %>%
   group_by(model_name, category) %>%
-  summarise(median_score = median(avg_score)) %>%
-  ungroup()
+  summarise(median_score = round(median(avg_score),2), .groups = "drop")
 
-# Prepare matrix for heatmap
+# Rank categories by their mean across models
+cat_order <- df_median %>%
+  group_by(category) %>%
+  summarise(mean_score = mean(median_score), .groups = "drop") %>%
+  arrange((mean_score)) %>%
+  pull(category)
+
+model_order <- df_median %>%
+  group_by(model_name) %>%
+  summarise(mean_score = mean(median_score), .groups = "drop") %>%
+  arrange(mean_score) %>%
+  pull(model_name)
+
+# Prepare matrix with ordered categories
 heatmap_matrix <- df_median %>%
   tidyr::pivot_wider(names_from = model_name, values_from = median_score) %>%
- tibble:: column_to_rownames("category") %>%
+  tibble::column_to_rownames("category") %>%
+  .[cat_order, ] %>%   # reorder rows
   as.matrix()
 
-# Interactive heatmap
+# 1. Enhanced Heatmap
 plot_ly(
   z = heatmap_matrix,
   x = colnames(heatmap_matrix),
   y = rownames(heatmap_matrix),
   type = "heatmap",
-  colorscale = list(c(0,1), c("white", "darkred")), # black → white
+  colorscale = list(c(0, 1), c("white", "darkred")),
   reversescale = FALSE
 ) %>%
   layout(
     title = "Interactive Heatmap of Median Scores by Model and Category",
-    xaxis = list(title = "Model", tickfont = list(color = "white")),
-    yaxis = list(title = "Category", tickfont = list(color = "white")),
-    paper_bgcolor = "black",
-    plot_bgcolor = "black",
+    xaxis = list(title = "Model"),
+    yaxis = list(title = "Category"),
+    paper_bgcolor = "darkgrey",
+    plot_bgcolor = "darkgrey",
     font = list(color = "white")
   )
+
+# 2. Box Plot with Jittered Points
+```
+
+
+
+```{r}
+# Success Rate Analysis using model_stats_grp
+success_analysis <- model_stats_grp %>%
+  mutate(
+    performance_category = case_when(
+      median >= 0.85 ~ "High Performance",
+      median >= 0.75 ~ "Medium Performance",
+      TRUE ~ "Low Performance"
+    ),
+    success_rate = median >= 0.85,
+    relative_performance = (median - 0.85) / 0.85 * 100  # Percentage difference from threshold
+  ) %>%
+  arrange(desc(median))
+
+# Calculate summary statistics
+model_summary <- success_analysis %>%
+  group_by(model_name) %>%
+  summarise(
+    success_count = sum(median >= 0.85),
+    total_categories = n(),
+    success_rate = success_count / total_categories,
+    avg_median = mean(median),
+    weighted_avg = weighted.mean(median, n)
+  )
+
+# Create enhanced performance visualization
+plot_ly() %>%
+  # Add bars for median scores
+  add_trace(
+    data = success_analysis,
+    x = ~reorder(category, median),
+    y = ~median,
+    color = ~model_name,
+    type = "bar",
+    name = ~model_name,
+    text = ~sprintf("Median: %.2f<br>N: %d", median, n),
+    hovertemplate = paste(
+      "<b>%{x}</b><br>",
+      "Model: %{fullData.name}<br>",
+      "%{text}<br>",
+      "Performance: %{customdata}<extra></extra>"
+    ),
+    customdata = ~performance_category
+  ) %>%
+  # Add shadow effect for the threshold line
+  add_segments(
+    x = -1, xend = length(unique(success_analysis$category)),
+    y = 0.845, yend = 0.845,           # Slightly below main line
+    line = list(
+      color = "rgba(255, 0, 0, 0.2)",  # Very transparent red
+      width = 4                         # Wider for shadow effect
+    ),
+    showlegend = FALSE
+  ) %>%
+  layout(
+    title = list(
+      text = "Model Performance by Category<br><sup>Threshold = 0.85 (Sample Size Indicated)</sup>",
+      x = 0.5,
+      xanchor = "center"
+    ),
+    xaxis = list(
+      title = "Category",
+      tickangle = 45,
+      tickfont = list(size = 10)
+    ),
+    yaxis = list(
+      title = "Median BERT Score",
+      range = c(0.5, 1)
+    ),
+    barmode = "group",
+    showlegend = TRUE,
+    legend = list(
+      orientation = "h",
+      y = -0.2
+    ),
+    margin = list(b = 150),
+    hovermode = "closest"
+  )
+
+# Add summary table
+knitr::kable(model_summary, 
+             col.names = c("Model", "Categories ≥ 0.85", "Total Categories", 
+                         "Success Rate", "Avg Median", "Weighted Avg"),
+             caption = "Model Performance Summary",
+             digits = 2)
+```
+
+
+
+```{r}
+# 5. Model Correlation Analysis
+model_wide <- df_plot %>%
+  select(model_name, category, avg_score) %>%
+  pivot_wider(
+    names_from = model_name,
+    values_from = avg_score
+  )
+
+correlation_matrix <- cor(model_wide[,-1], use = "complete.obs")
 
 plot_ly(
-  z = heatmap_matrix,
-  x = colnames(heatmap_matrix),
-  y = rownames(heatmap_matrix),
+  x = rownames(correlation_matrix),
+  y = colnames(correlation_matrix),
+  z = correlation_matrix,
   type = "heatmap",
-  colorscale = "Viridis",    # perceptually uniform, works on dark background
-  reversescale = FALSE,
-  zmin = 0, zmax = 1
+  colorscale = "RdBu",
+  zmin = -1,
+  zmax = 1
 ) %>%
   layout(
-    title = "Interactive Heatmap of Median Scores by Model and Category",
-    xaxis = list(title = "Model", tickangle = -45, tickfont = list(color = "white")),
-    yaxis = list(title = "Category", tickfont = list(color = "white")),
-    paper_bgcolor = "black",
-    plot_bgcolor = "black",
-    font = list(color = "white")
+    title = "Model Score Correlation Matrix",
+    xaxis = list(title = "Model"),
+    yaxis = list(title = "Model")
   )
-
 ```
 
 ```{r ,warning=FALSE, message=FALSE}
-library(plotly)
-library(dplyr)
 
-# Compute median per model-category
-df_median <- df_plot %>%
-  group_by(model_name, category) %>%
-  summarise(median_score = median(avg_score)) %>%
-  ungroup()
-
-# Bubble plot
-plot_ly(
-  df_median,
-  x = ~model_name,
-  y = ~category,
-  size = ~median_score,
-  color = ~median_score,
-  colors = colorRamp(c("darkred", "lightyellow", "darkgreen")),  # low → high
-  text = ~paste("Category:", category, "<br>Model:", model_name, "<br>Median Score:", round(median_score,3)),
-  hoverinfo = "text",
-  type = "scatter",
-  mode = "markers"
-) %>%
-  layout(
-    title = "Bubble Plot of Median Scores by Model and Category",
-    xaxis = list(title = "Model", tickfont = list(color = "white")),
-    yaxis = list(title = "Category", tickfont = list(color = "white")),
-    paper_bgcolor = "black",
-    plot_bgcolor = "black",
-    font = list(color = "white")
-  )
 
 ```
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
