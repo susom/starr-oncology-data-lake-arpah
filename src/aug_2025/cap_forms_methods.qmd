@@ -529,7 +529,7 @@ plot_ly() %>%
   ) %>%
   layout(
     title = list(
-      text = "Model Performance by Category<br></sup>",
+      text = "",
       x = 0.5,
       xanchor = "center"
     ),

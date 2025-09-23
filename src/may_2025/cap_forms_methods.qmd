@@ -121,9 +121,8 @@ FROM
 df_demographics <- fetch_data_from_sql(sql)
 ```
 
-```{r}
-#install.packages("table1") 
-#library(table1)  
+```{r,message=FALSE, warning=FALSE}
+library(table1)  
 table1(~ Age + Race + Ethnicity | Sex , df_demographics)
 ```
 
@@ -134,7 +133,7 @@ For this experiment, we used several state-of-the-art LLMs to assess their capab
 
 To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.
 
-```{r message=FALSE, warning=FALSE}
+```{r ,message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
 library(readr)
