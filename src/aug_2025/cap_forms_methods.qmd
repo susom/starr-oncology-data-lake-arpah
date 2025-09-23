@@ -572,6 +572,6 @@ In this evaluation we only use 3 models vs the 5 presented before. We choose to 
 
 Across the nine categories, OpenAI OSS achieved the highest overall success rate (56%), most frequently exceeding the 0.85 threshold. In contrast, Gemini demonstrated consistent performance across categories, ranking highest in Specimen & Procedure, Staging, and Tumor Characteristics. Llama4 showed more balanced but slightly weaker results overall, though it outperformed Gemini in Treatment Effect and Local Extension & Invasion.
 
-Taken together, OpenAI OSS appears strongest in terms of peak performance across domains, while Gemini offers steadier but slightly lower results, and Llama4 provides competitive performance in select categories.
+Taken together, OpenAI OSS appears strongest in terms of peak performance across domains, while Gemini offers steadier and broader consistency even if some medians fell below the threshhold, and Llama4 provides competitive performance in select categories.
 
 Lastly, we piloted an LLM-as-a-Judge experiment to assess whether model-generated answers aligned with CAP form reference answers. While promising, this approach requires further refinement and validation with expert pathologist annotations before it can be considered an objective and reliable measure of performance.
