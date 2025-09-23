@@ -133,11 +133,12 @@ table1(~ Age + Race + Ethnicity | Sex , df_demographics)
 
 ## Methods and Results
 
-For this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. The full set of top level questions for the Lung Resection CAp forms alongside the descriptions for each one of them can be found [here](cap_forms_appendix.qmd#capforms-toplevel-questions). Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers. The prompt used can be found [here](cap_forms_appendix.qmd#capforms-zeroshot-prompt)
+For this experiment, we used several state-of-the-art LLMs to assess their capabilities to extract the information required for lung resection CAP forms. As mentioned before, we formulated the problem as a question-answering problem. The full set of top level questions for the Lung Resection CAP forms alongside the descriptions for each one of them can be found [here](cap_forms_appendix.qmd#capforms-toplevel-questions). Each LLM was tested in a zero-shot setting, where no actual examples were given. Each LLM was asked to answer a single question using the entire pathology report (excluding the synoptic report) and instructions that contained the most recent lung resection CAP forms instructions. We asked the LLMs to provide the answers using JSON to facilitate the parsing of the actual answers. The prompt used can be found [here](cap_forms_appendix.qmd#capforms-zeroshot-prompt).
 
-To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer. The results of this evaluation are shown in the figure below.
+To automatically evaluate the output, we used the traditional BERT score, which evaluates the semantic similarity between the generated answer and the reference answer.
+Distribution of average BERT scores across models is shown below. Histograms with dashed median lines indicate a minor differences in central tendency and variability between models. Summary statistics (mean, median, quartiles) are provided as follow.
 
-```{r message=FALSE, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 library(plotly)
 library(dplyr)
 library(readr)
@@ -148,156 +149,429 @@ library(gt)
 # Read the CSV file
 df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
 
-# Calculate statistics for each model
-model_stats <- df_plot %>%
-  group_by(model_name) %>%
-  summarise(
-    mean = round(mean(avg_score, na.rm = TRUE), 3),
-    median = round(median(avg_score, na.rm = TRUE), 3),
-    q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 3),
-    q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 3),
-    min_val = round(min(avg_score, na.rm = TRUE), 3),
-    max_val = round(max(avg_score, na.rm = TRUE), 3),
-    .groups = 'drop'
-  ) %>%
-  mutate(
-    iqr = round(q3 - q1, 3)
-  )
 
-# Get unique models for consistent ordering
-unique_models <- unique(df_plot$model_name)
 
-# Create enhanced color palette
-n_models <- length(unique_models)
-if(n_models <= 8) {
-  colors <- RColorBrewer::brewer.pal(max(3, n_models), "Set2")
-} else if(n_models <= 12) {
-  colors <- RColorBrewer::brewer.pal(12, "Set3")
-} else {
-  colors <- rainbow(n_models, s = 0.7, v = 0.8)  # More muted rainbow
-}
+ model_stats <- df_plot %>%
+   group_by(model_name) %>%
+   summarise(
+     mean = round(mean(avg_score, na.rm = TRUE), 2),
+     median = round(median(avg_score, na.rm = TRUE), 2),
+     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
+     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
+     n = n()
+   )
+ 
+ 
+ p <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
+   # histogram (counts)
+   geom_histogram(aes(y = ..count..), bins = 25, color = "black", alpha = 0.4, position = "identity") +
+   # density curve scaled to counts
+   geom_density(aes(y=..count..*25), color = "grey", size = 1, alpha=0.7) +
+   # median line with legend
+   geom_vline(data = model_stats, aes(xintercept = median, color = "Median"), linetype = "dashed", size = 1) +
+   # add median value as text
+   geom_text(data = model_stats, aes(x = median, y = Inf, label = paste0(median)),
+             color = "darkred", vjust = 2, hjust = -0.99, inherit.aes = FALSE, size = 3) +
+   facet_wrap(~model_name, scales = "free_y", ncol=1) +
+   theme_minimal() +
+   scale_fill_brewer(palette = "Set2") +
+   scale_color_manual(name = "", values = c("Median" = "darkred")) +  # legend for median
+   labs(
+     title = "Model Distribution",
+     x = "Average BERT Score",
+     y = "Count",
+     fill = "Model Name"
+   )
+ 
+# Summary table
+#model_stats_table <- model_stats %>%
+  #knitr::kable(caption = "Summary Statistics per Model")
 
-# Ensure we have enough colors
-if(length(colors) < n_models) {
-  colors <- rep(colors, ceiling(n_models/length(colors)))[1:n_models]
-}
 
-# Initialize empty plot
-p <- plot_ly()
+```
 
-# Add a trace for each model with different colors
-for(i in 1:length(unique_models)) {
-  model <- unique_models[i]
-  model_data <- df_plot %>% filter(model_name == model)
-  model_stat <- model_stats %>% filter(model_name == model)
-  
-  # Create custom hover template with statistics
-  hover_template <- paste0(
-    "<b>Model:</b> %{x}<br>",
-    "<b>Value:</b> %{y}<br>",
-    "<b>Statistics:</b><br>",
-    "Mean: ", model_stat$mean, "<br>",
-    "Median: ", model_stat$median, "<br>",
-    "Q1: ", model_stat$q1, "<br>",
-    "Q3: ", model_stat$q3, "<br>",
-    "IQR: ", model_stat$iqr, "<br>",
-    "Min: ", model_stat$min_val, "<br>",
-    "Max: ", model_stat$max_val,
-    "<extra></extra>"
-  )
-  
-  p <- p %>% add_trace(
-    data = model_data,
-    x = ~model_name,
-    y = ~avg_score,
-    type = "box",
-    name = model,
-    boxpoints = "outliers",
-    marker = list(
-      size = 4,
-      opacity = 0.7,
-      color = colors[i]
-    ),
-    line = list(
-      width = 2,
-      color = colors[i]
-    ),
-    fillcolor = paste0(colors[i], "60"),  # Add transparency
-    boxmean = FALSE,
-    notched = TRUE,
-    jitter = 0.3,
-    pointpos = 0,
-    hovertemplate = hover_template,
-    hoverlabel = list(
-      bgcolor = colors[i],
-      font = list(color = "white", size = 12)
-    )
-  )
-}
+### Category-Based Evaluation of LLMs 
+To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follow:
 
-# Customize layout with enhanced styling
-p <- p %>% layout(
-  title = list(
-    text = 'BERT F1-Score Distribution by Model',
-    font = list(size = 20, family = "Arial Black"),
-    x = 0.5,
-    y = 0.95
-  ),
-  
-  xaxis = list(
-    title = list(
-      text = '',
-      font = list(size = 14, family = "Arial")
-    ),
-    tickfont = list(size = 11, family = "Arial"),
-    tickangle = 45,
-    showgrid = TRUE,
-    gridwidth = 1,
-    gridcolor = 'rgba(128,128,128,0.2)',
-    zeroline = FALSE,
-    showline = TRUE,
-    linewidth = 2,
-    linecolor = 'rgba(128,128,128,0.8)',
-    type = 'category'  # Ensures only model names appear on x-axis
-  ),
-  
-  yaxis = list(
-    title = list(
-      text = 'BERT f1 Score',  # Updated y-axis title
-      font = list(size = 14, family = "Arial")
-    ),
-    tickfont = list(size = 11, family = "Arial"),
-    showgrid = TRUE,
-    gridwidth = 1,
-    gridcolor = 'rgba(128,128,128,0.2)',
-    zeroline = TRUE,
-    zerolinewidth = 2,
-    zerolinecolor = 'rgba(128,128,128,0.4)',
-    showline = TRUE,  # Fixed: was "True" instead of TRUE
-    linewidth = 2,
-    linecolor = 'rgba(128,128,128,0.8)'
-  ),
-  
-  plot_bgcolor = '#fafafa',
-  paper_bgcolor = 'white',
-  
-  showlegend = FALSE,
-  
-  margin = list(
-    l = 80,
-    r = 60,
-    b = 120,
-    t =100
-  )
-)
-# Display the plot
 
-p
+#### Specimen & Procedure
+Information about the surgical specimen and procedure, including specimen ID, laterality, and general notes.
+
+- LUNG || SPECIMEN ID(S)  
+- PROCEDURE  
+- SPECIMEN LATERALITY  
+- NOTE  
+
+#### Tumor Size, Focality, Distribution
+Details on tumor dimensions, number of nodules, total and invasive sizes, focality, and presence of synchronous tumors.
+
+- LUNG || ADDITIONAL DIMENSION (CENTIMETERS)  
+- LUNG || NUMBER OF INTRAPULMONARY METASTASES  
+- LUNG || TOTAL NUMBER OF PRIMARY TUMORS  
+- TOTAL TUMOR SIZE (SIZE OF ENTIRE TUMOR)  
+- SIZE OF INVASIVE COMPONENT (REQUIRED ONLY IF INVASIVE NONMUCINOUS ADENOCARCINOMAS WITH LEPIDIC COMPO)  
+- TUMOR FOCALITY  
+- NUMBER OF TUMOR NODULES  
+- SYNCHRONOUS TUMORS (REQUIRED IF MORPHOLOGICALLY DISTINCT UNRELATED MULTIPLE PRIMARY TUMORS ARE PRESENT)  
+- TUMOR SITE  
+- PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)  
+
+#### Tumor Histology & Subtypes
+Histologic type, grade, patterns, components, and any descriptive comments from the pathologist.
+
+- HISTOLOGIC TYPE (NOTE A)  
+- HISTOLOGIC TYPE (NOTE C)  
+- LUNG || HISTOLOGIC TYPE COMMENT  
+- HISTOLOGIC GRADE  
+- HISTOLOGIC PATTERNS (MAY INCLUDE PERCENTAGES)  
+- HISTOLOGIC COMPONENT(S) PRESENT (MAY INCLUDE PERCENTAGES)  
+- LUNG || COMMENT(S)  
+
+#### Local Extension & Invasion
+Extent of tumor spread, including invasion of adjacent structures, visceral pleura, lymphovascular spaces, and STAS.
+
+- DIRECT INVASION OF OTHER STRUCTURES  
+- INVOLVED ADJACENT STRUCTURES  
+- VISCERAL PLEURA INVASION  
+- LYMPHOVASCULAR INVASION  
+- LYMPHOVASCULAR INVASION (NOTE F)  
+- SPREAD THROUGH AIR SPACES (STAS)  
+
+#### Regional Lymph Nodes & Distant Metastisis 
+Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
+
+- DISTANT SITE(S) INVOLVED, IF APPLICABLE
+- LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED  
+- LUNG || REGIONAL LYMPH NODE COMMENT  
+- LYMPH NODE(S) FROM PRIOR PROCEDURES  
+- NUMBER OF LYMPH NODES EXAMINED  
+- NUMBER OF LYMPH NODES WITH TUMOR  
+- REGIONAL LYMPH NODE STATUS  
+- REGIONAL LYMPH NODES  
+- REGIONAL LYMPH NODES (PN)  
+- NODAL SITE(S) EXAMINED  
+- NODAL SITE(S) WITH TUMOR  
+- EXTRANODAL EXTENSION  
+
+#### Margins
+Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments.
+
+- CLOSEST MARGIN(S) TO INVASIVE CARCINOMA  
+- DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN  
+- LUNG || MARGIN COMMENT  
+- MARGIN STATUS FOR INVASIVE CARCINOMA  
+- MARGIN STATUS FOR NON-INVASIVE TUMOR  
+- MARGIN(S) INVOLVED BY INVASIVE CARCINOMA  
+
+#### Staging (AJCC/UICC)
+AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
+
+- PRIMARY TUMOR (PT)  
+- PN CATEGORY  
+- PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)  
+- TNM DESCRIPTORS  
+
+#### Treatment Effect
+Evidence of therapy response, including necrosis, viable tumor, and stromal changes.
+
+- TREATMENT EFFECT  
+- TREATMENT EFFECT (NOTE I)  
+- PERCENTAGE OF NECROSIS  
+- PERCENTAGE OF RESIDUAL VIABLE TUMOR  
+- PERCENTAGE OF STROMA (INCLUDES FIBROSIS AND INFLAMMATION)  
+
+#### Additional Findings 
+Additional findings and miscellaneous notes not captured in other categories
+
+- ADDITIONAL FINDINGS
+
+
+
+
+
+```{r, warning=FALSE, message=FALSE, include =FALSE}
+
+library(plotly)
+library(dplyr)
+library(readr)
+library(RColorBrewer)
+library(tidyr)
+library(gt)
+
+# Read the CSV file
+df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/data/cap_forms_model_performance_comparison.csv")
+df_plot <- df_plot %>%
+  mutate(category = case_when(
+    # Specimen & Procedure
+    grepl("^(LUNG \\|\\| )?SPECIMEN ID|^PROCEDURE$|^SPECIMEN LATERALITY$|^NOTE$", question, ignore.case = TRUE) ~ "Specimen & Procedure",
+    
+    # Tumor Size, Focality, Distribution
+    grepl("ADD(ITIONAL)? DIMENSION|NUMBER OF INTRAPULMONARY METASTASES|TOTAL NUMBER OF PRIMARY TUMORS|TOTAL TUMOR SIZE|SIZE OF INVASIVE COMPONENT|FOCALITY|NUMBER OF TUMOR NODULES|SYNCHRONOUS|TUMOR SITE|PERCENTAGE OF TOTAL TUMOR SIZE", 
+          question, ignore.case = TRUE) ~ "Tumor Size, Focality, Distribution",
+    
+    # Tumor Histology & Subtypes
+    grepl("HISTOLOGIC TYPE|HISTOLOGIC GRADE|HISTOLOGIC PATTERNS|HISTOLOGIC COMPONENT|COMMENT\\(S\\)|LUNG \\|\\| HISTOLOGIC TYPE COMMENT", 
+          question, ignore.case = TRUE) ~ "Tumor Histology & Subtypes",
+    
+    # Local Extension & Invasion
+    grepl("INVASION|INVOLVED ADJACENT|LYMPHOVASCULAR|SPREAD THROUGH AIR SPACES|VISCERAL PLEURA|DIRECT INVASION OF ADJACENT STRUCTURES", question, ignore.case = TRUE) ~ "Local Extension & Invasion",
+    
+    # Lymph Nodes
+    grepl("LYMPH NODE|NODAL|DISTANT SITE|EXTRANODAL", question, ignore.case = TRUE) ~ "Regional Lymph Nodes & Distant Metastasis",
+    
+    # Margins
+    grepl("MARGIN", question, ignore.case = TRUE) ~ "Margins",
+    
+    # Staging
+    grepl("\\bPT\\b|PN CATEGORY|PM CATEGORY|TNM DESCRIPTORS", question, ignore.case = TRUE) ~ "Staging",
+    
+    # Treatment Effect
+    grepl("TREATMENT EFFECT|NECROSIS|RESIDUAL VIABLE TUMOR|STROMA", question, ignore.case = TRUE) ~ "Treatment Effect",
+    
+    # Metadata / Additional Findings
+    grepl("ADDITIONAL FINDINGS", question, ignore.case = TRUE) ~ "Additional Findings",
+    
+    # Default
+    TRUE ~ "Uncategorized"
+  ))
+
+```
+
+```{r, warning=FALSE, message=FALSE, include=FALSE}
+
+library(ggplot2)
+library(dplyr)
+
+# Compute medians per model
+median_cats <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = median(avg_score))
+library(ggplot2)
+library(dplyr)
+
+
+  
+  # plot with facetting (one facet per category)
+  pg <- ggplot(df_plot, aes(x = avg_score, fill = model_name)) +
+    geom_histogram(aes(y = ..count..), bins = 35, color = "black", alpha = 0.5, position = "identity") +
+    #geom_density(aes(y = ..count.. * 25), color = "grey", size = 1, alpha = 0.7) +
+    geom_vline(data = median_cats, aes(xintercept = median_score, color = model_name),
+               linetype = "dashed", size = 0.5) +
+               geom_vline(aes(xintercept = 0.85, linetype = "Threshold"), color = "darkred", size = 0.7) +   # reference line
+    scale_fill_brewer(palette = "Set2") +
+    scale_color_brewer(palette = "Set2") +
+    theme_minimal() +
+    labs(
+      title = "Distribution of Avg BERT Scores by Categories",
+       subtitle ="",
+        caption = "Solid red line = reference threshold at 0.85 \n  Dashed lines = model-specific medians",
+      x = "Average BERT F1-Score",
+      y = "Count",
+      fill = "Model Name",
+      color = "Model Name"
+    ) +
+    facet_wrap(~category)+theme(
+    plot.margin = margin(t = 20, r = 20, b = 20, l = 20),   # top, right, bottom, left
+    strip.text = element_text(size = 11, face = "bold")     # optional: clearer facet labels
+  )+
+   scale_linetype_manual(
+    name = "Reference Lines",
+    values = c("Median" = "dashed", "Threshold" = "solid")
+  ) 
+  
+
+pg
+
 ```
 
 
+
+
+### Model Performance 
+We assessed model performance across clinical categories using median BERT similarity scores. The following table summarizes median BERT F1-scores for each model across high-level categories. For each category, the model with the highest median score is flagged in the “Best Model” column, highlighting domain-specific strengths. This comparison enables quick identification of areas where models excel (e.g., Gemini in Staging and Tumor Histology) and areas where performance is more competitive.
+
+In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. 
+
+#### Performance Results 
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+
+# Prepare table
+df_summary <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = round(median(avg_score),2)) %>%
+  pivot_wider(names_from = model_name, values_from = median_score) %>%
+  rowwise() %>%
+  mutate(best_model = names(.)[which.max(c_across(-category)) + 1])  # +1 because first column is category
+
+
+DT::datatable(
+  df_summary,
+  rownames = FALSE
+)
+```
+
+
+```{r,warning=FALSE, message=FALSE, include =FALSE}
+# Compute median per model-category
+df_median <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = round(median(avg_score),2), .groups = "drop")
+
+# Rank categories by their mean across models
+cat_order <- df_median %>%
+  group_by(category) %>%
+  summarise(mean_score = mean(median_score), .groups = "drop") %>%
+  arrange((mean_score)) %>%
+  pull(category)
+
+model_order <- df_median %>%
+  group_by(model_name) %>%
+  summarise(mean_score = mean(median_score), .groups = "drop") %>%
+  arrange(mean_score) %>%
+  pull(model_name)
+
+# Prepare matrix with ordered categories
+heatmap_matrix <- df_median %>%
+  tidyr::pivot_wider(names_from = model_name, values_from = median_score) %>%
+  tibble::column_to_rownames("category") %>%
+  .[cat_order, ] %>%   # reorder rows
+  as.matrix()
+
+# 1. Enhanced Heatmap
+plot_ly(
+  z = heatmap_matrix,
+  x = colnames(heatmap_matrix),
+  y = rownames(heatmap_matrix),
+  type = "heatmap",
+  colorscale = list(c(0, 1), c("white", "darkred")),
+  reversescale = FALSE
+) %>%
+  layout(
+    title = "Heatmap of Median Scores by Model and Category",
+    xaxis = list(title = "Model"),
+    yaxis = list(title = ""),
+    paper_bgcolor = "darkgrey",
+    plot_bgcolor = "darkgrey",
+    font = list(color = "white")
+  )
+
+```
+
+
+
+```{r, warning=FALSE, message=FALSE, include=FALSE}
+ model_stats_grp <- df_plot %>%
+   group_by(category, model_name) %>%
+   summarise(
+     mean = round(mean(avg_score, na.rm = TRUE), 2),
+     median = round(median(avg_score, na.rm = TRUE), 2),
+     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
+     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
+     n = n()
+   )
+
+
+
+# Create interactive datatable
+DT::datatable(
+  model_stats_grp,
+  rownames = FALSE
+)
+```
+
+#### Model Performance by Category
+```{r, warning=FALSE, message=FALSE}
+success_analysis <- model_stats_grp %>%
+  mutate(
+    performance_category = case_when(
+      median >= 0.85 ~ "High Performance",
+      median >= 0.75 ~ "Medium Performance",
+      TRUE ~ "Low Performance"
+    ),
+    success_rate = median >= 0.85
+  ) %>%
+  arrange(desc(median))
+
+# Calculate summary statistics
+model_summary <- success_analysis %>%
+  group_by(model_name) %>%
+  summarise(
+    success_count = sum(median >= 0.85),
+    total_categories = n(),
+    success_rate = success_count / total_categories,
+    avg_median = mean(median),
+    weighted_avg = weighted.mean(median, n)
+  )
+
+# Create enhanced performance visualization
+plot_ly() %>%
+  # Add bars for median scores
+  add_trace(
+    data = success_analysis,
+    x = ~category,
+    y = ~median,
+    color = ~model_name,
+    type = "bar",
+    name = ~model_name,
+    text = ~sprintf("Median: %.2f<br>N: %d", median, n),
+    hovertemplate = paste(
+      "<b>%{x}</b><br>",
+      "Model: %{fullData.name}<br>",
+      "%{text}<br>",
+      "Performance: %{customdata}<extra></extra>"
+    ),
+    customdata = ~performance_category,
+    showlegend = TRUE
+  ) %>%
+  layout(
+    title = list(
+      text = "",
+      x = 0.5,
+      xanchor = "center"
+    ),
+    xaxis = list(
+      title = "",
+      tickangle = 45,
+      tickfont = list(size = 10)
+    ),
+    yaxis = list(
+      title = "Median BERT Score",
+      range = c(0.5, 1)
+    ),
+    barmode = "group",
+    showlegend = TRUE,
+    legend = list(
+      orientation = "v",
+      x = 1.15,
+      y = 1,
+      xanchor = "left",
+      yanchor = "top",
+      bgcolor = "rgba(255, 255, 255, 0.9)",
+      bordercolor = "rgba(0, 0, 0, 0.2)",
+      borderwidth = 1
+    ),
+    margin = list(b = 150, r = 150),  # Increased right margin to accommodate legend
+    hovermode = "closest"
+  )
+
+# Add summary table
+#knitr::kable(model_summary, 
+           #  col.names = c("Model", "Categories ≥ 0.85", "Total Categories", 
+           #              "Success Rate", "Avg Median", "Weighted Avg"),
+           #  caption = "Model Performance Summary",
+            # digits = 2)
+```
+
+
+## Summary
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
-In this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81. 
+Across the nine categories, OpenAI OSS achieved the highest overall success rate (56%), most frequently exceeding the 0.85 threshold. In contrast, Gemini demonstrated consistent performance across categories, ranking highest in Specimen & Procedure, Staging, and Tumor Characteristics. Llama4 showed more balanced but slightly weaker results overall, though it outperformed Gemini in Treatment Effect and Local Extension & Invasion.
 
-We also attempted an experiment were we used LLM a Judge to verify that the answers were aligned with the reference answer from the CAP form. At this moment that work requires more experimentation and refinement using Pathologist expert annotations to ensure the Judging process can be used as an objective measure of performance. 
+Taken together, OpenAI OSS appears strongest in terms of peak performance across domains, while Gemini offers steadier and broader consistency even if some medians fell below the threshhold, and Llama4 provides competitive performance in select categories.
+
+Lastly, we piloted an LLM-as-a-Judge experiment to assess whether model-generated answers aligned with CAP form reference answers. While promising, this approach requires further refinement and validation with expert pathologist annotations before it can be considered an objective and reliable measure of performance.
