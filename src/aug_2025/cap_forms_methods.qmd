@@ -192,13 +192,13 @@ print(p)
 model_stats_table
 ```
 
-## Category-Based Evaluation of LLMs for Lung Resection CAP Forms
+## Category-Based Evaluation of LLMs 
 To enable structured evaluation, individual questions from the lung resection CAP forms were grouped into high-level categories based on clinical relevance and reporting conventions. Each category represents a logical grouping of related questions that capture similar aspects of lung resection pathology. This approach allowed us to assess model performance at both the individual-question and category level (e.g., how well LLMs capture margin information overall) and facilitated clearer identification of domains where AI assistance may be most beneficial to pathologists (e.g., strong performance in Margins vs. weaker performance in Histologic Grade). The categories were defined as follow:
 
-## Lung CAP Form Questions {.tabset}
 
 ### Specimen & Procedure
 Information about the surgical specimen and procedure, including specimen ID, laterality, and general notes.
+
 - LUNG || SPECIMEN ID(S)  
 - PROCEDURE  
 - SPECIMEN LATERALITY  
@@ -206,6 +206,7 @@ Information about the surgical specimen and procedure, including specimen ID, la
 
 ### Tumor Size, Focality, Distribution
 Details on tumor dimensions, number of nodules, total and invasive sizes, focality, and presence of synchronous tumors.
+
 - LUNG || ADDITIONAL DIMENSION (CENTIMETERS)  
 - LUNG || NUMBER OF INTRAPULMONARY METASTASES  
 - LUNG || TOTAL NUMBER OF PRIMARY TUMORS  
@@ -219,6 +220,7 @@ Details on tumor dimensions, number of nodules, total and invasive sizes, focali
 
 ### Tumor Histology & Subtypes
 Histologic type, grade, patterns, components, and any descriptive comments from the pathologist.
+
 - HISTOLOGIC TYPE (NOTE A)  
 - HISTOLOGIC TYPE (NOTE C)  
 - LUNG || HISTOLOGIC TYPE COMMENT  
@@ -229,6 +231,7 @@ Histologic type, grade, patterns, components, and any descriptive comments from 
 
 ### Local Extension & Invasion
 Extent of tumor spread, including invasion of adjacent structures, visceral pleura, lymphovascular spaces, and STAS.
+
 - DIRECT INVASION OF OTHER STRUCTURES  
 - INVOLVED ADJACENT STRUCTURES  
 - VISCERAL PLEURA INVASION  
@@ -238,6 +241,7 @@ Extent of tumor spread, including invasion of adjacent structures, visceral pleu
 
 ### Regional Lymph Nodes & Distant Metastisis 
 Nodal involvement, number of nodes examined and positive, prior lymph node procedures, and extranodal extension.
+
 - DISTANT SITE(S) INVOLVED, IF APPLICABLE
 - LUNG || PRIOR LYMPH NODE PROCEDURE(S) INCLUDED  
 - LUNG || REGIONAL LYMPH NODE COMMENT  
@@ -253,6 +257,7 @@ Nodal involvement, number of nodes examined and positive, prior lymph node proce
 
 ### Margins
 Status and distance of surgical margins (bronchial, vascular, parenchymal, pleural) and comments.
+
 - CLOSEST MARGIN(S) TO INVASIVE CARCINOMA  
 - DISTANCE FROM INVASIVE CARCINOMA TO CLOSEST MARGIN  
 - LUNG || MARGIN COMMENT  
@@ -262,6 +267,7 @@ Status and distance of surgical margins (bronchial, vascular, parenchymal, pleur
 
 ### Staging (AJCC/UICC)
 AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
+
 - PRIMARY TUMOR (PT)  
 - PN CATEGORY  
 - PM CATEGORY (REQUIRED ONLY IF CONFIRMED PATHOLOGICALLY)  
@@ -269,6 +275,7 @@ AJCC/UICC TNM descriptors and categories (pT, pN, pM) for pathologic staging.
 
 ### Treatment Effect
 Evidence of therapy response, including necrosis, viable tumor, and stromal changes.
+
 - TREATMENT EFFECT  
 - TREATMENT EFFECT (NOTE I)  
 - PERCENTAGE OF NECROSIS  
@@ -277,13 +284,14 @@ Evidence of therapy response, including necrosis, viable tumor, and stromal chan
 
 ### Additional Findings 
 Additional findings and miscellaneous notes not captured in other categories
+
 - ADDITIONAL FINDINGS
 
 
 
 
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, include =FALSE}
 
 library(plotly)
 library(dplyr)
@@ -331,7 +339,7 @@ df_plot <- df_plot %>%
 
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, include=FALSE}
 
 library(ggplot2)
 library(dplyr)
@@ -384,7 +392,7 @@ pg
 ### Model Performance 
 We assessed model performance across clinical categories using median BERT similarity scores. The following table summarizes median BERT F1-scores for each model across high-level categories. For each category, the model with the highest median score is flagged in the “Best Model” column, highlighting domain-specific strengths. This comparison enables quick identification of areas where models excel (e.g., Gemini in Staging and Tumor Histology) and areas where performance is more competitive.
 
-In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. Summary statistics included the count of successful categories, the total number of categories, the overall success rate, the mean of category-level medians, and a weighted average median adjusted for sample size. Results were visualized using interactive grouped bar plots to compare category-level medians by model, supplemented with a tabular summary for cross-model evaluation.
+
 
 ```{r, warning=FALSE, message=FALSE}
 library(dplyr)
@@ -406,8 +414,7 @@ DT::datatable(
 )
 ```
 
-
-```{r,warning=FALSE, message=FALSE}
+```{r,warning=FALSE, message=FALSE, include =FALSE}
 # Compute median per model-category
 df_median <- df_plot %>%
   group_by(model_name, category) %>%
@@ -453,8 +460,29 @@ plot_ly(
 
 ```
 
-Across the nine categories, OpenAI_OSS achieved the highest overall success rate (56%) and the highest average median score (0.85), indicating that it most often met or exceeded the 0.85 threshold. In contrast, Gemini demonstrated the highest weighted average score (0.84), suggesting more consistent performance across categories, though it exceeded the threshold less frequently (33%). Llama4 showed balanced but slightly weaker results, with moderate success (44%) and an average median of 0.83. Taken together, OpenAI_OSS appears stronger in terms of peak performance across domains, while Gemini offers steadier but slightly lower results.
+In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. Summary statistics included the count of successful categories, the total number of categories, the overall success rate, the mean of category-level medians, and a weighted average median adjusted for sample size. Results were visualized using interactive grouped bar plots to compare category-level medians by model, supplemented with a tabular summary for cross-model evaluation.
 
+Across the nine categories, OpenAI_OSS achieved the highest overall success rate (56%) and the highest average median score (0.85), indicating that it most often met or exceeded the 0.85 threshold. In contrast, Gemini demonstrated the highest weighted average score (0.84), suggesting more consistent performance across categories, though it exceeded the threshold less frequently (33%). Llama4 showed balanced but slightly weaker results, with moderate success (44%) and an average median of 0.83. Taken together, OpenAI_OSS appears stronger in terms of peak performance across domains, while Gemini offers steadier but slightly lower results.
+```{r, warning=FALSE, message=FALSE, include=FALSE}
+ model_stats_grp <- df_plot %>%
+   group_by(category, model_name) %>%
+   summarise(
+     mean = round(mean(avg_score, na.rm = TRUE), 2),
+     median = round(median(avg_score, na.rm = TRUE), 2),
+     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
+     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
+     n = n()
+   )
+
+
+
+# Create interactive datatable
+DT::datatable(
+  model_stats_grp,
+  rownames = FALSE
+)
+```
+## Performance Results 
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
   mutate(
@@ -538,7 +566,7 @@ knitr::kable(model_summary,
 ```
 
 
-
+## Summary
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
 In this graph we can see that the best overall model is Gemini 2.5 with a median of 0.85, followed by LLama 4 with 0.83 and OpenAI OSS with 0.81. 
