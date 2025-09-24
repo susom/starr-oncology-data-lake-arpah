@@ -25,9 +25,13 @@ ul.task-list li input[type="checkbox"] {
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
 <link href="../may_2025/image_occ.html" rel="next">
 <link href="../may_2025/metrics_clinical.html" rel="prev">
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -38,6 +42,18 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -86,6 +102,7 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">VISTA Oncology Data Lake</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -1033,8 +1050,8 @@ ul.task-list li input[type="checkbox"] {
 <p>The following distribution summarizes the number of diagnosed thoracic patients over time.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-2e768c81c1fee38f99cd" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-2e768c81c1fee38f99cd">{"x":{"visdat":{"531044164b7a":["function () ","plotlyVisDat"]},"cur_data":"531044164b7a","attrs":{"531044164b7a":{"x":{},"y":{},"text":{},"textposition":"auto","marker":{"color":"#8B0000"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":{"text":"Number of Thoracic Cancer Patients by Diagnosis Year"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Diagnosis Year","tickangle":45,"type":"category","categoryorder":"array","categoryarray":["<2000","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Unique Patient Count"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","<2000"],"y":[177,208,164,221,243,257,308,302,287,312,360,415,373,414,464,543,493,587,542,606,546,663,813,790,537,98],"text":["1.6","1.9","1.5","2.1","2.3","2.4","2.9","2.8","2.7","2.9","3.3","3.9","3.5","3.9","4.3","5.1","4.6","5.5","5","5.6","5.1","6.2","7.6","7.3","5","0.9"],"textposition":["auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto"],"marker":{"color":"#8B0000","line":{"color":"rgba(31,119,180,1)"}},"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-d892f9381bd7dd0d5f99" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-d892f9381bd7dd0d5f99">{"x":{"visdat":{"1d986d6b6eb0":["function () ","plotlyVisDat"]},"cur_data":"1d986d6b6eb0","attrs":{"1d986d6b6eb0":{"x":{},"y":{},"text":{},"textposition":"auto","marker":{"color":"#8B0000"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":{"text":"Number of Thoracic Cancer Patients by Diagnosis Year"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Diagnosis Year","tickangle":45,"type":"category","categoryorder":"array","categoryarray":["<2000","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Unique Patient Count"},"showlegend":false,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","<2000"],"y":[177,208,164,221,243,257,308,302,287,312,360,415,373,414,464,543,493,587,542,606,546,663,813,790,537,98],"text":["1.6","1.9","1.5","2.1","2.3","2.4","2.9","2.8","2.7","2.9","3.3","3.9","3.5","3.9","4.3","5.1","4.6","5.5","5","5.6","5.1","6.2","7.6","7.3","5","0.9"],"textposition":["auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto","auto"],"marker":{"color":"#8B0000","line":{"color":"rgba(31,119,180,1)"}},"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -1071,23 +1088,23 @@ ul.task-list li input[type="checkbox"] {
 <div style="text-align: center">
 <div class="cell">
 <div class="cell-output-display">
-<div id="qgigdkvtno" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qgigdkvtno table {
+<div id="ptjnmhawtw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ptjnmhawtw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qgigdkvtno thead, #qgigdkvtno tbody, #qgigdkvtno tfoot, #qgigdkvtno tr, #qgigdkvtno td, #qgigdkvtno th {
+#ptjnmhawtw thead, #ptjnmhawtw tbody, #ptjnmhawtw tfoot, #ptjnmhawtw tr, #ptjnmhawtw td, #ptjnmhawtw th {
   border-style: none;
 }
 
-#qgigdkvtno p {
+#ptjnmhawtw p {
   margin: 0;
   padding: 0;
 }
 
-#qgigdkvtno .gt_table {
+#ptjnmhawtw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1113,12 +1130,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_caption {
+#ptjnmhawtw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qgigdkvtno .gt_title {
+#ptjnmhawtw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1130,7 +1147,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#qgigdkvtno .gt_subtitle {
+#ptjnmhawtw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1142,7 +1159,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#qgigdkvtno .gt_heading {
+#ptjnmhawtw .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -1154,13 +1171,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_bottom_border {
+#ptjnmhawtw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_col_headings {
+#ptjnmhawtw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1175,7 +1192,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_col_heading {
+#ptjnmhawtw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1195,7 +1212,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#qgigdkvtno .gt_column_spanner_outer {
+#ptjnmhawtw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1207,15 +1224,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#qgigdkvtno .gt_column_spanner_outer:first-child {
+#ptjnmhawtw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qgigdkvtno .gt_column_spanner_outer:last-child {
+#ptjnmhawtw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qgigdkvtno .gt_column_spanner {
+#ptjnmhawtw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1227,11 +1244,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#qgigdkvtno .gt_spanner_row {
+#ptjnmhawtw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qgigdkvtno .gt_group_heading {
+#ptjnmhawtw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1257,7 +1274,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#qgigdkvtno .gt_empty_group_heading {
+#ptjnmhawtw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1272,15 +1289,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#qgigdkvtno .gt_from_md > :first-child {
+#ptjnmhawtw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qgigdkvtno .gt_from_md > :last-child {
+#ptjnmhawtw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qgigdkvtno .gt_row {
+#ptjnmhawtw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1299,7 +1316,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#qgigdkvtno .gt_stub {
+#ptjnmhawtw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1312,7 +1329,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#qgigdkvtno .gt_stub_row_group {
+#ptjnmhawtw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1326,15 +1343,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#qgigdkvtno .gt_row_group_first td {
+#ptjnmhawtw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qgigdkvtno .gt_row_group_first th {
+#ptjnmhawtw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qgigdkvtno .gt_summary_row {
+#ptjnmhawtw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1344,16 +1361,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#qgigdkvtno .gt_first_summary_row {
+#ptjnmhawtw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_first_summary_row.thick {
+#ptjnmhawtw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qgigdkvtno .gt_last_summary_row {
+#ptjnmhawtw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1363,7 +1380,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_grand_summary_row {
+#ptjnmhawtw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1373,7 +1390,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#qgigdkvtno .gt_first_grand_summary_row {
+#ptjnmhawtw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1383,7 +1400,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_last_grand_summary_row_top {
+#ptjnmhawtw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1393,11 +1410,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_striped {
+#ptjnmhawtw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qgigdkvtno .gt_table_body {
+#ptjnmhawtw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1406,7 +1423,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_footnotes {
+#ptjnmhawtw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1420,7 +1437,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_footnote {
+#ptjnmhawtw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1429,7 +1446,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#qgigdkvtno .gt_sourcenotes {
+#ptjnmhawtw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1443,7 +1460,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#qgigdkvtno .gt_sourcenote {
+#ptjnmhawtw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1451,72 +1468,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#qgigdkvtno .gt_left {
+#ptjnmhawtw .gt_left {
   text-align: left;
 }
 
-#qgigdkvtno .gt_center {
+#ptjnmhawtw .gt_center {
   text-align: center;
 }
 
-#qgigdkvtno .gt_right {
+#ptjnmhawtw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qgigdkvtno .gt_font_normal {
+#ptjnmhawtw .gt_font_normal {
   font-weight: normal;
 }
 
-#qgigdkvtno .gt_font_bold {
+#ptjnmhawtw .gt_font_bold {
   font-weight: bold;
 }
 
-#qgigdkvtno .gt_font_italic {
+#ptjnmhawtw .gt_font_italic {
   font-style: italic;
 }
 
-#qgigdkvtno .gt_super {
+#ptjnmhawtw .gt_super {
   font-size: 65%;
 }
 
-#qgigdkvtno .gt_footnote_marks {
+#ptjnmhawtw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qgigdkvtno .gt_asterisk {
+#ptjnmhawtw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qgigdkvtno .gt_indent_1 {
+#ptjnmhawtw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qgigdkvtno .gt_indent_2 {
+#ptjnmhawtw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qgigdkvtno .gt_indent_3 {
+#ptjnmhawtw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qgigdkvtno .gt_indent_4 {
+#ptjnmhawtw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qgigdkvtno .gt_indent_5 {
+#ptjnmhawtw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qgigdkvtno .katex-display {
+#ptjnmhawtw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qgigdkvtno div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ptjnmhawtw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1577,8 +1594,8 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="distribution-of-thoracic-cancer-cases-by-histology-types">Distribution of Thoracic Cancer Cases by Histology Types</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-885cbe11b003fb7195e8" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-885cbe11b003fb7195e8">{"x":{"visdat":{"53101cae1e59":["function () ","plotlyVisDat"]},"cur_data":"53101cae1e59","attrs":{"53101cae1e59":{"x":{},"y":{},"orientation":"h","text":{},"textposition":"auto","hovertext":{},"hoverinfo":"text","color":{},"colors":["#8DD3C7","#FFFFB3","#BEBADA","#FB8072"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"","xaxis":{"domain":[0,1],"automargin":true,"title":"Patient Count"},"yaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"total ascending","type":"category","categoryarray":["Adenocarcinoma","Squamous Cell Carcinoma","Other/Not Specified","Non-Small Cell Carcinoma NOS","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Large Cell Carcinoma","Sarcoma","Mesothelioma","Papillary Carcinoma"]},"barmode":"stack","showlegend":true,"legend":{"title":{"text":"Histology"},"x":0.69999999999999996,"y":0.90000000000000002},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[5117,1374,794,135],"y":["Adenocarcinoma","Squamous Cell Carcinoma","Non-Small Cell Carcinoma NOS","Large Cell Carcinoma"],"orientation":"h","text":["5117 (48.1%)","1374 (12.9%)","794 (7.5%)","135 (1.3%)"],"textposition":["auto","auto","auto","auto"],"hovertext":["Category: NSCLC<br>Subtype: Adenocarcinoma<br>Count: 5117<br>Percent of Total: 48.1%","Category: NSCLC<br>Subtype: Squamous Cell Carcinoma<br>Count: 1374<br>Percent of Total: 12.9%","Category: NSCLC<br>Subtype: Non-Small Cell Carcinoma NOS<br>Count: 794<br>Percent of Total: 7.5%","Category: NSCLC<br>Subtype: Large Cell Carcinoma<br>Count: 135<br>Percent of Total: 1.3%"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"NSCLC","marker":{"color":"rgba(141,211,199,1)","line":{"color":"rgba(141,211,199,1)"}},"textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1118],"y":["Other/Not Specified"],"orientation":"h","text":"1118 (10.5%)","textposition":"auto","hovertext":"Category: Other Unspecified<br>Subtype: Other/Not Specified<br>Count: 1118<br>Percent of Total: 10.5%","hoverinfo":"text","type":"bar","name":"Other Unspecified","marker":{"color":"rgba(255,255,179,1)","line":{"color":"rgba(255,255,179,1)"}},"textfont":{"color":"rgba(255,255,179,1)"},"error_y":{"color":"rgba(255,255,179,1)"},"error_x":{"color":"rgba(255,255,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[551],"y":["Small Cell Carcinoma"],"orientation":"h","text":"551 (5.2%)","textposition":"auto","hovertext":"Category: SCLC<br>Subtype: Small Cell Carcinoma<br>Count: 551<br>Percent of Total: 5.2%","hoverinfo":"text","type":"bar","name":"SCLC","marker":{"color":"rgba(190,186,218,1)","line":{"color":"rgba(190,186,218,1)"}},"textfont":{"color":"rgba(190,186,218,1)"},"error_y":{"color":"rgba(190,186,218,1)"},"error_x":{"color":"rgba(190,186,218,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[512,471,460,202,171,12,4,3],"y":["Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Sarcoma","Mesothelioma","Papillary Carcinoma"],"orientation":"h","text":["512 (4.8%)","471 (4.4%)","460 (4.3%)","202 (1.9%)","171 (1.6%)","12 (<1%)","4 (<1%)","3 (<1%)"],"textposition":["auto","auto","auto","auto","auto","auto","auto","auto"],"hovertext":["Category: Other Specified<br>Subtype: Bronchiolo-alveolar Carcinoma<br>Count: 512<br>Percent of Total: 4.8%","Category: Other Specified<br>Subtype: Acinar Cell Carcinoma<br>Count: 471<br>Percent of Total: 4.4%","Category: Other Specified<br>Subtype: Carcinoid Tumor<br>Count: 460<br>Percent of Total: 4.3%","Category: Other Specified<br>Subtype: Papillary Adenocarcinoma<br>Count: 202<br>Percent of Total: 1.9%","Category: Other Specified<br>Subtype: Neoplasm<br>Count: 171<br>Percent of Total: 1.6%","Category: Other Specified<br>Subtype: Sarcoma<br>Count: 12<br>Percent of Total: 0.1%","Category: Other Specified<br>Subtype: Mesothelioma<br>Count: 4<br>Percent of Total: 0.0%","Category: Other Specified<br>Subtype: Papillary Carcinoma<br>Count: 3<br>Percent of Total: 0.0%"],"hoverinfo":["text","text","text","text","text","text","text","text"],"type":"bar","name":"Other Specified","marker":{"color":"rgba(251,128,114,1)","line":{"color":"rgba(251,128,114,1)"}},"textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-0c458788d83213eb1ffb" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-0c458788d83213eb1ffb">{"x":{"visdat":{"1d986d91729d":["function () ","plotlyVisDat"]},"cur_data":"1d986d91729d","attrs":{"1d986d91729d":{"x":{},"y":{},"orientation":"h","text":{},"textposition":"auto","hovertext":{},"hoverinfo":"text","color":{},"colors":["#8DD3C7","#FFFFB3","#BEBADA","#FB8072"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"","xaxis":{"domain":[0,1],"automargin":true,"title":"Patient Count"},"yaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"total ascending","type":"category","categoryarray":["Adenocarcinoma","Squamous Cell Carcinoma","Other/Not Specified","Non-Small Cell Carcinoma NOS","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Large Cell Carcinoma","Sarcoma","Mesothelioma","Papillary Carcinoma"]},"barmode":"stack","showlegend":true,"legend":{"title":{"text":"Histology"},"x":0.69999999999999996,"y":0.90000000000000002},"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[5117,1374,794,135],"y":["Adenocarcinoma","Squamous Cell Carcinoma","Non-Small Cell Carcinoma NOS","Large Cell Carcinoma"],"orientation":"h","text":["5117 (48.1%)","1374 (12.9%)","794 (7.5%)","135 (1.3%)"],"textposition":["auto","auto","auto","auto"],"hovertext":["Category: NSCLC<br>Subtype: Adenocarcinoma<br>Count: 5117<br>Percent of Total: 48.1%","Category: NSCLC<br>Subtype: Squamous Cell Carcinoma<br>Count: 1374<br>Percent of Total: 12.9%","Category: NSCLC<br>Subtype: Non-Small Cell Carcinoma NOS<br>Count: 794<br>Percent of Total: 7.5%","Category: NSCLC<br>Subtype: Large Cell Carcinoma<br>Count: 135<br>Percent of Total: 1.3%"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"NSCLC","marker":{"color":"rgba(141,211,199,1)","line":{"color":"rgba(141,211,199,1)"}},"textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1118],"y":["Other/Not Specified"],"orientation":"h","text":"1118 (10.5%)","textposition":"auto","hovertext":"Category: Other Unspecified<br>Subtype: Other/Not Specified<br>Count: 1118<br>Percent of Total: 10.5%","hoverinfo":"text","type":"bar","name":"Other Unspecified","marker":{"color":"rgba(255,255,179,1)","line":{"color":"rgba(255,255,179,1)"}},"textfont":{"color":"rgba(255,255,179,1)"},"error_y":{"color":"rgba(255,255,179,1)"},"error_x":{"color":"rgba(255,255,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[551],"y":["Small Cell Carcinoma"],"orientation":"h","text":"551 (5.2%)","textposition":"auto","hovertext":"Category: SCLC<br>Subtype: Small Cell Carcinoma<br>Count: 551<br>Percent of Total: 5.2%","hoverinfo":"text","type":"bar","name":"SCLC","marker":{"color":"rgba(190,186,218,1)","line":{"color":"rgba(190,186,218,1)"}},"textfont":{"color":"rgba(190,186,218,1)"},"error_y":{"color":"rgba(190,186,218,1)"},"error_x":{"color":"rgba(190,186,218,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[512,471,460,202,171,12,4,3],"y":["Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Sarcoma","Mesothelioma","Papillary Carcinoma"],"orientation":"h","text":["512 (4.8%)","471 (4.4%)","460 (4.3%)","202 (1.9%)","171 (1.6%)","12 (<1%)","4 (<1%)","3 (<1%)"],"textposition":["auto","auto","auto","auto","auto","auto","auto","auto"],"hovertext":["Category: Other Specified<br>Subtype: Bronchiolo-alveolar Carcinoma<br>Count: 512<br>Percent of Total: 4.8%","Category: Other Specified<br>Subtype: Acinar Cell Carcinoma<br>Count: 471<br>Percent of Total: 4.4%","Category: Other Specified<br>Subtype: Carcinoid Tumor<br>Count: 460<br>Percent of Total: 4.3%","Category: Other Specified<br>Subtype: Papillary Adenocarcinoma<br>Count: 202<br>Percent of Total: 1.9%","Category: Other Specified<br>Subtype: Neoplasm<br>Count: 171<br>Percent of Total: 1.6%","Category: Other Specified<br>Subtype: Sarcoma<br>Count: 12<br>Percent of Total: 0.1%","Category: Other Specified<br>Subtype: Mesothelioma<br>Count: 4<br>Percent of Total: 0.0%","Category: Other Specified<br>Subtype: Papillary Carcinoma<br>Count: 3<br>Percent of Total: 0.0%"],"hoverinfo":["text","text","text","text","text","text","text","text"],"type":"bar","name":"Other Specified","marker":{"color":"rgba(251,128,114,1)","line":{"color":"rgba(251,128,114,1)"}},"textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -1586,8 +1603,8 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="table-summary-of-histology-groups">Table Summary of Histology Groups</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-d0781c62a94b01dd5859" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-d0781c62a94b01dd5859">{"x":{"filter":"none","vertical":false,"data":[["NSCLC","NSCLC","Other Unspecified","NSCLC","SCLC","Other Specified","Other Specified","Other Specified","Other Specified","Other Specified","NSCLC","Other Specified","Other Specified","Other Specified"],["Adenocarcinoma","Squamous Cell Carcinoma","Other/Not Specified","Non-Small Cell Carcinoma NOS","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Large Cell Carcinoma","Sarcoma","Mesothelioma","Papillary Carcinoma"],[5117,1374,1118,794,551,512,471,460,202,171,135,12,4,3],[48.1,12.9,10.5,7.5,5.2,4.8,4.4,4.3,1.9,1.6,1.3,0.1,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Histology<\/th>\n      <th>Histology Group<\/th>\n      <th>Patient Count<\/th>\n      <th>Percentage (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"dom":"Bfrtip","ordering":true,"columnDefs":[{"className":"dt-right","targets":[2,3]},{"name":"histology","targets":0},{"name":"histology_group","targets":1},{"name":"Patient_Count","targets":2},{"name":"Percentage","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background':isNaN(parseFloat(value)) || value <= 0.000000 ? '' : 'linear-gradient(90.000000deg, transparent ' + Math.max(48.100000 - value, 0)/48.100000 * 100 + '%, lightgray ' + Math.max(48.100000 - value, 0)/48.100000 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-320ed9dbada31feba89b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-320ed9dbada31feba89b">{"x":{"filter":"none","vertical":false,"data":[["NSCLC","NSCLC","Other Unspecified","NSCLC","SCLC","Other Specified","Other Specified","Other Specified","Other Specified","Other Specified","NSCLC","Other Specified","Other Specified","Other Specified"],["Adenocarcinoma","Squamous Cell Carcinoma","Other/Not Specified","Non-Small Cell Carcinoma NOS","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Carcinoid Tumor","Papillary Adenocarcinoma","Neoplasm","Large Cell Carcinoma","Sarcoma","Mesothelioma","Papillary Carcinoma"],[5117,1374,1118,794,551,512,471,460,202,171,135,12,4,3],[48.1,12.9,10.5,7.5,5.2,4.8,4.4,4.3,1.9,1.6,1.3,0.1,0,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Histology<\/th>\n      <th>Histology Group<\/th>\n      <th>Patient Count<\/th>\n      <th>Percentage (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"dom":"Bfrtip","ordering":true,"columnDefs":[{"className":"dt-right","targets":[2,3]},{"name":"histology","targets":0},{"name":"histology_group","targets":1},{"name":"Patient_Count","targets":2},{"name":"Percentage","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'background':isNaN(parseFloat(value)) || value <= 0.000000 ? '' : 'linear-gradient(90.000000deg, transparent ' + Math.max(48.100000 - value, 0)/48.100000 * 100 + '%, lightgray ' + Math.max(48.100000 - value, 0)/48.100000 * 100 + '%)','background-size':'98% 88%','background-repeat':'no-repeat','background-position':'center'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -1596,8 +1613,8 @@ ul.task-list li input[type="checkbox"] {
 <p>All the ICDO3 code and histology subgrouping are listed in the following table:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-1e6579101da282597569" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-1e6579101da282597569">{"x":{"filter":"none","vertical":false,"data":[["NSCLC","NSCLC","NSCLC","NSCLC","SCLC","Other Specified","Other Unspecified","Other Specified","Other Specified","Other Specified","Other Specified","Other Specified","Other Specified","NSCLC","NSCLC","Other Unspecified","Other Unspecified","NSCLC","Other Specified","NSCLC","NSCLC","SCLC","Other Unspecified","Other Specified","Other Unspecified","Other Unspecified","NSCLC","Other Unspecified","Other Unspecified","Other Unspecified","Other Specified","Other Unspecified","Other Unspecified","Other Unspecified","Other Specified","NSCLC","Other Specified","Other Unspecified","Other Specified","Other Specified","Other Specified","Other Specified","Other Unspecified","SCLC","Other Specified","Other Specified","Other Specified","Other Unspecified","Other Unspecified","Other Unspecified","Other Specified","Other Specified","Other Specified","Other Unspecified","Other Unspecified"],["Adenocarcinoma","Squamous Cell Carcinoma","Non-Small Cell Carcinoma NOS","Adenocarcinoma","Small Cell Carcinoma","Acinar Cell Carcinoma","Other/Not Specified","Carcinoid Tumor","Bronchiolo-alveolar Carcinoma","Neoplasm","Bronchiolo-alveolar Carcinoma","Papillary Adenocarcinoma","Carcinoid Tumor","Squamous Cell Carcinoma","Large Cell Carcinoma","Other/Not Specified","Other/Not Specified","Squamous Cell Carcinoma","Acinar Cell Carcinoma","Squamous Cell Carcinoma","Adenocarcinoma","Small Cell Carcinoma","Other/Not Specified","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified","Large Cell Carcinoma","Other/Not Specified","Other/Not Specified","Other/Not Specified","Carcinoid Tumor","Other/Not Specified","Other/Not Specified","Other/Not Specified","Papillary Adenocarcinoma","Adenocarcinoma","Papillary Adenocarcinoma","Other/Not Specified","Acinar Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Bronchiolo-alveolar Carcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified","Other/Not Specified","Carcinoid Tumor","Papillary Adenocarcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified"],["Adenocarcinoma","Squamous cell carcinoma, usual type","Non-small cell carcinoma","Adenocarcinoma, NOS","Small cell carcinoma, pulmonary type","Acinar adenocarcinoma of lung","Carcinoma, NOS","Neuroendocrine tumor, NOS","Bronchiolo-alveolar carcinoma, NOS","Neoplasm, malignant","Adenocarcinoma, pancreatobiliary-type","Papillary renal cell carcinoma","Tumor, neuroendocrine, well differentiated","Squamous cell carcinoma, NOS","Combined large cell neuroendocrine carcinoma","Mixed adenocarcinoma and squamous cell carcinoma","Mucoid adenocarcinoma","Squamous cell carcinoma, keratinizing, NOS","Acinar carcinoma","Squamous cell carcinoma, large cell, nonkeratinizing, NOS","Adenocarcinoma, usual type","Small cell carcinoma, NOS","Thymoma, type B2","Bronchiolo-alveolar carcinoma, mucinous","Intrapulmonary thymoma","Thymic carcinoma, NOS","Large cell carcinoma, NOS","MALT lymphoma","Malignant lymphoma, noncleaved, diffuse, NOS","Solid carcinoma with mucin formation","Neuroendocrine tumor, grade 3","Thymoma, atypical","Mixed cell adenocarcinoma","Thymoma, type AB","Papillary adenocarcinoma, NOS","Adenocarcinoma in situ, NOS","Micropapillary carcinoma, NOS","Sarcomatoid carcinoma","Acinar adenocarcinoma","Adenocarcinoma in situ of lung, non-mucinous","Acinar cell cystadenocarcinoma","Adenocarcinoma of lung, mucinous","Pleomorphic carcinoma","Mixed small cell carcinoma","Bronchiolo-alveolar carcinoma, Clara cell","Bronchiolo-alveolar carcinoma, indeterminate type","Non-mucinous adenocarcinoma, minimally invasive","Thymoma, medullary","Thymoma, predominantly cortical","Adenosquamous carcinoma","Carcinoid tumor, NOS","Micropapillary adenocarcinoma","Lepidic adenocarcinoma","Adenocarcinoma, cylindroid","Signet ring cell/histiocytoid carcinoma"],["8140","8070","8046","8140","8041","8551","8010","8240","8250","8000","8255","8260","8246","8070","8013","8560","8480","8071","8550","8072","8140","8041","8584","8253","8580","8586","8012","9699","9680","8230","8249","8585","8323","8582","8260","8140","8265","8033","8551","8250","8551","8253","8022","8045","8252","8254","8256","8581","8583","8560","8240","8265","8250","8200","8490"],[4420,1116,794,613,465,365,314,256,205,160,141,138,122,104,93,90,82,80,67,53,49,44,41,38,38,38,35,35,35,35,31,31,28,25,24,22,22,21,20,20,18,18,17,17,16,16,16,16,16,13,12,12,11,11,11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Histology<\/th>\n      <th>Histology Group<\/th>\n      <th>Original Histology<\/th>\n      <th>ICD-O-3<\/th>\n      <th>Patient Count<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"searching":true,"ordering":true,"dom":"f<\"clear\">lrtip","language":{"search":""},"columnDefs":[{"className":"dt-right","targets":4},{"name":"histology","targets":0},{"name":"histology_group","targets":1},{"name":"histologicTypeIcdO3Description","targets":2},{"name":"histology_codes","targets":3},{"name":"patient_count","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-446922fef85e77524db3" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-446922fef85e77524db3">{"x":{"filter":"none","vertical":false,"data":[["NSCLC","NSCLC","NSCLC","NSCLC","SCLC","Other Specified","Other Unspecified","Other Specified","Other Specified","Other Specified","Other Specified","Other Specified","Other Specified","NSCLC","NSCLC","Other Unspecified","Other Unspecified","NSCLC","Other Specified","NSCLC","NSCLC","SCLC","Other Unspecified","Other Specified","Other Unspecified","Other Unspecified","NSCLC","Other Unspecified","Other Unspecified","Other Unspecified","Other Specified","Other Unspecified","Other Unspecified","Other Unspecified","Other Specified","NSCLC","Other Specified","Other Unspecified","Other Specified","Other Specified","Other Specified","Other Specified","Other Unspecified","SCLC","Other Specified","Other Specified","Other Specified","Other Unspecified","Other Unspecified","Other Unspecified","Other Specified","Other Specified","Other Specified","Other Unspecified","Other Unspecified"],["Adenocarcinoma","Squamous Cell Carcinoma","Non-Small Cell Carcinoma NOS","Adenocarcinoma","Small Cell Carcinoma","Acinar Cell Carcinoma","Other/Not Specified","Carcinoid Tumor","Bronchiolo-alveolar Carcinoma","Neoplasm","Bronchiolo-alveolar Carcinoma","Papillary Adenocarcinoma","Carcinoid Tumor","Squamous Cell Carcinoma","Large Cell Carcinoma","Other/Not Specified","Other/Not Specified","Squamous Cell Carcinoma","Acinar Cell Carcinoma","Squamous Cell Carcinoma","Adenocarcinoma","Small Cell Carcinoma","Other/Not Specified","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified","Large Cell Carcinoma","Other/Not Specified","Other/Not Specified","Other/Not Specified","Carcinoid Tumor","Other/Not Specified","Other/Not Specified","Other/Not Specified","Papillary Adenocarcinoma","Adenocarcinoma","Papillary Adenocarcinoma","Other/Not Specified","Acinar Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Acinar Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Small Cell Carcinoma","Bronchiolo-alveolar Carcinoma","Bronchiolo-alveolar Carcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified","Other/Not Specified","Carcinoid Tumor","Papillary Adenocarcinoma","Bronchiolo-alveolar Carcinoma","Other/Not Specified","Other/Not Specified"],["Adenocarcinoma","Squamous cell carcinoma, usual type","Non-small cell carcinoma","Adenocarcinoma, NOS","Small cell carcinoma, pulmonary type","Acinar adenocarcinoma of lung","Carcinoma, NOS","Neuroendocrine tumor, NOS","Bronchiolo-alveolar carcinoma, NOS","Neoplasm, malignant","Adenocarcinoma, pancreatobiliary-type","Papillary renal cell carcinoma","Tumor, neuroendocrine, well differentiated","Squamous cell carcinoma, NOS","Combined large cell neuroendocrine carcinoma","Mixed adenocarcinoma and squamous cell carcinoma","Mucoid adenocarcinoma","Squamous cell carcinoma, keratinizing, NOS","Acinar carcinoma","Squamous cell carcinoma, large cell, nonkeratinizing, NOS","Adenocarcinoma, usual type","Small cell carcinoma, NOS","Thymoma, type B2","Bronchiolo-alveolar carcinoma, mucinous","Intrapulmonary thymoma","Thymic carcinoma, NOS","Large cell carcinoma, NOS","MALT lymphoma","Malignant lymphoma, noncleaved, diffuse, NOS","Solid carcinoma with mucin formation","Neuroendocrine tumor, grade 3","Thymoma, atypical","Mixed cell adenocarcinoma","Thymoma, type AB","Papillary adenocarcinoma, NOS","Adenocarcinoma in situ, NOS","Micropapillary carcinoma, NOS","Sarcomatoid carcinoma","Acinar adenocarcinoma","Adenocarcinoma in situ of lung, non-mucinous","Acinar cell cystadenocarcinoma","Adenocarcinoma of lung, mucinous","Pleomorphic carcinoma","Mixed small cell carcinoma","Bronchiolo-alveolar carcinoma, Clara cell","Bronchiolo-alveolar carcinoma, indeterminate type","Non-mucinous adenocarcinoma, minimally invasive","Thymoma, medullary","Thymoma, predominantly cortical","Adenosquamous carcinoma","Carcinoid tumor, NOS","Micropapillary adenocarcinoma","Lepidic adenocarcinoma","Adenocarcinoma, cylindroid","Signet ring cell/histiocytoid carcinoma"],["8140","8070","8046","8140","8041","8551","8010","8240","8250","8000","8255","8260","8246","8070","8013","8560","8480","8071","8550","8072","8140","8041","8584","8253","8580","8586","8012","9699","9680","8230","8249","8585","8323","8582","8260","8140","8265","8033","8551","8250","8551","8253","8022","8045","8252","8254","8256","8581","8583","8560","8240","8265","8250","8200","8490"],[4420,1116,794,613,465,365,314,256,205,160,141,138,122,104,93,90,82,80,67,53,49,44,41,38,38,38,35,35,35,35,31,31,28,25,24,22,22,21,20,20,18,18,17,17,16,16,16,16,16,13,12,12,11,11,11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Histology<\/th>\n      <th>Histology Group<\/th>\n      <th>Original Histology<\/th>\n      <th>ICD-O-3<\/th>\n      <th>Patient Count<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"searching":true,"ordering":true,"dom":"f<\"clear\">lrtip","language":{"search":""},"columnDefs":[{"className":"dt-right","targets":4},{"name":"histology","targets":0},{"name":"histology_group","targets":1},{"name":"histologicTypeIcdO3Description","targets":2},{"name":"histology_codes","targets":3},{"name":"patient_count","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
@@ -1621,23 +1638,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The following table summarizes the staging status of thoracic patients with completed cases.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="mqlfkfoouf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mqlfkfoouf table {
+<div id="fjizangwwv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#fjizangwwv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#mqlfkfoouf thead, #mqlfkfoouf tbody, #mqlfkfoouf tfoot, #mqlfkfoouf tr, #mqlfkfoouf td, #mqlfkfoouf th {
+#fjizangwwv thead, #fjizangwwv tbody, #fjizangwwv tfoot, #fjizangwwv tr, #fjizangwwv td, #fjizangwwv th {
   border-style: none;
 }
 
-#mqlfkfoouf p {
+#fjizangwwv p {
   margin: 0;
   padding: 0;
 }
 
-#mqlfkfoouf .gt_table {
+#fjizangwwv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1663,12 +1680,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_caption {
+#fjizangwwv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#mqlfkfoouf .gt_title {
+#fjizangwwv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1680,7 +1697,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#mqlfkfoouf .gt_subtitle {
+#fjizangwwv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1692,7 +1709,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#mqlfkfoouf .gt_heading {
+#fjizangwwv .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -1704,13 +1721,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_bottom_border {
+#fjizangwwv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_col_headings {
+#fjizangwwv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1725,7 +1742,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_col_heading {
+#fjizangwwv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1745,7 +1762,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#mqlfkfoouf .gt_column_spanner_outer {
+#fjizangwwv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1757,15 +1774,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#mqlfkfoouf .gt_column_spanner_outer:first-child {
+#fjizangwwv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#mqlfkfoouf .gt_column_spanner_outer:last-child {
+#fjizangwwv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#mqlfkfoouf .gt_column_spanner {
+#fjizangwwv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1777,11 +1794,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#mqlfkfoouf .gt_spanner_row {
+#fjizangwwv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#mqlfkfoouf .gt_group_heading {
+#fjizangwwv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1807,7 +1824,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#mqlfkfoouf .gt_empty_group_heading {
+#fjizangwwv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1822,15 +1839,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#mqlfkfoouf .gt_from_md > :first-child {
+#fjizangwwv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#mqlfkfoouf .gt_from_md > :last-child {
+#fjizangwwv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#mqlfkfoouf .gt_row {
+#fjizangwwv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1849,7 +1866,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#mqlfkfoouf .gt_stub {
+#fjizangwwv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1862,7 +1879,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#mqlfkfoouf .gt_stub_row_group {
+#fjizangwwv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1876,15 +1893,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#mqlfkfoouf .gt_row_group_first td {
+#fjizangwwv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#mqlfkfoouf .gt_row_group_first th {
+#fjizangwwv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#mqlfkfoouf .gt_summary_row {
+#fjizangwwv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1894,16 +1911,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#mqlfkfoouf .gt_first_summary_row {
+#fjizangwwv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_first_summary_row.thick {
+#fjizangwwv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#mqlfkfoouf .gt_last_summary_row {
+#fjizangwwv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1913,7 +1930,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_grand_summary_row {
+#fjizangwwv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1923,7 +1940,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#mqlfkfoouf .gt_first_grand_summary_row {
+#fjizangwwv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1933,7 +1950,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_last_grand_summary_row_top {
+#fjizangwwv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1943,11 +1960,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_striped {
+#fjizangwwv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#mqlfkfoouf .gt_table_body {
+#fjizangwwv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1956,7 +1973,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_footnotes {
+#fjizangwwv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1970,7 +1987,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_footnote {
+#fjizangwwv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1979,7 +1996,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#mqlfkfoouf .gt_sourcenotes {
+#fjizangwwv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1993,7 +2010,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#mqlfkfoouf .gt_sourcenote {
+#fjizangwwv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2001,72 +2018,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#mqlfkfoouf .gt_left {
+#fjizangwwv .gt_left {
   text-align: left;
 }
 
-#mqlfkfoouf .gt_center {
+#fjizangwwv .gt_center {
   text-align: center;
 }
 
-#mqlfkfoouf .gt_right {
+#fjizangwwv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#mqlfkfoouf .gt_font_normal {
+#fjizangwwv .gt_font_normal {
   font-weight: normal;
 }
 
-#mqlfkfoouf .gt_font_bold {
+#fjizangwwv .gt_font_bold {
   font-weight: bold;
 }
 
-#mqlfkfoouf .gt_font_italic {
+#fjizangwwv .gt_font_italic {
   font-style: italic;
 }
 
-#mqlfkfoouf .gt_super {
+#fjizangwwv .gt_super {
   font-size: 65%;
 }
 
-#mqlfkfoouf .gt_footnote_marks {
+#fjizangwwv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#mqlfkfoouf .gt_asterisk {
+#fjizangwwv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#mqlfkfoouf .gt_indent_1 {
+#fjizangwwv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#mqlfkfoouf .gt_indent_2 {
+#fjizangwwv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#mqlfkfoouf .gt_indent_3 {
+#fjizangwwv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#mqlfkfoouf .gt_indent_4 {
+#fjizangwwv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#mqlfkfoouf .gt_indent_5 {
+#fjizangwwv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#mqlfkfoouf .katex-display {
+#fjizangwwv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#mqlfkfoouf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#fjizangwwv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2135,23 +2152,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The following table summarizes the distribution of thoracic cancer treatment types including chemotherapy, radiation therapy, and surgery across the patient cohort with completed cases.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="bdlwzpekzt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bdlwzpekzt table {
+<div id="keqzicwkgg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#keqzicwkgg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bdlwzpekzt thead, #bdlwzpekzt tbody, #bdlwzpekzt tfoot, #bdlwzpekzt tr, #bdlwzpekzt td, #bdlwzpekzt th {
+#keqzicwkgg thead, #keqzicwkgg tbody, #keqzicwkgg tfoot, #keqzicwkgg tr, #keqzicwkgg td, #keqzicwkgg th {
   border-style: none;
 }
 
-#bdlwzpekzt p {
+#keqzicwkgg p {
   margin: 0;
   padding: 0;
 }
 
-#bdlwzpekzt .gt_table {
+#keqzicwkgg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2177,12 +2194,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_caption {
+#keqzicwkgg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bdlwzpekzt .gt_title {
+#keqzicwkgg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2194,7 +2211,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#bdlwzpekzt .gt_subtitle {
+#keqzicwkgg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2206,7 +2223,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#bdlwzpekzt .gt_heading {
+#keqzicwkgg .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -2218,13 +2235,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_bottom_border {
+#keqzicwkgg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_col_headings {
+#keqzicwkgg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2239,7 +2256,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_col_heading {
+#keqzicwkgg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2259,7 +2276,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#bdlwzpekzt .gt_column_spanner_outer {
+#keqzicwkgg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2271,15 +2288,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#bdlwzpekzt .gt_column_spanner_outer:first-child {
+#keqzicwkgg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bdlwzpekzt .gt_column_spanner_outer:last-child {
+#keqzicwkgg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bdlwzpekzt .gt_column_spanner {
+#keqzicwkgg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2291,11 +2308,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#bdlwzpekzt .gt_spanner_row {
+#keqzicwkgg .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bdlwzpekzt .gt_group_heading {
+#keqzicwkgg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2321,7 +2338,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#bdlwzpekzt .gt_empty_group_heading {
+#keqzicwkgg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2336,15 +2353,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#bdlwzpekzt .gt_from_md > :first-child {
+#keqzicwkgg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bdlwzpekzt .gt_from_md > :last-child {
+#keqzicwkgg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bdlwzpekzt .gt_row {
+#keqzicwkgg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2363,7 +2380,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#bdlwzpekzt .gt_stub {
+#keqzicwkgg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2376,7 +2393,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bdlwzpekzt .gt_stub_row_group {
+#keqzicwkgg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2390,15 +2407,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#bdlwzpekzt .gt_row_group_first td {
+#keqzicwkgg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bdlwzpekzt .gt_row_group_first th {
+#keqzicwkgg .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bdlwzpekzt .gt_summary_row {
+#keqzicwkgg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2408,16 +2425,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bdlwzpekzt .gt_first_summary_row {
+#keqzicwkgg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_first_summary_row.thick {
+#keqzicwkgg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bdlwzpekzt .gt_last_summary_row {
+#keqzicwkgg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2427,7 +2444,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_grand_summary_row {
+#keqzicwkgg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2437,7 +2454,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bdlwzpekzt .gt_first_grand_summary_row {
+#keqzicwkgg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2447,7 +2464,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_last_grand_summary_row_top {
+#keqzicwkgg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2457,11 +2474,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_striped {
+#keqzicwkgg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bdlwzpekzt .gt_table_body {
+#keqzicwkgg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2470,7 +2487,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_footnotes {
+#keqzicwkgg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2484,7 +2501,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_footnote {
+#keqzicwkgg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2493,7 +2510,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bdlwzpekzt .gt_sourcenotes {
+#keqzicwkgg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2507,7 +2524,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bdlwzpekzt .gt_sourcenote {
+#keqzicwkgg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2515,72 +2532,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bdlwzpekzt .gt_left {
+#keqzicwkgg .gt_left {
   text-align: left;
 }
 
-#bdlwzpekzt .gt_center {
+#keqzicwkgg .gt_center {
   text-align: center;
 }
 
-#bdlwzpekzt .gt_right {
+#keqzicwkgg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bdlwzpekzt .gt_font_normal {
+#keqzicwkgg .gt_font_normal {
   font-weight: normal;
 }
 
-#bdlwzpekzt .gt_font_bold {
+#keqzicwkgg .gt_font_bold {
   font-weight: bold;
 }
 
-#bdlwzpekzt .gt_font_italic {
+#keqzicwkgg .gt_font_italic {
   font-style: italic;
 }
 
-#bdlwzpekzt .gt_super {
+#keqzicwkgg .gt_super {
   font-size: 65%;
 }
 
-#bdlwzpekzt .gt_footnote_marks {
+#keqzicwkgg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bdlwzpekzt .gt_asterisk {
+#keqzicwkgg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bdlwzpekzt .gt_indent_1 {
+#keqzicwkgg .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bdlwzpekzt .gt_indent_2 {
+#keqzicwkgg .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bdlwzpekzt .gt_indent_3 {
+#keqzicwkgg .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bdlwzpekzt .gt_indent_4 {
+#keqzicwkgg .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bdlwzpekzt .gt_indent_5 {
+#keqzicwkgg .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bdlwzpekzt .katex-display {
+#keqzicwkgg .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bdlwzpekzt div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#keqzicwkgg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2628,23 +2645,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The following table summarizes the distribution of thoracic cancer recurrence status with completed cases.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="jztgnmwaww" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jztgnmwaww table {
+<div id="yjbaaoycvu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yjbaaoycvu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jztgnmwaww thead, #jztgnmwaww tbody, #jztgnmwaww tfoot, #jztgnmwaww tr, #jztgnmwaww td, #jztgnmwaww th {
+#yjbaaoycvu thead, #yjbaaoycvu tbody, #yjbaaoycvu tfoot, #yjbaaoycvu tr, #yjbaaoycvu td, #yjbaaoycvu th {
   border-style: none;
 }
 
-#jztgnmwaww p {
+#yjbaaoycvu p {
   margin: 0;
   padding: 0;
 }
 
-#jztgnmwaww .gt_table {
+#yjbaaoycvu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2670,12 +2687,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_caption {
+#yjbaaoycvu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jztgnmwaww .gt_title {
+#yjbaaoycvu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2687,7 +2704,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#jztgnmwaww .gt_subtitle {
+#yjbaaoycvu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2699,7 +2716,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#jztgnmwaww .gt_heading {
+#yjbaaoycvu .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -2711,13 +2728,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_bottom_border {
+#yjbaaoycvu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_col_headings {
+#yjbaaoycvu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2732,7 +2749,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_col_heading {
+#yjbaaoycvu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2752,7 +2769,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#jztgnmwaww .gt_column_spanner_outer {
+#yjbaaoycvu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2764,15 +2781,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#jztgnmwaww .gt_column_spanner_outer:first-child {
+#yjbaaoycvu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jztgnmwaww .gt_column_spanner_outer:last-child {
+#yjbaaoycvu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jztgnmwaww .gt_column_spanner {
+#yjbaaoycvu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2784,11 +2801,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#jztgnmwaww .gt_spanner_row {
+#yjbaaoycvu .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jztgnmwaww .gt_group_heading {
+#yjbaaoycvu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2814,7 +2831,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#jztgnmwaww .gt_empty_group_heading {
+#yjbaaoycvu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2829,15 +2846,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#jztgnmwaww .gt_from_md > :first-child {
+#yjbaaoycvu .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jztgnmwaww .gt_from_md > :last-child {
+#yjbaaoycvu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jztgnmwaww .gt_row {
+#yjbaaoycvu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2856,7 +2873,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#jztgnmwaww .gt_stub {
+#yjbaaoycvu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2869,7 +2886,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jztgnmwaww .gt_stub_row_group {
+#yjbaaoycvu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2883,15 +2900,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#jztgnmwaww .gt_row_group_first td {
+#yjbaaoycvu .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jztgnmwaww .gt_row_group_first th {
+#yjbaaoycvu .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jztgnmwaww .gt_summary_row {
+#yjbaaoycvu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2901,16 +2918,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jztgnmwaww .gt_first_summary_row {
+#yjbaaoycvu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_first_summary_row.thick {
+#yjbaaoycvu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jztgnmwaww .gt_last_summary_row {
+#yjbaaoycvu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2920,7 +2937,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_grand_summary_row {
+#yjbaaoycvu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2930,7 +2947,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jztgnmwaww .gt_first_grand_summary_row {
+#yjbaaoycvu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2940,7 +2957,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_last_grand_summary_row_top {
+#yjbaaoycvu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2950,11 +2967,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_striped {
+#yjbaaoycvu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jztgnmwaww .gt_table_body {
+#yjbaaoycvu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2963,7 +2980,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_footnotes {
+#yjbaaoycvu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2977,7 +2994,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_footnote {
+#yjbaaoycvu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2986,7 +3003,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jztgnmwaww .gt_sourcenotes {
+#yjbaaoycvu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3000,7 +3017,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#jztgnmwaww .gt_sourcenote {
+#yjbaaoycvu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3008,72 +3025,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#jztgnmwaww .gt_left {
+#yjbaaoycvu .gt_left {
   text-align: left;
 }
 
-#jztgnmwaww .gt_center {
+#yjbaaoycvu .gt_center {
   text-align: center;
 }
 
-#jztgnmwaww .gt_right {
+#yjbaaoycvu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jztgnmwaww .gt_font_normal {
+#yjbaaoycvu .gt_font_normal {
   font-weight: normal;
 }
 
-#jztgnmwaww .gt_font_bold {
+#yjbaaoycvu .gt_font_bold {
   font-weight: bold;
 }
 
-#jztgnmwaww .gt_font_italic {
+#yjbaaoycvu .gt_font_italic {
   font-style: italic;
 }
 
-#jztgnmwaww .gt_super {
+#yjbaaoycvu .gt_super {
   font-size: 65%;
 }
 
-#jztgnmwaww .gt_footnote_marks {
+#yjbaaoycvu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jztgnmwaww .gt_asterisk {
+#yjbaaoycvu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jztgnmwaww .gt_indent_1 {
+#yjbaaoycvu .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jztgnmwaww .gt_indent_2 {
+#yjbaaoycvu .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jztgnmwaww .gt_indent_3 {
+#yjbaaoycvu .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jztgnmwaww .gt_indent_4 {
+#yjbaaoycvu .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jztgnmwaww .gt_indent_5 {
+#yjbaaoycvu .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jztgnmwaww .katex-display {
+#yjbaaoycvu .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jztgnmwaww div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yjbaaoycvu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3135,23 +3152,23 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="smoking-status-neural-frame">Smoking Status (Neural Frame)</h4>
 <div class="cell">
 <div class="cell-output-display">
-<div id="bjdwbwzxkx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#bjdwbwzxkx table {
+<div id="gghbweicml" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gghbweicml table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#bjdwbwzxkx thead, #bjdwbwzxkx tbody, #bjdwbwzxkx tfoot, #bjdwbwzxkx tr, #bjdwbwzxkx td, #bjdwbwzxkx th {
+#gghbweicml thead, #gghbweicml tbody, #gghbweicml tfoot, #gghbweicml tr, #gghbweicml td, #gghbweicml th {
   border-style: none;
 }
 
-#bjdwbwzxkx p {
+#gghbweicml p {
   margin: 0;
   padding: 0;
 }
 
-#bjdwbwzxkx .gt_table {
+#gghbweicml .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3177,12 +3194,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_caption {
+#gghbweicml .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#bjdwbwzxkx .gt_title {
+#gghbweicml .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3194,7 +3211,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#bjdwbwzxkx .gt_subtitle {
+#gghbweicml .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3206,7 +3223,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#bjdwbwzxkx .gt_heading {
+#gghbweicml .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -3218,13 +3235,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_bottom_border {
+#gghbweicml .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_col_headings {
+#gghbweicml .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3239,7 +3256,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_col_heading {
+#gghbweicml .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3259,7 +3276,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#bjdwbwzxkx .gt_column_spanner_outer {
+#gghbweicml .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3271,15 +3288,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#bjdwbwzxkx .gt_column_spanner_outer:first-child {
+#gghbweicml .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#bjdwbwzxkx .gt_column_spanner_outer:last-child {
+#gghbweicml .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#bjdwbwzxkx .gt_column_spanner {
+#gghbweicml .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3291,11 +3308,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#bjdwbwzxkx .gt_spanner_row {
+#gghbweicml .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#bjdwbwzxkx .gt_group_heading {
+#gghbweicml .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3321,7 +3338,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#bjdwbwzxkx .gt_empty_group_heading {
+#gghbweicml .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3336,15 +3353,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#bjdwbwzxkx .gt_from_md > :first-child {
+#gghbweicml .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#bjdwbwzxkx .gt_from_md > :last-child {
+#gghbweicml .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#bjdwbwzxkx .gt_row {
+#gghbweicml .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3363,7 +3380,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#bjdwbwzxkx .gt_stub {
+#gghbweicml .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3376,7 +3393,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bjdwbwzxkx .gt_stub_row_group {
+#gghbweicml .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3390,15 +3407,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#bjdwbwzxkx .gt_row_group_first td {
+#gghbweicml .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#bjdwbwzxkx .gt_row_group_first th {
+#gghbweicml .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#bjdwbwzxkx .gt_summary_row {
+#gghbweicml .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3408,16 +3425,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bjdwbwzxkx .gt_first_summary_row {
+#gghbweicml .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_first_summary_row.thick {
+#gghbweicml .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#bjdwbwzxkx .gt_last_summary_row {
+#gghbweicml .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3427,7 +3444,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_grand_summary_row {
+#gghbweicml .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3437,7 +3454,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bjdwbwzxkx .gt_first_grand_summary_row {
+#gghbweicml .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3447,7 +3464,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_last_grand_summary_row_top {
+#gghbweicml .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3457,11 +3474,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_striped {
+#gghbweicml .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#bjdwbwzxkx .gt_table_body {
+#gghbweicml .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3470,7 +3487,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_footnotes {
+#gghbweicml .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3484,7 +3501,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_footnote {
+#gghbweicml .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3493,7 +3510,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bjdwbwzxkx .gt_sourcenotes {
+#gghbweicml .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3507,7 +3524,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#bjdwbwzxkx .gt_sourcenote {
+#gghbweicml .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3515,72 +3532,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#bjdwbwzxkx .gt_left {
+#gghbweicml .gt_left {
   text-align: left;
 }
 
-#bjdwbwzxkx .gt_center {
+#gghbweicml .gt_center {
   text-align: center;
 }
 
-#bjdwbwzxkx .gt_right {
+#gghbweicml .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#bjdwbwzxkx .gt_font_normal {
+#gghbweicml .gt_font_normal {
   font-weight: normal;
 }
 
-#bjdwbwzxkx .gt_font_bold {
+#gghbweicml .gt_font_bold {
   font-weight: bold;
 }
 
-#bjdwbwzxkx .gt_font_italic {
+#gghbweicml .gt_font_italic {
   font-style: italic;
 }
 
-#bjdwbwzxkx .gt_super {
+#gghbweicml .gt_super {
   font-size: 65%;
 }
 
-#bjdwbwzxkx .gt_footnote_marks {
+#gghbweicml .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#bjdwbwzxkx .gt_asterisk {
+#gghbweicml .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#bjdwbwzxkx .gt_indent_1 {
+#gghbweicml .gt_indent_1 {
   text-indent: 5px;
 }
 
-#bjdwbwzxkx .gt_indent_2 {
+#gghbweicml .gt_indent_2 {
   text-indent: 10px;
 }
 
-#bjdwbwzxkx .gt_indent_3 {
+#gghbweicml .gt_indent_3 {
   text-indent: 15px;
 }
 
-#bjdwbwzxkx .gt_indent_4 {
+#gghbweicml .gt_indent_4 {
   text-indent: 20px;
 }
 
-#bjdwbwzxkx .gt_indent_5 {
+#gghbweicml .gt_indent_5 {
   text-indent: 25px;
 }
 
-#bjdwbwzxkx .katex-display {
+#gghbweicml .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#bjdwbwzxkx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#gghbweicml div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3633,23 +3650,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The information regarding the most recent smoking status of patients with thoracic cancer was generated by querying the OMOP database. For patients diagnosed with lung, bronchus, or thymus cancer, relevant patient records were linked to their smoking status in OMOP observation table by filtering out the smoking concept ID (43054909), which included multiple entries over time. By ranking these entries by date, the analysis focused on retrieving only the most recent smoking status for each patient as follow.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="wetefnmpvo" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wetefnmpvo table {
+<div id="ktwvnzekef" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ktwvnzekef table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wetefnmpvo thead, #wetefnmpvo tbody, #wetefnmpvo tfoot, #wetefnmpvo tr, #wetefnmpvo td, #wetefnmpvo th {
+#ktwvnzekef thead, #ktwvnzekef tbody, #ktwvnzekef tfoot, #ktwvnzekef tr, #ktwvnzekef td, #ktwvnzekef th {
   border-style: none;
 }
 
-#wetefnmpvo p {
+#ktwvnzekef p {
   margin: 0;
   padding: 0;
 }
 
-#wetefnmpvo .gt_table {
+#ktwvnzekef .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3675,12 +3692,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_caption {
+#ktwvnzekef .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#wetefnmpvo .gt_title {
+#ktwvnzekef .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3692,7 +3709,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#wetefnmpvo .gt_subtitle {
+#ktwvnzekef .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3704,7 +3721,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#wetefnmpvo .gt_heading {
+#ktwvnzekef .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -3716,13 +3733,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_bottom_border {
+#ktwvnzekef .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_col_headings {
+#ktwvnzekef .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3737,7 +3754,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_col_heading {
+#ktwvnzekef .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3757,7 +3774,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#wetefnmpvo .gt_column_spanner_outer {
+#ktwvnzekef .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3769,15 +3786,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#wetefnmpvo .gt_column_spanner_outer:first-child {
+#ktwvnzekef .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wetefnmpvo .gt_column_spanner_outer:last-child {
+#ktwvnzekef .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wetefnmpvo .gt_column_spanner {
+#ktwvnzekef .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3789,11 +3806,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#wetefnmpvo .gt_spanner_row {
+#ktwvnzekef .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#wetefnmpvo .gt_group_heading {
+#ktwvnzekef .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3819,7 +3836,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#wetefnmpvo .gt_empty_group_heading {
+#ktwvnzekef .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3834,15 +3851,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#wetefnmpvo .gt_from_md > :first-child {
+#ktwvnzekef .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wetefnmpvo .gt_from_md > :last-child {
+#ktwvnzekef .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wetefnmpvo .gt_row {
+#ktwvnzekef .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3861,7 +3878,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#wetefnmpvo .gt_stub {
+#ktwvnzekef .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3874,7 +3891,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wetefnmpvo .gt_stub_row_group {
+#ktwvnzekef .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3888,15 +3905,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#wetefnmpvo .gt_row_group_first td {
+#ktwvnzekef .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wetefnmpvo .gt_row_group_first th {
+#ktwvnzekef .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#wetefnmpvo .gt_summary_row {
+#ktwvnzekef .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3906,16 +3923,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wetefnmpvo .gt_first_summary_row {
+#ktwvnzekef .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_first_summary_row.thick {
+#ktwvnzekef .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wetefnmpvo .gt_last_summary_row {
+#ktwvnzekef .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3925,7 +3942,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_grand_summary_row {
+#ktwvnzekef .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3935,7 +3952,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wetefnmpvo .gt_first_grand_summary_row {
+#ktwvnzekef .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3945,7 +3962,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_last_grand_summary_row_top {
+#ktwvnzekef .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3955,11 +3972,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_striped {
+#ktwvnzekef .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wetefnmpvo .gt_table_body {
+#ktwvnzekef .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3968,7 +3985,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_footnotes {
+#ktwvnzekef .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3982,7 +3999,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_footnote {
+#ktwvnzekef .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3991,7 +4008,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wetefnmpvo .gt_sourcenotes {
+#ktwvnzekef .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4005,7 +4022,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#wetefnmpvo .gt_sourcenote {
+#ktwvnzekef .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4013,72 +4030,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#wetefnmpvo .gt_left {
+#ktwvnzekef .gt_left {
   text-align: left;
 }
 
-#wetefnmpvo .gt_center {
+#ktwvnzekef .gt_center {
   text-align: center;
 }
 
-#wetefnmpvo .gt_right {
+#ktwvnzekef .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wetefnmpvo .gt_font_normal {
+#ktwvnzekef .gt_font_normal {
   font-weight: normal;
 }
 
-#wetefnmpvo .gt_font_bold {
+#ktwvnzekef .gt_font_bold {
   font-weight: bold;
 }
 
-#wetefnmpvo .gt_font_italic {
+#ktwvnzekef .gt_font_italic {
   font-style: italic;
 }
 
-#wetefnmpvo .gt_super {
+#ktwvnzekef .gt_super {
   font-size: 65%;
 }
 
-#wetefnmpvo .gt_footnote_marks {
+#ktwvnzekef .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#wetefnmpvo .gt_asterisk {
+#ktwvnzekef .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wetefnmpvo .gt_indent_1 {
+#ktwvnzekef .gt_indent_1 {
   text-indent: 5px;
 }
 
-#wetefnmpvo .gt_indent_2 {
+#ktwvnzekef .gt_indent_2 {
   text-indent: 10px;
 }
 
-#wetefnmpvo .gt_indent_3 {
+#ktwvnzekef .gt_indent_3 {
   text-indent: 15px;
 }
 
-#wetefnmpvo .gt_indent_4 {
+#ktwvnzekef .gt_indent_4 {
   text-indent: 20px;
 }
 
-#wetefnmpvo .gt_indent_5 {
+#ktwvnzekef .gt_indent_5 {
   text-indent: 25px;
 }
 
-#wetefnmpvo .katex-display {
+#ktwvnzekef .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#wetefnmpvo div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ktwvnzekef div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4096,7 +4113,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="smoking_status">Former</td>
-<td class="gt_row gt_right" headers="unique_person_count">6,088</td>
+<td class="gt_row gt_right" headers="unique_person_count">6,087</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left gt_striped" headers="smoking_status">Never</td>
@@ -4104,7 +4121,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="smoking_status">Every Day</td>
-<td class="gt_row gt_right" headers="unique_person_count">673</td>
+<td class="gt_row gt_right" headers="unique_person_count">674</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left gt_striped" headers="smoking_status">Never Assessed</td>
@@ -4150,23 +4167,23 @@ ul.task-list li input[type="checkbox"] {
 <h4 class="anchored" data-anchor-id="alcohol-use-neural-frame">Alcohol Use (Neural Frame)</h4>
 <div class="cell">
 <div class="cell-output-display">
-<div id="itzuzlglip" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#itzuzlglip table {
+<div id="nqunqxglkn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nqunqxglkn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#itzuzlglip thead, #itzuzlglip tbody, #itzuzlglip tfoot, #itzuzlglip tr, #itzuzlglip td, #itzuzlglip th {
+#nqunqxglkn thead, #nqunqxglkn tbody, #nqunqxglkn tfoot, #nqunqxglkn tr, #nqunqxglkn td, #nqunqxglkn th {
   border-style: none;
 }
 
-#itzuzlglip p {
+#nqunqxglkn p {
   margin: 0;
   padding: 0;
 }
 
-#itzuzlglip .gt_table {
+#nqunqxglkn .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4192,12 +4209,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_caption {
+#nqunqxglkn .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#itzuzlglip .gt_title {
+#nqunqxglkn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4209,7 +4226,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#itzuzlglip .gt_subtitle {
+#nqunqxglkn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4221,7 +4238,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#itzuzlglip .gt_heading {
+#nqunqxglkn .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -4233,13 +4250,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_bottom_border {
+#nqunqxglkn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_col_headings {
+#nqunqxglkn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4254,7 +4271,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_col_heading {
+#nqunqxglkn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4274,7 +4291,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#itzuzlglip .gt_column_spanner_outer {
+#nqunqxglkn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4286,15 +4303,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#itzuzlglip .gt_column_spanner_outer:first-child {
+#nqunqxglkn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#itzuzlglip .gt_column_spanner_outer:last-child {
+#nqunqxglkn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#itzuzlglip .gt_column_spanner {
+#nqunqxglkn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4306,11 +4323,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#itzuzlglip .gt_spanner_row {
+#nqunqxglkn .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#itzuzlglip .gt_group_heading {
+#nqunqxglkn .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4336,7 +4353,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#itzuzlglip .gt_empty_group_heading {
+#nqunqxglkn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4351,15 +4368,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#itzuzlglip .gt_from_md > :first-child {
+#nqunqxglkn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#itzuzlglip .gt_from_md > :last-child {
+#nqunqxglkn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#itzuzlglip .gt_row {
+#nqunqxglkn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4378,7 +4395,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#itzuzlglip .gt_stub {
+#nqunqxglkn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4391,7 +4408,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#itzuzlglip .gt_stub_row_group {
+#nqunqxglkn .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4405,15 +4422,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#itzuzlglip .gt_row_group_first td {
+#nqunqxglkn .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#itzuzlglip .gt_row_group_first th {
+#nqunqxglkn .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#itzuzlglip .gt_summary_row {
+#nqunqxglkn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4423,16 +4440,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#itzuzlglip .gt_first_summary_row {
+#nqunqxglkn .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_first_summary_row.thick {
+#nqunqxglkn .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#itzuzlglip .gt_last_summary_row {
+#nqunqxglkn .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4442,7 +4459,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_grand_summary_row {
+#nqunqxglkn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4452,7 +4469,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#itzuzlglip .gt_first_grand_summary_row {
+#nqunqxglkn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4462,7 +4479,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_last_grand_summary_row_top {
+#nqunqxglkn .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4472,11 +4489,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_striped {
+#nqunqxglkn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#itzuzlglip .gt_table_body {
+#nqunqxglkn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4485,7 +4502,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_footnotes {
+#nqunqxglkn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4499,7 +4516,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_footnote {
+#nqunqxglkn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4508,7 +4525,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#itzuzlglip .gt_sourcenotes {
+#nqunqxglkn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4522,7 +4539,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#itzuzlglip .gt_sourcenote {
+#nqunqxglkn .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4530,72 +4547,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#itzuzlglip .gt_left {
+#nqunqxglkn .gt_left {
   text-align: left;
 }
 
-#itzuzlglip .gt_center {
+#nqunqxglkn .gt_center {
   text-align: center;
 }
 
-#itzuzlglip .gt_right {
+#nqunqxglkn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#itzuzlglip .gt_font_normal {
+#nqunqxglkn .gt_font_normal {
   font-weight: normal;
 }
 
-#itzuzlglip .gt_font_bold {
+#nqunqxglkn .gt_font_bold {
   font-weight: bold;
 }
 
-#itzuzlglip .gt_font_italic {
+#nqunqxglkn .gt_font_italic {
   font-style: italic;
 }
 
-#itzuzlglip .gt_super {
+#nqunqxglkn .gt_super {
   font-size: 65%;
 }
 
-#itzuzlglip .gt_footnote_marks {
+#nqunqxglkn .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#itzuzlglip .gt_asterisk {
+#nqunqxglkn .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#itzuzlglip .gt_indent_1 {
+#nqunqxglkn .gt_indent_1 {
   text-indent: 5px;
 }
 
-#itzuzlglip .gt_indent_2 {
+#nqunqxglkn .gt_indent_2 {
   text-indent: 10px;
 }
 
-#itzuzlglip .gt_indent_3 {
+#nqunqxglkn .gt_indent_3 {
   text-indent: 15px;
 }
 
-#itzuzlglip .gt_indent_4 {
+#nqunqxglkn .gt_indent_4 {
   text-indent: 20px;
 }
 
-#itzuzlglip .gt_indent_5 {
+#nqunqxglkn .gt_indent_5 {
   text-indent: 25px;
 }
 
-#itzuzlglip .katex-display {
+#nqunqxglkn .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#itzuzlglip div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nqunqxglkn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
