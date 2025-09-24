@@ -200,6 +200,7 @@ Information about the surgical specimen and procedure, including specimen ID, la
 - LUNG || SPECIMEN ID(S)  
 - PROCEDURE  
 - SPECIMEN LATERALITY  
+- SYNCHRONOUS TUMORS (REQUIRED IF MORPHOLOGICALLY DISTINCT UNRELATED MULTIPLE PRIMARY TUMORS ARE PRESENT)  
 - NOTE  
 
 #### Tumor Size, Focality, Distribution
@@ -212,7 +213,6 @@ Details on tumor dimensions, number of nodules, total and invasive sizes, focali
 - SIZE OF INVASIVE COMPONENT (REQUIRED ONLY IF INVASIVE NONMUCINOUS ADENOCARCINOMAS WITH LEPIDIC COMPO)  
 - TUMOR FOCALITY  
 - NUMBER OF TUMOR NODULES  
-- SYNCHRONOUS TUMORS (REQUIRED IF MORPHOLOGICALLY DISTINCT UNRELATED MULTIPLE PRIMARY TUMORS ARE PRESENT)  
 - TUMOR SITE  
 - PERCENTAGE OF TOTAL TUMOR SIZE (ABOVE)  
 
@@ -303,10 +303,10 @@ df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/dat
 df_plot <- df_plot %>%
   mutate(category = case_when(
     # Specimen & Procedure
-    grepl("^(LUNG \\|\\| )?SPECIMEN ID|^PROCEDURE$|^SPECIMEN LATERALITY$|^NOTE$", question, ignore.case = TRUE) ~ "Specimen & Procedure",
+    grepl("^(LUNG \\|\\| )?SPECIMEN ID|^PROCEDURE$|^SPECIMEN LATERALITY$|^NOTE$|SYNCHRONOUS TUMORS", question, ignore.case = TRUE) ~ "Specimen & Procedure",
     
     # Tumor Size, Focality, Distribution
-    grepl("ADD(ITIONAL)? DIMENSION|NUMBER OF INTRAPULMONARY METASTASES|TOTAL NUMBER OF PRIMARY TUMORS|TOTAL TUMOR SIZE|SIZE OF INVASIVE COMPONENT|FOCALITY|NUMBER OF TUMOR NODULES|SYNCHRONOUS|TUMOR SITE|PERCENTAGE OF TOTAL TUMOR SIZE", 
+    grepl("ADD(ITIONAL)? DIMENSION|NUMBER OF INTRAPULMONARY METASTASES|TOTAL NUMBER OF PRIMARY TUMORS|TOTAL TUMOR SIZE|SIZE OF INVASIVE COMPONENT|FOCALITY|NUMBER OF TUMOR NODULES|TUMOR SITE|PERCENTAGE OF TOTAL TUMOR SIZE", 
           question, ignore.case = TRUE) ~ "Tumor Size, Focality, Distribution",
     
     # Tumor Histology & Subtypes
