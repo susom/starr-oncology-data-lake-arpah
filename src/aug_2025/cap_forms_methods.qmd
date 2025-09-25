@@ -183,6 +183,7 @@ df_plot <- read_csv("/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/dat
      fill = "Model Name"
    )
  
+ p
 # Summary table
 #model_stats_table <- model_stats %>%
   #knitr::kable(caption = "Summary Statistics per Model")
