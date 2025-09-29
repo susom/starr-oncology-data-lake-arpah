@@ -400,19 +400,26 @@ library(dplyr)
 library(tidyr)
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 
-# Prepare table
+
+
 df_summary <- df_plot %>%
   group_by(model_name, category) %>%
-  summarise(median_score = round(median(avg_score),2)) %>%
+  summarise(median_score = round(median(avg_score), 2), .groups = "drop") %>%
   pivot_wider(names_from = model_name, values_from = median_score) %>%
   rowwise() %>%
-  mutate(best_model = names(.)[which.max(c_across(-category)) + 1])  # +1 because first column is category
-
+  mutate(
+    best_model = paste(
+      names(.)[-1][c_across(-category) == max(c_across(-category), na.rm = TRUE)],
+      collapse = ", "
+    )
+  ) %>%
+  ungroup()
 
 DT::datatable(
   df_summary,
   rownames = FALSE
 )
+
 ```
 
 
