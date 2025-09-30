@@ -491,6 +491,8 @@ DT::datatable(
 )
 ```
 
+The following boxplot displays the distribution of BERT scores across clinical categories, combining data from all three models (OpenAI OSS, Gemini, and LLAMA4). Categories are sorted by median performance, with the vertical dotted line at 0.85 representing the clinical acceptance threshold. The green boxes show the interquartile range, with the median marked by the central line. Higher scores (further right) indicate better performance in extracting and structuring the relevant clinical information from pathology reports. Categories appearing higher in the plot demonstrate stronger overall performance across models.
+
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
   mutate(
@@ -513,70 +515,74 @@ model_summary <- success_analysis %>%
     avg_median = mean(median),
     weighted_avg = weighted.mean(median, n)
   )
-
 plot_ly() %>%
   add_boxplot(
-    data = success_analysis,
-    x = ~category,
-    y = ~median,
-    #color = ~model_name,
-    colors = c("#2ecc71") ,
-    text = ~sprintf("Median: %.2f<br>N: %d", median, n),
+    data = success_analysis %>%
+      group_by(category) %>%
+      mutate(category_median = median(median)) %>%  # Calculate median of medians per category
+      ungroup() %>%
+      mutate(category = forcats::fct_reorder(category, category_median, .desc = TRUE)), # Sort by category median
+    y = ~category,            
+    x = ~median,             
+    colors = c("#2ecc71"),   # dark green color
+    text = ~sprintf("Median: %.2f", median),  # Simplified hover text
     hovertemplate = paste(
-      "<b>Category: %{x}</b><br>",
-      "%{text}<br>",
-      "Performance: %{customdata}<extra></extra>"
+      "%{text}<extra></extra>"  # Just show the median
     ),
-    customdata = ~performance_category,
-   # boxpoints = "all",
     jitter = 0.3,
     pointpos = 0,
-    boxmean = FALSE
+    boxmean = TRUE          
   ) %>%
   layout(
     title = list(
-      text = "Category Distribution",
+      text = "Performance Distribution by Clinical Category\n Across All Models",
       x = 0.5,
       xanchor = "center"
     ),
-    xaxis = list(
-      title = "",
-      tickangle = 45,
-      tickfont = list(size = 10)
-    ),
-    yaxis = list(
+    xaxis = list(          
       title = "Median BERT Score",
       range = c(0.5, 1)
     ),
+    yaxis = list(           
+      title = "",
+      tickfont = list(size = 10)
+    ),
+    shapes = list(          
+      list(
+        type = "line",
+        x0 = 0.85,
+        x1 = 0.85,
+        y0 = -0.5,
+        y1 = length(unique(success_analysis$category)) - 0.5,
+        line = list(
+          color = "grey",
+          dash = "dot",
+          width = 1
+        )
+      )
+    ),
     showlegend = FALSE,
-    
-    margin = list(b = 150, r = 50, l = 50, t = 50)
+    margin = list(b = 50, r = 50, l = 150, t = 50)  
   )
-# Add summary table
-#knitr::kable(model_summary, 
-           #  col.names = c("Model", "Categories ≥ 0.85", "Total Categories", 
-           #              "Success Rate", "Avg Median", "Weighted Avg"),
-           #  caption = "Model Performance Summary",
-            # digits = 2)
 ```
 
 #### Model Performance by Category
 
 We evaluated the comparative performance of three large language models (OpenAI OSS, Gemini, and LLAMA4) across multiple clinical documentation categories, with results presented as vertical bar plots. Each plot depicts category-level performance using color-coded bars: high performance (median BERT score ≥ 0.85), medium performance (0.75–0.84), and low performance (< 0.75). A dotted grey reference line marks the 0.85 threshold, providing a visual benchmark for clinically relevant accuracy.
 
-OpenAI OSS
+**OpenAI OSS**
 
 OpenAI OSS demonstrated the strongest performance, with a majority of categories exceeding the 0.85 threshold. Performance was particularly high in Local Extension and Invasion, Tumor Size, and Margins, suggesting greater robustness in structured oncologic reporting tasks. Overall, OpenAI OSS achieved the highest number of high-performance categories, indicating superior generalizability across clinical contexts.
 
-Gemini
+**Gemini**
 
 Gemini exhibited more consistent, though less exceptional, performance. The model performed best in Specimen & Procedure and Tumor Size, and Regional Lymph Nodes. While fewer categories reached the ≥ 0.85 threshold compared to OpenAI OSS, Gemini maintained steady medium performance across most categories, reflecting reliability without as many peak performances.
 
-LLAMA4
+**LLAMA4**
 
 LLAMA4 showed greater variability across categories. While achieving strong results in Specimen and Procedure, it underperformed relative to the other models, with more categories falling below the 0.75 threshold. These results suggest LLAMA4 may be more sensitive to domain-specific nuances rather than broadly adaptable.
 
-Cross-Model Comparisons
+**Cross-Model Comparisons**
 
 Several trends emerged across models. All models struggled with Tumor Histology and Staging, indicating this category may represent a systematic challenge in clinical text modeling. Conversely, categories with the highest performance were largely consistent across models, reinforcing reproducibility of strengths across architectures. Taken together, a performance hierarchy was evident: OpenAI OSS > Gemini > LLAMA4.
 
@@ -620,7 +626,7 @@ plot_function <- function(input_data, model_var, show_legend = FALSE){
       showlegend = TRUE
     ) %>%
     layout(
-      title = list(text = paste("Model:",model_var), x = 0.5),  # subplot title = model name
+      #title = list(text = paste("Model:",model_var), x = 0.5),  
       xaxis = list(title = "", tickangle = 45),
       yaxis = list(title = "Median BERT Score", range = c(0.5, 1)),
       barmode = "group",
