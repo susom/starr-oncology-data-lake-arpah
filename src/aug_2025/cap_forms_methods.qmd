@@ -574,6 +574,79 @@ plot_ly() %>%
             # digits = 2)
 ```
 
+```{r, warning=FALSE, message=FALSE, include=FALSE}
+
+  
+plot_function <- function(input_data, model_var, show_legend = FALSE){
+  
+  input_data <- input_data %>%
+    filter(model_name == model_var) %>%
+    group_by(category) %>%
+    mutate(model_median = median(median),
+       performance_category = factor(performance_category, 
+                                  levels = c("High Performance", 
+                                           "Medium Performance", 
+                                           "Low Performance"))) %>%   # overall median per model
+    ungroup() %>%
+    mutate(
+      category = forcats::fct_reorder(category, median, .desc = TRUE) # sort categories by median
+    )
+  
+  pg <- plot_ly() %>%
+    add_trace(
+      data = input_data,
+      x = ~category,       
+      y = ~median,
+      color = ~performance_category,
+      #colors = c("High Performance" = "#67d798ff",   # green
+           #      "Medium Performance" = "#d7b555ff", # yellow
+              #   "Low Performance" = "#d3837fff"),   # red
+      type = "bar",
+      text = ~sprintf("Median: %.2f<br>N: %d", median, n),
+      customdata = ~performance_category,
+      hovertemplate = paste(
+        "<b>Category: %{x}</b><br>",
+        "Performance: %{customdata}<br>",
+        "Median: %{y}<extra></extra>"
+      ),
+      showlegend = TRUE
+    ) %>%
+    layout(
+      title = list(text = paste("Model:",model_var), x = 0.5),  # subplot title = model name
+      xaxis = list(title = "", tickangle = 45),
+      yaxis = list(title = "Median BERT Score", range = c(0.5, 1)),
+      barmode = "group",
+      margin = list(b = 150, r = 150)
+    )
+  
+  return(pg)
+}
+
+# Generate plots
+plot_function(success_analysis,"openai_oss",show_legend = TRUE)
+#plot_function(success_analysis,"gemini", show_legend = TRUE)
+
+# Generate plots for all three models
+p1 <- plot_function(success_analysis, "openai_oss", show_legend = TRUE)
+p2 <- plot_function(success_analysis, "gemini", show_legend = FALSE)
+p3 <- plot_function(success_analysis, "llama4", show_legend = FALSE)
+
+```
+### Model: Openai Oss
+```{r, warning=FALSE, message=FALSE}
+p1
+```
+
+### Model: Gemini
+```{r, warning=FALSE, message=FALSE}
+p2
+```
+
+### Model: Llama4
+```{r, warning=FALSE, message=FALSE}
+p3
+```
+
 
 ## Summary
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
