@@ -409,7 +409,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-The following boxplot displays the distribution of BERT scores across clinical categories, combining data from all three models (OpenAI OSS, Gemini, and LLAMA4). Categories are sorted by median performance, with the vertical dotted line at 0.85 representing the clinical acceptance threshold. Higher scores (further right) indicate better performance in extracting and structuring the relevant clinical information from pathology reports. Categories appearing higher in the plot demonstrate stronger overall performance across models.
+The following boxplot displays the distribution of BERT scores across clinical categories, combining data from all three models (OpenAI OSS, Gemini, and LLama4). Categories are sorted by median performance, with the vertical dotted line at 0.85 representing the clinical acceptance threshold. Higher scores (further right) indicate better performance in extracting and structuring the relevant clinical information from pathology reports. Categories appearing higher in the plot demonstrate stronger overall performance across models.
 
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
@@ -541,7 +541,7 @@ DT::datatable(
 
 #### Cross-Model Comparisons Analysis 
 
-We evaluated the comparative performance of three large language models (OpenAI OSS, Gemini, and LLAMA4) across multiple clinical documentation categories, with results presented as vertical bar plots. Each plot depicts category-level performance using color-coded bars: high performance (median BERT score ≥ 0.85), medium performance (0.75–0.84), and low performance (< 0.75). A dotted grey reference line marks the 0.85 threshold, providing a visual benchmark for clinically relevant accuracy.
+We evaluated the comparative performance of three large language models (OpenAI OSS, Gemini, and Llama4) across multiple clinical documentation categories, with results presented as vertical bar plots. Each plot depicts category-level performance using color-coded bars: high performance (median BERT score ≥ 0.85), medium performance (0.75–0.84), and low performance (< 0.75). A dotted grey reference line marks the 0.85 threshold, providing a visual benchmark for clinically relevant accuracy.
 
 **OpenAI OSS**
 
@@ -551,12 +551,12 @@ OpenAI OSS demonstrated the strongest performance, with a majority of categories
 
 Gemini exhibited more consistent, though less exceptional, performance. The model performed best in Specimen & Procedure and Tumor Size, and Regional Lymph Nodes. While fewer categories reached the ≥ 0.85 threshold compared to OpenAI OSS, Gemini maintained steady medium performance across most categories, reflecting reliability without as many peak performances.
 
-**LLAMA4**
+**LLama4**
 
-LLAMA4 showed greater variability across categories. While achieving strong results in Specimen and Procedure, it underperformed relative to the other models, with more categories falling below the 0.75 threshold. These results suggest LLAMA4 may be more sensitive to domain-specific nuances rather than broadly adaptable.
+LLama4 showed greater variability across categories. While achieving strong results in Specimen and Procedure, it underperformed relative to the other models, with more categories falling below the 0.75 threshold. These results suggest LLama4 may be more sensitive to domain-specific nuances rather than broadly adaptable.
 
 
-Several trends emerged across models. All models struggled with Tumor Histology and Staging, indicating this category may represent a systematic challenge in clinical text modeling. Conversely, categories with the highest performance were largely consistent across models, reinforcing reproducibility of strengths across architectures. Taken together, a performance hierarchy was evident: OpenAI OSS > Gemini > LLAMA4.
+Several trends emerged across models. All models struggled with Tumor Histology and Staging, indicating this category may represent a systematic challenge in clinical text modeling. Conversely, categories with the highest performance were largely consistent across models, reinforcing reproducibility of strengths across architectures. Taken together, a performance hierarchy was evident: OpenAI OSS > Gemini > LLama4.
 
 
 ```{r, warning=FALSE, message=FALSE, include=FALSE}
@@ -646,7 +646,8 @@ p3 <- plot_function(success_analysis, "llama4", show_legend = FALSE)
 
 ::: {.panel-tabset}
 
-### Model: Openai Oss
+### Model: OpenAI OSS
+
 ```{r, warning=FALSE, message=FALSE}
 p1
 ```
@@ -665,7 +666,7 @@ p3
 ## Summary
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
-Across the nine categories, OpenAI OSS achieved the highest overall success rate (56%), most frequently exceeding the 0.85 threshold. In contrast, Gemini demonstrated consistent performance across categories, ranking highest in Specimen & Procedure, and Staging compared to other models. Llama4 showed more balanced but slightly weaker results overall.
+Across the nine categories, OpenAI OSS achieved the highest overall success rate (56%), most frequently exceeding the 0.85 threshold. In contrast, Gemini demonstrated consistent performance across categories, ranking highest in Specimen & Procedure, and Staging compared to the other models. Llama4 showed more balanced but slightly weaker results overall.
 
 Taken together, OpenAI OSS appears strongest in terms of peak performance across domains, while Gemini offers steadier and broader consistency even if some medians fell below the threshhold, and Llama4 provides competitive performance in select categories.
 
