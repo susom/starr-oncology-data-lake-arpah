@@ -573,6 +573,24 @@ plot_ly() %>%
            #  caption = "Model Performance Summary",
             # digits = 2)
 ```
+We evaluated the comparative performance of three large language models (OpenAI OSS, Gemini, and LLAMA4) across multiple clinical documentation categories, with results presented as vertical bar plots. Each plot depicts category-level performance using color-coded bars: high performance (median BERT score ≥ 0.85), medium performance (0.75–0.84), and low performance (< 0.75). A dotted grey reference line marks the 0.85 threshold, providing a visual benchmark for clinically relevant accuracy.
+
+OpenAI OSS
+
+OpenAI OSS demonstrated the strongest performance, with a majority of categories exceeding the 0.85 threshold. Performance was particularly high in Local Extension and Invasion, Tumor Size, and Margins, suggesting greater robustness in structured oncologic reporting tasks. Overall, OpenAI OSS achieved the highest number of high-performance categories, indicating superior generalizability across clinical contexts.
+
+Gemini
+
+Gemini exhibited more consistent, though less exceptional, performance. The model performed best in Specimen & Procedure and Tumor Size, and Regional Lymph Nodes. While fewer categories reached the ≥ 0.85 threshold compared to OpenAI OSS, Gemini maintained steady medium performance across most categories, reflecting reliability without as many peak performances.
+
+LLAMA4
+
+LLAMA4 showed greater variability across categories. While achieving strong results in Specimen and Procedure, it underperformed relative to the other models, with more categories falling below the 0.75 threshold. These results suggest LLAMA4 may be more sensitive to domain-specific nuances rather than broadly adaptable.
+
+Cross-Model Comparisons
+
+Several trends emerged across models. All models struggled with Tumor Histology and Staging, indicating this category may represent a systematic challenge in clinical text modeling. Conversely, categories with the highest performance were largely consistent across models, reinforcing reproducibility of strengths across architectures. Taken together, a performance hierarchy was evident: OpenAI OSS > Gemini > LLAMA4.
+
 
 ```{r, warning=FALSE, message=FALSE, include=FALSE}
 
@@ -598,9 +616,9 @@ plot_function <- function(input_data, model_var, show_legend = FALSE){
       x = ~category,       
       y = ~median,
       color = ~performance_category,
-      #colors = c("High Performance" = "#67d798ff",   # green
-           #      "Medium Performance" = "#d7b555ff", # yellow
-              #   "Low Performance" = "#d3837fff"),   # red
+      colors = c("High Performance" = "#55f499ff", 
+            "Medium Performance" = "#98c4e0ff", 
+              "Low Performance" = "#afefb1ff"), 
       type = "bar",
       text = ~sprintf("Median: %.2f<br>N: %d", median, n),
       customdata = ~performance_category,
@@ -616,7 +634,32 @@ plot_function <- function(input_data, model_var, show_legend = FALSE){
       xaxis = list(title = "", tickangle = 45),
       yaxis = list(title = "Median BERT Score", range = c(0.5, 1)),
       barmode = "group",
-      margin = list(b = 150, r = 150)
+      margin = list(b = 150, r = 150),
+       shapes = list(
+        list(
+          type = "line",
+          x0 = 0,
+          x1 = 1,
+          xref = "paper",
+          y0 = 0.85,
+          y1 = 0.85,
+          line = list(
+            color = "grey",
+            dash = "dot",
+            width = 1
+          ))),
+          
+      annotations = list(
+        list(
+          x = 1.02,
+          y = 0.85,
+          xref = "paper",
+          yref = "y",
+          text = "median (0.85)",
+          showarrow = FALSE,
+          font = list(size = 10)
+        )
+      )
     )
   
   return(pg)
@@ -632,6 +675,9 @@ p2 <- plot_function(success_analysis, "gemini", show_legend = FALSE)
 p3 <- plot_function(success_analysis, "llama4", show_legend = FALSE)
 
 ```
+
+::: {.panel-tabset}
+
 ### Model: Openai Oss
 ```{r, warning=FALSE, message=FALSE}
 p1
@@ -647,7 +693,7 @@ p2
 p3
 ```
 
-
+::: 
 ## Summary
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
