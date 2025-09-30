@@ -387,88 +387,7 @@ pg
 
 
 
-
-### Model Performance 
-We assessed model performance across clinical categories using median BERT similarity scores. The following table summarizes median BERT F1-scores for each model across high-level categories. For each category, the model with the highest median score is flagged in the “Best Model” column, highlighting domain-specific strengths. This comparison enables quick identification of areas where models excel (e.g., Gemini in Staging and Tumor Histology) and areas where performance is more competitive.
-
-In addition, a success threshold of 0.85 was established a priori. For each model–category combination, performance was classified into three tiers: high performance (≥0.85), medium performance (0.75–0.84), and low performance (<0.75). The success rate for each model was defined as the proportion of categories achieving high performance. 
-
-#### Performance Results 
-
-```{r, warning=FALSE, message=FALSE}
-library(dplyr)
-library(tidyr)
-source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-
-
-
-df_summary <- df_plot %>%
-  group_by(model_name, category) %>%
-  summarise(median_score = round(median(avg_score), 2), .groups = "drop") %>%
-  pivot_wider(names_from = model_name, values_from = median_score) %>%
-  rowwise() %>%
-  mutate(
-    best_model = paste(
-      names(.)[-1][c_across(-category) == max(c_across(-category), na.rm = TRUE)],
-      collapse = ", "
-    )
-  ) %>%
-  ungroup()
-
-DT::datatable(
-  df_summary,
-  rownames = FALSE
-)
-
-```
-
-
-```{r,warning=FALSE, message=FALSE, include =FALSE}
-# Compute median per model-category
-df_median <- df_plot %>%
-  group_by(model_name, category) %>%
-  summarise(median_score = round(median(avg_score),2), .groups = "drop")
-
-# Rank categories by their mean across models
-cat_order <- df_median %>%
-  group_by(category) %>%
-  summarise(mean_score = mean(median_score), .groups = "drop") %>%
-  arrange((mean_score)) %>%
-  pull(category)
-
-model_order <- df_median %>%
-  group_by(model_name) %>%
-  summarise(mean_score = mean(median_score), .groups = "drop") %>%
-  arrange(mean_score) %>%
-  pull(model_name)
-
-# Prepare matrix with ordered categories
-heatmap_matrix <- df_median %>%
-  tidyr::pivot_wider(names_from = model_name, values_from = median_score) %>%
-  tibble::column_to_rownames("category") %>%
-  .[cat_order, ] %>%   # reorder rows
-  as.matrix()
-
-# 1. Enhanced Heatmap
-plot_ly(
-  z = heatmap_matrix,
-  x = colnames(heatmap_matrix),
-  y = rownames(heatmap_matrix),
-  type = "heatmap",
-  colorscale = list(c(0, 1), c("white", "darkred")),
-  reversescale = FALSE
-) %>%
-  layout(
-    title = "Heatmap of Median Scores by Model and Category",
-    xaxis = list(title = "Model"),
-    yaxis = list(title = ""),
-    paper_bgcolor = "darkgrey",
-    plot_bgcolor = "darkgrey",
-    font = list(color = "white")
-  )
-
-```
-
+#### Model Performance Across Clinical Categories
 
 
 ```{r, warning=FALSE, message=FALSE, include=FALSE}
@@ -490,8 +409,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-
-The following boxplot displays the distribution of BERT scores across clinical categories, combining data from all three models (OpenAI OSS, Gemini, and LLAMA4). Categories are sorted by median performance, with the vertical dotted line at 0.85 representing the clinical acceptance threshold. The green boxes show the interquartile range, with the median marked by the central line. Higher scores (further right) indicate better performance in extracting and structuring the relevant clinical information from pathology reports. Categories appearing higher in the plot demonstrate stronger overall performance across models.
+The following boxplot displays the distribution of BERT scores across clinical categories, combining data from all three models (OpenAI OSS, Gemini, and LLAMA4). Categories are sorted by median performance, with the vertical dotted line at 0.85 representing the clinical acceptance threshold. Higher scores (further right) indicate better performance in extracting and structuring the relevant clinical information from pathology reports. Categories appearing higher in the plot demonstrate stronger overall performance across models.
 
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
@@ -567,6 +485,61 @@ plot_ly() %>%
 ```
 
 #### Model Performance by Category
+In addition, we assessed model performance across clinical categories using median BERT similarity scores. The following table summarizes median BERT F1-scores for each model across high-level categories. For each category, the model with the highest median score is flagged in the “Best Model” column, highlighting domain-specific strengths. This comparison enables quick identification of areas where models excel and areas where performance is more competitive.
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+
+
+
+df_summary <- df_plot %>%
+  group_by(model_name, category) %>%
+  summarise(median_score = round(median(avg_score), 2), .groups = "drop") %>%
+  pivot_wider(names_from = model_name, values_from = median_score) %>%
+  rowwise() %>%
+  mutate(
+    best_model = paste(
+      names(.)[-1][c_across(-category) == max(c_across(-category), na.rm = TRUE)],
+      collapse = ", "
+    )
+  ) %>%
+  ungroup()
+
+DT::datatable(
+  df_summary,
+  rownames = FALSE
+)
+
+```
+
+
+
+
+
+```{r, warning=FALSE, message=FALSE, include=FALSE}
+ model_stats_grp <- df_plot %>%
+   group_by(category, model_name) %>%
+   summarise(
+     mean = round(mean(avg_score, na.rm = TRUE), 2),
+     median = round(median(avg_score, na.rm = TRUE), 2),
+     q1 = round(quantile(avg_score, 0.25, na.rm = TRUE), 2),
+     q3 = round(quantile(avg_score, 0.75, na.rm = TRUE), 2),
+     n = n()
+   )
+
+
+
+# Create interactive datatable
+DT::datatable(
+  model_stats_grp,
+  rownames = FALSE
+)
+```
+
+
+#### Cross-Model Comparisons Analysis 
 
 We evaluated the comparative performance of three large language models (OpenAI OSS, Gemini, and LLAMA4) across multiple clinical documentation categories, with results presented as vertical bar plots. Each plot depicts category-level performance using color-coded bars: high performance (median BERT score ≥ 0.85), medium performance (0.75–0.84), and low performance (< 0.75). A dotted grey reference line marks the 0.85 threshold, providing a visual benchmark for clinically relevant accuracy.
 
@@ -582,7 +555,6 @@ Gemini exhibited more consistent, though less exceptional, performance. The mode
 
 LLAMA4 showed greater variability across categories. While achieving strong results in Specimen and Procedure, it underperformed relative to the other models, with more categories falling below the 0.75 threshold. These results suggest LLAMA4 may be more sensitive to domain-specific nuances rather than broadly adaptable.
 
-**Cross-Model Comparisons**
 
 Several trends emerged across models. All models struggled with Tumor Histology and Staging, indicating this category may represent a systematic challenge in clinical text modeling. Conversely, categories with the highest performance were largely consistent across models, reinforcing reproducibility of strengths across architectures. Taken together, a performance hierarchy was evident: OpenAI OSS > Gemini > LLAMA4.
 
@@ -693,7 +665,7 @@ p3
 ## Summary
 In this evaluation we only use 3 models vs the 5 presented before. We choose to use the open source version of GPT to favor open source models with more recent data cuts. It has been shown that this model is particularly good at health related tasks. All models were use through Google Cloud using their Vertex AI HIPAA compliant deployments and endpoints. The models endpoints used were: `openai/gpt-oss-20b-maas` for OpenAI OSS, `gemini-2.5-flash` for the latest Gemini model and `meta/llama-4-scout-17b-16e-instruct-maas` for the latest LLAMA model.  
 
-Across the nine categories, OpenAI OSS achieved the highest overall success rate (56%), most frequently exceeding the 0.85 threshold. In contrast, Gemini demonstrated consistent performance across categories, ranking highest in Specimen & Procedure, Staging, and Tumor Characteristics. Llama4 showed more balanced but slightly weaker results overall, though it outperformed Gemini in Treatment Effect and Local Extension & Invasion.
+Across the nine categories, OpenAI OSS achieved the highest overall success rate (56%), most frequently exceeding the 0.85 threshold. In contrast, Gemini demonstrated consistent performance across categories, ranking highest in Specimen & Procedure, and Staging compared to other models. Llama4 showed more balanced but slightly weaker results overall.
 
 Taken together, OpenAI OSS appears strongest in terms of peak performance across domains, while Gemini offers steadier and broader consistency even if some medians fell below the threshhold, and Llama4 provides competitive performance in select categories.
 
