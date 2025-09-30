@@ -491,7 +491,6 @@ DT::datatable(
 )
 ```
 
-#### Model Performance by Category
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
   mutate(
@@ -515,29 +514,28 @@ model_summary <- success_analysis %>%
     weighted_avg = weighted.mean(median, n)
   )
 
-# Create enhanced performance visualization
 plot_ly() %>%
-  # Add bars for median scores
-  add_trace(
+  add_boxplot(
     data = success_analysis,
     x = ~category,
     y = ~median,
-    color = ~model_name,
-    type = "bar",
-    name = ~model_name,
+    #color = ~model_name,
+    colors = c("#2ecc71") ,
     text = ~sprintf("Median: %.2f<br>N: %d", median, n),
     hovertemplate = paste(
-      "<b>%{x}</b><br>",
-      "Model: %{fullData.name}<br>",
+      "<b>Category: %{x}</b><br>",
       "%{text}<br>",
       "Performance: %{customdata}<extra></extra>"
     ),
     customdata = ~performance_category,
-    showlegend = TRUE
+   # boxpoints = "all",
+    jitter = 0.3,
+    pointpos = 0,
+    boxmean = FALSE
   ) %>%
   layout(
     title = list(
-      text = "",
+      text = "Category Distribution",
       x = 0.5,
       xanchor = "center"
     ),
@@ -550,22 +548,10 @@ plot_ly() %>%
       title = "Median BERT Score",
       range = c(0.5, 1)
     ),
-    barmode = "group",
-    showlegend = TRUE,
-    legend = list(
-      orientation = "v",
-      x = 1.15,
-      y = 1,
-      xanchor = "left",
-      yanchor = "top",
-      bgcolor = "rgba(255, 255, 255, 0.9)",
-      bordercolor = "rgba(0, 0, 0, 0.2)",
-      borderwidth = 1
-    ),
-    margin = list(b = 150, r = 150),  # Increased right margin to accommodate legend
-    hovermode = "closest"
+    showlegend = FALSE,
+    
+    margin = list(b = 150, r = 50, l = 50, t = 50)
   )
-
 # Add summary table
 #knitr::kable(model_summary, 
            #  col.names = c("Model", "Categories ≥ 0.85", "Total Categories", 
@@ -573,6 +559,9 @@ plot_ly() %>%
            #  caption = "Model Performance Summary",
             # digits = 2)
 ```
+
+#### Model Performance by Category
+
 We evaluated the comparative performance of three large language models (OpenAI OSS, Gemini, and LLAMA4) across multiple clinical documentation categories, with results presented as vertical bar plots. Each plot depicts category-level performance using color-coded bars: high performance (median BERT score ≥ 0.85), medium performance (0.75–0.84), and low performance (< 0.75). A dotted grey reference line marks the 0.85 threshold, providing a visual benchmark for clinically relevant accuracy.
 
 OpenAI OSS
@@ -616,9 +605,10 @@ plot_function <- function(input_data, model_var, show_legend = FALSE){
       x = ~category,       
       y = ~median,
       color = ~performance_category,
-      colors = c("High Performance" = "#55f499ff", 
-            "Medium Performance" = "#98c4e0ff", 
-              "Low Performance" = "#afefb1ff"), 
+      colors =RColorBrewer::brewer.pal(3, "Set2"),
+      #colors = c("High Performance" = "#55f499ff", 
+            #"Medium Performance" = "#98c4e0ff", 
+             # "Low Performance" = "#afefb1ff"), 
       type = "bar",
       text = ~sprintf("Median: %.2f<br>N: %d", median, n),
       customdata = ~performance_category,
