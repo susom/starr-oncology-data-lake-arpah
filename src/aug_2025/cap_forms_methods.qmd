@@ -409,7 +409,7 @@ DT::datatable(
   rownames = FALSE
 )
 ```
-The following boxplot displays the distribution of BERT scores across clinical categories, combining data from all three models (OpenAI OSS, Gemini, and LLama4). Categories are sorted by median performance, with the vertical dotted line at 0.85 representing the clinical acceptance threshold. Higher scores (further right) indicate better performance in extracting and structuring the relevant clinical information from pathology reports. Categories appearing higher in the plot demonstrate stronger overall performance across models.
+The following boxplot displays the distribution of BERT scores across clinical categories, combining data from all three models (OpenAI OSS, Gemini, and LLama4). Categories are sorted by median performance, with the vertical dotted line at 0.85 representing the clinical acceptance threshold. Higher scores (further right) indicate better performance in extracting and structuring the relevant clinical information from pathology reports. 
 
 ```{r, warning=FALSE, message=FALSE}
 success_analysis <- model_stats_grp %>%
