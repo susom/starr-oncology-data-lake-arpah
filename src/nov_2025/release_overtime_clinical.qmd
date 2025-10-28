@@ -165,13 +165,10 @@ person_res <- run_monthly_metrics(
   sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_cohort/person_metrics.sql"
 )
 colnames(person_res)<-c("counts", "release")
+
 ```
 ```{r table1,message=FALSE, warning=FALSE }
 
-labels <- c(
-  release="Data Releases",
-  counts = "Number of Patients",
-)
 
 library(knitr)
 # convert abbreviations to full month names
@@ -193,9 +190,80 @@ person_res <- person_res %>%
 person_res
 ```
 
+### Data Sources Coverage ####
+```{r arpah den, message=FALSE, warning=FALSE , results='hide'}
+
+arpah_den <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_cohort/arpah_denominators.sql"
+)
+
+philips_den <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_cohort/arpah_denominators_philips.sql"
+)
+philips_den
+
+philips_den <- bind_rows(
+  philips_den,
+  tibble(
+    month = "feb",
+    data_set = "Philips ISPM",
+    counts_pts = 0,
+    percentage = 0
+  )
+)
+
+```
 
 
-## Image Occurrence ##
+```{r growth plot2, message=FALSE, warning=FALSE }
+arpah_den=rbind(arpah_den, philips_den)
+
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+
+
+arpah_den <- arpah_den %>%
+  mutate(month = factor(month, levels = c("feb", "may", "aug"), ordered = TRUE)
+  )
+
+arpah_den <- arpah_den %>%
+  mutate(
+    month_full = case_when(
+      month == "feb" ~ "February",
+      month == "may" ~ "May",
+      month == "aug" ~ "August"
+    ),
+    month_full = factor(month_full, levels = c("February", "May", "August"), ordered = TRUE)
+  )
+plot_ly(
+  data = arpah_den,
+  x = ~month,
+  y = ~percentage,
+  color = ~data_set,
+  type = 'scatter',
+  mode = 'lines+markers',
+  text = ~paste0(
+    data_set, "<br>Month: ", month,
+    "<br>Coverage: ", round(percentage, 1), "%"
+  ),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Temporal Coverage of Oncology Data Assets",
+    xaxis = list(title = "Release Month"),
+    yaxis = list(title = "Patient Coverage (%)", range = c(0, 105)),
+    legend = list(title = list(text = "Data Source"))
+  )
+
+
+```
+
+
+## **Image Occurrence** ##
 ```{r image occ basics, message=FALSE, warning=FALSE , results='hide'}
 img_res<- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
@@ -245,4 +313,177 @@ p <- p %>%
   )
   p
 ```
+
+## Modality Types ##
+
+```{r image occ mod, message=FALSE, warning=FALSE , results='hide'}
+img_mod<- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/image_occ/image_occ_modality.sql"
+)
+
+
+library(dplyr)
+
+img_mod <- img_mod %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug")),
+    modality_group = case_when(
+      grepl("^CT|CT/|CT-", modality_source_value) | grepl("PET", modality_source_value) ~ "CT/PET",
+      grepl("^MR|MRI|MR/", modality_source_value) ~ "MRI",
+      grepl("^XR|X-RAY|XA|XC|XD|XR", modality_source_value) ~ "X-Ray",
+      grepl("^US|ULTRASOUND|MG|MG/", modality_source_value) ~ "Ultrasound/Mammography",
+      grepl("^NM|NM/", modality_source_value) ~ "Nuclear Medicine",
+      grepl("^OT|OTHER|DOC|REPORT|REQUEST|FINDINGS|NONE|NULL", modality_source_value) ~ "Other/Docs",
+      TRUE ~ "Other"
+    )
+  )
+
+#img_mod <- img_mod %>% filter (modality_source_value %in% c("CT", "MRI", "XRAY", "PET"))
+```
+```{r stack plot modality, message=FALSE, warning=FALSE }
+img_mod=img_mod %>% filter(modality_group!="Other" )
+img_mod=img_mod %>% filter(modality_group!="Other/Docs" )
+#|modality_group!="")
+img_summary <- img_mod %>%
+  group_by(month, modality_group) %>%
+  summarise(counts = sum(unique_person_count), .groups = "drop")
+
+
+
+library(plotly)
+library(RColorBrewer)
+library(scales)
+
+bar_colors <- brewer.pal(n = length(unique(img_summary$modality_group)), "Set2")
+
+# total counts per month
+
+img_p <- plot_ly(img_summary,
+             x = ~modality_group,
+             y = ~counts,
+             color = ~month,
+             colors = bar_colors,
+             type = 'bar',
+             text = ~paste0(modality_group, "<br>Count: ", scales::comma(counts)),
+             hoverinfo = "text") %>%
+  layout(barmode = 'bar') %>%
+  layout(
+    title = "Image Occurrence by Modality Groups",
+    yaxis = list(title = "Counts", tickformat = ","),
+    xaxis = list(title = "Top Modalities")
+  )
+
+img_p
+```
+
+## CTSA Metrics ##
+
+```{r ctsa, message=FALSE, warning=FALSE} 
+
+ctsa_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/CTSA/metrics_uniq_pts_vital_overtime.sql"
+)
+
+# Named vector of variable label mappings
+library(dplyr)
+
+ctsa_res <- ctsa_res %>%
+  mutate(group_var = case_when(
+    f0_ == "total_patients"              ~ "Total patients in cohort",
+    f0_ == "total_pt_gt_12"              ~ "Patients aged ≥ 12 years",
+    f0_ == "uniq_pt_any_insurance_value" ~ "Patients with any recorded insurance",
+    f0_ == "uniq_pt_cpt"                 ~ "Patients with CPT (procedure) codes",
+    f0_ == "uniq_pt_icd_dx"              ~ "Patients with ICD diagnosis codes",
+    f0_ == "uniq_pt_icd_proc"            ~ "Patients with ICD procedure codes",
+    f0_ == "uniq_pt_loinc"               ~ "Patients with LOINC lab results",
+    f0_ == "uniq_pt_med_rxnorm"          ~ "Patients with medications (RxNorm)",
+    f0_ == "uniq_pt_note"                ~ "Patients with clinical notes",
+    f0_ == "uniq_pt_opioid"              ~ "Patients with opioid prescriptions",
+    f0_ == "uniq_pt_smoking"             ~ "Patients with documented smoking status",
+    f0_ == "uniq_pt_snomed_dx"           ~ "Patients with SNOMED diagnosis codes",
+    f0_ == "uniq_pt_snomed_proc"         ~ "Patients with SNOMED procedure codes",
+    f0_ == "uniq_pt_with_age"            ~ "Patients with valid age recorded",
+    TRUE ~ f0_  # fallback: keep original if not matched
+  ))
+
+```
+
+```{r ctsa plot, message=FALSE, warning=FALSE }
+
+ ctsa_res=ctsa_res %>% mutate(month = factor(month, levels = c("feb", "may", "aug")))
+
+ex=c("total_pt_gt_12", "uniq_pt_with_age")
+ctsa_res=ctsa_res %>% filter (!f0_%in% ex)
+
+library(ggplot2)
+
+bar_colors <- brewer.pal(n = length(unique(img_summary$modality_group)), "Set3")
+
+ggplot(ctsa_res, aes(x = reorder(group_var, f1_), y = f1_)) +
+  geom_col(fill = "#3182bd") +
+  coord_flip() +
+  labs(
+    title = "Counts by Patient Data Type",
+    x = NULL,
+    y = "Number of Patients"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 13)+ facet_wrap(~month)
+
+library(plotly)
+
+plot_ly(
+  data = ctsa_res,
+  x = ~f1_,
+  y = ~reorder(group_var, f1_),
+  color=~month,
+  colors=bar_colors,
+  type = 'bar',
+  orientation = 'h',
+  text = ~paste0(group_var, "<br>Count: ", scales::comma(f1_)),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "CTSA Metrics over Releases",
+    xaxis = list(title = "Number of Patients", tickformat = ","),
+    yaxis = list(title = "")
+  )
+```
+## Temporal Growth of Modalities ##
+```{r growth plot, message=FALSE, warning=FALSE }
+library(plotly)
+library(dplyr)
+
+img_summary <- img_res %>%
+  group_by(month, modality_group) %>%
+  summarise(counts = n(), .groups = "drop")
+
+plot_ly(img_summary,
+        x = ~month,
+        y = ~counts,
+        color = ~modality_group,
+        type = 'scatter',
+        mode = 'lines+markers',
+        fill = 'tozeroy',  # shaded area under curve
+        hoverinfo = 'text',
+        text = ~paste0(
+          modality_group, "<br>Month: ", month,
+          "<br>Count: ", scales::comma(counts)
+        )) %>%
+  layout(
+    title = "Temporal Growth of Modalities",
+    xaxis = list(title = "Month / Release"),
+    yaxis = list(title = "Number of Records", tickformat = ","),
+    legend = list(title = list(text = "Modality")),
+    shapes = list(
+      # optional vertical reference lines for version releases
+      list(type = "line", x0 = "may", x1 = "may", y0 = 0, y1 = max(img_summary$counts),
+           line = list(dash = "dot", color = "black"))
+    )
+  )
+
+```
+
 
