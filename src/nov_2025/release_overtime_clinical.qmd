@@ -1,0 +1,248 @@
+---
+title: "Oncology Data Lake"
+execute:
+  echo: false
+---
+
+*Release Version: Nov 2025 (IRB76049)*
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_params.yml"
+
+```
+
+```{r loop through release,  message=FALSE, warning=FALSE, results='hide'}
+
+library(dplyr)
+sql_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/CTSA/metrics_uniq_pts_vital_overtime.sql"
+sql_query <- readLines(sql_file_path) %>% paste(collapse = "\n")
+
+# Define the datasets per month
+datasets_by_month <- list(
+  feb = list(
+    oncology_omop = "oncology_omop_phi_irb76049_feb2025",
+    oncology_neuralframe = "oncology_neuralframe_phi_irb76049_feb2025"
+  ),
+  may = list(
+    oncology_omop = "oncology_omop_phi_irb76049_may2025",
+    oncology_neuralframe = "oncology_neuralframe_phi_irb76049_may2025",
+    oncology_philips = "oncology_philips_phi_irb76049_may2025"
+  ),
+  aug = list(
+    oncology_omop = "oncology_omop_phi_irb76049_aug2025",
+    oncology_neuralframe = "oncology_neuralframe_phi_irb76049_aug2025",
+    oncology_philips = "oncology_philips_phi_irb76049_aug2025"
+  )
+)
+
+
+all_results <- purrr::map_dfr(names(datasets_by_month), function(month_name) {
+  
+  dataset_map <- datasets_by_month[[month_name]]
+  
+  # Replace placeholders in SQL
+  sql_query <- readLines("/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/CTSA/metrics_uniq_pts_vital_overtime.sql") %>%
+    paste(collapse = "\n")
+  
+  for (placeholder in names(dataset_map)) {
+    sql_query <- stringr::str_replace_all(sql_query, paste0("@", placeholder), dataset_map[[placeholder]])
+  }
+  
+  credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
+project <- "som-rit-phi-oncology-prod"
+
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+
+  # Connect to BigQuery
+  conn <- dbConnect(
+    bigrquery::bigquery(),
+    project = project,
+    use_legacy_sql = FALSE
+  )
+
+  # Run the query (same as before)
+  result <- tryCatch({
+    dbGetQuery(conn, sql_query)
+  }, error = function(e) {
+    message(glue::glue("⚠️ Query failed for month={month_name}: {e$message}"))
+    return(NULL)
+  })
+  
+  if (!is.null(result)) {
+    result <- result %>% mutate(month = month_name)
+  }
+  
+  return(result)
+})
+
+
+
+
+all_results <- list()
+
+for (month_name in names(datasets_by_month)) {
+  dataset_map <- datasets_by_month[[month_name]]
+  
+  sql_query <- readLines(sql_file_path) %>% paste(collapse="\n")
+  
+  for (placeholder in names(dataset_map)) {
+    sql_query <- stringr::str_replace_all(sql_query, paste0("@", placeholder), dataset_map[[placeholder]])
+  }
+  
+  res <- tryCatch({
+    dbGetQuery(conn, sql_query)
+  }, error=function(e) {
+    message(glue::glue("⚠️ Query failed for month={month_name}: {e$message}"))
+    return(NULL)
+  })
+  
+  if (!is.null(res)) res$month <- month_name
+  all_results[[month_name]] <- res
+}
+
+final_df <- dplyr::bind_rows(all_results)
+
+
+```
+
+```{r function by time,  message=FALSE, warning=FALSE, results='hide'}
+run_monthly_metrics <- function(datasets_by_month,
+                                sql_file_path,
+                                project = "som-rit-phi-oncology-prod",
+                                credentials_path = "/home/rstudio/.config/gcloud/application_default_credentials.json") {
+  
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+  
+  purrr::map_dfr(names(datasets_by_month), function(month_name) {
+    
+    dataset_map <- datasets_by_month[[month_name]]
+    
+    # Read and prepare SQL
+    sql_query <- readLines(sql_file_path) %>% paste(collapse = "\n")
+    
+    for (placeholder in names(dataset_map)) {
+      sql_query <- stringr::str_replace_all(
+        sql_query,
+        paste0("@", placeholder),
+        dataset_map[[placeholder]]
+      )
+    }
+    
+    # Connect to BigQuery
+    conn <- DBI::dbConnect(
+      bigrquery::bigquery(),
+      project = project,
+      use_legacy_sql = FALSE
+    )
+    
+    # Run query safely
+    result <- tryCatch({
+      DBI::dbGetQuery(conn, sql_query)
+    }, error = function(e) {
+      message(glue::glue("⚠️ Query failed for month={month_name}: {e$message}"))
+      NULL
+    })
+    
+    DBI::dbDisconnect(conn)
+    
+    if (!is.null(result)) {
+      result <- dplyr::mutate(result, month = month_name)
+    }
+    
+    result
+  })
+}
+
+```
+## Release Summary ##
+
+```{r person cnt, message=FALSE, warning=FALSE, results='hide'}
+person_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_cohort/person_metrics.sql"
+)
+colnames(person_res)<-c("counts", "release")
+```
+```{r table1,message=FALSE, warning=FALSE }
+
+labels <- c(
+  release="Data Releases",
+  counts = "Number of Patients",
+)
+
+library(knitr)
+# convert abbreviations to full month names
+person_res <- person_res %>%
+  mutate(
+    release = recode(
+      release,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August"
+    ),
+    counts = scales::comma(counts)  # adds commas
+  ) %>%
+ knitr::kable(
+    col.names = c("Data Release", "Number of Patients"),
+    caption = "Patient counts per data release"
+  )
+  
+person_res
+```
+
+
+
+## Image Occurrence ##
+```{r image occ basics, message=FALSE, warning=FALSE , results='hide'}
+img_res<- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/image_occ/image_occ_person.sql"
+)
+
+```
+
+```{r img occ base, message=FALSE, warning=FALSE}
+
+df <- img_res %>% filter (variable_name=="Number of unique persons in image_occurrence table") %>%
+  mutate(month = factor(month, levels = c("feb", "may", "aug")))
+library(dplyr)
+library(plotly)
+# interactive grouped bar plot
+p <- plot_ly(
+  data = df,
+  x = ~month,
+  y = ~counts,
+  color=~variable_name,
+  colors="darkred",
+    text = ~paste0( "<br>Month: ", month, "<br>Count: ", scales::comma(counts)),
+  hoverinfo = "text",
+  type = "bar"
+) %>%
+  layout(
+    title = "Patient Counts by Release with Image Occurrence Data",
+    xaxis = list(title = "Release"),
+    yaxis = list(title = "Counts", tickformat = ","),
+    barmode = "stack"
+  )
+
+p <- p %>%
+  add_trace(data = df,
+            x = ~month,
+            y = ~counts,
+            type = 'scatter',
+            mode = 'lines+markers',
+            line = list(color = 'grey', width = 2),
+            marker = list(size = 8),
+            yaxis = "y",
+              showlegend = FALSE) %>%
+  layout(
+    title = "Counts by Month with Trend Line",
+    yaxis = list(title = "Counts", tickformat = ","),
+    xaxis = list(title = "Month")
+  )
+  p
+```
+
