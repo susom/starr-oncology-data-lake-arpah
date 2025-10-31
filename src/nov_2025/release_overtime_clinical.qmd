@@ -158,7 +158,7 @@ run_monthly_metrics <- function(datasets_by_month,
 
 ```
 ## Release Summary ##
-
+## Table 1
 ```{r person cnt, message=FALSE, warning=FALSE, results='hide'}
 person_res <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
@@ -183,7 +183,7 @@ person_res <- person_res %>%
     counts = scales::comma(counts)  # adds commas
   ) %>%
  knitr::kable(
-    col.names = c("Data Release", "Number of Patients"),
+    col.names = c("Number of Patients", "Data Release"),
     caption = "Patient counts per data release"
   )
   
@@ -191,6 +191,7 @@ person_res
 ```
 
 ### Data Sources Coverage ####
+## Plot 1
 ```{r arpah den, message=FALSE, warning=FALSE , results='hide'}
 
 arpah_den <- run_monthly_metrics(
@@ -218,7 +219,7 @@ philips_den <- bind_rows(
 
 
 ```{r growth plot2, message=FALSE, warning=FALSE }
-arpah_den=rbind(arpah_den, philips_den)
+arpah_den=rbind( philips_den, arpah_den)
 
 library(ggplot2)
 library(plotly)
@@ -226,18 +227,20 @@ library(dplyr)
 
 
 
-arpah_den <- arpah_den %>%
+arpah_den <- arpah_den %>%   distinct() %>%
+ # Sort by month and data set
+  group_by(data_set) %>%
   mutate(month = factor(month, levels = c("feb", "may", "aug"), ordered = TRUE)
   )
 
 arpah_den <- arpah_den %>%
   mutate(
-    month_full = case_when(
-      month == "feb" ~ "February",
-      month == "may" ~ "May",
-      month == "aug" ~ "August"
-    ),
-    month_full = factor(month_full, levels = c("February", "May", "August"), ordered = TRUE)
+    month = factor(month, levels = c("feb", "may", "aug"), ordered = TRUE),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August"
+    )
   )
 plot_ly(
   data = arpah_den,
@@ -247,14 +250,17 @@ plot_ly(
   type = 'scatter',
   mode = 'lines+markers',
   text = ~paste0(
-    data_set, "<br>Month: ", month,
+    data_set, "<br>Month: ", month_label,
     "<br>Coverage: ", round(percentage, 1), "%"
   ),
   hoverinfo = "text"
 ) %>%
   layout(
     title = "Temporal Coverage of Oncology Data Assets",
-    xaxis = list(title = "Release Month"),
+    xaxis = list(title = "Release Month", ticktext = c("February", "May", "August"),
+      tickvals = c("feb", "may", "aug"),
+      categoryorder = "array",
+      categoryarray = c("feb", "may", "aug")),
     yaxis = list(title = "Patient Coverage (%)", range = c(0, 105)),
     legend = list(title = list(text = "Data Source"))
   )
@@ -264,6 +270,7 @@ plot_ly(
 
 
 ## **Image Occurrence** ##
+## Plot 2
 ```{r image occ basics, message=FALSE, warning=FALSE , results='hide'}
 img_res<- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
@@ -292,7 +299,7 @@ p <- plot_ly(
   layout(
     title = "Patient Counts by Release with Image Occurrence Data",
     xaxis = list(title = "Release"),
-    yaxis = list(title = "Counts", tickformat = ","),
+    yaxis = list(title = "Patient Counts", tickformat = ","),
     barmode = "stack"
   )
 
@@ -308,14 +315,14 @@ p <- p %>%
               showlegend = FALSE) %>%
   layout(
     title = "Counts by Month with Trend Line",
-    yaxis = list(title = "Counts", tickformat = ","),
-    xaxis = list(title = "Month")
+    yaxis = list(title = "Patient Counts", tickformat = ","),
+    xaxis = list(title = "Release")
   )
   p
 ```
 
 ## Modality Types ##
-
+## Plot 3
 ```{r image occ mod, message=FALSE, warning=FALSE , results='hide'}
 img_mod<- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
@@ -370,15 +377,51 @@ img_p <- plot_ly(img_summary,
   layout(barmode = 'bar') %>%
   layout(
     title = "Image Occurrence by Modality Groups",
-    yaxis = list(title = "Counts", tickformat = ","),
+    yaxis = list(title = "Patient Counts", tickformat = ","),
     xaxis = list(title = "Top Modalities")
   )
 
 img_p
 ```
 
+## Temporal Growth of Modalities ##
+## Plot 4
+```{r growth plot, message=FALSE, warning=FALSE }
+library(plotly)
+library(dplyr)
+
+
+
+plot_ly(img_summary,
+        x = ~month,
+        y = ~counts,
+        color = ~modality_group,
+        type = 'scatter',
+        mode = 'lines+markers',
+        fill = 'tozeroy',  # shaded area under curve
+        hoverinfo = 'text',
+        text = ~paste0(
+          modality_group, "<br>Month: ", month,
+          "<br>Count: ", scales::comma(counts)
+        )) %>%
+  layout(
+    title = "Temporal Growth of Modalities",
+    xaxis = list(title = "Release"),
+    yaxis = list(title = "Number of Patients", tickformat = ","),
+    legend = list(title = list(text = "Modality")),
+    shapes = list(
+      # optional vertical reference lines for version releases
+      list(type = "line", x0 = "may", x1 = "may", y0 = 0, y1 = max(img_summary$counts),
+           line = list(dash = "dot", color = "black"))
+    )
+  )
+
+```
+
+
 ## CTSA Metrics ##
 
+## Plot 5 
 ```{r ctsa, message=FALSE, warning=FALSE} 
 
 ctsa_res <- run_monthly_metrics(
@@ -421,17 +464,6 @@ library(ggplot2)
 
 bar_colors <- brewer.pal(n = length(unique(img_summary$modality_group)), "Set3")
 
-ggplot(ctsa_res, aes(x = reorder(group_var, f1_), y = f1_)) +
-  geom_col(fill = "#3182bd") +
-  coord_flip() +
-  labs(
-    title = "Counts by Patient Data Type",
-    x = NULL,
-    y = "Number of Patients"
-  ) +
-  scale_y_continuous(labels = scales::comma) +
-  theme_minimal(base_size = 13)+ facet_wrap(~month)
-
 library(plotly)
 
 plot_ly(
@@ -451,39 +483,330 @@ plot_ly(
     yaxis = list(title = "")
   )
 ```
-## Temporal Growth of Modalities ##
-```{r growth plot, message=FALSE, warning=FALSE }
-library(plotly)
-library(dplyr)
 
-img_summary <- img_res %>%
-  group_by(month, modality_group) %>%
-  summarise(counts = n(), .groups = "drop")
+## **Pathology Notes** ##
 
-plot_ly(img_summary,
-        x = ~month,
-        y = ~counts,
-        color = ~modality_group,
-        type = 'scatter',
-        mode = 'lines+markers',
-        fill = 'tozeroy',  # shaded area under curve
-        hoverinfo = 'text',
-        text = ~paste0(
-          modality_group, "<br>Month: ", month,
-          "<br>Count: ", scales::comma(counts)
-        )) %>%
-  layout(
-    title = "Temporal Growth of Modalities",
-    xaxis = list(title = "Month / Release"),
-    yaxis = list(title = "Number of Records", tickformat = ","),
-    legend = list(title = list(text = "Modality")),
-    shapes = list(
-      # optional vertical reference lines for version releases
-      list(type = "line", x0 = "may", x1 = "may", y0 = 0, y1 = max(img_summary$counts),
-           line = list(dash = "dot", color = "black"))
-    )
-  )
+## Plot 6
+```{r note, message=FALSE, warning=FALSE , results='hide'}
+note_res<- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_clinical/note_path_cyto_person_metrics.sql"
+)
 
 ```
 
 
+```{r note plot, message=FALSE, warning=FALSE}
+# Reshape data for plotting
+library(tidyr)
+note_long <- note_res %>%
+  pivot_longer(
+    cols = c(patient_count, pathology_report_count),
+    names_to = "metric",
+    values_to = "count"
+  ) %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug")),
+    metric_label = case_when(
+      metric == "patient_count" ~ "Unique Patients",
+      metric == "pathology_report_count" ~ "Pathology Reports",
+      TRUE ~ metric
+    )
+  )
+
+# Create a plot with shaded areas and bottom legend
+plot_ly() %>%
+  add_trace(
+    data = note_long %>% filter(metric == "pathology_report_count"),
+    x = ~month,
+    y = ~count,
+    type = 'scatter',
+    mode = 'lines+markers',
+    name = 'Pathology Reports',
+    fill = 'tozeroy',
+    fillcolor = 'rgba(31, 119, 180, 0.3)',
+    line = list(color = '#1f77b4', width = 3),
+    marker = list(size = 10)
+  ) %>%
+  add_trace(
+    data = note_long %>% filter(metric == "patient_count"),
+    x = ~month,
+    y = ~count,
+    type = 'scatter',
+    mode = 'lines+markers',
+    name = 'Unique Patients',
+    fill = 'tozeroy',
+    fillcolor = 'rgba(255, 127, 14, 0.3)',
+    line = list(color = '#ff7f0e', width = 3),
+    marker = list(size = 10)
+  ) %>%
+  layout(
+    title = "Growth of Pathology Notes and Patient Coverage",
+    xaxis = list(
+      title = "Release Month",
+      ticktext = c("February", "May", "August"),
+      tickvals = c("feb", "may", "aug")
+    ),
+    yaxis = list(
+      title = "Count",
+      tickformat = ",",
+      rangemode = "tozero"  # Ensures the shading goes down to zero
+    ),
+    showlegend = TRUE,
+    legend = list(
+      orientation = "h",     # horizontal legend
+      xanchor = "center",    # center the legend
+      x = 0.5,              # position at the middle
+      y = -0.2              # position below the plot
+    ),
+    margin = list(b = 100), # add more bottom margin to accommodate the legend
+    hovermode = 'x unified'
+  )
+
+# Calculate and display some statistics
+note_stats <- note_res %>%
+  group_by(month) %>%
+  mutate(
+    reports_per_patient = round(pathology_report_count / patient_count, 2),
+    month = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August"
+    )
+  ) %>%
+  select(month, reports_per_patient)
+
+# Create a statistics table
+knitr::kable(
+  note_stats,
+  col.names = c("Month", "Reports per Patient"),
+  caption = "Average Number of Pathology Reports per Patient"
+)
+```
+
+
+## **Tumor Board** ##
+ 
+## Plot 7
+
+```{r, message=FALSE, warning=FALSE , results='hide'}
+tb_res<- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/tumor_board/tumor_board_overlap.sql"
+)
+
+```
+
+```{r, results='hide'}
+tb_p <- tb_res %>%
+  group_by(month) %>%
+  mutate(all_tb_val = total_patients[flag == "all_tb"]) %>%
+  ungroup() %>%
+  mutate(ratio = total_patients / all_tb_val) %>%
+  filter(flag != "all_tb") %>%
+  mutate(month = forcats::fct_relevel(month, "may", "aug"))
+
+
+# Compute proportions per month relative to all_tb
+df_rel <- tb_res %>%
+  group_by(month) %>%
+  mutate(all_tb_val = total_patients[flag == "all_tb"]) %>%
+  ungroup() %>%
+  mutate(prop = total_patients / all_tb_val) %>%
+  filter(flag != "all_tb")
+
+# Function to make one donut per month
+make_donut <- function(data, month_label) {
+  ggplot(data, aes(x = 2, y = prop, fill = flag)) +
+    geom_col(width = 1, color = "white") +
+    coord_polar(theta = "y") +
+    xlim(0.5, 2.5) +
+    labs(title = paste("Month:", month_label)) +
+    theme_void(base_size = 14) +
+    theme(
+      legend.position = "none",
+      plot.title = element_text(hjust = 0.5, face = "bold")
+    ) +
+    geom_text(
+      aes(label = paste0(round(prop * 100, 1), "%")),
+      position = position_stack(vjust = 0.5),
+      color = "white",
+      size = 4
+    )
+}
+
+# Make donuts for each month
+plots <- df_rel %>%
+  split(.$month) %>%
+  lapply(function(x) make_donut(x, unique(x$month)))
+
+# Combine donuts side-by-side with shared legend
+final_plot <- patchwork::wrap_plots(plots, nrow = 1) +
+  patchwork::plot_annotation(
+    title = "Distribution of TB Subgroups Relative to All TB per Month",
+    theme = theme(plot.title = element_text(size = 16, face = "bold", hjust = 0.5))
+  )
+
+
+
+
+
+
+# Prepare data: compute proportions relative to all_tb per month
+df2 <- tb_res %>%
+  group_by(month) %>%
+  mutate(all_tb_val = total_patients[flag == "all_tb"]) %>%
+  ungroup() %>%
+  mutate(prop = total_patients / all_tb_val) %>%
+  # separate inner (all_tb) vs outer (others) rings
+  mutate(ring = if_else(flag == "all_tb", "Total all_tb", "Sub-flags"))
+
+# For nested rings we need to build something like two geom_rect/geom_bar layers
+df_plot <- df2 %>%
+  arrange(month, ring, flag) %>%
+  group_by(month, ring) %>%
+  mutate(ymax = cumsum(prop),
+         ymin = lag(ymax, default = 0)) %>%
+  ungroup() %>%
+  mutate(radius_inner = if_else(ring == "Total all_tb", 1, 1.5),
+         radius_outer = if_else(ring == "Total all_tb", 1.2, 1.8))
+
+# Example for one month (say “may”)
+p_may <- df_plot %>% filter(month == "may") %>%
+  ggplot() +
+    geom_rect(aes(ymin = ymin, ymax = ymax,
+                  xmin = radius_inner, xmax = radius_outer,
+                  fill = flag),
+              colour = "white") +
+    coord_polar(theta = "y") +
+    xlim(0, 2) +
+    theme_void() +
+    labs(title = "May: TB sub-flags relative to all_tb") +
+    theme(legend.position = "right",
+          plot.title = element_text(face = "bold"))
+
+
+```
+
+
+
+```{r donut_plot, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(patchwork)  # to combine plots
+
+df_plot <- df2 %>%
+  arrange(month, ring, flag) %>%
+  group_by(month, ring) %>%
+  mutate(
+    ymax = cumsum(prop),
+    ymin = lag(ymax, default = 0),
+    # Calculate middle position for labels
+    label_position = (ymin + ymax) / 2,
+    # Format percentage labels
+    percentage_label = sprintf("%.1f%%", prop * 100),
+    # Create better flag labels
+    flag_label = case_when(
+      flag == "tb_nf" ~ "Neural Frame",
+      flag == "tb_imaging_nf" ~ "NF + Imaging",
+      flag == "tb_genomic_nf_imaging" ~ "NF + Imaging + Genomics",
+      flag == "thoracic_tb" ~ "Thoracic Cases",
+      TRUE ~ flag
+    )
+  ) %>%
+  ungroup() %>%
+  mutate(
+    radius_inner = if_else(ring == "Total all_tb", 1, 1.5),
+    radius_outer = if_else(ring == "Total all_tb", 1.2, 1.8)
+  )
+
+# Create enhanced donut plot for May
+p_may <- df_plot %>% 
+  filter(month == "may") %>%
+  ggplot() +
+    # Add the donut segments
+    geom_rect(aes(
+      ymin = ymin, 
+      ymax = ymax,
+      xmin = radius_inner, 
+      xmax = radius_outer,
+      fill = flag_label
+    ), colour = "white") +
+    # Add percentage labels
+    geom_text(aes(
+      x = (radius_inner + radius_outer) / 2,
+      y = label_position,
+      label = percentage_label
+    ), size = 3.5) +
+    # Customize the plot
+    coord_polar(theta = "y") +
+    xlim(0, 2) +
+    scale_fill_brewer(palette = "Set3", name = "Categories") +
+    labs(
+      title = "May 2025: Tumor Board Categories",
+      subtitle = "",
+      fill = "Category"
+    ) +
+    theme_void() +
+    theme(
+      legend.position = "right",
+      plot.title = element_text(face = "bold", hjust = 0.5, size = 14),
+      plot.subtitle = element_text(hjust = 0.5, size = 10),
+      legend.title = element_text(face = "bold"),
+      legend.text = element_text(size = 9),
+      plot.margin = margin(t = 20, r = 20, b = 20, l = 20)
+    )
+
+# Display the plot
+p_may
+
+# Create a function to generate plots for any month
+create_donut_plot <- function(data, month_name) {
+  data %>% 
+    filter(month == month_name) %>%
+    ggplot() +
+      geom_rect(aes(
+        ymin = ymin, 
+        ymax = ymax,
+        xmin = radius_inner, 
+        xmax = radius_outer,
+        fill = flag_label
+      ), colour = "white") +
+      geom_text(aes(
+        x = (radius_inner + radius_outer) / 2,
+        y = label_position,
+        label = percentage_label
+      ), size = 3.5) +
+      coord_polar(theta = "y") +
+      xlim(0, 2) +
+      scale_fill_brewer(palette = "Set3", name = "Categories") +
+      labs(
+        title = paste(tools::toTitleCase(month_name), "2025: Tumor Board Categories"),
+        subtitle = "",
+        fill = "Category"
+      ) +
+      theme_void() +
+      theme(
+        legend.position = "right",
+        plot.title = element_text(face = "bold", hjust = 0.5, size = 14),
+        plot.subtitle = element_text(hjust = 0.5, size = 10),
+        legend.title = element_text(face = "bold"),
+        legend.text = element_text(size = 9),
+        plot.margin = margin(t = 20, r = 20, b = 20, l = 20)
+      )
+}
+
+# Create plots for all months
+library(patchwork)
+p_feb <- create_donut_plot(df_plot, "feb")
+p_may <- create_donut_plot(df_plot, "may")
+p_aug <- create_donut_plot(df_plot, "aug")
+
+# Combine all plots
+combined_plots <- p_may + p_aug +
+  plot_layout(guides = "collect") & 
+  theme(legend.position = "bottom")
+
+# Display combined plots
+combined_plots
+```
