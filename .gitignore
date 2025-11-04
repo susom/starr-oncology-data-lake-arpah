@@ -8,3 +8,5 @@ src/may_2025/*_files/
 VennDiagram*.log
 uv.lock
 .venv
+src/aug_2025/systems_evaluation_table.qmd
+src/aug_2025/data/systems_evaluation_precision_recall_table.csv

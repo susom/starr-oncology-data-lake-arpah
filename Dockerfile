@@ -6,7 +6,12 @@ RUN sudo apt-get update && apt-get install -y libxml2-dev \
                                               zlib1g-dev \
                                               xdg-utils \
                                               libpng-dev \
-                                              curl 
+                                              curl \
+                                              libfontconfig1-dev \
+                                              libfreetype6-dev \
+                                              pkg-config \
+                                              libharfbuzz-dev \
+                                              libfribidi-dev 
 
 # Install R packages
 RUN mkdir /temp
