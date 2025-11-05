@@ -2,61 +2,65 @@ version: v0.0.1
 
 tool:
   name: Test
-  repo_url: https://github.com
-  tool_homepage: https://example.com
-  documentation_url: https://example.com
-  tool_type: Library
+  repo_url: https://github.com/susom/starr-oncology-data-lake-arpah
+  tool_homepage: https://susom.github.io/starr-oncology-data-lake-arpah/about.html
+  documentation_url: https://susom.github.io/starr-oncology-data-lake-arpah/about.html
+  tool_type: DataCatalog
+
+
+dataCatalog:
+  name: STARR Oncology Multi-modal Data Lake
+  description: |-
+    A unified data lake integrating oncology-relevant datasets at Stanford from EHR, Imaging, and Registry for research and modeling. 
+    Unless specified, the dataset is a BigQuery dataset with strict access control for IRB approved users. 
+    A subset of the research team, the PIs and superusers, have access to the PHI dataset and everyone in the IRB have access to the PHI scrubbed versions. 
+    Note that PHI scrubbed versions are not granted de-identification determination, they are deemed Stanford High Risk data. 
+    Only Stanford UPO can provide Expert Determination for data de-identification.
+  url: https://susom.github.io/starr-oncology-data-lake-arpah/about.html
+  datasets:
+    - name: Stanford Cancer Registry (SCR) via Neural Frame KACI
+      description: |-
+        Patients for whom Stanford abstracts data and submits to California Cancer Registry. 
+        Includes both analytical and non-analytical cases. Non-analytical cases are included since 2024. 
+        Nearly all thoracic cancer patients who went to tumor board are included in Stanford Cancer Registry. 
+        The Knowledge Assistant for Clinical Information (KACI) database used for SCR is managed by Neural Frame. 
+        This dataset is derived from Neural Frame provided database dump.
+      url: https://susom.github.io/starr-oncology-data-lake-arpah/about.html#neuralframe
+    - name: Oncology OMOP cohort
+      description: |-
+        Oncology patients with data transformed to OHDSI OMOP CDM v5.3. 
+        Our primary approach has been to build a subset of STARR OMOP for patients who are in the Stanford Cancer Registry. 
+        STARR OMOP contains research patients from Stanford ecosystem of hospitals.
+      url: https://susom.github.io/starr-oncology-data-lake-arpah/about.html#oncology-omop
+    - name: Genetic testing structured data
+      description: |-
+        This dataset is derived from Philips ISPM database. 
+        Philips ISPM abstracts genetic aberration data from PDFs that are forwarded to their system. 
+        It contains structured data for a subset of Stanford lab tests (STAMP) and external tests from Foundation One.
+      url: https://susom.github.io/starr-oncology-data-lake-arpah/about.html#philips-ispm
+    - name: Radiology DICOM data
+      description: |-
+        This dataset is not-standalone dataset, but instead is linked to the Oncology OMOP Cohort via the image_occurence table. 
+        The local_path in the image_occurence table points to the GCS bucket where the associated DICOMs for _accession_number are stored.
+      url: https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/image_occurrence.html 
+
 
 llm:
-  usesLlm: true
-  modelsSupported:
-    - openai
-  modelsRequired:
-    - openai
+  usesLlm: false
   bringOwnKey: false
 
-input:
-  - name: Test input
-    dataCategory: omics-molecular
-    dataClass: unstructured-text
-    dataType: Publications
-    format:
-      - txt
-    dataStandard:
-      - unknown
-    proprietary: false
-    source:
-
-output:
-  - name: Test output
-    dataCategory: knowledge graph
-    dataClass: graph-or-network
-    dataType: unknown
-    format:
-      - json
-    dataStandard:
-      - unknown
-    proprietary: false
-    source:
-
-collaborations: []
-
 domains:
-  - sample domain
+  - Healthcare
 
 credit:
-  - name: Team
+  - name: Stanford University VISTA Team
+    role: Research
+    org: Stanford University
+    url: https://stanford.edu
+  - name: Research and Education Technology and Digital Solutions
     role: Developer
-    org: Organization
-    url: https://example.com
-
-maturity:
-  beginning_maturity: 1
-  current_maturity: 7
-
-license:
-  license_type: MIT
-  link: https://example.com
+    org: Stanford Healthcare
+    url: https://stanfordhealthcare.org
 
 target_users:
   primary_user:
@@ -65,5 +69,11 @@ target_users:
       - intermediate
     biomedical_literacy_level:
       - intermediate
+
+maturity: []
+
+license: []
+
+collaborations: []
 
 media: []
