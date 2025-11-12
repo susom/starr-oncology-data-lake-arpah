@@ -13,7 +13,7 @@ or lower(primarysiteDescription) like '%thymus%'
 ),
 scr_data as
 (select scr.* from scr
-inner join person p on p.person_source_value = scr.stanford_patient_uid
+inner join person p on json_value(p.person_source_value, '.$stanford_patient_uid') = scr.stanford_patient_uid
 inner join dx on scr.stanford_patient_uid=dx.stanford_patient_uid
 ),
 smk_stat as (select naaccrtobaccodescription, count(distinct(stanford_patient_uid)) as counts, 'smoking status' as flag

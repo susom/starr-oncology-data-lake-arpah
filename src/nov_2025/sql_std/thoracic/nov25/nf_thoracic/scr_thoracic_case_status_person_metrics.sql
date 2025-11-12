@@ -22,7 +22,7 @@ scr_omop as
  nfcasestatus
 from
 scr_data
-inner join person p on p.person_source_value = scr_data.stanford_patient_uid
+inner join person p on json_value(p.person_source_value, '.$stanford_patient_uid')= scr_data.stanford_patient_uid
 )
 select
 nfcasestatus,

@@ -24,7 +24,7 @@ scr_omop as
  scr_data.earliest_scr_diagnosis_date
 from
 scr_data
-inner join person p on p.person_source_value = scr_data.stanford_patient_uid
+inner join person p on json_value(p.person_source_value, '.$stanford_patient_uid') = scr_data.stanford_patient_uid
 )
 select
 substr(earliest_scr_diagnosis_date,1,4) dx_year,

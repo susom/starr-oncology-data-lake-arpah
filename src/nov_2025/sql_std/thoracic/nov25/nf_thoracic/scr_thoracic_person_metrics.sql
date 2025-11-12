@@ -25,7 +25,7 @@ scr_omop as
  scr_data.earliest_scr_diagnosis_date
 from
 scr_data
-inner join person p on p.person_source_value = concat(scr_data.cleaned_nf_mrn, ' | ', scr_data.cleaned_nf_dob)
+inner join person p on json_value(p.person_source_value, '.$stanford_patient_uid') = concat(scr_data.cleaned_nf_mrn, ' | ', scr_data.cleaned_nf_dob)
 )
 select
 count(distinct person_source_value) patient_count
