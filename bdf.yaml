@@ -1,12 +1,69 @@
 version: v0.0.1
 
 tool:
-  name: Test
+  name: STARR Oncology Multi-modal Data Lake
   repo_url: https://github.com/susom/starr-oncology-data-lake-arpah
   tool_homepage: https://susom.github.io/starr-oncology-data-lake-arpah/about.html
   documentation_url: https://susom.github.io/starr-oncology-data-lake-arpah/about.html
   tool_type: DataCatalog
 
+domains:
+  - Healthcare
+
+llm:
+  usesLlm: false
+  bringOwnKey: false
+
+input:
+  - name: Electronic Health Records
+    dataCategory: clinical-phenotype
+    dataClass: tabular
+    dataType: clinical-ehr
+    dataStandard:
+      - OMOP
+    format:
+      - csv
+    proprietary: false
+
+output:
+  - name: Oncology Data Catalog
+    dataCategory: clinical-phenotype
+    dataClass: tabular
+    dataType: clinical-ehr
+    dataStandard:
+      - OMOP
+      - DICOM
+    format:
+      - json
+      - csv
+    proprietary: false
+
+collaborations: []
+
+maturity:
+  beginning_maturity: 3
+  current_maturity: 5
+
+license:
+  license_type: Apache-2.0
+
+credit:
+  - name: Stanford University VISTA Team
+    role: Researcher
+    org: Stanford University
+    url: https://stanford.edu
+  - name: Research and Education Technology and Digital Solutions
+    role: Developer
+    org: Stanford Healthcare
+    url: https://stanfordhealthcare.org
+
+target_users:
+  primary_user:
+    user_type: researcher
+    technical_literacy_level:
+      - intermediate
+    biomedical_literacy_level:
+      - intermediate
 
 dataCatalog:
   name: STARR Oncology Multi-modal Data Lake
@@ -16,8 +73,7 @@ dataCatalog:
     A subset of the research team, the PIs and superusers, have access to the PHI dataset and everyone in the IRB have access to the PHI scrubbed versions. 
     Note that PHI scrubbed versions are not granted de-identification determination, they are deemed Stanford High Risk data. 
     Only Stanford UPO can provide Expert Determination for data de-identification.
-  url: https://susom.github.io/starr-oncology-data-lake-arpah/about.html
-  datasets:
+  dataset:
     - name: Stanford Cancer Registry (SCR) via Neural Frame KACI
       description: |-
         Patients for whom Stanford abstracts data and submits to California Cancer Registry. 
@@ -42,38 +98,4 @@ dataCatalog:
       description: |-
         This dataset is not-standalone dataset, but instead is linked to the Oncology OMOP Cohort via the image_occurence table. 
         The local_path in the image_occurence table points to the GCS bucket where the associated DICOMs for _accession_number are stored.
-      url: https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/image_occurrence.html 
-
-
-llm:
-  usesLlm: false
-  bringOwnKey: false
-
-domains:
-  - Healthcare
-
-credit:
-  - name: Stanford University VISTA Team
-    role: Research
-    org: Stanford University
-    url: https://stanford.edu
-  - name: Research and Education Technology and Digital Solutions
-    role: Developer
-    org: Stanford Healthcare
-    url: https://stanfordhealthcare.org
-
-target_users:
-  primary_user:
-    user_type: researcher
-    technical_literacy_level:
-      - intermediate
-    biomedical_literacy_level:
-      - intermediate
-
-maturity: []
-
-license: []
-
-collaborations: []
-
-media: []
+      url: https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/image_occurrence.html
