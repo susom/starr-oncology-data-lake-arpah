@@ -1,0 +1,42 @@
+---
+title: "fact_relationship"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                   | type    | required   | phi   | phi scrubbing operation   |
+|:------------------------|:--------|:-----------|:------|:--------------------------|
+| domain_concept_id_1     | INTEGER | Yes        |       |                        |
+| fact_id_1               | INTEGER | Yes        |       |                        |
+| domain_concept_id_2     | INTEGER | Yes        |       |                        |
+| fact_id_2               | INTEGER | Yes        |       |                        |
+| relationship_concept_id | INTEGER | Yes        |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### domain_concept_id_1
+
+The concept representing the domain of fact one, from which the corresponding table can be inferred.
+
+##### fact_id_1
+
+The unique identifier in the table corresponding to the domain of fact one.
+
+##### domain_concept_id_2
+
+The concept representing the domain of fact two, from which the corresponding table can be inferred.
+
+##### fact_id_2
+
+The unique identifier in the table corresponding to the domain of fact two.
+
+##### relationship_concept_id
+
+A foreign key to a Standard Concept ID of relationship in the Standardized Vocabularies.
+

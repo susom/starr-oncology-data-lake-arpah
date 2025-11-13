@@ -1,0 +1,77 @@
+---
+title: "drug_strength"
+---
+
+Vocabulary Tables
+
+### Table Columns
+
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| drug_concept_id                                     | INTEGER | Yes        |       |                        |
+| ingredient_concept_id                               | INTEGER | Yes        |       |                        |
+| amount_value                                        | FLOAT   | No         |       |                        |
+| amount_unit_concept_id                              | INTEGER | No         |       |                        |
+| numerator_value                                     | FLOAT   | No         |       |                        |
+| numerator_unit_concept_id                           | INTEGER | No         |       |                        |
+| denominator_value                                   | FLOAT   | No         |       |                        |
+| denominator_unit_concept_id                         | INTEGER | No         |       |                        |
+| box_size                                            | INTEGER | No         |       |                        |
+| valid_start_date                                    | DATE    | Yes        |       |                        |
+| valid_end_date                                      | DATE    | Yes        |       |                        |
+| invalid_reason                                      | STRING  | No         |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### drug_concept_id
+
+A foreign key to the Concept in the CONCEPT table representing the identifier for Branded Drug or Clinical Drug Concept.
+
+##### ingredient_concept_id
+
+A foreign key to the Concept in the CONCEPT table, representing the identifier for drug Ingredient Concept contained within the drug product.
+
+##### amount_value
+
+The numeric value associated with the amount of active ingredient contained within the product.
+
+##### amount_unit_concept_id
+
+A foreign key to the Concept in the CONCEPT table representing the identifier for the Unit for the absolute amount of active ingredient.
+
+##### numerator_value
+
+The numeric value associated with the concentration of the active ingredient contained in the product
+
+##### numerator_unit_concept_id
+
+A foreign key to the Concept in the CONCEPT table representing the identifier for the numerator Unit for the concentration of active ingredient.
+
+##### denominator_value
+
+The amount of total liquid (or other divisible product, such as ointment, gel, spray, etc.).
+
+##### denominator_unit_concept_id
+
+A foreign key to the Concept in the CONCEPT table representing the identifier for the denominator Unit for the concentration of active ingredient.
+
+##### box_size
+
+The number of units of Clinical of Branded Drug, or Quantified Clinical or Branded Drug contained in a box as dispensed to the patient
+
+##### valid_start_date
+
+The date when the Concept was first recorded. The default value is 1-Jan-1970.
+
+##### valid_end_date
+
+The date when the concept became invalid because it was deleted or superseded (updated) by a new Concept. The default value is 31-Dec-2099.
+
+##### invalid_reason
+
+Reason the concept was invalidated. Possible values are 'D' (deleted), 'U' (replaced with an update) or NULL when valid_end_date has the default value.
+

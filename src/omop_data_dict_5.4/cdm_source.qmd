@@ -1,0 +1,67 @@
+---
+title: "cdm_source"
+---
+
+Standardized Metadata Table
+
+### Table Columns
+
+| field                                               | type   | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:-------|:-----------|:------|--------------------------:|
+| cdm_source_name                                     | STRING | Yes        |       |                        |
+| cdm_source_abbreviation                             | STRING | No         |       |                        |
+| cdm_holder                                          | STRING | No         |       |                        |
+| source_description                                  | STRING | No         |       |                        |
+| source_documentation_reference                      | STRING | No         |       |                        |
+| cdm_etl_reference                                   | STRING | No         |       |                        |
+| source_release_date                                 | DATE   | No         |       |                        |
+| cdm_release_date                                    | DATE   | No         |       |                        |
+| cdm_version                                         | STRING | No         |       |                        |
+| vocabulary_version                                  | STRING | No         |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### cdm_source_name
+
+The full name of the various raw datasources,
+
+##### cdm_source_abbreviation
+
+An abbreviation of the CDM source.
+
+##### cdm_holder
+
+The name of the organization responsible for the development of the CDM instance
+
+##### source_description
+
+Primary IRB 
+
+##### source_documentation_reference
+
+URL or other external reference to location of source documentation
+
+##### cdm_etl_reference
+
+URL or other external reference to location of ETL specification documentation and ETL source code
+
+##### source_release_date
+
+The date for which the source data are most current, such as the last day of data capture
+
+##### cdm_release_date
+
+The date when the CDM was instantiated
+
+##### cdm_version
+
+The version of CDM used
+
+##### vocabulary_version
+
+The version of the vocabulary used
+

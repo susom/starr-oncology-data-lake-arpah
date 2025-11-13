@@ -1,0 +1,94 @@
+---
+title: "image_occurrence"
+---
+
+Clinical Data Table (not yet a Standard)
+
+### Table Columns
+
+| field                                               | type    | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
+| image_occurrence_id (PK)                            | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
+| person_id (FK)                                      | INTEGER | Yes        |       | Sub                       |
+| procedure_occurrence_id                             | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER | No         |       | Not Stable between Data Refreshes                    |
+| anatomic_site_source_value                          | STRING  | No         |       | Whitelist                 |
+| wadors_uri                                          | STRING  | No         |       | Del                       |
+| local_path                                          | STRING  | No         |       | Del                       |
+| image_occurrence_date                               | DATE    | Yes        |       | Jitt                      |
+| image_occurrence_datetime                           | DATETIME| Yes        |       | Jitt                      |
+| image_study_uid                                     | STRING  | Yes        |       | Hash                      |
+| image_series_uid                                    | STRING  | Yes        |       | Hash                      |
+| modality_source_value                               | STRING  | Yes        |       | Whitelist                 |
+| _accession_number                                   | STRING  | No         |       | Hash                      |
+| _note_id                                            | INTEGER | No         |       | Not Stable between Data Refreshes                    |      
+| _study_description                                  | STRING  | No         |       | Tide-lite                 |
+| _series_description                                 | STRING  | No         |       | Tide-lite                |
+                 |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### image_occurrence_id (pk)
+
+A system-generated unique identifier for each Image Occurrence event
+
+##### person_id (fk)
+
+A foreign key identifier to the Person who is subjected to the Drug. The demographic details of that Person are stored in the PERSON table
+
+##### procedure_occurrence_id
+
+The unique key is given to a procedure record for a person. Links to the Procedure_occurrence table
+
+##### visit_occurrence_id
+
+The unique key is given to the visit record for a person. Links to the Visit_occurrence table
+
+##### anatomic_site_source_value
+
+Anatomical location of the imaging procedure by the medical acquisition device (gross anatomy). It maps the ANATOMIC_SITE_SOURCE_VALUE to a Standard Concept in the Spec Anatomic Site domain. This should be coded at the lowest level of granularit
+
+##### wadors_uri
+
+Web Access to DICOM Objects via Restful Web Services Uniform Resource Identifier on study level
+
+##### local_path
+
+Local path to the folder containing the image object file (access via a storage block
+access protocol)
+
+##### image_occurrence_date
+
+The date the imaging procedure occurred
+
+##### image_study_uid
+
+DICOM Study UID(unique identifier). One study can include several series
+
+##### image_series_uid
+
+DICOM Series UID (unique identifier)
+
+##### modality_source_value
+
+A label that defines the imaging procedures and usually refers to the type of imaging device used. It is of the attributes of the DICOM file (e.g., US, CT, MR, PT, DR, CR, NM)
+
+##### _accession_number
+
+A unique identifier assigned to a patient's specimen or procedure order when it is entered into the system. Note that accession numbers may not be unique across departments, but are usually unique across modalities
+
+##### _study_description
+
+Study description as is appears in the DICOM metadata
+
+##### _series_description
+
+Series description as is appears in the DICOM metadata
+
+##### _note_id
+A unique identifier for each note.
+
+

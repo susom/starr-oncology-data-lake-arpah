@@ -1,0 +1,56 @@
+---
+title: "death"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                                      | type   | required   | phi   | phi scrubbing operation   |
+|:-----------------------------------------------------------|:-------|:-----------|:------|:--------------------------|
+| person_id                                                  |        | Yes        |       | Sub                       |
+| death_date                                                 |        | Yes        | Yes   | Jitter                    |
+| death_datetime                                             |        | No         | Yes   | Jitter                    |
+| death_type_concept_id                                      |        | No         |       |                        |
+| cause_concept_id                                           |        | No         |       |                        |
+| cause_source_value                                         |        | No         |       |                        |
+| cause_source_concept_id                                    |        | No         |       |                        |         |       |                        |
+| _death_date_external (Stanford construct for traceability) |        | No         | Yes   | Del                       |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### person_id
+
+A foreign key identifier to the deceased person. The demographic details of that person are stored in the person table.
+
+##### death_date
+
+The date the person was deceased as reported in the EHR. If the precise date including day or month is not known or not allowed, December is used as the default month, and the last day of the month the default day. 
+
+##### death_datetime
+
+The date and time the person was deceased as reported in the EHR. If the precise date including day or month is not known or not allowed, December is used as the default month, and the last day of the month the default day. (currently empty)
+
+##### death_type_concept_id
+
+This field can be used to determine the provenance of the Death record, as in whether the death information was from an EHR system, insurance claim, registry, or other sources.
+
+##### cause_concept_id
+
+A foreign key referring to a standard concept identifier in the Standardized Vocabularies for conditions.
+
+##### cause_source_value
+
+The source code for the cause of death as it appears in the source data. This code is mapped to a standard concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+##### cause_source_concept_id
+
+A foreign key to the concept that refers to the code used in the source. Note, this variable name is abbreviated to ensure it will be allowable across database platforms.
+
+
+##### _death_date_external (stanford construct for traceability) 
+
+This field stores a string that combines the 'death_type_concept_id' with the actual death date, separated by a pipe '|'. The 'death_type_concept_id' indicates the source of the death information, such as '32885' for the Social Security Death Master File. Following the pipe, the death date is provided in 'YYYY-MM-DD' format. This format allows for the association of a specific death date with its corresponding data source. Example format: '32885|2019-09-24', where '32885' represents the Social Security Death Master File and '2019-09-24' is the date of death from that source. This field is essential for tracking and verifying death information from various external sources.

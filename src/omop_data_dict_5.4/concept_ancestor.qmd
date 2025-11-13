@@ -1,0 +1,37 @@
+---
+title: "concept_ancestor"
+---
+
+Vocabulary Tables
+
+### Table Columns
+
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| ancestor_concept_id                                 | INTEGER | Yes        |       |                        |
+| descendant_concept_id                               | INTEGER | Yes        |       |                        |
+| min_levels_of_separation                            | INTEGER | Yes        |       |                        |
+| max_levels_of_separation                            | INTEGER | Yes        |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### ancestor_concept_id
+
+A foreign key to the concept in the concept table for the higher-level concept that forms the ancestor in the relationship.
+
+##### descendant_concept_id
+
+A foreign key to the concept in the concept table for the lower-level concept that forms the descendant in the relationship.
+
+##### min_levels_of_separation
+
+The minimum separation in number of levels of hierarchy between ancestor and descendant concepts. This is an attribute that is used to simplify hierarchic analysis.
+
+##### max_levels_of_separation
+
+The maximum separation in number of levels of hierarchy between ancestor and descendant concepts. This is an attribute that is used to simplify hierarchic analysis.
+

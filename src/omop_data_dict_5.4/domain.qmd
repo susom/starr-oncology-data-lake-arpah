@@ -1,0 +1,31 @@
+---
+title: "domain"
+---
+
+Vocabulary Tables
+
+### Table Columns
+
+| field             | type    | required   | phi   |   phi scrubbing operation |
+|:------------------|:--------|:-----------|:------|--------------------------:|
+| domain_id         | STRING  | Yes        |       |                        |
+| domain_name       | STRING  | Yes        |       |                        |
+| domain_concept_id | INTEGER | Yes        |       |                        |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### domain_id
+
+A unique key for each domain.
+
+##### domain_name
+
+The name describing the Domain, e.g. "Condition", "Procedure", "Measurement" etc.
+
+##### domain_concept_id
+
+A Concept representing the Domain Concept the DOMAIN record belongs to.            
+
