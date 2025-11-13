@@ -5,7 +5,7 @@ with thoracic_pts as (
 select distinct p.person_id , nf.stanford_patient_uid 
 from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses` nf 
 INNER JOIN `@oncology_prod.@oncology_omop.person` p 
-ON json_value(p.person_source_value, '.$stanford_patient_uid') = nf.stanford_patient_uid
+ON json_value(p.person_source_value, '$.stanford_patient_uid') = nf.stanford_patient_uid
 where LOWER(primarySiteDescription) LIKE '%lung%'
         OR LOWER(primarySiteDescription) LIKE '%bronchus%'
         OR LOWER(primarySiteDescription) LIKE '%thymus%'

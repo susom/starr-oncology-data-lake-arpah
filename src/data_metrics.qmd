@@ -28,12 +28,19 @@ The August 2025 release is the third release of the dataset which includes addit
 
 - [August 2025 Metrics](aug_2025/metrics_clinical.qmd)
 
+
+
 ### November 2025
 
 The November 2025 release is the fourth release of the dataset which includes updated data sources such as OMOP 5.4, image occurrence, Philips ISPM, and Stanford cancer registry. You can find detailed information about this release by following the link below:
 
 - [November 2025 Metrics](nov_2025/metrics_clinical.qmd)
 
+### November 2025
+
+The November 2025 release is the fourth release of the dataset which includes OMOP 5.4 in addition to Philips ISPM, Stanford cancer registry  You can find detailed information about this release by following the link below:
+
+- [November 2025 Metrics](nov_2025/metrics_clinical.qmd)
 ## Future Releases
 
 Future releases will include additional metrics and updates to the existing ones.

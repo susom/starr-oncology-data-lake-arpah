@@ -25,7 +25,7 @@ scr_omop AS ( -- nf with omop
         primarySiteDescription,
         nfcasestatus
     FROM scr_data
-    INNER JOIN person p ON json_value(p.person_source_value, '.$stanford_patient_uid')= scr_data.stanford_patient_uid
+    INNER JOIN person p ON json_value(p.person_source_value, '$.stanford_patient_uid')= scr_data.stanford_patient_uid
 ) , -- 200,715
 imaging_data AS (
     SELECT DISTINCT 

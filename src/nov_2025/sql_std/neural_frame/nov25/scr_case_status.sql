@@ -7,6 +7,6 @@ person as (select * from `@oncology_prod.@oncology_omop.person`),
 scr as (select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_diagnoses`)
 select nfcasestatus 
 , count(distinct p.person_id) as unique_person_count_case from scr
-inner join person p on json_value(p.person_source_value, '.$stanford_patient_uid') = scr.stanford_patient_uid
+inner join person p on json_value(p.person_source_value, '$.stanford_patient_uid') = scr.stanford_patient_uid
 group by 1 
 order by 2 desc
