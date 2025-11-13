@@ -916,3 +916,8 @@ create_gt_table_v1(
 
 
 :::
+
+### Source Codes:
+
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/neural_frame.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/sql_std/neural_frame). 
+The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/sql_std/nf_thoracic).
