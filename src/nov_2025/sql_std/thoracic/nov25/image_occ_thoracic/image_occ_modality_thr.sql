@@ -31,12 +31,13 @@ imaging_data AS (
     SELECT DISTINCT 
         image_study_uid, 
         image_series_uid, 
-        modality_source_value, 
+        JSON_VALUE(modality_source_value, '$.modality') AS modality_source_value, 
         person_id  
     FROM 
           `@oncology_prod.@oncology_omop.image_occurrence`
     WHERE 
-        modality_source_value IS NOT NULL and modality_source_value not in ('PR', 'KO', 'REG', 'SR')
+        modality_source_value IS NOT NULL 
+        AND JSON_VALUE(modality_source_value, '$.modality') NOT IN ('PR', 'KO', 'REG', 'SR')
 ) , 
 thoracic_cancer_patients AS ( --thoracic cancer 
     SELECT 

@@ -24,13 +24,13 @@ scr_omop AS ( -- nf with omop
         primarySiteDescription,
         nfcasestatus
     FROM scr_data
-    INNER JOIN person p ON json_value(p.person_source_value, '.$stanford_patient_uid') = scr_data.stanford_patient_uid
+    INNER JOIN person p ON json_value(p.person_source_value, '$.stanford_patient_uid') = scr_data.stanford_patient_uid
 ) , -- 200,715
 imaging_data AS (
     SELECT DISTINCT 
         image_study_uid, 
         image_series_uid, 
-        anatomic_site_source_value, 
+        JSON_VALUE(anatomic_site_source_value, '$.body_part_examined') AS anatomic_site_source_value, 
         person_id  
     FROM 
           `@oncology_prod.@oncology_omop.image_occurrence`
