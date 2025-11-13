@@ -26,7 +26,7 @@ den_res=den_res %>% arrange(desc(percentage))
 
 Patients are included in the Oncology-OMOP dataset if they have a case in the Neural Frame Stanford Cancer Registry (regardless of case status) or if they have a tumor board encounter in Epic Clarity. 
 
-As of the August 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
+As of the November 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
     - [Neural Frame Metrics](neural_frame.qmd)
@@ -86,7 +86,7 @@ den_res_formatted <- den_res %>%
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/arpah_cohort/arpah_overlap_metrics_updated.sql"
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/nov25/arpah_overlap_metrics_updated.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
 head(res)
 
@@ -166,4 +166,4 @@ pg
 
 ```
 ### Source Codes:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/aug_2025/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/arpah_cohort). 
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/nov_2025/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/sql_std/arpah_cohort/nov25). 
