@@ -37,7 +37,7 @@ scr_omop_thoracic_tx as
  scr_thoracic_tx.*
 from
 scr_thoracic_tx
-inner join person p on json_value(p.person_source_value, '.$stanford_patient_uid') = scr_thoracic_tx.stanford_patient_uid
+inner join person p on json_value(p.person_source_value, '$.stanford_patient_uid') = scr_thoracic_tx.stanford_patient_uid
 ),
 scr_omop_thoracic_tx_summary as
 (select

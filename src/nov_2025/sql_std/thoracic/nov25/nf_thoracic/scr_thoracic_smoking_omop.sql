@@ -25,7 +25,7 @@ scr_omop AS ( -- thoracic cancer pts in omop
         sd.primarySiteDescription
     FROM scr_data sd
     INNER JOIN `@oncology_prod.@oncology_omop.person` p 
-        ON json_value(p.person_source_value, '.$stanford_patient_uid')= sd.stanford_patient_uid
+        ON json_value(p.person_source_value, '$.stanford_patient_uid')= sd.stanford_patient_uid
 ),
 observation AS (
     SELECT 

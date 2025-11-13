@@ -25,11 +25,11 @@ scr_omop AS ( -- thoracic cancer pts in omop
         sd.primarySiteDescription
     FROM scr_data sd
     INNER JOIN `@oncology_prod.@oncology_omop.person` p 
-        ON p.person_source_value = sd.stanford_patient_uid
+        ON json_value(p.person_source_value, '$.stanford_patient_uid') = sd.stanford_patient_uid
 ),
 outcomes as (select outcome.*  from  scr_omop omop
 inner join `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_outcomes` outcome
-on json_value(omop.person_source_value, '.$stanford_patient_uid') = outcome.stanford_patient_uid
+on json_value(omop.person_source_value, '$.stanford_patient_uid') = outcome.stanford_patient_uid
 ) 
 select recurrenceType1st, recurrencetype1stdescription, COUNT(DISTINCT stanford_patient_uid) as n_pts 
 from outcomes

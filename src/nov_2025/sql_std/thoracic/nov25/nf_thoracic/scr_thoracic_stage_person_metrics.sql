@@ -22,7 +22,7 @@ WITH
   INNER JOIN
     person p
   ON
-    json_value(p.person_source_value, '.$stanford_patient_uid') = scr.stanford_patient_uid
+    json_value(p.person_source_value, '$.stanford_patient_uid') = scr.stanford_patient_uid
 ),
   stage_transform AS (
   SELECT

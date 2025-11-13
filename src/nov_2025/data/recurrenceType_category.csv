@@ -1,0 +1,34 @@
+﻿recurrenceType1st,recurrenceType1stDescription,patient_count,recurrenceType_category
+0,Patient became disease-free after treatment and has not had a recurrence; leukemia in remission.,109709,Disease-free after treatment and has not had a recurrence
+70,"Since diagnosis, patient has never been disease-free. This includes cases with distant metastasis at diagnosis, systemic disease, unknown primary, or minimal disease that is not treated.",81073,Never been disease-free
+99,It is unknown whether the disease has recurred or if the patient was ever disease-free.,4839,It is unknown whether the disease has recurred or if the patient was ever disease-free.
+10,Local recurrence and there is insufficient information available to code to 13-17. Recurrence is confined to the remnant of the organ of origin; to the organ of origin; to the anastomosis; or to scar tissue where the organ previously existed.,2547,Local recurrence
+88,"Disease has recurred, but the type of recurrence is unknown.",2294,"Disease has recurred, but the type of recurrence is unknown."
+13,Local recurrence of an invasive tumor.,1843,Local recurrence
+59,"Distant systemic recurrence of an invasive tumor only. This includes leukemia, bone marrow metastasis, carcinomatosis, and generalized disease.",952,Distant recurrence
+52,Distant recurrence of an invasive tumor in the lung only. Lung includes the visceral pleura.,780,Distant recurrence
+40,Distant recurrence and there is insufficient information available to code to 46-62.,686,Distant recurrence
+62,Distant recurrence of an invasive tumor in multiple sites (recurrences that can be coded to more than one category 51-59).,678,Distant recurrence
+54,Distant recurrence of an invasive tumor in the liver only.,674,Distant recurrence
+55,Distant recurrence of an invasive tumor in bone only. This includes bones other than the primary site.,661,Distant recurrence
+20,"Regional recurrence, and there is insufficient information available to code to 21-27.",428,Regional recurrence
+56,"Distant recurrence of an invasive tumor in the CNS only. This includes the brain and spinal cord, but not the external eye.",420,Distant recurrence
+22,Recurrence of an invasive tumor in regional lymph nodes only.,392,Regional recurrence
+30,"Both regional recurrence of an invasive tumor in adjacent tissue or organ(s) and/or regional lymph nodes (20-25) and local and/or trocar recurrence (10, 13, 14, or 15).",296,Regional recurrence
+58,Distant recurrence of an invasive tumor in lymph node only. Refer to the staging scheme for a description of lymph nodes that are distant for a particular site.,222,Distant recurrence
+21,Recurrence of an invasive tumor in adjacent tissue or organ(s) only.,211,Regional recurrence
+6,In situ recurrence of an in situ tumor.,103,Local recurrence
+51,Distant recurrence of an invasive tumor in the peritoneum only. Peritoneum includes peritoneal surfaces of all structures within the abdominal cavity and/or positive ascitic fluid.,99,Distant recurrence
+60,"Distant recurrence of an invasive tumor in a single distant site (51-58) and local, trocar, and/or regional recurrence (10-15, 20-25, or 30).",89,Distant recurrence
+16,Local recurrence of an in situ tumor.,82,Local recurrence
+4,In situ recurrence of an invasive tumor.,64,Local recurrence
+25,Recurrence of an invasive tumor in adjacent tissue or organ(s) and in regional lymph nodes (both 21 and 22) at the same time.,45,Regional recurrence
+53,Distant recurrence of an invasive tumor in the pleura only. Pleura includes the pleural surface of all structures within the thoracic cavity and/or positive pleural fluid.,33,Distant recurrence
+15,Both local and trocar recurrence of an invasive tumor (both 13 and 14),32,Local recurrence
+57,Distant recurrence of an invasive tumor in the skin only. This includes skin other than the primary site.,24,Distant recurrence
+36,Both regional recurrence of an in situ tumor in adjacent tissue or organ(s) and/or regional lymph nodes (26 or 27) and local and/or trocar recurrence (16 or 17).,16,Regional recurrence
+26,"Regional recurrence of an in situ tumor, NOS.",15,Regional recurrence
+46,Distant recurrence of an in situ tumor.,8,Distant recurrence
+17,Both local and trocar recurrence of an in situ tumor.,7,Local recurrence
+14,Trocar recurrence of an invasive tumor. Includes recurrence in the trocar path or entrance site following prior surgery.,5,Local recurrence
+27,Recurrence of an in situ tumor in adjacent tissue or organ(s) and in regional lymph nodes at the same time.,2,Regional recurrence
