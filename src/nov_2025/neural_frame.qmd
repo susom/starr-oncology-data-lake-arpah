@@ -19,7 +19,7 @@ nf_den
 ```
 
 ```{r case status all ,message=FALSE, warning=FALSE, results='hide'}
-sql_nf<- "src/nov_2025/sql_std/thoracic/nov25/nf_thoracic/scr_case_status.sql"
+sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/nf_thoracic/scr_case_status.sql"
 case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
 head(case)
 case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
@@ -64,7 +64,7 @@ The thoracic cancer cohort includes patients diagnosed with primary malignancies
 
 
 ```{r case status thoracic, message=FALSE, warning=FALSE, results='hide'}
-sql_nf<- "src/nov_2025/sql_std/thoracic/nov25/nf_thoracic/scr_case_status.sql"
+sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/nf_thoracic/scr_case_status.sql"
 case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
 head(case)
 case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
