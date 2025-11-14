@@ -22,10 +22,10 @@ Standard Clinical Data Table
 | visit_detail_source_concept_id                      | INTEGER  | Yes        |       |                        |
 | admitted_from_source_value                          | STRING   | No         | Yes   |                        |
 | admitted_from_concept_id                            | INTEGER  | Yes        |       |                        |
-| discharge_to_source_value                           | STRING   | No         | Yes   |                        |
-| discharge_to_concept_id                             | INTEGER  | Yes        |       |                        |
+| discharged_to_source_value                           | STRING   | No         | Yes   |                        |
+| discharged_to_concept_id                             | INTEGER  | Yes        |       |                        |
 | preceding_visit_detail_id                           | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_detail_parent_id                              | INTEGER  | No         |       |                        |
+| parent_visit_detail_id                              | INTEGER  | No         |       |                        |
 | visit_occurrence_id                                 | INTEGER  | Yes        |       |                        |
 
 
@@ -90,11 +90,11 @@ The source code for the admitting source as it appears in the source data.
 
 A foreign key to the predefined concept in the 'Place of Service' Vocabulary reflecting the admitting source for a visit.
 
-##### discharge_to_source_value
+##### discharged_to_source_value
 
 The source code for the discharge disposition as it appears in the source data.
 
-##### discharge_to_concept_id
+##### discharged_to_concept_id
 
 A foreign key to the predefined concept in the 'Place of Service' Vocabulary reflecting the discharge disposition for a visit.
 
@@ -102,7 +102,7 @@ A foreign key to the predefined concept in the 'Place of Service' Vocabulary ref
 
 A foreign key to the VISIT_DETAIL table of the visit immediately preceding this visit
 
-##### visit_detail_parent_id
+##### parent_visit_detail_id
 
 A foreign key to the VISIT_DETAIL table record to represent the parent Visit Detail this Visit Detail belongs to, to allow for multiple levels of nested visits.
 

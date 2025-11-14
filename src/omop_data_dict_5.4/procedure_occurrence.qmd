@@ -13,6 +13,8 @@ Standard Clinical Data Table
 | procedure_concept_id                                | INTEGER  | Yes        |       |                        |
 | procedure_DATE                                      | DATE     | No         | Yes   | Jitt                      |
 | procedure_DATETIME                                  | DATETIME | Yes        | Yes   | Jitt                      |
+| procedure_end_date                                  | DATE     | No         | Yes   | Jitt                      |
+| procedure_end_datetime                              | DATETIME | No         | Yes   | Jitt                      |
 | procedure_type_concept_id                           | INTEGER  | Yes        |       |                        |
 | modifier_concept_id                                 | INTEGER  | Yes        |       |                        |
 | quantity                                            | INTEGER  | No         |       |                        |
@@ -48,6 +50,14 @@ The date on which the Procedure was performed.
 ##### procedure_datetime
 
 The date and time on which the Procedure was performed.
+
+##### procedure_end_date
+
+The end date on which the Procedure was completed.
+
+##### procedure_end_datetime
+
+The end date and time on which the Procedure was completed.
 
 ##### procedure_type_concept_id
 

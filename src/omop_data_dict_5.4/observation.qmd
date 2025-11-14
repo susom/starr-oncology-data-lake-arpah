@@ -25,6 +25,9 @@ Standard Clinical Data Table
 | observation_source_value                            | STRING   | No         | Yes   |                        |
 | observation_source_concept_id                       | INTEGER  | Yes        |       |                        |
 | unit_source_value                                   | STRING   | No         | Yes   |                        |
+| value_source_value                                  | STRING   | No         | Yes   |                        |
+| observation_event_id                                | INTEGER  | No         |       |                        |
+| obs_event_field_concept_id                          | INTEGER  | No         |       |                        |
 | qualifier_source_value                              | STRING   | No         |       | Del                       |
 
 
@@ -100,6 +103,18 @@ A foreign key to a Concept that refers to the code used in the source.
 ##### unit_source_value
 
 The source code for the unit as it appears in the source data. This code is mapped to a standard unit concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+##### value_source_value
+
+The source code for the value as it appears in the source data.
+
+##### observation_event_id
+
+A foreign key to an event (procedure, drug exposure, etc.) that caused or is associated with the observation.
+
+##### obs_event_field_concept_id
+
+A foreign key to a concept that identifies which table and field contains the event identifier referenced in observation_event_id.
 
 ##### qualifier_source_value
 

@@ -16,10 +16,12 @@ Standarized Health System Data Tables
 | zip                                                 | STRING  | No         | Yes   | RedZip                    |
 | county                                              | STRING  | No         | No    | Del                       |
 | location_source_value                               | STRING  | No         | Yes   | Del                       |
+| country_concept_id                                  | INTEGER | No         | No    |                        |
+| country_source_value                                | STRING  | No         | Yes   | Del                       |
+| latitude                                            | FLOAT   | No         | Yes   | Drop                      |
+| longitude                                           | FLOAT   | No         | Yes   | Drop                      |
                     |
 | _census_block_group (available only at Stanford)    | STRING  | No         | Yes   | Drop                      |
-| latitude (available only at Stanford)               | FLOAT   | No         | Yes   | Drop                      |
-| longitude (available only at Stanford)              | FLOAT   | No         | Yes   | Drop                      |
 
 :  {.hover .responsive .sm}
 
@@ -57,6 +59,14 @@ The name of the county.
 ##### location_source_value
 
 The MRN|DOB of the person this location corresponds to
+
+##### country_concept_id
+
+A foreign key to the concept in the Standardized Vocabularies representing the country.
+
+##### country_source_value
+
+The country code or name as it appears in the source data.
 
 
 ##### _census_block_group (available only at stanford)

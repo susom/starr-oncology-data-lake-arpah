@@ -22,8 +22,8 @@ Standard Clinical Data Table
 | visit_source_concept_id                             | INTEGER  | Yes        |       |                        |
 | admitted_from_concept_id                            | INTEGER  | Yes        |       |                        |
 | admitted_from_source_value                          | STRING   | No         |       |                        |
-| discharge_to_concept_id                             | INTEGER  | Yes        |       |                        |
-| discharge_to_source_value                           | STRING   | No         |       |                        |
+| discharged_to_concept_id                             | INTEGER  | Yes        |       |                        |
+| discharged_to_source_value                           | STRING   | No         |       |                        |
 | preceding_visit_occurrence_id                       | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
 
 
@@ -88,11 +88,11 @@ A foreign key to the predefined concept in the Visit Domain reflecting where the
 
 The source code for where the patient was admitted from as it appears in the source data.
 
-##### discharge_to_concept_id
+##### discharged_to_concept_id
 
 A foreign key to the predefined Concept in the Visit Domain reflecting where the patient was discharged to (discharge disposition).
 
-##### discharge_to_source_value
+##### discharged_to_source_value
 
 The source code for the discharge disposition as it appears in the source data.
 

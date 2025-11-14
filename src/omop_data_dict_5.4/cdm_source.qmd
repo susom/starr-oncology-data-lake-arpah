@@ -17,6 +17,7 @@ Standardized Metadata Table
 | source_release_date                                 | DATE   | No         |       |                        |
 | cdm_release_date                                    | DATE   | No         |       |                        |
 | cdm_version                                         | STRING | No         |       |                        |
+| cdm_version_concept_id                              | INTEGER | No        |       |                        |
 | vocabulary_version                                  | STRING | No         |       |                        |
 
 
@@ -60,6 +61,10 @@ The date when the CDM was instantiated
 ##### cdm_version
 
 The version of CDM used
+
+##### cdm_version_concept_id
+
+The concept ID representing the CDM version in the vocabulary
 
 ##### vocabulary_version
 

@@ -23,6 +23,10 @@ Standard Clinical Data Table
 | visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
 | device_source_value                                 | STRING   | No         |       |                        |
 | device_source_concept_id                            | INTEGER  | Yes        |       |                        |
+| production_id                                       | STRING   | No         |       |                        |
+| unit_concept_id                                     | INT64    | No         |       |                        |
+| unit_source_concept_id                              | INT64    | No         |       |                        |
+| unit_source_value                                   | STRING   | No         |       |                        |
 
 
 :  {.hover .responsive .sm}
@@ -89,4 +93,20 @@ The source code for the Device as it appears in the source data. This code is ma
 ##### device_source_concept_id
 
 A foreign key to a Device Concept that refers to the code used in the source.
+
+##### production_id
+
+The production or lot number of the Device.
+
+##### unit_concept_id
+
+A foreign key that refers to a Standard Concept identifier for the unit of measurement of the quantity.
+
+##### unit_source_concept_id
+
+A foreign key to a Concept that refers to the source unit code in the source data.
+
+##### unit_source_value
+
+The source code for the unit as it appears in the source data.
 

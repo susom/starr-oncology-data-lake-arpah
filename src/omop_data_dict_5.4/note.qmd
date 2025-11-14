@@ -21,6 +21,8 @@ Standard Clinical Data Table
 | provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
 | visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
 | visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| note_event_id                                       | INTEGER  | No         |       |                        |
+| note_event_field_concept_id                         | INTEGER  | No         |       |                        |
 | note_source_value                                   | STRING   | No         |       | Not Stable between Data Refreshes                    |
 
 
@@ -80,6 +82,14 @@ A foreign key to the Visit in the VISIT_OCCURRENCE table when the Note was taken
 ##### visit_detail_id
 
 A foreign key to the Visit in the VISIT_DETAIL table when the Note was taken.
+
+##### note_event_id
+
+A foreign key to an event (procedure, drug exposure, etc.) that caused or is associated with the note.
+
+##### note_event_field_concept_id
+
+A foreign key to a concept that identifies which table and field contains the event identifier referenced in note_event_id.
 
 ##### note_source_value
 

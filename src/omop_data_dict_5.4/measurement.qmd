@@ -28,8 +28,6 @@ Standard Clinical Data Table
 | measurement_source_concept_id                       | INTEGER  | Yes        |       |                        |
 | unit_source_value                                   | STRING   | No         |       |                        |
 | value_source_value                                  | STRING   | No         | Yes   | TiDE                      |
-| modifier_of_event_id                                |          | No         |       | Not Stable between Data Refreshes                    |
-| modifier_of_field_concept_id                        |          | No         |       |                        |
 
 
 :  {.hover .responsive .sm}
@@ -117,11 +115,4 @@ The source code for the unit as it appears in the source data. This code is mapp
 
 The source value associated with the content of the value_as_number or value_as_concept_id as stored in the source data.
 
-##### modifier_of_event_id
-
-nan
-
-##### modifier_of_field_concept_id
-
-nan
 
