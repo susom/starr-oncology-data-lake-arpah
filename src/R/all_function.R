@@ -293,10 +293,9 @@ library(yaml)
 library(glue)
 library(stringr)
 
-fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path) {
+fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = "nov_2025") {
 
   credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-project <- "som-rit-phi-oncology-prod"
 
   # Ensure SQL file exists
   if (!file.exists(sql_file_path)) {
@@ -308,7 +307,15 @@ project <- "som-rit-phi-oncology-prod"
     stop(glue("❌ YAML file not found: {yaml_file_path}"))
   }
 
-  sql_params <- yaml::read_yaml(yaml_file_path)
+  config <- yaml::read_yaml(yaml_file_path)
+  
+  # Get the config for the specified release
+  if (!release %in% names(config)) {
+    stop(glue("❌ Release '{release}' not found in YAML config. Available: {paste(names(config), collapse=', ')}"))
+  }
+  
+  sql_params <- config[[release]]
+  project <- sql_params[["oncology_prod"]]
 
   # Function to replace placeholders in SQL
   replace_placeholders <- function(sql_query, params) {

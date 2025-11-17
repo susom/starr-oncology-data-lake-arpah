@@ -1,6 +1,27 @@
-oncology_prod:  som-rit-phi-oncology-dev
-oncology_omop: reg_oncology_starr_omop_cdm54_baseline_2025_10_16
-oncology_neuralframe: reg_oncology_neuralframe_phi_2025_10_16
-oncology_philips: reg_oncology_philips_phi_2025_10_16
 
+# Historical releases for longitudinal analysis
+feb_2025:
+  oncology_prod: som-rit-phi-oncology-prod
+  oncology_omop: oncology_omop_phi_irb76049_feb2025
+  oncology_neuralframe: oncology_neuralframe_phi_irb76049_feb2025
+  oncology_temp: oncology_omop_phi_flags_irb76049_feb2025
+
+
+may_2025:
+  oncology_prod: som-rit-phi-oncology-prod
+  oncology_omop: oncology_omop_phi_irb76049_may2025
+  oncology_neuralframe: oncology_neuralframe_phi_irb76049_may2025
+  oncology_philips: oncology_philips_phi_irb76049_may2025
+
+aug_2025:
+  oncology_prod: som-rit-phi-oncology-prod
+  oncology_omop: oncology_omop_phi_irb76049_aug2025
+  oncology_neuralframe: oncology_neuralframe_phi_irb76049_aug2025
+  oncology_philips: oncology_philips_phi_irb76049_aug2025
+
+nov_2025:
+  oncology_prod: som-rit-phi-oncology-dev
+  oncology_omop: reg_oncology_starr_omop_cdm54_baseline_2025_10_16
+  oncology_neuralframe: reg_oncology_neuralframe_phi_2025_10_16
+  oncology_philips: reg_oncology_philips_phi_2025_10_16
 
