@@ -23,10 +23,11 @@ FROM (
     INNER JOIN `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_outcomes` nf
     ON p.person_source_value = nf.stanford_patient_uid
 
+
     UNION ALL
-    SELECT COUNT(DISTINCT person_id) AS counts_pts, 'With Tumor Board Encounter' AS data_set
-    FROM @oncology_prod.@oncology_omop.person p
-    inner join @oncology_prod.@oncology_temp.onc_arpah__cancer_cohort tb
-    on p.person_source_value = tb.person_source_value
-    where tumor_board_encounter_flag = 1
+    SELECT COUNT(DISTINCT p.person_id) AS counts_pts, 'With Tumor Board Encounter' AS data_set
+    FROM `@oncology_prod.@oncology_omop.person` p
+    INNER JOIN `@oncology_prod.@oncology_temp.onc_arpah__cancer_cohort` tb
+    ON p.person_source_value = tb.person_source_value
+    WHERE tumor_board_encounter_flag = 1
 ) AS counts 

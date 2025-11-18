@@ -27,12 +27,20 @@ For each data release (February, May, August, and November 2025), we examine:
 
 This longitudinal perspective enables us to track not just *how much* data we have, but *how the composition and reach of our data lake has transformed* over the past nine months.
 
+```{r setup, message=FALSE, warning=FALSE, results='hide'}
+# Load required libraries
+library(dplyr)
+library(yaml)
+library(purrr)
 
+# Source the functions
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+
+# Define YAML configuration path
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_params.yml"
+```
 
 ```{r loop through release,  message=FALSE, warning=FALSE, results='hide'}
-
-library(dplyr)
-
 # Load config from YAML
 config <- yaml::read_yaml(yaml_file_path)
 
@@ -47,7 +55,8 @@ datasets_by_month <- config[releases]
 release_to_month <- list(
   feb_2025 = "feb",
   may_2025 = "may",
-  aug_2025 = "aug"
+  aug_2025 = "aug",
+  nov_2025 = "nov"
 )
 
 ```
@@ -170,29 +179,9 @@ colnames(person_res)<-c("counts", "release")
 
 The Oncology-OMOP cohort has grown from `r scales::comma(person_res$counts[person_res$release == "feb"])` patients in February 2025 to `r scales::comma(person_res$counts[person_res$release == "aug"])` patients in August 2025, representing a `r round((as.numeric(gsub(",", "", person_res$counts[person_res$release == "aug"])) - as.numeric(gsub(",", "", person_res$counts[person_res$release == "feb"]))) / as.numeric(gsub(",", "", person_res$counts[person_res$release == "feb"])) * 100, 1)`% increase over this period.
 
-```{r table1,message=FALSE, warning=FALSE }
 
-
-library(knitr)
-# convert abbreviations to full month names
-person_res <- person_res %>%
-  mutate(
-    release = recode(
-      release,
-      "feb" = "February",
-      "may" = "May",
-      "aug" = "August"
-    ),
-    counts = scales::comma(counts)  # adds commas
-  ) %>%
- knitr::kable(
-    col.names = c("Number of Patients", "Data Release"),
-    caption = "Patient counts per data release"
-  )
-  
-person_res
-```
-### Demographic Summary 
+### Demographic Summary ###
+The demographic composition of the cohort has remained relatively stable across releases.
 ```{r demographic , message=FALSE, warning=FALSE }
 
 demog <- run_monthly_metrics(
@@ -200,7 +189,57 @@ demog <- run_monthly_metrics(
   sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/may_aug25/demographic_summary.sql"
 )
 ```
-### Data Sources Overlap Across Releases
+```{r demog table, message=FALSE, warning=FALSE}
+library(DT)
+
+# Format the demographic data for display
+demog_formatted <- demog %>%
+  mutate(
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May", 
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    # Format numbers with commas
+    sample_size = scales::comma(sample_size),
+    percent_female = paste0(round(percent_female, 1), "%"),
+    average_age = round(average_age, 1),
+    most_frequent_race_percent = paste0(round(most_frequent_race_percent, 1), "%")
+  ) %>%
+  select(
+    month_label,
+    sample_size,
+    percent_female,
+    average_age,
+    most_frequent_race,
+    most_frequent_race_percent
+  )
+
+# Create interactive table
+datatable(
+  demog_formatted,
+  colnames = c(
+    "Release",
+    "Sample Size", 
+    "% Female",
+    "Average Age",
+    "Most Frequent Race",
+    "Race %"
+  ),
+  caption = "Demographic Summary Across Data Releases",
+  options = list(
+    dom = 't',  # Only show table (no search, pagination, etc.)
+    pageLength = 10,
+    columnDefs = list(
+      list(className = 'dt-center', targets = c(1, 2, 3, 5)),  # Center align numeric columns
+      list(className = 'dt-left', targets = c(0, 4))  # Left align text columns
+    )
+  ),
+  rownames = FALSE
+)
+```
+### Data Sources Summary Across Releases
 
 ```{r overlap metrics, message=FALSE, warning=FALSE, results='hide'}
 # Use denominators queries which return aggregated counts
@@ -221,261 +260,92 @@ overlap_res <- run_monthly_metrics(
 head(overlap_res)
 ```
 
-```{r overlap summary, message=FALSE, warning=FALSE}
-library(tidyr)
-
-# Data already aggregated - just pivot it
-overlap_summary <- overlap_res %>%
-  select(data_set, counts_pts, month) %>%
-  pivot_wider(
-    names_from = month,
-    values_from = counts_pts,
-    values_fill = 0
-  ) %>%
-  arrange(desc(aug))
-
-knitr::kable(
-  overlap_summary,
-  col.names = c("Data Source", "February", "May", "August"),
-  caption = "Unique patient counts by data source across releases",
-  format.args = list(big.mark = ",")
-)
+```{r check overlap data, message=FALSE, warning=FALSE}
+# Check what data sources are available
+unique(overlap_res$data_set)
 ```
 
-### Data Sources Coverage ####
-
-
-
-```{r}
-philips_den <- run_monthly_metrics(
-  datasets_by_month = datasets_by_month,
-  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_cohort/arpah_denominators_philips.sql"
-)
-philips_den
-
-philips_den <- bind_rows(
-  philips_den,
-  tibble(
-    month = "feb",
-    data_set = "Philips ISPM",
-    counts_pts = 0,
-    percentage = 0
-  )
-)
-
-```
-
-
-```{r growth plot2, message=FALSE, warning=FALSE }
-arpah_den=rbind( philips_den, arpah_den)
-
-library(ggplot2)
+```{r overlap plot, message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
 
-
-
-arpah_den <- arpah_den %>%   distinct() %>%
- # Sort by month and data set
-  group_by(data_set) %>%
-  mutate(month = factor(month, levels = c("feb", "may", "aug"), ordered = TRUE)
-  )
-
-arpah_den <- arpah_den %>%
+# Prepare data with proper month ordering and labels
+overlap_plot_data <- overlap_res %>%
   mutate(
-    month = factor(month, levels = c("feb", "may", "aug"), ordered = TRUE),
+    month = factor(month, levels = c("feb", "may", "aug", "nov"), ordered = TRUE),
     month_label = recode(month,
       "feb" = "February",
       "may" = "May",
-      "aug" = "August"
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    # Clean up data set names for legend
+    data_set_clean = case_when(
+      data_set == "Oncology OMOP (Cohort)" ~ "OMOP Cohort (100%)",
+      data_set == "Neural Frame" ~ "Neural Frame",
+      data_set == "With Tumor Board Encounter" ~ "Tumor Board",
+      data_set == "With Image Occurrence" ~ "Image Occurrence",
+      data_set == "Philips ISPM" ~ "Philips ISPM",
+      TRUE ~ data_set
     )
-  )
+  ) %>%
+  # Remove the 100% baseline to focus on actual data sources
+  filter(data_set != "Oncology OMOP (Cohort)") %>%
+  # Ensure we have data for all months, fill missing values
+  tidyr::complete(month, data_set_clean, fill = list(percentage = 0, counts_pts = 0))
+
+# Create interactive line plot
 plot_ly(
-  data = arpah_den,
+  data = overlap_plot_data,
   x = ~month,
   y = ~percentage,
-  color = ~data_set,
+  color = ~data_set_clean,
   type = 'scatter',
   mode = 'lines+markers',
   text = ~paste0(
-    data_set, "<br>Month: ", month_label,
-    "<br>Coverage: ", round(percentage, 1), "%"
+    data_set_clean, 
+    "<br>Month: ", month_label,
+    "<br>Coverage: ", round(percentage, 1), "%",
+    "<br>Patients: ", scales::comma(counts_pts)
   ),
-  hoverinfo = "text"
-) %>%
-  layout(
-    title = "Temporal Coverage of Oncology Data Assets",
-    xaxis = list(title = "Release Month", ticktext = c("February", "May", "August"),
-      tickvals = c("feb", "may", "aug"),
-      categoryorder = "array",
-      categoryarray = c("feb", "may", "aug")),
-    yaxis = list(title = "Patient Coverage (%)", range = c(0, 105)),
-    legend = list(title = list(text = "Data Source"))
-  )
-
-
-```
-
-
-## **Image Occurrence** ##
-## Plot 2
-```{r image occ basics, message=FALSE, warning=FALSE , results='hide'}
-img_res<- run_monthly_metrics(
-  datasets_by_month = datasets_by_month,
-  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/image_occ/image_occ_person.sql"
-)
-
-```
-
-```{r img occ base, message=FALSE, warning=FALSE}
-
-df <- img_res %>% filter (variable_name=="Number of unique persons in image_occurrence table") %>%
-  mutate(month = factor(month, levels = c("feb", "may", "aug")))
-library(dplyr)
-library(plotly)
-# interactive grouped bar plot
-p <- plot_ly(
-  data = df,
-  x = ~month,
-  y = ~counts,
-  color=~variable_name,
-  colors="darkred",
-    text = ~paste0( "<br>Month: ", month, "<br>Count: ", scales::comma(counts)),
   hoverinfo = "text",
-  type = "bar"
+  marker = list(size = 10),
+  line = list(width = 3)
 ) %>%
   layout(
-    title = "Patient Counts by Release with Image Occurrence Data",
-    xaxis = list(title = "Release"),
-    yaxis = list(title = "Patient Counts", tickformat = ","),
-    barmode = "stack"
+    title = "Data Source Coverage Across Releases",
+    xaxis = list(
+      title = "Release Month",
+      ticktext = c("February", "May", "August", "November"),
+      tickvals = c("feb", "may", "aug", "nov"),
+      categoryorder = "array",
+      categoryarray = c("feb", "may", "aug", "nov")
+    ),
+    yaxis = list(
+      title = "Patient Coverage (%)",
+      range = c(0, 105)
+    ),
+    legend = list(
+      title = list(text = "Data Source"),
+      orientation = "v",
+      x = 1.02,
+      y = 0.5
+    ),
+    hovermode = 'closest',
+    margin = list(r = 150)
   )
-
-p <- p %>%
-  add_trace(data = df,
-            x = ~month,
-            y = ~counts,
-            type = 'scatter',
-            mode = 'lines+markers',
-            line = list(color = 'grey', width = 2),
-            marker = list(size = 8),
-            yaxis = "y",
-              showlegend = FALSE) %>%
-  layout(
-    title = "Counts by Month with Trend Line",
-    yaxis = list(title = "Patient Counts", tickformat = ","),
-    xaxis = list(title = "Release")
-  )
-  p
-```
-
-## Modality Types ##
-## Plot 3
-```{r image occ mod, message=FALSE, warning=FALSE , results='hide'}
-img_mod<- run_monthly_metrics(
-  datasets_by_month = datasets_by_month,
-  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/image_occ/image_occ_modality.sql"
-)
-
-
-library(dplyr)
-
-img_mod <- img_mod %>%
-  mutate(
-    month = factor(month, levels = c("feb", "may", "aug")),
-    modality_group = case_when(
-      grepl("^CT|CT/|CT-", modality_source_value) | grepl("PET", modality_source_value) ~ "CT/PET",
-      grepl("^MR|MRI|MR/", modality_source_value) ~ "MRI",
-      grepl("^XR|X-RAY|XA|XC|XD|XR", modality_source_value) ~ "X-Ray",
-      grepl("^US|ULTRASOUND|MG|MG/", modality_source_value) ~ "Ultrasound/Mammography",
-      grepl("^NM|NM/", modality_source_value) ~ "Nuclear Medicine",
-      grepl("^OT|OTHER|DOC|REPORT|REQUEST|FINDINGS|NONE|NULL", modality_source_value) ~ "Other/Docs",
-      TRUE ~ "Other"
-    )
-  )
-
-#img_mod <- img_mod %>% filter (modality_source_value %in% c("CT", "MRI", "XRAY", "PET"))
-```
-```{r stack plot modality, message=FALSE, warning=FALSE }
-img_mod=img_mod %>% filter(modality_group!="Other" )
-img_mod=img_mod %>% filter(modality_group!="Other/Docs" )
-#|modality_group!="")
-img_summary <- img_mod %>%
-  group_by(month, modality_group) %>%
-  summarise(counts = sum(unique_person_count), .groups = "drop")
-
-
-
-library(plotly)
-library(RColorBrewer)
-library(scales)
-
-bar_colors <- brewer.pal(n = length(unique(img_summary$modality_group)), "Set2")
-
-# total counts per month
-
-img_p <- plot_ly(img_summary,
-             x = ~modality_group,
-             y = ~counts,
-             color = ~month,
-             colors = bar_colors,
-             type = 'bar',
-             text = ~paste0(modality_group, "<br>Count: ", scales::comma(counts)),
-             hoverinfo = "text") %>%
-  layout(barmode = 'bar') %>%
-  layout(
-    title = "Image Occurrence by Modality Groups",
-    yaxis = list(title = "Patient Counts", tickformat = ","),
-    xaxis = list(title = "Top Modalities")
-  )
-
-img_p
-```
-
-## Temporal Growth of Modalities ##
-## Plot 4
-```{r growth plot, message=FALSE, warning=FALSE }
-library(plotly)
-library(dplyr)
-
-
-
-plot_ly(img_summary,
-        x = ~month,
-        y = ~counts,
-        color = ~modality_group,
-        type = 'scatter',
-        mode = 'lines+markers',
-        fill = 'tozeroy',  # shaded area under curve
-        hoverinfo = 'text',
-        text = ~paste0(
-          modality_group, "<br>Month: ", month,
-          "<br>Count: ", scales::comma(counts)
-        )) %>%
-  layout(
-    title = "Temporal Growth of Modalities",
-    xaxis = list(title = "Release"),
-    yaxis = list(title = "Number of Patients", tickformat = ","),
-    legend = list(title = list(text = "Modality")),
-    shapes = list(
-      # optional vertical reference lines for version releases
-      list(type = "line", x0 = "may", x1 = "may", y0 = 0, y1 = max(img_summary$counts),
-           line = list(dash = "dot", color = "black"))
-    )
-  )
-
 ```
 
 
-## CTSA Metrics ##
+## Clinical Metrics (Source OMOP) ##
 
-## Plot 5 
 ```{r ctsa, message=FALSE, warning=FALSE} 
+
 
 ctsa_res <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
-  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/CTSA/metrics_uniq_pts_vital_overtime.sql"
-)
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/ctsa/metrics_uniq_pts_vital_overtime.sql",
+  release_to_month = release_to_month)
 
 # Named vector of variable label mappings
 library(dplyr)
@@ -503,139 +373,234 @@ ctsa_res <- ctsa_res %>%
 
 ```{r ctsa plot, message=FALSE, warning=FALSE }
 
- ctsa_res=ctsa_res %>% mutate(month = factor(month, levels = c("feb", "may", "aug")))
+# Check if ctsa_res has data
+if (nrow(ctsa_res) == 0) {
+  print("No CTSA data available")
+} else {
+  
+  # Prepare data with proper factor levels
+  ctsa_res <- ctsa_res %>% 
+    mutate(month = factor(month, levels = c("feb", "may", "aug", "nov"))) %>%
+    filter(!f0_ %in% c("total_pt_gt_12", "uniq_pt_with_age")) %>%
+    filter(!group_var %in% c("Patients with opioid prescriptions", "Patients with any recorded insurance"))
 
-ex=c("total_pt_gt_12", "uniq_pt_with_age")
-ctsa_res=ctsa_res %>% filter (!f0_%in% ex)
+  library(ggplot2)
+  library(plotly)
+  library(RColorBrewer)
+  
+  # Define colors for the plot
+  bar_colors <- brewer.pal(n = min(11, length(unique(ctsa_res$month))), "Set3")
 
-library(ggplot2)
+  # Add formatted release labels
+  ctsa_res <- ctsa_res %>%
+    mutate(release_label = recode(release,
+      "feb_2025" = "February",
+      "may_2025" = "May", 
+      "aug_2025" = "August",
+      "nov_2025" = "November"
+    ))
 
-bar_colors <- brewer.pal(n = length(unique(img_summary$modality_group)), "Set3")
-
-library(plotly)
-
-plot_ly(
-  data = ctsa_res,
-  x = ~f1_,
-  y = ~reorder(group_var, f1_),
-  color=~month,
-  colors=bar_colors,
-  type = 'bar',
-  orientation = 'h',
-  text = ~paste0(group_var, "<br>Count: ", scales::comma(f1_)),
-  hoverinfo = "text"
-) %>%
-  layout(
-    title = "CTSA Metrics over Releases",
-    xaxis = list(title = "Number of Patients", tickformat = ","),
-    yaxis = list(title = "")
-  )
+  # Create the plot
+  plot_ly(
+    data = ctsa_res,
+    x = ~f1_,
+    y = ~reorder(group_var, f1_),
+    color = ~release_label,
+    colors = bar_colors,
+    type = 'bar',
+    orientation = 'h',
+    text = ~paste0(group_var, "<br>Release: ", release_label, "<br>Count: ", scales::comma(f1_)),
+    hoverinfo = "text"
+  ) %>%
+    layout(
+      title = "Clinical Metrics over Releases",
+      xaxis = list(title = "Number of Patients", tickformat = ","),
+      yaxis = list(title = "")
+    )
+}
 ```
 
-## **Pathology Notes** ##
 
-## Plot 6
+
+
+## Notes ##
 ```{r note, message=FALSE, warning=FALSE , results='hide'}
-note_res<- run_monthly_metrics(
+note_res <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
-  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_clinical/note_path_cyto_person_metrics.sql"
-)
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/note_metrics.sql",
+  release_to_month = release_to_month)
 
 ```
 
 
 ```{r note plot, message=FALSE, warning=FALSE}
-# Reshape data for plotting
+library(plotly)
+library(dplyr)
 library(tidyr)
-note_long <- note_res %>%
+
+# Prepare data with proper formatting
+note_plot_data <- note_res %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August", 
+      "nov" = "November"
+    ),
+    # Calculate reports per patient
+    reports_per_patient = round(number_of_note_count / patient_count, 2)
+  ) %>%
+  # Reshape for dual y-axis plotting
   pivot_longer(
-    cols = c(patient_count, pathology_report_count),
+    cols = c(patient_count, number_of_note_count),
     names_to = "metric",
     values_to = "count"
   ) %>%
   mutate(
-    month = factor(month, levels = c("feb", "may", "aug")),
     metric_label = case_when(
       metric == "patient_count" ~ "Unique Patients",
-      metric == "pathology_report_count" ~ "Pathology Reports",
+      metric == "number_of_note_count" ~ "Number of Notes",
       TRUE ~ metric
     )
   )
 
-# Create a plot with shaded areas and bottom legend
+# Create dual trace plot
 plot_ly() %>%
   add_trace(
-    data = note_long %>% filter(metric == "pathology_report_count"),
-    x = ~month,
+    data = note_plot_data %>% filter(metric == "number_of_note_count"),
+    x = ~month_label,
     y = ~count,
     type = 'scatter',
     mode = 'lines+markers',
-    name = 'Pathology Reports',
-    fill = 'tozeroy',
-    fillcolor = 'rgba(31, 119, 180, 0.3)',
+    name = 'Number of Notes',
     line = list(color = '#1f77b4', width = 3),
-    marker = list(size = 10)
+    marker = list(size = 10, color = '#1f77b4'),
+    text = ~paste0("Number of Notes<br>", month_label, "<br>Count: ", scales::comma(count)),
+    hoverinfo = "text"
   ) %>%
+  # Add unique patients trace  
   add_trace(
-    data = note_long %>% filter(metric == "patient_count"),
-    x = ~month,
+    data = note_plot_data %>% filter(metric == "patient_count"),
+    x = ~month_label,
     y = ~count,
     type = 'scatter',
     mode = 'lines+markers',
     name = 'Unique Patients',
-    fill = 'tozeroy',
-    fillcolor = 'rgba(255, 127, 14, 0.3)',
     line = list(color = '#ff7f0e', width = 3),
-    marker = list(size = 10)
+    marker = list(size = 10, color = '#ff7f0e'),
+    text = ~paste0("Unique Patients<br>", month_label, "<br>Count: ", scales::comma(count)),
+    hoverinfo = "text",
+    yaxis = "y2"
   ) %>%
   layout(
-    title = "Growth of Pathology Notes and Patient Coverage",
-    xaxis = list(
-      title = "Release Month",
-      ticktext = c("February", "May", "August"),
-      tickvals = c("feb", "may", "aug")
-    ),
+    title = "Growth of Notes and Patient Coverage",
+    xaxis = list(title = "Release Month"),
     yaxis = list(
-      title = "Count",
+      title = "Number of Notes",
       tickformat = ",",
-      rangemode = "tozero"  # Ensures the shading goes down to zero
+      side = "left"
     ),
-    showlegend = TRUE,
+    yaxis2 = list(
+      title = "Number of Unique Patients", 
+      tickformat = ",",
+      overlaying = "y",
+      side = "right"
+    ),
     legend = list(
-      orientation = "h",     # horizontal legend
-      xanchor = "center",    # center the legend
-      x = 0.5,              # position at the middle
-      y = -0.2              # position below the plot
+      orientation = "h",
+      xanchor = "center",
+      x = 0.5,
+      y = -0.15
     ),
-    margin = list(b = 100), # add more bottom margin to accommodate the legend
+    margin = list(b = 80, r = 80),
     hovermode = 'x unified'
   )
 
-# Calculate and display some statistics
-note_stats <- note_res %>%
-  group_by(month) %>%
+# Summary statistics table
+note_summary <- note_res %>%
   mutate(
-    reports_per_patient = round(pathology_report_count / patient_count, 2),
-    month = recode(month,
+    month_label = recode(month,
       "feb" = "February",
-      "may" = "May",
-      "aug" = "August"
-    )
+      "may" = "May", 
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    reports_per_patient = round(number_of_note_count / patient_count, 2)
   ) %>%
-  select(month, reports_per_patient)
+  select(month_label, patient_count, number_of_note_count, reports_per_patient)
 
-# Create a statistics table
-knitr::kable(
-  note_stats,
-  col.names = c("Month", "Reports per Patient"),
-  caption = "Average Number of Pathology Reports per Patient"
-)
+
 ```
 
+## **Thoracic Cancer Sub-Cohort** ##
+
+```{r thoracic metrics, message=FALSE, warning=FALSE, results='hide'}
+# Define thoracic-specific SQL paths per release
+thoracic_sql_paths <- list(
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/feb25/nf_thoracic/scr_thoracic_denominator.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/nf_thoracic/scr_thoracic_denominator.sql"
+)
+
+# Run thoracic analysis across releases
+thoracic_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_paths = thoracic_sql_paths,
+  release_to_month = release_to_month
+)
+
+# Preview the results
+head(thoracic_res)
+```
+
+```{r thoracic plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+
+  # Prepare thoracic data for visualization
+  thoracic_plot_data <- thoracic_res %>%
+    mutate(
+      month = factor(month, levels = c("feb", "may", "aug", "nov")),
+      month_label = recode(month,
+        "feb" = "February", 
+        "may" = "May",
+        "aug" = "August",
+        "nov" = "November"
+      )
+    )
+  
+  # Create thoracic trends plot
+  plot_ly(
+    data = thoracic_plot_data,
+    x = ~month_label,
+    y = ~unique_thoracic_cancer_pts,  # Adjust column name based on actual query results
+    type = 'scatter',
+    mode = 'lines+markers',
+    name = 'Thoracic Cancer Patients',
+    line = list(color = '#e377c2', width = 3),
+    marker = list(size = 12, color = '#e377c2'),
+    text = ~paste0("Thoracic Patients<br>", month_label, "<br>Count: ", scales::comma(unique_thoracic_cancer_pts)),
+    hoverinfo = "text"
+  ) %>%
+    layout(
+      title = "Thoracic Cancer Sub-Cohort Growth Across Releases",
+      xaxis = list(title = "Release Month"),
+      yaxis = list(
+        title = "Number of Thoracic Cancer Patients",
+        tickformat = ",",
+        range = c(10000, max(thoracic_plot_data$unique_thoracic_cancer_pts) * 1.05)
+      ),
+      showlegend = FALSE,
+      hovermode = 'closest'
+    )
+  
+```
 
 ## **Tumor Board** ##
- 
-## Plot 7
+
 
 ```{r, message=FALSE, warning=FALSE , results='hide'}
 tb_res<- run_monthly_metrics(

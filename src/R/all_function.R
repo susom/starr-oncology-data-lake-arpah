@@ -293,7 +293,7 @@ library(yaml)
 library(glue)
 library(stringr)
 
-fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = "nov_2025") {
+fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = NULL) {
 
   credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 
@@ -309,13 +309,25 @@ fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = "n
 
   config <- yaml::read_yaml(yaml_file_path)
   
-  # Get the config for the specified release
-  if (!release %in% names(config)) {
-    stop(glue("❌ Release '{release}' not found in YAML config. Available: {paste(names(config), collapse=', ')}"))
+  # Determine if this is a nested (multi-release) or flat (single-release) YAML
+  # Check if top-level has oncology_prod (flat) or release names (nested)
+  if ("oncology_prod" %in% names(config)) {
+    # Flat structure - use entire config as sql_params
+    sql_params <- config
+    project <- sql_params[["oncology_prod"]]
+  } else {
+    # Nested structure - need a release parameter
+    if (is.null(release)) {
+      release <- "nov_2025"  # default for nested structure
+    }
+    
+    if (!release %in% names(config)) {
+      stop(glue("❌ Release '{release}' not found in YAML config. Available: {paste(names(config), collapse=', ')}"))
+    }
+    
+    sql_params <- config[[release]]
+    project <- sql_params[["oncology_prod"]]
   }
-  
-  sql_params <- config[[release]]
-  project <- sql_params[["oncology_prod"]]
 
   # Function to replace placeholders in SQL
   replace_placeholders <- function(sql_query, params) {
