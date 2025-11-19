@@ -5,12 +5,14 @@ project:
   render:
    - about.qmd
    - data_dictionary.qmd
+   - data_evolution_overview.qmd
    - data_metrics.qmd
    - data_labeling.qmd
    - metadata.qmd
    - 404.qmd
    - robots.txt
    - aug_2025/*
+   - nov_2025/*
    - cap_forms_data_dict/*
    - dicom_data_dict/*
    - epic_media_server_dict/*
@@ -47,6 +49,10 @@ website:
             contents:
               - text: "Released Datasets"
                 href: aug_2025/released_datasets.qmd
+          - section: "November 2025"
+            contents:
+              - text: "Released Datasets"
+                href: nov_2025/released_datasets.qmd
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
@@ -109,6 +115,8 @@ website:
                    href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v2
                  - text: "BF STAMP-V3"
                    href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v3
+      - section: "Data Evolution Overview"
+        href: data_evolution_overview.qmd
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
@@ -136,6 +144,17 @@ website:
                 href: aug_2025/philips_metrics.qmd
               - text: "Tumor Board"
                 href: aug_2025/tumor_board_updated.qmd
+          - section: "November 2025"
+            href: nov_2025/metrics_clinical.qmd
+            contents:
+              - text: "Neural Frame"
+                href: nov_2025/neural_frame.qmd
+              - text: "Image Occurrence"
+                href: nov_2025/image_occ.qmd
+              - text: "Philips ISPM"
+                href: nov_2025/philips_metrics.qmd
+              - text: "Tumor Board"
+                href: nov_2025/tumor_board_updated.qmd
       - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:
@@ -169,12 +188,20 @@ website:
                 contents:
                 - text: "Labeling and Modeling Report"
                   href: aug_2025/phi_labeling_modeling_report.qmd
+          - section: "November 2025"
+            contents:
+              - section: "AI for Automatic Synoptic Reporting"
+                contents:
+                - text: "Agentic Tide Evaluation and Reporting"
+                  href: nov_2025/agentic_tide_metrics.qmd
   navbar:
     left:
       - text: "About"
         href: about.qmd
       - href: data_dictionary.qmd
         text: "Data Dictionary"
+      - href: data_evolution_overview.qmd
+        text: "Data Evolution Overview"
       - href: data_metrics.qmd
         text: "Data Metrics"
       - href: data_labeling.qmd
