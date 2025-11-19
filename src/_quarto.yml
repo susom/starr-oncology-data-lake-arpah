@@ -192,8 +192,8 @@ website:
             contents:
               - section: "AI for Automatic Synoptic Reporting"
                 contents:
-                - text: "Tide 2.0 Evaluation and Reporting"
-                  href: nov_2025/tide2.0_metrics.qmd
+                - text: "Agentic Tide Evaluation and Reporting"
+                  href: nov_2025/agentic_tide_metrics.qmd
   navbar:
     left:
       - text: "About"
