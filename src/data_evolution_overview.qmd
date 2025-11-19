@@ -31,7 +31,7 @@ This release prioritized data quality and standardization, establishing the stru
 
 The May 2025 release marked a significant evolution with the integration of multiple specialized data sources:
 
-- **NeuralFrame Integration**: Addition of Stanford Cancer Registry data, providing comprehensive cancer case information including staging, treatments, and outcomes
+- **NeuralFrame Integration**: Addition of Stanford Cancer Registry data, providing comprehensive cancer case information including treatments, and outcomes
 - **Imaging Data**: Integration of OMOP image occurrence data, linking patients to their diagnostic imaging studies
 - **Philips ISPM**: Introduction of molecular testing data including STAMP, Heme-STAMP, and FoundationOne results
 - **Enhanced Coverage**: Substantial increase in patient coverage across multiple data domains
@@ -42,9 +42,9 @@ This release transformed the data lake from a primarily clinical dataset to a mu
 
 The August 2025 release focused on increasing data depth and developing specialized research capabilities:
 
-- **Expanded Patient Cohort**: Growth to over 300,000 patients, representing a 50%+ increase from the initial release
-- **Clinical Notes Enhancement**: Significant expansion of available pathology reports and clinical documentation
-- **Tumor Board Data**: Integration of multidisciplinary tumor board encounter data, providing insights into care coordination
+- **Expanded Patient Cohort**: 
+- **Clinical Notes Enhancement**: 
+- **Tumor Board Data**: 
 - **CAP Forms Integration**: Addition of structured pathology reporting through College of American Pathologists (CAP) forms
 - **Quality Improvements**: Enhanced data validation and standardization processes
 
