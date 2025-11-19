@@ -1,0 +1,31 @@
+---
+title: "episode_event"
+---
+
+Clinical Data Tables
+
+### Table Columns
+
+| field                                               | type      | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:----------|:-----------|:------|--------------------------:|
+| episode_id                                          | INTEGER   | Yes        |       |                        |
+| event_id                                            | INTEGER   | Yes        |       |                        |
+| episode_event_field_concept_id                      | INTEGER   | Yes        |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### episode_id
+
+A foreign key identifier to an Episode in the EPISODE table.
+
+##### event_id
+
+A foreign key identifier to an event record in one of the clinical event tables (e.g., CONDITION_OCCURRENCE, DRUG_EXPOSURE, PROCEDURE_OCCURRENCE, MEASUREMENT).
+
+##### episode_event_field_concept_id
+
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies indicating which clinical event table the event_id refers to (e.g., concept for 'condition_occurrence.condition_occurrence_id').

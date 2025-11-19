@@ -3,15 +3,26 @@ title: "About"
 back-to-top-navigation: false
 ---
 
-Welcome to the VISTA Oncology Data Lake project. This website provides documentation for the datasets released as part of the project. 
+Welcome to the VISTA Oncology Data Lake project. This datalake brings together data from different clinical modalities and sources including harmonized and standardized Electronic Health Records Data in the OMOP common Data Model, data from the Stanford Clinical Registry, Genomic Data from Philips ISPM, additional STAMP addon metadata with more data types coming soon. This website provides documentation for the datasets released as part of the project. 
+
+### VISTA Inclusion Criteria
+In order to be included in any of the VISTA Oncology Data Lake resources, patients must be present in STARR-OMOP and also have one of the following:
+an encounter of type ‘tumor board’ 
+a case record in Stanford’s Neuralframe dataset
+
+STARR-OMOP contains all Stanford patients whose information may be used for research and who have at least one clinical event included in the OMOP data model (visit, condition, procedure, drug exposure, device exposure, image occurrence, observation, or note) since Jan 1, 2000. Tumor board encounters are reliably present in the EHR system for tumor board discussions beginning in 2018 (prior years have incomplete coverage). Patients are present in Neuralframe if they have received their first line of cancer treatment at Stanford. 
+
 
 ### Dataset Overview
 
-#### Oncology-OMOP
+#### Oncology-OMOP 
 
-The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence. As part of this project we are using OMOP CDM 5.3.1 version. 
+The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence. 
+
+Our EHR data was initially standardized using OMOP CDM version 5.3.1 and subsequently upgraded to OMOP CDM version 5.4 to leverage the latest data model enhancements. 
 
 The identified dataset is created using EPIC Clarity tables, which include patient and encounter data permissible for research. The tables in the OMOP-CDM common data model that are part of this dataset are listed in the [Data Dictionary](data_dictionary.qmd) page, along with information on whether they contain PHI and a brief description of each table.
+
 
 #### NeuralFrame
 

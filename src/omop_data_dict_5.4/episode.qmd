@@ -1,0 +1,81 @@
+---
+title: "episode"
+---
+
+Clinical Data Tables
+
+### Table Columns
+
+| field                                               | type      | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:----------|:-----------|:------|--------------------------:|
+| episode_id                                          | INTEGER   | Yes        |       |                        |
+| person_id                                           | INTEGER   | Yes        |       |                        |
+| episode_concept_id                                  | INTEGER   | Yes        |       |                        |
+| episode_start_date                                  | DATE      | Yes        |       |                        |
+| episode_start_datetime                              | TIMESTAMP | No         |       |                        |
+| episode_end_date                                    | DATE      | No         |       |                        |
+| episode_end_datetime                                | TIMESTAMP | No         |       |                        |
+| episode_parent_id                                   | INTEGER   | No         |       |                        |
+| episode_number                                      | INTEGER   | No         |       |                        |
+| episode_object_concept_id                           | INTEGER   | Yes        |       |                        |
+| episode_type_concept_id                             | INTEGER   | Yes        |       |                        |
+| episode_source_value                                | STRING    | No         |       |                        |
+| episode_source_concept_id                           | INTEGER   | No         |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### episode_id
+
+A unique identifier for each Episode.
+
+##### person_id
+
+A foreign key identifier to the Person who is experiencing the Episode. The demographic details of that Person are stored in the PERSON table.
+
+##### episode_concept_id
+
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies belonging to the 'Episode' domain.
+
+##### episode_start_date
+
+The date when the Episode began.
+
+##### episode_start_datetime
+
+The date and time when the Episode began.
+
+##### episode_end_date
+
+The date when the Episode concluded.
+
+##### episode_end_datetime
+
+The date and time when the Episode concluded.
+
+##### episode_parent_id
+
+A foreign key that refers to a parent Episode. This is used to represent nested Episodes.
+
+##### episode_number
+
+An ordinal number that represents the sequence of Episodes for a person.
+
+##### episode_object_concept_id
+
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies representing the object of the Episode (e.g., a specific disease or treatment regimen).
+
+##### episode_type_concept_id
+
+A foreign key to the predefined Concept identifier in the Standardized Vocabularies reflecting the type, origin or source of the Episode.
+
+##### episode_source_value
+
+The source code or identifier for the Episode as it appears in the source data.
+
+##### episode_source_concept_id
+
+A foreign key to a Concept that refers to the code used in the source.
