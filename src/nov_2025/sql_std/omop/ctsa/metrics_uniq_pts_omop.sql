@@ -19,7 +19,7 @@ WITH vital_concepts AS (
 ),
 
 smoking_concepts AS (
-    SELECT conc.*
+    SELECT DISTINCT conc.*
     FROM `@oncology_prod.@oncology_omop.concept_relationship` cr 
     INNER JOIN `@oncology_prod.@oncology_omop.concept` conc
     ON cr.concept_id_2 = conc.concept_id
@@ -32,9 +32,17 @@ smoking_concepts AS (
             'F17.210', 'F17.211', 'F17.213', 'F17.218', 
             'F17.219'
         )
+        AND vocabulary_id IN ('ICD10CM', 'ICD9CM')
     )
     AND conc.standard_concept = 'S'
     AND cr.relationship_id = 'Maps to'
+    AND conc.domain_id IN ('Condition', 'Observation')
+    -- Ensure we only get smoking-related concepts
+    AND (
+        LOWER(conc.concept_name) LIKE '%smok%' 
+        OR LOWER(conc.concept_name) LIKE '%tobacco%'
+        OR LOWER(conc.concept_name) LIKE '%nicotine%'
+    )
 )
 
 SELECT 

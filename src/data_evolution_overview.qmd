@@ -11,9 +11,13 @@ This page provides an overview of the VISTA Oncology Data Lake's evolution acros
 The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases, we have built an increasingly robust platform that integrates clinical, imaging, genomic, and registry data to support advanced cancer research and outcomes analysis.
 
 **Key Growth Highlights:**
+
 - **Patient Cohort Expansion**: From approximately 200,000 patients in February 2025 to over xxx patients by November 2025
-- **Enhanced Data Integration**: Progressive addition of NeuralFrame registry data, imaging occurrences, and molecular testing results
+
+- **Enhanced Data Integration**: Progressive addition of NeuralFrame registry data, image occurrences, and genomic testing results 
+
 - **Improved Clinical Coverage**: Expanding availability of structured clinical data, pathology reports, and tumor board documentation
+
 - **Specialized Sub-Cohorts**: Development of thoracic cancer and other disease-specific research cohorts
 
 ### February 2025 - Foundation Release
@@ -22,6 +26,7 @@ The inaugural February 2025 release established the core OMOP5.3-CDM foundation 
 
 - **Core OMOP Dataset**: Comprehensive patient demographics, encounters, diagnoses, and procedures following OMOP CDM 5.3.1 standards
 - **Clinical Infrastructure**: Essential clinical data including medications (RxNorm), laboratory results (LOINC), and procedure codes (CPT)
+- **NeuralFrame Diagnoses**: Initial integration of Stanford Cancer Registry diagnosis data
 - **Quality Framework**: Initial data validation and PHI scrubbing processes to ensure research readiness
 - **Patient Base**: Approximately 200,000+ oncology patients forming the foundational cohort
 
@@ -31,7 +36,7 @@ This release prioritized data quality and standardization, establishing the stru
 
 The May 2025 release marked a significant evolution with the integration of multiple specialized data sources:
 
-- **NeuralFrame Integration**: Addition of Stanford Cancer Registry data, providing comprehensive cancer case information including treatments, and outcomes
+- **NeuralFrame Integration**: Addition of Stanford Cancer Registry data, providing comprehensive cancer case information including miscellaneous, treatments, and outcomes
 - **Imaging Data**: Integration of OMOP image occurrence data, linking patients to their diagnostic imaging studies
 - **Philips ISPM**: Introduction of molecular testing data including STAMP, Heme-STAMP, and FoundationOne results
 - **Enhanced Coverage**: Substantial increase in patient coverage across multiple data domains
@@ -42,13 +47,1006 @@ This release transformed the data lake from a primarily clinical dataset to a mu
 
 The August 2025 release focused on increasing data depth and developing specialized research capabilities:
 
-- **Expanded Patient Cohort**: 
-- **Clinical Notes Enhancement**: 
-- **Tumor Board Data**: 
-- **CAP Forms Integration**: Addition of structured pathology reporting through College of American Pathologists (CAP) forms
-- **Quality Improvements**: Enhanced data validation and standardization processes
+- **STAMP Add-On Dataset**: Integrated detailed genomic testing metadata including assay types (STAMP, Heme-STAMP), pipeline versions, and test identifiers for comprehensive molecular profiling analysis
+- **HIPPO Benchmark**: Added 1,394 expert-annotated clinical notes corpus for PHI identification and de-identification methodology validation
+- **Lung Resection CAP Forms**: Introduced fully identified structured pathology reports combining standardized College of American Pathologists (CAP) templates with unstructured clinical information
+- **Epic Media Server Documents**: Integrated all PDF documents from third-party providers accessible via EPIC Media/Lab tabs and Mulesoft API
+- **Enhanced Metadata**: Expanded technical documentation including DICOM dictionary, STAMP gene panels, and genomic BED files
 
-This release established the data lake as a comprehensive resource for both population-level and detailed clinical research.
+This release established the data lake as a comprehensive resource for both population-level and detailed clinical research, while adding critical benchmarking datasets for data quality and PHI scrubbing validation.
 
-### November 2025 - Advanced Analytics and Specialization
+### November 2025 - Advanced Analytics and Standardization
 
+The November 2025 release represents a major technical advancement with comprehensive OMOP upgrade and enhanced data capabilities:
+
+- **OMOP 5.3 to 5.4 Upgrade**: Migrated to OMOP CDM version 5.4.2 with new tables, enhanced field linking capabilities, and updated naming conventions for improved data interoperability
+- **Vocabulary Modernization**: Updated from January 2023 to August 2025 OHDSI vocabulary, incorporating 2.5 years of concept mappings, domain changes, and standardization improvements
+- **Pipeline Redesign**: Overhauled ETL processes with standardized filtering (events from 2000+, flexible visit requirements) and enhanced JSON-formatted source value fields for improved data traceability
+- **Genomic Tests Expansion**: Additional molecular testing data and genomic profiling results
+- **Agentic Tide Integration**: Advanced analytics capabilities for automated data processing and analysis
+
+This release modernizes the technical infrastructure while maintaining backward compatibility, positioning the data lake for next-generation research applications and enhanced analytical capabilities.
+
+## Multi-Release Statistical Overview
+
+For each data release (February, May, August, and November 2025), we examine:
+
+- Patient counts across key datasets (ARPAH cohort, NeuralFrame, Philips ISPM, Imaging data)
+- Data availability metrics for primary domains (encounters, diagnoses, procedures, observations)
+- Coverage percentages showing the proportion of patients with data in each system
+
+
+```{r setup, message=FALSE, warning=FALSE, results='hide'}
+# Load required libraries
+library(dplyr)
+library(yaml)
+library(purrr)
+
+# Source the functions
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+
+# Define YAML configuration path
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_params.yml"
+```
+
+```{r loop through release,  message=FALSE, warning=FALSE, results='hide'}
+# Load config from YAML
+config <- yaml::read_yaml(yaml_file_path)
+
+# Extract release names (those with nested structure, not top-level scalars)
+all_names <- names(config)
+releases <- all_names[sapply(config[all_names], is.list)]
+
+# Build datasets_by_month from YAML dynamically
+datasets_by_month <- config[releases]
+
+# Map release names to month abbreviations for plotting
+release_to_month <- list(
+  feb_2025 = "feb",
+  may_2025 = "may",
+  aug_2025 = "aug",
+  nov_2025 = "nov"
+)
+
+```
+
+```{r function by time,  message=FALSE, warning=FALSE, results='hide'}
+run_monthly_metrics <- function(datasets_by_month,
+                                sql_file_path = NULL,
+                                sql_file_paths = NULL,
+                                release_to_month = NULL,
+                                credentials_path = "/home/rstudio/.config/gcloud/application_default_credentials.json") {
+  
+  # Validate inputs: either sql_file_path OR sql_file_paths must be provided
+  if (is.null(sql_file_path) && is.null(sql_file_paths)) {
+    stop("❌ Must provide either sql_file_path (single file) or sql_file_paths (named list)")
+  }
+  
+  if (!is.null(sql_file_path) && !is.null(sql_file_paths)) {
+    stop("❌ Provide only ONE of: sql_file_path or sql_file_paths, not both")
+  }
+  
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+  
+  purrr::map_dfr(names(datasets_by_month), function(release_name) {
+    
+    dataset_map <- datasets_by_month[[release_name]]
+    
+    # Handle both list and atomic vector structures from YAML
+    if (is.list(dataset_map)) {
+      project <- dataset_map[["oncology_prod"]]
+    } else {
+      stop(glue::glue("❌ Unexpected structure for {release_name} in config"))
+    }
+    
+    # Determine which SQL file to use for this release
+    if (!is.null(sql_file_paths)) {
+      # Release-specific SQL paths provided
+      current_sql_path <- sql_file_paths[[release_name]]
+      
+      if (is.null(current_sql_path)) {
+        message(glue::glue("⚠️ No SQL path defined for {release_name}, skipping"))
+        return(NULL)
+      }
+      
+      if (!file.exists(current_sql_path)) {
+        message(glue::glue("⚠️ SQL file not found for {release_name}: {current_sql_path}"))
+        return(NULL)
+      }
+    } else {
+      # Single SQL file for all releases
+      current_sql_path <- sql_file_path
+    }
+    
+    # Read and prepare SQL
+    sql_query <- readLines(current_sql_path) %>% paste(collapse = "\n")
+    
+    # Replace ALL placeholders (including oncology_prod project)
+    for (placeholder in names(dataset_map)) {
+      sql_query <- stringr::str_replace_all(
+        sql_query,
+        paste0("@", placeholder),
+        dataset_map[[placeholder]]
+      )
+    }
+    
+    # Connect to BigQuery using project from config
+    conn <- DBI::dbConnect(
+      bigrquery::bigquery(),
+      project = project,
+      use_legacy_sql = FALSE
+    )
+    
+    # Run query safely
+    result <- tryCatch({
+      DBI::dbGetQuery(conn, sql_query)
+    }, error = function(e) {
+      message(glue::glue("⚠️ Query failed for {release_name}: {e$message}"))
+      NULL
+    })
+    
+    DBI::dbDisconnect(conn)
+    
+    if (!is.null(result)) {
+      # Convert release name to month abbreviation for backward compatibility
+      month_abbr <- release_to_month[[release_name]] %||% substr(release_name, 1, 3)
+      result <- dplyr::mutate(result, month = month_abbr, release = release_name)
+    }
+    
+    result
+  })
+}
+
+```
+
+```{r list of sqls, message=FALSE, warning=FALSE, results='hide'}
+# Define different SQL paths per release
+person_sql_paths <- list(
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/feb25/person_metrics.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/may_aug25/person_metrics.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/may_aug25/person_metrics.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/nov25/person_metrics.sql"
+)
+
+person_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_paths = person_sql_paths  # Note: plural!
+)
+```
+
+
+```{r person cnt, message=FALSE, warning=FALSE, results='hide'}
+person_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql/arpah_cohort/person_metrics.sql"
+)
+colnames(person_res)<-c("counts", "release")
+
+```
+
+
+### Demographic Summary ###
+The demographic composition of the cohort has remained relatively stable across releases.
+```{r demographic , message=FALSE, warning=FALSE }
+
+demog <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/may_aug25/demographic_summary.sql"
+)
+```
+```{r demog table, message=FALSE, warning=FALSE}
+library(DT)
+
+# Format the demographic data for display
+demog_formatted <- demog %>%
+  mutate(
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May", 
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    # Format numbers with commas
+    sample_size = scales::comma(sample_size),
+    percent_female = paste0(round(percent_female, 1), "%"),
+    average_age = round(average_age, 1),
+    most_frequent_race_percent = paste0(round(most_frequent_race_percent, 1), "%")
+  ) %>%
+  select(
+    month_label,
+    sample_size,
+    percent_female,
+    average_age,
+    most_frequent_race,
+    most_frequent_race_percent
+  )
+
+# Create interactive table
+datatable(
+  demog_formatted,
+  colnames = c(
+    "Release",
+    "Sample Size", 
+    "% Female",
+    "Average Age",
+    "Most Frequent Race",
+    "Race %"
+  ),
+  caption = "Demographic Summary Across Data Releases",
+  options = list(
+    dom = 't',  # Only show table (no search, pagination, etc.)
+    pageLength = 10,
+    columnDefs = list(
+      list(className = 'dt-center', targets = c(1, 2, 3, 5)),  # Center align numeric columns
+      list(className = 'dt-left', targets = c(0, 4))  # Left align text columns
+    )
+  ),
+  rownames = FALSE
+)
+```
+
+::: {.panel-tabset}
+
+### Data Sources Summary 
+
+```{r overlap metrics, message=FALSE, warning=FALSE, results='hide'}
+# Use denominators queries which return aggregated counts
+overlap_sql_paths <- list(
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/feb25/arpah_denominators.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/may_aug25/arpah_denominators.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/may_aug25/arpah_denominators.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/nov25/arpah_denominators_update.sql"
+)
+
+overlap_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_paths = overlap_sql_paths,
+  release_to_month = release_to_month
+)
+
+# Preview the data structure
+head(overlap_res)
+```
+
+```{r check overlap data, message=FALSE, warning=FALSE, results='hide'}
+# Check what data sources are available
+unique(overlap_res$data_set)
+```
+
+```{r overlap plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+# Prepare data with proper month ordering and labels
+overlap_plot_data <- overlap_res %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov"), ordered = TRUE),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    # Clean up data set names for legend
+    data_set_clean = case_when(
+      data_set == "Oncology OMOP (Cohort)" ~ "OMOP Cohort (100%)",
+      data_set == "Neural Frame" ~ "Neural Frame",
+      data_set == "With Tumor Board Encounter" ~ "Tumor Board",
+      data_set == "With Image Occurrence" ~ "Image Occurrence",
+      data_set == "Philips ISPM" ~ "Philips ISPM",
+      TRUE ~ data_set
+    )
+  ) %>%
+  # Remove the 100% baseline to focus on actual data sources
+  filter(data_set != "Oncology OMOP (Cohort)") %>%
+  # Ensure we have data for all months, fill missing values
+  tidyr::complete(month, data_set_clean, fill = list(percentage = 0, counts_pts = 0))
+
+# Create interactive line plot
+plot_ly(
+  data = overlap_plot_data,
+  x = ~month,
+  y = ~percentage,
+  color = ~data_set_clean,
+  type = 'scatter',
+  mode = 'lines+markers',
+  text = ~paste0(
+    data_set_clean, 
+    "<br>Month: ", month_label,
+    "<br>Coverage: ", round(percentage, 1), "%",
+    "<br>Patients: ", scales::comma(counts_pts)
+  ),
+  hoverinfo = "text",
+  marker = list(size = 10),
+  line = list(width = 3)
+) %>%
+  layout(
+    title = "Data Source Coverage Across Releases",
+    xaxis = list(
+      title = "Release Month",
+      ticktext = c("February", "May", "August", "November"),
+      tickvals = c("feb", "may", "aug", "nov"),
+      categoryorder = "array",
+      categoryarray = c("feb", "may", "aug", "nov")
+    ),
+    yaxis = list(
+      title = "Patient Coverage (%)",
+      range = c(0, 105)
+    ),
+    legend = list(
+      title = list(text = "Data Source"),
+      orientation = "v",
+      x = 1.02,
+      y = 0.5
+    ),
+    hovermode = 'closest',
+    margin = list(r = 150)
+  )
+```
+
+### Data Source Rankings
+
+```{r bump_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+library(ggplot2)
+library(ggbump)
+library(dplyr)
+
+# Prepare data for bump chart - calculate rankings by patient count
+bump_data <- overlap_res %>%
+  filter(data_set != "Oncology OMOP (Cohort)") %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "Feb",
+      "may" = "May",
+      "aug" = "Aug",
+      "nov" = "Nov"
+    ),
+    data_set_clean = case_when(
+      data_set == "Neural Frame" ~ "NeuralFrame",
+      data_set == "With Tumor Board Encounter" ~ "Tumor Board",
+      data_set == "With Image Occurrence" ~ "Imaging",
+      data_set == "Philips ISPM" ~ "Philips ISPM",
+      TRUE ~ data_set
+    )
+  ) %>%
+  # Only include data sources that have data in all months OR handle missing properly
+  filter(counts_pts > 0) %>%
+  group_by(month) %>%
+  mutate(rank = rank(-counts_pts, ties.method = "first")) %>%
+  ungroup()
+
+# Create bump chart
+p <- ggplot(bump_data, aes(x = month_label, y = rank, color = data_set_clean, group = data_set_clean)) +
+  geom_bump(linewidth = 2, smooth = 8) +
+  geom_point(size = 5) +
+  geom_text(
+    data = bump_data %>% filter(month == "feb"),
+    aes(label = data_set_clean),
+    hjust = 1.1,
+    size = 3.5,
+    fontface = "bold"
+  ) +
+  geom_text(
+    data = bump_data %>% filter(month == "nov"),
+    aes(label = data_set_clean),
+    hjust = -0.1,
+    size = 3.5,
+    fontface = "bold"
+  ) +
+  scale_y_reverse(breaks = 1:max(bump_data$rank)) +
+  scale_color_brewer(palette = "Set2") +
+  labs(
+    title = "Data Source Coverage Rankings Across Releases",
+    subtitle = "Ranked by number of patients (higher rank = more patients)",
+    x = "Release",
+    y = "Rank"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    plot.title = element_text(size = 14, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40"),
+    axis.text = element_text(size = 10),
+    axis.title = element_text(size = 11, face = "bold")
+  ) +
+  expand_limits(x = c(0.5, 4.5))
+
+print(p)
+```
+
+
+
+### OMOP Clinical Metrics 
+
+```{r ctsa, message=FALSE, warning=FALSE} 
+
+
+ctsa_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/ctsa/metrics_uniq_pts_vital_overtime.sql",
+  release_to_month = release_to_month)
+
+# Named vector of variable label mappings
+library(dplyr)
+
+ctsa_res <- ctsa_res %>%
+  mutate(group_var = case_when(
+    f0_ == "total_patients"              ~ "Total patients in cohort",
+    f0_ == "total_pt_gt_12"              ~ "Patients aged ≥ 12 years",
+    f0_ == "uniq_pt_any_insurance_value" ~ "Patients with any recorded insurance",
+    f0_ == "uniq_pt_cpt"                 ~ "Patients with CPT (procedure) codes",
+    f0_ == "uniq_pt_icd_dx"              ~ "Patients with ICD diagnosis codes",
+    f0_ == "uniq_pt_icd_proc"            ~ "Patients with ICD procedure codes",
+    f0_ == "uniq_pt_loinc"               ~ "Patients with LOINC lab results",
+    f0_ == "uniq_pt_med_rxnorm"          ~ "Patients with medications (RxNorm)",
+    f0_ == "uniq_pt_note"                ~ "Patients with clinical notes",
+    f0_ == "uniq_pt_opioid"              ~ "Patients with opioid prescriptions",
+    f0_ == "uniq_pt_smoking"             ~ "Patients with documented smoking status",
+    f0_ == "uniq_pt_snomed_dx"           ~ "Patients with SNOMED diagnosis codes",
+    f0_ == "uniq_pt_snomed_proc"         ~ "Patients with SNOMED procedure codes",
+    f0_ == "uniq_pt_with_age"            ~ "Patients with valid age recorded",
+    TRUE ~ f0_  # fallback: keep original if not matched
+  ))
+
+```
+
+```{r ctsa plot, message=FALSE, warning=FALSE }
+
+# Check if ctsa_res has data
+if (nrow(ctsa_res) == 0) {
+  print("No CTSA data available")
+} else {
+  
+  # Prepare data with proper factor levels
+  ctsa_res <- ctsa_res %>% 
+    mutate(month = factor(month, levels = c("feb", "may", "aug", "nov"))) %>%
+    filter(!f0_ %in% c("total_pt_gt_12", "uniq_pt_with_age")) %>%
+    filter(!group_var %in% c("Patients with opioid prescriptions", "Patients with any recorded insurance"))
+
+  library(ggplot2)
+  library(plotly)
+  library(RColorBrewer)
+  
+  # Define colors for the plot
+  bar_colors <- brewer.pal(n = min(11, length(unique(ctsa_res$month))), "Set3")
+
+  # Add formatted release labels
+  ctsa_res <- ctsa_res %>%
+    mutate(release_label = recode(release,
+      "feb_2025" = "February",
+      "may_2025" = "May", 
+      "aug_2025" = "August",
+      "nov_2025" = "November"
+    ))
+
+  # Create the plot
+  plot_ly(
+    data = ctsa_res,
+    x = ~f1_,
+    y = ~reorder(group_var, f1_),
+    color = ~release_label,
+    colors = bar_colors,
+    type = 'bar',
+    orientation = 'h',
+    text = ~paste0(group_var, "<br>Release: ", release_label, "<br>Count: ", scales::comma(f1_)),
+    hoverinfo = "text"
+  ) %>%
+    layout(
+      title = "Clinical Metrics over Releases",
+      xaxis = list(title = "Number of Patients", tickformat = ","),
+      yaxis = list(title = "")
+    )
+}
+```
+
+:::
+
+## **Tumor Board and Thoracic Sub-Cohorts** ##
+
+The VISTA Oncology Data Lake includes specialized sub-cohorts for tumor board patients and thoracic cancer cases, enabling focused research on multidisciplinary care coordination and disease-specific outcomes. These curated cohorts demonstrate the platform's capability to support both population-level analyses and targeted clinical investigations.
+
+**Tumor Board Sub-Cohort**: Patients presented at multidisciplinary tumor boards represent complex cases requiring expert consensus for treatment planning. The data lake captures these encounters and tracks the availability of complementary data sources (imaging, genomics, registry data) for comprehensive case analysis.
+
+**Thoracic Cancer Sub-Cohort**: Focused on lung, bronchus, and thymus malignancies, this subset enables specialized research in thoracic oncology. The cohort tracks patients identified through the Stanford Cancer Registry (NeuralFrame), supporting longitudinal studies of treatment patterns and outcomes in thoracic malignancies.
+
+**Multi-Modal Data Integration**: By examining the overlap between tumor board patients and available data modalities (NeuralFrame registry, imaging studies, genomic testing), we can assess the completeness of clinical documentation for this high-complexity patient population and identify opportunities for enhanced data capture.
+
+::: {.panel-tabset}
+### Thoracic Cancer Sub-Cohort
+
+```{r thoracic metrics, message=FALSE, warning=FALSE, results='hide'}
+# Define thoracic-specific SQL paths per release
+thoracic_sql_paths <- list(
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/feb25/nf_thoracic/scr_thoracic_denominator.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/nf_thoracic/scr_thoracic_denominator.sql"
+)
+
+# Run thoracic analysis across releases
+thoracic_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_paths = thoracic_sql_paths,
+  release_to_month = release_to_month
+)
+
+# Preview the results
+head(thoracic_res)
+```
+
+
+
+
+```{r tumor_board_overlap, message=FALSE, warning=FALSE, results='hide'}
+# Define tumor board overlap SQL paths per release
+tb_overlap_sql_paths <- list(
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/feb25/tumor_board_overlap.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/may_aug25/tumor_board_overlap.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/may_aug25/tumor_board_overlap.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_overlap.sql"
+)
+
+# Run tumor board overlap analysis across releases
+tb_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_paths = tb_overlap_sql_paths,
+  release_to_month = release_to_month
+)
+
+# Preview the results
+head(tb_res)
+```
+
+```{r combined_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+# Prepare thoracic data
+thoracic_plot_data <- thoracic_res %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "February", 
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    )
+  ) %>%
+  select(month, month_label, patients = unique_thoracic_cancer_pts) %>%
+  mutate(metric = "Thoracic Cancer Patients")
+
+# Prepare tumor board data
+tb_plot_data <- tb_res %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    metric = case_when(
+      flag == "all_tb" ~ "All Tumor Board Patients",
+      flag == "thoracic_tb" ~ "Thoracic Tumor Board Patients",
+      flag == "tb_nf" ~ "TB Patients with NeuralFrame Data",
+      flag == "tb_imaging_nf" ~ "TB Patients with Imaging & NeuralFrame",
+      flag == "tb_genomic_nf_imaging" ~ "TB Patients with Genomic, Imaging & NeuralFrame",
+      TRUE ~ flag
+    )
+  ) %>%
+  select(month, month_label, patients = total_patients, metric)
+
+# Combine the datasets
+combined_data <- bind_rows(thoracic_plot_data, tb_plot_data)
+
+# Create interactive area plot
+plot <- plot_ly()
+
+# Add each metric as a separate trace with fill
+metrics <- unique(combined_data$metric)
+
+for(i in seq_along(metrics)) {
+  metric_data <- combined_data %>% filter(metric == metrics[i])
+  
+  plot <- plot %>%
+    add_trace(
+      data = metric_data,
+      x = ~month_label,
+      y = ~patients,
+      name = metrics[i],
+      type = 'scatter',
+      mode = 'lines',
+      fill = 'tonexty',
+      text = ~paste0(
+        metric,
+        "<br>Month: ", month_label,
+        "<br>Patients: ", scales::comma(patients)
+      ),
+      hoverinfo = "text"
+    )
+}
+
+plot %>%
+  layout(
+    title = "Tumor Board and Thoracic Sub-Cohort Trends Across Releases",
+    xaxis = list(
+      title = "Release Month",
+      categoryorder = "array",
+      categoryarray = c("February", "May", "August", "November")
+    ),
+    yaxis = list(
+      title = "Number of Patients",
+      tickformat = ","
+    ),
+    legend = list(
+      title = list(text = "Metric"),
+      orientation = "h",
+      x = 0.5,
+      xanchor = "center",
+      y = -0.2
+    ),
+    hovermode = 'closest',
+    margin = list(b = 150)
+  )
+```
+
+### Tumor Board Sub-Group 
+
+```{r grouped_bar_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+# Create grouped bar chart
+plot_ly(
+  data = combined_data,
+  x = ~month_label,
+  y = ~patients,
+  color = ~metric,
+  type = 'bar',
+  text = ~paste0(
+    metric,
+    "<br>Patients: ", scales::comma(patients)
+  ),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Tumor Board and Thoracic Sub-Cohort Comparison by Release",
+    xaxis = list(
+      title = "Release Month",
+      categoryorder = "array",
+      categoryarray = c("February", "May", "August", "November")
+    ),
+    yaxis = list(
+      title = "Number of Patients",
+      tickformat = ","
+    ),
+    barmode = 'group',
+    legend = list(
+      title = list(text = "Metric"),
+      orientation = "h",
+      x = 0.5,
+      xanchor = "center",
+      y = -0.3
+    ),
+    margin = list(b = 180)
+  )
+```
+:::
+
+## **Image Occurrence Modalities** ##
+
+The VISTA Oncology Data Lake integrates comprehensive medical imaging data, linking diagnostic images to patient clinical records through the OMOP image occurrence table. This integration enables research connecting imaging studies with clinical outcomes, treatments, and genomic profiles.
+
+**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93,000 patients in February 2025 to over 1.6 million patients by November 2025, representing a substantial increase in multi-modal data availability for cancer research.
+
+**Image Series and Studies**: The platform captures detailed imaging metadata including study identifiers, series information, anatomic regions, and imaging modalities (CT, MRI, PET, etc.), supporting comprehensive radiomics and image-based research.
+
+::: {.panel-tabset}
+
+### Patient and Series Coverage
+
+```{r image occ basics, message=FALSE, warning=FALSE, results='hide'}
+img_res<- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path ="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/image_occ_person.sql"
+)
+
+img_size<- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path="/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/image_occ_basic.sql")
+```
+
+```{r combined_image_plots, message=FALSE, warning=FALSE, fig.width=12, fig.height=10}
+library(plotly)
+library(dplyr)
+
+# Prepare img_res data with proper labels
+img_res_plot <- img_res %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    metric = case_when(
+      grepl("unique persons", variable_name) ~ "Unique Patients",
+      grepl("series", variable_name) ~ "Image Series",
+      TRUE ~ variable_name
+    )
+  )
+
+# Create dual-axis plot for patients and series
+fig1 <- plot_ly()
+
+# Add patients line (left y-axis)
+patients_data <- img_res_plot %>% filter(metric == "Unique Patients")
+fig1 <- fig1 %>%
+  add_trace(
+    data = patients_data,
+    x = ~month_label,
+    y = ~counts,
+    name = "Unique Patients",
+    type = 'scatter',
+    mode = 'lines+markers',
+    line = list(color = '#1f77b4', width = 3),
+    marker = list(size = 10, color = '#1f77b4'),
+    text = ~paste0("Patients<br>", month_label, "<br>Count: ", scales::comma(counts)),
+    hoverinfo = "text"
+  )
+
+# Add series line (right y-axis)
+series_data <- img_res_plot %>% filter(metric == "Image Series")
+fig1 <- fig1 %>%
+  add_trace(
+    data = series_data,
+    x = ~month_label,
+    y = ~counts,
+    name = "Image Series",
+    type = 'scatter',
+    mode = 'lines+markers',
+    yaxis = "y2",
+    line = list(color = '#ff7f0e', width = 3),
+    marker = list(size = 10, color = '#ff7f0e'),
+    text = ~paste0("Series<br>", month_label, "<br>Count: ", scales::comma(counts)),
+    hoverinfo = "text"
+  )
+
+fig1 <- fig1 %>%
+  layout(
+    title = "Imaging Data Growth: Patient and Series Coverage",
+    xaxis = list(
+      title = "Release Month",
+      categoryorder = "array",
+      categoryarray = c("February", "May", "August", "November")
+    ),
+    yaxis = list(
+      title = "Number of Unique Patients",
+      tickformat = ",",
+      side = "left"
+    ),
+    yaxis2 = list(
+      title = "Number of Image Series",
+      tickformat = ",",
+      overlaying = "y",
+      side = "right"
+    ),
+    legend = list(
+      orientation = "h",
+      x = 0.5,
+      xanchor = "center",
+      y = -0.15
+    ),
+    hovermode = 'closest',
+    margin = list(b = 100)
+  )
+
+# Prepare img_size data for metadata plot
+img_size_plot <- img_size %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    metric = case_when(
+      flag == "counts_anatomic_type" ~ "Anatomic Regions",
+      flag == "counts_modality_type" ~ "Imaging Modalities",
+      flag == "counts_study" ~ "Unique Studies",
+      flag == "counts_series" ~ "Image Series",
+      flag == "size_gb" ~ "Data Size (GB)",
+      TRUE ~ flag
+    )
+  ) %>%
+  filter(flag != "size_gb")
+
+# Create metadata bar chart
+fig2 <- plot_ly(
+  data = img_size_plot,
+  x = ~month_label,
+  y = ~counts,
+  color = ~metric,
+  type = 'bar',
+  text = ~paste0(metric, "<br>", month_label, "<br>Count: ", scales::comma(counts)),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Imaging Metadata Diversity Across Releases",
+    xaxis = list(
+      title = "Release Month",
+      categoryorder = "array",
+      categoryarray = c("February", "May", "August", "November")
+    ),
+    yaxis = list(
+      title = "Count",
+      tickformat = ",",
+      type = "log"
+    ),
+    barmode = 'group',
+    legend = list(
+      title = list(text = "Metric"),
+      orientation = "h",
+      x = 0.5,
+      xanchor = "center",
+      y = -0.15
+    ),
+    margin = list(b = 100)
+  )
+
+# Combine plots using subplot
+subplot(
+  fig1, fig2,
+  nrows = 2,
+  shareX = FALSE,
+  titleY = TRUE,
+  margin = 0.1
+) %>%
+  layout(
+    title = list(
+      text = "Comprehensive Imaging Data Evolution",
+      y = 0.98
+    ),
+    showlegend = TRUE
+  )
+```
+
+### Data Volume
+
+```{r image_size_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+# Prepare size data
+size_data <- img_size %>%
+  filter(flag == "size_gb") %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    )
+  )
+
+# Create area plot for data size
+plot_ly(
+  data = size_data,
+  x = ~month_label,
+  y = ~counts,
+  type = 'scatter',
+  mode = 'lines+markers',
+  fill = 'tozeroy',
+  fillcolor = 'rgba(31, 119, 180, 0.3)',
+  line = list(color = '#1f77b4', width = 3),
+  marker = list(size = 12, color = '#1f77b4'),
+  text = ~paste0("Data Volume<br>", month_label, "<br>Size: ", counts, " GB"),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Imaging Data Volume Growth",
+    xaxis = list(
+      title = "Release Month",
+      categoryorder = "array",
+      categoryarray = c("February", "May", "August", "November")
+    ),
+    yaxis = list(
+      title = "Data Size (GB)",
+      tickformat = ","
+    ),
+    showlegend = FALSE,
+    hovermode = 'closest'
+  )
+```
+
+### Imaging Modalities
+
+```{r image_modality, message=FALSE, warning=FALSE, results='hide'}
+img_mod <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/image_occ_modality.sql"
+)
+
+library(dplyr)
+
+img_mod <- img_mod %>%
+  mutate(
+    month = factor(month, levels = c("feb", "may", "aug", "nov")),
+    month_label = recode(month,
+      "feb" = "February",
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    modality_group = case_when(
+      grepl("^CT|CT/|CT-", modality_source_value) | grepl("PET", modality_source_value) ~ "CT/PET",
+      grepl("^MR|MRI|MR/", modality_source_value) ~ "MRI",
+      grepl("^XR|X-RAY|XA|XC|XD|XR", modality_source_value) ~ "X-Ray",
+      grepl("^US|ULTRASOUND|MG|MG/", modality_source_value) ~ "Ultrasound/Mammography",
+      grepl("^NM|NM/", modality_source_value) ~ "Nuclear Medicine",
+      grepl("^OT|OTHER|DOC|REPORT|REQUEST|FINDINGS|NONE|NULL", modality_source_value) ~ "Other/Docs",
+      TRUE ~ "Other"
+    )
+  ) %>%
+  filter(modality_group != "Other" & modality_group != "Other/Docs")
+
+# Summarize by modality group and month
+img_summary <- img_mod %>%
+  group_by(month, month_label, modality_group) %>%
+  summarise(counts = sum(unique_person_count), .groups = "drop")
+```
+
+```{r modality_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+# Create area chart showing modality growth
+plot_ly(
+  data = img_summary,
+  x = ~month_label,
+  y = ~counts,
+  color = ~modality_group,
+  type = 'scatter',
+  mode = 'lines+markers',
+  fill = 'tonexty',
+  text = ~paste0(
+    modality_group,
+    "<br>Month: ", month_label,
+    "<br>Patients: ", scales::comma(counts)
+  ),
+  hoverinfo = "text",
+  line = list(width = 2),
+  marker = list(size = 8)
+) %>%
+  layout(
+    title = "Imaging Modality Coverage Across Releases",
+    xaxis = list(
+      title = "Release Month",
+      categoryorder = "array",
+      categoryarray = c("February", "May", "August", "November")
+    ),
+    yaxis = list(
+      title = "Number of Patients",
+      tickformat = ","
+    ),
+    legend = list(
+      title = list(text = "Modality"),
+      orientation = "h",
+      x = 0.5,
+      xanchor = "center",
+      y = -0.2
+    ),
+    hovermode = 'closest',
+    margin = list(b = 120)
+  )
+```
+
+:::
+
+::: {.panel-tabset}
