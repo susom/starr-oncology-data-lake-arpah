@@ -434,9 +434,9 @@ head(death_res)
 death_table <- death_res %>%
   mutate(
     month = case_when(
-      month == "May" ~ "May 2025",
-      month == "August" ~ "August 2025",
-      month == "November" ~ "November 2025",
+      month == "may" ~ "May 2025",
+      month == "aug" ~ "August 2025",
+      month == "nov" ~ "November 2025",
       TRUE ~ month
     ),
     n_death = format(n_death, big.mark = ",", scientific = FALSE)
@@ -459,13 +459,13 @@ DT::datatable(
 )
 ```
 
-The mortality tracking shows the cumulative count of patients with death records from either OMOP clinical data (death_date) or the Stanford Cancer Registry (vital status = "Dead"). The trend reflects both actual mortality events and improvements in data capture and linkage across releases.
+The mortality tracking shows the cumulative count of patients with death records from either OMOP clinical data (death_date) or the Stanford Cancer Registry (vital status = "Dead"). 
 
-## **Tumor Board and Thoracic Sub-Cohorts** ##
+## **Tumor Board and Thoracic Cancer Cohorts** ##
 
 The VISTA Oncology Data Lake includes specialized sub-cohorts for tumor board patients and thoracic cancer cases, enabling focused research on multidisciplinary care coordination and disease-specific outcomes. These curated cohorts demonstrate the platform's capability to support both population-level analyses and targeted clinical investigations.
 
-**Tumor Board Sub-Cohort**: Patients presented at multidisciplinary tumor boards represent complex cases requiring expert consensus for treatment planning. The data lake captures these encounters and tracks the availability of complementary data sources (imaging, genomics, registry data) for comprehensive case analysis.
+**Tumor Board Sub-Cohort**: Patients presented at multidisciplinary tumor boards represent complex cases requiring expert consensus for treatment planning. Tumor Board encounters are defined using the OMOP visit_occurrence table, where the source value for the visit contains the phrase ‘tumor board’.
 
 **Thoracic Cancer Sub-Cohort**: Focused on lung, bronchus, and thymus malignancies, this subset enables specialized research in thoracic oncology. The cohort tracks patients identified through the Stanford Cancer Registry (NeuralFrame), supporting longitudinal studies of treatment patterns and outcomes in thoracic malignancies.
 
