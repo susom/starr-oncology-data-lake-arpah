@@ -9,7 +9,7 @@ scr as (select * from  `@oncology_prod.@oncology_neuralframe.onc_neuralframe_cas
 scr_data as
 (
 select
-distinct stanford_patient_uid,
+distinct cleaned_nf_mrn,cleaned_nf_dob,
 primarySiteDescription,nfcasestatus
 from scr nf),
 scr_omop as
@@ -21,7 +21,7 @@ scr_omop as
  nfcasestatus
 from
 scr_data
-inner join person p on p.person_source_value = scr_data.stanford_patient_uid
+inner join person p on p.person_source_value = concat(scr_data.cleaned_nf_mrn, ' | ', scr_data.cleaned_nf_dob)
 where nfcasestatus ="Completed"
 )
 select
