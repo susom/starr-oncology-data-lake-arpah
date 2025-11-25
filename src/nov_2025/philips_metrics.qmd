@@ -50,7 +50,7 @@ test_year=fetch_data_from_sql_file(test_year_sql, yaml_file_path)
 
 Philips IntelliSpace Precision Medicine (ISPM) includes genomics database at Stanford.
 This data is geared towards identifying genetic mutations that can be targeted for precision medicine, with the goal of improving therapeutic outcomes through personalized treatment strategies.
-As of August 2025, `r format(sum(test_type$test_type_counts), big.mark=",")` STAMP tests were ordered for `r format(ph_den$counts_pts[1], big.mark = ",")` patients. 
+As of November 2025, `r format(sum(test_type$test_type_counts), big.mark=",")` STAMP tests were ordered for `r format(ph_den$counts_pts[1], big.mark = ",")` patients. 
 
 
 ```{r, message=FALSE, warning=FALSE}
@@ -104,7 +104,7 @@ ggplotly(p, tooltip = "text")
 
 ```
 
-**Note**: Additional FoundationOne (F1) test data was backfilled between the May release and the Philips export dated from 07/13/25 to 08/05/25, which was used for the August release. More data is expected in future releases
+**Note**: Additional FoundationOne (F1) test data was backfilled between the May release and the Philips export dated from 07/13/25 to 08/05/25, which was used for the November release. More data is expected in future releases
 
 
 

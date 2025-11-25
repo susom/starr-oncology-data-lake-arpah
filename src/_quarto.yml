@@ -115,7 +115,7 @@ website:
                    href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v2
                  - text: "BF STAMP-V3"
                    href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v3
-      - section: "Data Evolution Overview"
+      - text: "Data Evolution Overview"
         href: data_evolution_overview.qmd
       - section: "Data Metrics"
         href: data_metrics.qmd

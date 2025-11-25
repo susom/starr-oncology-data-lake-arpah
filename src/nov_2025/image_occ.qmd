@@ -104,7 +104,7 @@ den_series=as.numeric(pt_img$counts)[2]
 den_pts=as.numeric(pt_img$counts)[1]
 ```
 
-As of August 2025, this table included images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. **Series** are defined as individual imaging acquisitions within a study.
+As of November 2025, this table included images for  `r format(pt_img$counts[1], big.mark = ",")` patients with `r format(pt_img$counts[2], big.mark = ",")` series. **Series** are defined as individual imaging acquisitions within a study.
 
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -390,7 +390,7 @@ res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
 
-As of August 2025, from `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons in image_occurrence table"], big.mark = ",")` had imaging data. 
+As of November 2025, from `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons in image_occurrence table"], big.mark = ",")` had imaging data. 
 
 
 
