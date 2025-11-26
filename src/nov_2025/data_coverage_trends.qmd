@@ -1255,7 +1255,7 @@ plot_ly(
 ```
 
 
-```{r philips new test types, message=FALSE, warning=FALSE, results='hide', include=FASLE}
+```{r philips new test types, message=FALSE, warning=FALSE, results='hide', include=FALSE}
 sql_philips<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/philips/nov25/philips_stanford_tests_ordered.sql"
 philips_order<- fetch_data_from_sql_file(sql_philips, yaml_file_path)
 philips_order
@@ -1357,3 +1357,4 @@ plot_ly(
   )
 ```
 
+:::
