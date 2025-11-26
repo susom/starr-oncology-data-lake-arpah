@@ -62,7 +62,7 @@ digraph vista_data_lake {
 
 ### February 2025 - Foundation Release
 
-The inaugural February 2025 release established the core OMOP5.3-CDM foundation of our data lake, providing:
+The inaugural February 2025 release established the core OMOP 5.3.1 CDM foundation of our data lake, providing:
 
 - **Core OMOP Dataset**: Comprehensive patient demographics, encounters, diagnoses, and procedures following OMOP CDM 5.3.1 standards
 - **Clinical Infrastructure**: Essential clinical data including medications (RxNorm), laboratory results (LOINC), and procedure codes (CPT)

@@ -315,6 +315,143 @@ plot_ly(
 
 **<sup>†</sup>Note:** The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May-November releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 
+### Data Source Integration Flow
+
+```{r sankey_data_prep, message=FALSE, warning=FALSE, results='hide'}
+# Define overlap SQL paths for November 2025 (most recent)
+sankey_sql_path <- list(
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/nov25/arpah_overlap_metrics_updated.sql"
+)
+
+# Get patient-level data source flags for November
+sankey_data <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month["nov_2025"],
+  sql_file_paths = sankey_sql_path,
+  release_to_month = release_to_month
+)
+
+# Create patient-level dataset with all data sources
+library(tidyr)
+patient_sources <- sankey_data %>%
+  mutate(value = 1) %>%
+  pivot_wider(
+    id_cols = person_id,
+    names_from = data_set,
+    values_from = value,
+    values_fill = 0,
+    values_fn = first
+  ) %>%
+  mutate(
+    # Create hierarchy flags
+    has_omop = ifelse(`Oncology OMOP` == 1, 1, 0),
+    has_nf = ifelse(`Neural Frame` == 1, 1, 0),
+    has_imaging = ifelse(`Image Occurrence` == 1, 1, 0),
+    has_philips = ifelse(`Philips ISPM` == 1, 1, 0),
+    has_tb = ifelse(`Tumor Board` == 1, 1, 0)
+  )
+
+# Create flow data for Sankey
+# Level 1: All OMOP patients
+total_omop <- nrow(patient_sources)
+
+# Level 2: OMOP with NeuralFrame
+omop_with_nf <- patient_sources %>% filter(has_nf == 1) %>% nrow()
+omop_without_nf <- total_omop - omop_with_nf
+
+# Level 3: OMOP + NF + Imaging
+omop_nf_imaging <- patient_sources %>% filter(has_nf == 1, has_imaging == 1) %>% nrow()
+omop_nf_no_imaging <- omop_with_nf - omop_nf_imaging
+
+# Level 4: OMOP + NF + Imaging + Philips
+omop_nf_img_philips <- patient_sources %>% filter(has_nf == 1, has_imaging == 1, has_philips == 1) %>% nrow()
+omop_nf_img_no_philips <- omop_nf_imaging - omop_nf_img_philips
+
+# Also track Tumor Board across all levels
+omop_tb <- patient_sources %>% filter(has_tb == 1) %>% nrow()
+```
+
+```{r sankey_diagram, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+library(plotly)
+
+# Define nodes
+nodes <- list(
+  label = c(
+    "OMOP Cohort",                    # 0
+    "With NeuralFrame",               # 1
+    "No NeuralFrame",                 # 2
+    "NF + Imaging",                   # 3
+    "NF Only",                        # 4
+    "NF + Img + Genomics",            # 5
+    "NF + Img Only"                   # 6
+  ),
+  color = c(
+    '#8dd3c7',  # OMOP
+    '#ffffb3',  # With NF
+    '#d9d9d9',  # No NF
+    '#bebada',  # NF + Imaging
+    '#d9d9d9',  # NF Only
+    '#fb8072',  # All three
+    '#d9d9d9'   # NF + Img only
+  )
+)
+
+# Define links (source, target, value)
+links <- list(
+  source = c(0, 0, 1, 1, 3, 3),
+  target = c(1, 2, 3, 4, 5, 6),
+  value = c(
+    omop_with_nf,
+    omop_without_nf,
+    omop_nf_imaging,
+    omop_nf_no_imaging,
+    omop_nf_img_philips,
+    omop_nf_img_no_philips
+  ),
+  color = c(
+    'rgba(255, 255, 179, 0.4)',  # OMOP -> With NF
+    'rgba(217, 217, 217, 0.2)',  # OMOP -> No NF
+    'rgba(190, 186, 218, 0.4)',  # NF -> NF + Img
+    'rgba(217, 217, 217, 0.2)',  # NF -> NF only
+    'rgba(251, 128, 114, 0.4)',  # NF+Img -> All three
+    'rgba(217, 217, 217, 0.2)'   # NF+Img -> NF+Img only
+  )
+)
+
+# Create Sankey diagram
+plot_ly(
+  type = "sankey",
+  orientation = "h",
+  node = nodes,
+  link = links
+) %>%
+  layout(
+    title = list(
+      text = "Data Source Integration Flow (November 2025)",
+      font = list(size = 16)
+    ),
+    font = list(size = 12),
+    margin = list(l = 20, r = 20, t = 80, b = 20)
+  ) %>%
+  add_annotations(
+    text = paste0(
+      "Total OMOP Patients: ", scales::comma(total_omop), "<br>",
+      "With NeuralFrame: ", scales::comma(omop_with_nf), " (", round(100*omop_with_nf/total_omop, 1), "%)<br>",
+      "With NF + Imaging: ", scales::comma(omop_nf_imaging), " (", round(100*omop_nf_imaging/total_omop, 1), "%)<br>",
+      "With NF + Imaging + Genomics: ", scales::comma(omop_nf_img_philips), " (", round(100*omop_nf_img_philips/total_omop, 1), "%)<br>",
+      "With Tumor Board: ", scales::comma(omop_tb), " (", round(100*omop_tb/total_omop, 1), "%)"
+    ),
+    x = 0.5,
+    y = -0.1,
+    xref = "paper",
+    yref = "paper",
+    showarrow = FALSE,
+    font = list(size = 11),
+    align = "left"
+  )
+```
+
+This Sankey diagram illustrates the progressive integration of data sources within the VISTA Oncology Data Lake. Starting with the complete OMOP cohort, it shows how many patients have enriched data from NeuralFrame (Stanford Cancer Registry), medical imaging, and genomic testing platforms. The flow reveals the depth of multi-modal data availability for precision oncology research.
+
 ### OMOP Clinical Metrics 
 
 ```{r ctsa, message=FALSE, warning=FALSE} 
@@ -925,7 +1062,7 @@ plot_ly(
   x = ~month_label,
   y = ~counts,
   color = ~modality_group,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69'),
+  colors = c('#8dd3c7', '#fbb3ffff', '#bebada', '#fb8072', '#b3de69'),
   type = 'scatter',
   mode = 'lines+markers',
   text = ~paste0(
@@ -938,7 +1075,7 @@ plot_ly(
   marker = list(size = 10)
 ) %>%
   layout(
-    title = "Imaging Modality Coverage Across Releases",
+    title = "Patient Counts by Imaging Modality Over Time",
     xaxis = list(
       title = "",
       categoryorder = "array",
