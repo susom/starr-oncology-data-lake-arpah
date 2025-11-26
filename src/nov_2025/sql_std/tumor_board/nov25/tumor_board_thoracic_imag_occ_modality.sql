@@ -39,13 +39,13 @@ modality_counts AS (
         SELECT DISTINCT 
             image_study_uid, 
             image_series_uid, 
-            modality_source_value, 
+            JSON_VALUE(modality_source_value, '$.modality') AS modality_source_value, 
             person_id  
         FROM 
             image_occ
         WHERE 
             modality_source_value IS NOT NULL 
-            AND modality_source_value NOT IN ('PR', 'KO', 'REG', 'SR')
+            AND JSON_VALUE(modality_source_value, '$.modality') NOT IN ('PR', 'KO', 'REG', 'SR')
             AND person_id IN (SELECT person_id FROM tb_thoracic_patients)
     ) AS distinct_series
     GROUP BY 

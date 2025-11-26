@@ -11,7 +11,7 @@ This page provides an overview of the VISTA Oncology Data Lake's evolution acros
 
 ## Release Overview
 
-The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February through November 2025, the platform has grown from approximately 200,000 to over 217,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Tide 2.0, an advanced agentic AI system enabling natural language queries and automated data analysis workflows across the integrated data lake.
+The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February through November 2025, the platform has grown from approximately 200,000 to over 217,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4.
 
 ```{r data_lake_diagram, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
 library(DiagrammeR)
@@ -30,35 +30,30 @@ digraph vista_data_lake {
   DL [label = 'VISTA Oncology Data Lake\n217K+ Patients', fillcolor = '#2E86AB', fontcolor = white, fontsize = 14, width = 4, height = 1]
   
   # Main Components - All in one row
-  {rank = same; OMOP; NF; IMG; PHILIPS; SPECIAL}
-  OMOP [label = 'OMOP CDM 5.4.2\nClinical Data', fillcolor = '#8dd3c7', fontsize = 12, width = 2.5, height = 0.8]
+  {rank = same; OMOP; NF; PHILIPS; SPECIAL}
+  OMOP [label = 'OMOP CDM 5.4.2\nClinical Data + Imaging', fillcolor = '#8dd3c7', fontsize = 12, width = 3.5, height = 0.8]
   NF [label = 'NeuralFrame\nRegistry', fillcolor = '#ffffb3', fontsize = 12, width = 2.5, height = 0.8]
-  IMG [label = 'Imaging\n1.6M+ Patients', fillcolor = '#bebada', fontsize = 12, width = 2.5, height = 0.8]
   PHILIPS [label = 'Philips ISPM\nMolecular Testing', fillcolor = '#fb8072', fontsize = 12, width = 2.5, height = 0.8]
   SPECIAL [label = 'Specialized\nDatasets', fillcolor = '#F4A460', fontsize = 12, width = 2.5, height = 0.8]
   
   # Sub-dataset boxes - one large box per main component
-  OMOP_SUB [label = 'Demographics | Encounters\nDiagnoses | Procedures\nMedications | Lab Results\nClinical Notes | Tumor Board', fillcolor = '#E0F2F1', fontsize = 10, width = 2.5, height = 1.5, shape = box]
+  OMOP_SUB [label = 'Imaging (CT | PET | MRI | X-Ray)\nDICOM Metadata | Anatomic Regions | \nDemographics | Encounters | Diagnoses | Procedures\nMedications | Lab Results | Clinical Notes | Tumor Board', fillcolor = '#E0F2F1', fontsize = 10, width = 3.5, height = 2.0, shape = box]
   
-  NF_SUB [label = 'Cancer Diagnoses\nTreatments\nOutcomes\nMiscellaneous Details', fillcolor = '#FFFEF0', fontsize = 10, width = 2.5, height = 1.5, shape = box]
+  NF_SUB [label = 'Cancer Diagnoses\nTreatments\nOutcomes\nMiscellaneous Details', fillcolor = '#FFFEF0', fontsize = 10, width = 2.5, height = 2.0, shape = box]
   
-  IMG_SUB [label = 'CT | PET | MRI | X-Ray\nDICOM Metadata\nAnatomic Regions\nStudy & Series Info', fillcolor = '#F3E5F5', fontsize = 10, width = 2.5, height = 1.5, shape = box]
+  PHILIPS_SUB [label = 'STAMP\nHeme-STAMP\nFoundationOne\nSTAMP Add-On Metadata', fillcolor = '#FFE4E1', fontsize = 10, width = 2.5, height = 2.0, shape = box]
   
-  PHILIPS_SUB [label = 'STAMP\nHeme-STAMP\nFoundationOne\nSTAMP Add-On Metadata', fillcolor = '#FFE4E1', fontsize = 10, width = 2.5, height = 1.5, shape = box]
-  
-  SPECIAL_SUB [label = 'HIPPO Benchmark (1,394 notes)\nCAP Pathology Forms\nEpic Media Server PDFs\nTide 2.0 Agentic AI', fillcolor = '#FFF8DC', fontsize = 10, width = 2.5, height = 1.5, shape = box]
+  SPECIAL_SUB [label = 'HIPPO Benchmark (1,394 notes)\nCAP Pathology Forms\nEpic Media Server PDFs\nTide 2.0 Agentic AI', fillcolor = '#FFF8DC', fontsize = 10, width = 2.5, height = 2.0, shape = box]
   
   # Connections from Data Lake to main components
   DL -> OMOP [penwidth = 2, color = '#457B9D']
   DL -> NF [penwidth = 2, color = '#457B9D']
-  DL -> IMG [penwidth = 2, color = '#457B9D']
   DL -> PHILIPS [penwidth = 2, color = '#457B9D']
   DL -> SPECIAL [penwidth = 2, color = '#457B9D']
   
   # Connections from main components to sub-dataset boxes
   OMOP -> OMOP_SUB [arrowhead = none, color = '#8dd3c7', penwidth = 3]
   NF -> NF_SUB [arrowhead = none, color = '#ffffb3', penwidth = 3]
-  IMG -> IMG_SUB [arrowhead = none, color = '#bebada', penwidth = 3]
   PHILIPS -> PHILIPS_SUB [arrowhead = none, color = '#fb8072', penwidth = 3]
   SPECIAL -> SPECIAL_SUB [arrowhead = none, color = '#F4A460', penwidth = 3]
 }
@@ -100,7 +95,7 @@ The August 2025 release focused on increasing data depth and developing speciali
 
 This release established the data lake as a comprehensive resource for both population-level and detailed clinical research, while adding critical benchmarking datasets for data quality and PHI scrubbing validation.
 
-### November 2025 - Advanced Analytics and Standardization
+### November 2025 - Advanced Analytics 
 
 The November 2025 release represents a major technical advancement with comprehensive OMOP upgrade and enhanced data capabilities:
 
@@ -133,28 +128,28 @@ release_summary <- tibble::tribble(
   "N/A",
   
   "May 2025",
-  "OMOP CDM 5.3.1",
-  "Full registry (diagnoses, treatments, outcomes, miscellaneous)",
+  "Continued coverage",
+  "Continued coverage + Full registry (diagnoses, treatments, outcomes, miscellaneous)",
   "Initial release (STAMP, Heme-STAMP, FoundationOne)",
-  "Full NeuralFrame registry, Image occurrence data, Philips ISPM molecular testing",
+  "<b>Full NeuralFrame registry, Image occurrence data, Philips ISPM <b>",
   "Added person_id to all datasets for improved linkage; Updated tumor board definition",
   "N/A",
   
   "August 2025",
-  "OMOP CDM 5.3.1",
+  "Continued coverage",
   "Continued coverage",
   "Continued coverage + STAMP Add-On metadata",
-  "STAMP Add-On metadata, Epic Media Server PDFs",
+  "<b>STAMP Add-On metadata, Epic Media Server PDFs<b>",
   "No schema changes; continued data enrichment",
-  "HIPPO Benchmark (1,394 annotated notes), CAP Forms (lung resection pathology)",
+  "<b>HIPPO Benchmark, CAP Forms (lung resection pathology)<b>",
   
   "November 2025",
-  "OMOP CDM 5.4.2",
+  "<b>OMOP CDM 5.4.2<b>",
   "Continued coverage",
-  "Expanded genomic testing coverage",
-  "Expanded genomic testing, Agentic Tide integration",
+  "Continued coverage + Expanded genomic testing coverage",
+  "<b>Expanded genomic testing, Agentic Tide integration<b>",
   "Major upgrade: Updated vocab, enhanced field linking, JSON-formatted source values",
-  "Enhanced ETL pipeline with standardized filtering (events from 2000+, flexible visit requirements)"
+  "Enhanced ETL pipeline with updated vocabulary"
 )
 
 # Format the table with improved styling
@@ -185,6 +180,7 @@ datatable(
     scrollX = TRUE
   ),
   rownames = FALSE,
+  escape = FALSE,
   class = 'cell-border stripe'
 ) %>%
   formatStyle(
@@ -209,7 +205,7 @@ identifier_keys <- tibble::tribble(
   "person_id, person_source_value",
   "person_id, person_source_value",
   "person_id, person_source_value",
-  "person_id, person_source_value",
+  "person_id, <b>person_source_value<sup>†</sup></b>",
   
   "NeuralFrame Registry",
   "MRN, DOB",
@@ -225,9 +221,9 @@ identifier_keys <- tibble::tribble(
   
   "Philips ISPM",
   "Not available",
-  "stanford_patient_uid",
-  "stanford_patient_uid",
-  "stanford_patient_uid",
+  "stanford_patient_uid, person_id",
+  "stanford_patient_uid, person_id",
+  "stanford_patient_uid, person_id",
   
   "Tumor Board",
   "MRN, DOB",
@@ -235,23 +231,6 @@ identifier_keys <- tibble::tribble(
   "person_id",
   "person_id",
   
-  "HIPPO Benchmark",
-  "Not available",
-  "Not available",
-  "jc_uid, report_id",
-  "jc_uid, report_id",
-  
-  "CAP Forms",
-  "Not available",
-  "Not available",
-  "anon_id, accession_number",
-  "anon_id, accession_number",
-  
-  "Epic Media Server",
-  "Not available",
-  "Not available",
-  "person_id",
-  "person_id"
 )
 
 # Format the table
@@ -277,6 +256,7 @@ datatable(
     scrollX = TRUE
   ),
   rownames = FALSE,
+  escape = FALSE,
   class = 'cell-border stripe'
 ) %>%
   formatStyle(
@@ -298,12 +278,14 @@ datatable(
 - **person_source_value**: Source system identifier in OMOP tables that joins with stanford_patient_uid for cross-dataset linkage
 - **stanford_patient_uid**: Stanford-specific unique patient identifier used in NeuralFrame and Philips ISPM datasets which is concatenation of MRN and DOB
 - **MRN, DOB**: Medical Record Number and Date of Birth combination (used in February 2025 before standardization)
-- **jc_uid**: De-identified note identifier in HIPPO benchmark dataset
-- **anon_id**: Anonymized patient identifier in CAP pathology forms
+
+**Note**: **<sup>†</sup>November 2025 OMOP 5.4 Update:** In the November 2025 release, `person_source_value` is JSON-formatted. To join with `stanford_patient_uid`, extract the field using: `JSON_VALUE(person_source_value, '$.stanford_patient_uid')`
 
 **Additional Linkage Fields:**
 
-- Image Occurrence table also includes **note_id**, **visit_occurrence_id**, and **_accession_number** for linking to clinical notes, visits, and imaging studies
+- Image Occurrence table also includes **note_id**, **visit_occurrence_id**, and **accession_number** for linking to clinical notes, visits, and imaging studies
+
+
 
 The transition from MRN/DOB combinations to standardized identifiers (person_id, stanford_patient_uid) in May 2025 significantly improved cross-dataset linkage capabilities and simplified cohort construction workflows.
 

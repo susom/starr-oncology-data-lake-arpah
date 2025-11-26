@@ -275,7 +275,7 @@ overlap_plot_data <- overlap_res %>%
 plot_ly(
   data = overlap_plot_data,
   x = ~month,
-  y = ~percentage,
+  y = ~counts_pts,
   color = ~data_set_clean,
   colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072'),
   type = 'scatter',

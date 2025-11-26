@@ -39,7 +39,7 @@ anatomic_counts AS (
         SELECT DISTINCT 
             image_study_uid, 
             image_series_uid, 
-         anatomic_site_source_value, 
+            JSON_VALUE(anatomic_site_source_value, '$.body_part_examined') AS anatomic_site_source_value, 
             person_id  
         FROM 
             image_occ

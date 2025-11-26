@@ -6,7 +6,7 @@ execute:
 ```{r setup, include=FALSE}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql_params.yml"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_params.yml"
 ```
 
 ### Summary:
@@ -23,25 +23,25 @@ library(DT)
 library(tidyr)
 library(plotly)
 
-tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_thoracic_person_metrics.sql"
+tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_person_metrics.sql"
 tb_den<- fetch_data_from_sql_file(tb_sql, yaml_file_path)
 tb_den
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
-sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/image_occ/image_occ_thoracic/image_occ_person_thr.sql"
+sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/image_occ_thoracic/image_occ_person_thr.sql"
 res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
 
-As of August 2025, From `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
+As of November 2025, From `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
 
 
 
 ```{r time trend, message=FALSE, warning=FALSE, results='hide'}
 # time trend
-tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_over_time.sql"
+tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_over_time.sql"
 dt <- fetch_data_from_sql_file(tb_time, yaml_file_path)
 head(dt)
 ```
@@ -113,7 +113,7 @@ Please note that starting in 2018, Stanford Cancer Center standardized and ratio
 
 ```{r overlap, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_overlap.sql"
+sql_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_overlap.sql"
 res<- fetch_data_from_sql_file(sql_overlap, yaml_file_path)
 res$percent=100*(res$total_patients/res$total_patients[res$flag=="all_tb"])
 res$percent=round(res$percent,1)
@@ -151,7 +151,7 @@ create_gt_table(
 
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_demg <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_thoracic_demographic_all.sql"
+sql_demg <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_thoracic_demographic_all.sql"
 res <- fetch_data_from_sql_file(sql_demg, yaml_file_path)
 ```
 
@@ -219,7 +219,7 @@ Please note that the Incomplete case status is eventually updated to either C
 
 ```{r case status, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_case <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_thoracic_case_status.sql"
+sql_case <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_thoracic_case_status.sql"
 case <- fetch_data_from_sql_file(sql_case, yaml_file_path)
 case
 colnames(case)[2]<-"pts_count"
@@ -242,11 +242,11 @@ labels <- c(
 ### Image Occurrence 
 ```{r image, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_thoracic_imag_occ.sql"
+sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_thoracic_imag_occ.sql"
 tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
 tb_img
 ```
-As of August 2025, out of `r format(tb_den$n_pts[1], big.mark = ",")` thoracic tumor board patients,  
+As of novust 2025, out of `r format(tb_den$n_pts[1], big.mark = ",")` thoracic tumor board patients,  
 `r format(tb_img$patient_count[1], big.mark = ",")` (`r round(100 * tb_img$patient_count[1] / tb_den$n_pts[1], 1)`%) also had image occurrence procedures.
 
 Note: The following analysis is presented for series occurrences above 500. 
@@ -257,7 +257,7 @@ Note: The following analysis is presented for series occurrences above 500.
 
 ### Anatomic Sites
 ```{r query img, message=FALSE, warning=FALSE, results='hide'}
-sql_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_thoracic_imag_occ_anatomic.sql"
+sql_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_thoracic_imag_occ_anatomic.sql"
 res_ana <- fetch_data_from_sql_file(sql_image_an, yaml_file_path)
 head(res_ana)
 res_ana<- res_ana%>% filter (series_count>500) %>%
@@ -307,7 +307,7 @@ plot_ly(res_bar_ana,
 ### Modality Types 
 ```{r image occ, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
-sql_img_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2025/sql/tumor_board_updated/tumor_board_thoracic_imag_occ_modality.sql"
+sql_img_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_thoracic_imag_occ_modality.sql"
 tb_img_mod<- fetch_data_from_sql_file(sql_img_mod, yaml_file_path)
 tb_img_mod
 ```
@@ -365,4 +365,4 @@ plot_ly(res_bar,
 :::
 
 ### Source Codes:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/tumor_board_updated.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/tumor_board_updated). 
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/tumor_board_updated.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/sql/tumor_board_updated). 
