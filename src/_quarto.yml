@@ -59,9 +59,9 @@ website:
         contents:
           - section: "OMOP-CDM"
             contents: 
-              - section: "OMOP CDM 5.4.2 (November 2025)"
+              - section: "OMOP CDM 5.4.2"
                 contents: omop_data_dict/omop_data_dict_5.4/*
-              - section: "OMOP CDM 5.3.1 (February-August 2025)"
+              - section: "OMOP CDM 5.3.1"
                 contents: omop_data_dict/omop_data_dict_5.3/*
           - section: "NeuralFrame"
             contents: neuralframe_data_dict/*

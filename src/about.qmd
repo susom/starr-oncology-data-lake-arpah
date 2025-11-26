@@ -20,7 +20,7 @@ STARR-OMOP contains all Stanford patients whose information may be used for rese
 
 The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence. 
 
-Our EHR data was initially standardized using OMOP CDM version 5.3.1 and subsequently upgraded to OMOP CDM version 5.4 to leverage the latest data model enhancements. 
+Our EHR data was initially standardized using OMOP CDM version 5.3.1 and subsequently upgraded to OMOP CDM version 5.4.1 to leverage the latest data model enhancements. For more details about the November 2025 upgrade and data evolution across releases, see the [Data Evolution Overview](data_evolution_overview.qmd) page.
 
 The identified dataset is created using EPIC Clarity tables, which include patient and encounter data permissible for research. The tables in the OMOP-CDM common data model that are part of this dataset are listed in the [Data Dictionary](data_dictionary.qmd) page, along with information on whether they contain PHI and a brief description of each table.
 

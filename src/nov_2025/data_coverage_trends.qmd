@@ -283,7 +283,6 @@ plot_ly(
   text = ~paste0(
     data_set_clean, 
     "<br>Month: ", month_label,
-    "<br>Coverage: ", round(percentage, 1), "%",
     "<br>Patients: ", scales::comma(counts_pts)
   ),
   hoverinfo = "text",
@@ -291,17 +290,17 @@ plot_ly(
   line = list(width = 3)
 ) %>%
   layout(
-    title = "Data Source Coverage Across Releases",
+    title = "Unique Patient Counts Over Time by Source",
     xaxis = list(
-      title = "Release Month",
+      title = "",
       ticktext = c("February", "May", "August", "November"),
       tickvals = c("feb", "may", "aug", "nov"),
       categoryorder = "array",
       categoryarray = c("feb", "may", "aug", "nov")
     ),
     yaxis = list(
-      title = "Patient Coverage (%)",
-      range = c(0, 105)
+      title = "Number of Patients",
+      tickformat = ","
     ),
     legend = list(
       title = list(text = "Data Source"),
@@ -314,7 +313,7 @@ plot_ly(
   )
 ```
 
-
+**<sup>†</sup>Note:** The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May-November releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 
 ### OMOP Clinical Metrics 
 
@@ -729,49 +728,6 @@ plot_ly(
   )
 ```
 
-```{r stacked_bar_plot, message=FALSE, warning=FALSE}
-library(plotly)
-library(dplyr)
-
-# Create stacked bar chart to show proportions
-plot_ly(
-  data = tb_plot_data_ordered,
-  x = ~month_label,
-  y = ~patients,
-  color = ~metric,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072'),
-  type = 'bar',
-  text = ~paste0(
-    metric,
-    "<br>Month: ", month_label,
-    "<br>Patients: ", scales::comma(patients)
-  ),
-  hoverinfo = "text"
-) %>%
-  layout(
-    title = "Tumor Board Data Source Composition Across Releases",
-    xaxis = list(
-      title = "Release Month",
-      categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
-    ),
-    yaxis = list(
-      title = "Number of Patients",
-      tickformat = ","
-    ),
-    barmode = 'stack',
-    legend = list(
-      title = list(text = "Metric"),
-      orientation = "h",
-      x = 0.5,
-      xanchor = "center",
-      y = -0.3
-    ),
-    margin = list(b = 180)
-  )
-```
-
-
 
 :::
 
@@ -817,7 +773,7 @@ img_size <- run_monthly_metrics(
 )
 ```
 
-```{r combined_image_plots, message=FALSE, warning=FALSE, fig.width=12, fig.height=10}
+```{r combined_image_plots, message=FALSE, warning=FALSE, fig.width=12, fig.height=8}
 library(plotly)
 library(dplyr)
 
@@ -838,72 +794,7 @@ img_res_plot <- img_res %>%
     )
   )
 
-# Create dual-axis plot for patients and series
-fig1 <- plot_ly()
-
-# Add patients line (left y-axis)
-patients_data <- img_res_plot %>% filter(metric == "Unique Patients")
-fig1 <- fig1 %>%
-  add_trace(
-    data = patients_data,
-    x = ~month_label,
-    y = ~counts,
-    name = "Unique Patients",
-    type = 'scatter',
-    mode = 'lines+markers',
-    line = list(color = '#8dd3c7', width = 3),
-    marker = list(size = 10, color = '#8dd3c7'),
-    text = ~paste0("Patients<br>", month_label, "<br>Count: ", scales::comma(counts)),
-    hoverinfo = "text"
-  )
-
-# Add series line (right y-axis)
-series_data <- img_res_plot %>% filter(metric == "Image Series")
-fig1 <- fig1 %>%
-  add_trace(
-    data = series_data,
-    x = ~month_label,
-    y = ~counts,
-    name = "Image Series",
-    type = 'scatter',
-    mode = 'lines+markers',
-    yaxis = "y2",
-    line = list(color = '#ffffb3', width = 3),
-    marker = list(size = 10, color = '#ffffb3'),
-    text = ~paste0("Series<br>", month_label, "<br>Count: ", scales::comma(counts)),
-    hoverinfo = "text"
-  )
-
-fig1 <- fig1 %>%
-  layout(
-    title = "Imaging Data Growth: Patient and Series Coverage",
-    xaxis = list(
-      title = "Release Month",
-      categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
-    ),
-    yaxis = list(
-      title = "Number of Unique Patients",
-      tickformat = ",",
-      side = "left"
-    ),
-    yaxis2 = list(
-      title = "Number of Image Series",
-      tickformat = ",",
-      overlaying = "y",
-      side = "right"
-    ),
-    legend = list(
-      orientation = "h",
-      x = 0.5,
-      xanchor = "center",
-      y = -0.15
-    ),
-    hovermode = 'closest',
-    margin = list(b = 100)
-  )
-
-# Prepare img_size data for metadata plot
+# Prepare img_size data
 img_size_plot <- img_size %>%
   mutate(
     month = factor(month, levels = c("feb", "may", "aug", "nov")),
@@ -917,26 +808,44 @@ img_size_plot <- img_size %>%
       flag == "counts_anatomic_type" ~ "Anatomic Regions",
       flag == "counts_modality_type" ~ "Imaging Modalities",
       flag == "counts_study" ~ "Unique Studies",
-      flag == "counts_series" ~ "Image Series",
+      flag == "counts_series" ~ "Image Series ",
       flag == "size_gb" ~ "Data Size (GB)",
       TRUE ~ flag
     )
   ) %>%
   filter(flag != "size_gb")
 
-# Create metadata bar chart with consistent colors
-fig2 <- plot_ly(
-  data = img_size_plot,
+# Combine all metrics into one dataset, excluding Image Series and Unique Studies
+all_metrics <- bind_rows(
+  img_res_plot %>% select(month_label, metric, counts),
+  img_size_plot %>% select(month_label, metric, counts)
+) %>%
+  filter(!metric %in% c("Image Series", "Image Series ", "Unique Studies"))
+
+# Calculate average counts per metric to order by magnitude
+metric_order <- all_metrics %>%
+  group_by(metric) %>%
+  summarise(avg_count = mean(counts, na.rm = TRUE)) %>%
+  arrange(desc(avg_count)) %>%
+  pull(metric)
+
+# Apply ordering to the data
+all_metrics <- all_metrics %>%
+  mutate(metric = factor(metric, levels = metric_order))
+
+# Create stacked bar chart with all metrics
+plot_ly(
+  data = all_metrics,
   x = ~month_label,
   y = ~counts,
   color = ~metric,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072'),
+  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5'),
   type = 'bar',
   text = ~paste0(metric, "<br>", month_label, "<br>Count: ", scales::comma(counts)),
   hoverinfo = "text"
 ) %>%
   layout(
-    title = "Imaging Metadata Diversity Across Releases",
+    title = "Comprehensive Imaging Data Evolution",
     xaxis = list(
       title = "Release Month",
       categoryorder = "array",
@@ -944,85 +853,21 @@ fig2 <- plot_ly(
     ),
     yaxis = list(
       title = "Count",
-      tickformat = ",",
-      type = "log"
+      tickformat = ","
     ),
-    barmode = 'group',
+    barmode = 'stack',
     legend = list(
       title = list(text = "Metric"),
       orientation = "h",
       x = 0.5,
       xanchor = "center",
-      y = -0.15
+      y = -0.2
     ),
-    margin = list(b = 100)
-  )
-
-# Combine plots using subplot
-subplot(
-  fig1, fig2,
-  nrows = 2,
-  shareX = FALSE,
-  titleY = TRUE,
-  margin = 0.1
-) %>%
-  layout(
-    title = list(
-      text = "Comprehensive Imaging Data Evolution",
-      y = 0.98
-    ),
-    showlegend = TRUE
+    hovermode = 'closest',
+    margin = list(b = 120)
   )
 ```
 
-### Data Volume
-
-```{r image_size_plot, message=FALSE, warning=FALSE}
-library(plotly)
-library(dplyr)
-
-# Prepare size data
-size_data <- img_size %>%
-  filter(flag == "size_gb") %>%
-  mutate(
-    month = factor(month, levels = c("feb", "may", "aug", "nov")),
-    month_label = recode(month,
-      "feb" = "February",
-      "may" = "May",
-      "aug" = "August",
-      "nov" = "November"
-    )
-  )
-
-# Create area plot for data size
-plot_ly(
-  data = size_data,
-  x = ~month_label,
-  y = ~counts,
-  type = 'scatter',
-  mode = 'lines+markers',
-  fill = 'tozeroy',
-  fillcolor = 'rgba(141, 211, 199, 0.3)',
-  line = list(color = '#8dd3c7', width = 3),
-  marker = list(size = 12, color = '#8dd3c7'),
-  text = ~paste0("Data Volume<br>", month_label, "<br>Size: ", counts, " GB"),
-  hoverinfo = "text"
-) %>%
-  layout(
-    title = "Imaging Data Volume Growth",
-    xaxis = list(
-      title = "Release Month",
-      categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
-    ),
-    yaxis = list(
-      title = "Data Size (GB)",
-      tickformat = ","
-    ),
-    showlegend = FALSE,
-    hovermode = 'closest'
-  )
-```
 
 ### Imaging Modalities
 
@@ -1074,7 +919,7 @@ img_summary <- img_mod %>%
 library(plotly)
 library(dplyr)
 
-# Create area chart showing modality growth with consistent colors
+# Create line chart showing modality growth without shading
 plot_ly(
   data = img_summary,
   x = ~month_label,
@@ -1083,20 +928,19 @@ plot_ly(
   colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69'),
   type = 'scatter',
   mode = 'lines+markers',
-  fill = 'tonexty',
   text = ~paste0(
     modality_group,
     "<br>Month: ", month_label,
     "<br>Patients: ", scales::comma(counts)
   ),
   hoverinfo = "text",
-  line = list(width = 2),
-  marker = list(size = 8)
+  line = list(width = 3),
+  marker = list(size = 10)
 ) %>%
   layout(
     title = "Imaging Modality Coverage Across Releases",
     xaxis = list(
-      title = "Release Month",
+      title = "",
       categoryorder = "array",
       categoryarray = c("February", "May", "August", "November")
     ),
@@ -1145,12 +989,27 @@ philips_denom <- run_monthly_metrics(
 )
 ```
 
-```{r philips_overview_plot, message=FALSE, warning=FALSE}
+```{r philips_tests, message=FALSE, warning=FALSE, results='hide'}
+# Define Philips tests ordered SQL paths per release
+philips_tests_sql_paths <- list(
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/philips/may_aug25/philips_tests_ordered.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/philips/may_aug25/philips_tests_ordered.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/philips/nov25/philips_tests_ordered.sql"
+)
+
+philips_tests <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month[c("may_2025", "aug_2025", "nov_2025")],
+  sql_file_paths = philips_tests_sql_paths,
+  release_to_month = release_to_month
+)
+```
+
+```{r philips_combined_plot, message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
 library(tidyr)
 
-# Prepare data in long format for grouped bar chart
+# Prepare philips_denom data
 philips_overview <- philips_denom %>%
   mutate(
     month = factor(month, levels = c("may", "aug", "nov")),
@@ -1168,67 +1027,74 @@ philips_overview <- philips_denom %>%
   mutate(
     metric_label = recode(metric,
       "counts_pts" = "Unique Patients",
-      "n_acc" = "Test Accessions"
+      "n_acc" = "Accession Numbers"
     )
   )
 
-# Create grouped bar chart
+# Prepare test type data
+philips_tests_data <- philips_tests %>%
+  mutate(
+    month = factor(month, levels = c("may", "aug", "nov")),
+    month_label = recode(month,
+      "may" = "May",
+      "aug" = "August",
+      "nov" = "November"
+    ),
+    metric_label = case_when(
+      is.na(test_type) | test_type == "" ~ "Not Specified",
+      TRUE ~ test_type
+    )
+  ) %>%
+  select(month_label, metric_label, count = test_type_counts)
+
+# Combine both datasets
+all_philips <- bind_rows(
+  philips_overview,
+  philips_tests_data
+)
+
+# Create combined line chart
 plot_ly(
-  data = philips_overview,
+  data = all_philips,
   x = ~month_label,
   y = ~count,
   color = ~metric_label,
-  colors = c('#8dd3c7', '#ffffb3'),
-  type = 'bar',
+  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5', '#ccebc5', '#bc80bd', '#fdb462', '#80b1d3'),
+  type = 'scatter',
+  mode = 'lines+markers',
   text = ~paste0(
     metric_label,
     "<br>", month_label,
     "<br>Count: ", scales::comma(count)
   ),
-  hoverinfo = "text"
+  hoverinfo = "text",
+  line = list(width = 3),
+  marker = list(size = 10)
 ) %>%
   layout(
-    title = "Philips ISPM Coverage: Patients and Test Accessions",
+    title = "Philips ISPM: Comprehensive Genomic Testing Overview",
     xaxis = list(
-      title = "Release Month",
+      title = "",
       categoryorder = "array",
       categoryarray = c("May", "August", "November")
     ),
     yaxis = list(
       title = "Count",
-      tickformat = ",",
-      range = c(5000, 20000)
+      tickformat = ","
     ),
-    barmode = 'group',
     legend = list(
       title = list(text = "Metric"),
       orientation = "h",
       x = 0.5,
       xanchor = "center",
-      y = -0.15
+      y = -0.25
     ),
     hovermode = 'closest',
-    margin = list(b = 100)
+    margin = list(b = 150)
   )
 ```
 
-
-```{r philips_tests, message=FALSE, warning=FALSE, results='hide'}
-# Define Philips tests ordered SQL paths per release
-philips_tests_sql_paths <- list(
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/philips/may_aug25/philips_tests_ordered.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/philips/may_aug25/philips_tests_ordered.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/philips/nov25/philips_tests_ordered.sql"
-)
-
-philips_tests <- run_monthly_metrics(
-  datasets_by_month = datasets_by_month[c("may_2025", "aug_2025", "nov_2025")],
-  sql_file_paths = philips_tests_sql_paths,
-  release_to_month = release_to_month
-)
-```
-
-```{r philips_tests_plot, message=FALSE, warning=FALSE, include=FALSE}
+```{r philips_tests_plot_hidden, message=FALSE, warning=FALSE, include=FALSE}
 
 library(plotly)
 library(dplyr)
@@ -1287,9 +1153,8 @@ plot_ly(
   )
 ```
 
-### Test Type Trends
 
-```{r philips_tests_area, message=FALSE, warning=FALSE}
+```{r philips_tests_area, message=FALSE, warning=FALSE, include=FALSE}
 library(plotly)
 library(dplyr)
 
