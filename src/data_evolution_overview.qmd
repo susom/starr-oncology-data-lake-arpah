@@ -1,8 +1,5 @@
 ---
 title: "Data Evolution Overview"
-toc: true
-toc-depth: 3
-toc-location: left
 execute:
   echo: false
 ---

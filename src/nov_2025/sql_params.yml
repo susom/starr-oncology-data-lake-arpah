@@ -23,7 +23,7 @@ aug_2025:
 
 nov_2025:
   oncology_prod: som-rit-phi-oncology-prod
-  oncology_omop: oncology_cancer_omop_arpah_phi_2025_10_16
-  oncology_neuralframe: oncology_neuralframe_phi_2025_10_16
-  oncology_philips: oncology_philips_phi_2025_10_16
+  oncology_omop: oncology_omop54_phi_irb76049_nov2025
+  oncology_neuralframe: oncology_neuralframe_phi_irb76049_nov2025
+  oncology_philips: oncology_philips_phi_irb76049_nov2025
 
