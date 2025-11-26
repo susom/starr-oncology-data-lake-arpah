@@ -1,6 +1,9 @@
 project:
   type: website
+  resources:
+   - googlecbb69ef34ca20e9d.html
   render:
+
    - about.qmd
    - data_dictionary.qmd
    - data_evolution_overview.qmd
