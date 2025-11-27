@@ -10,7 +10,7 @@ This page provides an overview of the VISTA Oncology Data Lake's evolution acros
 
 The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February through November 2025, the platform has grown from approximately 200,000 to over 217,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4.
 
-```{r data_lake_diagram, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
+```{r data_lake_diagram, message=FALSE, warning=FALSE, fig.width=6, fig.height=6, include=FALSE}
 library(DiagrammeR)
 
 # Create and display the diagram
@@ -275,16 +275,15 @@ datatable(
 - **person_source_value**: Source system identifier in OMOP tables that joins with stanford_patient_uid for cross-dataset linkage
 - **stanford_patient_uid**: Stanford-specific unique patient identifier used in NeuralFrame and Philips ISPM datasets which is concatenation of MRN and DOB
 - **MRN, DOB**: Medical Record Number and Date of Birth combination (used in February 2025 before standardization)
-
-**Note**: **<sup>†</sup>November 2025 OMOP 5.4 Update:** In the November 2025 release, `person_source_value` is JSON-formatted. To join with `stanford_patient_uid`, extract the field using: `JSON_VALUE(person_source_value, '$.stanford_patient_uid')`
+The transition from MRN/DOB combinations to standardized identifiers (person_id, stanford_patient_uid) in May 2025 significantly improved cross-dataset linkage capabilities and simplified cohort construction workflows.
 
 **Additional Linkage Fields:**
 
 - Image Occurrence table also includes **note_id**, **visit_occurrence_id**, and **accession_number** for linking to clinical notes, visits, and imaging studies
 
+**<sup>†</sup>November 2025 OMOP 5.4 Update:** In the November 2025 release, `person_source_value` is JSON-formatted. To join with `stanford_patient_uid`, extract the field using: `JSON_VALUE(person_source_value, '$.stanford_patient_uid')`
 
 
-The transition from MRN/DOB combinations to standardized identifiers (person_id, stanford_patient_uid) in May 2025 significantly improved cross-dataset linkage capabilities and simplified cohort construction workflows.
 
 ## Multi-Release Statistical Overview
 

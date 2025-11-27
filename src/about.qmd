@@ -9,7 +9,8 @@ Welcome to the VISTA Oncology Data Lake project. This datalake brings together d
 In order to be included in any of the VISTA Oncology Data Lake resources, patients must be present in STARR-OMOP and also have one of the following:
 
 - an encounter of type 'tumor board' 
-- **OR** a case record in Stanford's Neuralframe dataset
+  **OR** 
+- a case record in Stanford's Neuralframe dataset
 
 STARR-OMOP contains all Stanford patients whose information may be used for research and who have at least one clinical event included in the OMOP data model (visit, condition, procedure, drug exposure, device exposure, image occurrence, observation, or note) since Jan 1, 2000. Tumor board encounters are reliably present in the EHR system for tumor board discussions beginning in 2018 (prior years have incomplete coverage). Patients are present in Neuralframe if they have received their first line of cancer treatment at Stanford.
 

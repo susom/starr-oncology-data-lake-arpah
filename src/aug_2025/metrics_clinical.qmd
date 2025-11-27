@@ -159,11 +159,12 @@ pg<-ComplexUpset::upset(
     )
 ,
   intersections = 'all',
-  max_degree = 4
+  max_degree = 3
 )
 pg
 #ggsave("plot.png", pg, width = 10, height = 9, dpi = 300)
 
 ```
+
 ### Source Codes:
 The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/aug_2025/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2025/sql/arpah_cohort). 
