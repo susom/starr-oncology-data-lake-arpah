@@ -284,7 +284,6 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 **<sup>†</sup>November 2025 OMOP 5.4 Update:** In the November 2025 release, `person_source_value` is JSON-formatted. To join with `stanford_patient_uid`, extract the field using: `JSON_VALUE(person_source_value, '$.stanford_patient_uid')`
 
 
-
 ## Multi-Release Statistical Overview
 
 For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](nov_2025/data_coverage_trends.qmd) page.

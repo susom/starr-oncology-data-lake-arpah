@@ -899,7 +899,7 @@ plot_ly(
   hoverinfo = "text"
 ) %>%
   layout(
-    title = "Comprehensive Imaging Data Evolution",
+    title = "",
     xaxis = list(
       title = "",
       categoryorder = "array",
