@@ -293,10 +293,9 @@ library(yaml)
 library(glue)
 library(stringr)
 
-fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path) {
+fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = NULL) {
 
   credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
-project <- "som-rit-phi-oncology-prod"
 
   # Ensure SQL file exists
   if (!file.exists(sql_file_path)) {
@@ -308,7 +307,27 @@ project <- "som-rit-phi-oncology-prod"
     stop(glue("❌ YAML file not found: {yaml_file_path}"))
   }
 
-  sql_params <- yaml::read_yaml(yaml_file_path)
+  config <- yaml::read_yaml(yaml_file_path)
+  
+  # Determine if this is a nested (multi-release) or flat (single-release) YAML
+  # Check if top-level has oncology_prod (flat) or release names (nested)
+  if ("oncology_prod" %in% names(config)) {
+    # Flat structure - use entire config as sql_params
+    sql_params <- config
+    project <- sql_params[["oncology_prod"]]
+  } else {
+    # Nested structure - need a release parameter
+    if (is.null(release)) {
+      release <- "nov_2025"  # default for nested structure
+    }
+    
+    if (!release %in% names(config)) {
+      stop(glue("❌ Release '{release}' not found in YAML config. Available: {paste(names(config), collapse=', ')}"))
+    }
+    
+    sql_params <- config[[release]]
+    project <- sql_params[["oncology_prod"]]
+  }
 
   # Function to replace placeholders in SQL
   replace_placeholders <- function(sql_query, params) {
@@ -514,4 +533,150 @@ create_gt_table_v3 <- function(data, columns, labels, title_text = "", subtitle_
   return(gt_table)
 }
 
+#############################################
+### function to take multiple data inputs ###
+##############################################
+library(DBI)
+library(bigrquery)
+library(yaml)
+library(glue)
+library(stringr)
+library(dplyr)
+library(purrr)
+library(readr)
 
+fetch_ndata_from_sql_file <- function(sql_file_path, yaml_file_path, project = "som-rit-phi-oncology-prod", credentials_path = "/home/rstudio/.config/gcloud/application_default_credentials.json") {
+  
+  # Ensure SQL file exists
+  if (!file.exists(sql_file_path)) stop(glue("❌ SQL file not found: {sql_file_path}"))
+  
+  # Load flat YAML mapping
+  if (!file.exists(yaml_file_path)) stop(glue("❌ YAML file not found: {yaml_file_path}"))
+  dataset_map <- yaml::read_yaml(yaml_file_path)
+  
+  # Read SQL template
+  sql_template <- readr::read_file(sql_file_path)
+  
+  # Safe placeholder replacement
+  replace_placeholders <- function(sql_query, params) {
+    for (param in names(params)) {
+      value <- as.character(params[[param]])
+      sql_query <- str_replace_all(sql_query, paste0("@", param), value)
+    }
+    return(sql_query)
+  }
+  
+  # Connect to BigQuery
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+  conn <- dbConnect(bigrquery::bigquery(), project = project, use_legacy_sql = FALSE)
+  on.exit(dbDisconnect(conn), add = TRUE)
+  
+  all_results <- list()
+  
+  # Loop over each dataset in the flat YAML
+  for (param_name in names(dataset_map)) {
+    dataset_value <- as.character(dataset_map[[param_name]])
+    
+    # Infer month from key if present
+    month <- case_when(
+      str_detect(param_name, "_feb") ~ "feb",
+      str_detect(param_name, "_may") ~ "may",
+      str_detect(param_name, "_aug") ~ "aug",
+      TRUE ~ NA_character_
+    )
+    
+    # Replace placeholder in SQL
+    sql_query <- replace_placeholders(sql_template, setNames(list(dataset_value), param_name))
+    
+    print(glue("\n🔍 Running SQL for dataset_alias={param_name}, month={month}...\n"))
+    
+    # Execute query safely
+    result <- tryCatch({
+      df <- dbGetQuery(conn, sql_query)
+      df %>%
+        mutate(month = month,
+               dataset_alias = param_name,
+               sql_file_name = basename(sql_file_path))
+    }, error = function(e) {
+      message(glue("\n⚠️ Query failed for dataset_alias={param_name}, month={month}: {e$message}"))
+      return(NULL)
+    })
+    
+    all_results[[param_name]] <- result
+  }
+  
+  # Combine all results into a single data frame
+  combined_df <- bind_rows(all_results)
+  
+  return(combined_df)
+}
+
+
+###################
+library(DBI)
+library(bigrquery)
+library(yaml)
+library(glue)
+library(dplyr)
+library(stringr)
+library(purrr)
+
+fetch_metrics_overtime <- function(sql_file_path, yaml_file_path, credentials_path = "~/.config/gcloud/application_default_credentials.json") {
+  
+  # Ensure SQL & YAML exist
+  if (!file.exists(sql_file_path)) stop(glue("❌ SQL file not found: {sql_file_path}"))
+  if (!file.exists(yaml_file_path)) stop(glue("❌ YAML file not found: {yaml_file_path}"))
+  
+  # Load YAML mapping
+  dataset_map <- yaml::read_yaml(yaml_file_path)
+  
+  # Read SQL template
+  sql_template <- paste(readLines(sql_file_path, warn = FALSE), collapse = "\n")
+  
+  # Function to replace placeholders
+  replace_placeholders <- function(sql_query, params) {
+    for (param in names(params)) {
+      value <- as.character(params[[param]])
+      sql_query <- str_replace_all(sql_query, paste0("@", param), value)
+    }
+    return(sql_query)
+  }
+  
+  # Setup BigQuery connection (once)
+  Sys.setenv(GOOGLE_APPLICATION_CREDENTIALS = credentials_path)
+  project <- dataset_map$oncology_prod  # Use main project for connection
+  conn <- dbConnect(bigrquery::bigquery(), project = project, use_legacy_sql = FALSE)
+  on.exit(dbDisconnect(conn), add = TRUE)
+  
+  # Run for all datasets
+  results <- map_dfr(names(dataset_map), function(alias) {
+    
+    # Skip the main project placeholder for queries
+    if (alias == "oncology_prod") return(NULL)
+    
+    # Infer month from key (e.g., oncology_omop_feb → feb)
+    month <- str_extract(alias, "(?<=_)[a-z]+$")
+    
+    # Prepare SQL
+    sql_query <- replace_placeholders(sql_template, dataset_map)
+    
+    # Print info
+    cat(glue("\n🔍 Running SQL for dataset_alias={alias}, month={month}...\n"))
+    
+    # Run query
+    df <- tryCatch({
+      dbGetQuery(conn, sql_query)
+    }, error = function(e) {
+      message(glue("⚠️ Query failed for dataset_alias={alias}, month={month}: {e$message}"))
+      return(NULL)
+    })
+    
+    if (!is.null(df)) {
+      df <- df %>% mutate(dataset_alias = alias, month = month)
+    }
+    
+    return(df)
+  })
+  
+  return(results)
+}

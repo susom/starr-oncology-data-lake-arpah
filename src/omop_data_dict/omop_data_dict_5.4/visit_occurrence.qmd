@@ -1,0 +1,102 @@
+---
+title: "visit_occurrence"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| visit_occurrence_id                                 | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| visit_concept_id                                    | INTEGER  | Yes        |       |                        |
+| visit_start_DATE                                    | DATE     | No         | Yes   | Jitter                    |
+| visit_start_DATETIME                                | DATETIME | Yes        | Yes   | Jitter                    |
+| visit_end_DATE                                      | DATE     | No         | Yes   | Jitter                    |
+| visit_end_DATETIME                                  | DATETIME | Yes        | Yes   | Jitter                    |
+| visit_type_concept_id                               | INTEGER  | Yes        |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| care_site_id                                        | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_source_value                                  | STRING   | No         | Yes   |                        |
+| visit_source_concept_id                             | INTEGER  | Yes        |       |                        |
+| admitted_from_concept_id                            | INTEGER  | Yes        |       |                        |
+| admitted_from_source_value                          | STRING   | No         |       |                        |
+| discharged_to_concept_id                             | INTEGER  | Yes        |       |                        |
+| discharged_to_source_value                           | STRING   | No         |       |                        |
+| preceding_visit_occurrence_id                       | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### visit_occurrence_id
+
+A unique identifier for each Person's visit or encounter at a healthcare provider.
+
+##### person_id
+
+A foreign key identifier to the Person for whom the visit is recorded. The demographic details of that Person are stored in the PERSON table.
+
+##### visit_concept_id
+
+A foreign key that refers to a Concept identifier in the Standardized Vocabularies belonging to the 'Visit' Domain (inpatient, emergency room, etc).
+
+##### visit_start_date
+
+The start date of the visit.
+
+##### visit_start_datetime
+
+The date and time when the visit started. This defaults to 00:00:00 (midnight) if no time information is available. 
+
+##### visit_end_date
+
+The end date of the visit. If this is a one-day visit the end date should match the start date.
+
+##### visit_end_datetime
+
+The date and time when the visit ended.This defaults to 00:00:00 (midnight) if no time information is available.
+
+##### visit_type_concept_id
+
+Use this field to understand the provenance of the visit record, or where the record comes from.
+
+##### provider_id
+
+A foreign key to the provider in the provider table who was associated with the visit.
+
+##### care_site_id
+
+A foreign key to the care site in the care site table that was visited.
+
+##### visit_source_value
+
+This column contains a text string that concatenates the fields used to determine the visit_type. The following fields are concatenated in this order, with ‘ | ‘ separators: encounter type (enc_type_c), admission/discharge/transfer patient class (adt_pat_class_c), hospital admission type (hosp_admsn_type_c), and visit type (appt_prc_id)
+
+##### visit_source_concept_id
+
+A foreign key to a Concept that repersents a distinct combination of the following three variables:  ADT patient class, hospital admission type, and encounter type. One or more of these variables may be null for any given visit.
+
+##### admitted_from_concept_id
+
+A foreign key to the predefined concept in the Visit Domain reflecting where the patient was admitted from.
+
+##### admitted_from_source_value
+
+The source code for where the patient was admitted from as it appears in the source data.
+
+##### discharged_to_concept_id
+
+A foreign key to the predefined Concept in the Visit Domain reflecting where the patient was discharged to (discharge disposition).
+
+##### discharged_to_source_value
+
+The source code for the discharge disposition as it appears in the source data.
+
+##### preceding_visit_occurrence_id
+
+A foreign key to the VISIT_OCCURRENCE row of the visit immediately preceding this visit
+

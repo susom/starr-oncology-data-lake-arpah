@@ -1,0 +1,97 @@
+---
+title: "procedure_occurrence"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| procedure_occurrence_id                             | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| procedure_concept_id                                | INTEGER  | Yes        |       |                        |
+| procedure_DATE                                      | DATE     | No         | Yes   | Jitt                      |
+| procedure_DATETIME                                  | DATETIME | Yes        | Yes   | Jitt                      |
+| procedure_end_date                                  | DATE     | No         | Yes   | Jitt                      |
+| procedure_end_datetime                              | DATETIME | No         | Yes   | Jitt                      |
+| procedure_type_concept_id                           | INTEGER  | Yes        |       |                        |
+| modifier_concept_id                                 | INTEGER  | Yes        |       |                        |
+| quantity                                            | INTEGER  | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| procedure_source_value                              | STRING   | No         |       |                        |
+| procedure_source_concept_id                         | INTEGER  | Yes        |       |                        |
+| modifier_source_value                               | STRING   | No         |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### procedure_occurrence_id
+
+A system-generated unique identifier for each Procedure Occurrence.
+
+##### person_id
+
+The person_id of the person for whom the procedure is recorded.
+
+##### procedure_concept_id
+
+A foreign key that refers to a standard procedure Concept identifier in the Standardized Vocabularies.
+
+##### procedure_date
+
+The date on which the Procedure was performed.
+
+##### procedure_datetime
+
+The date and time on which the Procedure was performed.
+
+##### procedure_end_date
+
+The end date on which the Procedure was completed.
+
+##### procedure_end_datetime
+
+The end date and time on which the Procedure was completed.
+
+##### procedure_type_concept_id
+
+This field can be used to determine the provenance of the Procedure record, as in whether the procedure was from an EHR system, insurance claim, registry, or other sources.
+
+##### modifier_concept_id
+
+The modifiers are intended to give additional information about the procedure. 
+
+##### quantity
+
+The quantity of procedures ordered or administered. If the quantity value is omitted, a single procedure is assumed.
+
+##### provider_id
+
+The provider in the PROVIDER table who was responsible for carrying out the procedure.
+
+##### visit_occurrence_id
+
+The visit during which the procedure occurred
+
+##### visit_detail_id
+
+The VISIT_DETAIL record during which the Procedure occurred. For example, if the Person was in the ICU at the time of the Procedure the VISIT_OCCURRENCE record would reflect the overall hospital stay and the VISIT_DETAIL record would reflect the ICU stay during the hospital visit.
+
+##### procedure_source_value
+
+The source code for the Procedure as it appears in the source data. This code is mapped to a standard procedure Concept in the Standardized Vocabularies and the original code is, stored here for reference. Procedure source codes are typically ICD-9-Proc, CPT-4, HCPCS or OPCS-4 codes.
+
+##### procedure_source_concept_id
+
+This is the concept id representing the procedure source value and may not necessarily be standard.
+
+##### modifier_source_value
+
+This field houses the verbatim value from the source data representing the modifier code for the procedure that occurred
+

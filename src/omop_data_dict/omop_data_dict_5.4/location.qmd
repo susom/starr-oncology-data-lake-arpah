@@ -1,0 +1,82 @@
+---
+title: "location"
+---
+
+Standarized Health System Data Tables
+
+### Table Columns
+
+| field                                               | type    | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
+| location_id                                         | INTEGER | Yes        | No    | Not Stable between Data Refreshes                    |
+| address_1                                           | STRING  | No         | Yes   | Del                       |
+| address_2                                           | STRING  | No         | Yes   | Del                       |
+| city                                                | STRING  | No         | Yes   | Del                       |
+| state                                               | STRING  | No         | Yes   |                        |
+| zip                                                 | STRING  | No         | Yes   | RedZip                    |
+| county                                              | STRING  | No         | No    | Del                       |
+| location_source_value                               | STRING  | No         | Yes   | Del                       |
+| country_concept_id                                  | INTEGER | No         | No    |                        |
+| country_source_value                                | STRING  | No         | Yes   | Del                       |
+| latitude                                            | FLOAT   | No         | Yes   | Drop                      |
+| longitude                                           | FLOAT   | No         | Yes   | Drop                      |
+                    |
+| _census_block_group (available only at Stanford)    | STRING  | No         | Yes   | Drop                      |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### location_id
+
+A unique identifier for each geographic location.
+
+##### address_1
+
+The address field 1, typically used for the street address, as it appears in the source data.
+
+##### address_2
+
+The address field 2, typically used for additional detail such as buildings, suites, floors, as it appears in the source data.
+
+##### city
+
+The city field as it appears in the source data.
+
+##### state
+
+The state field as it appears in the source data.
+
+##### zip
+
+The 5 digit zip or postal code of the locatin address
+
+##### county
+
+The name of the county.
+
+##### location_source_value
+
+The MRN|DOB of the person this location corresponds to
+
+##### country_concept_id
+
+A foreign key to the concept in the Standardized Vocabularies representing the country.
+
+##### country_source_value
+
+The country code or name as it appears in the source data.
+
+
+##### _census_block_group (available only at stanford)
+
+The census block group as indicated by United States Census Bureau API for this address location
+
+##### latitude (available only at stanford)
+
+latitude of the address if available
+
+##### longitude (available only at stanford)
+
+longitude of the address if available

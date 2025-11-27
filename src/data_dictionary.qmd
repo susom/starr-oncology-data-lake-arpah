@@ -6,23 +6,46 @@ execute:
 
 ### OMOP-CDM
 
-This document provides a comprehensive overview of the OMOP Common Data Model (CDM) tables available in the initial release of the dataset. The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence.
+This document provides a comprehensive overview of the OMOP Common Data Model (CDM) tables available in the dataset. The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence.
 
 In this data dictionary, you will find detailed descriptions of each table and its columns, including data types, requirements, and any specific operations applied to the data. This information is crucial for understanding the structure and content of the dataset, ensuring accurate and meaningful analysis.
 
-#### List of OMOP-CDM tables available
+**Version History**: The data lake has evolved from OMOP CDM 5.3.1 (used in February-August 2025 releases) to OMOP CDM 5.4.2 (November 2025 release). The November 2025 upgrade includes new tables, enhanced field linking capabilities, updated naming conventions, and vocabulary modernization from January 2023 to August 2025. For detailed information about CDM changes, see the [OHDSI CDM 5.4 Changes](https://ohdsi.github.io/CommonDataModel/cdm54Changes.html).
 
-The following OMOP-CDM tables are available in the initial release of dataset:
+::: {.panel-tabset}
+
+#### OMOP CDM 5.4.2 
+
+The following OMOP-CDM 5.4.2 tables are available in the November 2025 release:
 
 | Category            | Table Name                                                                                   |
 |---------------------|----------------------------------------------------------------------------------------------|
-| Clinical Data       | [condition_occurrence](omop_data_dict/condition_occurrence.qmd), [drug_exposure](omop_data_dict/drug_exposure.qmd), [device_exposure](omop_data_dict/device_exposure.qmd), [measurement](omop_data_dict/measurement.qmd), [observation](omop_data_dict/observation.qmd), [procedure_occurrence](omop_data_dict/procedure_occurrence.qmd), [image_occurrence](omop_data_dict/image_occurrence.qmd), [visit_occurrence](omop_data_dict/visit_occurrence.qmd), [visit_detail](omop_data_dict/visit_detail.qmd), [note](omop_data_dict/note.qmd), [death](omop_data_dict/death.qmd) |
-| Vocabularies        | [concept](omop_data_dict/concept.qmd), [concept_ancestor](omop_data_dict/concept_ancestor.qmd), [concept_class](omop_data_dict/concept_class.qmd), [concept_relationship](omop_data_dict/concept_relationship.qmd), [concept_synonym](omop_data_dict/concept_synonym.qmd), [domain](omop_data_dict/domain.qmd), [relationship](omop_data_dict/relationship.qmd), [vocabulary](omop_data_dict/vocabulary.qmd) |
-| Health System Data  | [care_site](omop_data_dict/care_site.qmd), [location](omop_data_dict/location.qmd), [provider](omop_data_dict/provider.qmd) |
-| Derived Elements    | [condition_era](omop_data_dict/condition_era.qmd), [drug_era](omop_data_dict/drug_era.qmd) |
-| Health Economics    | [payer_plan_period](omop_data_dict/payer_plan_period.qmd) |
-| Metadata            | [cdm_source](omop_data_dict/cdm_source.qmd), [metadata](omop_data_dict/metadata.qmd) |
+| Clinical Data       | [condition_occurrence](omop_data_dict/omop_data_dict_5.4/condition_occurrence.qmd), [drug_exposure](omop_data_dict/omop_data_dict_5.4/drug_exposure.qmd), [device_exposure](omop_data_dict/omop_data_dict_5.4/device_exposure.qmd), [measurement](omop_data_dict/omop_data_dict_5.4/measurement.qmd), [observation](omop_data_dict/omop_data_dict_5.4/observation.qmd), [procedure_occurrence](omop_data_dict/omop_data_dict_5.4/procedure_occurrence.qmd), [image_occurrence](omop_data_dict/omop_data_dict_5.4/image_occurrence.qmd), [visit_occurrence](omop_data_dict/omop_data_dict_5.4/visit_occurrence.qmd), [visit_detail](omop_data_dict/omop_data_dict_5.4/visit_detail.qmd), [note](omop_data_dict/omop_data_dict_5.4/note.qmd), [death](omop_data_dict/omop_data_dict_5.4/death.qmd) |
+| Standardized Derived Elements | [observation_period](omop_data_dict/omop_data_dict_5.4/observation_period.qmd), [person](omop_data_dict/omop_data_dict_5.4/person.qmd) |
+| Vocabularies        | [concept](omop_data_dict/omop_data_dict_5.4/concept.qmd), [concept_ancestor](omop_data_dict/omop_data_dict_5.4/concept_ancestor.qmd), [concept_class](omop_data_dict/omop_data_dict_5.4/concept_class.qmd), [concept_relationship](omop_data_dict/omop_data_dict_5.4/concept_relationship.qmd), [concept_synonym](omop_data_dict/omop_data_dict_5.4/concept_synonym.qmd), [domain](omop_data_dict/omop_data_dict_5.4/domain.qmd), [relationship](omop_data_dict/omop_data_dict_5.4/relationship.qmd), [vocabulary](omop_data_dict/omop_data_dict_5.4/vocabulary.qmd) |
+| Health System Data  | [care_site](omop_data_dict/omop_data_dict_5.4/care_site.qmd), [location](omop_data_dict/omop_data_dict_5.4/location.qmd), [provider](omop_data_dict/omop_data_dict_5.4/provider.qmd) |
+| Derived Elements    | [condition_era](omop_data_dict/omop_data_dict_5.4/condition_era.qmd), [drug_era](omop_data_dict/omop_data_dict_5.4/drug_era.qmd) |
+| Health Economics    | [payer_plan_period](omop_data_dict/omop_data_dict_5.4/payer_plan_period.qmd) |
+| Metadata            | [cdm_source](omop_data_dict/omop_data_dict_5.4/cdm_source.qmd), [metadata](omop_data_dict/omop_data_dict_5.4/metadata.qmd) |
 :  {.hover .responsive .sm}
+
+#### OMOP CDM 5.3.1 
+
+The following OMOP-CDM 5.3.1 tables were available in the February, May, and August 2025 releases:
+
+| Category            | Table Name                                                                                   |
+|---------------------|----------------------------------------------------------------------------------------------|
+| Clinical Data       | [condition_occurrence](omop_data_dict/omop_data_dict_5.3/condition_occurrence.qmd), [drug_exposure](omop_data_dict/omop_data_dict_5.3/drug_exposure.qmd), [device_exposure](omop_data_dict/omop_data_dict_5.3/device_exposure.qmd), [measurement](omop_data_dict/omop_data_dict_5.3/measurement.qmd), [observation](omop_data_dict/omop_data_dict_5.3/observation.qmd), [procedure_occurrence](omop_data_dict/omop_data_dict_5.3/procedure_occurrence.qmd), [image_occurrence](omop_data_dict/omop_data_dict_5.3/image_occurrence.qmd), [visit_occurrence](omop_data_dict/omop_data_dict_5.3/visit_occurrence.qmd), [visit_detail](omop_data_dict/omop_data_dict_5.3/visit_detail.qmd), [note](omop_data_dict/omop_data_dict_5.3/note.qmd), [death](omop_data_dict/omop_data_dict_5.3/death.qmd) |
+| Standardized Derived Elements | [observation_period](omop_data_dict/omop_data_dict_5.3/observation_period.qmd), [person](omop_data_dict/omop_data_dict_5.3/person.qmd) |
+| Vocabularies        | [concept](omop_data_dict/omop_data_dict_5.3/concept.qmd), [concept_ancestor](omop_data_dict/omop_data_dict_5.3/concept_ancestor.qmd), [concept_class](omop_data_dict/omop_data_dict_5.3/concept_class.qmd), [concept_relationship](omop_data_dict/omop_data_dict_5.3/concept_relationship.qmd), [concept_synonym](omop_data_dict/omop_data_dict_5.3/concept_synonym.qmd), [domain](omop_data_dict/omop_data_dict_5.3/domain.qmd), [relationship](omop_data_dict/omop_data_dict_5.3/relationship.qmd), [vocabulary](omop_data_dict/omop_data_dict_5.3/vocabulary.qmd) |
+| Health System Data  | [care_site](omop_data_dict/omop_data_dict_5.3/care_site.qmd), [location](omop_data_dict/omop_data_dict_5.3/location.qmd), [provider](omop_data_dict/omop_data_dict_5.3/provider.qmd) |
+| Derived Elements    | [condition_era](omop_data_dict/omop_data_dict_5.3/condition_era.qmd), [drug_era](omop_data_dict/omop_data_dict_5.3/drug_era.qmd) |
+| Health Economics    | [payer_plan_period](omop_data_dict/omop_data_dict_5.3/payer_plan_period.qmd) |
+| Metadata            | [cdm_source](omop_data_dict/omop_data_dict_5.3/cdm_source.qmd), [metadata](omop_data_dict/omop_data_dict_5.3/metadata.qmd) |
+:  {.hover .responsive .sm}
+
+:::
+
 
 
 ### NeuralFrame 

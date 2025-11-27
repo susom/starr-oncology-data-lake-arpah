@@ -28,6 +28,8 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_
 # Parameters
 sql_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql/arpah_cohort/arpah_age_metrics.sql"
 df <- fetch_data_from_sql_file(sql_file_path, yaml_file_path)
+
+
 ```
 
 ```{r, message=FALSE, warning=FALSE}

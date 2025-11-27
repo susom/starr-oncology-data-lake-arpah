@@ -1,0 +1,132 @@
+---
+title: "drug_exposure"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| drug_exposure_id                                    | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| drug_concept_id                                     | INTEGER  | Yes        |       |                        |
+| drug_exposure_start_date                            | DATE     | No         | Yes   | Jitter                    |
+| drug_exposure_start_datetime                        | DATETIME | Yes        | Yes   | Jitter                    |
+| drug_exposure_end_date                              | DATE     | No         | Yes   | Jitter                    |
+| drug_exposure_end_datetime                          | DATETIME | Yes        | Yes   | Jitter                    |
+| verbatim_end_date                                   | DATE     | No         | Yes   | Jitter                    |
+| drug_type_concept_id                                | INTEGER  | Yes        |       |                        |
+| stop_reason                                         | STRING   | No         |       |                        |
+| refills                                             | INTEGER  | No         |       |                        |
+| quantity                                            | FLOAT    | No         |       |                        |
+| days_supply                                         | INTEGER  | No         |       |                        |
+| sig                                                 | STRING   | No         | Yes   | TiDE or Del               |
+| route_concept_id                                    | INTEGER  | Yes        |       |                        |
+| lot_number                                          | STRING   | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| drug_source_value                                   | STRING   | No         |       |                        |
+| drug_source_concept_id                              | INTEGER  | Yes        |       |                        |
+| route_source_value                                  | STRING   | No         |       |                        |
+| dose_unit_source_value                              | STRING   | No         |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### drug_exposure_id
+
+A system-generated unique identifier for each Drug utilization event.
+
+##### person_id
+
+A foreign key identifier to the Person who is subjected to the Drug. The demographic details of that Person are stored in the PERSON table.
+
+##### drug_concept_id
+
+The standard concept_id belonging to the 'Drug' domain.that the drug_source_value maps to.
+
+##### drug_exposure_start_date
+
+The start date for the current instance of Drug utilization. Valid entries include a start date of a prescription, the date a prescription was filled, or the date on which a Drug administration procedure was recorded.
+
+##### drug_exposure_start_datetime
+
+The start date and time for the current instance of Drug utilization. Valid entries include a start datetime of a prescription, the date and time a prescription was filled, or the date and time on which a Drug administration procedure was recorded.
+
+##### drug_exposure_end_date
+
+The end date for the current instance of Drug utilization. Depending on different sources, it could be a known or an inferred date and denotes the last day at which the patient was still exposed to Drug.
+
+##### drug_exposure_end_datetime
+
+The end date and time for the current instance of Drug utilization. Depending on different sources, it could be a known or an inferred date and time and denotes the last day at which the patient was still exposed to Drug.
+
+##### verbatim_end_date
+
+The known end date of a drug_exposure as provided by the source.
+
+##### drug_type_concept_id
+
+The type_concept_id can be used to delineate between prescriptions written vs. prescriptions dispensed vs. medication history vs. patient-reported exposure, etc.
+
+##### stop_reason
+
+The reason the Drug was stopped. Reasons include regimen completed, changed, removed, etc.
+
+##### refills
+
+This is only filled in when the record is coming from a prescription written. This field is meant to represent intended refills at time of the prescription.
+
+##### quantity
+
+The quantity of drug as recorded in the original prescription or dispensing record.
+
+##### days_supply
+
+The number of days of supply of the medication as prescribed. This reflects the intention of the provider for the length of exposure.
+
+##### sig
+
+This is the verbatim instruction for the drug as written by the provider.
+
+##### route_concept_id
+
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies reflecting the route of administration and belonging to the 'Route' domain.
+
+##### lot_number
+
+An identifier assigned to a particular quantity or lot of Drug product from the manufacturer.
+
+##### provider_id
+
+The Provider associated with drug record, e.g. the provider who wrote the prescription or the provider who administered the drug.
+
+##### visit_occurrence_id
+
+The Visit during which the drug was prescribed, administered or dispensed.
+
+##### visit_detail_id
+
+A foreign key to the Visit Detail in the VISIT_DETAIL table during which the Drug Exposure was initiated.
+
+##### drug_source_value
+
+The source code for the Drug as it appears in the source data. This code is mapped to a Standard Drug concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+##### drug_source_concept_id
+
+A foreign key to a Drug Concept that refers to the code used in the source.
+
+##### route_source_value
+
+The information about the route of administration as detailed in the source.
+
+##### dose_unit_source_value
+
+The information about the dose unit as detailed in the source.
+

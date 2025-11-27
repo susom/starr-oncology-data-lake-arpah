@@ -1,0 +1,122 @@
+---
+title: "observation"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| observation_id                                      | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| observation_concept_id                              | INTEGER  | Yes        |       |                        |
+| observation_date                                    | DATE     | No         | Yes   | Jitt                      |
+| observation_datetime                                | DATETIME | Yes        | Yes   | Jitt                      |
+| observation_type_concept_id                         | INTEGER  | Yes        |       |                        |
+| value_as_number                                     | FLOAT    | No         |       |                        |
+| value_as_string                                     | STRING   | No         | Yes   | TiDE                      |
+| value_as_concept_id                                 | INTEGER  | No         |       | TiDE                      |
+| qualifier_concept_id                                | INTEGER  | No         |       |                        |
+| unit_concept_id                                     | INTEGER  | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       |                        |
+| visit_detail_id                                     | INTEGER  | No         |       |                        |
+| observation_source_value                            | STRING   | No         | Yes   |                        |
+| observation_source_concept_id                       | INTEGER  | Yes        |       |                        |
+| unit_source_value                                   | STRING   | No         | Yes   |                        |
+| value_source_value                                  | STRING   | No         | Yes   |                        |
+| observation_event_id                                | INTEGER  | No         |       |                        |
+| obs_event_field_concept_id                          | INTEGER  | No         |       |                        |
+| qualifier_source_value                              | STRING   | No         |       | Del                       |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### observation_id
+
+A unique identifier for each observation.
+
+##### person_id
+
+A foreign key identifier to the Person about whom the observation was recorded. The demographic details of that Person are stored in the PERSON table.
+
+##### observation_concept_id
+
+A foreign key to the standard observation concept identifier in the Standardized Vocabularies.
+
+##### observation_date
+
+The date the observation was obtained
+
+##### observation_datetime
+
+The date and time the observation was obtained.
+
+##### observation_type_concept_id
+
+This field is used to determine the provenance of the Observation record, as in whether the measurement was from an EHR system, insurance claim, registry, or other sources.
+
+##### value_as_number
+
+This is the numerical value of the Result of the Observation, if applicable and available. 
+
+##### value_as_string
+
+This is the categorical value of the Result of the Observation, if applicable and available
+
+##### value_as_concept_id
+
+The standard concept corresponding to the value of a clinical Observation
+
+##### qualifier_concept_id
+
+This field contains all attributes specifying the clinical fact further, such as as degrees, severities, drug-drug interaction alerts etc.
+
+##### unit_concept_id
+
+The standard Concept in the Unit domain corresponding to the unit source value.
+
+##### provider_id
+
+A foreign key to the provider in the PROVIDER table who was responsible for making the observation.
+
+##### visit_occurrence_id
+
+A foreign key to the visit in the VISIT_OCCURRENCE table during which the observation was recorded.
+
+##### visit_detail_id
+
+A foreign key to the visit in the VISIT_DETAIL table during which the observation was recorded.
+
+##### observation_source_value
+
+The observation code as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+##### observation_source_concept_id
+
+A foreign key to a Concept that refers to the code used in the source.
+
+##### unit_source_value
+
+The source code for the unit as it appears in the source data. This code is mapped to a standard unit concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+##### value_source_value
+
+The source code for the value as it appears in the source data.
+
+##### observation_event_id
+
+A foreign key to an event (procedure, drug exposure, etc.) that caused or is associated with the observation.
+
+##### obs_event_field_concept_id
+
+A foreign key to a concept that identifies which table and field contains the event identifier referenced in observation_event_id.
+
+##### qualifier_source_value
+
+The verbatim value from the source data representing the qualifier of the Observation that occurred.
+

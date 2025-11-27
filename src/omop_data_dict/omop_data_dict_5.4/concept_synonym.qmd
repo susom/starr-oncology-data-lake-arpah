@@ -1,0 +1,32 @@
+---
+title: "concept_synonym"
+---
+
+Vocabulary Tables
+
+### Table Columns
+
+| field                                               | type    | required   | phi   |   phi scrubbing operation |
+|:----------------------------------------------------|:--------|:-----------|:------|--------------------------:|
+| concept_id                                          | INTEGER | Yes        |       |                        |
+| concept_synonym_name                                | STRING  | Yes        |       |                        |
+| language_concept_id                                 | INTEGER | Yes        |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### concept_id
+
+A foreign key to the Concept in the CONCEPT table.
+
+##### concept_synonym_name
+
+The alternative name for the Concept.
+
+##### language_concept_id
+
+A foreign key to a Concept representing the language.
+

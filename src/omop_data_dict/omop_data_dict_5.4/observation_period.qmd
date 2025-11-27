@@ -1,0 +1,42 @@
+---
+title: "observation_period"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                               | type    | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
+| observation_period_id                               | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER | Yes        |       | Sub                       |
+| observation_period_start_date                       | DATE    | Yes        | Yes   | Jitt                      |
+| observation_period_end_date                         | DATE    | Yes        | Yes   | Jitt                      |
+| period_type_concept_id                              | INTEGER | Yes        |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### observation_period_id
+
+A unique identifier for each observation period. A Person can have multiple discrete Observation Periods which are identified by the Observation_Period_Id.
+
+##### person_id
+
+A foreign key identifier to the person for whom the observation period is defined. The demographic details of that person are stored in the person table.
+
+##### observation_period_start_date
+
+The start date of the observation period for which data are available from the data source.
+
+##### observation_period_end_date
+
+The end date of the observation period for which data are available from the data source.
+
+##### period_type_concept_id
+
+This field. stores the provenance of the Observation Period as in whether the period was determined from an insurance enrollment file, EHR healthcare encounters, or other sources.      
+

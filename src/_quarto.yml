@@ -3,6 +3,7 @@ project:
   resources:
    - googlecbb69ef34ca20e9d.html
   render:
+
    - about.qmd
    - data_dictionary.qmd
    - data_evolution_overview.qmd
@@ -20,7 +21,8 @@ project:
    - hippo_data_dict/*
    - may_2025/*
    - neuralframe_data_dict/*
-   - omop_data_dict/*
+   - omop_data_dict/omop_data_dict_5.3/*
+   - omop_data_dict/omop_data_dict_5.4/*
    - philips_ispm_data_dict/*
    - stamp_add_on_data_dict/*
    - stamp_metadata/*
@@ -57,7 +59,11 @@ website:
         href: data_dictionary.qmd
         contents:
           - section: "OMOP-CDM"
-            contents: omop_data_dict/*
+            contents: 
+              - section: "OMOP CDM 5.4.2"
+                contents: omop_data_dict/omop_data_dict_5.4/*
+              - section: "OMOP CDM 5.3.1"
+                contents: omop_data_dict/omop_data_dict_5.3/*
           - section: "NeuralFrame"
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
@@ -115,8 +121,11 @@ website:
                    href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v2
                  - text: "BF STAMP-V3"
                    href: stamp_metadata/heme_stamp_all_versions.qmd#bed-stamp-v3
-      - section: "Data Evolution Overview"
+      - text: "Data Evolution Overview"
         href: data_evolution_overview.qmd
+        contents: 
+          - text: "Data Evolution Trends"
+            href: nov_2025/data_coverage_trends.qmd
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:

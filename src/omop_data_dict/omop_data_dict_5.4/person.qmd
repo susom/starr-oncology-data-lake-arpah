@@ -1,0 +1,107 @@
+---
+title: "person"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| gender_concept_id                                   | INTEGER  | Yes        |       |                        |
+| year_of_birth                                       | INTEGER  | Yes        |       |                        |
+| month_of_birth                                      | INTEGER  | No         | Yes   | Jitt                      |
+| day_of_birth                                        | INTEGER  | No         | Yes   | Jitt                      |
+| birth_datetime                                      | DATETIME | No         | Yes   | Jitt                      |
+| race_concept_id                                     | INTEGER  | Yes        |       |                        |
+| ethnicity_concept_id                                | INTEGER  | Yes        |       |                        |
+| location_id                                         | INTEGER  | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| care_site_id                                        | INTEGER  | No         |       |                        |
+| person_source_value                                 | STRING   | No         | Yes   | Sub                       |
+| gender_source_value                                 | STRING   | No         |       |                        |
+| gender_source_concept_id                            | INTEGER  | Yes        |       |                        |
+| race_source_value                                   | STRING   | No         |       |                        |
+| race_source_concept_id                              | INTEGER  | Yes        |       |                        |
+| ethnicity_source_value                              | STRING   | No         |       |                        |
+| ethnicity_source_concept_id                         | INTEGER  | Yes        |       |                        |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### person_id
+
+A unique identifier for each person. 	
+
+##### gender_concept_id
+
+This field is meant to capture the biological sex at birth of the Person. This field should not be used to study gender identity issues.
+
+##### year_of_birth
+
+The year of birth of the person. For data sources with date of birth, the year is extracted. For data sources where the year of birth is not available, the approximate year of birth is derived based on any age group categorization available.
+
+##### month_of_birth
+
+The month of birth of the person. For data sources that provide the precise date of birth, the month is extracted and stored in this field.
+
+##### day_of_birth
+
+The day of the month of birth of the person. For data sources that provide the precise date of birth, the day is extracted and stored in this field.
+
+##### birth_datetime
+
+The date and time of birth of the person.
+
+##### race_concept_id
+
+This field captures race or ethnic background of the person.
+
+##### ethnicity_concept_id
+
+This field captures ethnicity as defined by the Office of Management and Budget (OMB) of the US Government: it distinguishes only between “Hispanic” and “Not Hispanic”. Races and ethnic backgrounds are not stored here.
+
+##### location_id
+
+A foreign key to the place of residency for the person in the location table, where the detailed address information is stored. This field should capture the last known location of the person.
+
+##### provider_id
+
+A foreign key to the primary care provider the person is seeing in the provider table.
+
+##### care_site_id
+
+A foreign key to the site of primary care in the care_site table, where the details of the care site are stored.
+
+##### person_source_value
+
+An (encrypted) key derived from the person identifier in the source data. This is necessary when a use case requires a link back to the person data at the source dataset. In STARR-OMOP person_source_value is: MRN | D.O.B.
+
+##### gender_source_value
+
+The source code for the gender of the person as it appears in the source data. The person’s gender is mapped to a standard gender concept in the Standardized Vocabularies; the original value is stored here for reference.
+
+##### gender_source_concept_id
+
+A foreign key to the gender concept that refers to the code used in the source.
+
+##### race_source_value
+
+The source code for the race of the person as it appears in the source data. The person race is mapped to a standard race concept in the Standardized Vocabularies and the original value is stored here for reference.
+
+##### race_source_concept_id
+
+A foreign key to the race concept that refers to the code used in the source.
+
+##### ethnicity_source_value
+
+The source code for the ethnicity of the person as it appears in the source data. The person ethnicity is mapped to a standard ethnicity concept in the Standardized Vocabularies and the original code is, stored here for reference.
+
+##### ethnicity_source_concept_id
+
+A foreign key to the ethnicity concept that refers to the code used in the source.
+

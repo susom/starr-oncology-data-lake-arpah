@@ -1,0 +1,118 @@
+---
+title: "measurement"
+---
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| measurement_id                                      | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| measurement_concept_id                              | INTEGER  | Yes        |       |                        |
+| measurement_date                                    | DATE     | No         | Yes   | Jitter                    |
+| measurement_datetime                                | DATETIME | Yes        | Yes   | Jitter                    |
+| measurement_time                                    | STRING   | No         |       | Null                      |
+| measurement_type_concept_id                         | INTEGER  | Yes        |       |                        |
+| operator_concept_id                                 | INTEGER  | No         |       |                        |
+| value_as_number                                     | FLOAT    | No         |       |                        |
+| value_as_concept_id                                 | INTEGER  | No         |       |                        |
+| unit_concept_id                                     | INTEGER  | No         |       |                        |
+| range_low                                           | FLOAT    | No         |       |                        |
+| range_high                                          | FLOAT    | No         |       |                        |
+| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| measurement_source_value                            | STRING   | No         | Yes   | TiDE?                     |
+| measurement_source_concept_id                       | INTEGER  | Yes        |       |                        |
+| unit_source_value                                   | STRING   | No         |       |                        |
+| value_source_value                                  | STRING   | No         | Yes   | TiDE                      |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### measurement_id
+
+A unique identifier for each Measurement.
+
+##### person_id
+
+A foreign key identifier to the Person about whom the measurement was recorded. The demographic details of that Person are stored in the PERSON table.
+
+##### measurement_concept_id
+
+The standard concept_id that the measurement_source_value maps to
+
+##### measurement_date
+
+The date of the Measurement. If there are multiple dates in the source data associated with a record such as order_date, draw_date, and result_date, we choose the one that is closest to the date the sample was drawn from the patient.
+
+##### measurement_datetime
+
+The date and time of the Measurement. 
+
+##### measurement_time
+
+The time of the Measurement. This is present for backwards compatibility and will be deprecated in an upcoming version
+
+##### measurement_type_concept_id
+
+The measurement_type_concept_id that best represents the provenance of the record, for example whether it came from an EHR record or billing claim.
+
+##### operator_concept_id
+
+A foreign key identifier to the predefined Concept in the Standardized Vocabularies reflecting the mathematical operator that is applied to the value_as_number. Operators are <, <=, =, >=, > and these concepts belong to the 'Meas Value Operator' domain.
+
+##### value_as_number
+
+This is the numerical value of the Result of the Measurement, if available. Note that measurements such as blood pressures will be split into their component parts i.e. one record for systolic, one record for diastolic.
+
+##### value_as_concept_id
+
+If the raw data gives a categorial result for measurements those values are captured and mapped to standard concepts in the ‘Meas Value’ domain.
+
+##### unit_concept_id
+
+A foreign key to a Standard Concept ID of Measurement Units in the Standardized Vocabularies that belong to the 'Unit' domain.
+
+##### range_low
+
+The lower limit of the normal range of the Measurement result. The lower range is assumed to be of the same unit of measure as the Measurement value.
+
+##### range_high
+
+The upper limit of the normal range of the Measurement. The upper range is assumed to be of the same unit of measure as the Measurement value.
+
+##### provider_id
+
+A foreign key to the provider in the PROVIDER table who was responsible for initiating or obtaining the measurement.
+
+##### visit_occurrence_id
+
+A foreign key to the Visit in the VISIT_OCCURRENCE table during which the Measurement was recorded.
+
+##### visit_detail_id
+
+A foreign key to the Visit Detail in the VISIT_DETAIL table during which the Measurement was recorded.
+
+##### measurement_source_value
+
+The Measurement name as it appears in the source data. This code is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.
+
+##### measurement_source_concept_id
+
+A foreign key to a Concept in the Standard Vocabularies that refers to the code used in the source.
+
+##### unit_source_value
+
+The source code for the unit as it appears in the source data. This code is mapped to a standard unit concept in the Standardized Vocabularies and the original code is stored here for reference.
+
+##### value_source_value
+
+The source value associated with the content of the value_as_number or value_as_concept_id as stored in the source data.
+
+

@@ -1,0 +1,25 @@
+---
+title: "Released Datasets"
+execute:
+  echo: false
+---
+This document provides a list of datasets as part of the November 2025 released. Each dataset is described briefly, including whether it contains Protected Health Information (PHI) or if the PHI has been scrubbed. 
+
+### OMOP Datasets
+| Dataset Name | Description |
+|:------------|:------------|
+| `som-rit-phi-oncology-prod.oncology_omop_phi_irb76049_nov2025`| Oncology OMOP-CDM v5.4.1 dataset with PHI| 
+| `som-rit-phi-oncology-prod.oncology_omop_confidential_irb76049_nov2025`| Oncology OMOP-CDM v5.4.1 dataset with PHI Scrubbed|
+
+
+### NeuralFrame Datasets
+| Dataset Name | Description |
+|:------------|:------------|
+| `som-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_nov2025`| NeuralFrame dataset with PHI | 
+| `som-rit-phi-oncology-prod.oncology_neuralframe_confidential_irb76049_nov2025`| NeuralFrame dataset with PHI Scrubbed |
+
+### Philips ISPM Datasets
+| Dataset Name | Description |
+|:------------|:------------|
+| `som-rit-phi-oncology-prod.oncology_philips_phi_irb76049_nov2025`| Philips ISPM dataset with PHI | 
+| `som-rit-phi-oncology-prod.oncology_philips_confidential_irb76049_nov2025`| Philips ISPM dataset with PHI Scrubbed |

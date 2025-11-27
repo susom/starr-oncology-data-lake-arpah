@@ -1,0 +1,51 @@
+---
+title: "metadata"
+---
+
+Standardized Metadata Table
+
+### Table Columns
+
+| field                    | type     | required   | phi   |   phi scrubbing operation |
+|:-------------------------|:---------|:-----------|:------|--------------------------:|
+| metadata_concept_id      | INTEGER  | Yes        |       |                        |
+| metadata_type_concept_id | INTEGER  | Yes        |       |                        |
+| name                     | STRING   | Yes        |       |                        |
+| value_as_string          | STRING   | No         |       |                        |
+| value_as_concept_id      | INTEGER  | No         |       |                        |
+| metadata_date            | DATE     | No         |       |                        |
+| metadata_datetime        | DATETIME | No         |       |                        |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### metadata_concept_id
+
+Standard concept corresponding to the OMOP version.
+
+##### metadata_type_concept_id
+
+concept_id describing the provenance of the data.
+
+##### name
+
+OMOP Version name
+
+##### value_as_string
+
+nan
+
+##### value_as_concept_id
+
+nan
+
+##### metadata_date
+
+Raw clarity source date.
+
+##### metadata_datetime
+
+Raw clarity source datetime.
+
