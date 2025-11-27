@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Lake Evolution: A Longitudinal Overview – VISTA Oncology Data Lake</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../data_metrics.html" rel="next">
+<link href="../data_evolution_overview.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="../site_libs/datatables-binding-0.33/datatables.js"></script>
+<script src="../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="../site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="../site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="../site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="../site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="../site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="../site_libs/selectize-0.12.0/selectize.min.js"></script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Data Lake Evolution: A Longitudinal Overview – VISTA Oncology Data Lake">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="VISTA Oncology Data Lake">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">VISTA Oncology Data Lake</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../about.html" aria-current="page"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_dictionary.html"> 
+<span class="menu-text">Data Dictionary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_evolution_overview.html"> 
+<span class="menu-text">Data Evolution Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_metrics.html"> 
+<span class="menu-text">Data Metrics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_labeling.html"> 
+<span class="menu-text">Data Labeling and Modeling</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../metadata.html"> 
+<span class="menu-text">Metadata</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/susom/starr-oncology-data-lake-arpah" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_evolution_overview.html">Data Evolution Overview</a></li><li class="breadcrumb-item"><a href="../nov_2025/data_coverage_trends.html">Data Evolution Trends</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">November 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Dictionary</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP-CDM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP CDM 5.4.2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/episode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">episode</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/episode_event.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">episode_event</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP CDM 5.3.1</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">NeuralFrame</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_diagnoses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Diagnoses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_misc_details.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Miscellaneous Details</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_outcomes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_treatments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Treatments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false">
+ <span class="menu-text">Philips ISPM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/aberrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Aberration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/pat_diag_orders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Orders</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/specimen_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Specimen</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false">
+ <span class="menu-text">STAMP Add-On Data</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_add_on_data_dict/stamp_addon_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP Add-On</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false">
+ <span class="menu-text">Epic Media Server Documents</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../epic_media_server_dict/epic_media_server.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Epic Media Server Documents</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false">
+ <span class="menu-text">HIPPO Benchmark</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hippo_data_dict/phi_dataset.html#full-text" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gold Standard Full Text</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hippo_data_dict/phi_dataset.html#spans" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gold Standard Spans</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="false">
+ <span class="menu-text">Lung Resection CAP Forms</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-15" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap_forms_data_dict/clarity_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Clarity Tables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap_forms_data_dict/processed_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cap Forms Processed tables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap_forms_data_dict/qa_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CAP Forms QA cleaned dataset</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metadata</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-16" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dicom_data_dict/dicom_data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DICOM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="false">
+ <span class="menu-text">Genetic</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-17" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-18" role="navigation" aria-expanded="false">
+ <span class="menu-text">STAMP All Versions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-18" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-18" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/stamp_all_versions.html#stamp-v1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#stamp-v2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#stamp-v3" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#stamp-v4" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-19" role="navigation" aria-expanded="false">
+ <span class="menu-text">HEME-STAMP All Versions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-19" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-19" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#heme-stamp-v1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HEME-STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#heme-stamp-v2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HEME-STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#heme-stamp-v4" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HEME-STAMP-V4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-20" role="navigation" aria-expanded="false">
+ <span class="menu-text">BED Files All Versions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-20" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-20" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/bed_files_all_versions.html#Bed-HEME-STAMP-V1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF HEME-STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/bed_files_all_versions.html#Bed-HEME-STAMP-V2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF HEME-STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#bed-stamp-v1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#bed-stamp-v2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#bed-stamp-v3" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF STAMP-V3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_evolution_overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Evolution Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/data_coverage_trends.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Data Evolution Trends</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Metrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-21" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-21" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/demographic_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">February 2025</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../may_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-22" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-22" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../aug_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-23" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-23" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../nov_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">November 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-24" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_labeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Labeling and Modeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-25" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-26" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-27" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-27" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-27" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_guidelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Guidelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Process</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-28" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-28" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-28" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-29" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-29" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-29" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/cap_forms_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods and Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-30" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-30" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-30" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-31" role="navigation" aria-expanded="false">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-31" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-31" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-32" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-32" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-32" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/cap_forms_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods and Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-33" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI labeling and Modeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-33" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-33" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/phi_labeling_modeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling and Modeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-34" role="navigation" aria-expanded="false">
+ <span class="menu-text">November 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-34" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-34" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-35" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-35" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-35" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/agentic_tide_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Agentic Tide Evaluation and Reporting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#demographic-summary" id="toc-demographic-summary" class="nav-link active" data-scroll-target="#demographic-summary">Demographic Summary</a></li>
+  <li><a href="#mortality-tracking" id="toc-mortality-tracking" class="nav-link" data-scroll-target="#mortality-tracking"><strong>Mortality Tracking</strong></a></li>
+  <li><a href="#tumor-board-and-thoracic-cancer-cohorts" id="toc-tumor-board-and-thoracic-cancer-cohorts" class="nav-link" data-scroll-target="#tumor-board-and-thoracic-cancer-cohorts"><strong>Tumor Board and Thoracic Cancer Cohorts</strong></a></li>
+  <li><a href="#image-occurrence-modalities" id="toc-image-occurrence-modalities" class="nav-link" data-scroll-target="#image-occurrence-modalities"><strong>Image Occurrence Modalities</strong></a></li>
+  <li><a href="#philips-ispm-genomic-testing" id="toc-philips-ispm-genomic-testing" class="nav-link" data-scroll-target="#philips-ispm-genomic-testing"><strong>Philips ISPM Genomic Testing</strong></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_evolution_overview.html">Data Evolution Overview</a></li><li class="breadcrumb-item"><a href="../nov_2025/data_coverage_trends.html">Data Evolution Trends</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Data Lake Evolution: A Longitudinal Overview</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="demographic-summary" class="level3">
+<h3 class="anchored" data-anchor-id="demographic-summary">Demographic Summary</h3>
+<p>The demographic composition of the cohort has remained relatively stable across releases.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-1c5dd1884b4fa5887d93" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1c5dd1884b4fa5887d93">{"x":{"filter":"none","vertical":false,"caption":"<caption>Demographic Summary Across Data Releases<\/caption>","data":[["February","May","August","November"],["201,554","204,427","211,582","217,425"],["50.9%","50.9%","51%","51.1%"],[65.7,65.90000000000001,65.7,65.5],["White","White","White","White"],["58.4%","58.3%","58.2%","56.6%"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Release<\/th>\n      <th>Sample Size<\/th>\n      <th>% Female<\/th>\n      <th>Average Age<\/th>\n      <th>Most Frequent Race<\/th>\n      <th>Race %<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","pageLength":10,"columnDefs":[{"className":"dt-center","targets":[1,2,3,5]},{"className":"dt-left","targets":[0,4]},{"name":"month_label","targets":0},{"name":"sample_size","targets":1},{"name":"percent_female","targets":2},{"name":"average_age","targets":3},{"name":"most_frequent_race","targets":4},{"name":"most_frequent_race_percent","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Data Sources Summary</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">OMOP Clinical Metrics</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-42a5770f161c279f72f9" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-42a5770f161c279f72f9">{"x":{"visdat":{"539a3fb4e415":["function () ","plotlyVisDat"]},"cur_data":"539a3fb4e415","attrs":{"539a3fb4e415":{"x":{},"y":{},"mode":"lines+markers","text":{},"hoverinfo":"text","marker":{"size":10},"line":{"width":3},"color":{},"colors":["#8dd3c7","#caffb3ff","#bebada","#fb8072"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":150},"title":"Unique Patient Counts Over Time by Source","xaxis":{"domain":[0,1],"automargin":true,"title":"","ticktext":["February","May","August","November"],"tickvals":["feb","may","aug","nov"],"categoryorder":"array","categoryarray":["feb","may","aug","nov"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Patients","tickformat":","},"legend":{"title":{"text":"Data Source"},"orientation":"v","x":1.02,"y":0.5},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["feb","may","aug","nov"],"y":[93333,182155,182484,195836],"mode":"lines+markers","text":["Image Occurrence<br>Month: February<br>Patients: 93,333","Image Occurrence<br>Month: May<br>Patients: 182,155","Image Occurrence<br>Month: August<br>Patients: 182,484","Image Occurrence<br>Month: November<br>Patients: 195,836"],"hoverinfo":["text","text","text","text"],"marker":{"color":"rgba(141,211,199,1)","size":10,"line":{"color":"rgba(141,211,199,1)"}},"line":{"color":"rgba(141,211,199,1)","width":3},"type":"scatter","name":"Image Occurrence","textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["feb","may","aug","nov"],"y":[197903,200715,208071,213885],"mode":"lines+markers","text":["Neural Frame<br>Month: February<br>Patients: 197,903","Neural Frame<br>Month: May<br>Patients: 200,715","Neural Frame<br>Month: August<br>Patients: 208,071","Neural Frame<br>Month: November<br>Patients: 213,885"],"hoverinfo":["text","text","text","text"],"marker":{"color":"rgba(188,244,184,1)","size":10,"line":{"color":"rgba(188,244,184,1)"}},"line":{"color":"rgba(188,244,184,1)","width":3},"type":"scatter","name":"Neural Frame","textfont":{"color":"rgba(188,244,184,1)"},"error_y":{"color":"rgba(188,244,184,1)"},"error_x":{"color":"rgba(188,244,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["feb","may","aug","nov"],"y":[201554,204427,211582,217425],"mode":"lines+markers","text":["OMOP Cohort (100%)<br>Month: February<br>Patients: 201,554","OMOP Cohort (100%)<br>Month: May<br>Patients: 204,427","OMOP Cohort (100%)<br>Month: August<br>Patients: 211,582","OMOP Cohort (100%)<br>Month: November<br>Patients: 217,425"],"hoverinfo":["text","text","text","text"],"marker":{"color":"rgba(198,220,200,1)","size":10,"line":{"color":"rgba(198,220,200,1)"}},"line":{"color":"rgba(198,220,200,1)","width":3},"type":"scatter","name":"OMOP Cohort (100%)","textfont":{"color":"rgba(198,220,200,1)"},"error_y":{"color":"rgba(198,220,200,1)"},"error_x":{"color":"rgba(198,220,200,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["feb","may","aug","nov"],"y":[0,10972,14106,14787],"mode":"lines+markers","text":["Philips ISPM<br>Month: NA<br>Patients: 0","Philips ISPM<br>Month: May<br>Patients: 10,972","Philips ISPM<br>Month: August<br>Patients: 14,106","Philips ISPM<br>Month: November<br>Patients: 14,787"],"hoverinfo":["text","text","text","text"],"marker":{"color":"rgba(211,173,191,1)","size":10,"line":{"color":"rgba(211,173,191,1)"}},"line":{"color":"rgba(211,173,191,1)","width":3},"type":"scatter","name":"Philips ISPM","textfont":{"color":"rgba(211,173,191,1)"},"error_y":{"color":"rgba(211,173,191,1)"},"error_x":{"color":"rgba(211,173,191,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["feb","may","aug","nov"],"y":[24662,23116,25897,26521],"mode":"lines+markers","text":["Tumor Board<br>Month: February<br>Patients: 24,662","Tumor Board<br>Month: May<br>Patients: 23,116","Tumor Board<br>Month: August<br>Patients: 25,897","Tumor Board<br>Month: November<br>Patients: 26,521"],"hoverinfo":["text","text","text","text"],"marker":{"color":"rgba(251,128,114,1)","size":10,"line":{"color":"rgba(251,128,114,1)"}},"line":{"color":"rgba(251,128,114,1)","width":3},"type":"scatter","name":"Tumor Board","textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><strong><sup>†</sup>Note:</strong> The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May-November releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase ‘tumor board’.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-f1091d4b6a0da958584d" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-f1091d4b6a0da958584d">{"x":{"visdat":{"539a11e7c99a":["function () ","plotlyVisDat"]},"cur_data":"539a11e7c99a","attrs":{"539a11e7c99a":{"x":{},"y":{},"orientation":"h","text":{},"hoverinfo":"text","color":{},"colors":["#8dd3c7","#ffffb3","#bebada","#fb8072"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Clinical Metrics over Releases","xaxis":{"domain":[0,1],"automargin":true,"title":"Number of Patients","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["Patients with ICD procedure codes","Patients with medications (RxNorm)","Patients with SNOMED procedure codes","Patients with CPT (procedure) codes","Patients with ICD diagnosis codes","Patients with SNOMED diagnosis codes","Patients with LOINC lab results","Patients with clinical notes","Total patients in cohort"]},"legend":{"traceorder":"normal"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[187552,201463,187551,127946,178101,198393,184685,182655,201499],"y":["Patients with SNOMED diagnosis codes","Patients with clinical notes","Patients with ICD diagnosis codes","Patients with ICD procedure codes","Patients with medications (RxNorm)","Patients with LOINC lab results","Patients with CPT (procedure) codes","Patients with SNOMED procedure codes","Total patients in cohort"],"orientation":"h","text":["Patients with SNOMED diagnosis codes<br>Release: February<br>Count: 187,552","Patients with clinical notes<br>Release: February<br>Count: 201,463","Patients with ICD diagnosis codes<br>Release: February<br>Count: 187,551","Patients with ICD procedure codes<br>Release: February<br>Count: 127,946","Patients with medications (RxNorm)<br>Release: February<br>Count: 178,101","Patients with LOINC lab results<br>Release: February<br>Count: 198,393","Patients with CPT (procedure) codes<br>Release: February<br>Count: 184,685","Patients with SNOMED procedure codes<br>Release: February<br>Count: 182,655","Total patients in cohort<br>Release: February<br>Count: 201,499"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","name":"February","marker":{"color":"rgba(141,211,199,1)","line":{"color":"rgba(141,211,199,1)"}},"textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[204386,190280,180703,185253,129569,204335,201068,190279,187435],"y":["Total patients in cohort","Patients with SNOMED diagnosis codes","Patients with medications (RxNorm)","Patients with SNOMED procedure codes","Patients with ICD procedure codes","Patients with clinical notes","Patients with LOINC lab results","Patients with ICD diagnosis codes","Patients with CPT (procedure) codes"],"orientation":"h","text":["Total patients in cohort<br>Release: May<br>Count: 204,386","Patients with SNOMED diagnosis codes<br>Release: May<br>Count: 190,280","Patients with medications (RxNorm)<br>Release: May<br>Count: 180,703","Patients with SNOMED procedure codes<br>Release: May<br>Count: 185,253","Patients with ICD procedure codes<br>Release: May<br>Count: 129,569","Patients with clinical notes<br>Release: May<br>Count: 204,335","Patients with LOINC lab results<br>Release: May<br>Count: 201,068","Patients with ICD diagnosis codes<br>Release: May<br>Count: 190,279","Patients with CPT (procedure) codes<br>Release: May<br>Count: 187,435"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","name":"May","marker":{"color":"rgba(255,255,179,1)","line":{"color":"rgba(255,255,179,1)"}},"textfont":{"color":"rgba(255,255,179,1)"},"error_y":{"color":"rgba(255,255,179,1)"},"error_x":{"color":"rgba(255,255,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[197429,133400,187065,194444,211489,197428,211542,207818,191702],"y":["Patients with SNOMED diagnosis codes","Patients with ICD procedure codes","Patients with medications (RxNorm)","Patients with CPT (procedure) codes","Patients with clinical notes","Patients with ICD diagnosis codes","Total patients in cohort","Patients with LOINC lab results","Patients with SNOMED procedure codes"],"orientation":"h","text":["Patients with SNOMED diagnosis codes<br>Release: August<br>Count: 197,429","Patients with ICD procedure codes<br>Release: August<br>Count: 133,400","Patients with medications (RxNorm)<br>Release: August<br>Count: 187,065","Patients with CPT (procedure) codes<br>Release: August<br>Count: 194,444","Patients with clinical notes<br>Release: August<br>Count: 211,489","Patients with ICD diagnosis codes<br>Release: August<br>Count: 197,428","Total patients in cohort<br>Release: August<br>Count: 211,542","Patients with LOINC lab results<br>Release: August<br>Count: 207,818","Patients with SNOMED procedure codes<br>Release: August<br>Count: 191,702"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","name":"August","marker":{"color":"rgba(190,186,218,1)","line":{"color":"rgba(190,186,218,1)"}},"textfont":{"color":"rgba(190,186,218,1)"},"error_y":{"color":"rgba(190,186,218,1)"},"error_x":{"color":"rgba(190,186,218,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[217416,202390,203139,191098,134690,217331,203139,196350,213505],"y":["Total patients in cohort","Patients with SNOMED procedure codes","Patients with SNOMED diagnosis codes","Patients with medications (RxNorm)","Patients with ICD procedure codes","Patients with clinical notes","Patients with ICD diagnosis codes","Patients with CPT (procedure) codes","Patients with LOINC lab results"],"orientation":"h","text":["Total patients in cohort<br>Release: November<br>Count: 217,416","Patients with SNOMED procedure codes<br>Release: November<br>Count: 202,390","Patients with SNOMED diagnosis codes<br>Release: November<br>Count: 203,139","Patients with medications (RxNorm)<br>Release: November<br>Count: 191,098","Patients with ICD procedure codes<br>Release: November<br>Count: 134,690","Patients with clinical notes<br>Release: November<br>Count: 217,331","Patients with ICD diagnosis codes<br>Release: November<br>Count: 203,139","Patients with CPT (procedure) codes<br>Release: November<br>Count: 196,350","Patients with LOINC lab results<br>Release: November<br>Count: 213,505"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","name":"November","marker":{"color":"rgba(251,128,114,1)","line":{"color":"rgba(251,128,114,1)"}},"textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="mortality-tracking" class="level2">
+<h2 class="anchored" data-anchor-id="mortality-tracking"><strong>Mortality Tracking</strong></h2>
+<p>The VISTA Oncology Data Lake captures mortality information from multiple sources to support survival analysis and outcomes research. Death records are consolidated from both the OMOP Clinical Data Warehouse (structured clinical death dates) and the Stanford Cancer Registry via NeuralFrame (vital status descriptions). This dual-source approach ensures comprehensive mortality tracking across the oncology cohort.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-0d16228aee8c6ed55707" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0d16228aee8c6ed55707">{"x":{"filter":"none","vertical":false,"data":[["May 2025","August 2025","November 2025"],["21,110","21,695","22,366"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Release Month<\/th>\n      <th>Deceased Patients<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"t","ordering":false,"pageLength":10,"columnDefs":[{"name":"Release Month","targets":0},{"name":"Deceased Patients","targets":1}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The mortality tracking shows the cumulative count of patients with death records from either OMOP clinical data (death_date) or the Stanford Cancer Registry (vital status = “Dead”).</p>
+</section>
+<section id="tumor-board-and-thoracic-cancer-cohorts" class="level2">
+<h2 class="anchored" data-anchor-id="tumor-board-and-thoracic-cancer-cohorts"><strong>Tumor Board and Thoracic Cancer Cohorts</strong></h2>
+<p>The VISTA Oncology Data Lake includes specialized sub-cohorts for tumor board patients and thoracic cancer cases, enabling focused research on multidisciplinary care coordination and disease-specific outcomes. These curated cohorts demonstrate the platform’s capability to support both population-level analyses and targeted clinical investigations.</p>
+<p><strong>Tumor Board Sub-Cohort</strong>: Patients presented at multidisciplinary tumor boards represent complex cases requiring expert consensus for treatment planning. Tumor Board encounters are defined using the OMOP visit_occurrence table, where the source value for the visit contains the phrase ‘tumor board’.</p>
+<p><strong>Thoracic Cancer Sub-Cohort</strong>: Focused on lung, bronchus, and thymus malignancies, this subset enables specialized research in thoracic oncology. The cohort tracks patients identified through the Stanford Cancer Registry (NeuralFrame), supporting longitudinal studies of treatment patterns and outcomes in thoracic malignancies.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Thoracic Cancer Sub-Cohort</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Tumor Board Sub-Group</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-5b00691e43d916636177" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-5b00691e43d916636177">{"x":{"visdat":{"539a22c7d47f":["function () ","plotlyVisDat"]},"cur_data":"539a22c7d47f","attrs":{"539a22c7d47f":{"x":{},"y":{},"text":{},"hoverinfo":"text","color":{},"colors":["#8dd3c7","#ffffb3","#fb8072"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":120,"l":60,"t":25,"r":10},"title":"Thoracic Cancer Cohorts Comparison Across Releases","xaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"array","categoryarray":["February","May","August","November"],"type":"category"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Patients","tickformat":","},"barmode":"group","legend":{"title":{"text":"Cohort"},"orientation":"h","x":0.5,"xanchor":"center","y":-0.20000000000000001},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["February","May","August","November"],"y":[13379,13598,13880,14208],"text":["All Thoracic Patients<br>Month: February<br>Patients: 13,379","All Thoracic Patients<br>Month: May<br>Patients: 13,598","All Thoracic Patients<br>Month: August<br>Patients: 13,880","All Thoracic Patients<br>Month: November<br>Patients: 14,208"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"All Thoracic Patients","marker":{"color":"rgba(141,211,199,1)","line":{"color":"rgba(141,211,199,1)"}},"textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[10447,10634,10826,10971],"text":["Thoracic Complete Cases<br>Month: February<br>Patients: 10,447","Thoracic Complete Cases<br>Month: May<br>Patients: 10,634","Thoracic Complete Cases<br>Month: August<br>Patients: 10,826","Thoracic Complete Cases<br>Month: November<br>Patients: 10,971"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"Thoracic Complete Cases","marker":{"color":"rgba(255,255,179,1)","line":{"color":"rgba(255,255,179,1)"}},"textfont":{"color":"rgba(255,255,179,1)"},"error_y":{"color":"rgba(255,255,179,1)"},"error_x":{"color":"rgba(255,255,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[2583,2489,2748,2845],"text":["Thoracic Tumor Board<br>Month: February<br>Patients: 2,583","Thoracic Tumor Board<br>Month: May<br>Patients: 2,489","Thoracic Tumor Board<br>Month: August<br>Patients: 2,748","Thoracic Tumor Board<br>Month: November<br>Patients: 2,845"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"Thoracic Tumor Board","marker":{"color":"rgba(251,128,114,1)","line":{"color":"rgba(251,128,114,1)"}},"textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-96d3ab115836dafd7d52" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-96d3ab115836dafd7d52">{"x":{"visdat":{"539a1b891356":["function () ","plotlyVisDat"]},"cur_data":"539a1b891356","attrs":{"539a1b891356":{"x":{},"y":{},"text":{},"hoverinfo":"text","color":{},"colors":["#8dd3c7","#ffffb3","#bebada","#fb8072"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":180,"l":60,"t":25,"r":10},"title":"Tumor Board Data Source Overlap by Release","xaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"array","categoryarray":["February","May","August","November"],"type":"category"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Patients","tickformat":","},"barmode":"group","legend":{"title":{"text":"Metric"},"orientation":"h","x":0.5,"xanchor":"center","y":-0.29999999999999999},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["February","May","August","November"],"y":[24662,23116,25897,26521],"text":["All Tumor Board Patients<br>Month: February<br>Patients: 24,662","All Tumor Board Patients<br>Month: May<br>Patients: 23,116","All Tumor Board Patients<br>Month: August<br>Patients: 25,897","All Tumor Board Patients<br>Month: November<br>Patients: 26,521"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"All Tumor Board Patients","marker":{"color":"rgba(141,211,199,1)","line":{"color":"rgba(141,211,199,1)"}},"textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[21011,19900,22386,22981],"text":["TB Patients with NeuralFrame Data<br>Month: February<br>Patients: 21,011","TB Patients with NeuralFrame Data<br>Month: May<br>Patients: 19,900","TB Patients with NeuralFrame Data<br>Month: August<br>Patients: 22,386","TB Patients with NeuralFrame Data<br>Month: November<br>Patients: 22,981"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"TB Patients with NeuralFrame Data","marker":{"color":"rgba(255,255,179,1)","line":{"color":"rgba(255,255,179,1)"}},"textfont":{"color":"rgba(255,255,179,1)"},"error_y":{"color":"rgba(255,255,179,1)"},"error_x":{"color":"rgba(255,255,179,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[15970,19740,21766,22907],"text":["TB Patients with Imaging & NeuralFrame<br>Month: February<br>Patients: 15,970","TB Patients with Imaging & NeuralFrame<br>Month: May<br>Patients: 19,740","TB Patients with Imaging & NeuralFrame<br>Month: August<br>Patients: 21,766","TB Patients with Imaging & NeuralFrame<br>Month: November<br>Patients: 22,907"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"TB Patients with Imaging & NeuralFrame","marker":{"color":"rgba(190,186,218,1)","line":{"color":"rgba(190,186,218,1)"}},"textfont":{"color":"rgba(190,186,218,1)"},"error_y":{"color":"rgba(190,186,218,1)"},"error_x":{"color":"rgba(190,186,218,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["May","August","November"],"y":[2671,3855,4037],"text":["TB Patients with Genomic, Imaging & NeuralFrame<br>Month: May<br>Patients: 2,671","TB Patients with Genomic, Imaging & NeuralFrame<br>Month: August<br>Patients: 3,855","TB Patients with Genomic, Imaging & NeuralFrame<br>Month: November<br>Patients: 4,037"],"hoverinfo":["text","text","text"],"type":"bar","name":"TB Patients with Genomic, Imaging & NeuralFrame","marker":{"color":"rgba(251,128,114,1)","line":{"color":"rgba(251,128,114,1)"}},"textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="image-occurrence-modalities" class="level2">
+<h2 class="anchored" data-anchor-id="image-occurrence-modalities"><strong>Image Occurrence Modalities</strong></h2>
+<p>The VISTA Oncology Data Lake integrates comprehensive medical imaging data, linking diagnostic images to patient clinical records through the OMOP image occurrence table. This integration enables research connecting imaging studies with clinical outcomes, treatments, and genomic profiles.</p>
+<p><strong>Imaging Coverage Growth</strong>: The imaging dataset has expanded dramatically from approximately 93,000 patients in February 2025 to over 1.6 million patients by November 2025, representing a substantial increase in multi-modal data availability for cancer research.</p>
+<p><strong>Image Series and Studies</strong>: The platform captures detailed imaging metadata including study identifiers, series information, anatomic regions, and imaging modalities (CT, MRI, PET, etc.), supporting comprehensive radiomics and image-based research.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Patient Coverage and Summary Table</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Imaging Modalities</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-2f1299f5db4c09e14e59" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2f1299f5db4c09e14e59">{"x":{"filter":"none","vertical":false,"caption":"<caption>Imaging Data Metrics Across Releases<\/caption>","data":[["Unique Studies","Linked Accession Numbers","Linked Visit Occurrences IDs","Unique Imaging Modalities","Unique Image Series","Linked Note IDs"],["842,156","840,737","692,114","79","8,573,376","0"],["3,652,077","3,623,066","2,490,646","160","34,908,420","0"],["3,665,836","3,636,798","2,501,635","160","35,068,117","0"],["3,926,143","3,895,349","2,710,626","163","38,051,757","3,940,397"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Metric<\/th>\n      <th>February<\/th>\n      <th>May<\/th>\n      <th>August<\/th>\n      <th>November<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"dom":"t","columnDefs":[{"className":"dt-left","targets":0},{"className":"dt-right","targets":"_all"},{"name":"Metric","targets":0},{"name":"February","targets":1},{"name":"May","targets":2},{"name":"August","targets":3},{"name":"November","targets":4}],"order":[[4,"desc"]],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-c1127a363d5fe2d6c3d0" style="width:100%;height:433px;"></div>
+<script type="application/json" data-for="htmlwidget-c1127a363d5fe2d6c3d0">{"x":{"visdat":{"539a2fcf6a3a":["function () ","plotlyVisDat"]},"cur_data":"539a2fcf6a3a","attrs":{"539a2fcf6a3a":{"x":{},"y":{},"text":{},"hoverinfo":"text","color":{},"colors":["#8dd3c7","#ffffb3","#bebada","#fb8072","#b3de69","#fccde5"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":120,"l":60,"t":25,"r":10},"title":"","xaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"array","categoryarray":["February","May","August","November"],"type":"category"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Count","tickformat":","},"barmode":"stack","legend":{"title":{"text":"Metric"},"orientation":"h","x":0.5,"xanchor":"center","y":-0.20000000000000001},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["November"],"y":[3940397],"text":"counts_note_id<br>November<br>Count: 3,940,397","hoverinfo":"text","type":"bar","name":"counts_note_id","marker":{"color":"rgba(141,211,199,1)","line":{"color":"rgba(141,211,199,1)"}},"textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[840737,3623066,3636798,3895349],"text":["counts_accession_number<br>February<br>Count: 840,737","counts_accession_number<br>May<br>Count: 3,623,066","counts_accession_number<br>August<br>Count: 3,636,798","counts_accession_number<br>November<br>Count: 3,895,349"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"counts_accession_number","marker":{"color":"rgba(240,237,190,1)","line":{"color":"rgba(240,237,190,1)"}},"textfont":{"color":"rgba(240,237,190,1)"},"error_y":{"color":"rgba(240,237,190,1)"},"error_x":{"color":"rgba(240,237,190,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[692114,2490646,2501635,2710626],"text":["counts_visit_occ<br>February<br>Count: 692,114","counts_visit_occ<br>May<br>Count: 2,490,646","counts_visit_occ<br>August<br>Count: 2,501,635","counts_visit_occ<br>November<br>Count: 2,710,626"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"counts_visit_occ","marker":{"color":"rgba(228,158,165,1)","line":{"color":"rgba(228,158,165,1)"}},"textfont":{"color":"rgba(228,158,165,1)"},"error_y":{"color":"rgba(228,158,165,1)"},"error_x":{"color":"rgba(228,158,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[93333,182155,182484,195836],"text":["Unique Patients<br>February<br>Count: 93,333","Unique Patients<br>May<br>Count: 182,155","Unique Patients<br>August<br>Count: 182,484","Unique Patients<br>November<br>Count: 195,836"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"Unique Patients","marker":{"color":"rgba(202,201,108,1)","line":{"color":"rgba(202,201,108,1)"}},"textfont":{"color":"rgba(202,201,108,1)"},"error_y":{"color":"rgba(202,201,108,1)"},"error_x":{"color":"rgba(202,201,108,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[79,160,160,163],"text":["Imaging Modalities<br>February<br>Count: 79","Imaging Modalities<br>May<br>Count: 160","Imaging Modalities<br>August<br>Count: 160","Imaging Modalities<br>November<br>Count: 163"],"hoverinfo":["text","text","text","text"],"type":"bar","name":"Imaging Modalities","marker":{"color":"rgba(252,205,229,1)","line":{"color":"rgba(252,205,229,1)"}},"textfont":{"color":"rgba(252,205,229,1)"},"error_y":{"color":"rgba(252,205,229,1)"},"error_x":{"color":"rgba(252,205,229,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-ac56ae4a8872346ae5fd" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-ac56ae4a8872346ae5fd">{"x":{"visdat":{"539a608816d8":["function () ","plotlyVisDat"]},"cur_data":"539a608816d8","attrs":{"539a608816d8":{"x":{},"y":{},"mode":"lines+markers","text":{},"hoverinfo":"text","line":{"width":3},"marker":{"size":10},"color":{},"colors":["#8dd3c7","#fbb3ffff","#bebada","#fb8072","#b3de69"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":120,"l":60,"t":25,"r":10},"title":"Patient Counts by Imaging Modality Over Time","xaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"array","categoryarray":["February","May","August","November"],"type":"category"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Patients","tickformat":","},"legend":{"title":{"text":"Modality"},"orientation":"h","x":0.5,"xanchor":"center","y":-0.20000000000000001},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["February","May","August","November"],"y":[61838,151840,152079,162977],"mode":"lines+markers","text":["CT/PET<br>Month: February<br>Patients: 61,838","CT/PET<br>Month: May<br>Patients: 151,840","CT/PET<br>Month: August<br>Patients: 152,079","CT/PET<br>Month: November<br>Patients: 162,977"],"hoverinfo":["text","text","text","text"],"line":{"color":"rgba(141,211,199,1)","width":3},"marker":{"color":"rgba(141,211,199,1)","size":10,"line":{"color":"rgba(141,211,199,1)"}},"type":"scatter","name":"CT/PET","textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[45475,114481,114628,124290],"mode":"lines+markers","text":["MRI<br>Month: February<br>Patients: 45,475","MRI<br>Month: May<br>Patients: 114,481","MRI<br>Month: August<br>Patients: 114,628","MRI<br>Month: November<br>Patients: 124,290"],"hoverinfo":["text","text","text","text"],"line":{"color":"rgba(251,179,255,1)","width":3},"marker":{"color":"rgba(251,179,255,1)","size":10,"line":{"color":"rgba(251,179,255,1)"}},"type":"scatter","name":"MRI","textfont":{"color":"rgba(251,179,255,1)"},"error_y":{"color":"rgba(251,179,255,1)"},"error_x":{"color":"rgba(251,179,255,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[17572,58191,58337,62562],"mode":"lines+markers","text":["Nuclear Medicine<br>Month: February<br>Patients: 17,572","Nuclear Medicine<br>Month: May<br>Patients: 58,191","Nuclear Medicine<br>Month: August<br>Patients: 58,337","Nuclear Medicine<br>Month: November<br>Patients: 62,562"],"hoverinfo":["text","text","text","text"],"line":{"color":"rgba(190,186,218,1)","width":3},"marker":{"color":"rgba(190,186,218,1)","size":10,"line":{"color":"rgba(190,186,218,1)"}},"type":"scatter","name":"Nuclear Medicine","textfont":{"color":"rgba(190,186,218,1)"},"error_y":{"color":"rgba(190,186,218,1)"},"error_x":{"color":"rgba(190,186,218,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[57413,137048,137265,148789],"mode":"lines+markers","text":["Ultrasound/Mammography<br>Month: February<br>Patients: 57,413","Ultrasound/Mammography<br>Month: May<br>Patients: 137,048","Ultrasound/Mammography<br>Month: August<br>Patients: 137,265","Ultrasound/Mammography<br>Month: November<br>Patients: 148,789"],"hoverinfo":["text","text","text","text"],"line":{"color":"rgba(251,128,114,1)","width":3},"marker":{"color":"rgba(251,128,114,1)","size":10,"line":{"color":"rgba(251,128,114,1)"}},"type":"scatter","name":"Ultrasound/Mammography","textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["February","May","August","November"],"y":[10225,39285,39350,42188],"mode":"lines+markers","text":["X-Ray<br>Month: February<br>Patients: 10,225","X-Ray<br>Month: May<br>Patients: 39,285","X-Ray<br>Month: August<br>Patients: 39,350","X-Ray<br>Month: November<br>Patients: 42,188"],"hoverinfo":["text","text","text","text"],"line":{"color":"rgba(179,222,105,1)","width":3},"marker":{"color":"rgba(179,222,105,1)","size":10,"line":{"color":"rgba(179,222,105,1)"}},"type":"scatter","name":"X-Ray","textfont":{"color":"rgba(179,222,105,1)"},"error_y":{"color":"rgba(179,222,105,1)"},"error_x":{"color":"rgba(179,222,105,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="philips-ispm-genomic-testing" class="level2">
+<h2 class="anchored" data-anchor-id="philips-ispm-genomic-testing"><strong>Philips ISPM Genomic Testing</strong></h2>
+<p>The VISTA Oncology Data Lake integrates comprehensive molecular testing data from the Philips IntelliSpace Precision Medicine (ISPM) platform, beginning with the May 2025 release. This dataset includes genomic and molecular profiling results from various testing platforms including STAMP (Stanford Actionable Mutation Panel), Heme-STAMP, and FoundationOne, enabling research on precision oncology and genomic-driven treatment strategies.</p>
+<p><strong>Testing Platform Coverage</strong>: The ISPM dataset captures detailed molecular testing information including test types, accession numbers, order dates, and genomic aberrations across multiple assay platforms.</p>
+<p><strong>Research Applications</strong>: This integration supports studies of actionable mutations, variant frequencies, treatment selection based on genomic profiles, and longitudinal tracking of molecular testing patterns in cancer care.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">Overview Metrics</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">FoundationOne Test Distribution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-3c50aaa590e52fe11352" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-3c50aaa590e52fe11352">{"x":{"visdat":{"539a7838f1a3":["function () ","plotlyVisDat"]},"cur_data":"539a7838f1a3","attrs":{"539a7838f1a3":{"x":{},"y":{},"mode":"lines+markers","text":{},"hoverinfo":"text","line":{"width":3},"marker":{"size":10},"color":{},"colors":["#8dd3c7","#ffffb3","#bebada","#fb8072","#b3de69","#fccde5","#ccebc5","#bc80bd","#fdb462","#80b1d3"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":150,"l":60,"t":25,"r":10},"title":"Philips ISPM: Comprehensive Genomic Testing Overview","xaxis":{"domain":[0,1],"automargin":true,"title":"","categoryorder":"array","categoryarray":["May","August","November"],"type":"category"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Count","tickformat":","},"legend":{"title":{"text":"Metric"},"orientation":"h","x":0.5,"xanchor":"center","y":-0.25},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["May","August","November"],"y":[14842,18969,19899],"mode":"lines+markers","text":["Accession Numbers<br>May<br>Count: 14,842","Accession Numbers<br>August<br>Count: 18,969","Accession Numbers<br>November<br>Count: 19,899"],"hoverinfo":["text","text","text"],"line":{"color":"rgba(141,211,199,1)","width":3},"marker":{"color":"rgba(141,211,199,1)","size":10,"line":{"color":"rgba(141,211,199,1)"}},"type":"scatter","name":"Accession Numbers","textfont":{"color":"rgba(141,211,199,1)"},"error_y":{"color":"rgba(141,211,199,1)"},"error_x":{"color":"rgba(141,211,199,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["May","August","November"],"y":[172,3437,3079],"mode":"lines+markers","text":["FoundationOneCkbTest<br>May<br>Count: 172","FoundationOneCkbTest<br>August<br>Count: 3,437","FoundationOneCkbTest<br>November<br>Count: 3,079"],"hoverinfo":["text","text","text"],"line":{"color":"rgba(251,128,114,1)","width":3},"marker":{"color":"rgba(251,128,114,1)","size":10,"line":{"color":"rgba(251,128,114,1)"}},"type":"scatter","name":"FoundationOneCkbTest","textfont":{"color":"rgba(251,128,114,1)"},"error_y":{"color":"rgba(251,128,114,1)"},"error_x":{"color":"rgba(251,128,114,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["May","August","November"],"y":[15369,16653,16820],"mode":"lines+markers","text":["StanfordStampTest<br>May<br>Count: 15,369","StanfordStampTest<br>August<br>Count: 16,653","StanfordStampTest<br>November<br>Count: 16,820"],"hoverinfo":["text","text","text"],"line":{"color":"rgba(204,235,197,1)","width":3},"marker":{"color":"rgba(204,235,197,1)","size":10,"line":{"color":"rgba(204,235,197,1)"}},"type":"scatter","name":"StanfordStampTest","textfont":{"color":"rgba(204,235,197,1)"},"error_y":{"color":"rgba(204,235,197,1)"},"error_x":{"color":"rgba(204,235,197,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["May","August","November"],"y":[10972,14106,14787],"mode":"lines+markers","text":["Unique Patients<br>May<br>Count: 10,972","Unique Patients<br>August<br>Count: 14,106","Unique Patients<br>November<br>Count: 14,787"],"hoverinfo":["text","text","text"],"line":{"color":"rgba(128,177,211,1)","width":3},"marker":{"color":"rgba(128,177,211,1)","size":10,"line":{"color":"rgba(128,177,211,1)"}},"type":"scatter","name":"Unique Patients","textfont":{"color":"rgba(128,177,211,1)"},"error_y":{"color":"rgba(128,177,211,1)"},"error_x":{"color":"rgba(128,177,211,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-c849af2dc54d2b1172cb" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c849af2dc54d2b1172cb">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","caption":"<caption>FoundationOne Test Types (November 2025)<\/caption>","data":[["FoundationOneCkbTest","FoundationOneCkbTest","FoundationOneCkbTest","FoundationOneCkbTest","FoundationOneCkbTest","FoundationOneCkbTest","FoundationOneCkbTest","FoundationOneCkbTest","FoundationOneCkbTest","StanfordStampTest","StanfordStampTest"],["FoundationOne CDX","FoundationOneLiquidDx","FoundationOne Heme","FoundationOneCDx","FoundationOne Liquid","FoundationOneDxPlusRNA","FoundationOneLiquid CDx","FoundationOneCDx and FoundationOneRNA","FoundationOneHeme","HEME-STAMP","STAMP"],["2,287","356","243","69","53","30","21","16","1","9,475","7,288"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Test Category<\/th>\n      <th>Stanford Test Type<\/th>\n      <th>Number of Tests<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":15,"dom":"Bfrtip","columnDefs":[{"className":"dt-left","targets":[0,1]},{"className":"dt-right","targets":2},{"name":"test_type_clean","targets":0},{"name":"stanford_test_type","targets":1},{"name":"stanford_test_type_counts_formatted","targets":2}],"order":[[2,"desc"]],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[10,15,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-bc41b5e25002e22696fd" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-bc41b5e25002e22696fd">{"x":{"visdat":{"539a53f0c51a":["function () ","plotlyVisDat"]},"cur_data":"539a53f0c51a","attrs":{"539a53f0c51a":{"x":{},"y":{},"text":{},"hoverinfo":"text","color":{},"colors":["#8dd3c7","#ffffb3","#bebada","#fb8072","#b3de69"],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":150,"l":60,"t":25,"r":150},"title":"Stanford Test Types Distribution by Category (November 2025)","xaxis":{"domain":[0,1],"automargin":true,"title":"Stanford Test Type","tickangle":-45,"categoryorder":"total descending","type":"category","categoryarray":["FoundationOneHeme","FoundationOneCDx and FoundationOneRNA","FoundationOneLiquid CDx","FoundationOneDxPlusRNA","FoundationOne Liquid","FoundationOneCDx","FoundationOne Heme","FoundationOneLiquidDx","FoundationOne CDX"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Tests","tickformat":","},"barmode":"stack","legend":{"title":{"text":"Test Category"},"orientation":"v","x":1.02,"y":0.5},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["FoundationOne CDX","FoundationOneLiquidDx","FoundationOne Heme","FoundationOneCDx","FoundationOne Liquid","FoundationOneDxPlusRNA","FoundationOneLiquid CDx","FoundationOneCDx and FoundationOneRNA","FoundationOneHeme"],"y":[2287,356,243,69,53,30,21,16,1],"text":["Category: FoundationOneCkbTest<br>Test: FoundationOne CDX<br>Count: 2,287","Category: FoundationOneCkbTest<br>Test: FoundationOneLiquidDx<br>Count: 356","Category: FoundationOneCkbTest<br>Test: FoundationOne Heme<br>Count: 243","Category: FoundationOneCkbTest<br>Test: FoundationOneCDx<br>Count: 69","Category: FoundationOneCkbTest<br>Test: FoundationOne Liquid<br>Count: 53","Category: FoundationOneCkbTest<br>Test: FoundationOneDxPlusRNA<br>Count: 30","Category: FoundationOneCkbTest<br>Test: FoundationOneLiquid CDx<br>Count: 21","Category: FoundationOneCkbTest<br>Test: FoundationOneCDx and FoundationOneRNA<br>Count: 16","Category: FoundationOneCkbTest<br>Test: FoundationOneHeme<br>Count: 1"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","name":"FoundationOneCkbTest","marker":{"color":"rgba(190,186,218,1)","line":{"color":"rgba(190,186,218,1)"}},"textfont":{"color":"rgba(190,186,218,1)"},"error_y":{"color":"rgba(190,186,218,1)"},"error_x":{"color":"rgba(190,186,218,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../data_evolution_overview.html" class="pagination-link" aria-label="Data Evolution Overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data Evolution Overview</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../data_metrics.html" class="pagination-link" aria-label="Data Metrics">
+        <span class="nav-page-text">Data Metrics</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+<p>About</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
