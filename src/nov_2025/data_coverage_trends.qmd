@@ -736,7 +736,7 @@ plot_ly(
 
 The VISTA Oncology Data Lake integrates comprehensive medical imaging data, linking diagnostic images to patient clinical records through the OMOP image occurrence table. This integration enables research connecting imaging studies with clinical outcomes, treatments, and genomic profiles.
 
-**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93,000 patients in February 2025 to over 1.6 million patients by November 2025, representing a substantial increase in multi-modal data availability for cancer research.
+**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93k patients in February 2025 to over 195k patients by November 2025, representing a substantial increase in multi-modal data availability for cancer research.
 
 **Image Series and Studies**: The platform captures detailed imaging metadata including study identifiers, series information, anatomic regions, and imaging modalities (CT, MRI, PET, etc.), supporting comprehensive radiomics and image-based research.
 

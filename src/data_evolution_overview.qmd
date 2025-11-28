@@ -10,52 +10,7 @@ This page provides an overview of the VISTA Oncology Data Lake's evolution acros
 
 The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February through November 2025, the platform has grown from approximately 200,000 to over 217,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4.
 
-```{r data_lake_diagram, message=FALSE, warning=FALSE, fig.width=6, fig.height=6, include=FALSE}
-library(DiagrammeR)
-
-# Create and display the diagram
-grViz("
-digraph vista_data_lake {
-  
-  # Graph attributes
-  graph [layout = dot, rankdir = TB, bgcolor = '#FFFFFF', fontname = 'Arial', nodesep = 1.0, ranksep = 1.2]
-  
-  # Node definitions with styling
-  node [shape = box, style = filled, fontname = 'Arial']
-  
-  # Top level - Data Lake
-  DL [label = 'VISTA Oncology Data Lake\n217K+ Patients', fillcolor = '#2E86AB', fontcolor = white, fontsize = 14, width = 4, height = 1]
-  
-  # Main Components - All in one row
-  {rank = same; OMOP; NF; PHILIPS; SPECIAL}
-  OMOP [label = 'OMOP CDM 5.4.2\nClinical Data + Imaging', fillcolor = '#8dd3c7', fontsize = 12, width = 3.5, height = 0.8]
-  NF [label = 'NeuralFrame\nRegistry', fillcolor = '#ffffb3', fontsize = 12, width = 2.5, height = 0.8]
-  PHILIPS [label = 'Philips ISPM\nMolecular Testing', fillcolor = '#fb8072', fontsize = 12, width = 2.5, height = 0.8]
-  SPECIAL [label = 'Specialized\nDatasets', fillcolor = '#F4A460', fontsize = 12, width = 2.5, height = 0.8]
-  
-  # Sub-dataset boxes - one large box per main component
-  OMOP_SUB [label = 'Imaging (CT | PET | MRI | X-Ray)\nDICOM Metadata | Anatomic Regions | \nDemographics | Encounters | Diagnoses | Procedures\nMedications | Lab Results | Clinical Notes | Tumor Board', fillcolor = '#E0F2F1', fontsize = 10, width = 3.5, height = 2.0, shape = box]
-  
-  NF_SUB [label = 'Cancer Diagnoses\nTreatments\nOutcomes\nMiscellaneous Details', fillcolor = '#FFFEF0', fontsize = 10, width = 2.5, height = 2.0, shape = box]
-  
-  PHILIPS_SUB [label = 'STAMP\nHeme-STAMP\nFoundationOne\nSTAMP Add-On Metadata', fillcolor = '#FFE4E1', fontsize = 10, width = 2.5, height = 2.0, shape = box]
-  
-  SPECIAL_SUB [label = 'HIPPO Benchmark (1,394 notes)\nCAP Pathology Forms\nEpic Media Server PDFs\nTide 2.0 Agentic AI', fillcolor = '#FFF8DC', fontsize = 10, width = 2.5, height = 2.0, shape = box]
-  
-  # Connections from Data Lake to main components
-  DL -> OMOP [penwidth = 2, color = '#457B9D']
-  DL -> NF [penwidth = 2, color = '#457B9D']
-  DL -> PHILIPS [penwidth = 2, color = '#457B9D']
-  DL -> SPECIAL [penwidth = 2, color = '#457B9D']
-  
-  # Connections from main components to sub-dataset boxes
-  OMOP -> OMOP_SUB [arrowhead = none, color = '#8dd3c7', penwidth = 3]
-  NF -> NF_SUB [arrowhead = none, color = '#ffffb3', penwidth = 3]
-  PHILIPS -> PHILIPS_SUB [arrowhead = none, color = '#fb8072', penwidth = 3]
-  SPECIAL -> SPECIAL_SUB [arrowhead = none, color = '#F4A460', penwidth = 3]
-}
-")
-```
+![VISTA Oncology Data Lake](png_files/vista_png.png)
 
 ### February 2025 - Foundation Release
 
