@@ -246,8 +246,7 @@ sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumo
 tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
 tb_img
 ```
-As of November 2025, out of `r format(tb_den$n_pts[1], big.mark = ",")` thoracic tumor board patients,  
-`r format(tb_img$patient_count[1], big.mark = ",")` (`r round(100 * tb_img$patient_count[1] / tb_den$n_pts[1], 1)`%) also had image occurrence procedures.
+As of November 2025, `r format(tb_img$patient_count[1], big.mark = ",")` had image occurrence procedures.
 
 Note: The following analysis is presented for series occurrences above 500. 
 

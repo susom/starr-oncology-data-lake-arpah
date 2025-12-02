@@ -5,6 +5,7 @@ execute:
 ---
 
 
+
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 # Load required libraries
 library(dplyr)
@@ -1481,4 +1482,10 @@ plot_ly(
   )
 ```
 
+:::
+
+::: {.callout-note}
+**Interactive Visualizations:** All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.
+
+**Data Source:** This analysis reflects the raw PHI data from February to November.
 :::

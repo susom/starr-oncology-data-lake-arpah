@@ -374,13 +374,14 @@ plot_ly(df_bar,
 
 ```{r, message=FALSE, warning=FALSE}
 library(DT)
-
+res_ana=res_ana %>% filter(!is.na(anatomic_site))
+res_ana=res_ana %>% filter(anatomic_site!="null")
 res_ana=res_ana %>% select (anatomic_site,series_count,person_count)
 
 DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength = 10))%>%
   formatRound(columns = c("person_count", "series_count"), digits = 0)
 
-res_ana=res_ana %>% filter(!is.na(anatomic_site))
+
 ```
 ### Thoracic Cancer 
 Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
