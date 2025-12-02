@@ -1,0 +1,98 @@
+---
+title: "SPECIMEN"
+---
+
+## Description
+The specimen domain contains the records identifying biological samples from a person.
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field | type | required |
+|:------|:-----|:---------|
+| specimen_id | integer | Yes |
+| person_id | integer | Yes |
+| specimen_concept_id | integer | Yes |
+| specimen_type_concept_id | integer | Yes |
+| specimen_date | date | Yes |
+| specimen_datetime | datetime | No |
+| quantity | float | No |
+| unit_concept_id | integer | No |
+| anatomic_site_concept_id | integer | No |
+| disease_status_concept_id | integer | No |
+| specimen_source_id | varchar(50) | No |
+| specimen_source_value | varchar(50) | No |
+| unit_source_value | varchar(50) | No |
+| anatomic_site_source_value | varchar(50) | No |
+| disease_status_source_value | varchar(50) | No |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### specimen_id
+
+A unique identifier for each specimen.
+
+##### person_id
+
+A foreign key identifier to the Person for whom the Specimen is recorded.
+
+##### specimen_concept_id
+
+A foreign key referring to a Standard Concept identifier in the Standardized Vocabularies for the Specimen.
+
+##### specimen_type_concept_id
+
+A foreign key referring to the Concept identifier in the Standardized Vocabularies reflecting the system of record from which the Specimen was represented in the source data.
+
+##### specimen_date
+
+The date the specimen was obtained from the Person.
+
+##### specimen_datetime
+
+The date and time on the date when the Specimen was obtained from the person.
+
+##### quantity
+
+The amount of specimen collection from the person during the sampling procedure.
+
+##### unit_concept_id
+
+A foreign key to a Standard Concept identifier of measurement units in the Standardized Vocabularies.
+
+##### anatomic_site_concept_id
+
+A foreign key to a Standard Concept identifier for the anatomic location of specimen collection in the Standardized Vocabularies.
+
+##### disease_status_concept_id
+
+A foreign key to a Standard Concept identifier for the Disease Status of specimen collection in the Standardized Vocabularies.
+
+##### specimen_source_id
+
+The Specimen identifier as it appears in the source data.
+
+##### specimen_source_value
+
+The Specimen value as it appears in the source data. The value is mapped to a Standard Concept in the Standardized Vocabularies and the original code is stored here for reference.
+
+##### unit_source_value
+
+The information about the Unit as detailed in the source.
+
+##### anatomic_site_source_value
+
+The information about the anatomic site as detailed in the source.
+
+##### disease_status_source_value
+
+The information about the disease status as detailed in the source.
+
+## Conventions
+- Each specimen should have a corresponding record in the PERSON table
+- specimen_concept_id should use Standard Concepts from the Specimen domain
+- Anatomic site and disease status provide important context for specimen interpretation
+- Source values preserve original coding from the source system
