@@ -34,6 +34,7 @@ The table `onc_philips_mtb_pat_diag_orders` contains order-level information fro
 | site_display                         | STRING |       |                            |
 | specimen_identifier                  | STRING | Yes   | Nullified                     |
 | stanford_patient_uid                 | STRING | Yes   | Del                           |
+| stanford_test_type                   | STRING |       |                            |
 | test_type                            | STRING |       |                            |
 | workflow_request_uuid                | STRING | Yes   | Nullified                     |
 
@@ -141,6 +142,10 @@ String containing either both the patient MRN and accession number (if STAMP tes
 ##### stanford_patient_uid
 
 Internal Stanford tracking ID (this is the patient's MRN | DOB)
+
+##### stanford_test_type
+
+Stanford-specific test type classification providing more detailed categorization of genomic tests beyond the general test_type field
 
 ##### test_type
 
