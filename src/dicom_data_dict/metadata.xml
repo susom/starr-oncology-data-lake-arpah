@@ -15,18 +15,63 @@
     <p t="SERIES_DESCRIPTION">######</p>
     <p t="STUDY_DESCRIPTION">######</p>
     <p t="PROTOCOL_NAME">######</p>
-    <p t="PATIENTID">######</p>
-    <p t="ACCESSION">######</p>
+    <p t="PATIENT_ID">######</p>
+    <p t="ACCESSION_NUMBER">######</p>
 
     <!-- Parameterized -->
-    <e en="T" t="00100020" n="PatientID">@param(@PATIENTID)</e>
-    <e en="T" t="00080050" n="AccessionNumber">@param(@ACCESSION)</e>
-    <e en="T" t="00100010" n="PatientName">@param(@PATIENTID)</e>
+    <e en="T" t="00100020" n="PatientID">@param(@PATIENT_ID)</e>
+    <e en="T" t="00080050" n="AccessionNumber">@param(@ACCESSION_NUMBER)</e>
+    <e en="T" t="00100010" n="PatientName">@param(@PATIENT_ID)</e>
 
     <!-- Allow-list redacted attributes -->
     <e en="T" t="0008103e" n="SeriesDescription">@param(@SERIES_DESCRIPTION)</e>
     <e en="T" t="00081030" n="StudyDescription">@param(@STUDY_DESCRIPTION)</e>
     <e en="T" t="00181030" n="ProtocolName">@param(@PROTOCOL_NAME)</e>
+
+    <!-- Times are kept as-is -->
+    <e en="T" t="00080013" n="InstanceCreationTime">@keep()</e>
+    <e en="T" t="00080030" n="StudyTime">@keep()</e>
+    <e en="T" t="00080031" n="SeriesTime">@keep()</e>
+    <e en="T" t="00080032" n="AcquisitionTime">@keep()</e>
+    <e en="T" t="00080033" n="ContentTime">@keep()</e>
+    <e en="T" t="00080034" n="OverlayTime">@keep()</e>
+    <e en="T" t="00080035" n="CurveTime">@keep()</e>
+    <e en="T" t="00082130" n="EventElapsedTime">@keep()</e>
+    <e en="T" t="00180027" n="InterventionDrugStopTime">@keep()</e>
+    <e en="T" t="00180035" n="InterventionDrugStartTime">@keep()</e>
+    <e en="T" t="00180080" n="RepetitionTime">@keep()</e>
+    <e en="T" t="00180081" n="EchoTime">@keep()</e>
+    <e en="T" t="00180082" n="InversionTime">@keep()</e>
+    <e en="T" t="00181042" n="ContrastBolusStartTime">@keep()</e>
+    <e en="T" t="00181043" n="ContrastBolusStopTime">@keep()</e>
+    <e en="T" t="00181060" n="TriggerTime">@keep()</e>
+    <e en="T" t="00181063" n="FrameTime">@keep()</e>
+    <e en="T" t="00181072" n="RadiopharmaceuticalStartTime">@keep()</e>
+    <e en="T" t="00181073" n="RadiopharmaceuticalStopTime">@keep()</e>
+    <e en="T" t="00181150" n="ExposureTime">@keep()</e>
+    <e en="T" t="00181480" n="TomoTime">@keep()</e>
+    <e en="T" t="00187014" n="DetectorActiveTime">@keep()</e>
+    <e en="T" t="00189082" n="EffectiveEchoTime">@keep()</e>
+    <e en="T" t="00209153" n="TriggerDelayTime">@keep()</e>
+    <e en="T" t="00320033" n="StudyVerifiedTime">@keep()</e>
+    <e en="T" t="00320035" n="StudyReadTime">@keep()</e>
+    <e en="T" t="00321001" n="ScheduledStudyStartTime">@keep()</e>
+    <e en="T" t="00321011" n="ScheduledStudyStopTime">@keep()</e>
+    <e en="T" t="00321041" n="StudyArrivalTime">@keep()</e>
+    <e en="T" t="00321051" n="StudyCompletionTime">@keep()</e>
+    <e en="T" t="0038001b" n="ScheduledAdmissionTime">@keep()</e>
+    <e en="T" t="0038001d" n="ScheduledDischargeTime">@keep()</e>
+    <e en="T" t="00380021" n="AdmittingTime">@keep()</e>
+    <e en="T" t="00380032" n="DischargeTime">@keep()</e>
+    <e en="T" t="00400003" n="SPSStartTime">@keep()</e>
+    <e en="T" t="00400245" n="PPSStartTime">@keep()</e>
+    <e en="T" t="00400251" n="PPSEndTime">@keep()</e>
+    <e en="T" t="0040a122" n="Time">@keep()</e>
+    <e en="T" t="0040a193" n="TrialObservationTime">@keep()</e>
+
+    <!-- Demographic -->
+    <e en="T" t="00100040" n="PatientSex">@keep()</e>
+    <e en="T" t="00120062" n="PatientIdentityRemoved">@always()YES</e>
 
     <!-- Image Information -->
     <e en="T" t="00080005" n="SpecificCharacterSet">@keep()</e>
@@ -40,9 +85,8 @@
     <!-- UIDs -->
     <e en="T" t="00020003" n="MediaStorageSOPInstanceUID">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="00080018" n="SOPInstanceUID">@hashuid(@UIDROOT,this)</e>
-    <e en="T" t="00081140" n="ReferencedImageSequence">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="00081155" n="ReferencedSOPInstanceUID">@hashuid(@UIDROOT,this)</e>
-    <e en="T" t="00083010" n="IrradiationEventUID">@hashuid(@UIDROOT,this)</e>
+    <!-- <e en="T" t="00083010" n="IrradiationEventUID">@hashuid(@UIDROOT,this)</e> -->@keep()<!-- crashes ctp -->
     <e en="T" t="0020000D" n="StudyInstanceUID">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="0020000E" n="SeriesInstanceUID">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="00200052" n="FrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
@@ -63,7 +107,6 @@
     <e en="T" t="00180021" n="SequenceVariant">@keep()</e>
     <e en="T" t="00180022" n="ScanOptions">@keep()</e>
     <e en="T" t="00180023" n="MRAcquisitionType">@keep()</e>
-    <e en="T" t="00180050" n="SliceThickness">@keep()</e>
     <e en="T" t="00180088" n="SpacingBetweenSlices">@keep()</e>
     <e en="T" t="00180090" n="DataCollectionDiameter">@keep()</e>
     <e en="T" t="00181000" n="DeviceSerialNumber">@keep()</e>
@@ -81,7 +124,6 @@
     <e en="T" t="00201040" n="PositionReferenceIndicator">@keep()</e>
     <e en="T" t="00201041" n="SliceLocation">@keep()</e>
     <e en="T" t="00280030" n="PixelSpacing">@keep()</e>
-
 
     <!-- Image Format and Structure -->
     <e en="T" t="00280002" n="SamplesPerPixel">@keep()</e>
@@ -182,6 +224,8 @@
     <e en="T" t="00181190" n="FocalSpots">@keep()</e>
     <e en="T" t="00181210" n="ConvolutionKernel">@keep()</e>
     <e en="T" t="00187050" n="FilterMaterial">@keep()</e>
+    <e en="T" t="00185100" n="PatientPosition">@keep()</e>
+    <e en="F" t="00185101" n="ViewPosition">@keep()</e>
 
     <!-- Fluoroscopy-specific Parameters -->
     <e en="T" t="00181114" n="EstimatedRadiographicMagnificationFactor">@keep()</e>

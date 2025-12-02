@@ -277,7 +277,7 @@ plot_ly(
   x = ~month,
   y = ~counts_pts,
   color = ~data_set_clean,
-  colors = c('#8dd3c7', '#caffb3ff', '#bebada', '#fb8072'),
+  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072'),
   type = 'scatter',
   mode = 'lines+markers',
   text = ~paste0(
@@ -536,6 +536,26 @@ thoracic_tb_res <- run_monthly_metrics(
 head(thoracic_tb_res)
 ```
 
+```{r thoracic_tb_neuralframe, message=FALSE, warning=FALSE, results='hide'}
+# Define thoracic TB Neural Frame coverage SQL paths per release
+thoracic_tb_nf_sql_paths <- list(
+  #feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/feb25/tumor_board_thoracic_neuralframe_metrics.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/may25/tumor_board_thoracic_neuralframe_metrics.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/aug25/tumor_board_thoracic_neuralframe_metrics.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_thoracic_neuralframe_metrics.sql"
+)
+
+# Run thoracic TB Neural Frame analysis across all releases
+thoracic_tb_nf_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_paths = thoracic_tb_nf_sql_paths,
+  release_to_month = release_to_month
+)
+
+# Preview the results
+head(thoracic_tb_nf_res)
+```
+
 ```{r thoracic_combined_plot, message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
@@ -590,7 +610,7 @@ thoracic_combined <- bind_rows(thoracic_general, thoracic_complete, thoracic_tb)
 
 # Create grouped bar plot with three cohorts
 plot_ly(data = thoracic_combined, x = ~month_label, y = ~patients, 
-        color = ~cohort, colors = c('#8dd3c7', '#ffffb3', '#fb8072'),
+        color = ~cohort, colors = c('#8dd3c7', '#f0f0b3', '#fb8072'),
         type = 'bar',
         text = ~paste0(
           cohort,
@@ -622,7 +642,61 @@ plot_ly(data = thoracic_combined, x = ~month_label, y = ~patients,
   )
 ```
 
+```{r thoracic_tb_summary_table, message=FALSE, warning=FALSE}
+library(DT)
+library(dplyr)
+library(tidyr)
 
+if (nrow(thoracic_tb_nf_res) > 0) {
+  # Prepare summary table for thoracic tumor board data
+  thoracic_tb_summary <- thoracic_tb_nf_res %>%
+    mutate(
+      month_label = recode(month,
+        "may" = "May 2025",
+        "aug" = "August 2025", 
+        "nov" = "November 2025"
+      ),
+      metric_clean = case_when(
+        metric_type == "total_thoracic_tb" ~ "Total Thoracic TB Patients",
+        metric_type == "thoracic_tb_with_neuralframe" ~ "With Neural Frame Data", 
+        metric_type == "thoracic_tb_neuralframe_complete" ~ "Neural Frame Complete Cases",
+        TRUE ~ metric_type
+      )
+    ) %>%
+    mutate(
+      combined_stat = case_when(
+        metric_type == "total_thoracic_tb" ~ scales::comma(count_patients),
+        TRUE ~ paste0(scales::comma(count_patients), " (", round(percentage_of_total, 1), "%)")
+      )
+    ) %>%
+    select(month_label, metric_clean, combined_stat) %>%
+    pivot_wider(
+      names_from = month_label,
+      values_from = combined_stat
+    )
+
+  # Create interactive table
+  datatable(
+    thoracic_tb_summary,
+    colnames = c(
+      "Metric",
+      "May N (%)", "Aug N (%)", "Nov N (%)"
+    ),
+    caption = "Thoracic Cancer Tumor Board Patients: Neural Frame Coverage Summary",
+    options = list(
+      dom = 't',
+      pageLength = 10,
+      columnDefs = list(
+        list(className = 'dt-left', targets = 0),
+        list(className = 'dt-center', targets = c(1, 2, 3))
+      )
+    ),
+    rownames = FALSE
+  )
+} else {
+  print("No thoracic TB Neural Frame data available")
+}
+```
 
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
 # Define tumor board overlap SQL paths per release
@@ -697,7 +771,7 @@ plot_ly(
   x = ~month_label,
   y = ~patients,
   color = ~metric,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072'),
+  colors = c('#8dd3c7', '#f0f0b3', '#bebada', '#fb8072'),
   type = 'bar',
   text = ~paste0(
     metric,
@@ -746,9 +820,9 @@ The VISTA Oncology Data Lake integrates comprehensive medical imaging data, link
 ```{r image occ basics, message=FALSE, warning=FALSE, results='hide'}
 # Define image person SQL paths per release
 img_person_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_person.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_person.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_person.sql",
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb25/image_occ_person.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/may_aug25/image_occ_person.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/may_aug25/image_occ_person.sql",
   nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/nov25/image_occ_person.sql"
 )
 
@@ -760,9 +834,9 @@ img_res <- run_monthly_metrics(
 
 # Define image basic SQL paths per release
 img_basic_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_basic.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_basic.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_basic.sql",
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb25/image_occ_basic.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/may_aug25/image_occ_basic.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/may_aug25/image_occ_basic.sql",
   nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/nov25/image_occ_basic.sql"
 )
 
@@ -809,6 +883,10 @@ numeric_cols <- names(img_summary_table)[sapply(img_summary_table, is.numeric)]
 img_summary_formatted <- img_summary_table %>%
   mutate(across(all_of(numeric_cols), ~scales::comma(.)))
 
+# Sort data alphabetically by Metric column, with "Unique Imaging Modalities" at the end
+img_summary_formatted <- img_summary_formatted %>%
+  arrange(ifelse(Metric == "Unique Imaging Modalities", "zzz", Metric))
+
 # Create interactive table
 datatable(
   img_summary_formatted,
@@ -818,9 +896,9 @@ datatable(
     dom = 't',
     columnDefs = list(
       list(className = 'dt-left', targets = 0),
-      list(className = 'dt-right', targets = "_all")
+      list(className = 'dt-center', targets = c(1, 2, 3, 4))
     ),
-    order = list(list(ncol(img_summary_formatted) - 1, 'desc'))
+    order = list(list(0, 'asc'))
   ),
   rownames = FALSE
 )
@@ -928,9 +1006,9 @@ plot_ly(
 ```{r image_modality, message=FALSE, warning=FALSE, results='hide'}
 # Define image modality SQL paths per release
 img_mod_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_modality.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_modality.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb_aug25/image_occ_modality.sql",
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/feb25/image_occ_modality.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/may_aug25/image_occ_modality.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/may_aug25/image_occ_modality.sql",
   nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/nov25/image_occ_modality.sql"
 )
 
@@ -966,7 +1044,8 @@ img_mod <- img_mod %>%
 # Summarize by modality group and month
 img_summary <- img_mod %>%
   group_by(month, month_label, modality_group) %>%
-  summarise(counts = sum(unique_person_count), .groups = "drop")
+  summarise(counts = sum(unique_person_count), .groups = "drop") %>%
+  mutate(counts = as.numeric(counts))
 ```
 
 ```{r modality_plot, message=FALSE, warning=FALSE}
@@ -979,7 +1058,7 @@ plot_ly(
   x = ~month_label,
   y = ~counts,
   color = ~modality_group,
-  colors = c('#8dd3c7', '#fbb3ffff', '#bebada', '#fb8072', '#b3de69'),
+  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69'),
   type = 'scatter',
   mode = 'lines+markers',
   text = ~paste0(
@@ -1113,7 +1192,7 @@ plot_ly(
   x = ~month_label,
   y = ~count,
   color = ~metric_label,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5', '#ccebc5', '#bc80bd', '#fdb462', '#80b1d3'),
+  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd'),
   type = 'scatter',
   mode = 'lines+markers',
   text = ~paste0(
@@ -1305,7 +1384,7 @@ datatable(
 )
 ```
 
-### FoundationOne Test Distribution
+### Stanford Test Type Distribution
 ```{r philips_stanford_tests, message=FALSE, warning=FALSE}
 
 library(plotly)
@@ -1316,7 +1395,7 @@ philips_plot_data <- philips_order_table %>%
   mutate(
     count_numeric = as.numeric(gsub(",", "", stanford_test_type_counts_formatted))
   ) %>% 
-  filter(test_type_clean!="StanfordStampTest") %>%
+  #filter(test_type_clean!="StanfordStampTest") %>%
   arrange(desc(count_numeric))
 
 # Create stacked bar chart
@@ -1354,6 +1433,51 @@ plot_ly(
     ),
     hovermode = 'closest',
     margin = list(b = 150, r = 150)
+  )
+```
+
+```{r philips_stamp_tests, message=FALSE, warning=FALSE, include=FALSE}
+library(plotly)
+library(dplyr)
+
+# Filter for Stanford STAMP tests only
+stamp_plot_data <- philips_tests %>%
+  filter(test_type != "FoundationOneCkbTest	") %>%
+  mutate(
+    month_label = recode(month,
+      "may" = "May",
+      "aug" = "August", 
+      "nov" = "November"
+    )
+  )
+
+# Create bar chart for STAMP tests across months
+plot_ly(
+  data = stamp_plot_data,
+  x = ~month_label,
+  y = ~test_type_counts,
+  type = 'bar',
+  marker = list(color = '#8dd3c7'),
+  hovertemplate = ~paste0(
+    "Stanford STAMP Tests",
+    "<br>Count: ", scales::comma(test_type_counts),
+    "<extra></extra>"
+  )
+) %>%
+  layout(
+    title = "Stanford STAMP Test Counts by Release (May to November 2025)",
+    xaxis = list(
+      title = "Release Month",
+      categoryorder = "array",
+      categoryarray = c("May", "August", "November")
+    ),
+    yaxis = list(
+      title = "Number of Tests",
+      tickformat = ","
+    ),
+    showlegend = FALSE,
+    hovermode = 'closest',
+    margin = list(b = 100)
   )
 ```
 
