@@ -1,0 +1,37 @@
+---
+title: "attribute_definition"
+---
+
+## Overview
+
+The ATTRIBUTE_DEFINITION table contains records to define each attribute through an associated description and syntax. Attributes are derived elements that can be selected or calculated for a subject within a cohort. The ATTRIBUTE_DEFINITION table provides a standardized structure for maintaining the rules governing the calculation of covariates for a subject in a cohort, and can store operational programming code to instantiate the attributes for a given cohort within the OMOP Common Data Model.
+
+## ETL Conventions
+
+NA
+
+## Table Columns
+
+| Field | Type | Required |
+|-------|------|----------|
+| attribute_definition_id | integer | Yes |
+| attribute_name | varchar(255) | Yes |
+| attribute_description | varchar(MAX) | No |
+| attribute_type_concept_id | integer | Yes |
+| attribute_syntax | varchar(MAX) | No |
+{.hover .responsive .sm}
+
+##### attribute_definition_id
+A unique identifier for each attribute definition.
+
+##### attribute_name
+The name of the attribute being defined.
+
+##### attribute_description
+An optional description for the attribute definition providing additional context.
+
+##### attribute_type_concept_id
+The concept ID that defines the type of attribute being calculated or derived.
+
+##### attribute_syntax
+Syntax or code to operationalize the Attribute Definition for calculation within cohorts.

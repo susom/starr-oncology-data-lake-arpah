@@ -1,5 +1,5 @@
 ---
-title: "COST"
+title: "cost"
 ---
 
 ## Description

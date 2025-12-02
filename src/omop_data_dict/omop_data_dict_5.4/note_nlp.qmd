@@ -1,9 +1,9 @@
 ---
-title: "NOTE_NLP"
+title: "note_nlp"
 ---
 
 ## Description
-The NOTE_NLP table encodes all output of NLP on clinical notes. Each row represents a single extracted term from a note.
+The note_nlp table encodes all output of NLP on clinical notes. Each row represents a single extracted term from a note.
 
 Standard Clinical Data Table
 
