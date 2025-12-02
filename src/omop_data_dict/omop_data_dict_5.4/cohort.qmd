@@ -1,0 +1,37 @@
+---
+title: "COHORT"
+---
+
+## Description
+The COHORT table contains records of subjects that satisfy a given set of criteria for a duration of time. The definition of the cohort is contained in the COHORT_DEFINITION table. This is a new table introduced in CDM v5.4.
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field | type | required |
+|:------|:-----|:---------|
+| cohort_definition_id | integer | Yes |
+| subject_id | integer | Yes |
+| cohort_start_date | date | Yes |
+| cohort_end_date | date | Yes |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### cohort_definition_id
+
+A foreign key to a record in the COHORT_DEFINITION table containing relevant Cohort Definition information.
+
+##### subject_id
+
+A foreign key to the subject in the cohort. These could be referring to the person, provider, visit record etc.
+
+##### cohort_start_date
+
+The date when the Cohort Definition criteria for the Person, Provider or Visit first match.
+
+##### cohort_end_date
+
+The date when the Cohort Definition criteria for the Person, Provider or Visit cease to match or the Cohort Definition end date.

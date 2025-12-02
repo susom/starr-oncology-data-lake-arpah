@@ -1,0 +1,88 @@
+---
+title: "NOTE_NLP"
+---
+
+## Description
+The NOTE_NLP table encodes all output of NLP on clinical notes. Each row represents a single extracted term from a note.
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field | type | required |
+|:------|:-----|:---------|
+| note_nlp_id | integer | Yes |
+| note_id | integer | Yes |
+| section_concept_id | integer | No |
+| snippet | varchar(250) | No |
+| offset | varchar(50) | No |
+| lexical_variant | varchar(250) | Yes |
+| note_nlp_concept_id | integer | No |
+| note_nlp_source_concept_id | integer | No |
+| nlp_system | varchar(250) | No |
+| nlp_date | date | Yes |
+| nlp_datetime | datetime | No |
+| term_exists | varchar(1) | No |
+| term_temporal | varchar(50) | No |
+| term_modifiers | varchar(2000) | No |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### note_nlp_id
+
+A unique identifier for the NLP record.
+
+##### note_id
+
+A foreign key to the Note table note the NLP record is associated to.
+
+##### section_concept_id
+
+A foreign key to the predefined Concept in the Standardized Vocabularies representing the section of the extracted text.
+
+##### snippet
+
+A small window of text surrounding the term as it appears in the source document.
+
+##### offset
+
+Character offset of the extracted term in the source document.
+
+##### lexical_variant
+
+Raw text extracted from the NLP tool.
+
+##### note_nlp_concept_id
+
+A foreign key to the predefined Concept in the Standardized Vocabularies reflecting the normalized concept for the extracted term. Maps to the same domain of the extracted term.
+
+##### note_nlp_source_concept_id
+
+A foreign key to a Concept that refers to the code in the source vocabulary used by the NLP system.
+
+##### nlp_system
+
+Name and version of the NLP system that extracted the term. Useful for data provenance.
+
+##### nlp_date
+
+The date of the note processing.
+
+##### nlp_datetime
+
+The date and time of the note processing.
+
+##### term_exists
+
+A summary modifier that signifies presence or absence of the term for a given patient. Useful for quick querying. 'Y', 'N', or NULL.
+
+##### term_temporal
+
+An optional time modifier associated with the extracted term. (e.g. "history of" = past, "future" = future, null = present).
+
+##### term_modifiers
+
+A compact description of all the modifiers of the specific term extracted by the NLP system. (e.g. "son has rash" = negated=no,subject=family, certainty=undef,conditional=false,general=false).
+

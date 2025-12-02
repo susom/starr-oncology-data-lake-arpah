@@ -1,0 +1,53 @@
+---
+title: "dose_era
+---
+
+## Description
+A Dose Era is defined as a span of time when the Person is assumed to be exposed to a constant dose of a specific active ingredient.
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field | type | required |
+|:------|:-----|:---------|
+| dose_era_id | integer | Yes |
+| person_id | integer | Yes |
+| drug_concept_id | integer | Yes |
+| unit_concept_id | integer | Yes |
+| dose_value | float | Yes |
+| dose_era_start_date | date | Yes |
+| dose_era_end_date | date | Yes |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### dose_era_id
+
+A unique identifier for each Dose Era.
+
+##### person_id
+
+A foreign key identifier to the Person who is subjected to the drug during the dose era. References the PERSON table.
+
+##### drug_concept_id
+
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies for the active Ingredient Concept.
+
+##### unit_concept_id
+
+A foreign key that refers to a Standard Concept identifier in the Standardized Vocabularies for the unit concept.
+
+##### dose_value
+
+The numeric value of the dose.
+
+##### dose_era_start_date
+
+The start date for the dose era constructed from the individual instances of Drug Exposures. It is the start date of the very first chronologically recorded instance of utilization of a drug.
+
+##### dose_era_end_date
+
+The end date for the dose era constructed from the individual instances of Drug Exposures. It is the end date of the final chronologically recorded instance of utilization of a drug.
+

@@ -1,0 +1,130 @@
+---
+title: "COST"
+---
+
+## Description
+The COST table captures records containing the cost of any medical event recorded in one of the OMOP clinical event tables such as DRUG_EXPOSURE, PROCEDURE_OCCURRENCE, VISIT_OCCURRENCE, VISIT_DETAIL, DEVICE_EXPOSURE, OBSERVATION or MEASUREMENT.
+
+Each record in the cost table account for the amount of money transacted for the clinical event. So, the COST table may be used to represent both receivables (charges) and payments (paid), each transaction type represented by its COST_CONCEPT_ID. The COST_TYPE_CONCEPT_ID field will use concepts in the Standardized Vocabularies to designate the source (provenance) of the cost data. A reference to the health plan information in the PAYER_PLAN_PERIOD table is stored in the record for information used for the adjudication system to determine the persons benefit for the clinical event.
+
+Standard Clinical Data Table
+
+### Table Columns
+
+| field | type | required |
+|:------|:-----|:---------|
+| cost_id | integer | Yes |
+| cost_event_id | integer | Yes |
+| cost_domain_id | varchar(20) | Yes |
+| cost_type_concept_id | integer | Yes |
+| currency_concept_id | integer | No |
+| total_charge | float | No |
+| total_cost | float | No |
+| total_paid | float | No |
+| paid_by_payer | float | No |
+| paid_by_patient | float | No |
+| paid_patient_copay | float | No |
+| paid_patient_coinsurance | float | No |
+| paid_patient_deductible | float | No |
+| paid_by_primary | float | No |
+| paid_ingredient_cost | float | No |
+| paid_dispensing_fee | float | No |
+| payer_plan_period_id | integer | No |
+| amount_allowed | float | No |
+| revenue_code_concept_id | integer | No |
+| revenue_code_source_value | varchar(50) | No |
+| drg_concept_id | integer | No |
+| drg_source_value | varchar(3) | No |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### cost_id
+
+A unique identifier for each COST record.
+
+##### cost_event_id
+
+A foreign key identifier to the event (e.g. Measurement, Procedure, Visit, Drug Exposure, etc) record for which cost data are recorded.
+
+##### cost_domain_id
+
+The concept representing the domain of the cost event, from which the corresponding table can be inferred that contains the entity for which cost information is recorded.
+
+##### cost_type_concept_id
+
+A foreign key identifier to a concept in the CONCEPT table for the provenance or the source of the COST data: Calculated from insurance claim information, EHR provider charge, etc.
+
+##### currency_concept_id
+
+A foreign key identifier to the concept representing the 3-letter code used to delineate international currencies, such as USD for US Dollar.
+
+##### total_charge
+
+The total charge(s) for the services/products, in nominal value.
+
+##### total_cost
+
+The cost of the service/product, in nominal value.
+
+##### total_paid
+
+The total paid from all payers, in nominal value.
+
+##### paid_by_payer
+
+The amount paid by the Payer for the services/products, in nominal value.
+
+##### paid_by_patient
+
+The total paid by the Person as a deductible in the object currency.
+
+##### paid_patient_copay
+
+The amount paid by the Person as a fixed contribution to the expenses.
+
+##### paid_patient_coinsurance
+
+The amount paid by the Person as a joint assumption of risk.
+
+##### paid_patient_deductible
+
+The amount paid by the Person that is counted toward the deductible.
+
+##### paid_by_primary
+
+The amount paid by a primary Payer through the coordination of benefits.
+
+##### paid_ingredient_cost
+
+The amount paid by the Payer to a pharmacy for the drug, excluding the amount paid for dispensing the drug.
+
+##### paid_dispensing_fee
+
+The amount paid by the Payer to a pharmacy for dispensing a drug, excluding the amount paid for the drug ingredient.
+
+##### payer_plan_period_id
+
+A foreign key to the PAYER_PLAN_PERIOD table, where the details of the Payer, Plan and Family are stored.
+
+##### amount_allowed
+
+The contracted amount agreed between the payer and provider.
+
+##### revenue_code_concept_id
+
+A foreign key referring to a Standard Concept ID in the Standardized Vocabularies for Revenue codes.
+
+##### revenue_code_source_value
+
+Revenue codes are a method to charge for a class of procedures and conditions in the U.S. hospital system.
+
+##### drg_concept_id
+
+A foreign key to the predefined concept in the DRG Vocabulary reflecting the DRG for a visit.
+
+##### drg_source_value
+
+Diagnosis Related Groups are US codes used to classify hospital cases into one of approximately 500 groups.
+
