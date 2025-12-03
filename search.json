@@ -1098,7 +1098,7 @@
   {
     "objectID": "omop_data_dict/omop_data_dict_5.4/cohort.html",
     "href": "omop_data_dict/omop_data_dict_5.4/cohort.html",
-    "title": "COHORT",
+    "title": "cohort",
     "section": "",
     "text": "The COHORT table contains records of subjects that satisfy a given set of criteria for a duration of time. The definition of the cohort is contained in the COHORT_DEFINITION table. This is a new table introduced in CDM v5.4.\nStandard Clinical Data Table\n\n\n\n\n\n\nfield\ntype\nrequired\n\n\n\n\ncohort_definition_id\ninteger\nYes\n\n\nsubject_id\ninteger\nYes\n\n\ncohort_start_date\ndate\nYes\n\n\ncohort_end_date\ndate\nYes\n\n\n\n\n\n\n\n\n\nA foreign key to a record in the COHORT_DEFINITION table containing relevant Cohort Definition information.\n\n\n\nA foreign key to the subject in the cohort. These could be referring to the person, provider, visit record etc.\n\n\n\nThe date when the Cohort Definition criteria for the Person, Provider or Visit first match.\n\n\n\nThe date when the Cohort Definition criteria for the Person, Provider or Visit cease to match or the Cohort Definition end date.",
     "crumbs": [
@@ -1106,13 +1106,13 @@
       "Data Dictionary",
       "OMOP-CDM",
       "OMOP CDM 5.4.2",
-      "COHORT"
+      "cohort"
     ]
   },
   {
     "objectID": "omop_data_dict/omop_data_dict_5.4/cohort.html#description",
     "href": "omop_data_dict/omop_data_dict_5.4/cohort.html#description",
-    "title": "COHORT",
+    "title": "cohort",
     "section": "",
     "text": "The COHORT table contains records of subjects that satisfy a given set of criteria for a duration of time. The definition of the cohort is contained in the COHORT_DEFINITION table. This is a new table introduced in CDM v5.4.\nStandard Clinical Data Table\n\n\n\n\n\n\nfield\ntype\nrequired\n\n\n\n\ncohort_definition_id\ninteger\nYes\n\n\nsubject_id\ninteger\nYes\n\n\ncohort_start_date\ndate\nYes\n\n\ncohort_end_date\ndate\nYes\n\n\n\n\n\n\n\n\n\nA foreign key to a record in the COHORT_DEFINITION table containing relevant Cohort Definition information.\n\n\n\nA foreign key to the subject in the cohort. These could be referring to the person, provider, visit record etc.\n\n\n\nThe date when the Cohort Definition criteria for the Person, Provider or Visit first match.\n\n\n\nThe date when the Cohort Definition criteria for the Person, Provider or Visit cease to match or the Cohort Definition end date.",
     "crumbs": [
@@ -1120,7 +1120,7 @@
       "Data Dictionary",
       "OMOP-CDM",
       "OMOP CDM 5.4.2",
-      "COHORT"
+      "cohort"
     ]
   },
   {
@@ -3285,7 +3285,7 @@
     "href": "nov_2025/data_coverage_trends.html",
     "title": "Data Lake Evolution: A Longitudinal Overview",
     "section": "",
-    "text": "Data Source Platforms: The VISTA Oncology Data Lake integrates data from three primary platforms: Genomic data from Philips ISPM (IntelliSpace Precision Medicine), Cancer Registry data from NeuralFrame, and DICOM Imaging data from the Vendor Neutral Archive.\nAnalysis Data Sources: This analysis reflects the raw PHI data from February to November 2025.\nInteractive Visualizations: All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.\n:::",
+    "text": "Data Source Platforms: The VISTA Oncology Data Lake integrates data from three primary platforms: Genomic data from Philips ISPM (IntelliSpace Precision Medicine), Cancer Registry data from NeuralFrame, and DICOM Imaging data from the Vendor Neutral Archive.\nAnalysis Data Sources: This analysis reflects the raw PHI data from February to November 2025.\nInteractive Visualizations: All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.",
     "crumbs": [
       "About",
       "Data Evolution Overview",
