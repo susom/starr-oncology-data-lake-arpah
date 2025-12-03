@@ -252,4 +252,3 @@ For each data release (February, May, August, and November 2025), we examine:
 - Imaging modality coverage and metadata diversity
 - Molecular testing patterns and genomic profiling distributions
 
-** Note **: The VISTA analysis utilizes raw PHI data sources.
