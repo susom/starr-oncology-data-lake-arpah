@@ -5,6 +5,13 @@ execute:
 ---
 
 
+**Data Source Platforms:** The VISTA Oncology Data Lake integrates data from three primary platforms: **Genomic** data from Philips ISPM (IntelliSpace Precision Medicine), **Cancer Registry** data from NeuralFrame, and **DICOM Imaging** data from the Vendor Neutral Archive.
+
+**Analysis Data Sources:** This analysis reflects the raw PHI data from February to November 2025.
+
+**Interactive Visualizations:** All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.
+
+:::
 
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 # Load required libraries
@@ -217,7 +224,7 @@ datatable(
 
 ::: {.panel-tabset}
 
-### Data Sources Summary 
+
 
 ```{r overlap metrics, message=FALSE, warning=FALSE, results='hide'}
 # Use denominators queries which return aggregated counts
@@ -737,9 +744,9 @@ tb_plot_data <- tb_res %>%
     metric = case_when(
       flag == "all_tb" ~ "All Tumor Board Patients",
       flag == "thoracic_tb" ~ "Thoracic Tumor Board Patients",
-      flag == "tb_nf" ~ "TB Patients with NeuralFrame Data",
-      flag == "tb_imaging_nf" ~ "TB Patients with Imaging & NeuralFrame",
-      flag == "tb_genomic_nf_imaging" ~ "TB Patients with Genomic, Imaging & NeuralFrame",
+      flag == "tb_nf" ~ "TB Patients with Cancer Registry",
+      flag == "tb_imaging_nf" ~ "TB Patients with Imaging & Cancer Registry",
+      flag == "tb_genomic_nf_imaging" ~ "TB Patients with Genomic, Imaging & Cancer Registry",
       TRUE ~ flag
     )
   ) %>%
@@ -758,9 +765,9 @@ library(dplyr)
 # Reorder metrics from largest to smallest (hierarchical)
 metric_order <- c(
   "All Tumor Board Patients",
-  "TB Patients with NeuralFrame Data",
-  "TB Patients with Imaging & NeuralFrame",
-  "TB Patients with Genomic, Imaging & NeuralFrame"
+  "TB Patients with Cancer Registry",
+  "TB Patients with Imaging & Cancer Registry",
+  "TB Patients with Genomic, Imaging & Cancer Registry"
 )
 
 tb_plot_data_ordered <- tb_plot_data %>%
@@ -1484,8 +1491,3 @@ plot_ly(
 
 :::
 
-::: {.callout-note}
-**Interactive Visualizations:** All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.
-
-**Data Source:** This analysis reflects the raw PHI data from February to November.
-:::

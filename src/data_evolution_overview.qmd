@@ -84,7 +84,7 @@ release_summary <- tibble::tribble(
   "Continued coverage + Full registry (diagnoses, treatments, outcomes, miscellaneous)",
   "Initial release (STAMP, Heme-STAMP, FoundationOne)",
   "<b>Full NeuralFrame registry, Image occurrence data, Philips ISPM <b>",
-  "Added person_id to all datasets for improved linkage; Updated tumor board definition",
+  "Added person_id to all datasets for improved linkage; Updated tumor board definition; Added note_id to image occurrence",
   "N/A",
   
   "August 2025",
@@ -251,3 +251,5 @@ For each data release (February, May, August, and November 2025), we examine:
 - Tumor board and thoracic sub-cohort populations with multi-modal data integration
 - Imaging modality coverage and metadata diversity
 - Molecular testing patterns and genomic profiling distributions
+
+** Note **: The VISTA analysis utilizes raw PHI data sources.
