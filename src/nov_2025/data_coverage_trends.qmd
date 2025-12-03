@@ -11,7 +11,6 @@ execute:
 
 **Interactive Visualizations:** All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.
 
-:::
 
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 # Load required libraries
@@ -689,7 +688,7 @@ if (nrow(thoracic_tb_nf_res) > 0) {
     thoracic_tb_summary,
     colnames = c(
       "Metric",
-      "May N (%)", "Aug N (%)", "Nov N (%)"
+      "May\nN (%)", "Aug\nN (%)", "Nov\nN (%)"
     ),
     caption = "Thoracic Cancer Tumor Board Patients: Neural Frame Coverage Summary",
     options = list(
