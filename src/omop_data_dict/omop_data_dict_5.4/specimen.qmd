@@ -2,8 +2,6 @@
 title: "specimen"
 ---
 
-## Description
-The specimen domain contains the records identifying biological samples from a person.
 
 ## Fields
 
