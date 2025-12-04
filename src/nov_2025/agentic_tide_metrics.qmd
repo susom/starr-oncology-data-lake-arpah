@@ -9,7 +9,7 @@ output: html
 
 This table summarizes comparative performance of three de-identification systems applied to a gold-standard corpus of clinical notes across multiple protected health information (PHI) categories. The evaluation dataset was constructed per our PHI labeling guidelines and process: notes were sampled using a random-plus-diversity strategy (modified set cover), pre-labeled by an LLM, reviewed by dual annotators, and adjudicated; only 100% agreement or adjudicated notes were retained as gold standard (see [Dataset Description](#dataset_for_evaluation)).
 
-Systems include [TiDE 1.0*](#tide10_summary), [Stanford AIMI v1](#stanford_aimi_v1_description), and Agentic TiDE 2.0 Alpha**. For each PHI category (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), we report precision and recall; the highest recall per row is highlighted in bold to emphasize sensitivity, which is typically prioritized in biomedical de-identification to minimize PHI leakage risk. Categories with extremely low performance indicate areas requiring methodological refinement or augmented knowledge sources.
+Systems include [TiDE 1.0](#tide10_summary), [Stanford AIMI v1](#stanford_aimi_v1_description), and [Agentic TiDE 2.0 Alpha](#agentic_tide20_description). For each PHI category (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), we report precision and recall; the highest recall per row is highlighted in bold to emphasize sensitivity, which is typically prioritized in biomedical de-identification to minimize PHI leakage risk. Categories with extremely low performance indicate areas requiring methodological refinement or augmented knowledge sources.
 
 | PHI Category                                        | TiDE 1.0* | Stanford AIMI v1 | Agentic TiDE 2.0 Alpha** |
 |:----------------------------------------------------|:----------|:-----------------|:-------------------------|
@@ -40,9 +40,9 @@ Performance variability across categories highlights known challenges in biomedi
 
 We evaluated systems on a gold-standard labeled corpus of clinical notes developed via a structured process documented in the following internal reports:
 
-- PHI Labeling Guidelines: `src/feb_2025/phi_labeling_guidelines.qmd` — defines PHI categories, inclusion/exclusion criteria, and annotation rules with representative examples and edge-case guidance.
-- PHI Labeling Process: `src/feb_2025/phi_labeling_process.qmd` — details the sampling strategy (random plus diversity via a modified set-cover), pre-annotation with LLMs, dual-annotator workflow, and adjudication protocol.
-- PHI Labeling Report: `src/feb_2025/phi_labeling_report.qmd` — characterizes the labeled sample versus the broader STARR-OMOP corpus (age, sex, race, ethnicity, note types, length distributions) and summarizes PHI entity distributions.
+- [PHI Labeling Guidelines:](feb_2025/phi_labeling_guidelines.qmd) defines PHI categories, inclusion/exclusion criteria, and annotation rules with representative examples and edge-case guidance.
+- [PHI Labeling Process:](src/feb_2025/phi_labeling_process.qmd) details the sampling strategy (random plus diversity via a modified set-cover), pre-annotation with LLMs, dual-annotator workflow, and adjudication protocol.
+- [PHI Labeling Report:](feb_2025/phi_labeling_report.qmd) characterizes the labeled sample versus the broader STARR-OMOP corpus (age, sex, race, ethnicity, note types, length distributions) and summarizes PHI entity distributions.
 
 The dataset comprises a stratified sample of clinical notes selected to maximize coverage of demographic and textual characteristics. Notes were pre-labeled by a large language model, then independently reviewed by two annotators following the published guidelines; disagreements were adjudicated and only 100% agreement or adjudicated notes were retained as gold standard. The corpus includes diverse PHI entity types (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), facilitating robust estimation of precision/recall across both structured and contextual categories. For full methodological details and population characteristics, see the referenced documents above.
 
@@ -66,6 +66,21 @@ TiDE 1.0 (Text DEidentification) is an in-house, open-source clinical text de-id
 - Surrogate replacement (Hiding in Plain Sight): Detected PHI spans (eg, names, addresses, dates) are replaced with realistic synthetic surrogates built from public sources (eg, census, HRSA, FDA, SSA, CMS), making residual PHI harder to re-identify while maintaining usability.
 - Sensitivity prioritized: The pipeline emphasizes recall to minimize PHI leakage; outputs are currently classified by Stanford UPO as High Risk due to small residual PHI risk, with DRA/Expert Determination used for additional mitigation when needed.
 - Operational scale: Demonstrated throughput ≈100M notes in ~7 hours using distributed dataflow workers (~0.00025s/note).
+
+## Agentic TiDE 2.0 Alpha Detail Description {#agentic_tide20_description}
+
+### Introduction
+Coming Soon!
+
+### Dataset
+Coming Soon!
+
+### Methods
+Coming Soon!
+
+### Results
+
+
 
 ## References
 
