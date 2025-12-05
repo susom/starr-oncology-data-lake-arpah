@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Agentic Tide 2.0 Alpha Release – VISTA Oncology Data Lake</title>
+<title>Agentic Tide – VISTA Oncology Data Lake</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -71,8 +71,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Agentic Tide 2.0 Alpha Release – VISTA Oncology Data Lake">
-<meta property="og:description" content="">
+<meta property="og:title" content="Agentic Tide – VISTA Oncology Data Lake">
 <meta property="og:site_name" content="VISTA Oncology Data Lake">
 </head>
 
@@ -129,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_labeling.html">Data Labeling and Modeling</a></li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">November 2025</a></li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">Agentic Tide Evaluation and Reporting</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_labeling.html">Data Labeling and Modeling</a></li><li class="breadcrumb-item">November 2025</li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">AI for Automatic Synoptic Reporting</a></li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">Agentic Tide Evaluation and Reporting</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -1296,6 +1295,15 @@ ul.task-list li input[type="checkbox"] {
           </a> 
       </div>
       <ul id="quarto-sidebar-section-34" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-35" role="navigation" aria-expanded="true">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-35" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-35" class="collapse list-unstyled sidebar-section depth3 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../nov_2025/agentic_tide_metrics.html" class="sidebar-item-text sidebar-link active">
@@ -1306,37 +1314,22 @@ ul.task-list li input[type="checkbox"] {
   </li>
       </ul>
   </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#dataset_for_evaluation" id="toc-dataset_for_evaluation" class="nav-link" data-scroll-target="#dataset_for_evaluation">Dataset used for evaluation</a></li>
-  <li><a href="#stanford_aimi_v1_description" id="toc-stanford_aimi_v1_description" class="nav-link" data-scroll-target="#stanford_aimi_v1_description">Stanford AIMI de-identifier model summary</a></li>
-  <li><a href="#tide10_summary" id="toc-tide10_summary" class="nav-link" data-scroll-target="#tide10_summary">TiDE 1.0 summary</a></li>
-  <li><a href="#agentic_tide20_description" id="toc-agentic_tide20_description" class="nav-link" data-scroll-target="#agentic_tide20_description">Detailed Description: Agentic TiDE 2.0 Alpha</a>
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_labeling.html">Data Labeling and Modeling</a></li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">November 2025</a></li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">Agentic Tide Evaluation and Reporting</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_labeling.html">Data Labeling and Modeling</a></li><li class="breadcrumb-item">November 2025</li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">AI for Automatic Synoptic Reporting</a></li><li class="breadcrumb-item"><a href="../nov_2025/agentic_tide_metrics.html">Agentic Tide Evaluation and Reporting</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Agentic Tide 2.0 Alpha Release</h1>
+<h1 class="title">Agentic Tide</h1>
 </div>
 
 
@@ -1353,249 +1346,8 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>This table summarizes comparative performance of three de-identification systems applied to a gold-standard corpus of clinical notes across multiple protected health information (PHI) categories. The evaluation dataset was constructed per our PHI labeling guidelines and process: notes were sampled using a random-plus-diversity strategy (modified set cover), pre-labeled by an LLM, reviewed by dual annotators, and adjudicated; only 100% agreement or adjudicated notes were retained as gold standard (see <a href="#dataset_for_evaluation">Dataset Description</a>).</p>
-<p>Systems include <a href="#tide10_summary">TiDE 1.0</a>, <a href="#stanford_aimi_v1_description">Stanford AIMI v1</a>, and <a href="#agentic_tide20_description">Agentic TiDE 2.0 Alpha</a>. For each PHI category (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), we report precision and recall; the highest recall per row is highlighted in bold to emphasize sensitivity, which is typically prioritized in biomedical de-identification to minimize PHI leakage risk. Categories with extremely low performance indicate areas requiring methodological refinement or augmented knowledge sources.</p>
-<div class="table-responsive">
-<table class="table-hover table-sm small caption-top table">
-<colgroup>
-<col style="width: 49%">
-<col style="width: 10%">
-<col style="width: 16%">
-<col style="width: 24%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">PHI Category</th>
-<th style="text-align: left;">TiDE 1.0*</th>
-<th style="text-align: left;">Stanford AIMI v1</th>
-<th style="text-align: left;">Agentic TiDE 2.0 Alpha**</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">DATE</td>
-<td style="text-align: left;">0.76 / 0.69</td>
-<td style="text-align: left;">0.94 / 0.84</td>
-<td style="text-align: left;">0.94 / <strong>0.97</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PATIENT</td>
-<td style="text-align: left;">0.21 / <strong>0.76</strong></td>
-<td style="text-align: left;">0.86 / 0.75</td>
-<td style="text-align: left;">0.89 / 0.83</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">PHONE</td>
-<td style="text-align: left;">1.00 / 0.79</td>
-<td style="text-align: left;">0.63 / 0.83</td>
-<td style="text-align: left;">0.61 / <strong>0.96</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">WEB</td>
-<td style="text-align: left;">1.00 / 0.57</td>
-<td style="text-align: left;">0.00 / 0.00</td>
-<td style="text-align: left;">0.66 / <strong>0.82</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">DOCTOR</td>
-<td style="text-align: left;">0.65 / <strong>0.87</strong></td>
-<td style="text-align: left;">0.45 / <strong>0.87</strong></td>
-<td style="text-align: left;">0.47 / <strong>0.87</strong></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ID</td>
-<td style="text-align: left;">0.50 / 0.69</td>
-<td style="text-align: left;">0.59 / <strong>0.87</strong></td>
-<td style="text-align: left;">0.60 / <strong>0.87</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">LOCATION</td>
-<td style="text-align: left;">0.55 / 0.62</td>
-<td style="text-align: left;">0.14 / 0.75</td>
-<td style="text-align: left;">0.15 / <strong>0.78</strong></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>* Regex + Stanford CoreNLP 4.5.6 - no known PHI</p>
-<p>** Stanford AIMI v1 + Regex + Known PHI</p>
-<p>*** Age and Hospital are not shown since the models were not trained for those categories.</p>
-<p>Across PHI categories, Agentic TiDE 2.0 Alpha demonstrates the strongest recall in DATE (0.97), PHONE (0.96), WEB (0.82), and LOCATION (0.78), reflecting improved sensitivity in categories where lexical patterns and contextual cues benefit from hybrid approaches (modeling plus rule-based augmentation and known PHI lists). DATE performance is notably robust across all systems, but the alpha model’s recall edge suggests better coverage of diverse time expressions.</p>
-<p>For patient-name related detection (PATIENT), TiDE 1.0 exhibits the highest recall (0.76), while the alpha system attains higher precision (0.89) with slightly lower recall (0.83), indicating a precision–recall trade-off that may be tuned depending on institutional risk tolerance and downstream use. Clinician-name (DOCTOR) and identifier (ID) categories show ties at the highest recall (0.87) across systems, suggesting that current methods are converging in sensitivity; precision differences may therefore drive practical selection depending on false positive tolerance.</p>
-<p>Performance variability across categories highlights known challenges in biomedical de-identification. Categories with structured formats (e.g., dates, phone numbers, web URLs) benefit from deterministic pattern recognition, whereas unstructured entities (e.g., names, locations) require stronger contextual modeling and up-to-date dictionaries. The gains observed with Agentic TiDE 2.0 Alpha are consistent with hybrid strategies that integrate learned representations, regular expressions, and curated PHI inventories.</p>
-</section>
-<section id="dataset_for_evaluation" class="level2">
-<h2 class="anchored" data-anchor-id="dataset_for_evaluation">Dataset used for evaluation</h2>
-<p>We evaluated systems on a gold-standard labeled corpus of clinical notes developed via a structured process documented in the following internal reports:</p>
-<ul>
-<li><a href="../feb_2025/phi_labeling_guidelines.html">PHI Labeling Guidelines:</a> defines PHI categories, inclusion/exclusion criteria, and annotation rules with representative examples and edge-case guidance.</li>
-<li><a href="../feb_2025/phi_labeling_process.html">PHI Labeling Process:</a> details the sampling strategy (random plus diversity via a modified set-cover), pre-annotation with LLMs, dual-annotator workflow, and adjudication protocol.</li>
-<li><a href="../feb_2025/phi_labeling_report.html">PHI Labeling Report:</a> characterizes the labeled sample versus the broader STARR-OMOP corpus (age, sex, race, ethnicity, note types, length distributions) and summarizes PHI entity distributions.</li>
-</ul>
-<p>The dataset comprises a stratified sample of clinical notes selected to maximize coverage of demographic and textual characteristics. Notes were pre-labeled by a large language model, then independently reviewed by two annotators following the published guidelines; disagreements were adjudicated and only 100% agreement or adjudicated notes were retained as gold standard. The corpus includes diverse PHI entity types (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), facilitating robust estimation of precision/recall across both structured and contextual categories. For full methodological details and population characteristics, see the referenced documents above.</p>
-</section>
-<section id="stanford_aimi_v1_description" class="level2">
-<h2 class="anchored" data-anchor-id="stanford_aimi_v1_description">Stanford AIMI de-identifier model summary</h2>
-<p>The Stanford AIMI de-identifier (stanford-deidentifier-base) is a transformer-based token classification model fine-tuned on multi-institutional medical text, optimized for PHI detection and paired with a “hide in plain sight” synthetic PHI replacement strategy.</p>
-<ul>
-<li>Architecture and pretraining: Transformer encoder (BERT-family), leveraging biomedical pretraining (PubMedBERT) prior to supervised PHI fine-tuning. Inputs are greedily chunked at sentence boundaries to respect the 512-token limit; weighted cross-entropy emphasizes PHI tokens.</li>
-<li>Training corpus: Radiology reports and medical notes across domains, including Penn and Stanford corpora and i2b2 2006/2014 datasets, with label harmonization. Data augmentation uses synthetic PHI generation to enrich rare categories (eg, patient names, IDs, phone numbers).</li>
-<li>Optimization: ULMFiT-inspired fine-tuning (discriminative learning rates, 1-cycle scheduling, staged unfreezing), hyperparameter tuning via Tree of Parzen Estimators, distributed training for efficient exploration.</li>
-<li>Pipeline: PHI detection by the transformer model followed by rule-based replacement of detected spans with realistic surrogates to hide any residual PHI and improve privacy robustness; generators use parsed format/content distributions and in-/cross-document constraints with short- and long-term memory.</li>
-<li>Reported performance (JAMIA 2022): Best model F1 on radiology reports from new institution ≈ 99.6; i2b2 2006 ≈ 99.5; i2b2 2014 ≈ 98.9. Span-level recall on sensitive categories (patient names, IDs, phone numbers) approaches 99–100% under “at least one token per span” criteria.</li>
-<li>Model card: The Hugging Face model page notes training across radiology/biomedical documents and provides weights and code references; recommended weights: StanfordAIMI/stanford-deidentifier-base. Associated GitHub: MIDRC/Stanford_Penn_Deidentifier.</li>
-</ul>
-</section>
-<section id="tide10_summary" class="level2">
-<h2 class="anchored" data-anchor-id="tide10_summary">TiDE 1.0 summary</h2>
-<p>TiDE 1.0 (Text DEidentification) is an in-house, open-source clinical text de-identification pipeline designed for HIPAA Safe Harbor–oriented PHI scrubbing at large scale, while preserving note formatting for downstream NLP.</p>
-<ul>
-<li>Hybrid recognizers: CoreNLP-based NER (CRFClassifier) for names and locations (eg, street/city/state/ZIP), regex patterns and enumerated rules for structured identifiers (MRN, SSN, email, IP, URL, phone).</li>
-<li>Surrogate replacement (Hiding in Plain Sight): Detected PHI spans (eg, names, addresses, dates) are replaced with realistic synthetic surrogates built from public sources (eg, census, HRSA, FDA, SSA, CMS), making residual PHI harder to re-identify while maintaining usability.</li>
-<li>Sensitivity prioritized: The pipeline emphasizes recall to minimize PHI leakage; outputs are currently classified by Stanford UPO as High Risk due to small residual PHI risk, with DRA/Expert Determination used for additional mitigation when needed.</li>
-<li>Operational scale: Demonstrated throughput ≈100M notes in ~7 hours using distributed dataflow workers (~0.00025s/note).</li>
-</ul>
-</section>
-<section id="agentic_tide20_description" class="level2">
-<h2 class="anchored" data-anchor-id="agentic_tide20_description">Detailed Description: Agentic TiDE 2.0 Alpha</h2>
-<section id="introduction" class="level3">
-<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
-<p>Coming Soon!</p>
-</section>
-<section id="dataset" class="level3">
-<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
-<p>Coming Soon!</p>
-</section>
-<section id="methods" class="level3">
-<h3 class="anchored" data-anchor-id="methods">Methods</h3>
-<p>Coming Soon!</p>
-</section>
-<section id="results" class="level3">
-<h3 class="anchored" data-anchor-id="results">Results</h3>
-<div class="table-responsive">
-<table class="table-hover table-sm small caption-top table">
-<colgroup>
-<col style="width: 22%">
-<col style="width: 5%">
-<col style="width: 15%">
-<col style="width: 20%">
-<col style="width: 18%">
-<col style="width: 18%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">PHI Category</th>
-<th style="text-align: left;">OpenAI GPT-4</th>
-<th style="text-align: left;">gemini-2.5-flash</th>
-<th style="text-align: left;">gemini-2.5-flash-lite</th>
-<th style="text-align: left;">openai/gpt-oss-20b-maas</th>
-<th style="text-align: left;">openai/gpt-oss-120b-maas</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-<td style="text-align: left;"><strong>Precision / Recall</strong></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">AGE</td>
-<td style="text-align: left;">0.969 / 0.504</td>
-<td style="text-align: left;">0.797 / <strong>0.896</strong></td>
-<td style="text-align: left;">0.789 / 0.875</td>
-<td style="text-align: left;">0.878 / 0.820</td>
-<td style="text-align: left;">0.866 / 0.828</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">DATE</td>
-<td style="text-align: left;">0.894 / <strong>0.887</strong></td>
-<td style="text-align: left;">0.988 / <strong>0.987</strong></td>
-<td style="text-align: left;">0.986 / 0.950</td>
-<td style="text-align: left;">0.981 / 0.964</td>
-<td style="text-align: left;">0.983 / 0.942</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">DOCTOR</td>
-<td style="text-align: left;">0.979 / 0.711</td>
-<td style="text-align: left;">0.948 / <strong>0.967</strong></td>
-<td style="text-align: left;">0.950 / 0.921</td>
-<td style="text-align: left;">0.950 / 0.856</td>
-<td style="text-align: left;">0.955 / 0.867</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">HOSPITAL</td>
-<td style="text-align: left;">0.929 / 0.716</td>
-<td style="text-align: left;">0.585 / <strong>0.854</strong></td>
-<td style="text-align: left;">0.650 / 0.812</td>
-<td style="text-align: left;">0.682 / 0.713</td>
-<td style="text-align: left;">0.698 / 0.752</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ID</td>
-<td style="text-align: left;">0.828 / 0.787</td>
-<td style="text-align: left;">0.915 / <strong>0.946</strong></td>
-<td style="text-align: left;">0.962 / 0.883</td>
-<td style="text-align: left;">0.925 / 0.867</td>
-<td style="text-align: left;">0.931 / 0.823</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">LOCATION</td>
-<td style="text-align: left;">0.800 / <strong>0.879</strong></td>
-<td style="text-align: left;">0.852 / 0.697</td>
-<td style="text-align: left;">0.826 / 0.683</td>
-<td style="text-align: left;">0.735 / 0.701</td>
-<td style="text-align: left;">0.899 / 0.612</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">PATIENT</td>
-<td style="text-align: left;">0.694 / 0.772</td>
-<td style="text-align: left;">0.954 / <strong>0.943</strong></td>
-<td style="text-align: left;">0.927 / 0.894</td>
-<td style="text-align: left;">0.892 / 0.833</td>
-<td style="text-align: left;">0.918 / 0.851</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PHONE</td>
-<td style="text-align: left;">0.969 / 0.831</td>
-<td style="text-align: left;">0.978 / <strong>0.937</strong></td>
-<td style="text-align: left;">0.974 / <strong>0.950</strong></td>
-<td style="text-align: left;">0.966 / 0.923</td>
-<td style="text-align: left;">0.980 / 0.921</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">WEB</td>
-<td style="text-align: left;">0.837 / <strong>0.878</strong></td>
-<td style="text-align: left;">1.000 / 0.817</td>
-<td style="text-align: left;">1.000 / 0.780</td>
-<td style="text-align: left;">0.985 / 0.817</td>
-<td style="text-align: left;">0.985 / 0.793</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ul>
-<li>https://huggingface.co/StanfordAIMI/stanford-deidentifier-base</li>
-<li>“Automated deidentification of radiology reports combining transformer and ‘hide in plain sight’ rule-based methods,” JAMIA 2022 (PMCID: PMC9846681): https://pmc.ncbi.nlm.nih.gov/articles/PMC9846681/</li>
-<li>TiDE clinical text Safe Harbor — https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor</li>
-</ul>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
