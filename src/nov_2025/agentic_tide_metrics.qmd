@@ -40,9 +40,9 @@ Performance variability across categories highlights known challenges in biomedi
 
 We evaluated systems on a gold-standard labeled corpus of clinical notes developed via a structured process documented in the following internal reports:
 
-- [PHI Labeling Guidelines:](feb_2025/phi_labeling_guidelines.qmd) defines PHI categories, inclusion/exclusion criteria, and annotation rules with representative examples and edge-case guidance.
-- [PHI Labeling Process:](src/feb_2025/phi_labeling_process.qmd) details the sampling strategy (random plus diversity via a modified set-cover), pre-annotation with LLMs, dual-annotator workflow, and adjudication protocol.
-- [PHI Labeling Report:](feb_2025/phi_labeling_report.qmd) characterizes the labeled sample versus the broader STARR-OMOP corpus (age, sex, race, ethnicity, note types, length distributions) and summarizes PHI entity distributions.
+- [PHI Labeling Guidelines:](../feb_2025/phi_labeling_guidelines.qmd) defines PHI categories, inclusion/exclusion criteria, and annotation rules with representative examples and edge-case guidance.
+- [PHI Labeling Process:](../feb_2025/phi_labeling_process.qmd) details the sampling strategy (random plus diversity via a modified set-cover), pre-annotation with LLMs, dual-annotator workflow, and adjudication protocol.
+- [PHI Labeling Report:](../feb_2025/phi_labeling_report.qmd) characterizes the labeled sample versus the broader STARR-OMOP corpus (age, sex, race, ethnicity, note types, length distributions) and summarizes PHI entity distributions.
 
 The dataset comprises a stratified sample of clinical notes selected to maximize coverage of demographic and textual characteristics. Notes were pre-labeled by a large language model, then independently reviewed by two annotators following the published guidelines; disagreements were adjudicated and only 100% agreement or adjudicated notes were retained as gold standard. The corpus includes diverse PHI entity types (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), facilitating robust estimation of precision/recall across both structured and contextual categories. For full methodological details and population characteristics, see the referenced documents above.
 
@@ -67,7 +67,7 @@ TiDE 1.0 (Text DEidentification) is an in-house, open-source clinical text de-id
 - Sensitivity prioritized: The pipeline emphasizes recall to minimize PHI leakage; outputs are currently classified by Stanford UPO as High Risk due to small residual PHI risk, with DRA/Expert Determination used for additional mitigation when needed.
 - Operational scale: Demonstrated throughput ≈100M notes in ~7 hours using distributed dataflow workers (~0.00025s/note).
 
-## Agentic TiDE 2.0 Alpha Detail Description {#agentic_tide20_description}
+## Detailed Description: Agentic TiDE 2.0 Alpha {#agentic_tide20_description}
 
 ### Introduction
 Coming Soon!
@@ -80,6 +80,20 @@ Coming Soon!
 
 ### Results
 
+| PHI Category                                        | OpenAI GPT-4 | gemini-2.5-flash | gemini-2.5-flash-lite | openai/gpt-oss-20b-maas | openai/gpt-oss-120b-maas |
+|:----------------------------------------------------|:-------------|:-----------------------------------|:-----------------------------------------------|:------------------------------------------|:-------------------------------------------|
+|                                                     | **Precision / Recall** | **Precision / Recall**            | **Precision / Recall**                         | **Precision / Recall**                     | **Precision / Recall**                      |
+| AGE                                                 | 0.969 / 0.504| 0.797 / **0.896**                  | 0.789 / 0.875                                  | 0.878 / 0.820                              | 0.866 / 0.828                               |
+| DATE                                                | 0.894 / **0.887**| 0.988 / **0.987**                  | 0.986 / 0.950                                  | 0.981 / 0.964                              | 0.983 / 0.942                               |
+| DOCTOR                                              | 0.979 / 0.711| 0.948 / **0.967**                  | 0.950 / 0.921                                  | 0.950 / 0.856                              | 0.955 / 0.867                               |
+| HOSPITAL                                            | 0.929 / 0.716| 0.585 / **0.854**                  | 0.650 / 0.812                                  | 0.682 / 0.713                              | 0.698 / 0.752                               |
+| ID                                                  | 0.828 / 0.787| 0.915 / **0.946**                  | 0.962 / 0.883                                  | 0.925 / 0.867                              | 0.931 / 0.823                               |
+| LOCATION                                            | 0.800 / **0.879**| 0.852 / 0.697                    | 0.826 / 0.683                                  | 0.735 / 0.701                              | 0.899 / 0.612                               |
+| PATIENT                                             | 0.694 / 0.772| 0.954 / **0.943**                  | 0.927 / 0.894                                  | 0.892 / 0.833                              | 0.918 / 0.851                               |
+| PHONE                                               | 0.969 / 0.831| 0.978 / **0.937**                  | 0.974 / **0.950**                              | 0.966 / 0.923                              | 0.980 / 0.921                               |
+| WEB                                                 | 0.837 / **0.878**| 1.000 / 0.817                    | 1.000 / 0.780                                  | 0.985 / 0.817                              | 0.985 / 0.793                               |
+
+:  {.hover .responsive .sm}
 
 
 ## References
