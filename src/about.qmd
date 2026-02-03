@@ -10,21 +10,19 @@ All patients included in VISTA must be present in **STARR-OMOP**, Stanford’s r
 
 
 1. A documented **tumor board** encounter in the source EHR OR
-2. A **case record in Stanford's Cancer Registry dataset, in [Neuralframe KACI](https://neuralframe.com/kaci/)**
+2. A **case record in Stanford’s Cancer Registry dataset, in Neuralframe KACI**
 
 
-STARR-OMOP contains data from adult and pediatric patients seen across the Stanford hospital ecosystem whose information may be used for research<sup>*</sup> and who have at least one recorded clinical event—such as a visit, diagnosis, procedure, medication, laboratory result, imaging event, or clinical note—since January 1, 2000. We include unsigned notes- which is often the case when tumor board documentation exists. The source data for STARR-OMOP are the Adult and Pediatric EPIC Clarity databases and include Stanford HealthCare, Stanford HealthCare Tri-Valley, University Healthcare Alliance or  Stanford Medicine Partners, Lucile Packard Children's Hospital, and Packard Children's Health Alliance.
+STARR-OMOP contains data from adult and pediatric patients seen across the Stanford hospital ecosystem whose information may be used for research* and who have at least one recorded clinical event—such as a visit, diagnosis, procedure, medication, laboratory result, imaging event, or clinical note—since January 1, 2000. We include unsigned notes- which is often the case when tumor board documentation exists. The source data for STARR -OMOP are the Adult and Pediatric EPIC Clarity databases and include Stanford HealthCare, Stanford HealthCare Tri-Valley, University Healthcare Alliance or  Stanford Medicine Partners, Lucile Packard Children’s Hospital, and Packard Children's Health Alliance.     
 
-A patient is classified as having a tumor board encounter in STARR-OMOP if the [visit source value](https://susom.github.io/starr-oncology-data-lake-arpah/omop_data_dict/omop_data_dict_5.4/visit_occurrence.html#visit_source_value) contains the text "tumor board", (irrespective of capitalization).
-Stanford's Cancer Registry (SCR), currently managed by [Neuralframe KACI](https://neuralframe.com/kaci/), includes cancer cases from both adult and pediatric hospitals. The registry contains analytic and non-analytic cases dating back to 1988, has been maintained on multiple platforms over time, and contributes data to the California Cancer Registry (CCR). While CCR requirements have evolved over time, the SCR includes the following types of patients:
+A patient is classified as having a tumor board encounter in STARR OMOP if the visit type contains the text “tumor board”, (irrespective of capitalization). 
+Stanford’s Cancer Registry (SCR), currently managed by Neuralframe KACI, includes cancer cases from both adult and pediatric hospitals. The registry contains analytic and non-analytic cases dating back to 1988, has been maintained on multiple platforms over time, and contributes data to the California Cancer Registry (CCR). While CCR requirements have evolved over time, the SCR includes the following types of patients: 
 
-- Analytic cases - which include patients whose first course of cancer treatment occurred at Stanford regardless of diagnosis location, as well as patients diagnosed at Stanford, even if then treated elsewhere. Note that in the latter case, our data may be incomplete.
+- Analytic cases  - which include patients whose first course of cancer treatment occurred at Stanford regardless of diagnosis location, as well as patients diagnosed at Stanford, even if then treated elsewhere. Note that in the latter case, our data may be incomplete.
 
-- Non-Analytic cases - included since 2024, which capture additional cancer-related encounters such as patients treated at Stanford only for recurrence, patients followed at Stanford and found to be cancer-free, and patients neither diagnosed nor treated at Stanford (e.g., consultation-only or end-of-life care). 
+- Non-Analytic cases -  included since 2024, which capture additional cancer-related encounters such as patients treated at Stanford only for recurrence, patients followed at Stanford and found to be cancer-free, and patients neither diagnosed nor treated at Stanford (e.g., consultation-only or end-of-life care). 
 
-<sup>*</sup>Not all EHR data is allowed for research- for more details, see the [STARR Electronic Health Record documentation](https://starr.stanford.edu/data-types/electronic-health-record).
-
-
+*Not all EHR data is allowed for research- for more details, see the [STARR Electronic Health Record documentation](https://starr.stanford.edu/data-types/electronic-health-record).
 
 ### Dataset Overview
 
