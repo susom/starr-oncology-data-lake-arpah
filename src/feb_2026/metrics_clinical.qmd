@@ -8,14 +8,14 @@ execute:
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_params.yml"
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_params.yml"
 
 ```
 
 ### **Population Summary**
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-den <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/nov25/arpah_denominators_update.sql"
+den <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_std/arpah_cohort/feb26/arpah_denominators_update.sql"
 den_res <- fetch_data_from_sql_file(den, yaml_file_path)
 
 den_res=den_res %>% arrange(desc(percentage))
@@ -85,7 +85,7 @@ den_res_formatted <- den_res %>%
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/arpah_cohort/nov25/arpah_overlap_metrics_updated.sql"
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_std/arpah_cohort/feb26/arpah_overlap_metrics_updated.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
 head(res)
 
@@ -167,4 +167,4 @@ pg
 
 
 ### Source Codes:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/nov_2025/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/sql_std/arpah_cohort/nov25). 
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2025/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2025/sql_std/arpah_cohort/feb26). 
