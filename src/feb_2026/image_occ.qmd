@@ -8,13 +8,13 @@ execute:
 # Your existing initialization
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_params.yml"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_params.yml"
 ```
 
 ```{r modality sql, message=FALSE, warning=FALSE, results='hide'}
 
 library(forcats)
-sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/nov25/image_occ_modality.sql"
+sql_file_path_image_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_modality.sql"
 res_img_mod <- fetch_data_from_sql_file(sql_file_path_image_mod, yaml_file_path)
 head(res_img_mod)
 res_img_mod$variable_name<-NULL
@@ -97,7 +97,7 @@ At Stanford, this table has been extended to include a link to the note table, a
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## number of pts and number of series 
-path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/nov25/image_occ_person.sql"
+path_img <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_person.sql"
 pt_img <- fetch_data_from_sql_file(path_img, yaml_file_path)
 pt_img
 den_series=as.numeric(pt_img$counts)[2]
@@ -109,7 +109,7 @@ As of November 2025, this table included images for  `r format(pt_img$counts[1],
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
-sql_file_path_image<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/nov25/image_occ_basic.sql"
+sql_file_path_image<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_basic.sql"
 res<- fetch_data_from_sql_file(sql_file_path_image, yaml_file_path)
 head(res)
 
@@ -293,7 +293,7 @@ Top anatomic sites for series above 100k occurrences are listed as follow.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 #| context: global
 
-sql_file_path_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/omop/image_occ/nov25/image_occ_anatomic.sql"
+sql_file_path_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_anatomic.sql"
 res_ana <- fetch_data_from_sql_file(sql_file_path_image_an, yaml_file_path)
 head(res_ana)
 res_ana$variable_name<-NULL
@@ -387,7 +387,7 @@ DT::datatable(as.data.frame(res_ana), options = list(scrollX = TRUE, pageLength 
 Thoracic cancer patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
-sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/image_occ_thoracic/image_occ_person_thr.sql"
+sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/nov25/image_occ_thoracic/image_occ_person_thr.sql"
 res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
@@ -400,7 +400,7 @@ As of November 2025, from `r format(res_den_thr$counts[res_den_thr$variable_name
 Top modality types for series above 5k occurrences are listed as follow.
 ```{r modality thoracic, message=FALSE, warning=FALSE, results='hide'}
 ## modality
-sql_thr_mod<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/image_occ_thoracic/image_occ_modality_thr.sql"
+sql_thr_mod<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/nov25/image_occ_thoracic/image_occ_modality_thr.sql"
 res_thr<- fetch_data_from_sql_file(sql_thr_mod, yaml_file_path)
 head(res_thr)
 res_thr
@@ -487,7 +487,7 @@ plot
 Top anatomic sites for series above 5k occurrences are listed as follow.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## anatomic
-sql_thr_ana<- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/thoracic/nov25/image_occ_thoracic/image_occ_anatomic._thr.sql"
+sql_thr_ana<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/nov25/image_occ_thoracic/image_occ_anatomic._thr.sql"
 res_ana_thr<- fetch_data_from_sql_file(sql_thr_ana, yaml_file_path)
 head(res_ana_thr)
 
@@ -567,6 +567,6 @@ plot
 
 
 ### Source Code:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/image_occ.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/sql_std/omop/image_occ).
-The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2025/sql_std/thoracic/image_occ_thoracic).
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/image_occ.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/omop/image_occ).
+The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/thoracic/image_occ_thoracic).
 
