@@ -4,11 +4,11 @@ execute:
   echo: false
 ---
 
-This page provides an overview of the VISTA Oncology Data Lake's evolution across multiple releases, showcasing the progressive expansion and maturation of our comprehensive cancer research platform. The data lake has grown substantially from February 2025 through November 2025, with significant increases in patient coverage, data source integration, and analytical capabilities.
+This page provides an overview of the VISTA Oncology Data Lake's evolution across multiple releases, showcasing the progressive expansion and maturation of our comprehensive cancer research platform. The data lake has grown substantially from February 2025 through February 2026, with significant increases in patient coverage, data source integration, and analytical capabilities, including the addition of whole slide imaging and detailed genomic variant data.
 
 ## Release Overview
 
-The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February through November 2025, the platform has grown from approximately 200,000 to over 217,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4.
+The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through February 2026, the platform has grown from approximately 200,000 to over 217,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4.
 
 ![VISTA Oncology Data Lake](png_files/vista_png.png)
 
@@ -59,6 +59,16 @@ The November 2025 release represents a major technical advancement with comprehe
 
 This release modernizes the technical infrastructure while maintaining backward compatibility, positioning the data lake for next-generation research applications and enhanced analytical capabilities.
 
+### February 2026 - Imaging and Genomic Expansion
+
+The February 2026 release expands the data lake with whole slide imaging and detailed genomic variant data:
+
+- **Whole Slide Imaging (WSI)**: Integration of manually scanned histopathology slides from Roxanna's Lab, deidentified and split into TIFF and JSON files. Includes only slides with order_proc_ids linkable to PEF Clarity to exclude HPP or test patients
+- **Variant Occurrence Table**: Custom STARR-OMOP table containing detailed genetic variant information from genomic testing. Currently includes variants from STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests processed through Epic Genomics Suite starting August 2025
+- **Enhanced Molecular Profiling**: Detailed variant-level data enables precision oncology research and genomic biomarker discovery
+
+This release significantly expands pathology imaging capabilities and provides granular genomic variant data for translational research applications.
+
 ## Release Summary Table
 
 The following table provides a comprehensive overview of data and schema changes across all releases:
@@ -101,7 +111,15 @@ release_summary <- tibble::tribble(
   "Continued coverage + Expanded genomic testing coverage",
   "<b>Expanded genomic testing, Agentic Tide integration<b>",
   "Major upgrade: Updated vocab, enhanced field linking, JSON-formatted source values",
-  "Enhanced ETL pipeline with updated vocabulary"
+  "Enhanced ETL pipeline with updated vocabulary",
+  
+  "February 2026",
+  "Continued coverage",
+  "Continued coverage",
+  "Continued coverage",
+  "<b>Whole Slide Imaging (WSI), Variant Occurrence table<b>",
+  "Added custom variant_occurrence table for genomic variants; Added _whole_slide_imaging table",
+  "WSI TIFF/JSON files from Roxanna's Lab"
 )
 
 # Format the table with improved styling
@@ -151,12 +169,13 @@ library(dplyr)
 
 # Create identifier keys data
 identifier_keys <- tibble::tribble(
-  ~Dataset, ~February_2025, ~May_2025, ~August_2025, ~November_2025,
+  ~Dataset, ~February_2025, ~May_2025, ~August_2025, ~November_2025, ~February_2026,
   
   "OMOP Clinical",
   "person_id, person_source_value",
   "person_id, person_source_value",
   "person_id, person_source_value",
+  "person_id, <b>person_source_value<sup>†</sup></b>",
   "person_id, <b>person_source_value<sup>†</sup></b>",
   
   "NeuralFrame Registry",
@@ -164,8 +183,10 @@ identifier_keys <- tibble::tribble(
   "stanford_patient_uid",
   "stanford_patient_uid",
   "stanford_patient_uid",
+  "stanford_patient_uid",
   
   "Image Occurrence",
+  "person_id",
   "person_id",
   "person_id",
   "person_id",
@@ -176,11 +197,27 @@ identifier_keys <- tibble::tribble(
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
+  "stanford_patient_uid, person_id",
   
   "Tumor Board",
   "MRN, DOB",
   "person_id",
   "person_id",
+  "person_id",
+  "person_id",
+  
+  "Whole Slide Imaging",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
+  "person_id, order_proc_id",
+  
+  "Variant Occurrence",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
   "person_id",
   
 )
@@ -193,17 +230,18 @@ datatable(
     "February 2025",
     "May 2025",
     "August 2025",
-    "November 2025"
+    "November 2025",
+    "February 2026"
   ),
   caption = "Patient Identifier Keys Evolution by Dataset and Release",
   options = list(
     pageLength = 10,
     dom = 't',
     columnDefs = list(
-      list(width = '20%', targets = 0),
-      list(width = '20%', targets = 1:4),
+      list(width = '18%', targets = 0),
+      list(width = '16%', targets = 1:5),
       list(className = 'dt-left', targets = 0),
-      list(className = 'dt-center', targets = 1:4)
+      list(className = 'dt-center', targets = 1:5)
     ),
     scrollX = TRUE
   ),
@@ -212,11 +250,11 @@ datatable(
   class = 'cell-border stripe'
 ) %>%
   formatStyle(
-    columns = 0:4,
+    columns = 0:5,
     fontSize = '12px'
   ) %>%
   formatStyle(
-    columns = 1:4,
+    columns = 1:5,
     backgroundColor = styleEqual(
       c("Not available"),
       c('#f0f0f0')
