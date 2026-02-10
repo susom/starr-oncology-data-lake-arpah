@@ -3,7 +3,7 @@ title: "About"
 back-to-top-navigation: false
 ---
 
-Welcome to the VISTA Oncology Data Lake project. This datalake brings together data from different clinical modalities and sources including harmonized and standardized Electronic Health Records Data in the OMOP common Data Model, data from the Stanford Clinical Registry, Genomic Data from Philips ISPM, additional STAMP addon metadata with more data types coming soon. This website provides documentation for the datasets released as part of the project. 
+Welcome to the VISTA Oncology Data Lake project. This datalake brings together data from different clinical modalities and sources including harmonized and standardized Electronic Health Records Data in the OMOP common Data Model, data from the Stanford Cancer Registry, Genomic Data from Philips ISPM, additional STAMP addon metadata with more data types coming soon. This website provides documentation for the datasets released as part of the project. 
 
 ### VISTA Cohort: Patient Inclusion Criteria
 All patients included in VISTA must be present in **STARR-OMOP**, Stanford’s research-standard representation of the electronic health record (EHR), **and** have documented evidence of cancer-related care or review within the Stanford health system, defined by at least one of the following: 
