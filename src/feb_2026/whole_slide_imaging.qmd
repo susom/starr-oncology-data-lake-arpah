@@ -1,0 +1,172 @@
+---
+title: "OMOP Whole Slide Imaging"
+execute:
+  echo: false
+---
+
+```{r setup, include=FALSE}
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_params.yml"
+```
+
+### Summary:
+
+The OMOP `_whole_slide_imaging` table contains records of digitized pathology slides, providing structured metadata and access paths to whole slide image files. This dataset enables comprehensive analysis of pathology imaging data within the OMOP framework.
+
+Each record represents a single whole slide image with associated metadata including:
+
+- Patient identifier (person_id)
+- Accession number linking to clinical specimens
+- URIs to both JSON metadata and TIFF image files
+- Specimen source and type classifications
+- Procedure timing information
+- Links to clinical notes
+
+Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats by Roxanna's Lab. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. Future releases are expected to include images from additional sources.
+
+```{r basic_counts, message=FALSE, warning=FALSE, results='hide'}
+# Fetch basic counts
+sql_basic <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_basic_counts.sql"
+basic_counts <- fetch_data_from_sql_file(sql_basic, yaml_file_path, release = "feb_2026")
+
+total_images <- as.numeric(basic_counts$counts[basic_counts$metric == "total_images"])
+unique_patients <- as.numeric(basic_counts$counts[basic_counts$metric == "unique_patients"])
+unique_accessions <- as.numeric(basic_counts$counts[basic_counts$metric == "unique_accessions"])
+with_json <- as.numeric(basic_counts$counts[basic_counts$metric == "with_json"])
+with_tiff <- as.numeric(basic_counts$counts[basic_counts$metric == "with_tiff"])
+```
+
+::: {.columns}
+
+::: {.column width="50%"}
+### 📊 Dataset Overview
+- **Total Images:** `r format(total_images, big.mark = ",")`
+- **Unique Patients:** `r format(unique_patients, big.mark = ",")`
+- **Unique Accessions:** `r format(unique_accessions, big.mark = ",")`
+:::
+
+::: {.column width="50%"}
+### 📁 File Availability
+- **Images with JSON:** `r format(with_json, big.mark = ",")` (`r round(with_json/total_images*100, 1)`%)
+- **Images with TIFF:** `r format(with_tiff, big.mark = ",")` (`r round(with_tiff/total_images*100, 1)`%)
+:::
+
+:::
+
+## Specimen Type Distribution
+
+```{r specimen_types, message=FALSE, warning=FALSE, results='hide'}
+sql_spec_types <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_specimen_types.sql"
+specimen_types <- fetch_data_from_sql_file(sql_spec_types, yaml_file_path, release = "feb_2026")
+```
+
+```{r specimen_types_table, message=FALSE, warning=FALSE}
+labels <- c(
+  "specimen_type" = "Specimen Type",
+  "image_count" = "Number of Images",
+  "patient_count" = "Number of Patients",
+  "percentage" = "Percentage (%)"
+)
+
+create_gt_table_v1(
+  data = specimen_types,
+  columns = c("specimen_type", "image_count", "patient_count", "percentage"),
+  labels = labels,
+  footnote_text = "Distribution of whole slide images by specimen type"
+)
+```
+
+
+```{r specimen_sources, message=FALSE, warning=FALSE, results='hide', include=FALSE}
+sql_spec_sources <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_specimen_sources.sql"
+specimen_sources <- fetch_data_from_sql_file(sql_spec_sources, yaml_file_path, release = "feb_2026")
+```
+
+```{r specimen_sources_table, message=FALSE, warning=FALSE, include=FALSE}
+labels <- c(
+  "specimen_source" = "Specimen Source",
+  "image_count" = "Number of Images",
+  "patient_count" = "Number of Patients",
+  "percentage" = "Percentage (%)"
+)
+
+create_gt_table_v1(
+  data = specimen_sources,
+  columns = c("specimen_source", "image_count", "patient_count", "percentage"),
+  labels = labels,
+  footnote_text = "Distribution of whole slide images by specimen source"
+)
+```
+
+## Images per Patient
+
+```{r images_per_patient, message=FALSE, warning=FALSE, results='hide'}
+sql_per_patient <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_images_per_patient.sql"
+images_per_patient <- fetch_data_from_sql_file(sql_per_patient, yaml_file_path, release = "feb_2026")
+```
+
+```{r images_per_patient_chart, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+ggplot(images_per_patient, aes(x = reorder(image_count_range, 
+       case_when(
+         image_count_range == '1 image' ~ 1,
+         image_count_range == '2-5 images' ~ 2,
+         image_count_range == '6-10 images' ~ 3,
+         image_count_range == '11-20 images' ~ 4,
+         image_count_range == '21-50 images' ~ 5,
+         TRUE ~ 6
+       )), y = patient_count)) +
+  geom_bar(stat = "identity", fill = "#8B0000") +
+  geom_text(aes(label = scales::comma(patient_count)), 
+            vjust = -0.5, size = 3.5) +
+  labs(
+    title = "Distribution of Images per Patient",
+    x = "Number of Images per Patient",
+    y = "Number of Patients"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title = element_text(size = 12)
+  ) +
+  scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.1)))
+```
+
+## Temporal Trends
+
+```{r temporal_trends, message=FALSE, warning=FALSE, results='hide'}
+sql_temporal <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_temporal_trends.sql"
+temporal_data <- fetch_data_from_sql_file(sql_temporal, yaml_file_path, release = "feb_2026")
+
+# Create a date column for plotting
+temporal_data <- temporal_data %>%
+  mutate(date = as.Date(paste(year, month, "01", sep = "-")))
+```
+
+```{r temporal_chart, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(scales)
+
+ggplot(temporal_data, aes(x = date, y = image_count)) +
+  geom_line(color = "#8B0000", size = 1) +
+  geom_point(color = "#8B0000", size = 2) +
+  labs(
+    title = "Whole Slide Imaging Volume Over Time",
+    x = "Date",
+    y = "Number of Images"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.title = element_text(size = 12)
+  ) +
+  scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.1))) +
+  scale_x_date(date_labels = "%b %Y", date_breaks = "3 months")
+```
+
+### Source Codes:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2026/whole_slide_imaging.qmd), and the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/omop/wsi/feb26).
