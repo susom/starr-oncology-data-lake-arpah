@@ -279,7 +279,7 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 
 ## Multi-Release Statistical Overview
 
-For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](nov_2025/data_coverage_trends.qmd) page.
+For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](feb_2026/data_coverage_trends.qmd) page.
 
 For each data release (February, May, August, and November 2025), we examine:
 
