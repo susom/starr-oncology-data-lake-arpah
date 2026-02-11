@@ -39,9 +39,12 @@ As of the November 2025 OMOP population, `r format( den_res$counts_pts[den_res$d
   - **OMOP Image Occurrence:** The OMOP image occurrence table captures records of medical imaging events at the series level providing a path to deidentified DICOM images.
     - [Image Occurrence Metrics](image_occ.qmd)
 
+  - **OMOP Variant Occurrence:** The OMOP variant occurrence table captures records of genomic variants at the patient level providing a path to deidentified genomic data. Currently, it only contains variants identified via the STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS (STAMP) test. The data is sourced from the Epic Genomics Suite, which incorporated STAMP tests starting in August of 2025.
+    - [Variant Occurrence Metrics](variant_occ.qmd)
 
-
-
+  - **OMOP Whole Slide Imaging:** The OMOP whole slide imaging table contains records of digitized pathology slides. This dataset is expected to eventually include images from three different sources. Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats by Roxanna's Lab. To ensure data quality and patient eligibility, only slides with order_proc_ids that can be linked to Epic Clarity are included, which prevents inclusion of HPP (Health Promotion and Prevention) or test patients.
+    - [Whole Slide Imaging Metrics](whole_slide_imaging.qmd)
+ 
 ```{r table1, message=FALSE, warning=FALSE}
 # Modify the data frame to show hierarchy
 labels <- c(
