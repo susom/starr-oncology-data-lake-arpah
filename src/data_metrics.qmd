@@ -36,6 +36,11 @@ The November 2025 release is the fourth release of the dataset which includes up
 
 - [November 2025 Metrics](nov_2025/metrics_clinical.qmd)
 
+### February 2026
+
+The February 2026 release is the fifth release of the dataset which includes updated data sources such as OMOP 5.4, image occurrence, Stanford cancer registry, whole slide imaging, and genetic variants. You can find detailed information about this release by following the link below:
+
+- [February 2026 Metrics](feb_2026/metrics_clinical.qmd)
 
 ## Future Releases
 
