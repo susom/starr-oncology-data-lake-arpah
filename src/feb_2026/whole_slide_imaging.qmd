@@ -12,7 +12,7 @@ yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_p
 
 ### Summary:
 
-The OMOP `_whole_slide_imaging` table contains records of digitized pathology slides, providing structured metadata and access paths to whole slide image files. This dataset enables comprehensive analysis of pathology imaging data within the OMOP framework.
+The OMOP **`_whole_slide_imaging`** table contains records of digitized pathology slides, including structured metadata, access paths to whole slide image files, **and links to structured EHR data. This table serves as a proof of concept demonstrating how whole slide imaging files can be integrated and analyzed within the OMOP framework alongside clinical data**.
 
 Each record represents a single whole slide image with associated metadata including:
 
@@ -24,6 +24,8 @@ Each record represents a single whole slide image with associated metadata inclu
 - Links to clinical notes
 
 Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats by Roxanna's Lab. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. Future releases are expected to include images from additional sources.
+
+Please note that the whole slide imaging dataset is in an early stage of development, and will continue to evolve as we work towards integrating more comprehensive imaging datasets in the future releases.
 
 ```{r basic_counts, message=FALSE, warning=FALSE, results='hide'}
 # Fetch basic counts
@@ -54,14 +56,15 @@ with_tiff <- as.numeric(basic_counts$counts[basic_counts$metric == "with_tiff"])
 
 :::
 
-## Specimen Type Distribution
 
 ```{r specimen_types, message=FALSE, warning=FALSE, results='hide'}
+#### Specimen Type Distribution
+
 sql_spec_types <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_specimen_types.sql"
 specimen_types <- fetch_data_from_sql_file(sql_spec_types, yaml_file_path, release = "feb_2026")
 ```
 
-```{r specimen_types_table, message=FALSE, warning=FALSE}
+```{r specimen_types_table, message=FALSE, warning=FALSE, include=FALSE}
 labels <- c(
   "specimen_type" = "Specimen Type",
   "image_count" = "Number of Images",
@@ -99,14 +102,15 @@ create_gt_table_v1(
 )
 ```
 
-## Images per Patient
 
 ```{r images_per_patient, message=FALSE, warning=FALSE, results='hide'}
+## Images per Patient
+
 sql_per_patient <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_images_per_patient.sql"
 images_per_patient <- fetch_data_from_sql_file(sql_per_patient, yaml_file_path, release = "feb_2026")
 ```
 
-```{r images_per_patient_chart, message=FALSE, warning=FALSE}
+```{r images_per_patient_chart, message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
 
 ggplot(images_per_patient, aes(x = reorder(image_count_range, 
@@ -135,9 +139,10 @@ ggplot(images_per_patient, aes(x = reorder(image_count_range,
   scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.1)))
 ```
 
+
+```{r temporal_trends, message=FALSE, warning=FALSE, results='hide', include=FALSE}
 ## Temporal Trends
 
-```{r temporal_trends, message=FALSE, warning=FALSE, results='hide'}
 sql_temporal <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/wsi/feb26/wsi_temporal_trends.sql"
 temporal_data <- fetch_data_from_sql_file(sql_temporal, yaml_file_path, release = "feb_2026")
 
@@ -146,7 +151,7 @@ temporal_data <- temporal_data %>%
   mutate(date = as.Date(paste(year, month, "01", sep = "-")))
 ```
 
-```{r temporal_chart, message=FALSE, warning=FALSE}
+```{r temporal_chart, message=FALSE, warning=FALSE, include=FALSE}
 library(ggplot2)
 library(scales)
 
@@ -166,7 +171,10 @@ ggplot(temporal_data, aes(x = date, y = image_count)) +
   ) +
   scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.1))) +
   scale_x_date(date_labels = "%b %Y", date_breaks = "3 months")
+
+
+  ### Source Codes:
+##The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2026/whole_slide_imaging.qmd), and ##the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/omop/wsi/##feb26).
 ```
 
-### Source Codes:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2026/whole_slide_imaging.qmd), and the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/omop/wsi/feb26).
+

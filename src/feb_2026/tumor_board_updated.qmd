@@ -24,14 +24,14 @@ library(tidyr)
 library(plotly)
 
 tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_person_metrics.sql"
-tb_den<- fetch_data_from_sql_file(tb_sql, yaml_file_path)
+tb_den<- fetch_data_from_sql_file(tb_sql, yaml_file_path, release = "feb_2026")
 tb_den
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 ## basic counts 
 sql_thr<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/image_occ_thoracic/image_occ_person_thr.sql"
-res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
+res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path, release = "feb_2026")
 head(res_den_thr)
 ```
 
@@ -42,7 +42,7 @@ As of November 2025, From `r format(res_den_thr$counts[res_den_thr$variable_name
 ```{r time trend, message=FALSE, warning=FALSE, results='hide'}
 # time trend
 tb_time <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_over_time.sql"
-dt <- fetch_data_from_sql_file(tb_time, yaml_file_path)
+dt <- fetch_data_from_sql_file(tb_time, yaml_file_path, release = "feb_2026")
 head(dt)
 ```
 
@@ -114,7 +114,7 @@ Please note that starting in 2018, Stanford Cancer Center standardized and ratio
 ```{r overlap, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 sql_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_overlap.sql"
-res<- fetch_data_from_sql_file(sql_overlap, yaml_file_path)
+res<- fetch_data_from_sql_file(sql_overlap, yaml_file_path, release = "feb_2026")
 res$percent=100*(res$total_patients/res$total_patients[res$flag=="all_tb"])
 res$percent=round(res$percent,1)
 
@@ -152,7 +152,7 @@ create_gt_table(
 ```{r demographic, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 sql_demg <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_thoracic_demographic_all.sql"
-res <- fetch_data_from_sql_file(sql_demg, yaml_file_path)
+res <- fetch_data_from_sql_file(sql_demg, yaml_file_path, release = "feb_2026")
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
@@ -220,7 +220,7 @@ Please note that the Incomplete case status is eventually updated to either C
 ```{r case status, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 sql_case <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_thoracic_case_status.sql"
-case <- fetch_data_from_sql_file(sql_case, yaml_file_path)
+case <- fetch_data_from_sql_file(sql_case, yaml_file_path, release = "feb_2026")
 case
 colnames(case)[2]<-"pts_count"
 ```
@@ -243,7 +243,7 @@ labels <- c(
 ```{r image, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_thoracic_imag_occ.sql"
-tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
+tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path, release = "feb_2026")
 tb_img
 ```
 As of November 2025, `r format(tb_img$patient_count[1], big.mark = ",")` had image occurrence procedures.
@@ -257,7 +257,7 @@ Note: The following analysis is presented for series occurrences above 500.
 ### Anatomic Sites
 ```{r query img, message=FALSE, warning=FALSE, results='hide'}
 sql_image_an <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_thoracic_imag_occ_anatomic.sql"
-res_ana <- fetch_data_from_sql_file(sql_image_an, yaml_file_path)
+res_ana <- fetch_data_from_sql_file(sql_image_an, yaml_file_path, release = "feb_2026")
 head(res_ana)
 res_ana<- res_ana%>% filter (series_count>500) %>%
   arrange(desc(series_count)) %>%
@@ -307,7 +307,7 @@ plot_ly(res_bar_ana,
 ```{r image occ, message=FALSE, warning=FALSE, results='hide'}
 # Parameters
 sql_img_mod <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb26/tumor_board_thoracic_imag_occ_modality.sql"
-tb_img_mod<- fetch_data_from_sql_file(sql_img_mod, yaml_file_path)
+tb_img_mod<- fetch_data_from_sql_file(sql_img_mod, yaml_file_path, release = "feb_2026")
 tb_img_mod
 ```
 

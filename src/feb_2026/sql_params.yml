@@ -30,4 +30,6 @@ nov_2025:
 feb_2026:
   oncology_prod: som-rit-phi-oncology-dev
   oncology_omop: reg_oncology_cancer_omop_arpah_phi_2026_01_18
-  oncology_neuralframe: reg_oncology_neuralframe_confidential_2025_10_16
+  oncology_neuralframe: reg_oncology_neuralframe_phi_2025_10_16
+  oncology_philips: reg_oncology_philips_phi_2025_10_16
+  
