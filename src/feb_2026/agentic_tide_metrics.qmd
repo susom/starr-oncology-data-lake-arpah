@@ -1,0 +1,105 @@
+---
+title: "Agentic Tide 2.0 Alpha Release"
+execute:
+  echo: false
+output: html
+---
+
+## Overview
+
+This table summarizes comparative performance of three de-identification systems applied to a gold-standard corpus of clinical notes across multiple protected health information (PHI) categories. The evaluation dataset was constructed per our PHI labeling guidelines and process: notes were sampled using a random-plus-diversity strategy (modified set cover), pre-labeled by an LLM, reviewed by dual annotators, and adjudicated; only 100% agreement or adjudicated notes were retained as gold standard (see [Dataset Description](#dataset_for_evaluation)).
+
+Systems include [TiDE 1.0](#tide10_summary), [Stanford AIMI v1](#stanford_aimi_v1_description), and [Agentic TiDE 2.0 Alpha](#agentic_tide20_description). For each PHI category (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), we report precision and recall; the highest recall per row is highlighted in bold to emphasize sensitivity, which is typically prioritized in biomedical de-identification to minimize PHI leakage risk. Categories with extremely low performance indicate areas requiring methodological refinement or augmented knowledge sources.
+
+| PHI Category                                        | TiDE 1.0* | Stanford AIMI v1 | Agentic TiDE 2.0 Alpha** |
+|:----------------------------------------------------|:----------|:-----------------|:-------------------------|
+|                                                     | **Precision / Recall**  | **Precision / Recall**                                     | **Precision / Recall**   |
+| DATE                                                | 0.76 / 0.69             | 0.94 / 0.84                                                | 0.94 / **0.97**          |
+| PATIENT                                             | 0.21 / **0.76**         | 0.86 / 0.75                                                | 0.89 / 0.83              |
+| PHONE                                               | 1.00 / 0.79             | 0.63 / 0.83                                                | 0.61 / **0.96**          |
+| WEB                                                 | 1.00 / 0.57             | 0.00 / 0.00                                                | 0.66 / **0.82**          |
+| DOCTOR                                              | 0.65 / **0.87**         | 0.45 / **0.87**                                            | 0.47 / **0.87**          |
+| ID                                                  | 0.50 / 0.69             | 0.59 / **0.87**                                            | 0.60 / **0.87**          |
+| LOCATION                                            | 0.55 / 0.62             | 0.14 / 0.75                                                | 0.15 / **0.78**          |
+
+:  {.hover .responsive .sm}
+
+\* Regex + Stanford CoreNLP 4.5.6 - no known PHI  
+
+\** Stanford AIMI v1 + Regex + Known PHI
+
+\*** Age and Hospital are not shown since the models were not trained for those categories. 
+
+Across PHI categories, Agentic TiDE 2.0 Alpha demonstrates the strongest recall in DATE (0.97), PHONE (0.96), WEB (0.82), and LOCATION (0.78), reflecting improved sensitivity in categories where lexical patterns and contextual cues benefit from hybrid approaches (modeling plus rule-based augmentation and known PHI lists). DATE performance is notably robust across all systems, but the alpha model’s recall edge suggests better coverage of diverse time expressions.
+
+For patient-name related detection (PATIENT), TiDE 1.0 exhibits the highest recall (0.76), while the alpha system attains higher precision (0.89) with slightly lower recall (0.83), indicating a precision–recall trade-off that may be tuned depending on institutional risk tolerance and downstream use. Clinician-name (DOCTOR) and identifier (ID) categories show ties at the highest recall (0.87) across systems, suggesting that current methods are converging in sensitivity; precision differences may therefore drive practical selection depending on false positive tolerance.
+
+Performance variability across categories highlights known challenges in biomedical de-identification. Categories with structured formats (e.g., dates, phone numbers, web URLs) benefit from deterministic pattern recognition, whereas unstructured entities (e.g., names, locations) require stronger contextual modeling and up-to-date dictionaries. The gains observed with Agentic TiDE 2.0 Alpha are consistent with hybrid strategies that integrate learned representations, regular expressions, and curated PHI inventories. 
+
+## Dataset used for evaluation {#dataset_for_evaluation}
+
+We evaluated systems on a gold-standard labeled corpus of clinical notes developed via a structured process documented in the following internal reports:
+
+- [PHI Labeling Guidelines:](../feb_2025/phi_labeling_guidelines.qmd) defines PHI categories, inclusion/exclusion criteria, and annotation rules with representative examples and edge-case guidance.
+- [PHI Labeling Process:](../feb_2025/phi_labeling_process.qmd) details the sampling strategy (random plus diversity via a modified set-cover), pre-annotation with LLMs, dual-annotator workflow, and adjudication protocol.
+- [PHI Labeling Report:](../feb_2025/phi_labeling_report.qmd) characterizes the labeled sample versus the broader STARR-OMOP corpus (age, sex, race, ethnicity, note types, length distributions) and summarizes PHI entity distributions.
+
+The dataset comprises a stratified sample of clinical notes selected to maximize coverage of demographic and textual characteristics. Notes were pre-labeled by a large language model, then independently reviewed by two annotators following the published guidelines; disagreements were adjudicated and only 100% agreement or adjudicated notes were retained as gold standard. The corpus includes diverse PHI entity types (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), facilitating robust estimation of precision/recall across both structured and contextual categories. For full methodological details and population characteristics, see the referenced documents above.
+
+## Stanford AIMI de-identifier model summary {#stanford_aimi_v1_description}
+
+The Stanford AIMI de-identifier (stanford-deidentifier-base) is a transformer-based token classification model fine-tuned on multi-institutional medical text, optimized for PHI detection and paired with a “hide in plain sight” synthetic PHI replacement strategy.
+
+- Architecture and pretraining: Transformer encoder (BERT-family), leveraging biomedical pretraining (PubMedBERT) prior to supervised PHI fine-tuning. Inputs are greedily chunked at sentence boundaries to respect the 512-token limit; weighted cross-entropy emphasizes PHI tokens.
+- Training corpus: Radiology reports and medical notes across domains, including Penn and Stanford corpora and i2b2 2006/2014 datasets, with label harmonization. Data augmentation uses synthetic PHI generation to enrich rare categories (eg, patient names, IDs, phone numbers).
+- Optimization: ULMFiT-inspired fine-tuning (discriminative learning rates, 1-cycle scheduling, staged unfreezing), hyperparameter tuning via Tree of Parzen Estimators, distributed training for efficient exploration.
+- Pipeline: PHI detection by the transformer model followed by rule-based replacement of detected spans with realistic surrogates to hide any residual PHI and improve privacy robustness; generators use parsed format/content distributions and in-/cross-document constraints with short- and long-term memory.
+- Reported performance (JAMIA 2022): Best model F1 on radiology reports from new institution ≈ 99.6; i2b2 2006 ≈ 99.5; i2b2 2014 ≈ 98.9. Span-level recall on sensitive categories (patient names, IDs, phone numbers) approaches 99–100% under “at least one token per span” criteria.
+- Model card: The Hugging Face model page notes training across radiology/biomedical documents and provides weights and code references; recommended weights: StanfordAIMI/stanford-deidentifier-base. Associated GitHub: MIDRC/Stanford_Penn_Deidentifier.
+
+
+## TiDE 1.0 summary {#tide10_summary}
+
+TiDE 1.0 (Text DEidentification) is an in-house, open-source clinical text de-identification pipeline designed for HIPAA Safe Harbor–oriented PHI scrubbing at large scale, while preserving note formatting for downstream NLP.
+
+- Hybrid recognizers: CoreNLP-based NER (CRFClassifier) for names and locations (eg, street/city/state/ZIP), regex patterns and enumerated rules for structured identifiers (MRN, SSN, email, IP, URL, phone).
+- Surrogate replacement (Hiding in Plain Sight): Detected PHI spans (eg, names, addresses, dates) are replaced with realistic synthetic surrogates built from public sources (eg, census, HRSA, FDA, SSA, CMS), making residual PHI harder to re-identify while maintaining usability.
+- Sensitivity prioritized: The pipeline emphasizes recall to minimize PHI leakage; outputs are currently classified by Stanford UPO as High Risk due to small residual PHI risk, with DRA/Expert Determination used for additional mitigation when needed.
+- Operational scale: Demonstrated throughput ≈100M notes in ~7 hours using distributed dataflow workers (~0.00025s/note).
+
+## Detailed Description: Agentic TiDE 2.0 Alpha {#agentic_tide20_description}
+
+### Introduction
+Coming Soon!
+
+### Dataset
+Coming Soon!
+
+### Methods
+Coming Soon!
+
+### Results
+
+| PHI Category                                        | OpenAI GPT-4 | gemini-2.5-flash | gemini-2.5-flash-lite | openai/gpt-oss-20b-maas | openai/gpt-oss-120b-maas |
+|:----------------------------------------------------|:-------------|:-----------------------------------|:-----------------------------------------------|:------------------------------------------|:-------------------------------------------|
+|                                                     | **Precision / Recall** | **Precision / Recall**            | **Precision / Recall**                         | **Precision / Recall**                     | **Precision / Recall**                      |
+| AGE                                                 | 0.969 / 0.504| 0.797 / **0.896**                  | 0.789 / 0.875                                  | 0.878 / 0.820                              | 0.866 / 0.828                               |
+| DATE                                                | 0.894 / **0.887**| 0.988 / **0.987**                  | 0.986 / 0.950                                  | 0.981 / 0.964                              | 0.983 / 0.942                               |
+| DOCTOR                                              | 0.979 / 0.711| 0.948 / **0.967**                  | 0.950 / 0.921                                  | 0.950 / 0.856                              | 0.955 / 0.867                               |
+| HOSPITAL                                            | 0.929 / 0.716| 0.585 / **0.854**                  | 0.650 / 0.812                                  | 0.682 / 0.713                              | 0.698 / 0.752                               |
+| ID                                                  | 0.828 / 0.787| 0.915 / **0.946**                  | 0.962 / 0.883                                  | 0.925 / 0.867                              | 0.931 / 0.823                               |
+| LOCATION                                            | 0.800 / **0.879**| 0.852 / 0.697                    | 0.826 / 0.683                                  | 0.735 / 0.701                              | 0.899 / 0.612                               |
+| PATIENT                                             | 0.694 / 0.772| 0.954 / **0.943**                  | 0.927 / 0.894                                  | 0.892 / 0.833                              | 0.918 / 0.851                               |
+| PHONE                                               | 0.969 / 0.831| 0.978 / **0.937**                  | 0.974 / **0.950**                              | 0.966 / 0.923                              | 0.980 / 0.921                               |
+| WEB                                                 | 0.837 / **0.878**| 1.000 / 0.817                    | 1.000 / 0.780                                  | 0.985 / 0.817                              | 0.985 / 0.793                               |
+
+:  {.hover .responsive .sm}
+
+
+## References
+
+- https://huggingface.co/StanfordAIMI/stanford-deidentifier-base
+- “Automated deidentification of radiology reports combining transformer and ‘hide in plain sight’ rule-based methods,” JAMIA 2022 (PMCID: PMC9846681): https://pmc.ncbi.nlm.nih.gov/articles/PMC9846681/
+- TiDE clinical text Safe Harbor — https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor
+
+

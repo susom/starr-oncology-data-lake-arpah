@@ -55,6 +55,10 @@ website:
             contents:
               - text: "Released Datasets"
                 href: nov_2025/released_datasets.qmd
+          - section: "February 2026"
+            contents:
+              - text: "Released Datasets"
+                href: feb_2026/released_datasets.qmd
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
@@ -125,7 +129,7 @@ website:
         href: data_evolution_overview.qmd
         contents: 
           - text: "Data Evolution Trends"
-            href: nov_2025/data_coverage_trends.qmd
+            href: feb_2026/data_coverage_trends.qmd
       - section: "Data Metrics"
         href: data_metrics.qmd
         contents:
@@ -164,6 +168,21 @@ website:
                 href: nov_2025/philips_metrics.qmd
               - text: "Tumor Board"
                 href: nov_2025/tumor_board_updated.qmd
+          - section: "February 2026"
+            href: feb_2026/metrics_clinical.qmd
+            contents:
+              - text: "Neural Frame"
+                href: feb_2026/neural_frame.qmd
+              - text: "Image Occurrence"
+                href: feb_2026/image_occ.qmd
+              - text: "Philips ISPM"
+                href: feb_2026/philips_metrics.qmd
+              - text: "Tumor Board"
+                href: feb_2026/tumor_board_updated.qmd
+              - text: "Whole Slide Imaging"
+                href: feb_2026/wsi_metrics.qmd
+              - text: "Genetic Variants"
+                href: feb_2026/genetic_metrics.qmd
       - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:
