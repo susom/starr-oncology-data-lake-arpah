@@ -14,13 +14,13 @@ library(RColorBrewer)
 
 ```{r nf denominator, message=FALSE, warning=FALSE, results='hide'}
 sql_den<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_den.sql"
-nf_den <- fetch_data_from_sql_file(sql_den, yaml_file_path)
+nf_den <- fetch_data_from_sql_file(sql_den, yaml_file_path, release = "feb_2026")
 nf_den
 ```
 
 ```{r case status all ,message=FALSE, warning=FALSE, results='hide'}
 sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_case_status.sql"
-case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
+case <- fetch_data_from_sql_file(sql_nf, yaml_file_path, release = "feb_2026")
 head(case)
 case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
 case$flag="All Cancer"
@@ -65,7 +65,7 @@ The thoracic cancer cohort includes patients diagnosed with primary malignancies
 
 ```{r case status thoracic, message=FALSE, warning=FALSE, results='hide'}
 sql_nf<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_case_status.sql"
-case <- fetch_data_from_sql_file(sql_nf, yaml_file_path)
+case <- fetch_data_from_sql_file(sql_nf, yaml_file_path, release = "feb_2026")
 head(case)
 case$nfcasestatus[case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
 case$flag="All Cancer"
@@ -113,7 +113,7 @@ The Stanford Cancer Registry tracks all cancer cases diagnosed or treated at Sta
 The case status ensures accurate tracking and timely reporting of cancer data to meet regulatory and research standards.
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_thr_case<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_case_status_person_metrics.sql"
-thr_case <- fetch_data_from_sql_file(sql_thr_case, yaml_file_path)
+thr_case <- fetch_data_from_sql_file(sql_thr_case, yaml_file_path, release = "feb_2026")
 head(thr_case)
 thr_case$flag="Thoracic Cancer"
 thr_case$nfcasestatus[thr_case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
@@ -121,7 +121,7 @@ thr_case$nfcasestatus[thr_case$nfcasestatus=="Incomplete - Edit"]<-"Incomplete"
 
 sql_thr<-"/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_denominator.sql"
 
-thr_den=fetch_data_from_sql_file(sql_thr, yaml_file_path)
+thr_den=fetch_data_from_sql_file(sql_thr, yaml_file_path, release = "feb_2026")
 thr_den
 ```
 ```{r,message=FALSE, warning=FALSE, results='hide'}
@@ -138,7 +138,7 @@ case_thr <- data.frame(
 ## thoracic cancer with complete cases 
 sql_thr_c<-"/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_denominator_complete.sql"
 
-thr_den_c=fetch_data_from_sql_file(sql_thr_c, yaml_file_path)
+thr_den_c=fetch_data_from_sql_file(sql_thr_c, yaml_file_path, release = "feb_2026")
 thr_den_c
 ## denominators ##
 sum_thr_c=thr_den_c$unique_thoracic_cancer_pts
@@ -174,7 +174,7 @@ The following distribution summarizes the number of diagnosed thoracic patients 
 
 ```{r dx year calculate, message=FALSE, warning=FALSE, results='hide'}
 sql_thr_yr<- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_completed_cases_dx_year_person_metrics.sql"
-thr_yr <- fetch_data_from_sql_file(sql_thr_yr, yaml_file_path)
+thr_yr <- fetch_data_from_sql_file(sql_thr_yr, yaml_file_path, release = "feb_2026")
 
 # Group years before 2000 and calculate percentages ##
 thr_yr_grouped <- thr_yr %>%
@@ -252,7 +252,7 @@ library(RColorBrewer)
 library(htmlwidgets)
 
 sql_thr_his <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_completed_cases_histology_person_metrics.sql"
-thr_his <- fetch_data_from_sql_file(sql_thr_his, yaml_file_path)
+thr_his <- fetch_data_from_sql_file(sql_thr_his, yaml_file_path, release = "feb_2026")
 
 # Add histology grouping
 thr_his <- thr_his %>%
@@ -703,7 +703,7 @@ DT::datatable(
 The following table summarizes the staging status of thoracic patients with completed cases. 
 ```{r staging counts, message=FALSE, warning=FALSE, results='hide'}
 sql_stg <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_stage_person_metrics.sql"
-thr_stg <- fetch_data_from_sql_file(sql_stg, yaml_file_path)
+thr_stg <- fetch_data_from_sql_file(sql_stg, yaml_file_path, release = "feb_2026")
 thr_stg
 
 thr_stg = thr_stg %>% mutate(perc=100*(patient_count/sum_thr_c) ) %>% arrange(desc(patient_count))
@@ -744,7 +744,7 @@ The following table summarizes the distribution of thoracic cancer treatment typ
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 sql_tx <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_completed_cases_tx_summary_person_metrics.sql"
-thr_tx <- fetch_data_from_sql_file(sql_tx, yaml_file_path)
+thr_tx <- fetch_data_from_sql_file(sql_tx, yaml_file_path, release = "feb_2026")
 
 
 library(dplyr)
@@ -809,7 +809,7 @@ colnames(recurrence)<-c("recurrencetype1st","recurrencetype1stdescription", "rec
 ```
 ```{r thoracic recurrence, message=FALSE, warning=FALSE, results='hide', include='FALSE'}
 sql_rec <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_recurrence.sql"
-thr_rec <- fetch_data_from_sql_file(sql_rec, yaml_file_path)
+thr_rec <- fetch_data_from_sql_file(sql_rec, yaml_file_path, release = "feb_2026")
 thr_rec=thr_rec %>% inner_join(recurrence, by="recurrencetype1stdescription")
 thr_rec = thr_rec %>% select (-recurrenceType1st) %>% group_by(recurrence_Type_category) %>% summarise(total=sum(n_pts))%>% select(recurrence_Type_category, total)
 ```
@@ -836,7 +836,7 @@ From  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thor
 
 ```{r load soh, message=FALSE, warning=FALSE, results='hide'}
 sql_soh <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_social_history.sql"
-thr_soh <- fetch_data_from_sql_file(sql_soh, yaml_file_path)
+thr_soh <- fetch_data_from_sql_file(sql_soh, yaml_file_path, release = "feb_2026")
 
 colnames(thr_soh)<-c("Description", "Patinet_Counts", "Status" )
 
@@ -871,7 +871,7 @@ The information regarding the most recent smoking status of patients with thorac
 
 ```{r , message=FALSE, warning=FALSE, results='hide'}
 sql_sm_omop <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_smoking_omop.sql"
-thr_smk <- fetch_data_from_sql_file(sql_sm_omop, yaml_file_path)
+thr_smk <- fetch_data_from_sql_file(sql_sm_omop, yaml_file_path, release = "feb_2026")
 smk_na= sum_thr - sum(thr_smk$unique_person_count)
 ```
 

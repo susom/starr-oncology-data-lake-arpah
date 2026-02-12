@@ -1,0 +1,12 @@
+---
+title: "Philips ISPM"
+execute:
+  echo: false
+---
+
+
+Please note that Philips ISPM (IntelliSpace Precision Medicine) was discontinued as of October 2025. Genomic data is now available in the OMOP `_variant_occurrence` table, which incorporates data from the STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS (STAMP) test starting in August 2025. 
+
+**Important:** The OMOP variant occurrence table does not currently contain Foundation One tests or certain types of variants detected by STAMP (both of which were previously present in the Philips data). We expect that additional STAMP-detected variant types will be available later this year.
+
+For previous metrics related to Philips ISPM, please refer to the [November 2025 release](nov_2025/philips_metrics.qmd).
