@@ -15,9 +15,11 @@ library(forcats)
 library(dplyr)
 library(DT)
 library(plotly)
+library(ggplot2)
+
 
 # Define unified color palette
-color_palette <- c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5')
+color_palette <- c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fcd7cd')
 
 # Basic variant counts
 sql_file_path_pts <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_patient_counts.sql"
@@ -45,6 +47,19 @@ variant_specimen_type <- fetch_data_from_sql_file(sql_specimen_type, yaml_file_p
 
 sql_specimen_source <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_by_specimen_source.sql"
 variant_specimen_source <- fetch_data_from_sql_file(sql_specimen_source, yaml_file_path, release = "feb_2026")
+
+sql_ordered_tests <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_ordered_tests_counts.sql"
+ordered_tests_counts <- fetch_data_from_sql_file(sql_ordered_tests, yaml_file_path, release = "feb_2026")
+
+sql_ordered_trend <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_ordered_tests_trend.sql"
+ordered_tests_trend <- fetch_data_from_sql_file(sql_ordered_trend, yaml_file_path, release = "feb_2026")
+
+
+sql_frequency <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_freqency.sql"
+variant_frequency <- fetch_data_from_sql_file(sql_frequency, yaml_file_path, release = "feb_2026")
+
+sql_phenotype_class <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_by_phenotype_class.sql"
+variant_phenotype_class <- fetch_data_from_sql_file(sql_phenotype_class, yaml_file_path, release = "feb_2026")
 ```
 
 
@@ -52,11 +67,12 @@ variant_specimen_source <- fetch_data_from_sql_file(sql_specimen_source, yaml_fi
 
 ### Summary
 
-The `_variant_occurrence` table is a custom extension to the OMOP Common Data Model (CDM) that captures detailed genetic variant information identified in patients through genomic testing. This table enables precision oncology research by providing granular variant-level data including genomic coordinates, variant types, molecular consequences, and clinical interpretations.
+The **`_variant_occurrence`** table is a custom extension to the OMOP Common Data Model (CDM) that captures detailed genetic variant information identified in patients through genomic testing. This table enables precision oncology research by providing granular variant-level data including genomic coordinates, variant types, molecular consequences, and clinical interpretations.
 
 Currently, the table contains variants identified via the **Stanford Actionable Mutation Panel for Solid Tumors (STAMP)** test, sourced from the Epic Genomics Suite. STAMP tests processed through Epic Genomics Suite starting in August 2025 are included in this table.
 
-Each record in the `_variant_occurrence` table includes:
+
+Each record in the **`_variant_occurrence`** table includes:
 
 - Genomic information (chromosome, position, DNA/amino acid changes)
 - Variant classification (type, molecular consequence)
@@ -65,6 +81,14 @@ Each record in the `_variant_occurrence` table includes:
 - Linkage to clinical context (visit, procedure, provider)
 
 As of February 2026, this table includes **`r format(n_pts$n_patients, big.mark = ",")`** patients with **`r format(n_pts$n_variants, big.mark = ",")`** genetic variants.
+
+
+### Key Considerations
+
+- Only simple variants detected in STAMP tests are present in the source data; fusion variants and copy number variants are not currently reported. We expect that additional variant types will be incorporated in future releases as the dataset continues to evolve.
+
+- The OMOP variant occurrence table does not currently contain Foundation One tests or certain types of variants detected by STAMP (both of which were previously present in the Philips data). We expect that additional STAMP-detected variant types will be available later this year.
+
 
 ### Cohort Distribution
 
@@ -101,26 +125,98 @@ DT::datatable(
 
 **Note:** Tumor board patients are identified by visit records containing "tumor board" (case-insensitive). Thoracic cancer patients are identified from NeuralFrame diagnoses with primary sites including lung, bronchus, or thymus. 
 
+
+## Variant Occurrence Metrics {.tabset}
+This section presents key metrics and visualizations of genetic variants identified in our patient population through STAMP genomic testing.
+
 ::: {.columns}
 
 ::: {.column width="40%"}
 ### 📊 Data Volume 
 - **Patient Count:** `r format(n_pts$n_patients, big.mark = ",")`
 - **Variant Count:** `r format(n_pts$n_variants, big.mark = ",")`
-- **Variants per Patient:** `r round(n_pts$n_variants / n_pts$n_patients, 1)`
 :::
 
 ::: {.column width="60%"}
 ### 🧬 Data Components 
 - **Unique Genes:** `r format(nrow(variant_genes), big.mark = ",")`
-- **Variant Types:** `r format(nrow(variant_types), big.mark = ",")`
 - **Molecular Consequences:** `r format(nrow(variant_consequence), big.mark = ",")`
 :::
 
 :::
 
-## Variant Occurrence Metrics {.tabset}
-This section presents key metrics and visualizations of genetic variants identified in our patient population through STAMP genomic testing.
+
+## Genomic Test Metrics {.tabset}
+
+::: {.panel-tabset}
+
+### Overview
+
+This section provides metrics on the number of unique genomic tests ordered that generated variant data.
+
+```{r test counts, message=FALSE, warning=FALSE, echo=FALSE}
+# Create summary table
+test_summary <- data.frame(
+  Metric = c("Unique Ordered Tests", "Patients with Tests", "Total Variants Detected"),
+  Count = c(
+    format(ordered_tests_counts$n_unique_tests, big.mark = ","),
+    format(ordered_tests_counts$n_patients, big.mark = ","),
+    format(ordered_tests_counts$n_variants, big.mark = ",")
+  )
+)
+
+DT::datatable(
+  test_summary,
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    pageLength = 10
+  ),
+  rownames = FALSE
+)
+```
+
+**Note:** Each unique `procedure_occurrence_id` represents a distinct genomic test order. A single test may detect multiple variants in a patient.
+
+### Calendar Trend
+
+The following visualization shows the monthly trend of genomic test orders over time.
+
+```{r test trend, message=FALSE, warning=FALSE}
+# Format data for visualization - aggregate daily data to monthly
+library(lubridate)
+df_trend <- ordered_tests_trend %>%
+  mutate(order_date = as.Date(order_date),
+         year_month = floor_date(order_date, "month")) %>%
+  group_by(year_month) %>%
+  summarise(
+    n_tests = sum(n_tests),
+    n_patients = sum(n_patients),
+    n_variants = sum(n_variants),
+    .groups = "drop"
+  )
+
+# Create the plot
+plot_ly(df_trend, x = ~year_month, y = ~n_tests, type = "bar",
+        marker = list(color = color_palette[1]),
+        hovertemplate = paste(
+          "<b>%{x|%B %Y}</b><br>",
+          "Tests: %{y:,.0f}<br>",
+          "Patients: %{customdata:,.0f}<br>",
+          "<extra></extra>"
+        ),
+        customdata = ~n_patients) %>%
+  layout(
+    xaxis = list(title = "Order Month"),
+    yaxis = list(title = "Number of Unique Tests"),
+    title = "Genomic Test Orders by Month",
+    hovermode = "x"
+  )
+```
+
+:::
+
+## Variant Characteristics {.tabset}
 
 ::: {.panel-tabset}
 
@@ -151,45 +247,10 @@ plot_ly(df_genes,
   layout(
     xaxis = list(title = "Number of Variants"),
     yaxis = list(title = ""),
-    title = "Top 20 Genes by Variant Count",
+    title = "",
     margin = list(l = 100)
   )
 ```
-
-**Note:** These genes represent the most commonly mutated genes in cancer, many of which are therapeutically actionable.
-
-### Variant Types
-
-Distribution of variant types across the cohort.
-
-```{r variant types, message=FALSE, warning=FALSE}
-df_types <- variant_types %>% 
-  filter(!is.na(variant_type)) %>%
-  arrange(desc(n_variants))
-
-plot_ly(df_types,
-        labels = ~variant_type,
-        values = ~n_variants,
-        type = "pie",
-        textinfo = "label+percent",
-        customdata = ~n_patients,
-        hovertemplate = paste(
-          "<b>%{label}</b><br>",
-          "Variants: %{value:,.0f}<br>",
-          "Patients: %{customdata:,.0f}<br>",
-          "Percent: %{percent}<br>",
-          "<extra></extra>"
-        ),
-        marker = list(colors = rep(color_palette, length.out = nrow(df_types)))) %>%
-  layout(title = "Distribution of Variant Types")
-```
-
-**Variant Type Categories:**
-
-- **SNV (Single Nucleotide Variant):** Single base pair changes
-- **CNV (Copy Number Variant):** Amplifications or deletions
-- **Indel:** Small insertions or deletions
-- **MNV (Multiple Nucleotide Variant):** Multiple adjacent base changes
 
 ### Molecular Consequences
 
@@ -215,7 +276,7 @@ plot_ly(df_consequence,
   layout(
     xaxis = list(title = "Number of Variants"),
     yaxis = list(title = ""),
-    title = "Top Molecular Consequences",
+    title = "",
     margin = list(l = 150)
   )
 ```
@@ -226,6 +287,43 @@ plot_ly(df_consequence,
 - **Nonsense:** Premature stop codon
 - **Frameshift:** Reading frame disruption
 - **Splice site:** Affects RNA splicing
+
+### Clinical Classification
+
+Distribution of variants by phenotype-specific variant classification.
+
+```{r phenotype class, message=FALSE, warning=FALSE}
+df_phenotype <- variant_phenotype_class %>% 
+  filter(!is.na(phenotype_spec_var_class)) %>%
+  arrange(desc(n_variants)) %>%
+  mutate(phenotype_spec_var_class = fct_reorder(phenotype_spec_var_class, n_variants))
+
+plot_ly(df_phenotype,
+        y = ~phenotype_spec_var_class,
+        x = ~n_variants,
+        type = "bar",
+        marker = list(color = color_palette[5]),
+        customdata = ~n_patients,
+        hovertemplate = paste(
+          "<b>%{y}</b><br>",
+          "Variants: %{x:,.0f}<br>",
+          "Patients: %{customdata:,.0f}<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    xaxis = list(title = "Number of Variants"),
+    yaxis = list(title = ""),
+    title = "",
+    margin = list(l = 200)
+  )
+```
+
+**Clinical Significance:**
+
+- **Pathogenic/Likely Pathogenic:** Variants with established or strong evidence for disease association and potential therapeutic implications
+- **Benign/Likely Benign:** Variants with no expected clinical impact
+- **VUS (Variant of Uncertain Significance):** Variants requiring further investigation to determine clinical relevance
+- **Other classifications:** May include context-dependent or conditional pathogenicity assessments
 
 :::
 
@@ -292,16 +390,56 @@ plot_ly(df_specimen_source,
   layout(
     xaxis = list(title = "Number of Variants"),
     yaxis = list(title = ""),
-    title = "Top 15 Specimen Sources",
+    title = "",
     margin = list(l = 150)
   )
 ```
 
-**Note:** Specimen source indicates the anatomic location from which the tested specimen was collected.
-
-
 
 :::
+
+## Allelic Frequency Distribution {.tabset}
+
+::: {.panel-tabset}
+
+### By Molecular Consequence
+
+Distribution of allelic frequencies across different variant molecular consequences.
+
+```{r allelic frequency, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+# Filter and prepare data
+df_freq <- variant_frequency %>%
+  filter(!is.na(variant_molecular_consequence),
+         !is.na(allelic_frequency),
+         allelic_frequency > 0) %>%
+  # Get top consequence types for readability
+  mutate(consequence_count = n(), .by = variant_molecular_consequence) %>%
+  filter(consequence_count >= 10) %>%
+  mutate(variant_molecular_consequence = fct_reorder(variant_molecular_consequence, allelic_frequency, .fun = median))
+
+# Create sina plot
+ggplot(df_freq, aes(x = variant_molecular_consequence, y = allelic_frequency)) +
+  geom_violin(fill = color_palette[4], alpha = 0.3, color = NA) +
+  geom_jitter(alpha = 0.3, size = 1, width = 0.2, color = color_palette[4]) +
+  stat_summary(fun = median, geom = "point", size = 3, color = "black", shape = 18) +
+  labs(
+    x = "Variant Molecular Consequence",
+    y = "Allelic Frequency",
+    title = ""
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 10),
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold")
+  ) +
+  scale_y_continuous(labels = scales::percent_format())
+```
+
+**Interpretation:** Each point represents a variant's allelic frequency. The diamond markers indicate the median allelic frequency for each consequence type. Allelic frequency represents the proportion of DNA reads containing the variant allele.
+
+:::
+
+
 
 ### Source Code
 The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/variant_occ.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/variant).
