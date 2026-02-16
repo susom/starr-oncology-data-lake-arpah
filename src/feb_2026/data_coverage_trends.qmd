@@ -179,12 +179,12 @@ library(DT)
 # Format the demographic data for display
 demog_formatted <- demog %>%
   mutate(
-    month_label = recode(month,
-      "feb_2025" = "Feb_2025",
-      "may_2025" = "May_2025", 
-      "aug_2025" = "Aug_2025",
-      "nov_2025" = "Nov_2025",
-      "feb_2026" = "Feb_2026"
+    month_label = recode(release,
+      "feb_2025" = "Feb 2025",
+      "may_2025" = "May 2025", 
+      "aug_2025" = "Aug 2025",
+      "nov_2025" = "Nov 2025",
+      "feb_2026" = "Feb 2026"
     ),
     # Format numbers with commas
     sample_size = scales::comma(sample_size),
@@ -253,6 +253,18 @@ head(overlap_res)
 # Check what data sources are available
 unique(overlap_res$data_set)
 ```
+
+```{r check add variant to philips, message=FALSE, warning=FALSE, results='hide'}
+# Check what data sources are available
+
+var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_patient_counts.sql"
+
+var_res=fetch_data_from_sql_file(var_den_sql, yaml_file_path, release = "feb_2026")
+var_res$n_patients
+
+```
+
+
 ### Data Source Summary
 
 ```{r overlap plot, message=FALSE, warning=FALSE}
@@ -260,8 +272,21 @@ library(plotly)
 library(dplyr)
 
 # Prepare data with proper month ordering and labels
-overlap_plot_data <- overlap_res %>%
+overlap_plot_data <- bind_rows(
+  overlap_res,
+  tibble(
+    release = "feb_2026",
+    data_set = "Philips ISPM",
+    counts_pts = as.numeric(var_res$n_patients),
+    month = overlap_res %>% filter(release == "feb_2026") %>% pull(month) %>% first()
+  )
+) %>%
+  group_by(release, data_set, month) %>%
+  summarise(counts_pts = sum(counts_pts, na.rm = TRUE), .groups = "drop") %>%
   mutate(
+    # Create proper ordering factor for releases
+    release_ordered = factor(release, 
+                            levels = c("feb_2025", "may_2025", "aug_2025", "nov_2025", "feb_2026")),
     # Use the month value directly as it now contains full date labels
     month_label = month,
     # Clean up data set names for legend
@@ -270,19 +295,19 @@ overlap_plot_data <- overlap_res %>%
       data_set == "Neural Frame" ~ "Neural Frame",
       data_set == "With Tumor Board Encounter" ~ "Tumor Board",
       data_set == "With Image Occurrence" ~ "Image Occurrence",
-      data_set == "Philips ISPM" ~ "Philips ISPM",
+      data_set == "Philips ISPM" ~ "Philips ISPM/Genomic Data",
       TRUE ~ data_set
     )
   ) %>%
   # Remove the 100% baseline to focus on actual data sources
   #filter(data_set != "Oncology OMOP (Cohort)") %>%
   # Ensure we have data for all months, fill missing values
-  tidyr::complete(month, data_set_clean, fill = list(percentage = 0, counts_pts = 0))
+  tidyr::complete(release_ordered, data_set_clean, fill = list(percentage = 0, counts_pts = 0, month = NA))
 
 # Create interactive line plot with consistent colors
 plot_ly(
   data = overlap_plot_data,
-  x = ~month,
+  x = ~release_ordered,
   y = ~counts_pts,
   color = ~data_set_clean,
   colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072'),
@@ -290,7 +315,6 @@ plot_ly(
   mode = 'lines+markers',
   text = ~paste0(
     data_set_clean, 
-    "<br>Month: ", month_label,
     "<br>Patients: ", scales::comma(counts_pts)
   ),
   hoverinfo = "text",
@@ -301,10 +325,10 @@ plot_ly(
     title = "Unique Patient Counts Over Time by Source",
     xaxis = list(
       title = "",
-      ticktext = c("February", "May", "August", "November"),
-      tickvals = c("feb", "may", "aug", "nov"),
+      ticktext = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026"),
+      tickvals = c("feb_2025", "may_2025", "aug_2025", "nov_2025", "feb_2026"),
       categoryorder = "array",
-      categoryarray = c("feb", "may", "aug", "nov")
+      categoryarray = c("feb_2025", "may_2025", "aug_2025", "nov_2025", "feb_2026")
     ),
     yaxis = list(
       title = "Number of Patients",
@@ -317,11 +341,26 @@ plot_ly(
       y = 0.5
     ),
     hovermode = 'closest',
-    margin = list(r = 150)
+    margin = list(r = 150),
+    annotations = list(
+      list(
+        text = "* Feb 2026 Philips ISPM includes OMOP variant_occurrence data",
+        xref = "paper",
+        yref = "paper",
+        x = 0,
+        y = -0.15,
+        xanchor = "left",
+        yanchor = "top",
+        showarrow = FALSE,
+        font = list(size = 10, color = "gray")
+      )
+    )
   )
 ```
 
 **<sup>†</sup>Note:** The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May-November releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
+
+**<sup>*</sup>Note:** Feb 2026 Philips ISPM/Genomic Data includes patients from OMOP variant_occurrence table combined with Philips ISPM data.
 
 
 ### OMOP Clinical Metrics 
@@ -375,18 +414,19 @@ if (nrow(ctsa_res) == 0) {
   library(plotly)
   
   # Define consistent colors for the plot
-  bar_colors <- c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072')
+  bar_colors <- c('#8dd3c7', '#ffffb3', '#bebada', '#cbd6ab', '#80b1d3')
 
   # Add formatted release labels with proper ordering
   ctsa_res <- ctsa_res %>%
     mutate(release_label = factor(
       recode(release,
-        "feb_2025" = "February",
-        "may_2025" = "May", 
-        "aug_2025" = "August",
-        "feb_2026" = "November"
+        "feb_2025" = "February 2025",
+        "may_2025" = "May 2025", 
+        "aug_2025" = "August 2025",
+        "nov_2025" = "November 2025",
+        "feb_2026" = "February 2026"
       ),
-      levels = c("February", "May", "August", "November")
+      levels = c("February 2025", "May 2025", "August 2025", "November 2025", "February 2026")
     ))
 
   # Create the plot
@@ -423,7 +463,8 @@ The VISTA Oncology Data Lake captures mortality information from multiple source
 death_sql_paths <- list(
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/may_aug25/vital_status_person_metrics.sql",
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/may_aug25/vital_status_person_metrics.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/nov25/vital_status_person_metrics.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/nov25/vital_status_person_metrics.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/feb26/vital_status_person_metrics.sql"
 )
 
 # Run death metrics across releases
@@ -445,6 +486,7 @@ death_table <- death_res %>%
       month == "may" ~ "May 2025",
       month == "aug" ~ "August 2025",
       month == "nov" ~ "November 2025",
+      month == "feb" ~ "February 2026",
       TRUE ~ month
     ),
     n_death = format(n_death, big.mark = ",", scientific = FALSE)
@@ -488,7 +530,8 @@ thoracic_sql_paths <- list(
   feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb25/nf_thoracic/scr_thoracic_denominator.sql",
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql", 
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/nov25/nf_thoracic/scr_thoracic_denominator.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/nov25/nf_thoracic/scr_thoracic_denominator.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_denominator.sql"
 )
 
 # Run thoracic analysis across releases
@@ -510,7 +553,8 @@ thoracic_complete_sql_paths <- list(
   feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb25/nf_thoracic/scr_thoracic_denominator_complete.sql",
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator_complete.sql",
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator_complete.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/nov25/nf_thoracic/scr_thoracic_denominator_complete.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/nov25/nf_thoracic/scr_thoracic_denominator_complete.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/thoracic/feb26/nf_thoracic/scr_thoracic_denominator_complete.sql"
 )
 
 # Run thoracic complete cases analysis across releases
@@ -646,7 +690,8 @@ if (nrow(thoracic_tb_nf_res) > 0) {
       month_label = recode(month,
         "may" = "May 2025",
         "aug" = "August 2025", 
-        "nov" = "November 2025"
+        "nov" = "November 2025",
+        "feb" = "February 2026"
       ),
       metric_clean = case_when(
         metric_type == "total_thoracic_tb" ~ "Total Thoracic TB Patients",
@@ -672,7 +717,7 @@ if (nrow(thoracic_tb_nf_res) > 0) {
     thoracic_tb_summary,
     colnames = c(
       "Metric",
-      "May\nN (%)", "Aug\nN (%)", "Nov\nN (%)"
+      "May 2025\nN (%)", "Aug 2025\nN (%)", "Nov 2025\nN (%)", "Feb 2026\nN (%)"
     ),
     caption = "Thoracic Cancer Tumor Board Patients: Neural Frame Coverage Summary",
     options = list(
@@ -810,7 +855,8 @@ img_person_sql_paths <- list(
   feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/feb25/image_occ_person.sql",
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/may_aug25/image_occ_person.sql", 
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/may_aug25/image_occ_person.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_person.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_person.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/feb26/image_occ_person.sql"
 )
 
 img_res <- run_monthly_metrics(
@@ -824,7 +870,8 @@ img_basic_sql_paths <- list(
   feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/feb25/image_occ_basic.sql",
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/may_aug25/image_occ_basic.sql", 
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/may_aug25/image_occ_basic.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_basic.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_basic.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/feb26/image_occ_basic.sql"
 )
 
 img_size <- run_monthly_metrics(
@@ -937,7 +984,10 @@ metric_order <- all_metrics %>%
 
 # Apply ordering to the data
 all_metrics <- all_metrics %>%
-  mutate(metric = factor(metric, levels = metric_order))
+  mutate(
+    metric = factor(metric, levels = metric_order),
+    month_label = factor(month_label, levels = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026"))
+  )
 
 # Create stacked bar chart with all metrics
 plot_ly(
@@ -955,7 +1005,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
+      categoryarray = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026")
     ),
     yaxis = list(
       title = "Count",
@@ -983,7 +1033,8 @@ img_mod_sql_paths <- list(
   feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/feb25/image_occ_modality.sql",
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/may_aug25/image_occ_modality.sql", 
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/may_aug25/image_occ_modality.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_modality.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/nov25/image_occ_modality.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/image_occ/feb26/image_occ_modality.sql"
 )
 
 img_mod <- run_monthly_metrics(
@@ -1013,16 +1064,23 @@ img_mod <- img_mod %>%
 img_summary <- img_mod %>%
   group_by(month, month_label, modality_group) %>%
   summarise(counts = sum(unique_person_count), .groups = "drop") %>%
-  mutate(counts = as.numeric(counts))
+  mutate(
+    counts = as.numeric(counts),
+    month_label = factor(month_label, levels = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026"))
+  )
 ```
 
 ```{r modality_plot, message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
 
+# Sort data by factor levels to ensure proper line connections
+img_summary_sorted <- img_summary %>%
+  arrange(modality_group, month_label)
+
 # Create line chart showing modality growth without shading
 plot_ly(
-  data = img_summary,
+  data = img_summary_sorted,
   x = ~month_label,
   y = ~counts,
   color = ~modality_group,
@@ -1043,7 +1101,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
+      categoryarray = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026")
     ),
     yaxis = list(
       title = "Number of Patients",
@@ -1080,11 +1138,12 @@ The VISTA Oncology Data Lake integrates comprehensive molecular testing data fro
 philips_denom_sql_paths <- list(
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/may_aug25/philips_denominator.sql", 
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/may_aug25/philips_denominator.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/nov25/philips_denominator.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/nov25/philips_denominator.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/feb26/philips_denominator.sql"
 )
 
 philips_denom <- run_monthly_metrics(
-  datasets_by_month = datasets_by_month[c("may_2025", "aug_2025", "nov_2025")],
+  datasets_by_month = datasets_by_month[c("may_2025", "aug_2025", "nov_2025", "feb_2026")],
   sql_file_paths = philips_denom_sql_paths,
   release_to_month = release_to_month
 )
@@ -1095,11 +1154,12 @@ philips_denom <- run_monthly_metrics(
 philips_tests_sql_paths <- list(
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/may_aug25/philips_tests_ordered.sql", 
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/may_aug25/philips_tests_ordered.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/nov25/philips_tests_ordered.sql"
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/nov25/philips_tests_ordered.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/feb26/philips_tests_ordered.sql"
 )
 
 philips_tests <- run_monthly_metrics(
-  datasets_by_month = datasets_by_month[c("may_2025", "aug_2025", "nov_2025")],
+  datasets_by_month = datasets_by_month[c("may_2025", "aug_2025", "nov_2025", "feb_2026")],
   sql_file_paths = philips_tests_sql_paths,
   release_to_month = release_to_month
 )
@@ -1113,11 +1173,12 @@ library(tidyr)
 # Prepare philips_denom data
 philips_overview <- philips_denom %>%
   mutate(
-    month = factor(month, levels = c("may", "aug", "nov")),
-    month_label = recode(month,
-      "may" = "May",
-      "aug" = "August",
-      "nov" = "November"
+    release = factor(release, levels = c("may_2025", "aug_2025", "nov_2025", "feb_2026")),
+    month_label = recode(release,
+      "may_2025" = "May 2025",
+      "aug_2025" = "August 2025",
+      "nov_2025" = "November 2025",
+      "feb_2026" = "February 2026"
     )
   ) %>%
   pivot_longer(
@@ -1130,16 +1191,18 @@ philips_overview <- philips_denom %>%
       "counts_pts" = "Unique Patients",
       "n_acc" = "Accession Numbers"
     )
-  )
+  ) %>%
+  select(month_label, metric_label, count)
 
 # Prepare test type data
 philips_tests_data <- philips_tests %>%
   mutate(
-    month = factor(month, levels = c("may", "aug", "nov")),
-    month_label = recode(month,
-      "may" = "May",
-      "aug" = "August",
-      "nov" = "November"
+    release = factor(release, levels = c("may_2025", "aug_2025", "nov_2025", "feb_2026")),
+    month_label = recode(release,
+      "may_2025" = "May 2025",
+      "aug_2025" = "August 2025",
+      "nov_2025" = "November 2025",
+      "feb_2026" = "February 2026"
     ),
     metric_label = case_when(
       is.na(test_type) | test_type == "" ~ "Not Specified",
@@ -1177,7 +1240,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("May", "August", "November")
+      categoryarray = c("May 2025", "August 2025", "November 2025", "February 2026")
     ),
     yaxis = list(
       title = "Count",
@@ -1203,12 +1266,7 @@ library(dplyr)
 # Prepare test type data
 philips_tests_plot <- philips_tests %>%
   mutate(
-    month = factor(month, levels = c("may", "aug", "nov")),
-    month_label = recode(month,
-      "may" = "May",
-      "aug" = "August",
-      "nov" = "November"
-    ),
+
     # Clean up test type names
     test_type_clean = case_when(
       is.na(test_type) | test_type == "" ~ "Not Specified",
@@ -1218,15 +1276,15 @@ philips_tests_plot <- philips_tests %>%
 
 # Create grouped bar chart with consistent colors
 plot_ly(
-  data = philips_tests_plot,
-  x = ~month_label,
+  data = philips_tests,
+  x = ~month,
   y = ~test_type_counts,
-  color = ~test_type_clean,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd'),
+  color = ~test_type,
+  colors = c('#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#E0BBE4', '#FFC9DE', '#C9E4DE'),
   type = 'bar',
   text = ~paste0(
-    test_type_clean,
-    "<br>", month_label,
+    test_type,
+    "<br>", month,
     "<br>Tests: ", scales::comma(test_type_counts)
   ),
   hoverinfo = "text"
@@ -1236,7 +1294,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("May", "August", "November")
+      categoryarray = c("May 2025", "August 2025", "November 2025", "February 2026")
     ),
     yaxis = list(
       title = "Number of Tests",
@@ -1255,51 +1313,6 @@ plot_ly(
 ```
 
 
-```{r philips_tests_area, message=FALSE, warning=FALSE, include=FALSE}
-library(plotly)
-library(dplyr)
-
-# Create stacked area chart with consistent colors
-plot_ly(
-  data = philips_tests_plot,
-  x = ~month_label,
-  y = ~test_type_counts,
-  color = ~test_type_clean,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd'),
-  type = 'scatter',
-  mode = 'lines+markers',
-  fill = 'tonexty',
-  text = ~paste0(
-    test_type_clean,
-    "<br>Month: ", month_label,
-    "<br>Tests: ", scales::comma(test_type_counts)
-  ),
-  hoverinfo = "text",
-  line = list(width = 2),
-  marker = list(size = 8)
-) %>%
-  layout(
-    title = "Molecular Test Types Growth Over Time",
-    xaxis = list(
-      title = "",
-      categoryorder = "array",
-      categoryarray = c("May", "August", "November")
-    ),
-    yaxis = list(
-      title = "Number of Tests",
-      tickformat = ","
-    ),
-    legend = list(
-      title = list(text = "Test Type"),
-      orientation = "h",
-      x = 0.5,
-      xanchor = "center",
-      y = -0.3
-    ),
-    hovermode = 'closest',
-    margin = list(b = 150)
-  )
-```
 
 
 ```{r philips new test types, message=FALSE, warning=FALSE, results='hide', include=FALSE}
@@ -1372,7 +1385,7 @@ plot_ly(
   x = ~reorder(stanford_test_type, count_numeric),
   y = ~count_numeric,
   color = ~test_type_clean,
-  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69'),
+  colors = c('#FFB3BA', '#FFDFBA', '#BAFFC9', '#BAE1FF', '#E0BBE4'),
   type = 'bar',
   text = ~paste0(
     "Category: ", test_type_clean,
