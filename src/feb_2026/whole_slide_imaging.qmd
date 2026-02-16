@@ -23,7 +23,7 @@ Each record represents a single whole slide image with associated metadata inclu
 - Procedure timing information
 - Links to clinical notes
 
-Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats by Roxanna's Lab. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. Future releases are expected to include images from additional sources.
+Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. The February 2026 release includes approximately 50 whole slide images in the OMOP table, with an additional 35,000 images available in a standalone ad-hoc table that are not yet integrated into OMOP. Future releases are expected to include images from additional sources and further integration of the ad-hoc dataset.
 
 Please note that the whole slide imaging dataset is in an early stage of development, and will continue to evolve as we work towards integrating more comprehensive imaging datasets in the future releases.
 

@@ -8,9 +8,9 @@ This page provides an overview of the VISTA Oncology Data Lake's evolution acros
 
 ## Release Overview
 
-The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through February 2026, the platform has grown from approximately 200,000 to over 217,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4.
+The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through February 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4. The February 2026 release further expands the platform with whole slide imaging and a custom variant occurrence table, marking significant advancements in multi-modal data integration and research capabilities.
 
-![VISTA Oncology Data Lake](png_files/vista_png.png)
+![VISTA Oncology Data Lake](png_files/Feb_Vista.png)
 
 ### February 2025 - Foundation Release
 
@@ -59,13 +59,12 @@ The November 2025 release represents a major technical advancement with comprehe
 
 This release modernizes the technical infrastructure while maintaining backward compatibility, positioning the data lake for next-generation research applications and enhanced analytical capabilities.
 
-### February 2026 - Imaging and Genomic Expansion
+### February 2026 - WSI and Genomic Expansion
 
 The February 2026 release expands the data lake with whole slide imaging and detailed genomic variant data:
 
-- **Whole Slide Imaging (WSI)**: Integration of manually scanned histopathology slides from Roxanna's Lab, deidentified and split into TIFF and JSON files. Includes only slides with order_proc_ids linkable to PEF Clarity to exclude HPP or test patients
-- **Variant Occurrence Table**: Custom STARR-OMOP table containing detailed genetic variant information from genomic testing. Currently includes variants from STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests processed through Epic Genomics Suite starting August 2025
-- **Enhanced Molecular Profiling**: Detailed variant-level data enables precision oncology research and genomic biomarker discovery
+- **Whole Slide Imaging (WSI)**: Integration of manually scanned, deidentified histopathology slides stored as TIFF image files with corresponding JSON metadata. Dataset includes only slides with order_proc_ids that can be linked to Epic Clarity to ensure appropriate patient cohort inclusion and data quality
+- **Variant Occurrence Table**: Custom STARR-OMOP table containing detailed genetic variant information from genomic testing. Currently includes variants from STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests processed through Epic Genomics Suite starting August 2025, with plans to expand to additional test types and variant classes in future releases
 
 This release significantly expands pathology imaging capabilities and provides granular genomic variant data for translational research applications.
 
@@ -114,12 +113,12 @@ release_summary <- tibble::tribble(
   "Enhanced ETL pipeline with updated vocabulary",
   
   "February 2026",
-  "Continued coverage",
+  "Continued coverage + WSI + Variant Occurrence",
   "Continued coverage",
   "Continued coverage",
   "<b>Whole Slide Imaging (WSI), Variant Occurrence table<b>",
   "Added custom variant_occurrence table for genomic variants; Added _whole_slide_imaging table",
-  "WSI TIFF/JSON files from Roxanna's Lab"
+  "WSI TIFF/JSON files"
 )
 
 # Format the table with improved styling
@@ -211,14 +210,14 @@ identifier_keys <- tibble::tribble(
   "Not available",
   "Not available",
   "Not available",
-  "person_id, order_proc_id",
+  "person_id",
   
   "Variant Occurrence",
   "Not available",
   "Not available",
   "Not available",
   "Not available",
-  "person_id",
+  "person_id"
   
 )
 
@@ -274,6 +273,12 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 
 - Image Occurrence table also includes **note_id**, **visit_occurrence_id**, and **accession_number** for linking to clinical notes, visits, and imaging studies
 
+- Philips ISPM includes **accession_number** for linking genomic test results to specific clinical specimens and visits
+
+- Whole Slide Imaging includes **accession_number** and **note_id** for linking histopathology slides to clinical notes and specimens
+
+- Variant Occurrence includes **accession_number** for linking genomic variants to specific clinical specimens and visits, **visit_occurrence_id** for linking to clinical visits, and **procedure_occurrence_id** for linking to specific procedures associated with genomic testing
+
 **<sup>†</sup>November 2025 OMOP 5.4 Update:** In the November 2025 release, `person_source_value` is JSON-formatted. To join with `stanford_patient_uid`, extract the field using: `JSON_VALUE(person_source_value, '$.stanford_patient_uid')`
 
 
@@ -281,7 +286,7 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 
 For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](feb_2026/data_coverage_trends.qmd) page.
 
-For each data release (February, May, August, and November 2025), we examine:
+For each data release (February 2025 to February 2026), we examine:
 
 - Demographic characteristics (cohort size, age distribution, gender, race)
 - Data source coverage across integrated systems (NeuralFrame, Philips ISPM, Imaging, Tumor Board)
