@@ -9,7 +9,7 @@ Standardized Health Economics data Table, currently empty
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
 | payer_plan_period_id                                | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER | Yes        |       | Sub                       |
+| person_id                                           | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | payer_plan_period_start_date                        | DATE    | Yes        | Yes   | Jitt                      |
 | payer_plan_period_end_date                          | DATE    | Yes        | Yes   | Jitt                      |
 | payer_concept_id                                    | INTEGER | Yes        |       |                        |

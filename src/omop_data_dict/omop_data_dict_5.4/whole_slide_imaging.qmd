@@ -1,0 +1,71 @@
+---
+title: "whole_slide_imaging"
+---
+
+Clinical Data Table - Whole Slide Images
+
+A record of whole slide images. Eventually there will likely be three sources of whole slide image files, currently the table contains manually scanned slides that have been deidentified and split into TIFF and JSON files by Roxanna's Lab. Only order_proc_ids that can be linked to pef clarity are included, this is to ensure no HPP or test patients are represented in the table.
+
+### Table Columns
+
+| field                                               | type     | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
+| whole_slide_imaging_id (PK)                         | INT64    | Yes        | Yes   | Not Stable between Data Refreshes                    |
+| person_id (FK)                                      | INT64    | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
+| accession_number                                    | STRING   | Yes        | Yes   | Hash                      |
+| json_uri                                            | STRING   | Yes        |       |                           |
+| tiff_uri                                            | STRING   | Yes        |       |                           |
+| spec_source_c                                       | INT64    | No         |       |                           |
+| specimen_source_name                                | STRING   | No         |       |                           |
+| specimen_type_c                                     | INT64    | No         |       |                           |
+| specimen_type_name                                  | STRING   | No         |       |                           |
+| procedure_start_time                                | DATETIME | No         | Yes   | Jitt                      |
+| note_id (FK)                                        | INT64    | No         | Yes   | Sub with Stable between Data Refreshes                    |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### whole_slide_imaging_id (PK)
+
+Primary key for the whole slide imaging table.
+
+##### person_id (FK)
+
+OMOP person_id associated with the slide.
+
+##### accession_number
+
+Accession number from cross walk linking source_deid_slide_id to accession number provided by Roxanna's Lab, where it also exists in the order_rad_acc_num table and can be linked to the same patient.
+
+##### json_uri
+
+GCS URI to JSON metadata for the slide.
+
+##### tiff_uri
+
+GCS URI to TIFF image for the slide.
+
+##### spec_source_c
+
+Category value for the specimen source.
+
+##### specimen_source_name
+
+Specimen source from the clarity spec_db_main table.
+
+##### specimen_type_c
+
+Category value for the specimen type.
+
+##### specimen_type_name
+
+Specimen type from the clarity spec_db_main table.
+
+##### procedure_start_time
+
+Date and time when the procedure started from the clarity order_proc table.
+
+##### note_id (FK)
+
+Foreign key link to the pathology report in the notes table.

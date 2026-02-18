@@ -14,6 +14,7 @@ project:
    - robots.txt
    - aug_2025/*
    - nov_2025/*
+   - feb_2026/*
    - cap_forms_data_dict/*
    - dicom_data_dict/*
    - epic_media_server_dict/*

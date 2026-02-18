@@ -8,15 +8,15 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| visit_occurrence_id                                 | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| visit_occurrence_id                                 | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | visit_concept_id                                    | INTEGER  | Yes        |       |                        |
 | visit_start_DATE                                    | DATE     | No         | Yes   | Jitter                    |
 | visit_start_DATETIME                                | DATETIME | Yes        | Yes   | Jitter                    |
 | visit_end_DATE                                      | DATE     | No         | Yes   | Jitter                    |
 | visit_end_DATETIME                                  | DATETIME | Yes        | Yes   | Jitter                    |
 | visit_type_concept_id                               | INTEGER  | Yes        |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | care_site_id                                        | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
 | visit_source_value                                  | STRING   | No         | Yes   |                        |
 | visit_source_concept_id                             | INTEGER  | Yes        |       |                        |
