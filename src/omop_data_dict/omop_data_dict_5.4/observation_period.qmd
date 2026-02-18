@@ -9,7 +9,7 @@ Standard Clinical Data Table
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
 | observation_period_id                               | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER | Yes        |       | Sub                       |
+| person_id                                           | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | observation_period_start_date                       | DATE    | Yes        | Yes   | Jitt                      |
 | observation_period_end_date                         | DATE    | Yes        | Yes   | Jitt                      |
 | period_type_concept_id                              | INTEGER | Yes        |       |                        |

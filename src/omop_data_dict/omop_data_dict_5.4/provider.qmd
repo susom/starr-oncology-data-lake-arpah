@@ -8,7 +8,7 @@ Standarized Health System Data Tables
 
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
-| provider_id                                         | INTEGER | Yes        | No    | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                    |
 | provider_name                                       | STRING  | No         | No    |                        |
 | npi                                                 | STRING  | No         | No    |                        |
 | dea                                                 | STRING  | No         | No    | Del                       |

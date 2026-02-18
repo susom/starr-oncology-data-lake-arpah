@@ -4,19 +4,19 @@ execute:
   echo: false
 ---
 
-*Release Version: November 2025 (IRB76049)*
+*Release Version: February 2026 (IRB76049)*
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_params.yml"
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_params.yml"
 
 ```
 
 ### **Population Summary**
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-den <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_std/arpah_cohort/feb26/arpah_denominators_update.sql"
-den_res <- fetch_data_from_sql_file(den, yaml_file_path)
+den <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/feb26/arpah_denominators_update.sql"
+den_res <- fetch_data_from_sql_file(den, yaml_file_path, release = "feb_2026")
 
 den_res=den_res %>% arrange(desc(percentage))
 
@@ -25,7 +25,7 @@ den_res=den_res %>% arrange(desc(percentage))
 
 Patients are included in the Oncology-OMOP dataset if they have a case in the Neural Frame Stanford Cancer Registry (regardless of case status) or if they have a tumor board encounter in Epic Clarity. 
 
-As of the November 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
+As of the February 2026 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
     - [Neural Frame Metrics](neural_frame.qmd)
@@ -42,7 +42,7 @@ As of the November 2025 OMOP population, `r format( den_res$counts_pts[den_res$d
   - **OMOP Variant Occurrence:** The OMOP variant occurrence table captures records of genomic variants at the patient level providing a path to deidentified genomic data. Currently, it only contains variants identified via the STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS (STAMP) test. The data is sourced from the Epic Genomics Suite, which incorporated STAMP tests starting in August of 2025.
     - [Variant Occurrence Metrics](variant_occ.qmd)
 
-  - **OMOP Whole Slide Imaging:** The OMOP whole slide imaging table contains records of digitized pathology slides. This dataset is expected to eventually include images from three different sources. Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats by Roxanna's Lab. To ensure data quality and patient eligibility, only slides with order_proc_ids that can be linked to Epic Clarity are included, which prevents inclusion of HPP (Health Promotion and Prevention) or test patients.
+  - **OMOP Whole Slide Imaging:** The OMOP whole slide imaging table contains records of digitized pathology slides. This dataset is expected to eventually include images from three different sources. Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. To ensure data quality and patient eligibility, only slides with order_proc_ids that can be linked to Epic Clarity are included, which prevents inclusion of HPP (Health Promotion and Prevention) or test patients.
     - [Whole Slide Imaging Metrics](whole_slide_imaging.qmd)
  
 ```{r table1, message=FALSE, warning=FALSE}
@@ -88,8 +88,8 @@ den_res_formatted <- den_res %>%
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2025/sql_std/arpah_cohort/feb26/arpah_overlap_metrics_updated.sql"
-res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/feb26/arpah_overlap_metrics_updated.sql"
+res <- fetch_data_from_sql_file(sql_ids, yaml_file_path, release = "feb_2026")
 head(res)
 
 library(tidyr)
@@ -170,4 +170,4 @@ pg
 
 
 ### Source Codes:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2025/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2025/sql_std/arpah_cohort/feb26). 
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2026/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/arpah_cohort/feb26). 

@@ -9,7 +9,7 @@ Standard Clinical Data Table
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
 | drug_exposure_id                                    | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | drug_concept_id                                     | INTEGER  | Yes        |       |                        |
 | drug_exposure_start_date                            | DATE     | No         | Yes   | Jitter                    |
 | drug_exposure_start_datetime                        | DATETIME | Yes        | Yes   | Jitter                    |
@@ -24,9 +24,9 @@ Standard Clinical Data Table
 | sig                                                 | STRING   | No         | Yes   | TiDE or Del               |
 | route_concept_id                                    | INTEGER  | Yes        |       |                        |
 | lot_number                                          | STRING   | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | drug_source_value                                   | STRING   | No         |       |                        |
 | drug_source_concept_id                              | INTEGER  | Yes        |       |                        |
 | route_source_value                                  | STRING   | No         |       |                        |
