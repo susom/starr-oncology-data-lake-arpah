@@ -10,8 +10,8 @@ Standardized Health Economics data Table, currently empty
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
 | payer_plan_period_id                                | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
-| payer_plan_period_start_date                        | DATE    | Yes        | Yes   | Jitt                      |
-| payer_plan_period_end_date                          | DATE    | Yes        | Yes   | Jitt                      |
+| payer_plan_period_start_date                        | DATE    | Yes        | Yes   | Jitter                      |
+| payer_plan_period_end_date                          | DATE    | Yes        | Yes   | Jitter                      |
 | payer_concept_id                                    | INTEGER | Yes        |       |                        |
 | payer_source_value                                  | STRING  | No         | Yes   |                        |
 | payer_source_concept_id                             | INTEGER | Yes        |       |                        |

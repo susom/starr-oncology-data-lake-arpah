@@ -15,15 +15,15 @@ Clinical Data Table (not yet a Standard)
 | anatomic_site_source_value                          | STRING  | No         |       | Whitelist                 |
 | wadors_uri                                          | STRING  | No         |       | Del                       |
 | local_path                                          | STRING  | No         |       | Del                       |
-| image_occurrence_date                               | DATE    | Yes        |       | Jitt                      |
-| image_occurrence_datetime                           | DATETIME| Yes        |       | Jitt                      |
+| image_occurrence_date                               | DATE    | Yes        |       | Jitter                    |
+| image_occurrence_datetime                           | DATETIME| Yes        |       | Jitter                      |
 | image_study_uid                                     | STRING  | Yes        |       | Hash                      |
 | image_series_uid                                    | STRING  | Yes        |       | Hash                      |
 | modality_source_value                               | STRING  | Yes        |       | Whitelist                 |
 | _accession_number                                   | STRING  | No         |       | Hash                      |
 | _note_id                                            | INTEGER | No         | Yes   | Sub with Stable between Data Refreshes                    |      
-| _study_description                                  | STRING  | No         |       | Tide-lite                 |
-| _series_description                                 | STRING  | No         |       | Tide-lite                |
+| _study_description                                  | STRING  | No         |       | Tide                |
+| _series_description                                 | STRING  | No         |       | Tide            |
                  |
 
 :  {.hover .responsive .sm}

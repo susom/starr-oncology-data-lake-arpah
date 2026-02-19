@@ -10,7 +10,7 @@ A record of whole slide images. Eventually there will likely be three sources of
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| whole_slide_imaging_id (PK)                         | INT64    | Yes        | Yes   | Not Stable between Data Refreshes                    |
+| whole_slide_imaging_id (PK)                         | INT64    | Yes        | Yes   | Sub Not Stable between Data Refreshes                    |
 | person_id (FK)                                      | INT64    | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | accession_number                                    | STRING   | Yes        | Yes   | Hash                      |
 | json_uri                                            | STRING   | Yes        |       |                           |
@@ -19,7 +19,7 @@ A record of whole slide images. Eventually there will likely be three sources of
 | specimen_source_name                                | STRING   | No         |       |                           |
 | specimen_type_c                                     | INT64    | No         |       |                           |
 | specimen_type_name                                  | STRING   | No         |       |                           |
-| procedure_start_time                                | DATETIME | No         | Yes   | Jitt                      |
+| procedure_start_time                                | DATETIME | No         | Yes   | Jitter                      |
 | note_id (FK)                                        | INT64    | No         | Yes   | Sub with Stable between Data Refreshes                    |
 
 :  {.hover .responsive .sm}

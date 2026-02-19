@@ -10,12 +10,12 @@ The VARIANT_OCCURRENCE table contains information about genetic variants identif
 
 | field                                               | type           | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------------|:-----------|:------|:--------------------------|
-| variant_occurrence_id (PK)                          | INT64          | Yes        |       | Not Stable between Data Refreshes                    |
+| variant_occurrence_id (PK)                          | INT64          | Yes        | Yes   | Sub Not Stable between Data Refreshes                       |
 | person_id (FK)                                      | INT64          | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | visit_occurrence_id (FK)                            | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
-| procedure_occurrence_id (FK)                        | INT64          | No         |       | Not Stable between Data Refreshes                    |
+| procedure_occurrence_id (FK)                        | INT64          | No         | Yes   | Sub                       |
 | provider_id (FK)                                    | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
-| order_datetime                                      | DATETIME       | No         |       | Jitt                      |
+| order_datetime                                      | DATETIME       | No         | Yes   | Jitter                      |
 | test_name                                           | STRING         | No         |       | Whitelist                 |
 | variant_name                                        | STRING         | No         |       |                           |
 | variant_type                                        | STRING         | No         |       | Whitelist                 |
@@ -33,8 +33,8 @@ The VARIANT_OCCURRENCE table contains information about genetic variants identif
 | copy_number_upper                                   | NUMERIC(9, 2)  | No         |       |                           |
 | gene_name                                           | STRING         | No         |       |                           |
 | phenotype_spec_var_class                            | STRING         | No         |       | Whitelist                 |
-| interpretation                                      | STRING         | No         |       | Whitelist                 |
-| accession_number                                    | STRING         | No         |       | Hash                      |
+| interpretation                                      | STRING         | No         | Yes   | Del                       |
+| accession_number                                    | STRING         | No         | Yes   | Hash                      |
 | stamp_pipeline_version                              | STRING         | No         |       | Whitelist                 |
 | specimen_type                                       | STRING         | No         |       | Whitelist                 |
 | specimen_source                                     | STRING         | No         |       | Whitelist                 |

@@ -11,8 +11,8 @@ Standard Clinical Data Table
 | observation_id                                      | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | observation_concept_id                              | INTEGER  | Yes        |       |                        |
-| observation_date                                    | DATE     | No         | Yes   | Jitt                      |
-| observation_datetime                                | DATETIME | Yes        | Yes   | Jitt                      |
+| observation_date                                    | DATE     | No         | Yes   | Jitter                      |
+| observation_datetime                                | DATETIME | Yes        | Yes   | Jitter                      |
 | observation_type_concept_id                         | INTEGER  | Yes        |       |                        |
 | value_as_number                                     | FLOAT    | No         |       |                        |
 | value_as_string                                     | STRING   | No         | Yes   | TiDE                      |
