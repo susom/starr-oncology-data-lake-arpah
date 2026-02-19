@@ -24,7 +24,7 @@ Standard Clinical Data Table
 | admitted_from_source_value                          | STRING   | No         |       |                        |
 | discharged_to_concept_id                             | INTEGER  | Yes        |       |                        |
 | discharged_to_source_value                           | STRING   | No         |       |                        |
-| preceding_visit_occurrence_id                       | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| preceding_visit_occurrence_id                       | INTEGER  | No         |    Yes   | Not Stable between Data Refreshes                    |
 
 
 :  {.hover .responsive .sm}

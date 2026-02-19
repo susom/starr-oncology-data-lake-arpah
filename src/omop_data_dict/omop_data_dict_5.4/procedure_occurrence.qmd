@@ -11,10 +11,10 @@ Standard Clinical Data Table
 | procedure_occurrence_id                             | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | procedure_concept_id                                | INTEGER  | Yes        |       |                        |
-| procedure_DATE                                      | DATE     | No         | Yes   | Jitt                      |
-| procedure_DATETIME                                  | DATETIME | Yes        | Yes   | Jitt                      |
-| procedure_end_date                                  | DATE     | No         | Yes   | Jitt                      |
-| procedure_end_datetime                              | DATETIME | No         | Yes   | Jitt                      |
+| procedure_date                                      | DATE     | No         | Yes   | Jitter                      |
+| procedure_datetime                                  | DATETIME | Yes        | Yes   | Jitter                      |
+| procedure_end_date                                  | DATE     | No         | Yes   | Jitter                      |
+| procedure_end_datetime                              | DATETIME | No         | Yes   | Jitter                      |
 | procedure_type_concept_id                           | INTEGER  | Yes        |       |                        |
 | modifier_concept_id                                 | INTEGER  | Yes        |       |                        |
 | quantity                                            | INTEGER  | No         |       |                        |
