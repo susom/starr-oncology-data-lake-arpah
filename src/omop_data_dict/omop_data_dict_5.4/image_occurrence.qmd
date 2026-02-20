@@ -10,20 +10,20 @@ Clinical Data Table (not yet a Standard)
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
 | image_occurrence_id (PK)                            | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                    |
 | person_id (FK)                                      | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
-| procedure_occurrence_id                             | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
+| procedure_occurrence_id                             | INTEGER | Yes        |    Yes   | Not Stable between Data Refreshes                    |
 | visit_occurrence_id                                 | INTEGER | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | anatomic_site_source_value                          | STRING  | No         |       | Whitelist                 |
-| wadors_uri                                          | STRING  | No         |       | Del                       |
-| local_path                                          | STRING  | No         |       | Del                       |
-| image_occurrence_date                               | DATE    | Yes        |       | Jitter                    |
-| image_occurrence_datetime                           | DATETIME| Yes        |       | Jitter                      |
-| image_study_uid                                     | STRING  | Yes        |       | Hash                      |
-| image_series_uid                                    | STRING  | Yes        |       | Hash                      |
+| wadors_uri                                          | STRING  | No         |    Yes   | Del                       |
+| local_path                                          | STRING  | No         |   Yes    | Del                       |
+| image_occurrence_date                               | DATE    | Yes        |     Yes  | Jitter                    |
+| image_occurrence_datetime                           | DATETIME| Yes        |     Yes  | Jitter                      |
+| image_study_uid                                     | STRING  | Yes        |     Yes  | Hash                      |
+| image_series_uid                                    | STRING  | Yes        |     Yes  | Hash                      |
 | modality_source_value                               | STRING  | Yes        |       | Whitelist                 |
-| _accession_number                                   | STRING  | No         |       | Hash                      |
+| _accession_number                                   | STRING  | No         |     Yes  | Hash                      |
 | _note_id                                            | INTEGER | No         | Yes   | Sub with Stable between Data Refreshes                    |      
-| _study_description                                  | STRING  | No         |       | Tide                |
-| _series_description                                 | STRING  | No         |       | Tide            |
+| _study_description                                  | STRING  | No         |   Yes    | TiDE - lite                |
+| _series_description                                 | STRING  | No         |   Yes    | TiDE - lite            |
                  |
 
 :  {.hover .responsive .sm}

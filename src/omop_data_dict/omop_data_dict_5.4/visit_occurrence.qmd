@@ -17,8 +17,8 @@ Standard Clinical Data Table
 | visit_end_DATETIME                                  | DATETIME | Yes        | Yes   | Jitter                    |
 | visit_type_concept_id                               | INTEGER  | Yes        |       |                        |
 | provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
-| care_site_id                                        | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_source_value                                  | STRING   | No         | Yes   |                        |
+| care_site_id                                        | INTEGER  | No         |       | Sub with Stable between Data Refreshes                    |
+| visit_source_value                                  | STRING   | No         |    |                        |
 | visit_source_concept_id                             | INTEGER  | Yes        |       |                        |
 | admitted_from_concept_id                            | INTEGER  | Yes        |       |                        |
 | admitted_from_source_value                          | STRING   | No         |       |                        |

@@ -4,17 +4,17 @@ title: "_variant_occurrence"
 
 Clinical Data Table - Genomic Variants
 
-The VARIANT_OCCURRENCE table contains information about genetic variants identified in patients through genomic testing. This table is custom to STARR-OMOP and is not part of the standard OMOP CDM. Currently, it only contains variants identified via the STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS (STAMP) test. The data is sourced from the Epic Genomics Suite, which incorporated STAMP tests starting in August of 2025. STAMP tests performed prior to this date are not currently included in this table.
+The VARIANT_OCCURRENCE table contains information about genetic variants identified in patients through genomic testing. This table is custom to STARR-OMOP and is not part of the standard OMOP CDM. 
 
 ### Table Columns
 
 | field                                               | type           | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------------|:-----------|:------|:--------------------------|
-| variant_occurrence_id (PK)                          | INT64          | Yes        | Yes   | Sub Not Stable between Data Refreshes                       |
-| person_id (FK)                                      | INT64          | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
-| visit_occurrence_id (FK)                            | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
-| procedure_occurrence_id (FK)                        | INT64          | No         | Yes   | Sub                       |
-| provider_id (FK)                                    | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| variant_occurrence_id                          | INT64          | Yes        | Yes   | Sub Not Stable between Data Refreshes                       |
+| person_id                                       | INT64          | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
+| visit_occurrence_id                            | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| procedure_occurrence_id                       | INT64          | No         | Yes   | Sub Not Stable between Data Refreshes                       |                      |
+| provider_id                                    | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | order_datetime                                      | DATETIME       | No         | Yes   | Jitter                      |
 | test_name                                           | STRING         | No         |       | Whitelist                 |
 | variant_name                                        | STRING         | No         |       |                           |
@@ -33,7 +33,7 @@ The VARIANT_OCCURRENCE table contains information about genetic variants identif
 | copy_number_upper                                   | NUMERIC(9, 2)  | No         |       |                           |
 | gene_name                                           | STRING         | No         |       |                           |
 | phenotype_spec_var_class                            | STRING         | No         |       | Whitelist                 |
-| interpretation                                      | STRING         | No         | Yes   | Del                       |
+| interpretation                                      | STRING         | No         | Yes   | TiDE                       |
 | accession_number                                    | STRING         | No         | Yes   | Hash                      |
 | stamp_pipeline_version                              | STRING         | No         |       | Whitelist                 |
 | specimen_type                                       | STRING         | No         |       | Whitelist                 |

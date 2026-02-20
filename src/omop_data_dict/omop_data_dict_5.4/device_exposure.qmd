@@ -8,7 +8,7 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| device_exposure_id                                  | INTEGER  | Yes        | Yes   | Not Stable between Data Refreshes                    |
+| device_exposure_id                                  | INTEGER  | Yes        | Yes   | Sub Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | device_concept_id                                   | INTEGER  | Yes        |       |                        |
 | device_exposure_start_date                          | DATE     | No         | Yes   | Jitter                    |

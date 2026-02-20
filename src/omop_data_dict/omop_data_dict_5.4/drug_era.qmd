@@ -8,7 +8,7 @@ Standardized Derived Elements
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| drug_era_id                                         | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| drug_era_id                                         | INTEGER  | Yes        |  Yes     | Sub Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | drug_concept_id                                     | INTEGER  | Yes        |       |                        |
 | drug_era_start_date                                 | DATETIME | Yes        | Yes   | Jitter                    |

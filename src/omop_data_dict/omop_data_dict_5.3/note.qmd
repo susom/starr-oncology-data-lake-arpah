@@ -8,20 +8,20 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| note_id                                             | INTEGER  | Yes        |       | Sub with Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub with Stable between Data Refreshes                       |
+| note_id                                             | INTEGER  | Yes        |   Yes    | Sub with Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |    Yes   | Sub with Stable between Data Refreshes                       |
 | note_date                                           | DATE     | No         | Yes   | Jitter                      
 | note_datetime                                       | DATETIME | Yes        | Yes   | Jitter                      |
 | note_type_concept_id                                | INTEGER  | Yes        |       |                        |
 | note_class_concept_id                               | INTEGER  | Yes        |       |                        |
-| note_title                                          | STRING   | No         | Yes   |                        |
+| note_title                                          | STRING   | No         |   |                        |
 | note_text                                           | STRING   | Yes        | Yes   | TiDE                      |
 | encoding_concept_id                                 | INTEGER  | Yes        |       |                        |
 | language_concept_id                                 | INTEGER  | Yes        |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Sub with Stable between Data Refreshes                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Sub with Stable between Data Refreshes                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Sub with Stable between Data Refreshes                    |
-| note_source_value                                   | STRING   | No         |       | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         |     Yes  | Sub with Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |     Yes  | Sub with Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |     Yes  | Sub with Stable between Data Refreshes                    |
+| note_source_value                                   | STRING   | No         |       | Sub                  |
 | load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 | unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
 
