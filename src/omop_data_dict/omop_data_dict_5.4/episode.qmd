@@ -9,7 +9,7 @@ Clinical Data Tables
 | field                                               | type      | required   | phi   |   phi scrubbing operation |
 |:----------------------------------------------------|:----------|:-----------|:------|--------------------------:|
 | episode_id                                          | INTEGER   | Yes        |       |                        |
-| person_id                                           | INTEGER   | Yes        |       |                        |
+| person_id                                           | INTEGER   | Yes        |       | Sub with Stable between Data Refreshes                       |
 | episode_concept_id                                  | INTEGER   | Yes        |       |                        |
 | episode_start_date                                  | DATE      | Yes        |       |                        |
 | episode_start_datetime                              | TIMESTAMP | No         |       |                        |

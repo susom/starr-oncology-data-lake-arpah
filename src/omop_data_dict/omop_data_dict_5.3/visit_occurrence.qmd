@@ -9,7 +9,7 @@ Standard Clinical Data Table
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
 | visit_occurrence_id                                 | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| person_id                                           | INTEGER  | Yes        |       | Sub with Stable between Data Refreshes                       |
 | visit_concept_id                                    | INTEGER  | Yes        |       |                        |
 | visit_start_DATE                                    | DATE     | No         | Yes   | Jitter                    |
 | visit_start_DATETIME                                | DATETIME | Yes        | Yes   | Jitter                    |
