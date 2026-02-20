@@ -8,7 +8,7 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| observation_id                                      | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| observation_id                                      | INTEGER  | Yes        |   Yes    | Sub Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | observation_concept_id                              | INTEGER  | Yes        |       |                        |
 | observation_date                                    | DATE     | No         | Yes   | Jitter                      |
@@ -16,16 +16,16 @@ Standard Clinical Data Table
 | observation_type_concept_id                         | INTEGER  | Yes        |       |                        |
 | value_as_number                                     | FLOAT    | No         |       |                        |
 | value_as_string                                     | STRING   | No         | Yes   | TiDE                      |
-| value_as_concept_id                                 | INTEGER  | No         |       | TiDE                      |
+| value_as_concept_id                                 | INTEGER  | No         |       |                  |
 | qualifier_concept_id                                | INTEGER  | No         |       |                        |
 | unit_concept_id                                     | INTEGER  | No         |       |                        |
 | provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | visit_occurrence_id                                 | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                        |
 | visit_detail_id                                     | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                        |
-| observation_source_value                            | STRING   | No         | Yes   |                        |
+| observation_source_value                            | STRING   | No         |    |                        |
 | observation_source_concept_id                       | INTEGER  | Yes        |       |                        |
-| unit_source_value                                   | STRING   | No         | Yes   |                        |
-| value_source_value                                  | STRING   | No         | Yes   |                        |
+| unit_source_value                                   | STRING   | No         |    |                        |
+| value_source_value                                  | STRING   | No         | Yes   |   TiDE                     |
 | observation_event_id                                | INTEGER  | No         |       |                        |
 | obs_event_field_concept_id                          | INTEGER  | No         |       |                        |
 | qualifier_source_value                              | STRING   | No         |       | Del                       |

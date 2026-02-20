@@ -8,7 +8,7 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| drug_exposure_id                                    | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
+| drug_exposure_id                                    | INTEGER  | Yes        |  Yes     | Sub Not Stable between Data Refreshes                    |
 | person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | drug_concept_id                                     | INTEGER  | Yes        |       |                        |
 | drug_exposure_start_date                            | DATE     | No         | Yes   | Jitter                    |
@@ -21,7 +21,7 @@ Standard Clinical Data Table
 | refills                                             | INTEGER  | No         |       |                        |
 | quantity                                            | FLOAT    | No         |       |                        |
 | days_supply                                         | INTEGER  | No         |       |                        |
-| sig                                                 | STRING   | No         | Yes   | TiDE or Del               |
+| sig                                                 | STRING   | No         | Yes   | TiDE            |
 | route_concept_id                                    | INTEGER  | Yes        |       |                        |
 | lot_number                                          | STRING   | No         |       |                        |
 | provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |

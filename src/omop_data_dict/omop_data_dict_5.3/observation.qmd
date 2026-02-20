@@ -8,25 +8,25 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| observation_id                                      | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub with Stable between Data Refreshes                       |
+| observation_id                                      | INTEGER  | Yes        |     Yes  | Sub Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |   Yes    | Sub with Stable between Data Refreshes                       |
 | observation_concept_id                              | INTEGER  | Yes        |       |                        |
-| observation_date                                    | DATE     | No         | Yes   | Jitt                      |
-| observation_datetime                                | DATETIME | Yes        | Yes   | Jitt                      |
+| observation_date                                    | DATE     | No         | Yes   | Jitter                      |
+| observation_datetime                                | DATETIME | Yes        | Yes   | Jitter                      |
 | observation_type_concept_id                         | INTEGER  | Yes        |       |                        |
 | value_as_number                                     | FLOAT    | No         |       |                        |
 | value_as_string                                     | STRING   | No         | Yes   | TiDE                      |
-| value_as_concept_id                                 | INTEGER  | No         |       | TiDE                      |
+| value_as_concept_id                                 | INTEGER  | No         |       |                     |
 | qualifier_concept_id                                | INTEGER  | No         |       |                        |
 | unit_concept_id                                     | INTEGER  | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       |                        |
-| visit_detail_id                                     | INTEGER  | No         |       |                        |
-| observation_source_value                            | STRING   | No         | Yes   |                        |
+| provider_id                                         | INTEGER  | No         |  Yes     | Sub with Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |   Yes    |      Sub with Stable between Data Refreshes                          |
+| visit_detail_id                                     | INTEGER  | No         |   Yes    |      Sub with Stable between Data Refreshes                          |
+| observation_source_value                            | STRING   | No         |  Yes  |     TiDE                   |
 | observation_source_concept_id                       | INTEGER  | Yes        |       |                        |
-| unit_source_value                                   | STRING   | No         | Yes   |                        |
-| qualifier_source_value                              | STRING   | No         |       | Del                       |
-| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   |                        |
+| unit_source_value                                   | STRING   | No         |    |                        |
+| qualifier_source_value                              | STRING   | No         |       |                    |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   |       Del                 |
 | unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
 | load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 

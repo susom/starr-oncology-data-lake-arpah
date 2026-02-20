@@ -8,13 +8,13 @@ Standarized Health System Data Tables
 
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
-| location_id                                         | INTEGER | Yes        | No    | Not Stable between Data Refreshes                    |
+| location_id                                         | INTEGER | Yes        | Yes    | Sub Not Stable between Data Refreshes                    |
 | address_1                                           | STRING  | No         | Yes   | Del                       |
 | address_2                                           | STRING  | No         | Yes   | Del                       |
 | city                                                | STRING  | No         | Yes   | Del                       |
 | state                                               | STRING  | No         | Yes   |                        |
 | zip                                                 | STRING  | No         | Yes   | RedZip                    |
-| county                                              | STRING  | No         | No    | Del                       |
+| county                                              | STRING  | No         | Yes    | Del                       |
 | location_source_value                               | STRING  | No         | Yes   | Del                       |
 | unit_id (Stanford construct for traceability)       | STRING  | No         | No    |                        |
 | load_table_id (Stanford construct for traceability) | STRING  | No         | No    |                        |

@@ -8,7 +8,7 @@ Standarized Health System Data Tables
 
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
-| location_id                                         | INTEGER | Yes        | No    | Not Stable between Data Refreshes                    |
+| location_id                                         | INTEGER | Yes        | Yes    | Sub Not Stable between Data Refreshes                    |
 | address_1                                           | STRING  | No         | Yes   | Del                       |
 | address_2                                           | STRING  | No         | Yes   | Del                       |
 | city                                                | STRING  | No         | Yes   | Del                       |

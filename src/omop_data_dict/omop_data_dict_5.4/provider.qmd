@@ -13,7 +13,7 @@ Standarized Health System Data Tables
 | npi                                                 | STRING  | No         | No    |                        |
 | dea                                                 | STRING  | No         | No    | Del                       |
 | specialty_concept_id                                | STRING  | Yes        | No    |                        |
-| care_site_id                                        | INTEGER | No         | No    | Not Stable between Data Refreshes                    |
+| care_site_id                                        | INTEGER | No         | No    | Sub with Stable between Data Refreshes                    |
 | year_of_birth                                       | INTEGER | No         | No    |                        |
 | gender_concept_id                                   | INTEGER | Yes        | No    |                        |
 | provider_source_value                               | STRING  | No         | Yes   |                        |
