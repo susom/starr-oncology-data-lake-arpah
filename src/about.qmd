@@ -18,7 +18,7 @@ STARR-OMOP contains data from adult and pediatric patients seen across the Stanf
 A patient is classified as having a tumor board encounter in STARR OMOP if the visit type contains the text “tumor board”, (irrespective of capitalization). 
 Stanford’s Cancer Registry (SCR), currently managed by Neuralframe KACI, includes cancer cases from both adult and pediatric hospitals. The registry contains analytic and non-analytic cases dating back to 1988, has been maintained on multiple platforms over time, and contributes data to the California Cancer Registry (CCR). While CCR requirements have evolved over time, the SCR includes the following types of patients: 
 
-- Analytic cases  - which include patients whose first course of cancer treatment occurred at Stanford regardless of diagnosis location, as well as patients diagnosed at Stanford, even if then treated elsewhere. Note that in the latter case, our data may be incomplete.
+- Analytic cases - which include patients whose first course of cancer treatment occurred at Stanford regardless of diagnosis location, as well as patients diagnosed at Stanford, even if then treated elsewhere. Note that in the latter case, our data may be incomplete.
 
 - Non-Analytic cases -  included since 2024, which capture additional cancer-related encounters such as patients treated at Stanford only for recurrence, patients followed at Stanford and found to be cancer-free, and patients neither diagnosed nor treated at Stanford (e.g., consultation-only or end-of-life care). 
 

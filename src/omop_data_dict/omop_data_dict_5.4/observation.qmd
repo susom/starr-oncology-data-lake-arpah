@@ -28,7 +28,7 @@ Standard Clinical Data Table
 | value_source_value                                  | STRING   | No         | Yes   |   TiDE                     |
 | observation_event_id                                | INTEGER  | No         |       |                        |
 | obs_event_field_concept_id                          | INTEGER  | No         |       |                        |
-| qualifier_source_value                              | STRING   | No         |       | Del                       |
+| qualifier_source_value                              | STRING   | No         |       |                        |
 
 
 :  {.hover .responsive .sm}
