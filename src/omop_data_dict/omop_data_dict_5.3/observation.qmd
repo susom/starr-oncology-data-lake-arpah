@@ -22,7 +22,7 @@ Standard Clinical Data Table
 | provider_id                                         | INTEGER  | No         |  Yes     | Sub with Stable between Data Refreshes                    |
 | visit_occurrence_id                                 | INTEGER  | No         |   Yes    |      Sub with Stable between Data Refreshes                          |
 | visit_detail_id                                     | INTEGER  | No         |   Yes    |      Sub with Stable between Data Refreshes                          |
-| observation_source_value                            | STRING   | No         |  Yes  |     Del                    |
+| observation_source_value                            | STRING   | No         |  Yes  |     TiDE                   |
 | observation_source_concept_id                       | INTEGER  | Yes        |       |                        |
 | unit_source_value                                   | STRING   | No         |    |                        |
 | qualifier_source_value                              | STRING   | No         |       |                    |

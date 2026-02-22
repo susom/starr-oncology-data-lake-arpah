@@ -257,10 +257,10 @@ unique(overlap_res$data_set)
 ```{r check add variant to philips, message=FALSE, warning=FALSE, results='hide'}
 # Check what data sources are available
 
-var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_patient_counts.sql"
+var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/feb26/philips_variant_denominator.sql"
 
 var_res=fetch_data_from_sql_file(var_den_sql, yaml_file_path, release = "feb_2026")
-var_res$n_patients
+var_res$counts_pts
 
 ```
 
@@ -277,7 +277,7 @@ overlap_plot_data <- bind_rows(
   tibble(
     release = "feb_2026",
     data_set = "Philips ISPM",
-    counts_pts = as.numeric(var_res$n_patients),
+    counts_pts = as.numeric(var_res$counts_pts),
     month = overlap_res %>% filter(release == "feb_2026") %>% pull(month) %>% first()
   )
 ) %>%

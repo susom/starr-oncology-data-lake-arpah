@@ -25,12 +25,7 @@ FROM (
     
     UNION ALL 
     
-    SELECT COUNT(DISTINCT stanford_patient_uid) AS counts_pts, 'Philips ISPM' AS data_set 
-    FROM `@oncology_prod.@oncology_omop.person` p
-    INNER JOIN `@oncology_prod.@oncology_philips.onc_philips_mtb_pat_diag_orders`  phi
-    ON json_value(p.person_source_value, '$.stanford_patient_uid')  = phi.stanford_patient_uid
 
-    UNION ALL
     SELECT COUNT(DISTINCT person_id) AS counts_pts, 'With Tumor Board Encounter' AS data_set
     FROM `@oncology_prod.@oncology_omop.visit_occurrence` 
     WHERE  LOWER(visit_source_value) LIKE '%tumor board%'
