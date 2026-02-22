@@ -261,7 +261,8 @@ var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/phi
 
 var_res=fetch_data_from_sql_file(var_den_sql, yaml_file_path, release = "feb_2026")
 var_res$counts_pts
-
+var_res$data_set<-"Philips ISPM"
+var_res$month<-"Feb 2026"
 ```
 
 

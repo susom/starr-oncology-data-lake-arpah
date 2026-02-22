@@ -22,8 +22,8 @@ Clinical Data Table (not yet a Standard)
 | modality_source_value                               | STRING  | Yes        |       | Whitelist                 |
 | _accession_number                                   | STRING  | No         |     Yes  | Hash                      |
 | _note_id                                            | INTEGER | No         | Yes   | Sub with Stable between Data Refreshes                    |      
-| _study_description                                  | STRING  | No         |   Yes    | TiDE - lite                |
-| _series_description                                 | STRING  | No         |   Yes    | TiDE - lite            |
+| _study_description                                  | STRING  | No         |   Yes    | starr-imaging redactor                |
+| _series_description                                 | STRING  | No         |   Yes    | starr-imaging redactor               |
                  |
 
 :  {.hover .responsive .sm}
