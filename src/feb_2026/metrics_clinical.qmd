@@ -1,0 +1,173 @@
+---
+title: "Oncology Cohort"
+execute:
+  echo: false
+---
+
+*Release Version: February 2026 (IRB76049)*
+```{r setup, message=FALSE, warning=FALSE, results='hide'}
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_params.yml"
+
+```
+
+### **Population Summary**
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+den <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/feb26/arpah_denominators_update.sql"
+den_res <- fetch_data_from_sql_file(den, yaml_file_path, release = "feb_2026")
+
+den_res=den_res %>% arrange(desc(percentage))
+
+```
+
+
+Patients are included in the Oncology-OMOP dataset if they have a case in the Neural Frame Stanford Cancer Registry (regardless of case status) or if they have a tumor board encounter in Epic Clarity. 
+
+As of the February 2026 OMOP population, `r format( den_res$counts_pts[den_res$data_set=="Oncology OMOP (Cohort)"][1], big.mark = ",")` patients met the criteria for cancer cohort.
+
+  - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
+    - [Neural Frame Metrics](neural_frame.qmd)
+
+  - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
+    - [Tumor Board Metrics](tumor_board_updated.qmd)
+
+  - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
+    - [Philips ISPM Metrics](philips_metrics.qmd)
+
+  - **OMOP Image Occurrence:** The OMOP image occurrence table captures records of medical imaging events at the series level providing a path to deidentified DICOM images.
+    - [Image Occurrence Metrics](image_occ.qmd)
+
+  - **OMOP Variant Occurrence:** The OMOP variant occurrence table contains records of genomic variants identified via the STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS (STAMP) test, sourced from Epic Genomics Suite (August 2025 onwards).
+    - [Variant Occurrence Metrics](variant_occ.qmd)
+
+  - **OMOP Whole Slide Imaging:** The OMOP whole slide imaging table contains records of digitized pathology slides and currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. 
+    - [Whole Slide Imaging Metrics](whole_slide_imaging.qmd)
+ 
+```{r table1, message=FALSE, warning=FALSE}
+# Modify the data frame to show hierarchy
+labels <- c(
+  "data_set"="Data Source",
+  "counts_pts" = "Number of Patients",
+  "percentage" = "Percent (%)"
+)
+
+den_res_formatted <- den_res %>%
+  mutate(
+    data_set = case_when(
+      data_set == "With Image Occurrence" ~ "  • With Image Occurrence",
+      data_set == "With Tumor Board Encounter" ~ "  • With Tumor Board Encounter",
+      TRUE ~ data_set
+    )
+  ) %>%
+  # Ensure proper ordering
+  slice(match(c(
+    "Oncology OMOP (Cohort)",
+    "  • With Tumor Board Encounter",
+    "  • With Image Occurrence",
+    "Neural Frame",
+    "Philips ISPM"
+  ), data_set))
+
+
+  # Create the formatted table
+  create_gt_table_v1(
+    data = den_res_formatted,
+    columns = c("data_set",  "counts_pts", "percentage"),
+    labels = labels,
+    footnote_text = ""
+  ) %>%
+  tab_style(
+    style = cell_text(indent = px(20)),
+    locations = cells_body(
+      columns = "data_set",
+      rows = str_detect(data_set, "^\\s+•")
+    )
+  )
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/arpah_cohort/feb26/arpah_overlap_metrics_updated.sql"
+res <- fetch_data_from_sql_file(sql_ids, yaml_file_path, release = "feb_2026")
+head(res)
+
+library(tidyr)
+library(dplyr)
+
+overlap_matrix <- res %>%
+  mutate(value = TRUE) %>%
+  pivot_wider(
+    names_from = data_set,
+    values_from = value,
+    values_fill = FALSE
+  )
+```
+
+
+### Overlap between Data Sources
+
+The following plot represents patients overlap between different data sources:
+
+- The connected dots in the middle show which combinations of data sources exist
+
+- The bars show how many patients are in each combination
+
+For example, if dots are connected for "Oncology OMOP" and "Neural Frame", the bar above shows how many patients are in both sources.
+
+
+## Patient Distribution Across Data Sources
+```{r complexupset, message=FALSE, warning=FALSE}
+
+library(ComplexUpset)
+library(ggplot2)
+overlap_matrix <- res %>%
+  mutate(value = TRUE) %>%
+  pivot_wider(
+    names_from = data_set,
+    values_from = value,
+    values_fill = FALSE
+  )
+
+overlap_matrix_renamed <- overlap_matrix %>%
+  rename(
+    OMOP = "Oncology OMOP",
+    Imaging = "Image Occurrence",
+    `Cancer Registry` = "Neural Frame",
+    Genomic = "Philips ISPM",
+    `Tumor Board` = "Tumor Board"
+  )
+
+pg<-ComplexUpset::upset(
+  overlap_matrix_renamed, 
+  c("OMOP", "Imaging", "Cancer Registry", "Genomic", "Tumor Board"),  width_ratio=0.1, wrap=TRUE, set_sizes=FALSE,
+  mode = 'inclusive_intersection', min_degree = 2,
+     base_annotations=list(
+        'Intersection size'=intersection_size(
+            counts=FALSE,text=list(
+                vjust=-0.1,
+                hjust=-0.1,
+                size=4,
+                angle=90,
+                margin=margin(b=10)
+            ),
+              mode = 'inclusive_intersection',
+            mapping=aes(fill='bars_color'),
+            format_count = scales::comma 
+        ) + scale_fill_manual(values=c('bars_color'='#8B0000'), guide='none')+
+         scale_y_continuous(labels = scales::comma, 
+               expand = expansion(mult = c(0, 0.2))  # Add more space at the top
+)
+    )
+,
+  intersections = 'all',
+  max_degree = 4
+)
+pg
+#ggsave("plot.png", pg, width = 10, height = 9, dpi = 300)
+
+```
+
+
+### Source Codes:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2026/metrics_clinical.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/arpah_cohort/feb26). 

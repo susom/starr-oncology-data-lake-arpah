@@ -8,13 +8,13 @@ Standardized Derived Elements
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| condition_era_id                                    | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| condition_era_id                                    | INTEGER  | Yes        |  Yes     | Sub Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |    Yes   | Sub with Stable between Data Refreshes                       |
 | condition_concept_id                                | INTEGER  | Yes        |       |                        |
 | condition_era_start_date                            | DATETIME | Yes        | Yes   | Jitter                    |
 | condition_era_end_date                              | DATETIME | Yes        | Yes   | Jitter                    |
 | condition_occurrence_count                          | INTEGER  | No         |       |                        |
-| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   |                        |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   |     Del                   |
 | unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
 | load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 

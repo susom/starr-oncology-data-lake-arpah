@@ -1,0 +1,156 @@
+---
+title: "_variant_occurrence"
+---
+
+Clinical Data Table - Genomic Variants
+
+The VARIANT_OCCURRENCE table contains information about genetic variants identified in patients through genomic testing. This table is custom to STARR-OMOP and is not part of the standard OMOP CDM. 
+
+### Table Columns
+
+| field                                               | type           | required   | phi   | phi scrubbing operation   |
+|:----------------------------------------------------|:---------------|:-----------|:------|:--------------------------|
+| variant_occurrence_id                          | INT64          | Yes        | Yes   | Sub Not Stable between Data Refreshes                       |
+| person_id                                       | INT64          | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
+| visit_occurrence_id                            | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| procedure_occurrence_id                       | INT64          | No         | Yes   | Sub Not Stable between Data Refreshes                       |                      |
+| provider_id                                    | INT64          | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| order_datetime                                      | DATETIME       | No         | Yes   | Jitter                      |
+| test_name                                           | STRING         | No         |       | Whitelist                 |
+| variant_name                                        | STRING         | No         |       |                           |
+| variant_type                                        | STRING         | No         |       | Whitelist                 |
+| assessment                                          | STRING         | No         |       | Whitelist                 |
+| genome_assembly                                     | STRING         | No         |       | Whitelist                 |
+| chromosome                                          | STRING         | No         |       |                           |
+| transcript_ref_seq                                  | STRING         | No         |       |                           |
+| dna_change                                          | STRING         | No         |       |                           |
+| dna_var_type                                        | STRING         | No         |       | Whitelist                 |
+| amino_acid_change                                   | STRING         | No         |       |                           |
+| variant_molecular_consequence                       | STRING         | No         |       | Whitelist                 |
+| genomic_dna_change                                  | STRING         | No         |       |                           |
+| allelic_frequency                                   | NUMERIC(18, 5) | No         |       |                           |
+| copy_number_lower                                   | NUMERIC(9, 2)  | No         |       |                           |
+| copy_number_upper                                   | NUMERIC(9, 2)  | No         |       |                           |
+| gene_name                                           | STRING         | No         |       |                           |
+| phenotype_spec_var_class                            | STRING         | No         |       | Whitelist                 |
+| interpretation                                      | STRING         | No         | Yes   | TiDE                       |
+| accession_number                                    | STRING         | No         | Yes   | Hash                      |
+| stamp_pipeline_version                              | STRING         | No         |       | Whitelist                 |
+| specimen_type                                       | STRING         | No         |       | Whitelist                 |
+| specimen_source                                     | STRING         | No         |       | Whitelist                 |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### variant_occurrence_id (PK)
+
+This is the primary key of the table. This is a unique identifier for every variant occurrence. It is assumed that every variant occurrence with a different unique identifier is in fact a different event and should be treated independently.
+
+##### person_id (FK)
+
+A foreign key identifier to the person_id in the person table for whom the condition is recorded.
+
+##### visit_occurrence_id (FK)
+
+A foreign key identifier to the visit_occurrence_id in the visit_occurrence table for the visit associated with the ordered test.
+
+##### procedure_occurrence_id (FK)
+
+A foreign key identifier to the OMOP procedure_occurrence table for the procedure order for the variant test.
+
+##### provider_id (FK)
+
+A foreign key identifier to the provider in the provider table who authorized the order for the variant test.
+
+##### order_datetime
+
+The datetime when the test was ordered.
+
+##### test_name
+
+The name of the test associated with the variant record.
+
+##### variant_name
+
+The name of the genetic variant identified in the test.
+
+##### variant_type
+
+The variant type, such as 'Simple', 'Pharmacogenomic genotype', 'Negative', etc.
+
+##### assessment
+
+The assessment of the variant, such as 'Detected', 'Not Detected', 'Negative', etc.
+
+##### genome_assembly
+
+The genome assembly used for the variant, such as 'GRCh37', 'GRCh38', 'hg38', etc.
+
+##### chromosome
+
+The chromosome on which the variant is located, such as '1', '2', 'X', 'Y', etc.
+
+##### transcript_ref_seq
+
+The external identifier defining the Transcript Reference Sequence.
+
+##### dna_change
+
+The change at the DNA level relative to the Transcript Reference Sequence.
+
+##### dna_var_type
+
+The descriptive name for the DNA sequence variation type, such as 'Substitution', 'Copy number gain', 'Deletion', etc.
+
+##### amino_acid_change
+
+The change at the amino acid (protein) level caused by the DNA change.
+
+##### variant_molecular_consequence
+
+The descriptive name for the molecular consequence of the variant, such as 'Missense Variant', 'Nonsense', 'Frameshift Variant', etc.
+
+##### genomic_dna_change
+
+The change at the DNA level relative to the Genomic Reference Sequence.
+
+##### allelic_frequency
+
+The percentage of all of the reads at this genomic location that were represented by the given allele. For homozygotes it will be close to 100%; for heterozygotes it will be close to 50%. It can be a smaller number when there are mosaics or multiple chromosomes, or mixtures of tumor cells and normal cells. It is stored in the system as a decimal between 0 and 1 - this is calculated by dividing the percentage by 100.
+
+##### copy_number_lower
+
+The lower bound of the copy number range for the variant.
+
+##### copy_number_upper
+
+The upper bound of the copy number range for the variant.
+
+##### gene_name
+
+The name of the gene associated with the variant record, such as 'POLE', 'TP53', 'CYP2D6', etc.
+
+##### phenotype_spec_var_class
+
+The descriptive name for the phenotype variant class, such as 'Pathogenic', 'Likely Pathogenic', 'Uncertain Significance', etc.
+
+##### interpretation
+
+The full text interpretation associated with the variant record, aggregated from individual interpretation lines.
+
+##### accession_number
+
+The specimen accession numbers associated with the ordered test, stored as a comma-separated string if multiple accession numbers are present.
+
+##### stamp_pipeline_version
+
+The version of the STAMP pipeline used for the test associated with the variant record.
+
+##### specimen_type
+
+The specimen type associated with the order for the variant record, such as 'Blood', 'Tissue/Bone - Biopsy', 'Existing Patient Material', etc.
+
+##### specimen_source
+
+The specimen source associated with the order for the variant record, such as 'Blood, from Venipuncture', 'Saliva', 'Liver', etc.

@@ -1,0 +1,80 @@
+"Description","modality_type","series_count","person_count"
+"Computed Tomography","CT",2707915,61783
+"Magnetic Resonance","MR",2380450,45475
+"SR Document","SR",908447,78204
+"Presentation State","PR",490134,60902
+"Mammography","MG",478003,17180
+"Other","OT",477352,60618
+"Positron emission tomography (PET)","PT",230455,22025
+"Computed Radiography","CR",147102,32244
+"Digital Radiography","DX",146751,35951
+"X-Ray Angiography","XA",145814,10129
+"Nuclear Medicine","NM",127946,17572
+"Registration","REG",120419,24531
+"Ultrasound","US",112740,40233
+"Radio Fluoroscopy","RF",35371,7644
+"Key Object Selection","KO",24595,13515
+NA,"SC",9590,1184
+"Hard Copy","HC",4216,2158
+"Segmentation","SEG",3030,951
+NA,"BD",2163,505
+"Document","DOC",1275,648
+"Panoramic X-Ray","PX",470,453
+NA,"RAW",465,423
+NA,"DMA",464,89
+"Radiotherapy Structure Set","RTSTRUCT",444,308
+"Audio","AU",424,153
+NA,"SD",183,76
+"RT Treatment Record","RTRECORD",171,8
+NA,"DR",128,81
+"Hemodynamic Waveform","HD",101,30
+"Radiotherapy Image","RTIMAGE",99,27
+NA,"XD",95,49
+"Radiotherapy Dose","RTDOSE",76,39
+NA,"CTPT",68,34
+"Radiotherapy Plan","RTPLAN",49,37
+"Endoscopy","ES",48,26
+NA,"PCT",48,4
+"Radiographic imaging (conventional film/screen)","RG",46,17
+NA,"DEXA",43,29
+"Electrocardiography","ECG",38,20
+"Intravascular Ultrasound","IVUS",34,11
+NA,"XR",32,16
+"Bone Densitometry (X-Ray)","BMD",25,13
+NA,"GEMS PET RAW",17,14
+"Echocardiography","EC",16,8
+NA,"IR",16,11
+NA,"FINDINGS",13,5
+"Single-photon emission computed tomography (SPECT)","ST",12,9
+NA,"BX",11,3
+NA,"DE",10,7
+NA,"REPORT",10,3
+NA,"UNKNOWN",9,2
+NA,"KOCT",9,1
+NA,"CT-PT",9,3
+NA,"CT/PT",8,1
+"Ophthalmic Photography","OP",6,2
+NA,"RDC",5,1
+NA,"PET",4,2
+NA,"SUV",4,1
+NA,"REVIEW MUGA",3,3
+NA,"SPL",3,2
+NA,"BMA",3,2
+NA,"VL",3,3
+"External-camera Photography","XC",3,2
+"Real World Value Map","RWV",2,1
+"Bone Densitometry (ultrasound)","BDUS",2,1
+"Digital fluoroscopy","DF",2,1
+NA,"PFT",2,1
+NA,"FL",2,2
+NA,"CTCT",2,1
+NA,"SCMF",2,1
+"Duplex Doppler","DD",2,2
+NA,"OT,BD",1,1
+NA,"EKG",1,1
+NA,"BM",1,1
+NA,"SRUS",1,1
+NA,"CA",1,1
+NA,"CV",1,1
+"Intra-Oral Radiography","IO",1,1
+NA,"PT/CT",1,1

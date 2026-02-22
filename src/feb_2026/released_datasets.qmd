@@ -1,0 +1,38 @@
+---
+title: "Released Datasets"
+execute:
+  echo: false
+---
+This document provides a list of datasets as part of the November 2025 released. Each dataset is described briefly, including whether it contains Protected Health Information (PHI) or if the PHI has been scrubbed. 
+
+### OMOP Datasets
+| Dataset Name | Description |
+|:------------|:------------|
+| `som-rit-phi-oncology-prod.oncology_omop54_phi_irb76049_feb2026`| Oncology OMOP-CDM v5.4.1 dataset with PHI| 
+| `som-rit-phi-oncology-prod.oncology_omop54_confidential_irb76049_feb2026`| Oncology OMOP-CDM v5.4.1 dataset with PHI Scrubbed|
+
+
+### NeuralFrame Datasets
+| Dataset Name | Description |
+|:------------|:------------|
+| `som-rit-phi-oncology-prod.oncology_neuralframe_phi_irb76049_feb2026`| NeuralFrame dataset with PHI | 
+| `som-rit-phi-oncology-prod.oncology_neuralframe_confidential_irb76049_feb2026`| NeuralFrame dataset with PHI Scrubbed |
+
+### Philips ISPM Datasets 
+| Dataset Name | Description |
+|:------------|:------------|
+| `som-rit-phi-oncology-prod.oncology_philips_phi_irb76049_nov2025`| Philips ISPM dataset with PHI | 
+| `som-rit-phi-oncology-prod.oncology_philips_confidential_irb76049_nov2025`| Philips ISPM dataset with PHI Scrubbed |
+
+### STAMP Add-On Data 
+| Dataset Name | Description |
+|:------------|:------------|
+|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_nov2025.stamp_add_on_data_phi`| STAMP add on dataset with PHI | 
+|`som-rit-phi-oncology-prod.oncology_stamp_add_on_data_irb76049_nov2025.stamp_add_on_data_confidential`| STAMP add on dataset Scrubbed |
+
+### Epic Media Server Documents
+| Dataset Name | Description |
+|:------------|:------------|
+|`som-rit-phi-oncology-prod.epic_media_server_documents.pdfs_arpah_cancer_patients_irb76049_aug2025`| BigQuery table with PDF metadata| 
+|gs://oncology-stamp-documents.us-west1.starr-data.us/media_server_docs_cancer_cohort/| PDF files storage location|
+: {.hover .responsive .sm}

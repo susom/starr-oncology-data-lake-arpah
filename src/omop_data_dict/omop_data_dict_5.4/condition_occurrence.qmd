@@ -8,8 +8,8 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| condition_occurrence_id                             | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| condition_occurrence_id                             | INTEGER  | Yes        | Yes    |Sub Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                |
 | condition_concept_id                                | INTEGER  | Yes        |       |                        |
 | condition_start_date                                | DATE     | No         | Yes   | Jitter                    |
 | condition_start_datetime                            | DATETIME | Yes        | Yes   | Jitter                    |
@@ -18,9 +18,9 @@ Standard Clinical Data Table
 | condition_type_concept_id                           | INTEGER  | Yes        |       |                        |
 | condition_status_concept_id                         | INTEGER  | Yes        |       |                        |
 | stop_reason                                         | STRING   | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | condition_source_value                              | STRING   | No         |       |                        |
 | condition_source_concept_id                         | INTEGER  | Yes        |       |                        |
 | condition_status_source_value                       | STRING   | No         |       |                        |

@@ -8,6 +8,9 @@
     Only tags that are guaranteed to be safe can be enabled here.
     -->
 
+    <!-- This is intentionally NOT used anywhere else, but the parameter needs to remain -->
+    <p t="STUDY_ID">starr</p>
+
     <!-- Don't ever change this  -->
     <p t="UIDROOT">1.2.840.4267.32.</p>
 
@@ -63,9 +66,10 @@
     <e en="T" t="0038001d" n="ScheduledDischargeTime">@keep()</e>
     <e en="T" t="00380021" n="AdmittingTime">@keep()</e>
     <e en="T" t="00380032" n="DischargeTime">@keep()</e>
-    <e en="T" t="00400003" n="SPSStartTime">@keep()</e>
     <e en="T" t="00400245" n="PPSStartTime">@keep()</e>
     <e en="T" t="00400251" n="PPSEndTime">@keep()</e>
+    <e en="T" t="00400003" n="SPSStartTime">@keep()</e>
+    <e en="T" t="00400005" n="SPSEndTime">@keep()</e>
     <e en="T" t="0040a122" n="Time">@keep()</e>
     <e en="T" t="0040a193" n="TrialObservationTime">@keep()</e>
 
@@ -86,7 +90,7 @@
     <e en="T" t="00020003" n="MediaStorageSOPInstanceUID">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="00080018" n="SOPInstanceUID">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="00081155" n="ReferencedSOPInstanceUID">@hashuid(@UIDROOT,this)</e>
-    <!-- <e en="T" t="00083010" n="IrradiationEventUID">@hashuid(@UIDROOT,this)</e> -->@keep()<!-- crashes ctp -->
+    <e en="T" t="00083010" n="IrradiationEventUID">@remove()</e> <!-- hash crashes because often UN type -->
     <e en="T" t="0020000D" n="StudyInstanceUID">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="0020000E" n="SeriesInstanceUID">@hashuid(@UIDROOT,this)</e>
     <e en="T" t="00200052" n="FrameOfReferenceUID">@hashuid(@UIDROOT,this)</e>
@@ -240,7 +244,6 @@
     <e en="T" t="00181624" n="ShutterPresentationColorCIELabValue">@keep()</e>
 
     <!-- Angiography-specific Parameters -->
-    <e en="T" t="00180010" n="ContrastBolusAgent">@keep()</e>
     <e en="T" t="00181250" n="ReceiveCoilName">@keep()</e>
     <e en="T" t="00189417" n="FrameAcquisitionSequence">@keep()</e>
     <e en="T" t="00189434" n="ExposureControlSensingRegionsSequence">@keep()</e>

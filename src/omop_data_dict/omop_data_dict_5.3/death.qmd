@@ -8,7 +8,7 @@ Standard Clinical Data Table
 
 | field                                                      | type   | required   | phi   | phi scrubbing operation   |
 |:-----------------------------------------------------------|:-------|:-----------|:------|:--------------------------|
-| person_id                                                  |        | Yes        |       | Sub                       |
+| person_id                                                  |        | Yes        |    Yes   | Sub with Stable between Data Refreshes                       |
 | death_date                                                 |        | Yes        | Yes   | Jitter                    |
 | death_datetime                                             |        | No         | Yes   | Jitter                    |
 | death_type_concept_id                                      |        | No         |       |                        |

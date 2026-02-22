@@ -8,23 +8,23 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| visit_detail_id                                     | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| visit_detail_id                                     | INTEGER  | Yes        |   Yes    | Sub with Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |    Yes   | Sub with Stable between Data Refreshes                       |
 | visit_detail_concept_id                             | INTEGER  | Yes        |       |                        |
 | visit_detail_start_date                             | DATE     | No         | Yes   | Jitter                    |
 | visit_detail_start_datetime                         | DATETIME | Yes        | Yes   | Jitter                    |
 | visit_detail_end_date                               | DATE     | No         | Yes   | Jitter                    |
 | visit_detail_end_datetime                           | DATETIME | Yes        | Yes   | Jitter                    |
 | visit_detail_type_concept_id                        | INTEGER  | Yes        |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| care_site_id                                        | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_detail_source_value                           | STRING   | No         | Yes   |                        |
+| provider_id                                         | INTEGER  | No         |    Yes   | Sub with Stable between Data Refreshes                    |
+| care_site_id                                        | INTEGER  | No         |    Yes   | Sub with Stable between Data Refreshes                    |
+| visit_detail_source_value                           | STRING   | No         |    |                        |
 | visit_detail_source_concept_id                      | INTEGER  | Yes        |       |                        |
-| admitted_from_source_value                          | STRING   | No         | Yes   |                        |
+| admitted_from_source_value                          | STRING   | No         |    |                        |
 | admitted_from_concept_id                            | INTEGER  | Yes        |       |                        |
-| discharge_to_source_value                           | STRING   | No         | Yes   |                        |
+| discharge_to_source_value                           | STRING   | No         |    |                        |
 | discharge_to_concept_id                             | INTEGER  | Yes        |       |                        |
-| preceding_visit_detail_id                           | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| preceding_visit_detail_id                           | INTEGER  | No         |       | SubNot Stable between Data Refreshes                    |
 | visit_detail_parent_id                              | INTEGER  | No         |       |                        |
 | visit_occurrence_id                                 | INTEGER  | Yes        |       |                        |
 | trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |

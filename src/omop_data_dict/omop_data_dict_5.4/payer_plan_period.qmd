@@ -8,12 +8,12 @@ Standardized Health Economics data Table, currently empty
 
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
-| payer_plan_period_id                                | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER | Yes        |       | Sub                       |
-| payer_plan_period_start_date                        | DATE    | Yes        | Yes   | Jitt                      |
-| payer_plan_period_end_date                          | DATE    | Yes        | Yes   | Jitt                      |
+| payer_plan_period_id                                | INTEGER | Yes        |  Yes     | Sub Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
+| payer_plan_period_start_date                        | DATE    | Yes        | Yes   | Jitter                      |
+| payer_plan_period_end_date                          | DATE    | Yes        | Yes   | Jitter                      |
 | payer_concept_id                                    | INTEGER | Yes        |       |                        |
-| payer_source_value                                  | STRING  | No         | Yes   |                        |
+| payer_source_value                                  | STRING  | No         |    |                        |
 | payer_source_concept_id                             | INTEGER | Yes        |       |                        |
 | plan_concept_id                                     | INTEGER | Yes        |       |                        |
 | plan_source_value                                   | STRING  | No         | Yes   | Del                       |
@@ -21,9 +21,9 @@ Standardized Health Economics data Table, currently empty
 | sponsor_concept_id                                  | INTEGER | Yes        |       |                        |
 | sponsor_source_value                                | STRING  | No         |       |                        |
 | sponsor_source_concept_id                           | INTEGER | Yes        |       |                        |
-| family_source_value                                 | STRING  | No         | Yes   |                        |
+| family_source_value                                 | STRING  | No         |    |                        |
 | stop_reason_concept_id                              | INTEGER | Yes        |       |                        |
-| stop_reason_source_value                            | STRING  | No         | Yes   |                        |
+| stop_reason_source_value                            | STRING  | No         |    |                        |
 | stop_reason_source_concept_id                       | INTEGER | Yes        |       |                        |
 
 :  {.hover .responsive .sm}
