@@ -113,7 +113,7 @@ release_summary <- tibble::tribble(
   "Enhanced ETL pipeline with updated vocabulary",
   
   "February 2026",
-  "Continued coverage + WSI + Variant Occurrence",
+  "Continued coverage + <b>WSI + Variant Occurrence<b>",
   "Continued coverage",
   "Continued coverage",
   "<b>Whole Slide Imaging (WSI), Variant Occurrence table<b>",
