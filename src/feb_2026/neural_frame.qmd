@@ -144,7 +144,7 @@ thr_den_c
 sum_thr_c=thr_den_c$unique_thoracic_cancer_pts
 sum_thr=thr_den$unique_thoracic_cancer_pts
 ```
-As of November 2025, there are  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients with `r format(case_thr$Percentage[case_thr$Status=="Completed"], big.mark = ",")` % completed cases. 
+As of February 2026, there are  `r format(thr_den$unique_thoracic_cancer_pts, big.mark = ",")` unique thoracic patients with `r format(case_thr$Percentage[case_thr$Status=="Completed"], big.mark = ",")` % completed cases. 
 
 
 

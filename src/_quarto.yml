@@ -181,9 +181,9 @@ website:
               - text: "Tumor Board"
                 href: feb_2026/tumor_board_updated.qmd
               - text: "Whole Slide Imaging"
-                href: feb_2026/wsi_metrics.qmd
+                href: feb_2026/whole_slide_imaging.qmd
               - text: "Genetic Variants"
-                href: feb_2026/genetic_metrics.qmd
+                href: feb_2026/variant_occ.qmd
       - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:
