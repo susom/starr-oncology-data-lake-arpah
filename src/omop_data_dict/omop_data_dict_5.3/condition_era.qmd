@@ -14,7 +14,7 @@ Standardized Derived Elements
 | condition_era_start_date                            | DATETIME | Yes        | Yes   | Jitter                    |
 | condition_era_end_date                              | DATETIME | Yes        | Yes   | Jitter                    |
 | condition_occurrence_count                          | INTEGER  | No         |       |                        |
-| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   |                        |
+| trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   |     Del                   |
 | unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
 | load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |
 

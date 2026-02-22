@@ -21,6 +21,7 @@ Standarized Health System Data Tables
 | specialty_source_concept_id                         | INTEGER | Yes        | No    |                        |
 | gender_source_value                                 | STRING  | No         | No    |                        |
 | gender_source_concept_id                            | INTEGER | Yes        | No    |                        |
+| provider_source_value                               | STRING  | No         | Yes   | Del                       |
 | trace_id (Stanford construct for traceability)      | STRING  | No         | No    | Del                       |
 | unit_id (Stanford construct for traceability)       | STRING  | No         | No    |                        |
 | load_table_id (Stanford construct for traceability) | STRING  | No         | No    |                        |

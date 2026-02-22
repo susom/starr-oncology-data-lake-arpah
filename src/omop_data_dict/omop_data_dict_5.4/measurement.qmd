@@ -13,7 +13,7 @@ Standard Clinical Data Table
 | measurement_concept_id                              | INTEGER  | Yes        |       |                        |
 | measurement_date                                    | DATE     | No         | Yes   | Jitter                    |
 | measurement_datetime                                | DATETIME | Yes        | Yes   | Jitter                    |
-| measurement_time                                    | STRING   | No         |       | Null                      |
+| measurement_time                                    | STRING   | No         |       |                       |
 | measurement_type_concept_id                         | INTEGER  | Yes        |       |                        |
 | operator_concept_id                                 | INTEGER  | No         |       |                        |
 | value_as_number                                     | FLOAT    | No         |       |                        |

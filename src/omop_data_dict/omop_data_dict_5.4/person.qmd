@@ -19,7 +19,7 @@ Standard Clinical Data Table
 | location_id                                         | INTEGER  | No         |       |                        |
 | provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | care_site_id                                        | INTEGER  | No         |       |                        |
-| person_source_value                                 | STRING   | No         | Yes   | Sub                       |
+| person_source_value                                 | STRING   | No         | Yes   | Del                       |
 | gender_source_value                                 | STRING   | No         |       |                        |
 | gender_source_concept_id                            | INTEGER  | Yes        |       |                        |
 | race_source_value                                   | STRING   | No         |       |                        |
