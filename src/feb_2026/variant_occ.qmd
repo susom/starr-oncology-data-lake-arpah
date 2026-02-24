@@ -90,8 +90,25 @@ As of February 2026, this table includes **`r format(n_pts$n_patients, big.mark 
 - The OMOP variant occurrence table does not currently contain Foundation One tests or certain types of variants detected by STAMP (both of which were previously present in the Philips data). We expect that additional STAMP-detected variant types will be available later this year.
 
 
-### Cohort Distribution
+::: {.columns}
 
+::: {.column width="40%"}
+### 📊 Data Volume 
+- **Patient Count:** `r format(n_pts$n_patients, big.mark = ",")`
+- **Ordered Tests Count:** `r format(ordered_tests_counts$n_unique_tests, big.mark = ",")`
+- **Variant Count:** `r format(n_pts$n_variants, big.mark = ",")`
+:::
+
+::: {.column width="60%"}
+### 🧬 Data Components 
+- **Unique Genes:** `r format(nrow(variant_genes), big.mark = ",")`
+- **Molecular Consequences:** `r format(nrow(variant_consequence), big.mark = ",")`
+:::
+
+:::
+
+## Variant Occurrence Metrics {.tabset}
+This section presents key metrics and visualizations of genetic variants identified in our patient population through STAMP genomic testing.
 The following table shows the distribution of patients with variant data across key clinical cohorts:
 
 ```{r cohort table, message=FALSE, warning=FALSE, echo=FALSE}
@@ -126,59 +143,9 @@ DT::datatable(
 **Note:** Tumor board patients are identified by visit records containing "tumor board" (case-insensitive). Thoracic cancer patients are identified from NeuralFrame diagnoses with primary sites including lung, bronchus, or thymus. 
 
 
-## Variant Occurrence Metrics {.tabset}
-This section presents key metrics and visualizations of genetic variants identified in our patient population through STAMP genomic testing.
-
-::: {.columns}
-
-::: {.column width="40%"}
-### 📊 Data Volume 
-- **Patient Count:** `r format(n_pts$n_patients, big.mark = ",")`
-- **Variant Count:** `r format(n_pts$n_variants, big.mark = ",")`
-:::
-
-::: {.column width="60%"}
-### 🧬 Data Components 
-- **Unique Genes:** `r format(nrow(variant_genes), big.mark = ",")`
-- **Molecular Consequences:** `r format(nrow(variant_consequence), big.mark = ",")`
-:::
-
-:::
-
-
-## Genomic Test Metrics {.tabset}
-
-::: {.panel-tabset}
-
-### Overview
-
-This section provides metrics on the number of unique genomic tests ordered that generated variant data.
-
-```{r test counts, message=FALSE, warning=FALSE, echo=FALSE}
-# Create summary table
-test_summary <- data.frame(
-  Metric = c("Unique Ordered Tests", "Patients with Tests", "Total Variants Detected"),
-  Count = c(
-    format(ordered_tests_counts$n_unique_tests, big.mark = ","),
-    format(ordered_tests_counts$n_patients, big.mark = ","),
-    format(ordered_tests_counts$n_variants, big.mark = ",")
-  )
-)
-
-DT::datatable(
-  test_summary,
-  options = list(
-    dom = 't',
-    ordering = FALSE,
-    pageLength = 10
-  ),
-  rownames = FALSE
-)
-```
-
 **Note:** Each unique `procedure_occurrence_id` represents a distinct genomic test order. A single test may detect multiple variants in a patient.
 
-### Calendar Trend
+### Genomic Testing Timeline
 
 The following visualization shows the monthly trend of genomic test orders over time.
 
