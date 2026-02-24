@@ -23,7 +23,7 @@ library(DT)
 library(tidyr)
 library(plotly)
 
-tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_person_metrics.sql"
+tb_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2025/sql_std/tumor_board/nov25/tumor_board_thoracic_person_metrics.sql"
 tb_den<- fetch_data_from_sql_file(tb_sql, yaml_file_path)
 tb_den
 ```

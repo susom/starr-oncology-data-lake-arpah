@@ -4,7 +4,6 @@ title: "_variant_occurrence"
 
 Clinical Data Table - Genomic Variants
 
-The VARIANT_OCCURRENCE table contains information about genetic variants identified in patients through genomic testing. This table is custom to STARR-OMOP and is not part of the standard OMOP CDM. 
 
 ### Table Columns
 

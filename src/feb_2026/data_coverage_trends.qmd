@@ -227,8 +227,6 @@ datatable(
 
 ::: {.panel-tabset}
 
-### Data Source Summary
-
 ```{r overlap metrics, message=FALSE, warning=FALSE, results='hide'}
 # Use denominators queries which return aggregated counts
 overlap_sql_paths <- list(
@@ -363,7 +361,7 @@ plot_ly(
 
 - The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May-November releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 
-- Feb 2026 Philips ISPM/Genomic Data includes patients from OMOP variant_occurrence table combined with Philips ISPM data.
+- Feb 2026 Philips ISPM/Genomic Data includes patients from OMOP _variant_occurrence table combined with Philips ISPM data.
 
 
 ### OMOP Clinical Metrics 
@@ -845,7 +843,7 @@ plot_ly(
 
 The VISTA Oncology Data Lake integrates comprehensive medical imaging data, linking diagnostic images to patient clinical records through the OMOP image occurrence table. This integration enables research connecting imaging studies with clinical outcomes, treatments, and genomic profiles.
 
-**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93k patients in February 2025 to over 195k patients by November 2025, representing a substantial increase in multi-modal data availability for cancer research.
+**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93k patients in February 2025 to over 199k patients by February 2026, representing a substantial increase in multi-modal data availability for cancer research.
 
 **Image Series and Studies**: The platform captures detailed imaging metadata including study identifiers, series information, anatomic regions, and imaging modalities (CT, MRI, PET, etc.), supporting comprehensive radiomics and image-based research.
 
@@ -1138,21 +1136,6 @@ The VISTA Oncology Data Lake integrates comprehensive molecular testing data fro
 
 ### Genomic Data Transition
 
-**Philips ISPM (May 2025 - October 2025)** - Discontinued
-- Test types: STAMP, Heme-STAMP, Foundation One
-- Variant types: Simple variants, CNVs, fusions
-- Status: Data collection ended October 2025
-
-**OMOP variant_occurrence (February 2026 - Present)** - Active
-- Test types: STAMP only (Stanford Actionable Mutation Panel for Solid Tumors)
-- Variant types: Simple variants only
-- Status: Launched February 2026
-
-**Transition Period (November 2025 - January 2026)**
-- Data gap: No genomic variant data available during this period
-- Future enhancements: Additional test types (Heme-STAMP, Foundation One) and variant types (CNVs, fusions) will be added in upcoming releases
-
-
 ```{r genomic_fetch_all_releases, message=FALSE, warning=FALSE, results='hide'}
 # Fetch Philips data for all historical releases using release-specific SQL paths
 # Note: Feb 2026 uses philips_variant_denominator.sql which combines both Philips ISPM and OMOP variant sources
@@ -1222,99 +1205,25 @@ philips_data_long <- philips_variant_all %>%
     month_label = factor(month, levels = c("May 2025", "Aug 2025", "Nov 2025", "Feb 2026")),
     is_combined = release == "feb_2026"
   ) %>%
-  select(month_label, counts_pts, n_acc, total_tests, release, is_combined) %>%
+  select(month_label, counts_pts, n_acc, release, is_combined) %>%
   pivot_longer(
-    cols = c(counts_pts, n_acc, total_tests),
+    cols = c(counts_pts, n_acc),
     names_to = "metric",
     values_to = "count"
   ) %>%
   mutate(
     metric_label = case_when(
       metric == "counts_pts" ~ "Unique Patients",
-      metric == "n_acc" ~ "Accession Numbers",
-      metric == "total_tests" ~ "Total Tests"
+      metric == "n_acc" ~ "Accession Numbers"
     )
   )
 
-# Create line plot with both metrics
-plot_ly() %>%
-  # Add Unique Patients line
-  add_trace(
-    data = filter(philips_data_long, metric == "counts_pts"),
-    x = ~month_label,
-    y = ~count,
-    type = 'scatter',
-    mode = 'lines+markers',
-    name = "Unique Patients",
-    line = list(color = '#fb8072', width = 3),
-    marker = list(
-      size = ~ifelse(is_combined, 15, 12),
-      color = '#fb8072',
-      symbol = ~ifelse(is_combined, 'diamond', 'circle')
-    ),
-    text = ~paste0(
-      ifelse(is_combined, "<b>Combined Sources</b>", "<b>Philips ISPM</b>"),
-      "<br>", month_label,
-      "<br>Patients: ", scales::comma(count),
-      ifelse(is_combined, 
-             "<br><i>Philips ISPM + OMOP variant_occurrence (deduplicated)</i>",
-             "<br><i>STAMP + Foundation One (all variant types)</i>")
-    ),
-    hoverinfo = "text"
-  ) %>%
-  # Add Accession Numbers line
-  add_trace(
-    data = filter(philips_data_long, metric == "n_acc"),
-    x = ~month_label,
-    y = ~count,
-    type = 'scatter',
-    mode = 'lines+markers',
-    name = "Accession Numbers",
-    line = list(color = '#8dd3c7', width = 3),
-    marker = list(
-      size = ~ifelse(is_combined, 15, 12),
-      color = '#8dd3c7',
-      symbol = ~ifelse(is_combined, 'diamond', 'circle')
-    ),
-    text = ~paste0(
-      ifelse(is_combined, "<b>Combined Sources</b>", "<b>Philips ISPM</b>"),
-      "<br>", month_label,
-      "<br>Accession Numbers: ", scales::comma(count),
-      ifelse(is_combined, 
-             "<br><i>Philips ISPM + OMOP variant_occurrence (deduplicated)</i>",
-             "<br><i>STAMP + Foundation One tests</i>")
-    ),
-    hoverinfo = "text"
-  ) %>%
-  # Add Total Tests line
-  add_trace(
-    data = filter(philips_data_long, metric == "total_tests"),
-    x = ~month_label,
-    y = ~count,
-    type = 'scatter',
-    mode = 'lines+markers',
-    name = "Total Tests (All Types)",
-    line = list(color = '#bebada', width = 3),
-    marker = list(
-      size = ~ifelse(is_combined, 15, 12),
-      color = '#bebada',
-      symbol = ~ifelse(is_combined, 'diamond', 'circle')
-    ),
-    text = ~paste0(
-      ifelse(is_combined, "<b>Combined Sources</b>", "<b>Philips ISPM</b>"),
-      "<br>", month_label,
-      "<br>Total Tests: ", scales::comma(count),
-      ifelse(is_combined, 
-             "<br><i>All test types from both sources</i>",
-             "<br><i>STAMP, Heme-STAMP, Foundation One</i>")
-    ),
-    hoverinfo = "text",
-    visible = TRUE
-  ) 
-
 # Prepare Feb 2026 test type data for adding to plot
 test_type_colors <- c('#fdb462', '#b3de69', '#fccde5', '#80b1d3', '#ffed6f')
-feb26_test_types_plot <- feb26_test_types %>% 
+
+# Extract Feb 2026 test types from philips_tests_all
+feb26_test_types_plot <- philips_tests_all %>%
+  filter(release == "feb_2026") %>%
   arrange(desc(test_type_counts)) %>%
   mutate(
     color = test_type_colors[row_number() %% length(test_type_colors) + 1],
@@ -1368,30 +1277,6 @@ p <- plot_ly() %>%
       ifelse(is_combined, 
              "<br><i>Philips ISPM + OMOP variant_occurrence (deduplicated)</i>",
              "<br><i>STAMP + Foundation One tests</i>")
-    ),
-    hoverinfo = "text"
-  ) %>%
-  # Add Total Tests line
-  add_trace(
-    data = filter(philips_data_long, metric == "total_tests"),
-    x = ~month_label,
-    y = ~count,
-    type = 'scatter',
-    mode = 'lines+markers',
-    name = "Total Tests (All Types)",
-    line = list(color = '#bebada', width = 3),
-    marker = list(
-      size = ~ifelse(is_combined, 15, 12),
-      color = '#bebada',
-      symbol = ~ifelse(is_combined, 'diamond', 'circle')
-    ),
-    text = ~paste0(
-      ifelse(is_combined, "<b>Combined Sources</b>", "<b>Philips ISPM</b>"),
-      "<br>", month_label,
-      "<br>Total Tests: ", scales::comma(count),
-      ifelse(is_combined, 
-             "<br><i>All test types from both sources</i>",
-             "<br><i>STAMP, Heme-STAMP, Foundation One</i>")
     ),
     hoverinfo = "text"
   )
@@ -1461,7 +1346,7 @@ p %>%
     annotations = list(
       # Annotation for Philips discontinuation
       list(
-        text = "<b>Philips ISPM<br>Discontinued</b><br>(Oct 2025)",
+        text = "Philips ISPM Discontinued",
         x = "Nov 2025",
         y = 1.08,
         yref = "paper",
@@ -1472,26 +1357,7 @@ p %>%
         borderwidth = 1,
         borderpad = 4
       ),
-      # Annotation for data gap period
-      list(
-        text = "<b>Data Gap</b><br>(Nov 2025 - Jan 2026)<br>Transition period",
-        x = "Nov 2025",
-        y = 0.5,
-        yref = "paper",
-        xref = "x",
-        showarrow = TRUE,
-        arrowhead = 2,
-        arrowsize = 1,
-        arrowwidth = 2,
-        arrowcolor = "rgba(200,100,100,0.6)",
-        ax = 40,
-        ay = -20,
-        font = list(size = 10, color = "#666"),
-        bgcolor = "rgba(255,255,255,0.95)",
-        bordercolor = "rgba(200,100,100,0.4)",
-        borderwidth = 1,
-        borderpad = 4
-      ),
+     
       # Data note annotation
       list(
         text = "Note: Feb 2026 combines both Philips ISPM and OMOP variant_occurrence sources (deduplicated)",
@@ -1521,13 +1387,13 @@ p %>%
 
 **Data Continuity Notes:**
 
-- There is a data gap from November 2025 through January 2026 during the transition period
-- February 2026 combines both Philips ISPM and OMOP variant_occurrence sources (deduplicated)
-- OMOP variant_occurrence currently includes STAMP simple variants only
-- Complete variant coverage (including fusions, CNVs, and Foundation One) will be restored in future releases
+- February 2026 combines both Philips ISPM and OMOP _variant_occurrence sources (deduplicated)
+- OMOP _variant_occurrence currently includes STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests only. Future releases will expand to include additional test types and platforms.
 
-### Overview Metrics
+### Philips ISPM Overview
 
+**Philips ISPM (May 2025 - October 2025)** 
+- Test types: STAMP, Heme-STAMP, Foundation One
 ```{r philips_overview, message=FALSE, warning=FALSE, results='hide'}
 # Define Philips denominator SQL paths per release (discontinued after Nov 2025)
 philips_denom_sql_paths <- list(
@@ -1546,6 +1412,7 @@ philips_denom <- run_monthly_metrics(
 
 ```{r philips_tests, message=FALSE, warning=FALSE, results='hide'}
 # Define Philips tests ordered SQL paths per release (discontinued after Nov 2025)
+
 philips_tests_sql_paths <- list(
   may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/may_aug25/philips_tests_ordered.sql", 
   aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/philips/may_aug25/philips_tests_ordered.sql",
@@ -1568,12 +1435,11 @@ library(tidyr)
 # Prepare philips_denom data
 philips_overview <- philips_denom %>%
   mutate(
-    release = factor(release, levels = c("may_2025", "aug_2025", "nov_2025", "feb_2026")),
+    release = factor(release, levels = c("may_2025", "aug_2025", "nov_2025")),
     month_label = recode(release,
       "may_2025" = "May 2025",
       "aug_2025" = "August 2025",
-      "nov_2025" = "November 2025",
-      "feb_2026" = "February 2026"
+      "nov_2025" = "November 2025"
     )
   ) %>%
   pivot_longer(
@@ -1589,15 +1455,15 @@ philips_overview <- philips_denom %>%
   ) %>%
   select(month_label, metric_label, count)
 
-# Prepare test type data
+# Prepare test type data (filter to May-Nov only)
 philips_tests_data <- philips_tests %>%
+  filter(release %in% c("may_2025", "aug_2025", "nov_2025")) %>%
   mutate(
-    release = factor(release, levels = c("may_2025", "aug_2025", "nov_2025", "feb_2026")),
+    release = factor(release, levels = c("may_2025", "aug_2025", "nov_2025")),
     month_label = recode(release,
       "may_2025" = "May 2025",
       "aug_2025" = "August 2025",
-      "nov_2025" = "November 2025",
-      "feb_2026" = "February 2026"
+      "nov_2025" = "November 2025"
     ),
     metric_label = case_when(
       is.na(test_type) | test_type == "" ~ "Not Specified",
@@ -1635,7 +1501,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("May 2025", "August 2025", "November 2025", "February 2026")
+      categoryarray = c("May 2025", "August 2025", "November 2025")
     ),
     yaxis = list(
       title = "Count",
@@ -1652,61 +1518,6 @@ plot_ly(
     margin = list(b = 150)
   )
 ```
-
-```{r philips_tests_plot_hidden, message=FALSE, warning=FALSE, include=FALSE}
-
-library(plotly)
-library(dplyr)
-
-# Prepare test type data
-philips_tests_plot <- philips_tests %>%
-  mutate(
-
-    # Clean up test type names
-    test_type_clean = case_when(
-      is.na(test_type) | test_type == "" ~ "Not Specified",
-      TRUE ~ test_type
-    )
-  )
-
-# Create grouped bar chart with consistent colors
-plot_ly(
-  data = philips_tests,
-  x = ~month,
-  y = ~test_type_counts,
-  color = ~test_type,
-  colors = c('#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#E0BBE4', '#FFC9DE', '#C9E4DE'),
-  type = 'bar',
-  text = ~paste0(
-    test_type,
-    "<br>", month,
-    "<br>Tests: ", scales::comma(test_type_counts)
-  ),
-  hoverinfo = "text"
-) %>%
-  layout(
-    title = "Molecular Test Types Distribution Across Releases",
-    xaxis = list(
-      title = "",
-      categoryorder = "array",
-      categoryarray = c("May 2025", "August 2025", "November 2025", "February 2026")
-    ),
-    yaxis = list(
-      title = "Number of Tests",
-      tickformat = ","
-    ),
-    barmode = 'group',
-    legend = list(
-      title = list(text = "Test Type"),
-      orientation = "h",
-      x = 0.5,
-      xanchor = "center",
-      y = -0.3
-    ),
-    margin = list(b = 150)
-  )
-```
-
 
 
 

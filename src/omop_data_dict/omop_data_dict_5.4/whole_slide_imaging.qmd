@@ -4,7 +4,6 @@ title: "_whole_slide_imaging"
 
 Clinical Data Table - Whole Slide Imaging
 
-A record of whole slide images. Eventually there will likely be three sources of whole slide image files, currently the table contains manually scanned slides that have been deidentified and split into TIFF and JSON files.
 
 ### Table Columns
 
