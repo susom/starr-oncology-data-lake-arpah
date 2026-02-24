@@ -1,5 +1,5 @@
 ---
-title: "whole_slide_imaging"
+title: "_whole_slide_imaging"
 ---
 
 Clinical Data Table - Whole Slide Imaging
