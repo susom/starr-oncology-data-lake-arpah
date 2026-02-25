@@ -105,7 +105,6 @@ As of February 2026, this table includes **`r format(n_pts$n_patients, big.mark 
 - **Molecular Consequences:** `r format(nrow(variant_consequence), big.mark = ",")`
 :::
 
-:::
 
 ## Variant Occurrence Metrics {.tabset}
 This section presents key metrics and visualizations of genetic variants identified in our patient population through STAMP genomic testing.
