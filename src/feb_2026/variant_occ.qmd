@@ -143,7 +143,7 @@ DT::datatable(
 **Note:** Tumor board patients are identified by visit records containing "tumor board" (case-insensitive). Thoracic cancer patients are identified from NeuralFrame diagnoses with primary sites including lung, bronchus, or thymus. 
 
 
-**Note:** Each unique `procedure_occurrence_id` represents a distinct genomic test order. A single test may detect multiple variants in a patient.
+
 
 ### Genomic Testing Timeline
 
@@ -196,7 +196,7 @@ plot_ly(df_trend) %>%
     )
   ) %>%
   layout(
-    xaxis = list(title = "Order Month"),
+    xaxis = list(title = ""),
     yaxis = list(
       title = "Monthly Test Volume",
       titlefont = list(color = color_palette[1]),
@@ -221,6 +221,7 @@ plot_ly(df_trend) %>%
   )
 ```
 
+**Note:** Each unique `procedure_occurrence_id` represents a distinct genomic test order. A single test may detect multiple variants in a patient.
 :::
 
 ## Variant Characteristics {.tabset}
