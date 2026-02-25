@@ -1392,7 +1392,7 @@ p %>%
 
 ### Philips ISPM Overview
 
-**Philips ISPM (May 2025 - October 2025)** 
+**Philips ISPM (May 2025 - November 2025)** 
 - Test types: STAMP, Heme-STAMP, Foundation One
 ```{r philips_overview, message=FALSE, warning=FALSE, results='hide'}
 # Define Philips denominator SQL paths per release (discontinued after Nov 2025)
