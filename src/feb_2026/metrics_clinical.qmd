@@ -44,6 +44,9 @@ As of the February 2026 OMOP population, `r format( den_res$counts_pts[den_res$d
 
   - **OMOP Whole Slide Imaging:** The OMOP whole slide imaging table contains records of digitized pathology slides and currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. 
     - [Whole Slide Imaging Metrics](whole_slide_imaging.qmd)
+
+  - **Data Coverage Trends:** Longitudinal view of data evolution across all platforms from February 2025 to February 2026.
+    - [Data Coverage Trends](data_coverage_trends.qmd)
  
 ```{r table1, message=FALSE, warning=FALSE}
 # Modify the data frame to show hierarchy
