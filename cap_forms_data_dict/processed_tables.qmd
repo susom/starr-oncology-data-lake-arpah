@@ -1,0 +1,248 @@
+---
+title: "Cap Forms Processed tables"
+---
+
+## CAP_FORMS
+The table `cap_forms` contains details about the Lung Resection Cap Forms.
+
+### Table Columns
+
+| field                                               | type    |
+|:----------------------------------------------------|:--------|
+| pat_id                                              | STRING  |
+| pat_mrn_id                                          | STRING  |
+| stanford_patient_uid                                | STRING  |
+| birth_date                                          | DATETIME |
+| synoptic_name                                       | STRING  |
+| concept_hierarchy                                   | STRING  |
+| parent_element_name                                 | STRING  |
+| element_name                                        | STRING  |
+| smrtdta_elem_value                                  | STRING  |
+| comment                                             | STRING  |
+| accession_number                                    | STRING  |
+| order_proc_id                                       | INTEGER |
+| pat_enc_csn_id                                      | INTEGER |
+| element_id                                          | STRING  |
+| taken_time                                          | DATETIME |
+| result_id                                           | STRING  |
+| hlv_id                                              | INTEGER |
+| res_val_status_c                                    | INTEGER |
+| case_id                                             | INTEGER |
+| cur_source_lqf_id                                   | STRING  |
+| line                                                | INTEGER |
+| synoptic_id                                         | INTEGER |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### pat_id
+
+Unique identifier for the patient in EPIC Clarity
+
+##### pat_mrn_id
+
+Patient Medical Record Number
+
+##### stanford_patient_uid
+
+Unique patient identifier within the STARR DataLake that consist on the concatenation of patient MRN and DOB
+
+##### birth_date
+
+Patient's date of birth
+
+##### synoptic_name
+
+For this dataset it is `LUNG: RESECTION` for all rows
+
+##### concept_hierarchy
+
+This include the provenance for a particular element in the CAP form
+
+Example
+
+`LUNG > MARGINS > Margin Status for Non-Invasive Tumor > All margins negative for non-invasive tumor`
+
+##### parent_element_name
+
+One of the elements of the CAP form. It is in general part of the description of the particular clinical finding from which a report needs to be made. 
+
+Example
+
+`MARGIN STATUS FOR NON-INVASIVE TUMOR`
+
+##### element_name
+
+One of the elements of the CAP form. It is in general part of the observation of the particular clinical finding from which a report needs to be made.
+
+Example
+
+`ALL MARGINS NEGATIVE FOR NON-INVASIVE TUMOR`
+
+##### smrtdta_elem_value
+
+This is in general the same as the information presented on `element_name` or it could be the actual clinical finding
+
+Examples
+
+- `Lymphatic invasion present`
+- `1.2 cm`
+
+##### comment
+
+This in general contains free form clinical findings such as tumor sizes.
+
+Examples
+
+- `1.4 cm`
+- `10%`
+
+##### accession_number
+
+This is the accession number linked with the sample from which the report is made.
+
+##### order_proc_id
+
+This is the order identifier. This links the CAP form with a particular order for the procedure. 
+
+##### pat_enc_csn_id
+
+Encounter identifier. This links the CAP form with a clinical encounter. 
+
+##### element_id
+
+Internal EPIC identifier for the particular CAP form element
+
+##### taken_time
+
+The `DATETIME` in which the sample was taken.
+
+##### result_id
+
+The unique identifier for the result record.
+
+##### hlv_id
+
+The unique identifier (.1 item) for the value record.
+
+##### res_val_status_c
+
+Integer representing validation statuses of result records.
+
+##### case_id
+	
+The unique identifier for the case record.
+
+##### cur_source_lqf_id
+
+The unique ID of the SmartForm that is the source of the current value.
+
+##### line
+
+Other EPIC identifier for the particular CAP form element or metadata
+
+##### synoptic_id
+	
+The unique identifier for the synoptic result record.
+
+---
+
+## SHC_PATHOLOGY_REPORTS
+
+The table `shc_pathology_reports` contains the pathology report text and details about them. It only contains pathology reports associated with the Lung Resection CAP forms present on the table `cap_forms`
+
+### Table Columns
+
+| field                                               | type    |
+|:----------------------------------------------------|:--------|
+| stanford_patient_uid                                | STRING  |
+| pat_id                                              | STRING  |
+| order_proc_id                                       | INTEGER |
+| pat_enc_csn_id                                      | INTEGER |
+| order_time                                          | DATETIME |
+| taken_time                                          | DATETIME |
+| result_time                                         | DATETIME |
+| order_type                                          | STRING  |
+| proc_code                                           | STRING  |
+| proc_name                                           | STRING  |
+| specimen_accession_numbers                          | STRING  |
+| section_name                                        | STRING  |
+| section_order                                       | INTEGER |
+| section_text                                        | STRING  |
+| load_table_id                                       | STRING  |
+| trace_id                                            | STRING  |
+| source_flag                                         | STRING  |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### stanford_patient_uid
+
+Unique patient identifier within the STARR DataLake that consist on the concatenation of patient MRN and DOB
+
+##### pat_id
+
+Unique identifier for the patient in EPIC Clarity
+
+##### order_proc_id
+
+This is the order identifier. This links the pathology report with a particular order for the procedure.
+
+##### pat_enc_csn_id
+
+Encounter identifier. This links the pathology report with a clinical encounter.
+
+##### order_time
+
+The `DATETIME` when the pathology report order was placed.
+
+##### taken_time
+
+The `DATETIME` in which the sample was taken.
+
+##### result_time
+
+The `DATETIME` when the pathology report result was finalized.
+
+
+##### order_type
+
+The type of order that generated this pathology report (e.g., surgical pathology, biopsy).
+
+##### proc_code
+
+The procedure code associated with the pathology examination.
+
+##### proc_name
+
+The descriptive name of the procedure that generated the pathology report.
+
+##### specimen_accession_numbers
+
+The accession number(s) linked with the specimen(s) from which the pathology report was made.
+
+##### section_name
+
+The name of the specific section within the pathology report (e.g., "Gross Description", "Microscopic Description", "Diagnosis").
+
+##### section_order
+
+The order/sequence number of this section within the pathology report.
+
+##### section_text
+
+The actual text content of this specific section of the pathology report.
+
+##### load_table_id
+
+Internal identifier for the data loading process that brought this record into the system.
+
+##### trace_id
+
+Unique identifier for tracing the data lineage and processing history of this record.
+
+##### source_flag
+
+This is `shc` for this dataset

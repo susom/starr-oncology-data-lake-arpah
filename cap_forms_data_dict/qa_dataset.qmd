@@ -1,0 +1,56 @@
+---
+title: "CAP Forms QA cleaned dataset"
+---
+
+This dataset is a [HuggingFace Dataset](https://huggingface.co/docs/datasets/en/index) using a question and answer format. The dataset is compressed in a single `tar.gz` file for convenience. Inside that file we have the following files typical from a HuggingFace Dataset serialization using parquet files
+
+- `dataset_dict.json`
+- train (folder)
+    - `*.arrow` files
+
+The dataset can be loaded using the code below once it is uncompressed
+
+```python
+from datasets import load_from_disk
+fpath = <path to where the uncompressed folder is located>
+dataset = load_from_disk(fpath)
+```
+
+The dataset should show this
+
+```python
+DatasetDict({
+    train: Dataset({
+        features: ['id', 'context', 'question', 'answers', 'metadata'],
+        num_rows: 22420
+    })
+})
+```
+An example of a record is shown below
+
+```python
+{'id': '671f2274-7987-4b40-8c76-95b37ggh5d08',
+ 'context': <pathology report text without synoptic report>,
+ 'question': 'ADDITIONAL FINDINGS',
+ 'answers': {'answer_start': [-1],
+  'text': ['ATYPICAL ADENOMATOUS HYPERPLASIA']},
+ 'metadata': {'concept_hierarchy': 'LUNG > ADDITIONAL FINDINGS > Additional Findings > Atypical adenomatous hyperplasia',
+  'order_proc_id': 123456789,
+  'stanford_patient_uid': '98765432 | 1999-10-14',
+  'synoptic_name': 'LUNG: RESECTION',
+  'taken_time': '2023-01-10T09:04:00'}}
+```
+
+Each field description is below:
+
+- **id**: This is a UUID for each sample in the dataset
+- **context**: This is the entire pathology report without the synaptic report
+- **question**: This is the question/element that needs to be filled with the clinical findings from the pathology
+- **answers**: For every question there may be multiple answers. This is a dictionary where the key `text` contains a list with the possible answers. The answer start is always -1 since this is a generative question answer and not extractive from the context.
+- **metadata**: This includes relevant metadata for the patient and the sample. 
+    - **concept_hierarchy**: This include the provenance for a particular element in the CAP form. Example: `LUNG > MARGINS > Margin Status for Non-Invasive Tumor > All margins negative for non-invasive tumor`
+    - **order_proc_id**: This is the order identifier. This links the CAP form with a particular order for the procedure.
+    - **stanford_patient_uid**: Unique patient identifier within the STARR DataLake that consist on the concatenation of patient MRN and DOB
+    - **synoptic_name**: For this dataset it is `LUNG: RESECTION` for all rows
+    - **taken_time**: The `DATETIME` in which the sample was taken. 
+

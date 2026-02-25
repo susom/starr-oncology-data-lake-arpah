@@ -1318,13 +1318,20 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#dataset_for_evaluation" id="toc-dataset_for_evaluation" class="nav-link" data-scroll-target="#dataset_for_evaluation">Dataset used for evaluation</a></li>
-  <li><a href="#stanford_aimi_v1_description" id="toc-stanford_aimi_v1_description" class="nav-link" data-scroll-target="#stanford_aimi_v1_description">Stanford AIMI de-identifier model summary</a></li>
+  <li><a href="#stanford_aimi_v2_description" id="toc-stanford_aimi_v2_description" class="nav-link" data-scroll-target="#stanford_aimi_v2_description">Stanford AIMI de-identifier model summary</a></li>
   <li><a href="#tide10_summary" id="toc-tide10_summary" class="nav-link" data-scroll-target="#tide10_summary">TiDE 1.0 summary</a></li>
   <li><a href="#agentic_tide20_description" id="toc-agentic_tide20_description" class="nav-link" data-scroll-target="#agentic_tide20_description">Detailed Description: Agentic TiDE 2.0 Alpha</a>
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset">Dataset</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul>
+  <li><a href="#multi-strategy-entity-recognition" id="toc-multi-strategy-entity-recognition" class="nav-link" data-scroll-target="#multi-strategy-entity-recognition">Multi-Strategy Entity Recognition</a></li>
+  <li><a href="#hidden-in-plain-sight-anonymization" id="toc-hidden-in-plain-sight-anonymization" class="nav-link" data-scroll-target="#hidden-in-plain-sight-anonymization">Hidden-in-Plain-Sight Anonymization</a></li>
+  <li><a href="#example-end-to-end-de-identification" id="toc-example-end-to-end-de-identification" class="nav-link" data-scroll-target="#example-end-to-end-de-identification">Example: End-to-End De-identification</a></li>
+  <li><a href="#interactive-visualizer" id="toc-interactive-visualizer" class="nav-link" data-scroll-target="#interactive-visualizer">Interactive Visualizer</a></li>
+  </ul></li>
+  <li><a href="#future-directions" id="toc-future-directions" class="nav-link" data-scroll-target="#future-directions">Future Directions</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -1442,16 +1449,15 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>The dataset comprises a stratified sample of clinical notes selected to maximize coverage of demographic and textual characteristics. Notes were pre-labeled by a large language model, then independently reviewed by two annotators following the published guidelines; disagreements were adjudicated and only 100% agreement or adjudicated notes were retained as gold standard. The corpus includes diverse PHI entity types (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), facilitating robust estimation of precision/recall across both structured and contextual categories. For full methodological details and population characteristics, see the referenced documents above.</p>
 </section>
-<section id="stanford_aimi_v1_description" class="level2">
-<h2 class="anchored" data-anchor-id="stanford_aimi_v1_description">Stanford AIMI de-identifier model summary</h2>
-<p>The Stanford AIMI de-identifier (stanford-deidentifier-base) is a transformer-based token classification model fine-tuned on multi-institutional medical text, optimized for PHI detection and paired with a “hide in plain sight” synthetic PHI replacement strategy.</p>
+<section id="stanford_aimi_v2_description" class="level2">
+<h2 class="anchored" data-anchor-id="stanford_aimi_v2_description">Stanford AIMI de-identifier model summary</h2>
+<p>The Stanford AIMI de-identifier v2 (<a href="https://huggingface.co/StanfordAIMI/stanford-deidentifier-v2">stanford-deidentifier-v2</a>) is a transformer-based token classification model fine-tuned on large-scale multi-institutional radiology corpora for PHI detection. This model is used as the primary transformer-based recognizer in Agentic TiDE 2.0.</p>
 <ul>
-<li>Architecture and pretraining: Transformer encoder (BERT-family), leveraging biomedical pretraining (PubMedBERT) prior to supervised PHI fine-tuning. Inputs are greedily chunked at sentence boundaries to respect the 512-token limit; weighted cross-entropy emphasizes PHI tokens.</li>
-<li>Training corpus: Radiology reports and medical notes across domains, including Penn and Stanford corpora and i2b2 2006/2014 datasets, with label harmonization. Data augmentation uses synthetic PHI generation to enrich rare categories (eg, patient names, IDs, phone numbers).</li>
-<li>Optimization: ULMFiT-inspired fine-tuning (discriminative learning rates, 1-cycle scheduling, staged unfreezing), hyperparameter tuning via Tree of Parzen Estimators, distributed training for efficient exploration.</li>
-<li>Pipeline: PHI detection by the transformer model followed by rule-based replacement of detected spans with realistic surrogates to hide any residual PHI and improve privacy robustness; generators use parsed format/content distributions and in-/cross-document constraints with short- and long-term memory.</li>
-<li>Reported performance (JAMIA 2022): Best model F1 on radiology reports from new institution ≈ 99.6; i2b2 2006 ≈ 99.5; i2b2 2014 ≈ 98.9. Span-level recall on sensitive categories (patient names, IDs, phone numbers) approaches 99–100% under “at least one token per span” criteria.</li>
-<li>Model card: The Hugging Face model page notes training across radiology/biomedical documents and provides weights and code references; recommended weights: StanfordAIMI/stanford-deidentifier-base. Associated GitHub: MIDRC/Stanford_Penn_Deidentifier.</li>
+<li><strong>Architecture</strong>: PubMedBERT-based encoder fine-tuned for token-level PHI classification. Inputs are chunked with overlap to handle long clinical documents while respecting the 512-token limit.</li>
+<li><strong>Training corpus</strong>: Large annotated radiology corpora from Stanford University spanning multiple modalities—chest X-ray reports, chest CT reports, abdomen/pelvis CT reports, and brain MR reports—with validation on University of Pennsylvania datasets. The AGE category was added as a new PHI entity type in v2.</li>
+<li><strong>Performance</strong>: Achieves F1 scores of 0.996 on Stanford test set and 0.973 on Penn external validation. On synthetic Penn reports, the model achieves F1 of 0.960, significantly outperforming commercial cloud vendor systems (F1 range: 0.632–0.754).</li>
+<li><strong>Key improvements over v1</strong>: Added AGE category support, large-scale multimodal training for improved cross-institutional generalization, and enhanced robustness across different clinical text sources.</li>
+<li><strong>Model card</strong>: Available on Hugging Face at <a href="https://huggingface.co/StanfordAIMI/stanford-deidentifier-v2">StanfordAIMI/stanford-deidentifier-v2</a>. Associated paper: <a href="https://arxiv.org/abs/2511.04079">arXiv:2511.04079</a>.</li>
 </ul>
 </section>
 <section id="tide10_summary" class="level2">
@@ -1468,15 +1474,310 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="agentic_tide20_description">Detailed Description: Agentic TiDE 2.0 Alpha</h2>
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
-<p>Coming Soon!</p>
+<p>Clinical text de-identification requires both high recall—to minimize protected health information (PHI) leakage—and preservation of data utility for downstream research. Existing approaches present trade-offs: rule-based systems miss contextual patterns, machine learning models struggle with rare or institution-specific identifiers, and large language models (LLMs) introduce latency and cost at scale. Agentic TiDE 2.0 addresses these limitations through a multi-strategy recognition architecture combined with <strong>hidden-in-plain-sight anonymization</strong>—producing de-identified text that preserves format, ensures consistency within and across patient records, and maintains longitudinal coherence for cohort studies and temporal analyses.</p>
+<p>The system builds on TiDE 1.0’s operational foundation while integrating transformer-based named entity recognition, LLM-augmented detection for complex patterns, and high-performance deterministic recognizers. Crucially, anonymization moves beyond simple redaction: identifiers are replaced with realistic surrogates that preserve structural characteristics (e.g., phone number format, name casing) while remaining cryptographically consistent per patient across all documents.</p>
 </section>
 <section id="dataset" class="level3">
 <h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
-<p>Coming Soon!</p>
+<p>Agentic TiDE 2.0 was evaluated on the same gold-standard corpus described in <a href="../feb_2025/phi_labeling_report.html">Dataset Used for Evaluation</a>. This corpus comprises clinical notes sampled via a random-plus-diversity strategy from STARR-OMOP, pre-labeled by an LLM, independently reviewed by dual annotators, and adjudicated to retain only 100% agreement or resolved notes. The evaluation spans structured PHI categories (DATE, PHONE, ID) and contextual categories (PATIENT, DOCTOR, LOCATION), enabling assessment of both pattern-based and semantic recognition capabilities.</p>
 </section>
 <section id="methods" class="level3">
 <h3 class="anchored" data-anchor-id="methods">Methods</h3>
-<p>Coming Soon!</p>
+<section id="multi-strategy-entity-recognition" class="level4">
+<h4 class="anchored" data-anchor-id="multi-strategy-entity-recognition">Multi-Strategy Entity Recognition</h4>
+<p>Agentic TiDE 2.0 employs an ensemble of complementary recognition strategies, each targeting specific failure modes:</p>
+<ol type="1">
+<li><p><strong>Transformer-based NER</strong>: The <a href="#stanford_aimi_v2_description">Stanford AIMI de-identifier v2</a> model provides contextual detection of names, locations, dates, ages, and identifiers. The model uses chunking with overlap to handle long documents without truncation loss, achieving F1 scores of 0.996 on internal validation.</p></li>
+<li><p><strong>LLM-Augmented Recognition</strong>: For complex, ambiguous patterns—multi-format addresses, informal name mentions, embedded identifiers—structured JSON prompting elicits precise entity extraction from large language models. Multi-provider support (Google Vertex AI, OpenAI, Anthropic) enables flexibility across deployment contexts.</p></li>
+<li><p><strong>High-Performance Pattern Recognizers</strong>: Optimized regex-based recognizers detect structured PHI with significant speedups over baseline implementations: phone numbers (59× faster), URLs and IP addresses (35× faster), SSNs (10–20× faster), accession numbers (23× faster), and genetic sequences. These recognizers prioritize precision on well-defined formats.</p></li>
+<li><p><strong>Patient-Specific Known Values</strong>: An Aho-Corasick automaton enables O(n) multi-pattern matching against institutional identifier vaults, achieving 50–100× speedup over regex-based lookups. This captures patient-specific MRNs, names, addresses, and encounter identifiers with high confidence.</p></li>
+</ol>
+</section>
+<section id="hidden-in-plain-sight-anonymization" class="level4">
+<h4 class="anchored" data-anchor-id="hidden-in-plain-sight-anonymization">Hidden-in-Plain-Sight Anonymization</h4>
+<p>De-identified text should resemble authentic clinical notes—not redacted placeholders. Agentic TiDE 2.0 implements privacy-preserving transformations that maintain data structure and enable longitudinal analysis:</p>
+<ol type="1">
+<li><p><strong>Format-Preserving Encryption (FPE)</strong>: Using the FF3 algorithm, identifiers are transformed while retaining their original format. A phone number <code>(650) 723-4000</code> becomes <code>(408) 291-7823</code>, not <code>[PHONE]</code>. Transformations are deterministic: the same identifier consistently maps to the same surrogate.</p></li>
+<li><p><strong>Longitudinal Consistency</strong>: Per-patient cryptographic keys ensure that surrogates remain stable across all documents for an individual. This enables cohort construction, temporal trend analysis, and record linkage on de-identified data without re-identification risk.</p></li>
+<li><p><strong>Semantic Replacement</strong>: Names are replaced with realistic alternatives that preserve format and case (<code>SMITH, JOHN</code> → <code>CHEN, DAVID</code>). Date shifting uses HMAC-derived per-patient offsets (minimum ±3 days per HIPAA Safe Harbor) while preserving inter-event intervals within a patient’s record.</p></li>
+</ol>
+</section>
+<section id="example-end-to-end-de-identification" class="level4">
+<h4 class="anchored" data-anchor-id="example-end-to-end-de-identification">Example: End-to-End De-identification</h4>
+<p>The following example demonstrates actual pipeline output on a synthetic clinical note, showing how multiple recognizers collaborate to detect PHI followed by format-preserving anonymization.</p>
+<!-- Entity highlight styles -->
+<style>
+.entity { padding: 2px 4px; border-radius: 3px; font-family: monospace; }
+.entity-person { background-color: #FFAB91; }
+.entity-date { background-color: #FFD93D; }
+.entity-id { background-color: #B0BEC5; }
+.entity-ssn { background-color: #FFB74D; }
+.entity-phone { background-color: #80DEEA; }
+.entity-email { background-color: #B39DDB; }
+.entity-location { background-color: #4FC3F7; }
+.entity-hcw { background-color: #6BCF7F; }
+.entity-url { background-color: #F48FB1; }
+.entity-hospital { background-color: #A5D6A7; }
+.entity-age { background-color: #CE93D8; }
+.note-box { background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 6px; padding: 16px; margin: 12px 0; font-family: monospace; font-size: 0.9em; line-height: 1.6; white-space: pre-wrap; }
+.transform-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9em; }
+.transform-table th, .transform-table td { border: 1px solid #dee2e6; padding: 8px 12px; text-align: left; }
+.transform-table th { background-color: #f1f3f4; }
+.transform-table .arrow { text-align: center; font-weight: bold; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; font-size: 0.85em; }
+.legend-item { padding: 2px 8px; border-radius: 3px; }
+</style>
+<strong>Legend:</strong>
+<div class="legend">
+<p><span class="legend-item entity-person">PERSON/PATIENT</span> <span class="legend-item entity-hcw">HCW/DOCTOR</span> <span class="legend-item entity-date">DATE</span> <span class="legend-item entity-age">AGE</span> <span class="legend-item entity-id">ID/MRN</span> <span class="legend-item entity-ssn">SSN</span> <span class="legend-item entity-phone">PHONE</span> <span class="legend-item entity-email">EMAIL</span> <span class="legend-item entity-location">LOCATION</span> <span class="legend-item entity-hospital">HOSPITAL</span> <span class="legend-item entity-url">URL</span></p>
+</div>
+<strong>Original Text (with detected entities):</strong>
+<div class="note-box">
+<p>Patient: <span class="entity entity-person">Maria Santos</span>, DOB: <span class="entity entity-date">03/15/1962</span> MRN: <span class="entity entity-id">12345678</span> | SSN: <span class="entity entity-ssn">123-45-6789</span> Phone: <span class="entity entity-phone">(650) 723-4000</span> | Email: <span class="entity entity-email">msantos@email.com</span></p>
+<p>Seen at <span class="entity entity-hospital">Stanford Cancer Center</span>, <span class="entity entity-location">875 Blake Wilbur Dr, Palo Alto, CA 94304</span> Provider: <span class="entity entity-hcw">Dr.&nbsp;James Wilson, MD</span></p>
+Assessment: 62 y/o female with breast cancer. <span class="entity entity-person">Maria</span> reports mild fatigue. Follow-up scheduled <span class="entity entity-date">04/22/2025</span>. Contact oncology coordinator <span class="entity entity-hcw">Sarah</span> at <span class="entity entity-phone">x4521</span> for questions. Visit our portal at <span class="entity entity-url">https://mychart.stanford.edu</span> for results.
+</div>
+<strong>Anonymized Output (with transformations):</strong>
+<div class="note-box">
+<p>Patient: <span class="entity entity-person">Elena Beegan</span>, DOB: <span class="entity entity-date">04/14/1962</span> MRN: <span class="entity entity-id">33027468</span> | SSN: <span class="entity entity-ssn">928-50-8413</span> Phone: <span class="entity entity-phone">(717) 794-7071</span> | Email: <span class="entity entity-email">sparksjennifer@example.net</span></p>
+<p>Seen at <span class="entity entity-location">23915 Ugly Creek Trl, South Charleston Village, CA 98377</span> Provider: <span class="entity entity-hcw">Dr.&nbsp;Kamauri Syrop, MD</span></p>
+Assessment: 62 y/o female with breast cancer. <span class="entity entity-person">Elena</span> reports mild fatigue. Follow-up scheduled <span class="entity entity-date">05/22/2025</span>. Contact oncology coordinator <span class="entity entity-hcw">Kaiden</span> at <span class="entity entity-phone">5jDOv</span> for questions. Visit our portal at <span class="entity entity-url">https://fisher-diaz.com/</span> for results.
+</div>
+<strong>Entity Transformation Summary:</strong>
+<table class="transform-table">
+<tbody><tr>
+<th>
+Original
+</th>
+<th class="arrow">
+→
+</th>
+<th>
+Anonymized
+</th>
+<th>
+Type
+</th>
+</tr>
+<tr>
+<td>
+Maria Santos
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+Elena Beegan
+</td>
+<td>
+PERSON
+</td>
+</tr>
+<tr>
+<td>
+Maria
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+Elena
+</td>
+<td>
+PATIENT
+</td>
+</tr>
+<tr>
+<td>
+03/15/1962
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+04/14/1962
+</td>
+<td>
+DATE
+</td>
+</tr>
+<tr>
+<td>
+12345678
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+33027468
+</td>
+<td>
+MRN
+</td>
+</tr>
+<tr>
+<td>
+123-45-6789
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+928-50-8413
+</td>
+<td>
+US_SSN
+</td>
+</tr>
+<tr>
+<td>
+<ol start="650" type="1">
+<li>723-4000
+</li></ol></td>
+<td class="arrow">
+→
+</td>
+<td>
+<ol start="717" type="1">
+<li>794-7071
+</li></ol></td>
+<td>
+PHONE
+</td>
+</tr>
+<tr>
+<td>
+msantos@email.com
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+sparksjennifer@example.net
+</td>
+<td>
+EMAIL
+</td>
+</tr>
+<tr>
+<td>
+875 Blake Wilbur Dr, Palo Alto, CA 94304
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+23915 Ugly Creek Trl, South Charleston Village, CA 98377
+</td>
+<td>
+LOCATION
+</td>
+</tr>
+<tr>
+<td>
+Dr.&nbsp;James Wilson, MD
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+Dr.&nbsp;Kamauri Syrop, MD
+</td>
+<td>
+HCW
+</td>
+</tr>
+<tr>
+<td>
+04/22/2025
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+05/22/2025
+</td>
+<td>
+DATE
+</td>
+</tr>
+<tr>
+<td>
+Sarah
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+Kaiden
+</td>
+<td>
+HCW
+</td>
+</tr>
+<tr>
+<td>
+x4521
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+5jDOv
+</td>
+<td>
+PHONE
+</td>
+</tr>
+<tr>
+<td>
+https://mychart.stanford.edu
+</td>
+<td class="arrow">
+→
+</td>
+<td>
+https://fisher-diaz.com/
+</td>
+<td>
+URL
+</td>
+</tr>
+</tbody></table>
+
+
+<p><strong>Key observations:</strong></p>
+<ul>
+<li><strong>Longitudinal name consistency</strong>: Patient full name <code>Maria Santos</code> → <code>Elena Beegan</code> and first-name-only mention <code>Maria</code> → <code>Elena</code> are replaced with matching surrogates, ensuring consistency across all references to the same individual</li>
+<li><strong>Semantic name replacement</strong>: Provider <code>James Wilson</code> → <code>Kamauri Syrop</code>, coordinator <code>Sarah</code> → <code>Kaiden</code> — all replaced with realistic alternatives preserving name structure</li>
+<li><strong>Format-preserving encryption</strong>: Phone <code>(650) 723-4000</code> → <code>(717) 794-7071</code> retains format; MRN <code>12345678</code> → <code>33027468</code> maintains 8 digits; SSN <code>123-45-6789</code> → <code>928-50-8413</code> preserves XXX-XX-XXXX structure</li>
+<li><strong>Address anonymization</strong>: Full address <code>875 Blake Wilbur Dr, Palo Alto, CA 94304</code> → <code>23915 Ugly Creek Trl, South Charleston Village, CA 98377</code> maintains US address format with realistic surrogate</li>
+<li><strong>Date shifting</strong>: All dates shifted by the same patient-specific offset (+30 days): <code>03/15/1962</code> → <code>04/14/1962</code> and <code>04/22/2025</code> → <code>05/22/2025</code>, preserving temporal intervals</li>
+<li><strong>Multi-recognizer fusion</strong>: Entities detected by multiple recognizers (Transformer NER + KnownValues + Pattern) with highest-confidence detection used for anonymization</li>
+<li><strong>Clinical utility</strong>: The note remains readable and structurally identical to the original, supporting downstream NLP tasks</li>
+</ul>
+</section>
+<section id="interactive-visualizer" class="level4">
+<h4 class="anchored" data-anchor-id="interactive-visualizer">Interactive Visualizer</h4>
+<p>Agentic TiDE includes a Streamlit-based visualization interface designed for quality control of the de-identification process. The visualizer enables reviewers to verify that PHI detection and anonymization are performing correctly, facilitating rapid identification of false negatives (missed PHI) or false positives (over-redaction) before data release.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/agentic_tide_ui.png" class="img-fluid figure-img"></p>
+<figcaption>Agentic TiDE Visualizer Interface</figcaption>
+</figure>
+</div>
+<p>Key quality control capabilities include:</p>
+<ul>
+<li><strong>Side-by-side comparison</strong>: Original text with highlighted entities alongside the anonymized version, enabling rapid visual verification of transformations</li>
+<li><strong>Entity filtering</strong>: Filter by recognizer type (Transformer, LLM, Pattern-based, KnownValues) or entity category to audit specific detection sources</li>
+<li><strong>Confidence scores</strong>: Review detection confidence for each entity span to prioritize manual review of uncertain classifications</li>
+<li><strong>Multiple data sources</strong>: Load results from JSON files, Parquet/CSV DataFrames, or BigQuery tables for batch quality assessment</li>
+</ul>
+</section>
+</section>
+<section id="future-directions" class="level3">
+<h3 class="anchored" data-anchor-id="future-directions">Future Directions</h3>
+<p>Ongoing development focuses on integration with agentic AI workflows. Planned capabilities include Model Context Protocol (MCP) support, enabling LLM-based agents to invoke de-identification as a tool within broader clinical data processing pipelines. This will facilitate real-time, context-aware anonymization in conversational and agentic applications.</p>
 </section>
 <section id="results" class="level3">
 <h3 class="anchored" data-anchor-id="results">Results</h3>
@@ -1589,7 +1890,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ul>
-<li>https://huggingface.co/StanfordAIMI/stanford-deidentifier-base</li>
+<li>Stanford AIMI de-identifier v2: https://huggingface.co/StanfordAIMI/stanford-deidentifier-v2</li>
+<li>“Improving the Performance of Radiology Report De-identification with Large-Scale Training and Benchmarking Against Cloud Vendor Methods,” arXiv 2024: https://arxiv.org/abs/2511.04079</li>
+<li>Stanford AIMI de-identifier v1: https://huggingface.co/StanfordAIMI/stanford-deidentifier-base</li>
 <li>“Automated deidentification of radiology reports combining transformer and ‘hide in plain sight’ rule-based methods,” JAMIA 2022 (PMCID: PMC9846681): https://pmc.ncbi.nlm.nih.gov/articles/PMC9846681/</li>
 <li>TiDE clinical text Safe Harbor — https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor</li>
 </ul>
@@ -1690,7 +1993,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
