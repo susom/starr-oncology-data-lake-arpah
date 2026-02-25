@@ -115,7 +115,7 @@ release_summary <- tibble::tribble(
   "February 2026",
   "Continued coverage + <b>WSI + Variant Occurrence<b>",
   "Continued coverage",
-  "Continued coverage",
+  "Discontinued coverage",
   "<b>Whole Slide Imaging (WSI), Variant Occurrence table<b>",
   "Added custom variant_occurrence table for genomic variants; Added _whole_slide_imaging table",
   "WSI TIFF/JSON files"
