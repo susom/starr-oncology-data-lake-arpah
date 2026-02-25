@@ -12,7 +12,7 @@ In this data dictionary, you will find detailed descriptions of each table and i
 
 **Version History**: The data lake has evolved from OMOP CDM 5.3.1 (used in February-August 2025 releases) to OMOP CDM 5.4.2 (November 2025 release). The November 2025 upgrade includes new tables, enhanced field linking capabilities, updated naming conventions, and vocabulary modernization from January 2023 to August 2025. For detailed information about CDM changes, see the [OHDSI CDM 5.4 Changes](https://ohdsi.github.io/CommonDataModel/cdm54Changes.html).
 
-February 2026 release includes additional clinical tables such as `whole_slide_imaging` and `variant_occurrence` that are not part of the standard OMOP CDM 5.4.2 but have been added to support the oncology use case. These tables are described in the data dictionary section for the February 2026 release.
+February 2026 release includes additional clinical tables such as `_whole_slide_imaging` and `_variant_occurrence` that are not part of the standard OMOP CDM 5.4.2 but have been added to support the oncology use case. These tables are described in the data dictionary section for the February 2026 release.
 
 ::: {.panel-tabset}
 
