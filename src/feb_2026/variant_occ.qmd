@@ -147,9 +147,9 @@ DT::datatable(
 
 ### Genomic Testing Timeline
 
-The following visualization shows the monthly trend of genomic test orders over time.
+The following visualization shows the monthly trend of genomic test orders over time with cumulative totals.
 
-```{r test trend, message=FALSE, warning=FALSE}
+```{r test trend, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
 # Format data for visualization - aggregate daily data to monthly
 library(lubridate)
 df_trend <- ordered_tests_trend %>%
@@ -161,23 +161,63 @@ df_trend <- ordered_tests_trend %>%
     n_patients = sum(n_patients),
     n_variants = sum(n_variants),
     .groups = "drop"
+  ) %>%
+  mutate(
+    cumulative_tests = cumsum(n_tests),
+    cumulative_variants = cumsum(n_variants)
   )
 
-# Create the plot
-plot_ly(df_trend, x = ~year_month, y = ~n_tests, type = "bar",
-        marker = list(color = color_palette[1]),
-        hovertemplate = paste(
-          "<b>%{x|%B %Y}</b><br>",
-          "Tests: %{y:,.0f}<br>",
-          "Patients: %{customdata:,.0f}<br>",
-          "<extra></extra>"
-        ),
-        customdata = ~n_patients) %>%
+# Create plot with monthly and cumulative trends
+plot_ly(df_trend) %>%
+  # Add monthly tests as bars
+  add_bars(
+    x = ~year_month, 
+    y = ~n_tests,
+    name = "Monthly Tests",
+    marker = list(color = color_palette[1], opacity = 0.7),
+    hovertemplate = paste(
+      "<b>%{x|%B %Y}</b><br>",
+      "Monthly Tests: %{y:,.0f}<br>",
+      "<extra></extra>"
+    )
+  ) %>%
+  # Add cumulative tests as line on secondary axis
+  add_lines(
+    x = ~year_month,
+    y = ~cumulative_tests,
+    yaxis = "y2",
+    name = "Cumulative Tests",
+    line = list(color = color_palette[4], width = 3),
+    marker = list(size = 8, color = color_palette[4]),
+    hovertemplate = paste(
+      "<b>%{x|%B %Y}</b><br>",
+      "Total Tests: %{y:,.0f}<br>",
+      "<extra></extra>"
+    )
+  ) %>%
   layout(
     xaxis = list(title = "Order Month"),
-    yaxis = list(title = "Number of Unique Tests"),
-    title = "Genomic Test Orders by Month",
-    hovermode = "x"
+    yaxis = list(
+      title = "Monthly Test Volume",
+      titlefont = list(color = color_palette[1]),
+      tickfont = list(color = color_palette[1])
+    ),
+    yaxis2 = list(
+      title = "Cumulative Tests",
+      titlefont = list(color = color_palette[4]),
+      tickfont = list(color = color_palette[4]),
+      overlaying = "y",
+      side = "right"
+    ),
+    title = "",
+    hovermode = "x unified",
+    legend = list(
+      orientation = "h",
+      x = 0.5,
+      xanchor = "center",
+      y = -0.15
+    ),
+    margin = list(b = 100, r = 80)
   )
 ```
 
@@ -197,13 +237,18 @@ df_genes <- variant_genes %>%
   filter(!is.na(gene_name)) %>%
   arrange(desc(n_variants)) %>%
   head(20) %>%
-  mutate(gene_name = fct_reorder(gene_name, n_variants))
+  mutate(
+    gene_name = fct_reorder(gene_name, n_variants),
+    pct_patients = (n_patients / n_pts$n_patients) * 100
+  )
 
 plot_ly(df_genes,
         y = ~gene_name,
         x = ~n_variants,
         type = "bar",
         marker = list(color = color_palette[1]),
+        text = ~paste0(round(pct_patients, 1), "%"),
+        textposition = "outside",
         hovertemplate = paste(
           "<b>%{y}</b><br>",
           "Variants: %{x:,.0f}<br>",
@@ -218,6 +263,8 @@ plot_ly(df_genes,
     margin = list(l = 100)
   )
 ```
+
+**Note:** Percentages shown represent the proportion of patients with variants in each gene.
 
 ### Molecular Consequences
 
@@ -291,6 +338,7 @@ plot_ly(df_phenotype,
 - **Benign/Likely Benign:** Variants with no expected clinical impact
 - **VUS (Variant of Uncertain Significance):** Variants requiring further investigation to determine clinical relevance
 - **Other classifications:** May include context-dependent or conditional pathogenicity assessments
+
 
 :::
 
@@ -406,7 +454,142 @@ ggplot(df_freq, aes(x = variant_molecular_consequence, y = allelic_frequency)) +
 
 :::
 
+## Thoracic Tumor Board Patient Profile {.tabset}
 
+This section focuses on the 45 patients with both thoracic cancer diagnoses and tumor board presentations who have genomic variant data. These patients represent a high-complexity cohort requiring multidisciplinary care.
+
+```{r thoracic tb data, message=FALSE, warning=FALSE, results='hide'}
+# Gene mutations in thoracic TB patients
+sql_thoracic_genes <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_thoracic_tb_genes.sql"
+thoracic_tb_genes <- fetch_data_from_sql_file(sql_thoracic_genes, yaml_file_path, release = "feb_2026")
+
+# Clinical significance for thoracic TB patients
+sql_thoracic_clinical <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_thoracic_tb_clinical.sql"
+thoracic_tb_clinical <- fetch_data_from_sql_file(sql_thoracic_clinical, yaml_file_path, release = "feb_2026")
+
+# Specimen types for thoracic TB patients
+sql_thoracic_specimen <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_thoracic_tb_specimen.sql"
+thoracic_tb_specimen <- fetch_data_from_sql_file(sql_thoracic_specimen, yaml_file_path, release = "feb_2026")
+```
+
+::: {.panel-tabset}
+
+### Gene Mutations
+
+Top genes mutated in thoracic tumor board patients.
+
+```{r thoracic tb genes plot, message=FALSE, warning=FALSE}
+df_thoracic_genes <- thoracic_tb_genes %>%
+  filter(!is.na(gene_name)) %>%
+  arrange(desc(n_variants)) %>%
+  head(15) %>%
+  mutate(
+    gene_name = fct_reorder(gene_name, n_variants),
+    pct_patients = (n_patients / 45) * 100
+  )
+
+# Create heatmap matrix
+heatmap_data <- df_thoracic_genes %>%
+  mutate(
+    variants_cat = n_variants,
+    patients_cat = n_patients
+  ) %>%
+  select(gene_name, n_variants, n_patients, pct_patients)
+
+plot_ly(
+  data = heatmap_data,
+  x = ~c("Variant Count", "Patient Count"),
+  y = ~gene_name,
+  z = ~cbind(n_variants, n_patients),
+  type = "heatmap",
+  colorscale = list(
+    c(0, "#f3f0f7"),
+    c(0.5, "#bebada"),
+    c(1, "#6a4c93")
+  ),
+  hovertemplate = paste(
+    "<b>%{y}</b><br>",
+    "%{x}: %{z}<br>",
+    "<extra></extra>"
+  ),
+  showscale = TRUE,
+  colorbar = list(title = "Count")
+) %>%
+  layout(
+    xaxis = list(title = "", side = "bottom"),
+    yaxis = list(title = ""),
+    margin = list(l = 100, r = 100, b = 80)
+  )
+```
+
+**Note:** Percentages represent the proportion of the 45 thoracic tumor board patients with variants in each gene.
+
+### Clinical Significance
+
+Distribution of variant clinical significance in this cohort.
+
+```{r thoracic tb clinical plot, message=FALSE, warning=FALSE}
+df_thoracic_clinical <- thoracic_tb_clinical %>%
+  filter(!is.na(phenotype_spec_var_class)) %>%
+  arrange(desc(n_variants)) %>%
+  mutate(phenotype_spec_var_class = fct_reorder(phenotype_spec_var_class, n_variants))
+
+plot_ly(df_thoracic_clinical,
+        labels = ~phenotype_spec_var_class,
+        values = ~n_variants,
+        type = "pie",
+        textposition = "inside",
+        textinfo = "label+percent",
+        marker = list(colors = color_palette),
+        hovertemplate = paste(
+          "<b>%{label}</b><br>",
+          "Variants: %{value:,.0f}<br>",
+          "Percent: %{percent}<br>",
+          "<extra></extra>"
+        )) %>%
+  layout(
+    title = "",
+    showlegend = TRUE,
+    legend = list(orientation = "v", x = 1.02, y = 0.5)
+  )
+```
+
+### Specimen Types
+
+Types of specimens collected from thoracic tumor board patients.
+
+```{r thoracic tb specimen table, message=FALSE, warning=FALSE}
+specimen_summary <- thoracic_tb_specimen %>%
+  mutate(
+    pct_variants = round((n_variants / sum(n_variants)) * 100, 1)
+  ) %>%
+  arrange(desc(n_variants)) %>%
+  rename(
+    "Specimen Type" = specimen_type,
+    "Variants" = n_variants,
+    "Patients" = n_patients,
+    "% of Variants" = pct_variants
+  )
+
+DT::datatable(
+  specimen_summary,
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    pageLength = 10,
+    columnDefs = list(
+      list(className = 'dt-left', targets = 0),
+      list(className = 'dt-center', targets = c(1, 2, 3))
+    )
+  ),
+  rownames = FALSE
+) %>%
+  formatRound(columns = c("Variants", "Patients"), digits = 0, mark = ",")
+```
+
+**Summary:** This cohort of 45 patients represents the intersection of thoracic cancer complexity and multidisciplinary tumor board evaluation, with genomic profiling informing treatment decisions.
+
+:::
 
 ### Source Code
 The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/variant_occ.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/variant).
