@@ -8,17 +8,17 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| procedure_occurrence_id                             | INTEGER  | Yes        |       | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| procedure_occurrence_id                             | INTEGER  | Yes        |   Yes    | Sub Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        |     Yes  | Sub with Stable between Data Refreshes                       |
 | procedure_concept_id                                | INTEGER  | Yes        |       |                        |
-| procedure_DATE                                      | DATE     | No         | Yes   | Jitt                      |
-| procedure_DATETIME                                  | DATETIME | Yes        | Yes   | Jitt                      |
+| procedure_DATE                                      | DATE     | No         | Yes   | Jitter                      |
+| procedure_DATETIME                                  | DATETIME | Yes        | Yes   | Jitter                      |
 | procedure_type_concept_id                           | INTEGER  | Yes        |       |                        |
 | modifier_concept_id                                 | INTEGER  | Yes        |       |                        |
 | quantity                                            | INTEGER  | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         |     Yes  |Sub with  Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |     Yes  | Sub with Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |     Yes  | Sub with Stable between Data Refreshes                    |
 | procedure_source_value                              | STRING   | No         |       |                        |
 | procedure_source_concept_id                         | INTEGER  | Yes        |       |                        |
 | modifier_source_value                               | STRING   | No         |       |                        |

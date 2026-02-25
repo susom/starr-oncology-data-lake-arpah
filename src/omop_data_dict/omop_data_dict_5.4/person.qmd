@@ -8,18 +8,18 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| person_id                                           | INTEGER  | Yes        |       | Sub                       |
+| person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | gender_concept_id                                   | INTEGER  | Yes        |       |                        |
 | year_of_birth                                       | INTEGER  | Yes        |       |                        |
-| month_of_birth                                      | INTEGER  | No         | Yes   | Jitt                      |
-| day_of_birth                                        | INTEGER  | No         | Yes   | Jitt                      |
-| birth_datetime                                      | DATETIME | No         | Yes   | Jitt                      |
+| month_of_birth                                      | INTEGER  | No         | Yes   | Jitter                      |
+| day_of_birth                                        | INTEGER  | No         | Yes   | Jitter                      |
+| birth_datetime                                      | DATETIME | No         | Yes   | Jitter                      |
 | race_concept_id                                     | INTEGER  | Yes        |       |                        |
 | ethnicity_concept_id                                | INTEGER  | Yes        |       |                        |
 | location_id                                         | INTEGER  | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | care_site_id                                        | INTEGER  | No         |       |                        |
-| person_source_value                                 | STRING   | No         | Yes   | Sub                       |
+| person_source_value                                 | STRING   | No         | Yes   | Del                       |
 | gender_source_value                                 | STRING   | No         |       |                        |
 | gender_source_concept_id                            | INTEGER  | Yes        |       |                        |
 | race_source_value                                   | STRING   | No         |       |                        |

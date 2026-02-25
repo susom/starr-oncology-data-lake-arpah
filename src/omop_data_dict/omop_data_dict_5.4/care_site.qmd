@@ -8,12 +8,12 @@ Standarized Health System Data Tables
 
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
-| care_site_id                                        | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
-| care_site_name                                      | STRING  | No         |       | None                      |
-| place_of_service_concept_id                         | INTEGER | Yes        |       | None                      |
-| location_id                                         | INTEGER | No         |       | Not Stable between Data Refreshes                    |
-| care_site_source_value                              | STRING  | No         |       | None                      |
-| place_of_service_source_value                       | STRING  | No         |       | None                      |
+| care_site_id                                        | INTEGER | Yes        | Yes   | Sub with Stable between Data Refreshes                    |
+| care_site_name                                      | STRING  | No         |       |                           |
+| place_of_service_concept_id                         | INTEGER | Yes        |       |                           |
+| location_id                                         | INTEGER | No         | Yes   | Sub Not Stable between Data Refreshes                    |
+| care_site_source_value                              | STRING  | No         | Yes   | Del                       |
+| place_of_service_source_value                       | STRING  | No         |       |                           |
 :  {.hover .responsive .sm}
 
 ### Columns Description

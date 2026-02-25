@@ -8,8 +8,8 @@ Standard Clinical Data Table
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| device_exposure_id                                  | INTEGER  | Yes        | Yes   | Not Stable between Data Refreshes                    |
-| person_id                                           | INTEGER  | Yes        | Yes   | Sub                       |
+| device_exposure_id                                  | INTEGER  | Yes        | Yes   | Sub Not Stable between Data Refreshes                    |
+| person_id                                           | INTEGER  | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
 | device_concept_id                                   | INTEGER  | Yes        |       |                        |
 | device_exposure_start_date                          | DATE     | No         | Yes   | Jitter                    |
 | device_exposure_start_datetime                      | DATETIME | Yes        | Yes   | Jitter                    |
@@ -18,9 +18,9 @@ Standard Clinical Data Table
 | device_type_concept_id                              | INTEGER  | Yes        |       |                        |
 | unique_device_id                                    | STRING   | No         |       |                        |
 | quantity                                            | INTEGER  | No         |       |                        |
-| provider_id                                         | INTEGER  | No         | Yes   | Not Stable between Data Refreshes                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | device_source_value                                 | STRING   | No         |       |                        |
 | device_source_concept_id                            | INTEGER  | Yes        |       |                        |
 | production_id                                       | STRING   | No         |       |                        |

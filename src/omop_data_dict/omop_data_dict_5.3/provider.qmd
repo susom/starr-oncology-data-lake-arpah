@@ -8,12 +8,12 @@ Standarized Health System Data Tables
 
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
-| provider_id                                         | INTEGER | Yes        | No    | Not Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER | Yes        | Yes    | Sub with Stable between Data Refreshes                    |
 | provider_name                                       | STRING  | No         | No    |                        |
 | npi                                                 | STRING  | No         | No    |                        |
-| dea                                                 | STRING  | No         | No    | Del                       |
+| dea                                                 | STRING  | No         | Yes   | Del                       |
 | specialty_concept_id                                | STRING  | Yes        | No    |                        |
-| care_site_id                                        | INTEGER | No         | No    | Not Stable between Data Refreshes                    |
+| care_site_id                                        | INTEGER | No         | Yes  | Sub with Stable between Data Refreshes                    |
 | year_of_birth                                       | INTEGER | No         | No    |                        |
 | gender_concept_id                                   | INTEGER | Yes        | No    |                        |
 | provider_source_value                               | STRING  | No         | Yes   |                        |
@@ -21,7 +21,8 @@ Standarized Health System Data Tables
 | specialty_source_concept_id                         | INTEGER | Yes        | No    |                        |
 | gender_source_value                                 | STRING  | No         | No    |                        |
 | gender_source_concept_id                            | INTEGER | Yes        | No    |                        |
-| trace_id (Stanford construct for traceability)      | STRING  | No         | No    | Del                       |
+| provider_source_value                               | STRING  | No         | Yes   | Del                       |
+| trace_id (Stanford construct for traceability)      | STRING  | No         | Yes    | Del                       |
 | unit_id (Stanford construct for traceability)       | STRING  | No         | No    |                        |
 | load_table_id (Stanford construct for traceability) | STRING  | No         | No    |                        |
 

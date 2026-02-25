@@ -8,13 +8,13 @@ Standarized Health System Data Tables
 
 | field                                               | type    | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:--------|:-----------|:------|:--------------------------|
-| care_site_id                                        | INTEGER | Yes        |       | Not Stable between Data Refreshes                    |
+| care_site_id                                        | INTEGER | Yes        |       | Sub with Stable between Data Refreshes                    |
 | care_site_name                                      | STRING  | No         |       | None                      |
 | place_of_service_concept_id                         | INTEGER | Yes        |       | None                      |
-| location_id                                         | INTEGER | No         |       | Not Stable between Data Refreshes                    |
+| location_id                                         | INTEGER | No         |       | Sub Not Stable between Data Refreshes                    |
 | care_site_source_value                              | STRING  | No         |       | None                      |
 | place_of_service_source_value                       | STRING  | No         |       | None                      |
-| trace_id (Stanford construct for traceability)      | STRING  | No         |       | delete                    |
+| trace_id (Stanford construct for traceability)      | STRING  | No         |       | Del                       |
 | unit_id (Stanford construct for traceability)       | STRING  | No         |       | None                      |
 | load_table_id (Stanford construct for traceability) | STRING  | No         |       | None                      |
 
