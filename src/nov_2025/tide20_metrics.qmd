@@ -9,7 +9,7 @@ output: html
 
 This table summarizes comparative performance of three de-identification systems applied to a gold-standard corpus of clinical notes across multiple protected health information (PHI) categories. The evaluation dataset was constructed per our PHI labeling guidelines and process: notes were sampled using a random-plus-diversity strategy (modified set cover), pre-labeled by an LLM, reviewed by dual annotators, and adjudicated; only 100% agreement or adjudicated notes were retained as gold standard (see [Dataset Description](#dataset_for_evaluation)).
 
-Systems include [TiDE 1.0](#tide10_summary), [Stanford AIMI v1](#stanford_aimi_v1_description), and [Tide 2.0 Alpha](#agentic_tide20_description). For each PHI category (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), we report precision and recall; the highest recall per row is highlighted in bold to emphasize sensitivity, which is typically prioritized in biomedical de-identification to minimize PHI leakage risk. Categories with extremely low performance indicate areas requiring methodological refinement or augmented knowledge sources.
+Systems include [TiDE 1.0](#tide10_summary), [Stanford AIMI v1](#stanford_aimi_v1_description), and [Tide 2.0 Alpha](#tide20_description). For each PHI category (e.g., DATE, PATIENT, ID, LOCATION, PHONE, WEB), we report precision and recall; the highest recall per row is highlighted in bold to emphasize sensitivity, which is typically prioritized in biomedical de-identification to minimize PHI leakage risk. Categories with extremely low performance indicate areas requiring methodological refinement or augmented knowledge sources.
 
 | PHI Category                                        | TiDE 1.0* | Stanford AIMI v1 | Tide 2.0 Alpha** |
 |:----------------------------------------------------|:----------|:-----------------|:-------------------------|
@@ -66,7 +66,7 @@ TiDE 1.0 (Text DEidentification) is an in-house, open-source clinical text de-id
 - Sensitivity prioritized: The pipeline emphasizes recall to minimize PHI leakage; outputs are currently classified by Stanford UPO as High Risk due to small residual PHI risk, with DRA/Expert Determination used for additional mitigation when needed.
 - Operational scale: Demonstrated throughput ≈100M notes in ~7 hours using distributed dataflow workers (~0.00025s/note).
 
-## Detailed Description: Tide 2.0 Alpha {#agentic_tide20_description}
+## Detailed Description: Tide 2.0 Alpha {#tide20_description}
 
 ### Introduction
 
@@ -202,7 +202,7 @@ Visit our portal at <span class="entity entity-url">https://fisher-diaz.com/</sp
 
 Tide includes a Streamlit-based visualization interface designed for quality control of the de-identification process. The visualizer enables reviewers to verify that PHI detection and anonymization are performing correctly, facilitating rapid identification of false negatives (missed PHI) or false positives (over-redaction) before data release.
 
-![Tide Visualizer Interface](../images/agentic_tide_ui.png)
+![Tide Visualizer Interface](../images/tide20_visualizer.png)
 
 Key quality control capabilities include:
 
