@@ -2,9 +2,10 @@
 -- Counts unique procedure_occurrence_id values
 
 SELECT 
- variant_molecular_consequence,
+  gene_name,
+  variant_molecular_consequence,
   SAFE_CAST(allelic_frequency AS FLOAT64) AS allelic_frequency
 FROM 
- `@oncology_prod.@oncology_omop._variant_occurrence`
+  `@oncology_prod.@oncology_omop._variant_occurrence`
 WHERE 
   variant_molecular_consequence IS NOT NULL;

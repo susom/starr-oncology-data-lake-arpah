@@ -13,6 +13,7 @@ yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_p
 ```{r variant sql, message=FALSE, warning=FALSE, results='hide'}
 library(forcats)
 library(dplyr)
+library(tidyr)
 library(DT)
 library(plotly)
 library(ggplot2)
@@ -60,6 +61,9 @@ variant_frequency <- fetch_data_from_sql_file(sql_frequency, yaml_file_path, rel
 
 sql_phenotype_class <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_by_phenotype_class.sql"
 variant_phenotype_class <- fetch_data_from_sql_file(sql_phenotype_class, yaml_file_path, release = "feb_2026")
+
+sql_comutation <- "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/omop/variant_occ/feb26/variant_comutation.sql"
+comutation_data <- fetch_data_from_sql_file(sql_comutation, yaml_file_path, release = "feb_2026")
 ```
 
 
@@ -452,9 +456,158 @@ ggplot(df_freq, aes(x = variant_molecular_consequence, y = allelic_frequency)) +
 
 **Interpretation:** Each point represents a variant's allelic frequency. The diamond markers indicate the median allelic frequency for each consequence type. Allelic frequency represents the proportion of DNA reads containing the variant allele.
 
+### By Gene
+
+Mutation landscape showing allelic frequency distribution across the most frequently mutated genes.
+
+```{r gene landscape, message=FALSE, warning=FALSE, fig.width=14, fig.height=8}
+# Prepare data - select top 15 genes by variant count
+top_genes <- variant_frequency %>%
+  filter(!is.na(gene_name)) %>%
+  count(gene_name, sort = TRUE) %>%
+  head(15) %>%
+  pull(gene_name)
+
+df_gene_freq <- variant_frequency %>%
+  filter(gene_name %in% top_genes,
+         !is.na(allelic_frequency),
+         allelic_frequency > 0) %>%
+  mutate(gene_name = fct_reorder(gene_name, allelic_frequency, .fun = median))
+
+# Create mutation landscape with box plot and jittered points
+ggplot(df_gene_freq, aes(x = gene_name, y = allelic_frequency)) +
+  geom_boxplot(fill = color_palette[2], alpha = 0.3, outlier.shape = NA, width = 0.6) +
+  geom_jitter(alpha = 0.4, size = 2, width = 0.25, color = color_palette[4]) +
+  stat_summary(fun = median, geom = "point", size = 5, color = "red", shape = 18) +
+  labs(
+    x = "Gene",
+    y = "Allelic Frequency",
+    title = ""
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 12, face = "bold"),
+    axis.text.y = element_text(size = 11),
+    axis.title = element_text(size = 12, face = "bold"),
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(color = "gray90")
+  ) +
+  scale_y_continuous(labels = scales::percent_format(), breaks = seq(0, 1, 0.1))
+```
+
+**Interpretation:** Each point represents a variant in a specific gene. Box plots show the distribution (median, quartiles, and range) of allelic frequencies for the top 15 most frequently mutated genes. Red diamond markers highlight the median allelic frequency per gene. Genes are ordered by median allelic frequency.
+
 :::
 
-## Thoracic Tumor Board Patient Profile {.tabset}
+
+```{r comutation analysis, message=FALSE, warning=FALSE, fig.width=12, fig.height=10, incluude=FALSE}
+# Get top 15 most frequently mutated genes
+top_genes_comut <- comutation_data %>%
+  count(gene_name, sort = TRUE) %>%
+  head(15) %>%
+  pull(gene_name)
+
+# Filter to top genes and create patient-gene matrix
+patient_gene_matrix <- comutation_data %>%
+  filter(gene_name %in% top_genes_comut) %>%
+  distinct(person_id, gene_name) %>%
+  mutate(has_mutation = 1) %>%
+  tidyr::pivot_wider(
+    names_from = gene_name,
+    values_from = has_mutation,
+    values_fill = 0
+  )
+
+# Calculate co-occurrence matrix
+gene_matrix <- patient_gene_matrix %>%
+  select(-person_id) %>%
+  as.matrix()
+
+# Calculate correlation/co-occurrence
+comut_matrix <- t(gene_matrix) %*% gene_matrix
+
+# Convert to percentage of patients with both genes mutated
+total_patients <- nrow(gene_matrix)
+comut_pct <- comut_matrix / total_patients * 100
+
+# Create heatmap data for plotly
+gene_names <- rownames(comut_pct)
+
+plot_ly(
+  x = gene_names,
+  y = gene_names,
+  z = comut_pct,
+  type = "heatmap",
+  colorscale = list(
+    c(0, "#ffffff"),
+    c(0.2, "#e0e0f8"),
+    c(0.4, "#bebada"),
+    c(0.6, "#9b89db"),
+    c(0.8, "#7a5ba6"),
+    c(1, "#5a3d7d")
+  ),
+  hovertemplate = paste(
+    "Gene 1: %{x}<br>",
+    "Gene 2: %{y}<br>",
+    "Co-mutated in %{z:.1f}% of patients<br>",
+    "<extra></extra>"
+  ),
+  colorbar = list(title = "% Patients")
+) %>%
+  layout(
+    xaxis = list(title = "", tickangle = 45),
+    yaxis = list(title = ""),
+    margin = list(l = 100, b = 100)
+  )
+```
+
+
+
+
+```{r top comutations table, message=FALSE, warning=FALSE, include=FALSE}
+# Calculate pairwise co-mutations (excluding diagonal)
+comut_pairs <- expand.grid(
+  gene1 = gene_names,
+  gene2 = gene_names,
+  stringsAsFactors = FALSE
+) %>%
+  filter(gene1 < gene2) %>%  # Only upper triangle, avoid duplicates
+  rowwise() %>%
+  mutate(
+    patients_with_both = comut_pct[gene1, gene2],
+    patients_with_gene1 = comut_pct[gene1, gene1],
+    patients_with_gene2 = comut_pct[gene2, gene2]
+  ) %>%
+  ungroup() %>%
+  arrange(desc(patients_with_both)) %>%
+  head(10) %>%
+  mutate(
+    patients_with_both = round(patients_with_both, 1),
+    patients_with_gene1 = round(patients_with_gene1, 1),
+    patients_with_gene2 = round(patients_with_gene2, 1)
+  ) %>%
+  rename(
+    "Gene 1" = gene1,
+    "Gene 2" = gene2,
+    "% Both Mutated" = patients_with_both,
+    "% Gene 1" = patients_with_gene1,
+    "% Gene 2" = patients_with_gene2
+  )
+
+DT::datatable(
+  comut_pairs,
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    pageLength = 10
+  ),
+  rownames = FALSE
+)
+```
+
+
+## Thoracic Tumor Board Patient {.tabset}
 
 This section focuses on the 45 patients with both thoracic cancer diagnoses and tumor board presentations who have genomic variant data. These patients represent a high-complexity cohort requiring multidisciplinary care.
 

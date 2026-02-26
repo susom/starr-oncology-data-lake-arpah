@@ -18,7 +18,7 @@ February 2026 release includes additional clinical tables such as `_whole_slide_
 
 #### OMOP CDM 5.4.2 
 
-The following OMOP-CDM 5.4.2 tables are available in the November 2025 release:
+The following OMOP-CDM 5.4.2 tables are available in the February 2026 release:
 
 | Category            | Table Name                                                                                   |
 |---------------------|----------------------------------------------------------------------------------------------|

@@ -20,7 +20,6 @@ Standarized Health System Data Tables
 | country_source_value                                | STRING  | No         | Yes   | Del                       |
 | latitude                                            | FLOAT   | No         | Yes   | Del                       |
 | longitude                                           | FLOAT   | No         | Yes   | Del                       |
-                    |
 | _census_block_group (available only at Stanford)    | STRING  | No         | Yes   | Del                       |
 
 :  {.hover .responsive .sm}

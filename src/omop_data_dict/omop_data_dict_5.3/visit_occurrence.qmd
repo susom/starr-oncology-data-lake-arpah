@@ -24,7 +24,7 @@ Standard Clinical Data Table
 | admitted_from_source_value                          | STRING   | No         |       |                        |
 | discharge_to_concept_id                             | INTEGER  | Yes        |       |                        |
 | discharge_to_source_value                           | STRING   | No         |       |                        |
-| preceding_visit_occurrence_id                       | INTEGER  | No         |       | Sub Not Stable between Data Refreshes                    |
+| preceding_visit_occurrence_id                       | INTEGER  | No         |   Yes    | Sub Not Stable between Data Refreshes                    |
 | trace_id (Stanford construct for traceability)      | STRING   | No         | Yes   | Del                       |
 | unit_id (Stanford construct for traceability)       | STRING   | No         |       |                        |
 | load_table_id (Stanford construct for traceability) | STRING   | No         |       |                        |

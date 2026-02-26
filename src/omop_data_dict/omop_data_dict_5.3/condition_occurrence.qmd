@@ -18,9 +18,9 @@ Standard Clinical Data Table
 | condition_type_concept_id                           | INTEGER  | Yes        |       |                        |
 | condition_status_concept_id                         | INTEGER  | Yes        |       |                        |
 | stop_reason                                         | STRING   | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       | Sub with Stable between Data Refreshes                    |
-| visit_occurrence_id                                 | INTEGER  | No         |       | Sub with Stable between Data Refreshes                    |
-| visit_detail_id                                     | INTEGER  | No         |       | Sub with Stable between Data Refreshes                    |
+| provider_id                                         | INTEGER  | No         |   Yes    | Sub with Stable between Data Refreshes                    |
+| visit_occurrence_id                                 | INTEGER  | No         |   Yes    | Sub with Stable between Data Refreshes                    |
+| visit_detail_id                                     | INTEGER  | No         |   Yes    | Sub with Stable between Data Refreshes                    |
 | condition_source_value                              | STRING   | No         |       |                        |
 | condition_source_concept_id                         | INTEGER  | Yes        |       |                        |
 | condition_status_source_value                       | STRING   | No         |       |                        |

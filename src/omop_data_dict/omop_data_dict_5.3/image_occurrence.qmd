@@ -26,7 +26,7 @@ Clinical Data Table (not yet a Standard)
 | _series_description                                 | STRING  | No         |   Yes    | starr-imaging redactor               |
 | source_flag (Stanford construct for traceability)   | STRING  | No         |       |                           |
 | load_table_id (Stanford construct for traceability) | STRING  | No         |       |                           |
-| trace_id (Stanford construct for traceability)      | STRING  | No         |       | Del                       |
+| trace_id (Stanford construct for traceability)      | STRING  | No         |    Yes   | Del                       |
 
 :  {.hover .responsive .sm}
 

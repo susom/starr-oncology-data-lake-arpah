@@ -17,8 +17,8 @@ Standard Clinical Data Table
 | race_concept_id                                     | INTEGER  | Yes        |       |                        |
 | ethnicity_concept_id                                | INTEGER  | Yes        |       |                        |
 | location_id                                         | INTEGER  | No         |       |                        |
-| provider_id                                         | INTEGER  | No         |       |  Sub with Stable between Data Refreshes     |
-| care_site_id                                        | INTEGER  | No         |       |  Sub with Stable between Data Refreshes    |
+| provider_id                                         | INTEGER  | No         |  Yes     |  Sub with Stable between Data Refreshes     |
+| care_site_id                                        | INTEGER  | No         |  Yes     |  Sub with Stable between Data Refreshes    |
 | person_source_value                                 | STRING   | No         | Yes   | Sub                       |
 | gender_source_value                                 | STRING   | No         |       |                        |
 | gender_source_concept_id                            | INTEGER  | Yes        |       |                        |

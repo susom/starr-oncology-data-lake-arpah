@@ -13,7 +13,7 @@ Standard Clinical Data Table
 | observation_period_start_date                       | DATE    | Yes        | Yes   | Jitter                     |
 | observation_period_end_date                         | DATE    | Yes        | Yes   | Jitter                      |
 | period_type_concept_id                              | INTEGER | Yes        |       |                        |
-| trace_id (Stanford construct for traceability)      | STRING  | No         |       | Del                       |
+| trace_id (Stanford construct for traceability)      | STRING  | No         |  Yes     | Del                       |
 | unit_id (Stanford construct for traceability)       | STRING  | No         |       |                        |
 | load_table_id (Stanford construct for traceability) | STRING  | No         |       |                        |
 

@@ -13,7 +13,7 @@ Standard Clinical Data Table
 | measurement_concept_id                              | INTEGER  | Yes        |       |                        |
 | measurement_date                                    | DATE     | No         | Yes   | Jitter                    |
 | measurement_datetime                                | DATETIME | Yes        | Yes   | Jitter                    |
-| measurement_time                                    | STRING   | No         |       | Null                      |
+| measurement_time                                    | STRING   | No         |       |                      |
 | measurement_type_concept_id                         | INTEGER  | Yes        |       |                        |
 | operator_concept_id                                 | INTEGER  | No         |       |                        |
 | value_as_number                                     | FLOAT    | No         |       |                        |
@@ -24,7 +24,7 @@ Standard Clinical Data Table
 | provider_id                                         | INTEGER  | No         |    Yes   | Sub with Stable between Data Refreshes                    |
 | visit_occurrence_id                                 | INTEGER  | No         |   Yes    | Sub with Stable between Data Refreshes                    |
 | visit_detail_id                                     | INTEGER  | No         |   Yes    | Sub with Stable between Data Refreshes                    |
-| measurement_source_value                            | STRING   | No         | Yes   |                  |
+| measurement_source_value                            | STRING   | No         |   |                  |
 | measurement_source_concept_id                       | INTEGER  | Yes        |       |                        |
 | unit_source_value                                   | STRING   | No         |       |                        |
 | value_source_value                                  | STRING   | No         | Yes   | TiDE                      |
