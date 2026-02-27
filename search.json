@@ -708,82 +708,11 @@
     ]
   },
   {
-    "objectID": "feb_2026/variant_occ.html",
-    "href": "feb_2026/variant_occ.html",
-    "title": "OMOP Variant Occurrence",
+    "objectID": "may_2025/tumor_board.html",
+    "href": "may_2025/tumor_board.html",
+    "title": "Tumor Board",
     "section": "",
-    "text": "The _variant_occurrence table is a custom extension to the OMOP Common Data Model (CDM) that captures detailed genetic variant information identified in patients through genomic testing. This table enables precision oncology research by providing granular variant-level data including genomic coordinates, variant types, molecular consequences, and clinical interpretations.\nCurrently, the table contains variants identified via the Stanford Actionable Mutation Panel for Solid Tumors (STAMP) test, sourced from the Epic Genomics Suite. STAMP tests processed through Epic Genomics Suite starting in August 2025 are included in this table.\nEach record in the _variant_occurrence table includes:\n\nGenomic information (chromosome, position, DNA/amino acid changes)\nVariant classification (type, molecular consequence)\nClinical interpretation and assessment (tier classification)\nTest metadata (test name, specimen information)\nLinkage to clinical context (visit, procedure, provider)\n\nAs of February 2026, this table includes 479 patients with 3,731 genetic variants.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2026",
-      "Genetic Variants"
-    ]
-  },
-  {
-    "objectID": "feb_2026/variant_occ.html#variant-occurrence-metrics",
-    "href": "feb_2026/variant_occ.html#variant-occurrence-metrics",
-    "title": "OMOP Variant Occurrence",
-    "section": "Variant Occurrence Metrics",
-    "text": "Variant Occurrence Metrics\nThis section presents key metrics and visualizations of genetic variants identified in our patient population through STAMP genomic testing. The following table shows the distribution of patients with variant data across key clinical cohorts:\n\n\n\n\n\n\nNote: Tumor board patients are identified by visit records containing “tumor board” (case-insensitive). Thoracic cancer patients are identified from NeuralFrame diagnoses with primary sites including lung, bronchus, or thymus.\n\nGenomic Testing Timeline\nThe following visualization shows the monthly trend of genomic test orders over time with cumulative totals.\n\n\n\n\n\n\nNote: Each unique procedure_occurrence_id represents a distinct genomic test order. A single test may detect multiple variants in a patient.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2026",
-      "Genetic Variants"
-    ]
-  },
-  {
-    "objectID": "feb_2026/variant_occ.html#variant-characteristics",
-    "href": "feb_2026/variant_occ.html#variant-characteristics",
-    "title": "OMOP Variant Occurrence",
-    "section": "Variant Characteristics",
-    "text": "Variant Characteristics\n\nTop GenesMolecular ConsequencesClinical Classification\n\n\nThe following visualization shows the most frequently mutated genes in the cohort.\n\n\n\n\n\n\nNote: Percentages shown represent the proportion of patients with variants in each gene.\n\n\n\n\n\n\n\n\nKey Consequence Types:\n\nMissense: Amino acid change\nNonsense: Premature stop codon\nFrameshift: Reading frame disruption\nSplice site: Affects RNA splicing\n\n\n\nDistribution of variants by phenotype-specific variant classification.\n\n\n\n\n\n\nClinical Significance:\n\nPathogenic/Likely Pathogenic: Variants with established or strong evidence for disease association and potential therapeutic implications\nBenign/Likely Benign: Variants with no expected clinical impact\nVUS (Variant of Uncertain Significance): Variants requiring further investigation to determine clinical relevance\nOther classifications: May include context-dependent or conditional pathogenicity assessments",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2026",
-      "Genetic Variants"
-    ]
-  },
-  {
-    "objectID": "feb_2026/variant_occ.html#specimen-type-and-specimen-source",
-    "href": "feb_2026/variant_occ.html#specimen-type-and-specimen-source",
-    "title": "OMOP Variant Occurrence",
-    "section": "Specimen Type and Specimen Source",
-    "text": "Specimen Type and Specimen Source\n\nSpecimen TypeSpecimen Source\n\n\nDistribution of variants by specimen type.\n\n\n\n\n\n\nCommon Specimen Types:\n\nTissue: Solid tumor biopsies\nBlood: Liquid biopsies, circulating tumor DNA\nOther sources: Bone marrow, fluid samples\n\n\n\nDistribution of variants by specimen anatomic source.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2026",
-      "Genetic Variants"
-    ]
-  },
-  {
-    "objectID": "feb_2026/variant_occ.html#allelic-frequency-distribution",
-    "href": "feb_2026/variant_occ.html#allelic-frequency-distribution",
-    "title": "OMOP Variant Occurrence",
-    "section": "Allelic Frequency Distribution",
-    "text": "Allelic Frequency Distribution\n\nBy Molecular ConsequenceBy Gene\n\n\nDistribution of allelic frequencies across different variant molecular consequences.\n\n\n\n\n\n\n\n\n\nInterpretation: Each point represents a variant’s allelic frequency. The diamond markers indicate the median allelic frequency for each consequence type. Allelic frequency represents the proportion of DNA reads containing the variant allele.\n\n\nMutation landscape showing allelic frequency distribution across the most frequently mutated genes.\n\n\n\n\n\n\n\n\n\nInterpretation: Each point represents a variant in a specific gene. Box plots show the distribution (median, quartiles, and range) of allelic frequencies for the top 15 most frequently mutated genes. Red diamond markers highlight the median allelic frequency per gene. Genes are ordered by median allelic frequency.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2026",
-      "Genetic Variants"
-    ]
-  },
-  {
-    "objectID": "feb_2026/variant_occ.html#thoracic-tumor-board-patient",
-    "href": "feb_2026/variant_occ.html#thoracic-tumor-board-patient",
-    "title": "OMOP Variant Occurrence",
-    "section": "Thoracic Tumor Board Patient",
-    "text": "Thoracic Tumor Board Patient\nThis section focuses on the 45 patients with both thoracic cancer diagnoses and tumor board presentations who have genomic variant data. These patients represent a high-complexity cohort requiring multidisciplinary care.\n\nGene MutationsClinical SignificanceSpecimen Types\n\n\nTop genes mutated in thoracic tumor board patients.\n\n\n\n\n\n\nNote: Percentages represent the proportion of the 45 thoracic tumor board patients with variants in each gene.\n\n\nDistribution of variant clinical significance in this cohort.\n\n\n\n\n\n\n\n\nTypes of specimens collected from thoracic tumor board patients.\n\n\n\n\n\n\nSummary: This cohort of 45 patients represents the intersection of thoracic cancer complexity and multidisciplinary tumor board evaluation, with genomic profiling informing treatment decisions.\n\n\n\n\nSource Code\nThe source code for this page can be found here, and the SQL queries that support these metrics can be found here.",
-    "crumbs": [
-      "About",
-      "Data Metrics",
-      "February 2026",
-      "Genetic Variants"
-    ]
+    "text": "Summary:\nAs of May 2025, Tumor Board encounters are defined using the EPIC patient encounter data tables. Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter.\nNote: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity.\nAs of May 2025, From 13,598 patients with thoracic cancer, 2,662 also had a Tumor Board encounter.\n\n\nSummary of Patient Population\nThe demographic categories examined include Age, Sex, Race, and Ethnicity.\n\n\n\n\n\n\n\n\nThoracic Tumor Board\n\n\nCharacteristic\n\nCount (N)\nPercentage (%)\n\n\n\n\nTotal\nTotal number of pts\n2,662\n100\n\n\nAge\n0-17\n2\n0\n\n\nAge\n18-44\n92\n3\n\n\nAge\n45-64\n627\n24\n\n\nAge\n65+\n1,941\n73\n\n\nSex\nMale\n1,222\n46\n\n\nSex\nFemale\n1,439\n54\n\n\nSex\nUnknown\n1\n0\n\n\nRace\nAmerican Indian-Alaska Native\n8\n0\n\n\nRace\nAsian\n834\n31\n\n\nRace\nNative Hawaii\n26\n1\n\n\nRace\nBlack\n71\n3\n\n\nRace\nWhite\n1,420\n53\n\n\nRace\nOther-Unknown\n303\n11\n\n\nEthnicity\nHispanic Latino\n193\n7\n\n\nEthnicity\nNOT Hispanic Latino\n2,407\n90\n\n\nEthnicity\nOther-Missing\n62\n2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Case Status\nThe Stanford Cancer Registry keeps track of every cancer case at Stanford and uses the case status variable to monitor each case’s progress. The major categories are: Completed, Not Reportable, and Incomplete.\n\nNot Reportable cases refer to cases that are not reportable to the state per cancer registry rules, or those that have already been abstracted.\nIncomplete cases are reportable and have been abstracted, but are marked as incomplete due to pending treatment information or unresolved edit errors. These edits can arise for a variety of reasons, such as version changes by the state registry or code updates by standard-setting agencies.\nCompleted cases are reportable, have been fully abstracted, and have passed all edit checks. These cases are transmitted to the state.\n\nPlease note that the Incomplete case status is eventually updated to either Completed or Not Reportable.\nThe distribution of case status for Thoracic Tumor Board encounter patients are listed below:\n\n\n\n\n\n\n\n\n\n\n\nCase Status\nNumber of Patients\n\n\n\n\nComplete\n2,228\n\n\nNot Reportable\n304\n\n\nIncomplete\n130\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImage Occurrence\nAs of May 2025, 2,659 with thoracic tumor board encounter had image occurrence procedures.\n\nAnatomic SitesModality Types\n\n\n\n\n\n\n\n\n\n\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report, REG: Registration, KO: Key Object Selection, PR: Presentation State"
   },
   {
     "objectID": "aug_2025/tumor_board.html",
@@ -3081,11 +3010,82 @@
     ]
   },
   {
-    "objectID": "may_2025/tumor_board.html",
-    "href": "may_2025/tumor_board.html",
-    "title": "Tumor Board",
+    "objectID": "feb_2026/variant_occ.html",
+    "href": "feb_2026/variant_occ.html",
+    "title": "OMOP Variant Occurrence",
     "section": "",
-    "text": "Summary:\nAs of May 2025, Tumor Board encounters are defined using the EPIC patient encounter data tables. Specifically, Thoracic Tumor Board patients are identified based on their primary site descriptions in the Neural Frame diagnoses data, which include diagnoses of lung, bronchus, or thymus cancers in addition to having a Tumor Board encounter.\nNote: Thoracic Tumor Board definition will be narrowed further due to observations from cross-comparison between encounter data in Epic Hyperspace versus Epic Clarity.\nAs of May 2025, From 13,598 patients with thoracic cancer, 2,662 also had a Tumor Board encounter.\n\n\nSummary of Patient Population\nThe demographic categories examined include Age, Sex, Race, and Ethnicity.\n\n\n\n\n\n\n\n\nThoracic Tumor Board\n\n\nCharacteristic\n\nCount (N)\nPercentage (%)\n\n\n\n\nTotal\nTotal number of pts\n2,662\n100\n\n\nAge\n0-17\n2\n0\n\n\nAge\n18-44\n92\n3\n\n\nAge\n45-64\n627\n24\n\n\nAge\n65+\n1,941\n73\n\n\nSex\nMale\n1,222\n46\n\n\nSex\nFemale\n1,439\n54\n\n\nSex\nUnknown\n1\n0\n\n\nRace\nAmerican Indian-Alaska Native\n8\n0\n\n\nRace\nAsian\n834\n31\n\n\nRace\nNative Hawaii\n26\n1\n\n\nRace\nBlack\n71\n3\n\n\nRace\nWhite\n1,420\n53\n\n\nRace\nOther-Unknown\n303\n11\n\n\nEthnicity\nHispanic Latino\n193\n7\n\n\nEthnicity\nNOT Hispanic Latino\n2,407\n90\n\n\nEthnicity\nOther-Missing\n62\n2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNeural Frame Case Status\nThe Stanford Cancer Registry keeps track of every cancer case at Stanford and uses the case status variable to monitor each case’s progress. The major categories are: Completed, Not Reportable, and Incomplete.\n\nNot Reportable cases refer to cases that are not reportable to the state per cancer registry rules, or those that have already been abstracted.\nIncomplete cases are reportable and have been abstracted, but are marked as incomplete due to pending treatment information or unresolved edit errors. These edits can arise for a variety of reasons, such as version changes by the state registry or code updates by standard-setting agencies.\nCompleted cases are reportable, have been fully abstracted, and have passed all edit checks. These cases are transmitted to the state.\n\nPlease note that the Incomplete case status is eventually updated to either Completed or Not Reportable.\nThe distribution of case status for Thoracic Tumor Board encounter patients are listed below:\n\n\n\n\n\n\n\n\n\n\n\nCase Status\nNumber of Patients\n\n\n\n\nComplete\n2,228\n\n\nNot Reportable\n304\n\n\nIncomplete\n130\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nImage Occurrence\nAs of May 2025, 2,659 with thoracic tumor board encounter had image occurrence procedures.\n\nAnatomic SitesModality Types\n\n\n\n\n\n\n\n\n\n\nNote: The following modality source values without image pixel were excluded from the analysis:\nSR: Structured Report, REG: Registration, KO: Key Object Selection, PR: Presentation State"
+    "text": "The _variant_occurrence table is a custom extension to the OMOP Common Data Model (CDM) that captures detailed genetic variant information identified in patients through genomic testing. This table enables precision oncology research by providing granular variant-level data including genomic coordinates, variant types, molecular consequences, and clinical interpretations.\nCurrently, the table contains variants identified via the Stanford Actionable Mutation Panel for Solid Tumors (STAMP) test, sourced from the Epic Genomics Suite. STAMP tests processed through Epic Genomics Suite starting in August 2025 are included in this table.\nEach record in the _variant_occurrence table includes:\n\nGenomic information (chromosome, position, DNA/amino acid changes)\nVariant classification (type, molecular consequence)\nClinical interpretation and assessment (tier classification)\nTest metadata (test name, specimen information)\nLinkage to clinical context (visit, procedure, provider)\n\nAs of February 2026, this table includes 479 patients with 3,731 genetic variants.",
+    "crumbs": [
+      "About",
+      "Data Metrics",
+      "February 2026",
+      "Genetic Variants"
+    ]
+  },
+  {
+    "objectID": "feb_2026/variant_occ.html#variant-occurrence-metrics",
+    "href": "feb_2026/variant_occ.html#variant-occurrence-metrics",
+    "title": "OMOP Variant Occurrence",
+    "section": "Variant Occurrence Metrics",
+    "text": "Variant Occurrence Metrics\nThis section presents key metrics and visualizations of genetic variants identified in our patient population through STAMP genomic testing. The following table shows the distribution of patients with variant data across key clinical cohorts:\n\n\n\n\n\n\nNote: Tumor board patients are identified by visit records containing “tumor board” (case-insensitive). Thoracic cancer patients are identified from NeuralFrame diagnoses with primary sites including lung, bronchus, or thymus.\n\nGenomic Testing Timeline\nThe following visualization shows the monthly trend of genomic test orders over time with cumulative totals.\n\n\n\n\n\n\nNote: Each unique procedure_occurrence_id represents a distinct genomic test order. A single test may detect multiple variants in a patient.",
+    "crumbs": [
+      "About",
+      "Data Metrics",
+      "February 2026",
+      "Genetic Variants"
+    ]
+  },
+  {
+    "objectID": "feb_2026/variant_occ.html#variant-characteristics",
+    "href": "feb_2026/variant_occ.html#variant-characteristics",
+    "title": "OMOP Variant Occurrence",
+    "section": "Variant Characteristics",
+    "text": "Variant Characteristics\n\nTop GenesMolecular ConsequencesClinical Classification\n\n\nThe following visualization shows the most frequently mutated genes in the cohort.\n\n\n\n\n\n\nNote: Percentages shown represent the proportion of patients with variants in each gene.\n\n\n\n\n\n\n\n\nKey Consequence Types:\n\nMissense: Amino acid change\nNonsense: Premature stop codon\nFrameshift: Reading frame disruption\nSplice site: Affects RNA splicing\n\n\n\nDistribution of variants by phenotype-specific variant classification.\n\n\n\n\n\n\nClinical Significance:\n\nPathogenic/Likely Pathogenic: Variants with established or strong evidence for disease association and potential therapeutic implications\nBenign/Likely Benign: Variants with no expected clinical impact\nVUS (Variant of Uncertain Significance): Variants requiring further investigation to determine clinical relevance\nOther classifications: May include context-dependent or conditional pathogenicity assessments",
+    "crumbs": [
+      "About",
+      "Data Metrics",
+      "February 2026",
+      "Genetic Variants"
+    ]
+  },
+  {
+    "objectID": "feb_2026/variant_occ.html#specimen-type-and-specimen-source",
+    "href": "feb_2026/variant_occ.html#specimen-type-and-specimen-source",
+    "title": "OMOP Variant Occurrence",
+    "section": "Specimen Type and Specimen Source",
+    "text": "Specimen Type and Specimen Source\n\nSpecimen TypeSpecimen Source\n\n\nDistribution of variants by specimen type.\n\n\n\n\n\n\nCommon Specimen Types:\n\nTissue: Solid tumor biopsies\nBlood: Liquid biopsies, circulating tumor DNA\nOther sources: Bone marrow, fluid samples\n\n\n\nDistribution of variants by specimen anatomic source.",
+    "crumbs": [
+      "About",
+      "Data Metrics",
+      "February 2026",
+      "Genetic Variants"
+    ]
+  },
+  {
+    "objectID": "feb_2026/variant_occ.html#allelic-frequency-distribution",
+    "href": "feb_2026/variant_occ.html#allelic-frequency-distribution",
+    "title": "OMOP Variant Occurrence",
+    "section": "Allelic Frequency Distribution",
+    "text": "Allelic Frequency Distribution\n\nBy Molecular ConsequenceBy Gene\n\n\nDistribution of allelic frequencies across different variant molecular consequences.\n\n\n\n\n\n\n\n\n\nInterpretation: Each point represents a variant’s allelic frequency. The diamond markers indicate the median allelic frequency for each consequence type. Allelic frequency represents the proportion of DNA reads containing the variant allele.\n\n\nMutation landscape showing allelic frequency distribution across the most frequently mutated genes.\n\n\n\n\n\n\n\n\n\nInterpretation: Each point represents a variant in a specific gene. Box plots show the distribution (median, quartiles, and range) of allelic frequencies for the top 15 most frequently mutated genes. Red diamond markers highlight the median allelic frequency per gene. Genes are ordered by median allelic frequency.",
+    "crumbs": [
+      "About",
+      "Data Metrics",
+      "February 2026",
+      "Genetic Variants"
+    ]
+  },
+  {
+    "objectID": "feb_2026/variant_occ.html#thoracic-tumor-board-patient",
+    "href": "feb_2026/variant_occ.html#thoracic-tumor-board-patient",
+    "title": "OMOP Variant Occurrence",
+    "section": "Thoracic Tumor Board Patient",
+    "text": "Thoracic Tumor Board Patient\nThis section focuses on the 45 patients with both thoracic cancer diagnoses and tumor board presentations who have genomic variant data. These patients represent a high-complexity cohort requiring multidisciplinary care.\n\nGene MutationsClinical SignificanceSpecimen Types\n\n\nTop genes mutated in thoracic tumor board patients.\n\n\n\n\n\n\nNote: Percentages represent the proportion of the 45 thoracic tumor board patients with variants in each gene.\n\n\nDistribution of variant clinical significance in this cohort.\n\n\n\n\n\n\n\n\nTypes of specimens collected from thoracic tumor board patients.\n\n\n\n\n\n\nSummary: This cohort of 45 patients represents the intersection of thoracic cancer complexity and multidisciplinary tumor board evaluation, with genomic profiling informing treatment decisions.\n\n\n\n\nSource Code\nThe source code for this page can be found here, and the SQL queries that support these metrics can be found here.",
+    "crumbs": [
+      "About",
+      "Data Metrics",
+      "February 2026",
+      "Genetic Variants"
+    ]
   },
   {
     "objectID": "aug_2025/tumor_board_updated.html",
