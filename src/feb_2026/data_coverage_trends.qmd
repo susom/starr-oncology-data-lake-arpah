@@ -359,7 +359,7 @@ plot_ly(
 
 **Note<sup>†</sup>:** 
 
-- The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May-November releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
+- The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May 2025 to February2026 releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 
 - Feb 2026 Philips ISPM/Genomic Data includes patients from OMOP _variant_occurrence table combined with Philips ISPM data.
 
