@@ -3,6 +3,8 @@ title: "Tide 2.0 Alpha Release"
 execute:
   echo: false
 output: html
+aliases:
+  - agentic_tide_metrics.html
 ---
 
 ## Overview
