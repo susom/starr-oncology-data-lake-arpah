@@ -1,5 +1,24 @@
 cff-version: 1.2.0
 message: "If you use this project, please cite it as below."
+authors:
+  - family-names: Posada
+    given-names: Jose
+    affiliation: Stanford University
+  - family-names: Sheikhi
+    given-names: Farnoosh
+    affiliation: Stanford University
+  - family-names: Desai
+    given-names: Priya
+    affiliation: Stanford University
+  - family-names: Balraj
+    given-names: Deepa
+    affiliation: Stanford University
+  - family-names: Henry
+    given-names: Solomon
+    affiliation: Stanford University
+  - family-names: Mesterhazy
+    given-names: Joseph
+    affiliation: Stanford University
 title: "STARR Oncology Multi-modal Data Lake"
 type: dataset
 url: "https://github.com/susom/starr-oncology-data-lake-arpah"
