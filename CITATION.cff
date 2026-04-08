@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this project, please cite it as below."
+title: "STARR Oncology Multi-modal Data Lake"
+type: dataset
+url: "https://github.com/susom/starr-oncology-data-lake-arpah"
+repository-code: "https://github.com/susom/starr-oncology-data-lake-arpah"
+license: Apache-2.0
+version: 0.0.1
+date-released: "2025-02-01"
+abstract: >-
+  The STARR Oncology Data Lake provides comprehensive datasets and tools
+  for analyzing and sharing healthcare data, with a focus on extracting
+  structured information from unstructured clinical data, ensuring patient
+  privacy, and creating high-quality training data for machine learning models.
+keywords:
+  - oncology
+  - data-lake
+  - healthcare
+  - OMOP
+  - DICOM
+  - clinical-data
