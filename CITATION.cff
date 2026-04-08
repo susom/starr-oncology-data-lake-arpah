@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this project, please cite it as below."
+authors:
+  - family-names: Posada
+    given-names: Jose
+    affiliation: Stanford University
+  - family-names: Sheikhi
+    given-names: Farnoosh
+    affiliation: Stanford University
+  - family-names: Desai
+    given-names: Priya
+    affiliation: Stanford University
+  - family-names: Balraj
+    given-names: Deepa
+    affiliation: Stanford University
+  - family-names: Henry
+    given-names: Solomon
+    affiliation: Stanford University
+  - family-names: Mesterhazy
+    given-names: Joseph
+    affiliation: Stanford University
+title: "STARR Oncology Multi-modal Data Lake"
+type: dataset
+url: "https://github.com/susom/starr-oncology-data-lake-arpah"
+repository-code: "https://github.com/susom/starr-oncology-data-lake-arpah"
+license: Apache-2.0
+version: 0.0.1
+date-released: "2025-02-01"
+abstract: >-
+  The STARR Oncology Data Lake provides comprehensive datasets and tools
+  for analyzing and sharing healthcare data, with a focus on extracting
+  structured information from unstructured clinical data, ensuring patient
+  privacy, and creating high-quality training data for machine learning models.
+keywords:
+  - oncology
+  - data-lake
+  - healthcare
+  - OMOP
+  - DICOM
+  - clinical-data
