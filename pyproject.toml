@@ -5,7 +5,7 @@ requires-python = ">=3.12"
 dependencies = [
     "google-cloud-bigquery>=3.36.0",
     "ipykernel>=6.29.5",
-    "lxml>=6.0.1",
+    "lxml>=6.1.0",
     "nbclient>=0.10.2",
     "nbformat>=5.10.4",
     "pandas>=2.2.3",
