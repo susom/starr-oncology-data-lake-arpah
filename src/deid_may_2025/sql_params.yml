@@ -1,0 +1,6 @@
+oncology_prod: som-rit-phi-oncology-prod
+oncology_omop: oncology_omop_confidential_irb76049_may2025
+oncology_temp: oncology_omop_confidential_flags_irb76049_may2025
+oncology_neuralframe: oncology_neuralframe_confidential_irb76049_may2025
+oncology_philips: oncology_philips_confidential_irb76049_may2025
+
