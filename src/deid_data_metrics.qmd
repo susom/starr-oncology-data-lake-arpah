@@ -1,0 +1,45 @@
+---
+title: "PHI Scrubbed Data Metrics"
+execute:
+  echo: false
+---
+
+This page provides an overview of the PHI (Protected Health Information) scrubbed data metrics available in the dataset. The metrics are designed to give insights into the contents of the de-identified dataset while protecting patient privacy.
+
+## Release Overview
+
+This project will have multiple data releases over time. Each release will include updated and new PHI scrubbed metrics. Below is the list of available releases:
+
+### February 2025
+
+The February 2025 release is the first PHI scrubbed release of the dataset. It includes comprehensive demographic metrics and other key data points with all PHI removed. You can find detailed information about this release by following the link below:
+
+- [February 2025 PHI Scrubbed Metrics](deid_feb_2025/demographic_clinical.qmd)
+
+### May 2025
+
+The May 2025 PHI scrubbed release includes additional data sources such as OMOP image occurrence, Philips ISPM, and Stanford cancer registry with all PHI removed. You can find detailed information about this release by following the link below:
+
+- [May 2025 PHI Scrubbed Metrics](deid_may_2025/metrics_clinical.qmd)
+
+### August 2025
+
+The August 2025 PHI scrubbed release includes additional data sources such as OMOP image occurrence, Philips ISPM, Stanford cancer registry, and STAMP Add-On data with all PHI removed. You can find detailed information about this release by following the link below:
+
+- [August 2025 PHI Scrubbed Metrics](deid_aug_2025/metrics_clinical.qmd)
+
+### November 2025
+
+The November 2025 PHI scrubbed release includes updated data sources such as OMOP 5.4, image occurrence, Philips ISPM, and Stanford cancer registry with all PHI removed. You can find detailed information about this release by following the link below:
+
+- [November 2025 PHI Scrubbed Metrics](deid_nov_2025/metrics_clinical.qmd)
+
+### February 2026
+
+The February 2026 PHI scrubbed release includes updated data sources such as OMOP 5.4, image occurrence, Stanford cancer registry, whole slide imaging, and genetic variants with all PHI removed. You can find detailed information about this release by following the link below:
+
+- [February 2026 PHI Scrubbed Metrics](deid_feb_2026/metrics_clinical.qmd)
+
+## Future Releases
+
+Future releases will include additional PHI scrubbed metrics and updates to the existing ones.
