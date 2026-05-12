@@ -16,10 +16,4 @@ FROM (
     SELECT COUNT(DISTINCT person_id) AS counts_pts, 'With Image Occurrence' AS data_set 
     FROM `@oncology_prod.@oncology_omop.image_occurrence`
     
-    UNION ALL
-    
-    SELECT COUNT(DISTINCT p.person_id) AS counts_pts, 'Neural Frame' AS data_set 
-    FROM `@oncology_prod.@oncology_omop.person` p
-    INNER JOIN `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_outcomes` nf
-    ON p.person_id = nf.person_id
 ) AS counts 

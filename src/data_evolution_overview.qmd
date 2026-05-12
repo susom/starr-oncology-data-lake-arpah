@@ -285,6 +285,7 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 ## Multi-Release Statistical Overview
 
 For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](feb_2026/data_coverage_trends.qmd) page.
+For PHI Scrubbed data coverage trends, see the [PHI Scrubbed Data Coverage Trends](deid_feb_2026/deid_data_coverage_trends.qmd) page.
 
 For each data release (February 2025 to February 2026), we examine:
 
