@@ -19,14 +19,7 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2025
 den <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2025/sql/arpah_cohort/arpah_denominators_update.sql"
 den_res <- fetch_data_from_sql_file(den, yaml_file_path)
 
-den_old <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2025/sql/arpah_cohort/arpah_denominators.sql"
-den_res_old <- fetch_data_from_sql_file(den_old, yaml_file_path)
-
 den_res=den_res %>% arrange(desc(percentage))
-colnames(den_res)<-c("counts_pts_updated", "data_set", "percent_updated")
-den_res_old=den_res_old %>% arrange(desc(percentage))
-
-den_res=den_res %>% inner_join(den_res_old, by="data_set")
 ```
 
 
@@ -52,8 +45,8 @@ As of the May 2025 OMOP population, `r format( den_res$counts_pts[den_res$data_s
 # Modify the data frame to show hierarchy
 labels <- c(
   "data_set"="Data Source",
-  "counts_pts_updated" = "Updated Number of Patients",
-  "counts_pts" = "Number of Patients"
+  "counts_pts" = "Number of Patients",
+  "percentage" = "Percent (%)"
 )
 
 den_res_formatted <- den_res %>%
@@ -77,9 +70,9 @@ den_res_formatted <- den_res %>%
   # Create the formatted table
   create_gt_table_v1(
     data = den_res_formatted,
-    columns = c("data_set", "counts_pts_updated", "counts_pts"),
+    columns = c("data_set",  "counts_pts", "percentage"),
     labels = labels,
-    footnote_text = "Note: Tumor Board definition has been updated"
+    footnote_text = ""
   ) %>%
   tab_style(
     style = cell_text(indent = px(20)),
@@ -91,7 +84,7 @@ den_res_formatted <- den_res %>%
 ```
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
-sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2025/sql/arpah_cohort/arpah_overlap_metrics_updated.sql"
+sql_ids <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/nov25/arpah_overlap_metrics_updated.sql"
 res <- fetch_data_from_sql_file(sql_ids, yaml_file_path)
 head(res)
 
