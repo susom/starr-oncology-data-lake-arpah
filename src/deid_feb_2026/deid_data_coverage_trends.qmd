@@ -984,9 +984,10 @@ metric_order <- all_metrics %>%
 
 # Apply ordering to the data
 all_metrics <- all_metrics %>%
+  filter(month_label != "Feb 2025") %>%
   mutate(
     metric = factor(metric, levels = metric_order),
-    month_label = factor(month_label, levels = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026"))
+    month_label = factor(month_label, levels = c("May 2025", "Aug 2025", "Nov 2025", "Feb 2026"))
   )
 
 # Create stacked bar chart with all metrics
@@ -1005,7 +1006,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026")
+      categoryarray = c("May 2025", "Aug 2025", "Nov 2025", "Feb 2026")
     ),
     yaxis = list(
       title = "Count",
