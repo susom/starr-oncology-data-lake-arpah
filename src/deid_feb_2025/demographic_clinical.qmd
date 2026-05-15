@@ -1,0 +1,151 @@
+---
+title: "Oncology Cohort Characteristics"
+execute:
+  echo: false
+---
+
+*Release Version: Feb 2025 (IRB76049)*
+
+The oncology OMOP cohort is defined as all patients with an existing record in STARR-OMOP who are either listed in the Stanford Cancer Registry (also known as Neural Frame), or have had a Tumor Board encounter. As of the February 2025 OMOP population, 201,554 patients met the criteria for cancer cohort.
+
+  - Neural Frame: Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry)
+  - Tumor Board encounter: These encounters are defined using the EPIC patient encounter data tables 
+
+   These metrics have been generated using the latest Stanford OMOP data.
+
+## Demographics
+### **Age Distribution**
+
+Below is the distribution of persons by year of birth.
+```{r, message=FALSE, warning=FALSE, results='hide'}
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/deid_feb_2025/sql_params.yml"
+
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+# Parameters
+sql_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_feb_2025/sql/arpah_cohort/arpah_age_metrics.sql"
+df <- fetch_data_from_sql_file(sql_file_path, yaml_file_path)
+
+
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(plotly)
+
+# Generate the Plot with Custom Titles
+create_bar_plot(
+  df,
+  x_var = "birth_year",
+  y_var = "person_count",
+  plot_title = "Birth Year Distribution",
+  x_axis_title = "Year of Birth",
+  y_axis_title = "Counts (N)"
+)
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+sql_file_path_demog<- "/workspaces/starr-oncology-data-lake-arpah/src/deid_feb_2025/sql/arpah_cohort/arpah_demographic_all.sql"
+
+demog_dat<- fetch_data_from_sql_file(sql_file_path_demog, yaml_file_path)
+print(demog_dat)
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+## demographic table ##
+all.dat = demog_dat %>%
+dplyr::mutate(
+    Variable = dplyr::case_when(
+      grepl("n_age", description) ~ "Age",
+      grepl("n_sex", description) ~ "Sex",
+      grepl("n_race", description) ~ "Race",
+       grepl("n_ethnicity", description) ~ "Ethnicity",
+      grepl("n_patients", description) ~ "Total",
+      grepl("pct", description) ~ NA_character_  # Skip pure percent entries for the type
+    )) %>%
+  select(Variable, everything())
+  print(all.dat)
+dim(all.dat)
+colnames(all.dat)[1]<-"Characteristic"
+```
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(gt)
+all.dat$percents=100*(as.numeric(all.dat$percents))
+dplyr::glimpse (all.dat)
+all.dat =all.dat %>% mutate(values=c("Total number of pts", "0-17", "18-44", "45-64", "65+",
+"No OMOP Visit", "Male", "Female", "Other", "Unknown", "American Indian-Alaska Native",
+"Asian", "Native Hawaii", "Black", "White", "Other-Unknown", "Hispanic Latino ", "NOT Hispanic Latino", "Other-Missing" ))
+
+ all.dat=all.dat%>% select(Characteristic, values, everything())
+```
+
+### **Summary of Patient Population**
+
+The demographic categories examined include Age, Sex, Race, and Ethnicity.
+
+```{r, message=FALSE, warning=FALSE}
+create_gt_table(
+  data = all.dat %>% select(-description),
+  columns = c("Characteristic", "values", "counts", "percents"),
+  labels = c(
+    "Characteristic" = "Characteristic",
+    "values" = "",
+    "counts" = "Count (N)",
+    "percents" = "Percentage (%)"
+  ),
+  title_text = "All Category Metrics - Oncology OMOP",
+  subtitle_text = "",
+  footnote_text = ""
+)
+```
+
+
+### **CTSA Metrics**
+
+CTSA metrics are a common set of metrics developed in collaboration with the National Center for Advancing Translational Sciences (NCATS) to compare performance against other institutions within the network, facilitate benchmarking, and measure progress in translating basic science discoveries into clinical applications and patient benefits.
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+folder_path_sa <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_feb_2025/sql/CTSA"
+
+res_sa <- fetch_data_from_sql_folder(folder_path_sa)
+print(res_sa)
+```
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+res_sa=res_sa %>% mutate(pt_count=coalesce(all_years, uniq_pts_vital, uniq_pts_address))
+res_sa$pt_count
+res_sa=res_sa %>% mutate(metric=case_when(variable_name == 'uniq_pt_address' ~ 'Distinct patients with atleast one address (SDOH)',
+variable_name =='uniq_pt_any_insurance_value'~'Distinct patients with an insurance provider (SDOH)',
+variable_name =='uniq_pt_loinc'~ 'Distinct patients with a lab test coded in LOINC',
+variable_name =='uniq_pt_med_rxnorm'~'Distinct patients with a medication coded in RxNorm/NDC',
+variable_name =='uniq_pt_icd_dx'~'Distinct patients with a diagnosis coded in ICD 9/10',
+variable_name =='uniq_pt_snomed_dx'~'Distinct patients with a diagnosis coded in SNOMED',
+variable_name =='uniq_pt_icd_proc'~'Distinct patients with a procedure coded in ICD 9/10 PCS',
+variable_name =='uniq_pt_cpt'~'Distinct patients with a procedure coded in HCPCS or CPT',
+variable_name =='uniq_pt_snomed_proc'~'Distinct patients with a procedure coded in SNOMED',
+variable_name =='uniq_pt_vital'~'Distinct patients with at least one vital sign coded (height, weight, BP, BMI or temp)',
+variable_name =='uniq_pt_smoking' ~ 'Distinct patients with a smoking status coded at least once',
+variable_name =='uniq_pt_opioid'~ 'Distinct patients with opioid use disorder coded',  TRUE ~ NA_character_  ))
+res_sa
+```
+```{r, message=FALSE, warning=FALSE, results='hide'}
+res_sa =res_sa %>% filter (!is.na(metric))%>% arrange(desc(pt_count))
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+labels <- c(
+  "metric" = "CTSA Metrics",
+  "pt_count" = "Patient Count"
+)
+
+create_gt_table_v1(
+  data = res_sa, 
+  columns = c("metric", "pt_count"), 
+  labels = labels, 
+  footnote_text = ""
+)
+```

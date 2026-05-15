@@ -289,3 +289,16 @@ strong, b {
   font-weight: 700;
   color: inherit;
 }
+
+/* Indent deeper sidebar levels */
+.sidebar-item .sidebar-item .sidebar-item-container {
+  padding-left: 0.5rem;
+}
+
+.sidebar-item .sidebar-item .sidebar-item .sidebar-item-container {
+  padding-left: 1rem;
+}
+
+.sidebar-item .sidebar-item .sidebar-item .sidebar-item .sidebar-item-container {
+  padding-left: 1.5rem;
+}

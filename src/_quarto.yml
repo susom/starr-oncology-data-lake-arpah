@@ -8,6 +8,7 @@ project:
    - data_dictionary.qmd
    - data_evolution_overview.qmd
    - data_metrics.qmd
+   - deid_data_metrics.qmd
    - data_labeling.qmd
    - metadata.qmd
    - 404.qmd
@@ -15,6 +16,11 @@ project:
    - aug_2025/*
    - nov_2025/*
    - feb_2026/*
+   - deid_aug_2025/*
+   - deid_nov_2025/*
+   - deid_feb_2026/*
+   - deid_may_2025/*
+   - deid_feb_2025/*
    - cap_forms_data_dict/*
    - dicom_data_dict/*
    - epic_media_server_dict/*
@@ -129,61 +135,118 @@ website:
       - text: "Data Evolution Overview"
         href: data_evolution_overview.qmd
         contents: 
-          - text: "Data Evolution Trends"
+          - text: "PHI Data Coverage Trends"
             href: feb_2026/data_coverage_trends.qmd
+          - text: "PHI Scrubbed Data Coverage Trends"
+            href: deid_feb_2026/deid_data_coverage_trends.qmd
       - section: "Data Metrics"
-        href: data_metrics.qmd
         contents:
-          - text: "February 2025"
-            href: feb_2025/demographic_clinical.qmd
-          - section: "May 2025"
-            href: may_2025/metrics_clinical.qmd
+          - section: "PHI Data Metrics"
+            href: data_metrics.qmd
             contents:
-              - text: "Neural Frame"
-                href: may_2025/neural_frame.qmd
-              - text: "Image Occurrence"
-                href: may_2025/image_occ.qmd
-              - text: "Philips ISPM"
-                href: may_2025/philips_metrics.qmd
-              - text: "Tumor Board"
-                href: may_2025/tumor_board_updated.qmd
-          - section: "August 2025"
-            href: aug_2025/metrics_clinical.qmd
+              - text: "February 2025"
+                href: feb_2025/demographic_clinical.qmd
+              - section: "May 2025"
+                href: may_2025/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: may_2025/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: may_2025/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: may_2025/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: may_2025/tumor_board_updated.qmd
+              - section: "August 2025"
+                href: aug_2025/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: aug_2025/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: aug_2025/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: aug_2025/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: aug_2025/tumor_board_updated.qmd
+              - section: "November 2025"
+                href: nov_2025/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: nov_2025/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: nov_2025/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: nov_2025/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: nov_2025/tumor_board_updated.qmd
+              - section: "February 2026"
+                href: feb_2026/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: feb_2026/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: feb_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: feb_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: feb_2026/tumor_board_updated.qmd
+                  - text: "Whole Slide Imaging"
+                    href: feb_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: feb_2026/variant_occ.qmd
+          - section: "PHI Scrubbed Data Metrics"
+            href: deid_data_metrics.qmd
             contents:
-              - text: "Neural Frame"
-                href: aug_2025/neural_frame.qmd
-              - text: "Image Occurrence"
-                href: aug_2025/image_occ.qmd
-              - text: "Philips ISPM"
-                href: aug_2025/philips_metrics.qmd
-              - text: "Tumor Board"
-                href: aug_2025/tumor_board_updated.qmd
-          - section: "November 2025"
-            href: nov_2025/metrics_clinical.qmd
-            contents:
-              - text: "Neural Frame"
-                href: nov_2025/neural_frame.qmd
-              - text: "Image Occurrence"
-                href: nov_2025/image_occ.qmd
-              - text: "Philips ISPM"
-                href: nov_2025/philips_metrics.qmd
-              - text: "Tumor Board"
-                href: nov_2025/tumor_board_updated.qmd
-          - section: "February 2026"
-            href: feb_2026/metrics_clinical.qmd
-            contents:
-              - text: "Neural Frame"
-                href: feb_2026/neural_frame.qmd
-              - text: "Image Occurrence"
-                href: feb_2026/image_occ.qmd
-              - text: "Philips ISPM"
-                href: feb_2026/philips_metrics.qmd
-              - text: "Tumor Board"
-                href: feb_2026/tumor_board_updated.qmd
-              - text: "Whole Slide Imaging"
-                href: feb_2026/whole_slide_imaging.qmd
-              - text: "Genetic Variants"
-                href: feb_2026/variant_occ.qmd
+              - text: "February 2025"
+                href: deid_feb_2025/demographic_clinical.qmd
+              - section: "May 2025"
+                href: deid_may_2025/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: deid_may_2025/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: deid_may_2025/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: deid_may_2025/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: deid_may_2025/tumor_board_updated.qmd
+              - section: "August 2025"
+                href: deid_aug_2025/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: deid_aug_2025/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: deid_aug_2025/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: deid_aug_2025/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: deid_aug_2025/tumor_board_updated.qmd
+              - section: "November 2025"
+                href: deid_nov_2025/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: deid_nov_2025/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: deid_nov_2025/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: deid_nov_2025/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: deid_nov_2025/tumor_board_updated.qmd
+              - section: "February 2026"
+                href: deid_feb_2026/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: deid_feb_2026/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: deid_feb_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: deid_feb_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: deid_feb_2026/tumor_board_updated.qmd
+                  - text: "Whole Slide Imaging"
+                    href: deid_feb_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: deid_feb_2026/variant_occ.qmd
       - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:
@@ -231,6 +294,8 @@ website:
         text: "Data Evolution Overview"
       - href: data_metrics.qmd
         text: "Data Metrics"
+      - href: deid_data_metrics.qmd
+        text: "PHI Scrubbed Data Metrics"
       - href: data_labeling.qmd
         text: "Data Labeling and Modeling"
       - href: metadata.qmd
