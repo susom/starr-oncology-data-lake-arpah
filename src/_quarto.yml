@@ -33,6 +33,8 @@ project:
    - philips_ispm_data_dict/*
    - stamp_add_on_data_dict/*
    - stamp_metadata/*
+   # Exclude knitr intermediate artifacts that the globs above would otherwise pick up
+   - "!**/*.rmarkdown"
 website:
   title: "VISTA Oncology Data Lake"
   site-path: "/about/"
