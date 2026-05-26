@@ -1,0 +1,488 @@
+---
+title: "OMOP Whole Slide Imaging"
+execute:
+  echo: false
+---
+
+```{r setup, include=FALSE}
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2026/sql_params.yml"
+```
+
+### Summary:
+
+The OMOP **`_whole_slide_imaging`** table contains records of digitized pathology slides, including structured metadata, access paths to whole slide image files, **and links to structured EHR data. This table serves as a proof of concept demonstrating how whole slide imaging files can be integrated and analyzed within the OMOP framework alongside clinical data**.
+
+Each record represents a single whole slide image with associated metadata including:
+
+- Patient identifier (person_id)
+- Accession number linking to clinical specimens
+- URIs to both JSON metadata and TIFF image files
+- Specimen source and type classifications
+- Procedure timing information
+- Links to clinical notes
+
+Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. The May 2026 release includes approximately 35,000 whole slide images in the OMOP table.
+
+Please note that the whole slide imaging dataset is in an early stage of development, and will continue to evolve as we work towards integrating more comprehensive imaging datasets in the future releases.
+
+```{r basic_counts, message=FALSE, warning=FALSE, results='hide'}
+# Fetch basic counts
+sql_basic <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_basic_counts.sql"
+basic_counts <- fetch_data_from_sql_file(sql_basic, yaml_file_path, release = "may_2026")
+
+total_images <- as.numeric(basic_counts$counts[basic_counts$metric == "total_images"])
+unique_patients <- as.numeric(basic_counts$counts[basic_counts$metric == "unique_patients"])
+unique_accessions <- as.numeric(basic_counts$counts[basic_counts$metric == "unique_accessions"])
+with_json <- as.numeric(basic_counts$counts[basic_counts$metric == "with_json"])
+with_tiff <- as.numeric(basic_counts$counts[basic_counts$metric == "with_tiff"])
+```
+
+::: {.columns}
+
+::: {.column width="50%"}
+### 📊 Dataset Overview
+- **Total WSI Files:** `r format(total_images, big.mark = ",")`
+- **Unique Patients:** `r format(unique_patients, big.mark = ",")`
+- **Unique Accessions:** `r format(unique_accessions, big.mark = ",")`
+:::
+
+::: {.column width="50%"}
+### 📁 File Availability
+- **WSI Files with JSON:** `r format(with_json, big.mark = ",")` (`r round(with_json/total_images*100, 1)`%)
+- **WSI Files with TIFF:** `r format(with_tiff, big.mark = ",")` (`r round(with_tiff/total_images*100, 1)`%)
+:::
+
+:::
+```{r temporal_trends, message=FALSE, warning=FALSE, results='hide'}
+## Temporal Trends
+
+sql_temporal <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_temporal_trends.sql"
+temporal_data <- fetch_data_from_sql_file(sql_temporal, yaml_file_path, release = "may_2026")
+
+# Create a date column for plotting
+temporal_data <- temporal_data %>%
+  mutate(date = as.Date(paste(year, month, "01", sep = "-")))
+
+date_min <- format(min(temporal_data$date), "%B %Y")
+date_max <- format(max(temporal_data$date), "%B %Y")
+```
+
+The WSI files in this dataset span procedures from **`r date_min`** to **`r date_max`**.
+
+```{r specimen_types, message=FALSE, warning=FALSE, results='hide'}
+#### Specimen Type Distribution
+
+sql_spec_types <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_types.sql"
+specimen_types <- fetch_data_from_sql_file(sql_spec_types, yaml_file_path, release = "may_2026")
+```
+
+```{r specimen_types_table, message=FALSE, warning=FALSE, include=FALSE}
+labels <- c(
+  "specimen_type" = "Specimen Type",
+  "image_count" = "Number of WSI Files",
+  "patient_count" = "Number of Patients",
+  "percentage" = "Percentage (%)"
+)
+
+create_gt_table_v1(
+  data = specimen_types,
+  columns = c("specimen_type", "image_count", "patient_count", "percentage"),
+  labels = labels,
+  footnote_text = "Distribution of whole slide image files by specimen type"
+)
+```
+
+
+```{r specimen_sources, message=FALSE, warning=FALSE, results='hide'}
+sql_spec_sources <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_sources.sql"
+specimen_sources <- fetch_data_from_sql_file(sql_spec_sources, yaml_file_path, release = "may_2026")
+```
+
+#### Specimen Source Distribution
+
+The original specimen source field contains over 200 granular anatomical categories. To provide a clearer overview, these have been consolidated into the following groups:
+
+| Group | Includes |
+|-------|----------|
+| **Lung/Thorax** | All lung lobes and lateralities, transbronchial biopsy, trachea, bronchus, pleura, chest wall, mediastinum, paratracheal |
+| **Gastrointestinal** | Esophagus, stomach, intestine (small and large), colon (all segments), rectum, cecum, anus, gallbladder, pancreas, ampulla, bile duct |
+| **Lymph Node** | Lymph node biopsies, dissections, and sentinel nodes (all locations) |
+| **Breast** | Breast tissue (all lateralities and quadrants) |
+| **Head & Neck** | Oral cavity, tongue, nasopharynx, oropharynx, pharynx, larynx, salivary glands, sinuses, ear, nasal cavity, eye, eyelid, mandible, neck, scalp, cheek, tonsil |
+| **Brain/CNS** | Brain (all lobes), brainstem, cerebellum, spinal cord, pituitary gland |
+| **Bone/Joint** | Femur, tibia, rib, vertebra, skull, humerus, scapula, sternum, sacrum, coccyx, pelvic bone, iliac crest, joints, cartilage |
+| **Cardiovascular** | Heart (chambers and valves), aorta, arteries, veins, pericardium, thrombus |
+| **Prostate** | Prostate (all lateralities and biopsy types), periprostatic tissue |
+| **Gynecologic** | Ovary, fallopian tube, uterus, cervix, vulva, vagina, endometrial biopsies, leiomyoma |
+| **Kidney** | Kidney (all lateralities, native and transplant), renal pelvis |
+| **Liver** | Liver (native, transplant, core biopsies) |
+| **Thyroid/Parathyroid** | Thyroid gland (all lateralities), parathyroid |
+| **Slides/Blocks/Other** | Pre-existing slides, blocks, and other prepared specimens |
+| **Other** | Adrenal, bladder, ureter, urethra, skin, soft tissue, muscle, fascia, spleen, omentum, peritoneum, tissue NOS, body fluid, and remaining unclassified sources |
+
+```{r specimen_sources_grouped, message=FALSE, warning=FALSE, results='hide'}
+library(dplyr)
+library(stringr)
+
+specimen_sources_grouped <- specimen_sources %>%
+  mutate(source_group = case_when(
+    str_detect(specimen_source, regex("^Lung|Transbronchial|Trachea|Bronchus|^Pleura|^Chest|^Mediastinum|Paratracheal|Hernia, Diaphragmatic", ignore_case = TRUE)) ~ "Lung/Thorax",
+    str_detect(specimen_source, regex("^Breast", ignore_case = TRUE)) ~ "Breast",
+    str_detect(specimen_source, regex("^Brain|Brainstem|Cerebellum|Spinal Cord|Pituitary", ignore_case = TRUE)) ~ "Brain/CNS",
+    str_detect(specimen_source, regex("^Lymph Node|Lymph node", ignore_case = TRUE)) ~ "Lymph Node",
+    str_detect(specimen_source, regex("^Intestine|^Colon|Cecum|Ileostomy|^Rectum|^Stomach|^Esophagus|Gallbladder|Ampulla|Bile Duct|Pancreas|^Anus", ignore_case = TRUE)) ~ "Gastrointestinal",
+    str_detect(specimen_source, regex("^Prostate|Periprostatic", ignore_case = TRUE)) ~ "Prostate",
+    str_detect(specimen_source, regex("^Kidney|Renal", ignore_case = TRUE)) ~ "Kidney",
+    str_detect(specimen_source, regex("^Liver", ignore_case = TRUE)) ~ "Liver",
+    str_detect(specimen_source, regex("^Thyroid|^Parathyroid", ignore_case = TRUE)) ~ "Thyroid/Parathyroid",
+    str_detect(specimen_source, regex("^Ovary|^Uterus|^Uterine|^Vulva|^Vagina|Endometrial|Leiomyoma", ignore_case = TRUE)) ~ "Gynecologic",
+    str_detect(specimen_source, regex("^Heart|^Aorta|^Artery|^Vein|Pericardi|Thrombus|Periaorta", ignore_case = TRUE)) ~ "Cardiovascular",
+    str_detect(specimen_source, regex("^Ear|^Nasal|^Nasopharynx|^Oropharynx|^Pharynx|^Larynx|^Oral|^Tongue|^Sinus|^Salivary|^Tonsil|Parapharyngeal|Vocal Cord|^Mandible|^Cheek|^Scalp|^Neck|^Conjunctiva|Orbit|^Eyelid|^Eye,|^Nose", ignore_case = TRUE)) ~ "Head & Neck",
+    str_detect(specimen_source, regex("^Femur|^Tibia|^Rib|^Vertebra|^Skull|^Clavicle|^Humerus|^Scapula|^Sternum|^Sacrum|^Coccyx|^Pelvic Bone|^Iliac|Femoral Head|^Mastoid|^Bone|Intervertebral|^Joint|^Cartilage", ignore_case = TRUE)) ~ "Bone/Joint",
+    str_detect(specimen_source, regex("Slides/blocks", ignore_case = TRUE)) ~ "Slides/Blocks/Other",
+    TRUE ~ "Other"
+  )) %>%
+  group_by(source_group) %>%
+  summarise(
+    image_count = sum(image_count),
+    patient_count = sum(patient_count),
+    .groups = "drop"
+  ) %>%
+  mutate(percentage = round(image_count * 100 / sum(image_count), 1)) %>%
+  arrange(desc(image_count))
+```
+
+::: {.panel-tabset}
+
+##### Distribution
+
+```{r specimen_sources_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
+library(plotly)
+
+# Filter to groups above 1% and order by image_count for display
+plot_data <- specimen_sources_grouped %>%
+  filter(percentage > 1) %>%
+  arrange(image_count) %>%
+  mutate(source_group = factor(source_group, levels = source_group))
+
+plot_ly(plot_data,
+        y = ~source_group,
+        x = ~image_count,
+        type = "bar",
+        orientation = "h",
+        marker = list(
+          color = "#BAE1FF",
+          line = list(color = "#89C4E8", width = 0.5)
+        ),
+        text = ~paste0(percentage, "%"),
+        textposition = "outside",
+        textfont = list(size = 11, color = "grey40"),
+        hovertext = ~paste0(
+          "<b>", source_group, "</b><br>",
+          "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+          "Patients: ", format(patient_count, big.mark = ","), "<br>",
+          "Percentage: ", percentage, "%"
+        ),
+        hoverinfo = "text") %>%
+  layout(
+    title = list(
+      text = "Whole Slide Image Files by Anatomical Source",
+      font = list(size = 16)
+    ),
+    xaxis = list(
+      title = "Number of WSI Files",
+      tickformat = ","
+    ),
+    yaxis = list(
+      title = "",
+      tickfont = list(size = 11)
+    ),
+    margin = list(l = 160, r = 60),
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 12)
+    )
+  )
+```
+
+##### Summary Table
+
+```{r specimen_sources_grouped_table, message=FALSE, warning=FALSE}
+labels <- c(
+  "source_group" = "Specimen Source (Grouped)",
+  "image_count" = "Number of WSI Files",
+  "patient_count" = "Number of Patients",
+  "percentage" = "Percentage (%)"
+)
+
+create_gt_table_v1(
+  data = specimen_sources_grouped,
+  columns = c("source_group", "image_count", "patient_count", "percentage"),
+  labels = labels,
+  footnote_text = "Distribution of whole slide image files by specimen source (grouped by anatomical region)"
+)
+```
+
+
+
+:::
+
+
+```{r images_per_patient, message=FALSE, warning=FALSE, results='hide'}
+## Images per Patient
+
+sql_per_patient <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_images_per_patient.sql"
+images_per_patient <- fetch_data_from_sql_file(sql_per_patient, yaml_file_path, release = "may_2026")
+```
+
+#### WSI Files per Patient Distribution
+
+```{r images_per_patient_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
+library(plotly)
+
+# Ensure correct ordering
+plot_data_ipp <- images_per_patient %>%
+  mutate(sort_order = case_when(
+    image_count_range == '1 image' ~ 1,
+    image_count_range == '2-5 images' ~ 2,
+    image_count_range == '6-10 images' ~ 3,
+    image_count_range == '11-20 images' ~ 4,
+    image_count_range == '21-50 images' ~ 5,
+    TRUE ~ 6
+  )) %>%
+  arrange(sort_order) %>%
+  mutate(image_count_range = factor(image_count_range, levels = image_count_range),
+         percentage = round(percentage, 1))
+
+plot_ly(plot_data_ipp,
+        x = ~image_count_range,
+        y = ~patient_count,
+        type = "bar",
+        name = "Patients",
+        marker = list(
+          color = "#BAE1FF",
+          line = list(color = "#89C4E8", width = 0.5)
+        ),
+        text = ~paste0(percentage, "%"),
+        textposition = "outside",
+        textfont = list(size = 11, color = "grey40"),
+        hovertext = ~paste0(
+          "<b>", image_count_range, "</b><br>",
+          "Patients: ", format(patient_count, big.mark = ","), "<br>",
+          "Percentage: ", percentage, "%"
+        ),
+        hoverinfo = "text") %>%
+  add_trace(
+        x = ~image_count_range,
+        y = ~patient_count,
+        type = "scatter",
+        mode = "lines+markers",
+        name = "Trend",
+        text = "",
+        textposition = "none",
+        line = list(color = "#89C4E8", width = 2),
+        marker = list(color = "#89C4E8", size = 6),
+        hoverinfo = "skip"
+  ) %>%
+  layout(
+    title = list(
+      text = "Distribution of WSI Files per Patient",
+      font = list(size = 16)
+    ),
+    xaxis = list(
+      title = "Number of WSI Files per Patient",
+      tickfont = list(size = 11)
+    ),
+    yaxis = list(
+      title = "Number of Patients",
+      tickformat = ","
+    ),
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 12)
+    )
+  )
+```
+
+## Thoracic Tumor Board Patients
+
+Thoracic tumor board patients are identified by cross-referencing visit records containing "tumor board" with patients who have a thoracic cancer diagnosis (lung, bronchus, or thymus) in the Stanford Cancer Registry (NeuralFrame). This section examines the overlap between these patients and the whole slide imaging dataset.
+
+```{r thoracic_tb_overlap, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_thoracic_tb_overlap.sql"
+tb_overlap <- fetch_data_from_sql_file(sql_tb_overlap, yaml_file_path, release = "may_2026")
+
+thoracic_tb_total <- as.numeric(tb_overlap$thoracic_tb_total)
+wsi_total <- as.numeric(tb_overlap$wsi_total)
+thoracic_tb_with_wsi <- as.numeric(tb_overlap$thoracic_tb_with_wsi)
+```
+
+Of the **`r format(thoracic_tb_total, big.mark = ",")`** thoracic tumor board patients, **`r format(thoracic_tb_with_wsi, big.mark = ",")`** (**`r round(thoracic_tb_with_wsi / thoracic_tb_total * 100, 1)`%**) have associated WSI files.
+
+```{r thoracic_tb_sources, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_sources <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_thoracic_tb_sources.sql"
+tb_sources <- fetch_data_from_sql_file(sql_tb_sources, yaml_file_path, release = "may_2026")
+```
+
+```{r thoracic_tb_grouped, message=FALSE, warning=FALSE, results='hide'}
+tb_sources_grouped <- tb_sources %>%
+  mutate(source_group = case_when(
+    str_detect(specimen_source, regex("^Lung|Transbronchial|Trachea|Bronchus|^Pleura|^Chest|^Mediastinum|Paratracheal|Hernia, Diaphragmatic", ignore_case = TRUE)) ~ "Lung/Thorax",
+    str_detect(specimen_source, regex("^Breast", ignore_case = TRUE)) ~ "Breast",
+    str_detect(specimen_source, regex("^Brain|Brainstem|Cerebellum|Spinal Cord|Pituitary", ignore_case = TRUE)) ~ "Brain/CNS",
+    str_detect(specimen_source, regex("^Lymph Node|Lymph node", ignore_case = TRUE)) ~ "Lymph Node",
+    str_detect(specimen_source, regex("^Intestine|^Colon|Cecum|Ileostomy|^Rectum|^Stomach|^Esophagus|Gallbladder|Ampulla|Bile Duct|Pancreas|^Anus", ignore_case = TRUE)) ~ "Gastrointestinal",
+    str_detect(specimen_source, regex("^Prostate|Periprostatic", ignore_case = TRUE)) ~ "Prostate",
+    str_detect(specimen_source, regex("^Kidney|Renal", ignore_case = TRUE)) ~ "Kidney",
+    str_detect(specimen_source, regex("^Liver", ignore_case = TRUE)) ~ "Liver",
+    str_detect(specimen_source, regex("^Thyroid|^Parathyroid", ignore_case = TRUE)) ~ "Thyroid/Parathyroid",
+    str_detect(specimen_source, regex("^Ovary|^Uterus|^Uterine|^Vulva|^Vagina|Endometrial|Leiomyoma", ignore_case = TRUE)) ~ "Gynecologic",
+    str_detect(specimen_source, regex("^Heart|^Aorta|^Artery|^Vein|Pericardi|Thrombus|Periaorta", ignore_case = TRUE)) ~ "Cardiovascular",
+    str_detect(specimen_source, regex("^Ear|^Nasal|^Nasopharynx|^Oropharynx|^Pharynx|^Larynx|^Oral|^Tongue|^Sinus|^Salivary|^Tonsil|Parapharyngeal|Vocal Cord|^Mandible|^Cheek|^Scalp|^Neck|^Conjunctiva|Orbit|^Eyelid|^Eye,|^Nose", ignore_case = TRUE)) ~ "Head & Neck",
+    str_detect(specimen_source, regex("^Femur|^Tibia|^Rib|^Vertebra|^Skull|^Clavicle|^Humerus|^Scapula|^Sternum|^Sacrum|^Coccyx|^Pelvic Bone|^Iliac|Femoral Head|^Mastoid|^Bone|Intervertebral|^Joint|^Cartilage", ignore_case = TRUE)) ~ "Bone/Joint",
+    str_detect(specimen_source, regex("Slides/blocks", ignore_case = TRUE)) ~ "Slides/Blocks/Other",
+    TRUE ~ "Other"
+  )) %>%
+  group_by(source_group) %>%
+  summarise(
+    image_count = sum(image_count),
+    patient_count = sum(patient_count),
+    .groups = "drop"
+  ) %>%
+  mutate(percentage = round(image_count * 100 / sum(image_count), 1)) %>%
+  arrange(desc(image_count))
+```
+
+::: {.panel-tabset}
+
+##### Distribution
+
+```{r thoracic_tb_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+library(plotly)
+
+plot_data_tb <- tb_sources_grouped %>%
+  arrange(image_count) %>%
+  mutate(source_group = factor(source_group, levels = source_group))
+
+plot_ly(plot_data_tb,
+        y = ~source_group,
+        x = ~image_count,
+        type = "bar",
+        orientation = "h",
+        marker = list(
+          color = "#BAFFC9",
+          line = list(color = "#8AD4A0", width = 0.5)
+        ),
+        text = ~paste0(percentage, "%"),
+        textposition = "outside",
+        textfont = list(size = 11, color = "grey40"),
+        hovertext = ~paste0(
+          "<b>", source_group, "</b><br>",
+          "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+          "Patients: ", format(patient_count, big.mark = ","), "<br>",
+          "Percentage: ", percentage, "%"
+        ),
+        hoverinfo = "text") %>%
+  layout(
+    title = list(
+      text = "WSI Files by Source — Thoracic Tumor Board Patients",
+      font = list(size = 16)
+    ),
+    xaxis = list(
+      title = "Number of WSI Files",
+      tickformat = ","
+    ),
+    yaxis = list(
+      title = "",
+      tickfont = list(size = 11)
+    ),
+    margin = list(l = 160, r = 60),
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 12)
+    )
+  )
+```
+
+##### Summary Table
+
+```{r thoracic_tb_table, message=FALSE, warning=FALSE}
+labels <- c(
+  "source_group" = "Specimen Source (Grouped)",
+  "image_count" = "Number of WSI Files",
+  "patient_count" = "Number of Patients",
+  "percentage" = "Percentage (%)"
+)
+
+create_gt_table_v1(
+  data = tb_sources_grouped,
+  columns = c("source_group", "image_count", "patient_count", "percentage"),
+  labels = labels,
+  footnote_text = "WSI file distribution for thoracic tumor board patients by specimen source"
+)
+```
+
+##### Specimen Type
+
+```{r thoracic_tb_spec_types, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_spec_types <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_thoracic_tb_specimen_types.sql"
+tb_spec_types <- fetch_data_from_sql_file(sql_tb_spec_types, yaml_file_path, release = "may_2026")
+tb_spec_types$percentage <- round(as.numeric(tb_spec_types$percentage), 1)
+```
+
+```{r thoracic_tb_spec_types_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
+library(plotly)
+
+plot_data_tb_st <- tb_spec_types %>%
+  arrange(image_count) %>%
+  mutate(specimen_type = factor(specimen_type, levels = specimen_type))
+
+plot_ly(plot_data_tb_st,
+        y = ~specimen_type,
+        x = ~image_count,
+        type = "bar",
+        orientation = "h",
+        marker = list(
+          color = "#BAFFC9",
+          line = list(color = "#8AD4A0", width = 0.5)
+        ),
+        text = ~paste0(percentage, "%"),
+        textposition = "outside",
+        textfont = list(size = 11, color = "grey40"),
+        hovertext = ~paste0(
+          "<b>", specimen_type, "</b><br>",
+          "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+          "Patients: ", format(patient_count, big.mark = ","), "<br>",
+          "Percentage: ", percentage, "%"
+        ),
+        hoverinfo = "text") %>%
+  layout(
+    title = list(
+      text = "WSI Files by Specimen Type — Thoracic TB Patients",
+      font = list(size = 16)
+    ),
+    xaxis = list(
+      title = "Number of WSI Files",
+      tickformat = ","
+    ),
+    yaxis = list(
+      title = "",
+      tickfont = list(size = 11)
+    ),
+    margin = list(l = 180, r = 60),
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 12)
+    )
+  )
+```
+
+:::
+
+### Source Codes:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/may_2026/whole_slide_imaging.qmd), and the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/feb26).
+
+
+
