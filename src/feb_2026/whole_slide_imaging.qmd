@@ -50,8 +50,8 @@ with_tiff <- as.numeric(basic_counts$counts[basic_counts$metric == "with_tiff"])
 
 ::: {.column width="50%"}
 ### 📁 File Availability
-- **Images with JSON:** `r format(with_json, big.mark = ",")` (`r round(with_json/total_images*100, 1)`%)
-- **Images with TIFF:** `r format(with_tiff, big.mark = ",")` (`r round(with_tiff/total_images*100, 1)`%)
+- **Metadata of the WSI Files in JSON Format:** `r format(with_json, big.mark = ",")` (`r round(with_json/total_images*100, 1)`%)
+- **Metadata of the WSI Files in TIFF Format:** `r format(with_tiff, big.mark = ",")` (`r round(with_tiff/total_images*100, 1)`%)
 :::
 
 :::

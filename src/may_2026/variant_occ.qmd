@@ -633,7 +633,7 @@ DT::datatable(
   formatRound(columns = c("Variants", "Patients"), digits = 0, mark = ",")
 ```
 
-**Summary:** This cohort of 45 patients represents the intersection of thoracic cancer complexity and multidisciplinary tumor board evaluation, with genomic profiling informing treatment decisions.
+
 
 :::
 

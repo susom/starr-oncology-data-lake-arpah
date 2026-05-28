@@ -50,8 +50,8 @@ with_tiff <- as.numeric(basic_counts$counts[basic_counts$metric == "with_tiff"])
 
 ::: {.column width="50%"}
 ### 📁 File Availability
-- **WSI Files with JSON:** `r format(with_json, big.mark = ",")` (`r round(with_json/total_images*100, 1)`%)
-- **WSI Files with TIFF:** `r format(with_tiff, big.mark = ",")` (`r round(with_tiff/total_images*100, 1)`%)
+- **Metadata of the WSI Files in JSON Format:** `r format(with_json, big.mark = ",")` (`r round(with_json/total_images*100, 1)`%)
+- **Metadata of the WSI Files in TIFF Format:** `r format(with_tiff, big.mark = ",")` (`r round(with_tiff/total_images*100, 1)`%)
 :::
 
 :::
@@ -230,37 +230,60 @@ create_gt_table_v1(
 :::
 
 
-```{r images_per_patient, message=FALSE, warning=FALSE, results='hide'}
-## Images per Patient
+```{r slides_per_specimen, message=FALSE, warning=FALSE, results='hide'}
+## Slides per Specimen
 
-sql_per_patient <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_images_per_patient.sql"
-images_per_patient <- fetch_data_from_sql_file(sql_per_patient, yaml_file_path, release = "may_2026")
-```
+sql_per_specimen <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_images_per_patient.sql"
+slides_per_specimen <- fetch_data_from_sql_file(sql_per_specimen, yaml_file_path, release = "may_2026")
 
-#### WSI Files per Patient Distribution
+# Compute distribution buckets
+slides_distribution <- slides_per_specimen %>%
+  mutate(slide_range = case_when(
+    num_slides == 1 ~ '1 slide',
+    num_slides >= 2 & num_slides <= 5 ~ '2-5 slides',
+    num_slides >= 6 & num_slides <= 10 ~ '6-10 slides',
+    num_slides >= 11 & num_slides <= 20 ~ '11-20 slides',
+    num_slides >= 21 & num_slides <= 50 ~ '21-50 slides',
+    TRUE ~ '50+ slides'
+  )) %>%
+  group_by(slide_range) %>%
+  summarise(
+    specimen_count = n(),
+    patient_count = n_distinct(person_id),
+    .groups = "drop"
+  ) %>%
+  mutate(percentage = round(specimen_count * 100 / sum(specimen_count), 1))
 
-```{r images_per_patient_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
-library(plotly)
-
-# Ensure correct ordering
-plot_data_ipp <- images_per_patient %>%
+# Order the buckets
+slides_distribution <- slides_distribution %>%
   mutate(sort_order = case_when(
-    image_count_range == '1 image' ~ 1,
-    image_count_range == '2-5 images' ~ 2,
-    image_count_range == '6-10 images' ~ 3,
-    image_count_range == '11-20 images' ~ 4,
-    image_count_range == '21-50 images' ~ 5,
+    slide_range == '1 slide' ~ 1,
+    slide_range == '2-5 slides' ~ 2,
+    slide_range == '6-10 slides' ~ 3,
+    slide_range == '11-20 slides' ~ 4,
+    slide_range == '21-50 slides' ~ 5,
     TRUE ~ 6
   )) %>%
   arrange(sort_order) %>%
-  mutate(image_count_range = factor(image_count_range, levels = image_count_range),
-         percentage = round(percentage, 1))
+  mutate(slide_range = factor(slide_range, levels = slide_range))
+```
 
-plot_ly(plot_data_ipp,
-        x = ~image_count_range,
-        y = ~patient_count,
+#### Slides per Specimen Distribution
+
+There are **`r format(nrow(slides_per_specimen), big.mark = ",")`** unique specimens (accessions) across **`r format(n_distinct(slides_per_specimen$person_id), big.mark = ",")`** patients, with a median of **`r median(slides_per_specimen$num_slides)`** slides per specimen.
+
+::: {.panel-tabset}
+
+##### Distribution
+
+```{r slides_per_specimen_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
+library(plotly)
+
+plot_ly(slides_distribution,
+        x = ~slide_range,
+        y = ~specimen_count,
         type = "bar",
-        name = "Patients",
+        name = "Specimens",
         marker = list(
           color = "#BAE1FF",
           line = list(color = "#89C4E8", width = 0.5)
@@ -269,14 +292,15 @@ plot_ly(plot_data_ipp,
         textposition = "outside",
         textfont = list(size = 11, color = "grey40"),
         hovertext = ~paste0(
-          "<b>", image_count_range, "</b><br>",
+          "<b>", slide_range, "</b><br>",
+          "Specimens: ", format(specimen_count, big.mark = ","), "<br>",
           "Patients: ", format(patient_count, big.mark = ","), "<br>",
           "Percentage: ", percentage, "%"
         ),
         hoverinfo = "text") %>%
   add_trace(
-        x = ~image_count_range,
-        y = ~patient_count,
+        x = ~slide_range,
+        y = ~specimen_count,
         type = "scatter",
         mode = "lines+markers",
         name = "Trend",
@@ -288,15 +312,15 @@ plot_ly(plot_data_ipp,
   ) %>%
   layout(
     title = list(
-      text = "Distribution of WSI Files per Patient",
+      text = "Distribution of Slides per Specimen",
       font = list(size = 16)
     ),
     xaxis = list(
-      title = "Number of WSI Files per Patient",
+      title = "Number of Slides per Specimen",
       tickfont = list(size = 11)
     ),
     yaxis = list(
-      title = "Number of Patients",
+      title = "Number of Specimens",
       tickformat = ","
     ),
     hoverlabel = list(
@@ -305,6 +329,21 @@ plot_ly(plot_data_ipp,
     )
   )
 ```
+
+##### Summary Table
+
+```{r slides_per_specimen_table, message=FALSE, warning=FALSE}
+slides_distribution %>%
+  select(slide_range, specimen_count, patient_count, percentage) %>%
+  datatable(
+    colnames = c("Slides per Specimen", "Number of Specimens", "Number of Patients", "Percentage (%)"),
+    options = list(pageLength = 10, dom = 't'),
+    rownames = FALSE
+  )
+```
+
+:::
+
 
 ## Thoracic Tumor Board Patients
 

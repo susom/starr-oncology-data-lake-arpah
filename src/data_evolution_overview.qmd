@@ -131,7 +131,7 @@ release_summary <- tibble::tribble(
   "May 2026",
   "Continued coverage + <b>Expanded WSI + Episode Table<b>",
   "Continued coverage",
-  "Continued coverage",
+  "Discontinued coverage",
   "<b>Expanded Whole Slide Imaging, Episode Table<b>",
   "Added episode table for clinical episodes; Expanded WSI coverage",
   "Expanded WSI TIFF/JSON files"  
