@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>OMOP Whole Slide Imaging</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="whole_slide_imaging_files/libs/clipboard/clipboard.min.js"></script>
+<script src="whole_slide_imaging_files/libs/quarto-html/quarto.js"></script>
+<script src="whole_slide_imaging_files/libs/quarto-html/popper.min.js"></script>
+<script src="whole_slide_imaging_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="whole_slide_imaging_files/libs/quarto-html/anchor.min.js"></script>
+<link href="whole_slide_imaging_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="whole_slide_imaging_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="whole_slide_imaging_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="whole_slide_imaging_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="whole_slide_imaging_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="whole_slide_imaging_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="whole_slide_imaging_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="whole_slide_imaging_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="whole_slide_imaging_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="whole_slide_imaging_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="whole_slide_imaging_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="whole_slide_imaging_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="whole_slide_imaging_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="whole_slide_imaging_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="whole_slide_imaging_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="whole_slide_imaging_files/libs/datatables-binding-0.33/datatables.js"></script>
+<link href="whole_slide_imaging_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="whole_slide_imaging_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="whole_slide_imaging_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">OMOP Whole Slide Imaging</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">Summary:</h3>
+<p>The OMOP <strong><code>_whole_slide_imaging</code></strong> table contains records of digitized pathology slides, including structured metadata, access paths to whole slide image files, <strong>and links to structured EHR data. This table serves as a proof of concept demonstrating how whole slide imaging files can be integrated and analyzed within the OMOP framework alongside clinical data</strong>.</p>
+<p>Each record represents a single whole slide image with associated metadata including:</p>
+<ul>
+<li>Patient identifier (person_id)</li>
+<li>Accession number linking to clinical specimens</li>
+<li>URIs to both JSON metadata and TIFF image files</li>
+<li>Specimen source and type classifications</li>
+<li>Procedure timing information</li>
+<li>Links to clinical notes</li>
+</ul>
+<p>Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. The May 2026 release includes approximately 35,000 whole slide images in the OMOP table.</p>
+<p>Please note that the whole slide imaging dataset is in an early stage of development, and will continue to evolve as we work towards integrating more comprehensive imaging datasets in the future releases.</p>
+</section>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="dataset-overview" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-overview">📊 Dataset Overview</h3>
+<ul>
+<li><strong>Total WSI Files:</strong> 34,963</li>
+<li><strong>Unique Patients:</strong> 1,834</li>
+<li><strong>Unique Accessions:</strong> 2,780</li>
+</ul>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="file-availability" class="level3">
+<h3 class="anchored" data-anchor-id="file-availability">📁 File Availability</h3>
+<ul>
+<li><strong>Metadata of the WSI Files in JSON Format:</strong> 34,621 (99%)</li>
+<li><strong>Metadata of the WSI Files in TIFF Format:</strong> 34,621 (99%)</li>
+</ul>
+</section>
+</div>
+</div>
+<p>The WSI files in this dataset span procedures from <strong>March 2021</strong> to <strong>July 2025</strong>.</p>
+<section id="specimen-source-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="specimen-source-distribution">Specimen Source Distribution</h4>
+<p>The original specimen source field contains over 200 granular anatomical categories. To provide a clearer overview, these have been consolidated into the following groups:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 58%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Group</th>
+<th>Includes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Lung/Thorax</strong></td>
+<td>All lung lobes and lateralities, transbronchial biopsy, trachea, bronchus, pleura, chest wall, mediastinum, paratracheal</td>
+</tr>
+<tr class="even">
+<td><strong>Gastrointestinal</strong></td>
+<td>Esophagus, stomach, intestine (small and large), colon (all segments), rectum, cecum, anus, gallbladder, pancreas, ampulla, bile duct</td>
+</tr>
+<tr class="odd">
+<td><strong>Lymph Node</strong></td>
+<td>Lymph node biopsies, dissections, and sentinel nodes (all locations)</td>
+</tr>
+<tr class="even">
+<td><strong>Breast</strong></td>
+<td>Breast tissue (all lateralities and quadrants)</td>
+</tr>
+<tr class="odd">
+<td><strong>Head &amp; Neck</strong></td>
+<td>Oral cavity, tongue, nasopharynx, oropharynx, pharynx, larynx, salivary glands, sinuses, ear, nasal cavity, eye, eyelid, mandible, neck, scalp, cheek, tonsil</td>
+</tr>
+<tr class="even">
+<td><strong>Brain/CNS</strong></td>
+<td>Brain (all lobes), brainstem, cerebellum, spinal cord, pituitary gland</td>
+</tr>
+<tr class="odd">
+<td><strong>Bone/Joint</strong></td>
+<td>Femur, tibia, rib, vertebra, skull, humerus, scapula, sternum, sacrum, coccyx, pelvic bone, iliac crest, joints, cartilage</td>
+</tr>
+<tr class="even">
+<td><strong>Cardiovascular</strong></td>
+<td>Heart (chambers and valves), aorta, arteries, veins, pericardium, thrombus</td>
+</tr>
+<tr class="odd">
+<td><strong>Prostate</strong></td>
+<td>Prostate (all lateralities and biopsy types), periprostatic tissue</td>
+</tr>
+<tr class="even">
+<td><strong>Gynecologic</strong></td>
+<td>Ovary, fallopian tube, uterus, cervix, vulva, vagina, endometrial biopsies, leiomyoma</td>
+</tr>
+<tr class="odd">
+<td><strong>Kidney</strong></td>
+<td>Kidney (all lateralities, native and transplant), renal pelvis</td>
+</tr>
+<tr class="even">
+<td><strong>Liver</strong></td>
+<td>Liver (native, transplant, core biopsies)</td>
+</tr>
+<tr class="odd">
+<td><strong>Thyroid/Parathyroid</strong></td>
+<td>Thyroid gland (all lateralities), parathyroid</td>
+</tr>
+<tr class="even">
+<td><strong>Slides/Blocks/Other</strong></td>
+<td>Pre-existing slides, blocks, and other prepared specimens</td>
+</tr>
+<tr class="odd">
+<td><strong>Other</strong></td>
+<td>Adrenal, bladder, ureter, urethra, skin, soft tissue, muscle, fascia, spleen, omentum, peritoneum, tissue NOS, body fluid, and remaining unclassified sources</td>
+</tr>
+</tbody>
+</table>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Summary Table</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7a0ce2f21fef7471df60" style="width:100%;height:520px;"></div>
+<script type="application/json" data-for="htmlwidget-7a0ce2f21fef7471df60">{"x":{"visdat":{"17a5c4a8218be":["function () ","plotlyVisDat"]},"cur_data":"17a5c4a8218be","attrs":{"17a5c4a8218be":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":160,"t":25,"r":60},"title":{"text":"Whole Slide Image Files by Anatomical Source","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Head & Neck","Prostate","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Head & Neck","Prostate","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"],"x":[502,534,597,1496,1881,3101,3650,9021,12557],"orientation":"h","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":["1.4%","1.5%","1.7%","4.3%","5.4%","8.9%","10.4%","25.8%","35.9%"],"textposition":["outside","outside","outside","outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Head & Neck<\/b><br>WSI Files:    502<br>Patients:    77<br>Percentage: 1.4%","<b>Prostate<\/b><br>WSI Files:    534<br>Patients:    45<br>Percentage: 1.5%","<b>Bone/Joint<\/b><br>WSI Files:    597<br>Patients:    96<br>Percentage: 1.7%","<b>Breast<\/b><br>WSI Files:  1,496<br>Patients:    62<br>Percentage: 4.3%","<b>Other<\/b><br>WSI Files:  1,881<br>Patients:   191<br>Percentage: 5.4%","<b>Gastrointestinal<\/b><br>WSI Files:  3,101<br>Patients:   989<br>Percentage: 8.9%","<b>Lymph Node<\/b><br>WSI Files:  3,650<br>Patients:   483<br>Percentage: 10.4%","<b>Slides/Blocks/Other<\/b><br>WSI Files:  9,021<br>Patients:   595<br>Percentage: 25.8%","<b>Lung/Thorax<\/b><br>WSI Files: 12,557<br>Patients: 1,114<br>Percentage: 35.9%"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div id="mcspuraefx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mcspuraefx table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#mcspuraefx thead, #mcspuraefx tbody, #mcspuraefx tfoot, #mcspuraefx tr, #mcspuraefx td, #mcspuraefx th {
+  border-style: none;
+}
+
+#mcspuraefx p {
+  margin: 0;
+  padding: 0;
+}
+
+#mcspuraefx .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#mcspuraefx .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mcspuraefx .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mcspuraefx .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#mcspuraefx .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#mcspuraefx .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#mcspuraefx .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#mcspuraefx .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#mcspuraefx .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#mcspuraefx .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#mcspuraefx .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mcspuraefx .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mcspuraefx .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mcspuraefx .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#mcspuraefx .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mcspuraefx .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#mcspuraefx .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#mcspuraefx .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#mcspuraefx .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mcspuraefx .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#mcspuraefx .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mcspuraefx .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#mcspuraefx .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mcspuraefx .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mcspuraefx .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mcspuraefx .gt_left {
+  text-align: left;
+}
+
+#mcspuraefx .gt_center {
+  text-align: center;
+}
+
+#mcspuraefx .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mcspuraefx .gt_font_normal {
+  font-weight: normal;
+}
+
+#mcspuraefx .gt_font_bold {
+  font-weight: bold;
+}
+
+#mcspuraefx .gt_font_italic {
+  font-style: italic;
+}
+
+#mcspuraefx .gt_super {
+  font-size: 65%;
+}
+
+#mcspuraefx .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#mcspuraefx .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#mcspuraefx .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#mcspuraefx .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#mcspuraefx .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#mcspuraefx .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#mcspuraefx .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#mcspuraefx .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#mcspuraefx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="source_group" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Specimen Source (Grouped)</th>
+<th id="image_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of WSI Files</th>
+<th id="patient_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of Patients</th>
+<th id="percentage" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Percentage (%)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Lung/Thorax</td>
+<td class="gt_row gt_right" headers="image_count">12,557</td>
+<td class="gt_row gt_right" headers="patient_count">1,114</td>
+<td class="gt_row gt_right" headers="percentage">36</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Slides/Blocks/Other</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">9,021</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">595</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">26</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Lymph Node</td>
+<td class="gt_row gt_right" headers="image_count">3,650</td>
+<td class="gt_row gt_right" headers="patient_count">483</td>
+<td class="gt_row gt_right" headers="percentage">10</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Gastrointestinal</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">3,101</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">989</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">9</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Other</td>
+<td class="gt_row gt_right" headers="image_count">1,881</td>
+<td class="gt_row gt_right" headers="patient_count">191</td>
+<td class="gt_row gt_right" headers="percentage">5</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Breast</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">1,496</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">62</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">4</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Bone/Joint</td>
+<td class="gt_row gt_right" headers="image_count">597</td>
+<td class="gt_row gt_right" headers="patient_count">96</td>
+<td class="gt_row gt_right" headers="percentage">2</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Prostate</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">534</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">45</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">2</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Head &amp; Neck</td>
+<td class="gt_row gt_right" headers="image_count">502</td>
+<td class="gt_row gt_right" headers="patient_count">77</td>
+<td class="gt_row gt_right" headers="percentage">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Kidney</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">348</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">27</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Brain/CNS</td>
+<td class="gt_row gt_right" headers="image_count">336</td>
+<td class="gt_row gt_right" headers="patient_count">42</td>
+<td class="gt_row gt_right" headers="percentage">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Gynecologic</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">325</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">46</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Liver</td>
+<td class="gt_row gt_right" headers="image_count">266</td>
+<td class="gt_row gt_right" headers="patient_count">23</td>
+<td class="gt_row gt_right" headers="percentage">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Thyroid/Parathyroid</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">197</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">13</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Cardiovascular</td>
+<td class="gt_row gt_right" headers="image_count">152</td>
+<td class="gt_row gt_right" headers="patient_count">33</td>
+<td class="gt_row gt_right" headers="percentage">0</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="4" class="gt_footnote">Distribution of whole slide image files by specimen source (grouped by anatomical region)</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="slides-per-specimen-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="slides-per-specimen-distribution">Slides per Specimen Distribution</h4>
+<p>There are <strong>4,195</strong> unique specimens (accessions) across <strong>1,834</strong> patients, with a median of <strong>6</strong> slides per specimen.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Summary Table</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e4a557d47a04e026e4af" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-e4a557d47a04e026e4af">{"x":{"visdat":{"17a5c4c549903":["function () ","plotlyVisDat"]},"cur_data":"17a5c4c549903","attrs":{"17a5c4c549903":{"x":{},"y":{},"marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","name":"Specimens","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"},"17a5c4c549903.1":{"x":{},"y":{},"marker":{"color":"#89C4E8","line":{"color":"#89C4E8","width":0.5},"size":6},"text":"","textposition":"none","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"skip","name":"Trend","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","mode":"lines+markers","line":{"color":"#89C4E8","width":2},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":{"text":"Distribution of Slides per Specimen","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of Slides per Specimen","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Specimens","tickformat":","},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"],"y":[561,1397,1189,716,310,22],"marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":["13.4%","33.3%","28.3%","17.1%","7.4%","0.5%"],"textposition":["outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>1 slide<\/b><br>Specimens:   561<br>Patients: 313<br>Percentage: 13.4%","<b>2-5 slides<\/b><br>Specimens: 1,397<br>Patients: 843<br>Percentage: 33.3%","<b>6-10 slides<\/b><br>Specimens: 1,189<br>Patients: 900<br>Percentage: 28.3%","<b>11-20 slides<\/b><br>Specimens:   716<br>Patients: 583<br>Percentage: 17.1%","<b>21-50 slides<\/b><br>Specimens:   310<br>Patients: 285<br>Percentage: 7.4%","<b>50+ slides<\/b><br>Specimens:    22<br>Patients:  22<br>Percentage: 0.5%"],"hoverinfo":["text","text","text","text","text","text"],"name":"Specimens","type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"],"y":[561,1397,1189,716,310,22],"marker":{"color":"#89C4E8","line":{"color":"#89C4E8","width":0.5},"size":6},"text":["","","","","",""],"textposition":["none","none","none","none","none","none"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>1 slide<\/b><br>Specimens:   561<br>Patients: 313<br>Percentage: 13.4%","<b>2-5 slides<\/b><br>Specimens: 1,397<br>Patients: 843<br>Percentage: 33.3%","<b>6-10 slides<\/b><br>Specimens: 1,189<br>Patients: 900<br>Percentage: 28.3%","<b>11-20 slides<\/b><br>Specimens:   716<br>Patients: 583<br>Percentage: 17.1%","<b>21-50 slides<\/b><br>Specimens:   310<br>Patients: 285<br>Percentage: 7.4%","<b>50+ slides<\/b><br>Specimens:    22<br>Patients:  22<br>Percentage: 0.5%"],"hoverinfo":["skip","skip","skip","skip","skip","skip"],"name":"Trend","type":"scatter","mode":"lines+markers+text","line":{"color":"#89C4E8","width":2},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-37adbd3bba31d8ef9a78" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-37adbd3bba31d8ef9a78">{"x":{"filter":"none","vertical":false,"data":[["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"],[561,1397,1189,716,310,22],[313,843,900,583,285,22],[13.4,33.3,28.3,17.1,7.4,0.5]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Slides per Specimen<\/th>\n      <th>Number of Specimens<\/th>\n      <th>Number of Patients<\/th>\n      <th>Percentage (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"name":"slide_range","targets":0},{"name":"specimen_count","targets":1},{"name":"patient_count","targets":2},{"name":"percentage","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="thoracic-tumor-board-patients" class="level2">
+<h2 class="anchored" data-anchor-id="thoracic-tumor-board-patients">Thoracic Tumor Board Patients</h2>
+<p>Thoracic tumor board patients are identified by cross-referencing visit records containing “tumor board” with patients who have a thoracic cancer diagnosis (lung, bronchus, or thymus) in the Stanford Cancer Registry (NeuralFrame). This section examines the overlap between these patients and the whole slide imaging dataset.</p>
+<p>Of the <strong>3,013</strong> thoracic tumor board patients, <strong>730</strong> (<strong>24.2%</strong>) have associated WSI files.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Summary Table</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false" href="">Specimen Type</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-70582cfd8ff3fd62913d" style="width:100%;height:390px;"></div>
+<script type="application/json" data-for="htmlwidget-70582cfd8ff3fd62913d">{"x":{"visdat":{"17a5c7ec49d28":["function () ","plotlyVisDat"]},"cur_data":"17a5c7ec49d28","attrs":{"17a5c7ec49d28":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":160,"t":25,"r":60},"title":{"text":"WSI Files by Source — Thoracic Tumor Board Patients","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Thyroid/Parathyroid","Cardiovascular","Brain/CNS","Gynecologic","Liver","Prostate","Kidney","Head & Neck","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Thyroid/Parathyroid","Cardiovascular","Brain/CNS","Gynecologic","Liver","Prostate","Kidney","Head & Neck","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"],"x":[59,79,156,184,187,204,208,277,326,397,967,1383,1477,3803,4940],"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":["0.4%","0.5%","1.1%","1.3%","1.3%","1.4%","1.4%","1.9%","2.2%","2.7%","6.6%","9.4%","10.1%","26%","33.7%"],"textposition":["outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Thyroid/Parathyroid<\/b><br>WSI Files:    59<br>Patients:   7<br>Percentage: 0.4%","<b>Cardiovascular<\/b><br>WSI Files:    79<br>Patients:  16<br>Percentage: 0.5%","<b>Brain/CNS<\/b><br>WSI Files:   156<br>Patients:  18<br>Percentage: 1.1%","<b>Gynecologic<\/b><br>WSI Files:   184<br>Patients:  27<br>Percentage: 1.3%","<b>Liver<\/b><br>WSI Files:   187<br>Patients:  15<br>Percentage: 1.3%","<b>Prostate<\/b><br>WSI Files:   204<br>Patients:  19<br>Percentage: 1.4%","<b>Kidney<\/b><br>WSI Files:   208<br>Patients:  16<br>Percentage: 1.4%","<b>Head & Neck<\/b><br>WSI Files:   277<br>Patients:  40<br>Percentage: 1.9%","<b>Bone/Joint<\/b><br>WSI Files:   326<br>Patients:  54<br>Percentage: 2.2%","<b>Breast<\/b><br>WSI Files:   397<br>Patients:  16<br>Percentage: 2.7%","<b>Other<\/b><br>WSI Files:   967<br>Patients:  95<br>Percentage: 6.6%","<b>Gastrointestinal<\/b><br>WSI Files: 1,383<br>Patients: 419<br>Percentage: 9.4%","<b>Lymph Node<\/b><br>WSI Files: 1,477<br>Patients: 170<br>Percentage: 10.1%","<b>Slides/Blocks/Other<\/b><br>WSI Files: 3,803<br>Patients: 247<br>Percentage: 26%","<b>Lung/Thorax<\/b><br>WSI Files: 4,940<br>Patients: 448<br>Percentage: 33.7%"],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div id="ueagepxnry" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ueagepxnry table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ueagepxnry thead, #ueagepxnry tbody, #ueagepxnry tfoot, #ueagepxnry tr, #ueagepxnry td, #ueagepxnry th {
+  border-style: none;
+}
+
+#ueagepxnry p {
+  margin: 0;
+  padding: 0;
+}
+
+#ueagepxnry .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #8B0000;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ueagepxnry .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ueagepxnry .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ueagepxnry .gt_heading {
+  background-color: #FFFFFF;
+  text-align: left;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ueagepxnry .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ueagepxnry .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ueagepxnry .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ueagepxnry .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ueagepxnry .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ueagepxnry .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ueagepxnry .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ueagepxnry .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ueagepxnry .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ueagepxnry .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ueagepxnry .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ueagepxnry .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ueagepxnry .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ueagepxnry .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ueagepxnry .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ueagepxnry .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ueagepxnry .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ueagepxnry .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ueagepxnry .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ueagepxnry .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ueagepxnry .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ueagepxnry .gt_left {
+  text-align: left;
+}
+
+#ueagepxnry .gt_center {
+  text-align: center;
+}
+
+#ueagepxnry .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ueagepxnry .gt_font_normal {
+  font-weight: normal;
+}
+
+#ueagepxnry .gt_font_bold {
+  font-weight: bold;
+}
+
+#ueagepxnry .gt_font_italic {
+  font-style: italic;
+}
+
+#ueagepxnry .gt_super {
+  font-size: 65%;
+}
+
+#ueagepxnry .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ueagepxnry .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ueagepxnry .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ueagepxnry .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ueagepxnry .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ueagepxnry .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ueagepxnry .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ueagepxnry .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ueagepxnry div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
+</tr>
+<tr class="odd gt_col_headings">
+<th id="source_group" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Specimen Source (Grouped)</th>
+<th id="image_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of WSI Files</th>
+<th id="patient_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of Patients</th>
+<th id="percentage" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Percentage (%)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Lung/Thorax</td>
+<td class="gt_row gt_right" headers="image_count">4,940</td>
+<td class="gt_row gt_right" headers="patient_count">448</td>
+<td class="gt_row gt_right" headers="percentage">34</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Slides/Blocks/Other</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">3,803</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">247</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">26</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Lymph Node</td>
+<td class="gt_row gt_right" headers="image_count">1,477</td>
+<td class="gt_row gt_right" headers="patient_count">170</td>
+<td class="gt_row gt_right" headers="percentage">10</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Gastrointestinal</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">1,383</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">419</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">9</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Other</td>
+<td class="gt_row gt_right" headers="image_count">967</td>
+<td class="gt_row gt_right" headers="patient_count">95</td>
+<td class="gt_row gt_right" headers="percentage">7</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Breast</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">397</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">16</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">3</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Bone/Joint</td>
+<td class="gt_row gt_right" headers="image_count">326</td>
+<td class="gt_row gt_right" headers="patient_count">54</td>
+<td class="gt_row gt_right" headers="percentage">2</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Head &amp; Neck</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">277</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">40</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">2</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Kidney</td>
+<td class="gt_row gt_right" headers="image_count">208</td>
+<td class="gt_row gt_right" headers="patient_count">16</td>
+<td class="gt_row gt_right" headers="percentage">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Prostate</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">204</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">19</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Liver</td>
+<td class="gt_row gt_right" headers="image_count">187</td>
+<td class="gt_row gt_right" headers="patient_count">15</td>
+<td class="gt_row gt_right" headers="percentage">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Gynecologic</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">184</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">27</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Brain/CNS</td>
+<td class="gt_row gt_right" headers="image_count">156</td>
+<td class="gt_row gt_right" headers="patient_count">18</td>
+<td class="gt_row gt_right" headers="percentage">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="source_group">Cardiovascular</td>
+<td class="gt_row gt_right gt_striped" headers="image_count">79</td>
+<td class="gt_row gt_right gt_striped" headers="patient_count">16</td>
+<td class="gt_row gt_right gt_striped" headers="percentage">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="source_group">Thyroid/Parathyroid</td>
+<td class="gt_row gt_right" headers="image_count">59</td>
+<td class="gt_row gt_right" headers="patient_count">7</td>
+<td class="gt_row gt_right" headers="percentage">0</td>
+</tr>
+</tbody><tfoot class="gt_footnotes">
+<tr class="odd">
+<td colspan="4" class="gt_footnote">WSI file distribution for thoracic tumor board patients by specimen source</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-011ba08e0d49f086ae6c" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-011ba08e0d49f086ae6c">{"x":{"visdat":{"17a5c5335e816":["function () ","plotlyVisDat"]},"cur_data":"17a5c5335e816","attrs":{"17a5c5335e816":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":180,"t":25,"r":60},"title":{"text":"WSI Files by Specimen Type — Thoracic TB Patients","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Bone","Unknown","Other (Legacy Ordering only)","Tissue/Bone - Excision/Resection","Existing Patient Material","Tissue/Bone - Biopsy"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Bone","Unknown","Other (Legacy Ordering only)","Tissue/Bone - Excision/Resection","Existing Patient Material","Tissue/Bone - Biopsy"],"x":[23,48,1164,1801,2647,8964],"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":["0.2%","0.3%","7.9%","12.3%","18.1%","61.2%"],"textposition":["outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Bone<\/b><br>WSI Files:    23<br>Patients:   6<br>Percentage: 0.2%","<b>Unknown<\/b><br>WSI Files:    48<br>Patients:   5<br>Percentage: 0.3%","<b>Other (Legacy Ordering only)<\/b><br>WSI Files: 1,164<br>Patients:  79<br>Percentage: 7.9%","<b>Tissue/Bone - Excision/Resection<\/b><br>WSI Files: 1,801<br>Patients: 128<br>Percentage: 12.3%","<b>Existing Patient Material<\/b><br>WSI Files: 2,647<br>Patients: 172<br>Percentage: 18.1%","<b>Tissue/Bone - Biopsy<\/b><br>WSI Files: 8,964<br>Patients: 533<br>Percentage: 61.2%"],"hoverinfo":["text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="source-codes" class="level3">
+<h3 class="anchored" data-anchor-id="source-codes">Source Codes:</h3>
+<p>The source codes for this page can be found <a href="https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/may_2026/whole_slide_imaging.qmd">here</a>, and the SQL queries that support the metrics can be found <a href="https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/feb26">here</a>.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

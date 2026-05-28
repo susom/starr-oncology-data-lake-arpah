@@ -1583,6 +1583,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#vista-cohort-patient-inclusion-criteria" id="toc-vista-cohort-patient-inclusion-criteria" class="nav-link active" data-scroll-target="#vista-cohort-patient-inclusion-criteria">VISTA Cohort: Patient Inclusion Criteria</a></li>
+  <li><a href="#data-architecture-privacy-and-security" id="toc-data-architecture-privacy-and-security" class="nav-link" data-scroll-target="#data-architecture-privacy-and-security">Data Architecture, Privacy and Security</a></li>
   <li><a href="#dataset-overview" id="toc-dataset-overview" class="nav-link" data-scroll-target="#dataset-overview">Dataset Overview</a>
   <ul>
   <li><a href="#oncology-omop" id="toc-oncology-omop" class="nav-link" data-scroll-target="#oncology-omop">Oncology-OMOP</a></li>
@@ -1623,7 +1624,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Welcome to the VISTA Oncology Data Lake project. This datalake brings together data from different clinical modalities and sources including harmonized and standardized Electronic Health Records Data in the OMOP common Data Model, data from the Stanford Cancer Registry, Genomic Data from Philips ISPM, additional STAMP addon metadata with more data types coming soon. This website provides documentation for the datasets released as part of the project.</p>
+<p>The Virtual Intelligence for Specialized Tumor Board Assessment (VISTA) Oncology Data Lake is a multi-modal data repository designed to integrate diverse clinical modalities, including clinical notes, genomic, and imaging data to facilitate oncology research and artificial intelligence modeling. To further bridge the fragmentation of care across different clinics, VISTA Data Lake has also integrated the Stanford Cancer Registry.</p>
+<p>The data lake is built by Stanford Medicine’s honest broker and research infrastructure team, Research Technology. The technologies and methods used by Research Technology in the development of the VISTA data lake rely on over two decades of experience in developing and managing research clinical data warehouses (see <a href="https://starr.stanford.edu/publications-0">publications</a>) for the Stanford Medicine community.</p>
+<p>The source EHR data is from the three hospital ecosystems, Stanford Health Care and Stanford Children’s Hospital (fka Lucile Packard Children’s Hospital), and Stanford Healthcare Tri-Valley, along with a network of more than a hundred pediatric and adult care clinics affiliated with University HealthCare Alliance and Packard Children’s Health Alliance. The ecosystems use two independent Epic instances for patient care and share their Epic Clarity data with Research Technology. One Clarity instance contains data from Stanford Health Care, Stanford Health Care Tri-Valley (includes pediatric population), and the University Healthcare Alliance. The other Clarity instance contains data from Stanford Children’s Health and the Packard Children’s Health Alliance (the adult population includes mothers).</p>
+<p>The clinical applications for non-Epic sources, such as the Radiology DICOMs, the Whole Slide Imaging data, and the genetic testing results, are shared across the hospital ecosystem i.e., Research Technology needs to process data from one Radiology PACS system to get the DICOMs for the entire cohort.</p>
+<p>The Stanford Cancer Registry is a shared system across the hospital ecosystems. The data is managed on a vendor platform, Neuralframe KACI. NeuralFrame sends monthly snapshots of the database to Research Technology.</p>
+<p>The VISTA dataset has ~222K patients. Approximately 12% of the SCR patients have a Tumor Board encounter.</p>
 <section id="vista-cohort-patient-inclusion-criteria" class="level3">
 <h3 class="anchored" data-anchor-id="vista-cohort-patient-inclusion-criteria">VISTA Cohort: Patient Inclusion Criteria</h3>
 <p>All patients included in VISTA must be present in <strong>STARR-OMOP</strong>, Stanford’s research-standard representation of the electronic health record (EHR), <strong>and</strong> have documented evidence of cancer-related care or review within the Stanford health system, defined by at least one of the following:</p>
@@ -1638,6 +1644,13 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Non-Analytic cases - included since 2024, which capture additional cancer-related encounters such as patients treated at Stanford only for recurrence, patients followed at Stanford and found to be cancer-free, and patients neither diagnosed nor treated at Stanford (e.g., consultation-only or end-of-life care).</p></li>
 </ul>
 <p>*Not all EHR data is allowed for research- for more details, see the <a href="https://starr.stanford.edu/data-types/electronic-health-record">STARR Electronic Health Record documentation</a>.</p>
+</section>
+<section id="data-architecture-privacy-and-security" class="level3">
+<h3 class="anchored" data-anchor-id="data-architecture-privacy-and-security">Data Architecture, Privacy and Security</h3>
+<p>The VISTA data lake uses Google Cloud Platform to develop and deliver the assets. The datasets are made available as BigQuery datasets. Google BigQuery is a fully managed, serverless, HIPAA-compliant enterprise data platform optimized for high-performance analytics on massive, multimodal biomedical datasets. Using a decoupled storage-and-compute architecture, enables investigators to execute complex SQL queries in seconds.</p>
+<p>The two independent BigQuery datasets, EHR and Registry, are linked together by the unique patient identifier (Medical Record Number AND Date of Birth). The clinical dataset is transformed from the two Epic Clarity models to the unified Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM). The data includes Epic modules such as Epic Genetics, Epic Beaker, and Epic Beacon. Metadata from DICOMs and WSI are included in custom tables in the OMOP. Best practices of OMOP transformation are followed. The registry data has minimal ETL to preserve the original California Cancer Registry data model.</p>
+<p>The data is refreshed quarterly. Each release is accompanied by updated metrics and other release specific information on this VISTA Data Lake github. The github is also used to host data dictionaries, and metadata such as gene lists specific to each version of the genetic test.</p>
+<p>The datasets are PHI scrubbed using Safe Harbor approaches. Specifically, we replace PHI with surrogates. In order to maintain the patient’s timeline, the dates, including date of birth, date of death, and service dates, are shifted. The shift is unique to the patient (across all datasets and data types) and is plus or minus 30 days, but never zero. Due to the presence of large amounts of unstructured data in the VISTA data lake, including clinical notes and DICOMs, Stanford University Privacy Office has determined that additional Expert Determination is needed if the datasets need to be declared as de-identified. Currently, the security requirements are similar to NIH dbGaP datasets.</p>
 </section>
 <section id="dataset-overview" class="level3">
 <h3 class="anchored" data-anchor-id="dataset-overview">Dataset Overview</h3>
@@ -1739,6 +1752,7 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="./aug_2025/released_datasets.html">August 2025</a></li>
 <li><a href="./nov_2025/released_datasets.html">November 2025</a></li>
 <li><a href="./feb_2026/released_datasets.html">February 2026</a></li>
+<li><a href="may_2026/released_datasets.qmd">May 2026</a></li>
 </ul>
 </section>
 <section id="data-privacy-and-security" class="level2">
