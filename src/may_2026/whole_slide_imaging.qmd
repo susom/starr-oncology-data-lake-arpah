@@ -6,6 +6,7 @@ execute:
 
 ```{r setup, include=FALSE}
 rm(list=ls())
+library(DT)
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2026/sql_params.yml"
 ```
