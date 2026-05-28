@@ -3,7 +3,17 @@ title: "About"
 back-to-top-navigation: false
 ---
 
-Welcome to the VISTA Oncology Data Lake project. This datalake brings together data from different clinical modalities and sources including harmonized and standardized Electronic Health Records Data in the OMOP common Data Model, data from the Stanford Cancer Registry, Genomic Data from Philips ISPM, additional STAMP addon metadata with more data types coming soon. This website provides documentation for the datasets released as part of the project. 
+The Virtual Intelligence for Specialized Tumor Board Assessment (VISTA) Oncology Data Lake is a multi-modal data repository designed to integrate diverse clinical modalities, including clinical notes, genomic, and imaging data to facilitate oncology research and artificial intelligence modeling. To further bridge the fragmentation of care across different clinics, VISTA Data Lake has also integrated the Stanford Cancer Registry. 
+
+The data lake is built by Stanford Medicine's honest broker and research infrastructure team, Research Technology. The technologies and methods used by Research Technology in the development of the VISTA data lake rely on over two decades of experience in developing and managing research clinical data warehouses (see [publications](https://starr.stanford.edu/publications-0)) for the Stanford Medicine community.   
+
+The source EHR data is from the three hospital ecosystems, Stanford Health Care and Stanford Children’s Hospital (fka Lucile Packard Children’s Hospital), and Stanford Healthcare Tri-Valley, along with a network of more than a hundred pediatric and adult care clinics affiliated with University HealthCare Alliance and Packard Children’s Health Alliance. The ecosystems use two independent Epic instances for patient care and share their Epic Clarity data with Research Technology.  One Clarity instance contains data from Stanford Health Care, Stanford Health Care Tri-Valley (includes pediatric population), and the University Healthcare Alliance. The other Clarity instance contains data from Stanford Children’s Health and the Packard Children’s Health Alliance (the adult population includes mothers).
+
+The clinical applications for non-Epic sources, such as the Radiology DICOMs, the Whole Slide Imaging data, and the genetic testing results, are shared across the hospital ecosystem i.e., Research Technology needs to process data from one Radiology PACS system to get the DICOMs for the entire cohort. 
+
+The Stanford Cancer Registry is a shared system across the hospital ecosystems. The data is managed on a vendor platform, Neuralframe KACI. NeuralFrame sends monthly snapshots of the database to Research Technology. 
+
+The VISTA dataset has ~222K patients. Approximately 12% of the SCR patients have a Tumor Board encounter.  
 
 ### VISTA Cohort: Patient Inclusion Criteria
 All patients included in VISTA must be present in **STARR-OMOP**, Stanford’s research-standard representation of the electronic health record (EHR), **and** have documented evidence of cancer-related care or review within the Stanford health system, defined by at least one of the following: 
@@ -23,6 +33,16 @@ Stanford’s Cancer Registry (SCR), currently managed by Neuralframe KACI, inclu
 - Non-Analytic cases -  included since 2024, which capture additional cancer-related encounters such as patients treated at Stanford only for recurrence, patients followed at Stanford and found to be cancer-free, and patients neither diagnosed nor treated at Stanford (e.g., consultation-only or end-of-life care). 
 
 *Not all EHR data is allowed for research- for more details, see the [STARR Electronic Health Record documentation](https://starr.stanford.edu/data-types/electronic-health-record).
+
+### Data Architecture, Privacy and Security
+
+The VISTA data lake uses Google Cloud Platform to develop and deliver the assets. The datasets are made available as BigQuery datasets. Google BigQuery is a fully managed, serverless, HIPAA-compliant enterprise data platform optimized for high-performance analytics on massive, multimodal biomedical datasets. Using a decoupled storage-and-compute architecture, enables investigators to execute complex SQL queries in seconds.
+
+The two independent BigQuery datasets, EHR and Registry, are linked together by the unique patient identifier (Medical Record Number AND Date of Birth). The clinical dataset is transformed from the two Epic Clarity models to the unified Observational Medical Outcomes Partnership (OMOP) Common Data Model (CDM). The data includes Epic modules such as Epic Genetics, Epic Beaker, and Epic Beacon. Metadata from DICOMs and WSI are included in custom tables in the OMOP. Best practices of OMOP transformation are followed. The registry data has minimal ETL to preserve the original California Cancer Registry data model.
+
+The data is refreshed quarterly. Each release is accompanied by updated metrics and other release specific information on this VISTA Data Lake github. The github is also used to host data dictionaries, and metadata such as gene lists specific to each version of the genetic test.  
+
+The datasets are PHI scrubbed using Safe Harbor approaches. Specifically, we replace PHI with surrogates. In order to maintain the patient’s timeline, the dates, including date of birth, date of death, and service dates, are shifted. The shift is unique to the patient (across all datasets and data types) and is plus or minus 30 days, but never zero. Due to the presence of large amounts of unstructured data in the VISTA data lake, including clinical notes and DICOMs, Stanford University Privacy Office has determined that additional Expert Determination is needed if the datasets need to be declared as de-identified. Currently, the security requirements are similar to NIH dbGaP datasets. 
 
 ### Dataset Overview
 
@@ -121,7 +141,7 @@ We periodically release updated versions of our datasets to ensure that research
 * [August 2025](aug_2025/released_datasets.qmd)
 * [November 2025](nov_2025/released_datasets.qmd)
 * [February 2026](feb_2026/released_datasets.qmd)
-
+* [May 2026](may_2026/released_datasets.qmd)
 
 ## Data Privacy and Security
 
