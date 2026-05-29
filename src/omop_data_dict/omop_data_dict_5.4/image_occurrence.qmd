@@ -14,7 +14,7 @@ Clinical Data Table (not yet a Standard)
 | visit_occurrence_id                                 | INTEGER | No         | Yes   | Sub with Stable between Data Refreshes                    |
 | anatomic_site_source_value                          | STRING  | No         |       | Whitelist                 |
 | wadors_uri                                          | STRING  | No         |    Yes   | Del                       |
-| local_path                                          | STRING  | No         |   Yes    | Del                       |
+| local_path                                          | STRING  | No         |   Yes    |                     |
 | image_occurrence_date                               | DATE    | Yes        |     Yes  | Jitter                    |
 | image_occurrence_datetime                           | DATETIME| Yes        |     Yes  | Jitter                      |
 | image_study_uid                                     | STRING  | Yes        |     Yes  | Hash                      |

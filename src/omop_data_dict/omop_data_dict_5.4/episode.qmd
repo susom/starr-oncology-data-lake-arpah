@@ -6,21 +6,21 @@ Clinical Data Tables
 
 ### Table Columns
 
-| field                                               | type      | required   | phi   |   phi scrubbing operation |
-|:----------------------------------------------------|:----------|:-----------|:------|--------------------------:|
-| episode_id                                          | INTEGER   | Yes        |       |                        |
-| person_id                                           | INTEGER   | Yes        |    Yes   | Sub with Stable between Data Refreshes                       |
-| episode_concept_id                                  | INTEGER   | Yes        |       |                        |
-| episode_start_date                                  | DATE      | Yes        |       |                        |
-| episode_start_datetime                              | TIMESTAMP | No         |       |                        |
-| episode_end_date                                    | DATE      | No         |       |                        |
-| episode_end_datetime                                | TIMESTAMP | No         |       |                        |
-| episode_parent_id                                   | INTEGER   | No         |       |                        |
-| episode_number                                      | INTEGER   | No         |       |                        |
-| episode_object_concept_id                           | INTEGER   | Yes        |       |                        |
-| episode_type_concept_id                             | INTEGER   | Yes        |       |                        |
-| episode_source_value                                | STRING    | No         |       |                        |
-| episode_source_concept_id                           | INTEGER   | No         |       |                        |
+| field                                               | type      | required   | phi   | phi scrubbing operation |
+|:----------------------------------------------------|:----------|:-----------|:------|:------------------------|
+| episode_id                                          | INT64     | Yes        | Yes   | Sub Not Stable between Data Refreshes                       |
+| person_id                                           | INT64     | Yes        | Yes   | Sub with Stable between Data Refreshes |
+| episode_concept_id                                  | INT64     | Yes        |       |                     |
+| episode_start_date                                  | DATE      | Yes        | Yes   | jitter               |
+| episode_start_datetime                              | DATETIME  | No         | Yes   | jitter            |
+| episode_end_date                                    | DATE      | No         | Yes   | jitter                 |
+| episode_end_datetime                                | DATETIME  | No         | Yes   | jitter            |
+| episode_parent_id                                   | INT64     | No         | Yes   | Sub Not Stable between Data Refreshes                       |
+| episode_number                                      | INT64     | No         |    No   |                   |
+| episode_object_concept_id                           | INT64     | Yes        |    No   |                     |
+| episode_type_concept_id                             | INT64     | Yes        |    No   |                      |
+| episode_source_value                                | STRING    | No         |    No   |                      |
+| episode_source_concept_id                           | INT64     | No         |    No   |                     |
 
 
 :  {.hover .responsive .sm}

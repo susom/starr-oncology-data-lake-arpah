@@ -70,7 +70,66 @@ date_min <- format(min(temporal_data$date), "%B %Y")
 date_max <- format(max(temporal_data$date), "%B %Y")
 ```
 
+### Temporal Trends
+
 The WSI files in this dataset span procedures from **`r date_min`** to **`r date_max`**.
+
+```{r temporal_trends_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
+library(plotly)
+
+# Consolidate all months before 2023 into a single "Pre-2023" bar
+pre_2023 <- temporal_data %>%
+  filter(date < as.Date("2023-01-01")) %>%
+  summarise(
+    image_count = sum(image_count),
+    patient_count = sum(patient_count),
+    .groups = "drop"
+  ) %>%
+  mutate(date = as.Date("2023-01-01"), label = "Pre-2023")
+
+post_2023 <- temporal_data %>%
+  filter(date >= as.Date("2024-01-01")) %>%
+  mutate(label = format(date, "%b %Y"))
+
+plot_data_temporal <- bind_rows(pre_2023, post_2023) %>%
+  arrange(date) %>%
+  mutate(label = factor(label, levels = label))
+
+plot_ly(plot_data_temporal, x = ~label) %>%
+  add_bars(
+    y = ~image_count,
+    name = "WSI Files",
+    marker = list(color = "#BAE1FF", line = list(color = "#89C4E8", width = 0.5)),
+    hovertext = ~paste0(
+      label, "<br>",
+      "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+      "Patients: ", format(patient_count, big.mark = ",")
+    ),
+    hoverinfo = "text"
+  ) %>%
+  add_lines(
+    y = ~patient_count,
+    name = "Patients",
+    yaxis = "y2",
+    line = list(color = "#FF6B6B", width = 3),
+    marker = list(color = "#FF6B6B", size = 4),
+    hoverinfo = "skip"
+  ) %>%
+  layout(
+    title = list(text = "WSI Files and Patients Over Time", font = list(size = 16)),
+    xaxis = list(title = "", tickangle = -45, tickfont = list(size = 10)),
+    yaxis = list(title = "Number of WSI Files", tickformat = ","),
+    yaxis2 = list(
+      title = "Number of Patients",
+      overlaying = "y",
+      side = "right",
+      tickformat = ","
+    ),
+    legend = list(orientation = "h", x = 0.3, y = -0.2),
+    margin = list(b = 100),
+    hoverlabel = list(bgcolor = "white", font = list(size = 12))
+  )
+```
 
 ```{r specimen_types, message=FALSE, warning=FALSE, results='hide'}
 #### Specimen Type Distribution
@@ -101,50 +160,134 @@ sql_spec_sources <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/
 specimen_sources <- fetch_data_from_sql_file(sql_spec_sources, yaml_file_path, release = "may_2026")
 ```
 
+
+
+## Specimen / Block / Slide Distribution
+
+In pathology, each record in the WSI table corresponds to a single digitized glass slide. Understanding the hierarchy above each slide is important for interpreting the data:
+
+- **Accession**: represents a single clinical event (a patient visit or referral that triggers laboratory processing). Each accession contains one or more specimens.
+- **Specimen**: a distinct tissue sample taken from a specific anatomical site during that clinical event.
+- **Block**: a paraffin-embedded tissue section cut from a specimen, preserving the tissue for long-term storage and repeated sectioning.
+- **Slide**: a thin tissue section cut from a block and stained (typically H&E) for diagnostic assessment. Each slide is digitized as a whole slide image (WSI).
+
+The chart and table below show how the data fans out at each level of the hierarchy, aggregated per accession.
+
+
+### Summary by Hierarchy Level 
+::: {.panel-tabset}
+
+
+```{r wsi_specimen_block_slide_data, message=FALSE, warning=FALSE, results='hide'}
+sql_sbs <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_block_slide_counts.sql"
+sbs_data <- fetch_data_from_sql_file(sql_sbs, yaml_file_path, release = "may_2026")
+```
+
+### Summary
+
+```{r wsi_specimen_block_slide, message=FALSE, warning=FALSE}
+# --- Summary: median and total at each hierarchy level ---
+hierarchy_summary <- data.frame(
+  Level = c("Accessions", "Specimens", "Blocks", "Slides", "Files"),
+  Total = c(
+    nrow(sbs_data),
+    sum(sbs_data$specimens),
+    sum(sbs_data$blocks),
+    sum(sbs_data$slides),
+    sum(sbs_data$files)
+  )
+)
+hierarchy_summary$`Median per Accession` <- c(
+  1,
+  median(sbs_data$specimens),
+  median(sbs_data$blocks),
+  median(sbs_data$slides),
+  median(sbs_data$files)
+)
+
+plot_ly(hierarchy_summary,
+        x = ~factor(Level, levels = Level),
+        y = ~Total,
+        type = "bar",
+        text = ~format(Total, big.mark = ","),
+        textposition = "outside",
+        marker = list(color = "#BAE1FF", line = list(color = "#89C4E8", width = 0.5))) %>%
+  layout(
+    title = list(text = "Total Counts by Hierarchy Level", font = list(size = 16)),
+    xaxis = list(title = ""),
+    yaxis = list(title = "Count", tickformat = ","),
+    margin = list(b = 80)
+  )
+```
+
+
+
+### By Specimen
+
+```{r wsi_specimen_dist, message=FALSE, warning=FALSE, results='hide'}
+sql_spec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_distribution.sql"
+spec_data <- fetch_data_from_sql_file(sql_spec, yaml_file_path, release = "may_2026")
+```
+
+```{r wsi_specimen_bar, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+library(ggplot2)
+
+# Top specimen labels by frequency
+top_specimens <- spec_data %>%
+  count(specimen, sort = TRUE) %>%
+  head(9) %>%
+  pull(specimen)
+
+facet_data <- spec_data %>%
+  filter(specimen %in% top_specimens) %>%
+  mutate(specimen = factor(specimen, levels = rev(top_specimens)))
+
+# Compute summary stats per specimen for annotation
+stats <- facet_data %>%
+  group_by(specimen) %>%
+  summarise(
+    n = n(),
+    med = median(num_slides_per_specimen),
+    .groups = "drop"
+  )
+
+ggplot(facet_data, aes(x = specimen, y = num_slides_per_specimen)) +
+  geom_violin(fill = "#BAE1FF", color = "#89C4E8", alpha = 0.8, scale = "width", trim = TRUE) +
+  stat_summary(fun = median, geom = "point", shape = 18, size = 3, color = "#E74C3C") +
+  geom_text(data = stats,
+            aes(x = specimen, y = med,
+                label = paste0("n=", format(n, big.mark = ","), "  med=", med)),
+            hjust = -0.15, size = 4.5, color = "grey30") +
+  coord_flip() +
+  labs(
+    title = "Distribution of Slides per Specimen — by Specimen Label",
+    x = NULL,
+    y = "Number of Slides per Specimen"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(size = 15, face = "bold"),
+    panel.grid.major.y = element_blank()
+  )
+```
+
+
+:::
+
 #### Specimen Source Distribution
 
-The original specimen source field contains over 200 granular anatomical categories. To provide a clearer overview, these have been consolidated into the following groups:
+Each WSI record includes a `specimen_source` field describing the anatomical origin of the tissue (e.g., "lung, right upper lobe", "breast, left, 2 o'clock"). The raw field contains over 200 granular categories, making direct visualization impractical. To summarize, records are grouped by extracting the **first word** of the specimen source and converting it to title case — for example, all entries starting with "lung" are grouped as **Lung**, all starting with "breast" as **Breast**, etc. Sources that don't match a recognized keyword are collected under **Other**. The **Distribution** tab shows the top groups, **Subgroups** provides an interactive sunburst drill-down into the original values within each group, and the **Summary Table** lists all groups and subgroups with counts.
 
-| Group | Includes |
-|-------|----------|
-| **Lung/Thorax** | All lung lobes and lateralities, transbronchial biopsy, trachea, bronchus, pleura, chest wall, mediastinum, paratracheal |
-| **Gastrointestinal** | Esophagus, stomach, intestine (small and large), colon (all segments), rectum, cecum, anus, gallbladder, pancreas, ampulla, bile duct |
-| **Lymph Node** | Lymph node biopsies, dissections, and sentinel nodes (all locations) |
-| **Breast** | Breast tissue (all lateralities and quadrants) |
-| **Head & Neck** | Oral cavity, tongue, nasopharynx, oropharynx, pharynx, larynx, salivary glands, sinuses, ear, nasal cavity, eye, eyelid, mandible, neck, scalp, cheek, tonsil |
-| **Brain/CNS** | Brain (all lobes), brainstem, cerebellum, spinal cord, pituitary gland |
-| **Bone/Joint** | Femur, tibia, rib, vertebra, skull, humerus, scapula, sternum, sacrum, coccyx, pelvic bone, iliac crest, joints, cartilage |
-| **Cardiovascular** | Heart (chambers and valves), aorta, arteries, veins, pericardium, thrombus |
-| **Prostate** | Prostate (all lateralities and biopsy types), periprostatic tissue |
-| **Gynecologic** | Ovary, fallopian tube, uterus, cervix, vulva, vagina, endometrial biopsies, leiomyoma |
-| **Kidney** | Kidney (all lateralities, native and transplant), renal pelvis |
-| **Liver** | Liver (native, transplant, core biopsies) |
-| **Thyroid/Parathyroid** | Thyroid gland (all lateralities), parathyroid |
-| **Slides/Blocks/Other** | Pre-existing slides, blocks, and other prepared specimens |
-| **Other** | Adrenal, bladder, ureter, urethra, skin, soft tissue, muscle, fascia, spleen, omentum, peritoneum, tissue NOS, body fluid, and remaining unclassified sources |
+::: {.panel-tabset}
 
 ```{r specimen_sources_grouped, message=FALSE, warning=FALSE, results='hide'}
 library(dplyr)
 library(stringr)
 
 specimen_sources_grouped <- specimen_sources %>%
-  mutate(source_group = case_when(
-    str_detect(specimen_source, regex("^Lung|Transbronchial|Trachea|Bronchus|^Pleura|^Chest|^Mediastinum|Paratracheal|Hernia, Diaphragmatic", ignore_case = TRUE)) ~ "Lung/Thorax",
-    str_detect(specimen_source, regex("^Breast", ignore_case = TRUE)) ~ "Breast",
-    str_detect(specimen_source, regex("^Brain|Brainstem|Cerebellum|Spinal Cord|Pituitary", ignore_case = TRUE)) ~ "Brain/CNS",
-    str_detect(specimen_source, regex("^Lymph Node|Lymph node", ignore_case = TRUE)) ~ "Lymph Node",
-    str_detect(specimen_source, regex("^Intestine|^Colon|Cecum|Ileostomy|^Rectum|^Stomach|^Esophagus|Gallbladder|Ampulla|Bile Duct|Pancreas|^Anus", ignore_case = TRUE)) ~ "Gastrointestinal",
-    str_detect(specimen_source, regex("^Prostate|Periprostatic", ignore_case = TRUE)) ~ "Prostate",
-    str_detect(specimen_source, regex("^Kidney|Renal", ignore_case = TRUE)) ~ "Kidney",
-    str_detect(specimen_source, regex("^Liver", ignore_case = TRUE)) ~ "Liver",
-    str_detect(specimen_source, regex("^Thyroid|^Parathyroid", ignore_case = TRUE)) ~ "Thyroid/Parathyroid",
-    str_detect(specimen_source, regex("^Ovary|^Uterus|^Uterine|^Vulva|^Vagina|Endometrial|Leiomyoma", ignore_case = TRUE)) ~ "Gynecologic",
-    str_detect(specimen_source, regex("^Heart|^Aorta|^Artery|^Vein|Pericardi|Thrombus|Periaorta", ignore_case = TRUE)) ~ "Cardiovascular",
-    str_detect(specimen_source, regex("^Ear|^Nasal|^Nasopharynx|^Oropharynx|^Pharynx|^Larynx|^Oral|^Tongue|^Sinus|^Salivary|^Tonsil|Parapharyngeal|Vocal Cord|^Mandible|^Cheek|^Scalp|^Neck|^Conjunctiva|Orbit|^Eyelid|^Eye,|^Nose", ignore_case = TRUE)) ~ "Head & Neck",
-    str_detect(specimen_source, regex("^Femur|^Tibia|^Rib|^Vertebra|^Skull|^Clavicle|^Humerus|^Scapula|^Sternum|^Sacrum|^Coccyx|^Pelvic Bone|^Iliac|Femoral Head|^Mastoid|^Bone|Intervertebral|^Joint|^Cartilage", ignore_case = TRUE)) ~ "Bone/Joint",
-    str_detect(specimen_source, regex("Slides/blocks", ignore_case = TRUE)) ~ "Slides/Blocks/Other",
-    TRUE ~ "Other"
-  )) %>%
+  mutate(source_group = str_extract(specimen_source, "^\\w+") %>% str_to_title()) %>%
+  mutate(source_group = ifelse(is.na(source_group), "Other", source_group)) %>%
   group_by(source_group) %>%
   summarise(
     image_count = sum(image_count),
@@ -155,11 +298,11 @@ specimen_sources_grouped <- specimen_sources %>%
   arrange(desc(image_count))
 ```
 
-::: {.panel-tabset}
+
 
 ##### Distribution
 
-```{r specimen_sources_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
+```{r specimen_sources_bar, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
 library(plotly)
 
 # Filter to groups above 1% and order by image_count for display
@@ -188,22 +331,93 @@ plot_ly(plot_data,
         ),
         hoverinfo = "text") %>%
   layout(
-    title = list(
-      text = "Whole Slide Image Files by Anatomical Source",
-      font = list(size = 16)
-    ),
-    xaxis = list(
-      title = "Number of WSI Files",
-      tickformat = ","
-    ),
-    yaxis = list(
-      title = "",
-      tickfont = list(size = 11)
-    ),
+    title = list(text = "WSI Files by Anatomical Source", font = list(size = 16)),
+    xaxis = list(title = "Number of WSI Files", tickformat = ","),
+    yaxis = list(title = "", tickfont = list(size = 11)),
     margin = list(l = 160, r = 60),
-    hoverlabel = list(
-      bgcolor = "white",
-      font = list(size = 12)
+    hoverlabel = list(bgcolor = "white", font = list(size = 12))
+  )
+```
+
+##### Subgroups
+
+```{r specimen_sources_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
+
+# Prepare subgroup data with source_group
+plot_subgroup <- specimen_sources %>%
+  mutate(source_group = str_extract(specimen_source, "^\\w+") %>% str_to_title()) %>%
+  mutate(source_group = ifelse(is.na(source_group), "Other", source_group))
+
+# Keep only groups above 1%
+top_groups <- specimen_sources_grouped %>% filter(percentage > 1) %>% pull(source_group)
+plot_subgroup <- plot_subgroup %>%
+  filter(source_group %in% top_groups)
+
+# Build sunburst data: parent rows (groups) + child rows (individual sources)
+group_totals <- plot_subgroup %>%
+  group_by(source_group) %>%
+  summarise(image_count = sum(image_count), patient_count = sum(patient_count), .groups = "drop") %>%
+  arrange(desc(image_count))
+
+# Assign a pastel color to each group
+pastel_palette <- c(
+  "#BAE1FF", "#BAFFC9", "#FFD6BA", "#E8BAFF", "#FFFFBA",
+  "#FFC8DD", "#BDE0FE", "#C9F2C7", "#FFDAB9", "#D4C5F9",
+  "#FFF3B0", "#FFB7C5", "#A8D8EA", "#B5EAD7", "#FFDAC1"
+)
+group_colors <- setNames(
+  pastel_palette[seq_len(nrow(group_totals))],
+  group_totals$source_group
+)
+
+sunburst_parents <- group_totals %>%
+  transmute(
+    ids = source_group,
+    labels = source_group,
+    parents = "",
+    values = image_count,
+    hover = paste0("<b>", source_group, "</b><br>",
+                   "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+                   "Patients: ", format(patient_count, big.mark = ",")),
+    color = group_colors[source_group]
+  )
+
+sunburst_children <- plot_subgroup %>%
+  transmute(
+    ids = paste0(source_group, " - ", specimen_source),
+    labels = specimen_source,
+    parents = source_group,
+    values = image_count,
+    hover = paste0("<b>", specimen_source, "</b><br>",
+                   "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+                   "Patients: ", format(patient_count, big.mark = ",")),
+    color = group_colors[source_group]
+  )
+
+sunburst_data <- bind_rows(sunburst_parents, sunburst_children)
+
+plot_ly(
+  sunburst_data,
+  type = "sunburst",
+  ids = ~ids,
+  labels = ~labels,
+  parents = ~parents,
+  values = ~values,
+  branchvalues = "total",
+  hovertext = ~hover,
+  hoverinfo = "text",
+  insidetextorientation = "radial",
+  marker = list(colors = ~color)
+) %>%
+  layout(
+    title = list(text = "WSI Files by Anatomical Source", font = list(size = 16)),
+    margin = list(l = 20, r = 20, t = 60, b = 40),
+    annotations = list(
+      list(
+        text = "\U0001F50D Hover for details \u2022 Click a segment to zoom in \u2022 Click center to zoom out",
+        x = 0.5, y = -0.02, xref = "paper", yref = "paper",
+        showarrow = FALSE, font = list(size = 11, color = "grey50")
+      )
     )
   )
 ```
@@ -211,137 +425,49 @@ plot_ly(plot_data,
 ##### Summary Table
 
 ```{r specimen_sources_grouped_table, message=FALSE, warning=FALSE}
-labels <- c(
-  "source_group" = "Specimen Source (Grouped)",
-  "image_count" = "Number of WSI Files",
-  "patient_count" = "Number of Patients",
-  "percentage" = "Percentage (%)"
-)
+# Build a table with group and subgroup rows
+source_detail <- specimen_sources %>%
+  mutate(source_group = str_extract(specimen_source, "^\\w+") %>% str_to_title()) %>%
+  mutate(source_group = ifelse(is.na(source_group), "Other", source_group)) %>%
+  arrange(source_group, desc(image_count))
 
-create_gt_table_v1(
-  data = specimen_sources_grouped,
-  columns = c("source_group", "image_count", "patient_count", "percentage"),
-  labels = labels,
-  footnote_text = "Distribution of whole slide image files by specimen source (grouped by anatomical region)"
-)
-```
-
-
-
-:::
-
-
-```{r slides_per_specimen, message=FALSE, warning=FALSE, results='hide'}
-## Slides per Specimen
-
-sql_per_specimen <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_images_per_patient.sql"
-slides_per_specimen <- fetch_data_from_sql_file(sql_per_specimen, yaml_file_path, release = "may_2026")
-
-# Compute distribution buckets
-slides_distribution <- slides_per_specimen %>%
-  mutate(slide_range = case_when(
-    num_slides == 1 ~ '1 slide',
-    num_slides >= 2 & num_slides <= 5 ~ '2-5 slides',
-    num_slides >= 6 & num_slides <= 10 ~ '6-10 slides',
-    num_slides >= 11 & num_slides <= 20 ~ '11-20 slides',
-    num_slides >= 21 & num_slides <= 50 ~ '21-50 slides',
-    TRUE ~ '50+ slides'
-  )) %>%
-  group_by(slide_range) %>%
-  summarise(
-    specimen_count = n(),
-    patient_count = n_distinct(person_id),
-    .groups = "drop"
-  ) %>%
-  mutate(percentage = round(specimen_count * 100 / sum(specimen_count), 1))
-
-# Order the buckets
-slides_distribution <- slides_distribution %>%
-  mutate(sort_order = case_when(
-    slide_range == '1 slide' ~ 1,
-    slide_range == '2-5 slides' ~ 2,
-    slide_range == '6-10 slides' ~ 3,
-    slide_range == '11-20 slides' ~ 4,
-    slide_range == '21-50 slides' ~ 5,
-    TRUE ~ 6
-  )) %>%
-  arrange(sort_order) %>%
-  mutate(slide_range = factor(slide_range, levels = slide_range))
-```
-
-#### Slides per Specimen Distribution
-
-There are **`r format(nrow(slides_per_specimen), big.mark = ",")`** unique specimens (accessions) across **`r format(n_distinct(slides_per_specimen$person_id), big.mark = ",")`** patients, with a median of **`r median(slides_per_specimen$num_slides)`** slides per specimen.
-
-::: {.panel-tabset}
-
-##### Distribution
-
-```{r slides_per_specimen_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
-library(plotly)
-
-plot_ly(slides_distribution,
-        x = ~slide_range,
-        y = ~specimen_count,
-        type = "bar",
-        name = "Specimens",
-        marker = list(
-          color = "#BAE1FF",
-          line = list(color = "#89C4E8", width = 0.5)
-        ),
-        text = ~paste0(percentage, "%"),
-        textposition = "outside",
-        textfont = list(size = 11, color = "grey40"),
-        hovertext = ~paste0(
-          "<b>", slide_range, "</b><br>",
-          "Specimens: ", format(specimen_count, big.mark = ","), "<br>",
-          "Patients: ", format(patient_count, big.mark = ","), "<br>",
-          "Percentage: ", percentage, "%"
-        ),
-        hoverinfo = "text") %>%
-  add_trace(
-        x = ~slide_range,
-        y = ~specimen_count,
-        type = "scatter",
-        mode = "lines+markers",
-        name = "Trend",
-        text = "",
-        textposition = "none",
-        line = list(color = "#89C4E8", width = 2),
-        marker = list(color = "#89C4E8", size = 6),
-        hoverinfo = "skip"
-  ) %>%
-  layout(
-    title = list(
-      text = "Distribution of Slides per Specimen",
-      font = list(size = 16)
-    ),
-    xaxis = list(
-      title = "Number of Slides per Specimen",
-      tickfont = list(size = 11)
-    ),
-    yaxis = list(
-      title = "Number of Specimens",
-      tickformat = ","
-    ),
-    hoverlabel = list(
-      bgcolor = "white",
-      font = list(size = 12)
+# Merge group totals with individual rows
+table_data <- source_detail %>%
+  group_by(source_group) %>%
+  group_modify(~ {
+    group_total <- summarise(.x,
+      specimen_source = paste0(.y$source_group, " (Total)"),
+      image_count = sum(image_count),
+      patient_count = sum(patient_count)
     )
-  )
+    bind_rows(group_total, .x)
+  }) %>%
+  ungroup() %>%
+  mutate(percentage = round(image_count * 100 / sum(specimen_sources$image_count), 2)) %>%
+  select(source_group, specimen_source, image_count, patient_count, percentage)
+
+datatable(
+  table_data,
+  colnames = c("Group", "Specimen Source", "WSI Files", "Patients", "% of Total"),
+  filter = "top",
+  options = list(
+    pageLength = 25,
+    order = list(list(2, "desc")),
+    rowCallback = DT::JS(
+      "function(row, data) {
+        if (data[1] && data[1].indexOf('(Total)') > -1) {
+          $(row).css('font-weight', 'bold');
+          $(row).css('background-color', '#f0f8ff');
+        }
+      }"
+    )
+  ),
+  rownames = FALSE
+)
 ```
 
-##### Summary Table
 
-```{r slides_per_specimen_table, message=FALSE, warning=FALSE}
-slides_distribution %>%
-  select(slide_range, specimen_count, patient_count, percentage) %>%
-  datatable(
-    colnames = c("Slides per Specimen", "Number of Specimens", "Number of Patients", "Percentage (%)"),
-    options = list(pageLength = 10, dom = 't'),
-    rownames = FALSE
-  )
-```
+
 
 :::
 
@@ -367,32 +493,10 @@ tb_sources <- fetch_data_from_sql_file(sql_tb_sources, yaml_file_path, release =
 ```
 
 ```{r thoracic_tb_grouped, message=FALSE, warning=FALSE, results='hide'}
-tb_sources_grouped <- tb_sources %>%
-  mutate(source_group = case_when(
-    str_detect(specimen_source, regex("^Lung|Transbronchial|Trachea|Bronchus|^Pleura|^Chest|^Mediastinum|Paratracheal|Hernia, Diaphragmatic", ignore_case = TRUE)) ~ "Lung/Thorax",
-    str_detect(specimen_source, regex("^Breast", ignore_case = TRUE)) ~ "Breast",
-    str_detect(specimen_source, regex("^Brain|Brainstem|Cerebellum|Spinal Cord|Pituitary", ignore_case = TRUE)) ~ "Brain/CNS",
-    str_detect(specimen_source, regex("^Lymph Node|Lymph node", ignore_case = TRUE)) ~ "Lymph Node",
-    str_detect(specimen_source, regex("^Intestine|^Colon|Cecum|Ileostomy|^Rectum|^Stomach|^Esophagus|Gallbladder|Ampulla|Bile Duct|Pancreas|^Anus", ignore_case = TRUE)) ~ "Gastrointestinal",
-    str_detect(specimen_source, regex("^Prostate|Periprostatic", ignore_case = TRUE)) ~ "Prostate",
-    str_detect(specimen_source, regex("^Kidney|Renal", ignore_case = TRUE)) ~ "Kidney",
-    str_detect(specimen_source, regex("^Liver", ignore_case = TRUE)) ~ "Liver",
-    str_detect(specimen_source, regex("^Thyroid|^Parathyroid", ignore_case = TRUE)) ~ "Thyroid/Parathyroid",
-    str_detect(specimen_source, regex("^Ovary|^Uterus|^Uterine|^Vulva|^Vagina|Endometrial|Leiomyoma", ignore_case = TRUE)) ~ "Gynecologic",
-    str_detect(specimen_source, regex("^Heart|^Aorta|^Artery|^Vein|Pericardi|Thrombus|Periaorta", ignore_case = TRUE)) ~ "Cardiovascular",
-    str_detect(specimen_source, regex("^Ear|^Nasal|^Nasopharynx|^Oropharynx|^Pharynx|^Larynx|^Oral|^Tongue|^Sinus|^Salivary|^Tonsil|Parapharyngeal|Vocal Cord|^Mandible|^Cheek|^Scalp|^Neck|^Conjunctiva|Orbit|^Eyelid|^Eye,|^Nose", ignore_case = TRUE)) ~ "Head & Neck",
-    str_detect(specimen_source, regex("^Femur|^Tibia|^Rib|^Vertebra|^Skull|^Clavicle|^Humerus|^Scapula|^Sternum|^Sacrum|^Coccyx|^Pelvic Bone|^Iliac|Femoral Head|^Mastoid|^Bone|Intervertebral|^Joint|^Cartilage", ignore_case = TRUE)) ~ "Bone/Joint",
-    str_detect(specimen_source, regex("Slides/blocks", ignore_case = TRUE)) ~ "Slides/Blocks/Other",
-    TRUE ~ "Other"
-  )) %>%
-  group_by(source_group) %>%
-  summarise(
-    image_count = sum(image_count),
-    patient_count = sum(patient_count),
-    .groups = "drop"
-  ) %>%
+tb_sources_top10 <- tb_sources %>%
   mutate(percentage = round(image_count * 100 / sum(image_count), 1)) %>%
-  arrange(desc(image_count))
+  arrange(desc(image_count)) %>%
+  slice_head(n = 10)
 ```
 
 ::: {.panel-tabset}
@@ -402,12 +506,12 @@ tb_sources_grouped <- tb_sources %>%
 ```{r thoracic_tb_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
 library(plotly)
 
-plot_data_tb <- tb_sources_grouped %>%
+plot_data_tb <- tb_sources_top10 %>%
   arrange(image_count) %>%
-  mutate(source_group = factor(source_group, levels = source_group))
+  mutate(specimen_source = factor(specimen_source, levels = specimen_source))
 
 plot_ly(plot_data_tb,
-        y = ~source_group,
+        y = ~specimen_source,
         x = ~image_count,
         type = "bar",
         orientation = "h",
@@ -419,7 +523,7 @@ plot_ly(plot_data_tb,
         textposition = "outside",
         textfont = list(size = 11, color = "grey40"),
         hovertext = ~paste0(
-          "<b>", source_group, "</b><br>",
+          "<b>", specimen_source, "</b><br>",
           "WSI Files: ", format(image_count, big.mark = ","), "<br>",
           "Patients: ", format(patient_count, big.mark = ","), "<br>",
           "Percentage: ", percentage, "%"
@@ -427,7 +531,7 @@ plot_ly(plot_data_tb,
         hoverinfo = "text") %>%
   layout(
     title = list(
-      text = "WSI Files by Source — Thoracic Tumor Board Patients",
+      text = "Top 10 Specimen Sources — Thoracic Tumor Board Patients",
       font = list(size = 16)
     ),
     xaxis = list(
@@ -446,23 +550,6 @@ plot_ly(plot_data_tb,
   )
 ```
 
-##### Summary Table
-
-```{r thoracic_tb_table, message=FALSE, warning=FALSE}
-labels <- c(
-  "source_group" = "Specimen Source (Grouped)",
-  "image_count" = "Number of WSI Files",
-  "patient_count" = "Number of Patients",
-  "percentage" = "Percentage (%)"
-)
-
-create_gt_table_v1(
-  data = tb_sources_grouped,
-  columns = c("source_group", "image_count", "patient_count", "percentage"),
-  labels = labels,
-  footnote_text = "WSI file distribution for thoracic tumor board patients by specimen source"
-)
-```
 
 ##### Specimen Type
 
@@ -520,6 +607,7 @@ plot_ly(plot_data_tb_st,
 ```
 
 :::
+
 
 ### Source Codes:
 The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/may_2026/whole_slide_imaging.qmd), and the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/feb26).
