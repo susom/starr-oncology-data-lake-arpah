@@ -15,6 +15,10 @@ yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2026/sql_p
 
 The OMOP **`_whole_slide_imaging`** table contains records of digitized pathology slides, including structured metadata, access paths to whole slide image files, **and links to structured EHR data. This table serves as a proof of concept demonstrating how whole slide imaging files can be integrated and analyzed within the OMOP framework alongside clinical data**.
 
+::: {.callout-note}
+The WSI data pull is limited to **thoracic cancer patients only** within the overall patient pool.
+:::
+
 Each record represents a single whole slide image with associated metadata including:
 
 - Patient identifier (person_id)

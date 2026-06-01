@@ -31,23 +31,33 @@ As of the May 2026 OMOP population, `r format( den_res$counts_pts[den_res$data_s
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
     - [Neural Frame Metrics](neural_frame.qmd)
 
+
   - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
     - [Tumor Board Metrics](tumor_board_updated.qmd)
+
 
   - **Philips ISPM:** Includes genomic testing information from the Philips IntelliSpace Precision Medicine (ISPM) genomics database at Stanford.
     - [Philips ISPM Metrics](philips_metrics.qmd)
 
+
   - **OMOP Image Occurrence:** The OMOP image occurrence table captures records of medical imaging events at the series level providing a path to deidentified DICOM images.
     - [Image Occurrence Metrics](image_occ.qmd)
+
 
   - **OMOP Variant Occurrence:** The OMOP variant occurrence table contains records of genomic variants identified via the STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS (STAMP) test, sourced from Epic Genomics Suite (August 2025 onwards).
     - [Variant Occurrence Metrics](variant_occ.qmd)
 
+
   - **OMOP Whole Slide Imaging:** The OMOP whole slide imaging table contains records of digitized pathology slides and currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. 
     - [Whole Slide Imaging Metrics](whole_slide_imaging.qmd)
 
+
+  - **OMOP Episode Table:**  The OMOP episode table captures records of clinical episodes, which are defined as clusters of healthcare events related to a specific condition or treatment course. Episode table is currently populated only with episodes representing treatment plans for patients in the oncology cohort.
+    - [Episode Table Metrics](episode_table.qmd)
+
+
   - **Data Coverage Trends:** Longitudinal view of data evolution across all platforms from February 2025 to May 2026.
-    - [Data Coverage Trends](data_coverage_trends.qmd)
+    - [Data Coverage Trends](deid_may_2026/deid_data_coverage_trends.qmd)
  
 ```{r table1, message=FALSE, warning=FALSE}
 # Modify the data frame to show hierarchy

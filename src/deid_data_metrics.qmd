@@ -40,6 +40,11 @@ The February 2026 PHI scrubbed release includes updated data sources such as OMO
 
 - [February 2026 PHI Scrubbed Metrics](deid_feb_2026/metrics_clinical.qmd)
 
+### May 2026
+The May 2026 PHI scrubbed release includes updated data sources such as OMOP 5.4, image occurrence, Stanford cancer registry, whole slide imaging, genetic variants, episode table, and additional metrics with all PHI removed. You can find detailed information about this release by following the link below:  
+
+- [May 2026 PHI Scrubbed Metrics](deid_may_2026/metrics_clinical.qmd)
+
 ## Future Releases
 
 Future releases will include additional PHI scrubbed metrics and updates to the existing ones.

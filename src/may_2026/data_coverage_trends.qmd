@@ -1313,32 +1313,6 @@ p <- plot_ly() %>%
     hoverinfo = "text"
   )
 
-# Add individual test type traces for Feb 2026 (hidden by default)
-for (i in seq_len(nrow(feb26_test_types_plot))) {
-  test_data <- feb26_test_types_plot[i, ]
-  p <- p %>%
-    add_trace(
-      x = test_data$month_label,
-      y = test_data$test_type_counts,
-      type = 'scatter',
-      mode = 'markers',
-      name = paste0(test_data$test_type, " (Feb 2026)"),
-      marker = list(
-        size = 12,
-        color = test_data$color,
-        symbol = 'square'
-      ),
-      text = paste0(
-        "<b>", test_data$test_type, "</b>",
-        "<br>Feb 2026",
-        "<br>Tests: ", scales::comma(test_data$test_type_counts),
-        "<br><i>Deduplicated across both sources</i>"
-      ),
-      hoverinfo = "text",
-      visible = "legendonly"
-    )
-}
-
 p %>%
   layout(
     title = list(
@@ -1392,7 +1366,7 @@ p %>%
      
       # Data note annotation
       list(
-        text = "Note: Feb 2026 combines both Philips ISPM and OMOP variant_occurrence sources (deduplicated)",
+        text = "Note: Feb 2026 & May 2026 combine both Philips ISPM and OMOP variant_occurrence sources (deduplicated)",
         xref = "paper",
         yref = "paper",
         x = 0,
@@ -1419,7 +1393,7 @@ p %>%
 
 **Data Continuity Notes:**
 
-- February and May 2026 combines both Philips ISPM and OMOP _variant_occurrence sources (deduplicated)
+- Feb 2026 & May 2026 combine both Philips ISPM and OMOP _variant_occurrence sources (deduplicated)
 - OMOP _variant_occurrence currently includes STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests only. Future releases will expand to include additional test types and platforms.
 
 ### Philips ISPM Overview

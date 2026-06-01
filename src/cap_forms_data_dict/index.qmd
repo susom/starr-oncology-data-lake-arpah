@@ -1,0 +1,9 @@
+---
+title: "Lung Resection CAP Forms Data Dictionary"
+---
+
+The following Lung Resection CAP Forms tables are available:
+
+| Category | Table Name |
+|:---------|:-----------|
+| CAP Forms | [clarity_tables](clarity_tables.qmd), [processed_tables](processed_tables.qmd), [qa_dataset](qa_dataset.qmd) |
