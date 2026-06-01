@@ -280,23 +280,24 @@ library(plotly)
 library(dplyr)
 
 # Prepare data with proper month ordering and labels
-overlap_plot_data <- bind_rows(
-  overlap_res,
-  tibble(
-    release = "feb_2026",
-    data_set = "Philips ISPM",
-    counts_pts = as.numeric(var_res$counts_pts),
-    month = overlap_res %>% filter(release == "feb_2026") %>% pull(month) %>% first()
-  ),
-  tibble(
-    release = "may_2026",
-    data_set = "Philips ISPM",
-    counts_pts = as.numeric(var_res_may$counts_pts),
-    month = overlap_res %>% filter(release == "may_2026") %>% pull(month) %>% first()
-  )
-) %>%
-  group_by(release, data_set, month) %>%
-  summarise(counts_pts = sum(counts_pts, na.rm = TRUE), .groups = "drop") %>%
+# For Feb 2026 & May 2026: replace Philips ISPM counts from denominators query
+# with combined Philips + OMOP variant_occurrence counts (deduplicated)
+overlap_plot_data <- overlap_res %>%
+  filter(!(release %in% c("feb_2026", "may_2026") & data_set == "Philips ISPM")) %>%
+  bind_rows(
+    tibble(
+      release = "feb_2026",
+      data_set = "Philips ISPM",
+      counts_pts = as.numeric(var_res$counts_pts),
+      month = overlap_res %>% filter(release == "feb_2026") %>% pull(month) %>% first()
+    ),
+    tibble(
+      release = "may_2026",
+      data_set = "Philips ISPM",
+      counts_pts = as.numeric(var_res_may$counts_pts),
+      month = overlap_res %>% filter(release == "may_2026") %>% pull(month) %>% first()
+    )
+  ) %>%
   mutate(
     # Create proper ordering factor for releases
     release_ordered = factor(release, 

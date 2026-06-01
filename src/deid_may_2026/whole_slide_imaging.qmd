@@ -612,7 +612,7 @@ plot_ly(plot_data_tb_st,
 
 
 ### Source Codes:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/may_2026/whole_slide_imaging.qmd), and the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/feb26).
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/deid_may_2026/whole_slide_imaging.qmd), and the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/feb26).
 
 
 

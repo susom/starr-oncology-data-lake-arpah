@@ -19,12 +19,13 @@
     <p t="STUDY_DESCRIPTION">######</p>
     <p t="PROTOCOL_NAME">######</p>
     <p t="PATIENT_ID">######</p>
+    <p t="PATIENT_NAME">######</p>
     <p t="ACCESSION_NUMBER">######</p>
 
     <!-- Parameterized -->
     <e en="T" t="00100020" n="PatientID">@param(@PATIENT_ID)</e>
     <e en="T" t="00080050" n="AccessionNumber">@param(@ACCESSION_NUMBER)</e>
-    <e en="T" t="00100010" n="PatientName">@param(@PATIENT_ID)</e>
+    <e en="T" t="00100010" n="PatientName">@param(@PATIENT_NAME)</e>
 
     <!-- Allow-list redacted attributes -->
     <e en="T" t="0008103e" n="SeriesDescription">@param(@SERIES_DESCRIPTION)</e>

@@ -259,12 +259,17 @@ unique(overlap_res$data_set)
 ```{r check add variant to philips, message=FALSE, warning=FALSE, results='hide'}
 # Check what data sources are available
 
-var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator_test_type.sql"
+var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator.sql"
 
 var_res=fetch_data_from_sql_file(var_den_sql, yaml_file_path, release = "feb_2026")
 var_res$counts_pts
 var_res$data_set<-"Philips ISPM"
 var_res$month<-"Feb 2026"
+
+var_res_may=fetch_data_from_sql_file(var_den_sql, yaml_file_path, release = "may_2026")
+var_res_may$counts_pts
+var_res_may$data_set<-"Philips ISPM"
+var_res_may$month<-"May 2026"
 ```
 
 
@@ -275,17 +280,24 @@ library(plotly)
 library(dplyr)
 
 # Prepare data with proper month ordering and labels
-overlap_plot_data <- bind_rows(
-  overlap_res,
-  tibble(
-    release = "feb_2026",
-    data_set = "Philips ISPM",
-    counts_pts = as.numeric(var_res$counts_pts),
-    month = overlap_res %>% filter(release == "feb_2026") %>% pull(month) %>% first()
-  )
-) %>%
-  group_by(release, data_set, month) %>%
-  summarise(counts_pts = sum(counts_pts, na.rm = TRUE), .groups = "drop") %>%
+# For Feb 2026 & May 2026: replace Philips ISPM counts from denominators query
+# with combined Philips + OMOP variant_occurrence counts (deduplicated)
+overlap_plot_data <- overlap_res %>%
+  filter(!(release %in% c("feb_2026", "may_2026") & data_set == "Philips ISPM")) %>%
+  bind_rows(
+    tibble(
+      release = "feb_2026",
+      data_set = "Philips ISPM",
+      counts_pts = as.numeric(var_res$counts_pts),
+      month = overlap_res %>% filter(release == "feb_2026") %>% pull(month) %>% first()
+    ),
+    tibble(
+      release = "may_2026",
+      data_set = "Philips ISPM",
+      counts_pts = as.numeric(var_res_may$counts_pts),
+      month = overlap_res %>% filter(release == "may_2026") %>% pull(month) %>% first()
+    )
+  ) %>%
   mutate(
     # Create proper ordering factor for releases
     release_ordered = factor(release, 
@@ -347,7 +359,7 @@ plot_ly(
     margin = list(r = 150),
     annotations = list(
       list(
-        text = "* Feb 2026 Philips ISPM includes OMOP variant_occurrence data",
+        text = "* Feb 2026 & May 2026 Philips ISPM includes OMOP variant_occurrence data",
         xref = "paper",
         yref = "paper",
         x = 0,
@@ -363,9 +375,9 @@ plot_ly(
 
 **Note<sup>†</sup>:** 
 
-- The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May 2025 to February2026 releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
+- The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May 2025 to May 2026 releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 
-- Feb 2026 Philips ISPM/Genomic Data includes patients from OMOP _variant_occurrence table combined with Philips ISPM data.
+- Feb 2026 & May 2026 Philips ISPM/Genomic Data includes patients from OMOP _variant_occurrence table combined with Philips ISPM data.
 
 
 ### OMOP Clinical Metrics 

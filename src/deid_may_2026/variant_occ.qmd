@@ -7,7 +7,7 @@ execute:
 # Your existing initialization
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_feb_2026/sql_params.yml"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2026/sql_params.yml"
 ```
 
 ```{r variant sql, message=FALSE, warning=FALSE, results='hide'}
@@ -24,46 +24,46 @@ color_palette <- c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fcd7
 
 # Basic variant counts
 sql_file_path_pts <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_patient_counts.sql"
-n_pts<- fetch_data_from_sql_file(sql_file_path_pts, yaml_file_path, release = "feb_2026")
+n_pts<- fetch_data_from_sql_file(sql_file_path_pts, yaml_file_path, release = "may_2026")
 
 # Cohort overlap
 sql_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_cohort_overlap.sql"
-cohort_overlap <- fetch_data_from_sql_file(sql_overlap, yaml_file_path, release = "feb_2026")
+cohort_overlap <- fetch_data_from_sql_file(sql_overlap, yaml_file_path, release = "may_2026")
 
 # Additional queries for visualizations
 sql_by_gene <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_by_gene.sql"
-variant_genes <- fetch_data_from_sql_file(sql_by_gene, yaml_file_path, release = "feb_2026")
+variant_genes <- fetch_data_from_sql_file(sql_by_gene, yaml_file_path, release = "may_2026")
 
 sql_by_type <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_by_type.sql"
-variant_types <- fetch_data_from_sql_file(sql_by_type, yaml_file_path, release = "feb_2026")
+variant_types <- fetch_data_from_sql_file(sql_by_type, yaml_file_path, release = "may_2026")
 
 sql_by_consequence <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_by_consequence.sql"
-variant_consequence <- fetch_data_from_sql_file(sql_by_consequence, yaml_file_path, release = "feb_2026")
+variant_consequence <- fetch_data_from_sql_file(sql_by_consequence, yaml_file_path, release = "may_2026")
 
 sql_clinical_sig <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_by_clinical_significance.sql"
-variant_clinical <- fetch_data_from_sql_file(sql_clinical_sig, yaml_file_path, release = "feb_2026")
+variant_clinical <- fetch_data_from_sql_file(sql_clinical_sig, yaml_file_path, release = "may_2026")
 
 sql_specimen_type <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_by_specimen_type.sql"
-variant_specimen_type <- fetch_data_from_sql_file(sql_specimen_type, yaml_file_path, release = "feb_2026")
+variant_specimen_type <- fetch_data_from_sql_file(sql_specimen_type, yaml_file_path, release = "may_2026")
 
 sql_specimen_source <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_by_specimen_source.sql"
-variant_specimen_source <- fetch_data_from_sql_file(sql_specimen_source, yaml_file_path, release = "feb_2026")
+variant_specimen_source <- fetch_data_from_sql_file(sql_specimen_source, yaml_file_path, release = "may_2026")
 
 sql_ordered_tests <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_ordered_tests_counts.sql"
-ordered_tests_counts <- fetch_data_from_sql_file(sql_ordered_tests, yaml_file_path, release = "feb_2026")
+ordered_tests_counts <- fetch_data_from_sql_file(sql_ordered_tests, yaml_file_path, release = "may_2026")
 
 sql_ordered_trend <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_ordered_tests_trend.sql"
-ordered_tests_trend <- fetch_data_from_sql_file(sql_ordered_trend, yaml_file_path, release = "feb_2026")
+ordered_tests_trend <- fetch_data_from_sql_file(sql_ordered_trend, yaml_file_path, release = "may_2026")
 
 
 sql_frequency <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_freqency.sql"
-variant_frequency <- fetch_data_from_sql_file(sql_frequency, yaml_file_path, release = "feb_2026")
+variant_frequency <- fetch_data_from_sql_file(sql_frequency, yaml_file_path, release = "may_2026")
 
 sql_phenotype_class <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_by_phenotype_class.sql"
-variant_phenotype_class <- fetch_data_from_sql_file(sql_phenotype_class, yaml_file_path, release = "feb_2026")
+variant_phenotype_class <- fetch_data_from_sql_file(sql_phenotype_class, yaml_file_path, release = "may_2026")
 
 sql_comutation <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_comutation.sql"
-comutation_data <- fetch_data_from_sql_file(sql_comutation, yaml_file_path, release = "feb_2026")
+comutation_data <- fetch_data_from_sql_file(sql_comutation, yaml_file_path, release = "may_2026")
 ```
 
 
@@ -84,7 +84,7 @@ Each record in the **`_variant_occurrence`** table includes:
 - Test metadata (test name, specimen information)
 - Linkage to clinical context (visit, procedure, provider)
 
-As of February 2026, this table includes **`r format(n_pts$n_patients, big.mark = ",")`** patients with **`r format(n_pts$n_variants, big.mark = ",")`** genetic variants.
+As of May 2026, this table includes **`r format(n_pts$n_patients, big.mark = ",")`** patients with **`r format(n_pts$n_variants, big.mark = ",")`** genetic variants.
 
 
 ### Key Considerations
@@ -507,15 +507,15 @@ This section focuses on the 45 patients with both thoracic cancer diagnoses and 
 ```{r thoracic tb data, message=FALSE, warning=FALSE, results='hide'}
 # Gene mutations in thoracic TB patients
 sql_thoracic_genes <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_thoracic_tb_genes.sql"
-thoracic_tb_genes <- fetch_data_from_sql_file(sql_thoracic_genes, yaml_file_path, release = "feb_2026")
+thoracic_tb_genes <- fetch_data_from_sql_file(sql_thoracic_genes, yaml_file_path, release = "may_2026")
 
 # Clinical significance for thoracic TB patients
 sql_thoracic_clinical <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_thoracic_tb_clinical.sql"
-thoracic_tb_clinical <- fetch_data_from_sql_file(sql_thoracic_clinical, yaml_file_path, release = "feb_2026")
+thoracic_tb_clinical <- fetch_data_from_sql_file(sql_thoracic_clinical, yaml_file_path, release = "may_2026")
 
 # Specimen types for thoracic TB patients
 sql_thoracic_specimen <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/variant_occ/variant_thoracic_tb_specimen.sql"
-thoracic_tb_specimen <- fetch_data_from_sql_file(sql_thoracic_specimen, yaml_file_path, release = "feb_2026")
+thoracic_tb_specimen <- fetch_data_from_sql_file(sql_thoracic_specimen, yaml_file_path, release = "may_2026")
 ```
 
 ::: {.panel-tabset}
@@ -638,5 +638,5 @@ DT::datatable(
 :::
 
 ### Source Code
-The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/variant_occ.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/omop/variant_occ/feb26).
+The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/deid_may_2026/variant_occ.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/omop/variant_occ).
 
