@@ -47,7 +47,7 @@ As of the February 2026 OMOP population, `r format( den_res$counts_pts[den_res$d
     - [Whole Slide Imaging Metrics](whole_slide_imaging.qmd)
 
   - **Data Coverage Trends:** Longitudinal view of data evolution across all platforms from February 2025 to February 2026.
-    - [Data Coverage Trends](data_coverage_trends.qmd)
+    - [Data Coverage Trends](deid_data_coverage_trends.qmd)
  
 ```{r table1, message=FALSE, warning=FALSE}
 # Modify the data frame to show hierarchy
