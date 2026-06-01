@@ -7,7 +7,7 @@ execute:
 
 **Data Source Platforms:** The VISTA Oncology Data Lake integrates data from three primary platforms: **Genomic** data from Philips ISPM (IntelliSpace Precision Medicine), **Cancer Registry** data from NeuralFrame, and **DICOM Imaging** data from the Vendor Neutral Archive.
 
-**Analysis Data Sources:** This analysis reflects the raw PHI data from February 2025 to May 2026.
+**Analysis Data Sources:** This analysis reflects PHI scrubbed data from February 2025 to May 2026.
 
 **Interactive Visualizations:** All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.
 
@@ -22,7 +22,7 @@ library(purrr)
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 
 # Define YAML configuration path
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/may_2026/sql_params.yml"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2026/sql_params.yml"
 ```
 
 ```{r loop through release,  message=FALSE, warning=FALSE, results='hide'}
@@ -140,14 +140,14 @@ run_monthly_metrics <- function(datasets_by_month,
 ```{r list of sqls, message=FALSE, warning=FALSE, results='hide'}
 # Define different SQL paths per release
 person_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb25/person_metrics.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/may_aug25/person_metrics.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/may_aug25/person_metrics.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/nov25/person_metrics.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb26/person_metrics.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb26/person_metrics.sql"
-
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/arpah_age_cat_metrics.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/arpah_age_cat_metrics.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/arpah_age_cat_metrics.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/arpah_age_cat_metrics.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/arpah_age_cat_metrics.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/arpah_age_cat_metrics.sql"
 )
+
 
 person_res <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
@@ -159,7 +159,7 @@ person_res <- run_monthly_metrics(
 ```{r person cnt, message=FALSE, warning=FALSE, results='hide'}
 person_res <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
-  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb26/person_metrics.sql"
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/person_metrics.sql"
 )
 colnames(person_res)<-c("counts", "release")
 
@@ -172,7 +172,7 @@ The demographic composition of the cohort has remained relatively stable across 
 
 demog <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
-  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/may_aug25/demographic_summary.sql"
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/may_aug25/demographic_summary.sql"
 )
 ```
 ```{r demog table, message=FALSE, warning=FALSE}
@@ -233,12 +233,12 @@ datatable(
 ```{r overlap metrics, message=FALSE, warning=FALSE, results='hide'}
 # Use denominators queries which return aggregated counts
 overlap_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb25/arpah_denominators.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/may_aug25/arpah_denominators.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/may_aug25/arpah_denominators.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/nov25/arpah_denominators_update.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb26/arpah_denominators_update.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb26/arpah_denominators_update.sql"
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/feb25/arpah_denominators.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/may_aug25/arpah_denominators.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/may_aug25/arpah_denominators.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/nov25/arpah_denominators_update.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/nov25/arpah_denominators_update.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/nov25/arpah_denominators_update.sql"
 )
 
 overlap_res <- run_monthly_metrics(
@@ -259,17 +259,12 @@ unique(overlap_res$data_set)
 ```{r check add variant to philips, message=FALSE, warning=FALSE, results='hide'}
 # Check what data sources are available
 
-var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_variant_denominator.sql"
+var_den_sql="/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator_test_type.sql"
 
 var_res=fetch_data_from_sql_file(var_den_sql, yaml_file_path, release = "feb_2026")
 var_res$counts_pts
 var_res$data_set<-"Philips ISPM"
 var_res$month<-"Feb 2026"
-
-var_res_may=fetch_data_from_sql_file(var_den_sql, yaml_file_path, release = "may_2026")
-var_res_may$counts_pts
-var_res_may$data_set<-"Philips ISPM"
-var_res_may$month<-"May 2026"
 ```
 
 
@@ -287,12 +282,6 @@ overlap_plot_data <- bind_rows(
     data_set = "Philips ISPM",
     counts_pts = as.numeric(var_res$counts_pts),
     month = overlap_res %>% filter(release == "feb_2026") %>% pull(month) %>% first()
-  ),
-  tibble(
-    release = "may_2026",
-    data_set = "Philips ISPM",
-    counts_pts = as.numeric(var_res_may$counts_pts),
-    month = overlap_res %>% filter(release == "may_2026") %>% pull(month) %>% first()
   )
 ) %>%
   group_by(release, data_set, month) %>%
@@ -386,7 +375,7 @@ plot_ly(
 
 ctsa_res <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
-  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/ctsa/metrics_uniq_pts_vital_overtime.sql",
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/ctsa/metrics_uniq_pts_vital_overtime.sql",
   release_to_month = release_to_month)
 
 # Named vector of variable label mappings
@@ -430,7 +419,7 @@ if (nrow(ctsa_res) == 0) {
   library(plotly)
   
   # Define consistent colors for the plot
-  bar_colors <- c('#8dd3c7', '#ffffb3', '#bebada', '#cbd6ab', '#80b1d3')
+  bar_colors <- c('#8dd3c7', '#ffffb3', '#bebada', '#cbd6ab', '#80b1d3', '#fdb462')
 
   # Add formatted release labels with proper ordering
   ctsa_res <- ctsa_res %>%
@@ -478,11 +467,11 @@ The VISTA Oncology Data Lake captures mortality information from multiple source
 ```{r death_metrics, message=FALSE, warning=FALSE, results='hide'}
 # Define death metrics SQL paths per release (May-November only)
 death_sql_paths <- list(
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/may_aug25/vital_status_person_metrics.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/may_aug25/vital_status_person_metrics.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/nov25/vital_status_person_metrics.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb26/vital_status_person_metrics.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/arpah_cohort/feb26/vital_status_person_metrics.sql"
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/vital_status_person_metrics.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/vital_status_person_metrics.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/vital_status_person_metrics.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/vital_status_person_metrics.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/arpah_cohort/vital_status_person_metrics.sql"
 )
 
 # Run death metrics across releases
@@ -505,7 +494,6 @@ death_table <- death_res %>%
       month == "aug" ~ "August 2025",
       month == "nov" ~ "November 2025",
       month == "feb" ~ "February 2026",
-      month == "may" ~ "May 2026",
       TRUE ~ month
     ),
     n_death = format(n_death, big.mark = ",", scientific = FALSE)
@@ -546,13 +534,12 @@ The VISTA Oncology Data Lake includes specialized sub-cohorts for tumor board pa
 ```{r thoracic metrics, message=FALSE, warning=FALSE, results='hide'}
 # Define thoracic-specific SQL paths per release
 thoracic_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/feb25/nf_thoracic/scr_thoracic_denominator.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/nov25/nf_thoracic/scr_thoracic_denominator.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/feb26/nf_thoracic/scr_thoracic_denominator.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/feb26/nf_thoracic/scr_thoracic_denominator.sql")
-
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator.sql"
+)
 
 # Run thoracic analysis across releases
 thoracic_res <- run_monthly_metrics(
@@ -570,12 +557,12 @@ head(thoracic_res)
 ```{r thoracic_complete_cases, message=FALSE, warning=FALSE, results='hide'}
 # Define thoracic complete cases SQL paths per release
 thoracic_complete_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/feb25/nf_thoracic/scr_thoracic_denominator_complete.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator_complete.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/may_aug25/nf_thoracic/scr_thoracic_denominator_complete.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/nov25/nf_thoracic/scr_thoracic_denominator_complete.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/feb26/nf_thoracic/scr_thoracic_denominator_complete.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/feb26/nf_thoracic/scr_thoracic_denominator_complete.sql"
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/thoracic/feb25/nf_thoracic/scr_thoracic_denominator_complete.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator_complete.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator_complete.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator_complete.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator_complete.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/thoracic/nf_thoracic/scr_thoracic_denominator_complete.sql"
 )
 
 # Run thoracic complete cases analysis across releases
@@ -592,14 +579,13 @@ head(thoracic_complete_res)
 ```{r thoracic_tb_cases, message=FALSE, warning=FALSE, results='hide'}
 # Define thoracic tumor board SQL paths per release
 thoracic_tb_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/thoracic/feb25/nf_thoracic/scr_thoracic_tb_metrics.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/may25/tumor_board_thoracic_person_metrics.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/aug25/tumor_board_thoracic_person_metrics.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/nov25/tumor_board_thoracic_person_metrics.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_person_metrics.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_person_metrics.sql"
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/thoracic/feb25/nf_thoracic/scr_thoracic_tb_metrics.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_person_metrics.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_person_metrics.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_person_metrics.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_person_metrics.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_person_metrics.sql"
 )
-
 # Run thoracic tumor board analysis across releases
 thoracic_tb_res <- run_monthly_metrics(
   datasets_by_month = datasets_by_month,
@@ -614,13 +600,14 @@ head(thoracic_tb_res)
 ```{r thoracic_tb_neuralframe, message=FALSE, warning=FALSE, results='hide'}
 # Define thoracic TB Neural Frame coverage SQL paths per release
 thoracic_tb_nf_sql_paths <- list(
-  #feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb25/tumor_board_thoracic_neuralframe_metrics.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/may25/tumor_board_thoracic_neuralframe_metrics.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/aug25/tumor_board_thoracic_neuralframe_metrics.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/nov25/tumor_board_thoracic_neuralframe_metrics.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_neuralframe_metrics.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_neuralframe_metrics.sql"
+  #feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/tumor_board/feb25/tumor_board_thoracic_neuralframe_metrics.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_neuralframe_metrics.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_neuralframe_metrics.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_neuralframe_metrics.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_neuralframe_metrics.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_thoracic_neuralframe_metrics.sql"
 )
+
 
 # Run thoracic TB Neural Frame analysis across all releases
 thoracic_tb_nf_res <- run_monthly_metrics(
@@ -682,7 +669,7 @@ plot_ly(data = thoracic_combined, x = ~month_label, y = ~patients,
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
+      categoryarray = c("May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026")
     ),
     yaxis = list(
       title = "Number of Patients",
@@ -715,7 +702,7 @@ if (nrow(thoracic_tb_nf_res) > 0) {
         "aug" = "August 2025", 
         "nov" = "November 2025",
         "feb" = "February 2026",
-        .default = month
+        "May 2026" = "May 2026"
       ),
       metric_clean = case_when(
         metric_type == "total_thoracic_tb" ~ "Total Thoracic TB Patients",
@@ -749,7 +736,7 @@ if (nrow(thoracic_tb_nf_res) > 0) {
       pageLength = 10,
       columnDefs = list(
         list(className = 'dt-left', targets = 0),
-        list(className = 'dt-center', targets = c(1, 2, 3))
+        list(className = 'dt-center', targets = c(1, 2, 3, 4))
       )
     ),
     rownames = FALSE
@@ -762,12 +749,12 @@ if (nrow(thoracic_tb_nf_res) > 0) {
 ```{r, message=FALSE, warning=FALSE, include=FALSE}
 # Define tumor board overlap SQL paths per release
 tb_overlap_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb25/tumor_board_overlap.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/may25/tumor_board_overlap.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/aug25/tumor_board_overlap.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/nov25/tumor_board_overlap.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_overlap.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_overlap.sql"
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/feb_2026/sql_std/tumor_board/feb25/tumor_board_overlap.sql",
+ may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_overlap.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_overlap.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_overlap.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_overlap.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_board/tumor_board_overlap.sql"
 )
 
 # Run tumor board overlap analysis across releases
@@ -842,7 +829,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
+      categoryarray = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026")
     ),
     yaxis = list(
       title = "Number of Patients",
@@ -867,7 +854,7 @@ plot_ly(
 
 The VISTA Oncology Data Lake integrates comprehensive medical imaging data, linking diagnostic images to patient clinical records through the OMOP image occurrence table. This integration enables research connecting imaging studies with clinical outcomes, treatments, and genomic profiles.
 
-**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93k patients in February 2025 to over 199k patients by February 2026, representing a substantial increase in multi-modal data availability for cancer research.
+**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93k patients in February 2025 to over 199k patients by May 2026, representing a substantial increase in multi-modal data availability for cancer research.
 
 **Image Series and Studies**: The platform captures detailed imaging metadata including study identifiers, series information, anatomic regions, and imaging modalities (CT, MRI, PET, etc.), supporting comprehensive radiomics and image-based research.
 
@@ -877,12 +864,12 @@ The VISTA Oncology Data Lake integrates comprehensive medical imaging data, link
 ```{r image occ basics, message=FALSE, warning=FALSE, results='hide'}
 # Define image person SQL paths per release
 img_person_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb25/image_occ_person.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/may_aug25/image_occ_person.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/may_aug25/image_occ_person.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/nov25/image_occ_person.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb26/image_occ_person.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb26/image_occ_person.sql"
+ feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_person.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_person.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_person.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_person.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_person.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_person.sql"
 )
 
 img_res <- run_monthly_metrics(
@@ -893,12 +880,12 @@ img_res <- run_monthly_metrics(
 
 # Define image basic SQL paths per release
 img_basic_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb25/image_occ_basic.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/may_aug25/image_occ_basic.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/may_aug25/image_occ_basic.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/nov25/image_occ_basic.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb26/image_occ_basic.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb26/image_occ_basic.sql"
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_basic.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_basic.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_basic.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_basic.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_basic.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_basic.sql"
 )
 
 img_size <- run_monthly_metrics(
@@ -1011,9 +998,10 @@ metric_order <- all_metrics %>%
 
 # Apply ordering to the data
 all_metrics <- all_metrics %>%
+  filter(month_label != "Feb 2025") %>%
   mutate(
     metric = factor(metric, levels = metric_order),
-    month_label = factor(month_label, levels = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026"))
+    month_label = factor(month_label, levels = c("May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026"))
   )
 
 # Create stacked bar chart with all metrics
@@ -1032,7 +1020,7 @@ plot_ly(
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026")
+      categoryarray = c("May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026")
     ),
     yaxis = list(
       title = "Count",
@@ -1057,12 +1045,12 @@ plot_ly(
 ```{r image_modality, message=FALSE, warning=FALSE, results='hide'}
 # Define image modality SQL paths per release
 img_mod_sql_paths <- list(
-  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb25/image_occ_modality.sql",
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/may_aug25/image_occ_modality.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/may_aug25/image_occ_modality.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/nov25/image_occ_modality.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb26/image_occ_modality.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/image_occ/feb26/image_occ_modality.sql"
+  feb_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_modality.sql",
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_modality.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/may_aug25/image_occ_modality.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_modality.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_modality.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/image_occ/nov25/image_occ_modality.sql"
 )
 
 img_mod <- run_monthly_metrics(
@@ -1164,14 +1152,14 @@ The VISTA Oncology Data Lake integrates comprehensive molecular testing data fro
 ### Genomic Data Transition
 
 ```{r genomic_fetch_all_releases, message=FALSE, warning=FALSE, results='hide'}
-# Fetch Philips data for all historical releases using release-specific SQL paths
+# Fetch Philips data for all historical releases using standardized SQL paths
 # Note: Feb 2026 uses philips_variant_denominator.sql which combines both Philips ISPM and OMOP variant sources
 philips_variant_sql_paths <- list(
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_denominator.sql",
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_denominator.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/nov25/philips_denominator.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_variant_denominator.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_variant_denominator.sql"
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql",
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator.sql"
 )
 
 philips_variant_all <- run_monthly_metrics(
@@ -1180,30 +1168,33 @@ philips_variant_all <- run_monthly_metrics(
   release_to_month = release_to_month
 )
 
-# Fetch Feb 2026 and May 2026 accession numbers separately (combined/deduplicated)
-acc_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_variant_denominator_test.sql"
-feb26_acc <- fetch_data_from_sql_file(acc_sql, yaml_file_path, release = "feb_2026")
-may26_acc <- fetch_data_from_sql_file(acc_sql, yaml_file_path, release = "may_2026")
+# Fetch Feb 2026 accession numbers separately (combined/deduplicated)
+feb26_acc_sql <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator_test.sql"
+feb26_acc <- fetch_data_from_sql_file(feb26_acc_sql, yaml_file_path, release = "feb_2026")
 
 # Add accession numbers to the data
 # For May-Nov: n_acc already in philips_variant_all
-# For Feb 2026 and May 2026: use the separate accession query results
+# For Feb 2026: add n_acc from the separate query result
+#if (!"n_acc" %in% colnames(philips_variant_all)) {
+  #philips_variant_all <- philips_variant_all %>%
+  #  mutate(n_acc = NA_real_)
+#}
+
 philips_variant_all <- philips_variant_all %>%
   mutate(
     n_acc = case_when(
       release == "feb_2026" ~ as.numeric(feb26_acc$counts_pts),
-      release == "may_2026" ~ as.numeric(may26_acc$counts_pts),
       TRUE ~ as.numeric(n_acc)
     )
   )
 
 # Fetch test type data for all releases (May-Nov use sum of all test types)
 philips_tests_sql_paths <- list(
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_tests_ordered.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_tests_ordered.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/nov25/philips_tests_ordered.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_variant_denominator_test_type.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_variant_denominator_test_type.sql"
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator_test_type.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_variant_denominator_test_type.sql"
 )
 
 philips_tests_transition <- run_monthly_metrics(
@@ -1367,7 +1358,7 @@ p %>%
       # Shaded rectangle for data gap period (Nov 2025 - Jan 2026)
       list(
         type = "rect",
-        x0 = "Nov 2025", x1 = "May 2026",
+        x0 = "Nov 2025", x1 = "Feb 2026",
         y0 = 0, y1 = 1,
         yref = "paper",
         fillcolor = "rgba(255,200,200,0.15)",
@@ -1418,7 +1409,7 @@ p %>%
 
 **Data Continuity Notes:**
 
-- February and May 2026 combines both Philips ISPM and OMOP _variant_occurrence sources (deduplicated)
+- May 2026 combines both Philips ISPM and OMOP _variant_occurrence sources (deduplicated)
 - OMOP _variant_occurrence currently includes STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests only. Future releases will expand to include additional test types and platforms.
 
 ### Philips ISPM Overview
@@ -1428,11 +1419,11 @@ p %>%
 ```{r philips_overview, message=FALSE, warning=FALSE, results='hide'}
 # Define Philips denominator SQL paths per release (discontinued after Nov 2025)
 philips_denom_sql_paths <- list(
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_denominator.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_denominator.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/nov25/philips_denominator.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_denominator.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_denominator.sql"
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_denominator.sql"
 )
 
 philips_denom <- run_monthly_metrics(
@@ -1446,11 +1437,11 @@ philips_denom <- run_monthly_metrics(
 # Define Philips tests ordered SQL paths per release (discontinued after Nov 2025)
 
 philips_tests_sql_paths <- list(
-  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_tests_ordered.sql", 
-  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/may_aug25/philips_tests_ordered.sql",
-  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/nov25/philips_tests_ordered.sql",
-  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_tests_ordered.sql",
-  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_tests_ordered.sql"
+  may_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql", 
+  aug_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql",
+  nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql",
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_tests_ordered.sql"
 )
 
 philips_tests <- run_monthly_metrics(
@@ -1555,7 +1546,7 @@ plot_ly(
 
 
 ```{r philips new test types, message=FALSE, warning=FALSE, results='hide', include=FALSE}
-sql_philips<- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/philips/feb26/philips_stanford_tests_ordered.sql"
+sql_philips<- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/philips/philips_stanford_tests_ordered.sql"
 philips_order<- fetch_data_from_sql_file(sql_philips, yaml_file_path)
 philips_order
 philips_order=philips_order %>% filter(!is.na(stanford_test_type))

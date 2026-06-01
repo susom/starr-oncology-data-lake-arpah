@@ -6,7 +6,7 @@ execute:
 ```{r setup, include=FALSE}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
-yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_feb_2026/sql_params.yml"
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2026/sql_params.yml"
 ```
 
 ### Summary:
@@ -35,7 +35,7 @@ res_den_thr<- fetch_data_from_sql_file(sql_thr, yaml_file_path)
 head(res_den_thr)
 ```
 
-As of Feb 2026, From `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
+As of May 2026, From `r format(res_den_thr$counts[res_den_thr$variable_name=="Number of unique persons with thoracic cancer"], big.mark = ",")` patients with thoracic cancer, `r format(tb_den$n_pts[1] , big.mark = ",")` also had a Tumor Board encounter. 
 
 
 
@@ -246,7 +246,7 @@ sql_img <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/tumor_
 tb_img<- fetch_data_from_sql_file(sql_img, yaml_file_path)
 tb_img
 ```
-As of Feb 2026, `r format(tb_img$patient_count[1], big.mark = ",")` had image occurrence procedures.
+As of May 2026, `r format(tb_img$patient_count[1], big.mark = ",")` had image occurrence procedures.
 
 Note: The following analysis is presented for series occurrences above 500. 
 
@@ -364,4 +364,4 @@ plot_ly(res_bar,
 :::
 
 ### Source Codes:
-The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/deid_feb_2026/tumor_board_updated.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/tumor_board). 
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/deid_may_2026/tumor_board_updated.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/tumor_board). 

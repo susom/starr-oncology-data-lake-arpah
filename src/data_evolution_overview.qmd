@@ -129,11 +129,11 @@ release_summary <- tibble::tribble(
   "WSI TIFF/JSON files",
 
   "May 2026",
-  "Continued coverage + <b>Expanded WSI + Episode Table<b>",
+  "Continued coverage + <b>Episode Table + Expanded WSI + Heme-STAMP Variants<b>",
   "Continued coverage",
   "Discontinued coverage",
-  "<b>Expanded Whole Slide Imaging, Episode Table<b>",
-  "Added episode table for clinical episodes; Expanded WSI coverage",
+  "<b>Episode Table (OMOP), Expanded WSI, Heme-STAMP variants added to Variant Occurrence<b>",
+  "Added episode table to OMOP schema; Expanded WSI coverage; Added Heme-STAMP test results to variant_occurrence table",
   "Expanded WSI TIFF/JSON files"  
 )
 
@@ -151,8 +151,9 @@ datatable(
   ),
   caption = "Data Lake Evolution: Release Comparison Summary",
   options = list(
-    pageLength = 5,
+    pageLength = 7,
     dom = 't',
+    ordering = FALSE,
     columnDefs = list(
       list(width = '12%', targets = 0),
       list(width = '12%', targets = 1),

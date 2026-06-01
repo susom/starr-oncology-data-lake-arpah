@@ -16,7 +16,7 @@ yaml_file_path <-  "/workspaces/starr-oncology-data-lake-arpah/src/deid_nov_2025
 
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 den <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/arpah_cohort/nov25/arpah_denominators_update.sql"
-den_res <- fetch_data_from_sql_file(den, yaml_file_path)
+den_res <- fetch_data_from_sql_file(den, yaml_file_path, release = "nov_2025")
 
 den_res=den_res %>% arrange(desc(percentage))
 
