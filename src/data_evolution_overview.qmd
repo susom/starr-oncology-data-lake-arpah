@@ -4,11 +4,11 @@ execute:
   echo: false
 ---
 
-This page provides an overview of the VISTA Oncology Data Lake's evolution across multiple releases, showcasing the progressive expansion and maturation of our comprehensive cancer research platform. The data lake has grown substantially from February 2025 through February 2026, with significant increases in patient coverage, data source integration, and analytical capabilities, including the addition of whole slide imaging and detailed genomic variant data.
+This page provides an overview of the VISTA Oncology Data Lake's evolution across multiple releases, showcasing the progressive expansion and maturation of our comprehensive cancer research platform. The data lake has grown substantially from February 2025 through May 2026, with significant increases in patient coverage, data source integration, and analytical capabilities, including the addition of whole slide imaging and detailed genomic variant data.
 
 ## Release Overview
 
-The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through February 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4. The February 2026 release further expands the platform with whole slide imaging and a custom variant occurrence table, marking significant advancements in multi-modal data integration and research capabilities.
+The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through May 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces Agentic Tide in addition to updated OMOP 5.4. The May 2026 release further expands the platform with whole slide imaging and a custom variant occurrence table, marking significant advancements in multi-modal data integration and research capabilities.
 
 ![VISTA Oncology Data Lake](png_files/Feb_Vista.png)
 
@@ -68,6 +68,14 @@ The February 2026 release expands the data lake with whole slide imaging and det
 
 This release significantly expands pathology imaging capabilities and provides granular genomic variant data for translational research applications.
 
+### May 2026 - WSI and Episode Table
+
+The May 2026 release further expands the data lake with additional whole slide imaging data and the introduction of an episode table:
+
+- **Whole Slide Imaging Expansion**: Continued integration of manually scanned, deidentified histopathology slides with expanded coverage and improved metadata quality
+- **Episode Table Introduction**: Addition of a custom STARR-OMOP episode table capturing clinical episodes representing treatment plans for patients in the oncology cohort, enabling analysis of care trajectories and treatment patterns 
+
+
 ## Release Summary Table
 
 The following table provides a comprehensive overview of data and schema changes across all releases:
@@ -118,7 +126,15 @@ release_summary <- tibble::tribble(
   "Discontinued coverage",
   "<b>Whole Slide Imaging (WSI), Variant Occurrence table<b>",
   "Added custom variant_occurrence table for genomic variants; Added _whole_slide_imaging table",
-  "WSI TIFF/JSON files"
+  "WSI TIFF/JSON files",
+
+  "May 2026",
+  "Continued coverage + <b>Episode Table + Expanded WSI + Heme-STAMP Variants<b>",
+  "Continued coverage",
+  "Discontinued coverage",
+  "<b>Episode Table (OMOP), Expanded WSI, Heme-STAMP variants added to Variant Occurrence<b>",
+  "Added episode table to OMOP schema; Expanded WSI coverage; Added Heme-STAMP test results to variant_occurrence table",
+  "Expanded WSI TIFF/JSON files"  
 )
 
 # Format the table with improved styling
@@ -135,8 +151,9 @@ datatable(
   ),
   caption = "Data Lake Evolution: Release Comparison Summary",
   options = list(
-    pageLength = 5,
+    pageLength = 7,
     dom = 't',
+    ordering = FALSE,
     columnDefs = list(
       list(width = '12%', targets = 0),
       list(width = '12%', targets = 1),
@@ -168,12 +185,13 @@ library(dplyr)
 
 # Create identifier keys data
 identifier_keys <- tibble::tribble(
-  ~Dataset, ~February_2025, ~May_2025, ~August_2025, ~November_2025, ~February_2026,
+  ~Dataset, ~February_2025, ~May_2025, ~August_2025, ~November_2025, ~February_2026, ~May_2026,
   
   "OMOP Clinical",
   "person_id, person_source_value",
   "person_id, person_source_value",
   "person_id, person_source_value",
+  "person_id, <b>person_source_value<sup>†</sup></b>",
   "person_id, <b>person_source_value<sup>†</sup></b>",
   "person_id, <b>person_source_value<sup>†</sup></b>",
   
@@ -183,8 +201,10 @@ identifier_keys <- tibble::tribble(
   "stanford_patient_uid",
   "stanford_patient_uid",
   "stanford_patient_uid",
+  "stanford_patient_uid",
   
   "Image Occurrence",
+  "person_id",
   "person_id",
   "person_id",
   "person_id",
@@ -197,9 +217,11 @@ identifier_keys <- tibble::tribble(
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
+  "stanford_patient_uid, person_id",
   
   "Tumor Board",
   "MRN, DOB",
+  "person_id",
   "person_id",
   "person_id",
   "person_id",
@@ -211,8 +233,18 @@ identifier_keys <- tibble::tribble(
   "Not available",
   "Not available",
   "person_id",
+  "person_id",
   
   "Variant Occurrence",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
+  "person_id",
+  "person_id",
+  
+  "Episode",
+  "Not available",
   "Not available",
   "Not available",
   "Not available",
@@ -230,17 +262,18 @@ datatable(
     "May 2025",
     "August 2025",
     "November 2025",
-    "February 2026"
+    "February 2026",
+    "May 2026"
   ),
   caption = "Patient Identifier Keys Evolution by Dataset and Release",
   options = list(
     pageLength = 10,
     dom = 't',
     columnDefs = list(
-      list(width = '18%', targets = 0),
-      list(width = '16%', targets = 1:5),
+      list(width = '16%', targets = 0),
+      list(width = '14%', targets = 1:6),
       list(className = 'dt-left', targets = 0),
-      list(className = 'dt-center', targets = 1:5)
+      list(className = 'dt-center', targets = 1:6)
     ),
     scrollX = TRUE
   ),
@@ -249,11 +282,11 @@ datatable(
   class = 'cell-border stripe'
 ) %>%
   formatStyle(
-    columns = 0:5,
+    columns = 0:6,
     fontSize = '12px'
   ) %>%
   formatStyle(
-    columns = 1:5,
+    columns = 1:6,
     backgroundColor = styleEqual(
       c("Not available"),
       c('#f0f0f0')
@@ -279,15 +312,17 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 
 - Variant Occurrence includes **accession_number** for linking genomic variants to specific clinical specimens and visits, **visit_occurrence_id** for linking to clinical visits, and **procedure_occurrence_id** for linking to specific procedures associated with genomic testing
 
+- Episode includes **person_id** for linking clinical episodes to patients in the oncology cohort
+
 **<sup>†</sup>November 2025 OMOP 5.4 Update:** In the November 2025 release, `person_source_value` is JSON-formatted. To join with `stanford_patient_uid`, extract the field using: `JSON_VALUE(person_source_value, '$.stanford_patient_uid')`
 
 
 ## Multi-Release Statistical Overview
 
-For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](feb_2026/data_coverage_trends.qmd) page.
-For PHI Scrubbed data coverage trends, see the [PHI Scrubbed Data Coverage Trends](deid_feb_2026/deid_data_coverage_trends.qmd) page.
+For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](may_2026/data_coverage_trends.qmd) page.
+For PHI Scrubbed data coverage trends, see the [PHI Scrubbed Data Coverage Trends](deid_may_2026/deid_data_coverage_trends.qmd) page.
 
-For each data release (February 2025 to February 2026), we examine:
+For each data release (February 2025 to May 2026), we examine:
 
 - Demographic characteristics (cohort size, age distribution, gender, race)
 - Data source coverage across integrated systems (NeuralFrame, Philips ISPM, Imaging, Tumor Board)

@@ -9,17 +9,26 @@ Clinical Data Table - Whole Slide Imaging
 
 | field                                               | type     | required   | phi   | phi scrubbing operation   |
 |:----------------------------------------------------|:---------|:-----------|:------|:--------------------------|
-| whole_slide_imaging_id                          | INT64    | Yes        | Yes   | Sub Not Stable between Data Refreshes                    |
-| person_id                                      | INT64    | Yes        | Yes   | Sub with Stable between Data Refreshes                       |
+| whole_slide_imaging_id                              | INT64    | Yes        | Yes   | Sub Not Stable between Data Refreshes |
 | accession_number                                    | STRING   | Yes        | Yes   | Hash                      |
+| specimen                                            | STRING   | No         |       |                           |
+| block                                               | STRING   | No         |       |                           |
+| slide                                               | STRING   | No         |       |                           |
+| person_id                                           | INT64    | Yes        | Yes   | Sub with Stable between Data Refreshes |
+| acquisition_date                                    | DATETIME | No         | Yes   | Jitter                    |
+| procedure_start_time                                | DATETIME | No         | Yes   | Jitter                    |
+| specimen_received_date                              | DATETIME | No         | Yes   | Jitter                    |
+| brand                                               | STRING   | No         |       |                           |
+| scanner                                             | STRING   | No         |       |                           |
+| mpp                                                 | FLOAT64  | No         |       |                           |
 | json_uri                                            | STRING   | Yes        |       |                           |
 | tiff_uri                                            | STRING   | Yes        |       |                           |
-| spec_source_c                                       | INT64    | No         |       |                           |
-| specimen_source_name                                | STRING   | No         |       |                           |
-| specimen_type_c                                     | INT64    | No         |       |                           |
-| specimen_type_name                                  | STRING   | No         |       |                           |
-| procedure_start_time                                | DATETIME | No         | Yes   | Jitter                      |
-| note_id                                       | INT64    | No         | Yes   | Sub with Stable between Data Refreshes                    |
+| specimen_source_category_value                      | INT64    | No         |       |                           |
+| specimen_source                                     | STRING   | No         |       |                           |
+| specimen_type_category_value                        | INT64    | No         |       |                           |
+| specimen_type                                       | STRING   | No         |       |                           |
+| spec_task_list                                      | ARRAY<STRUCT<task_c INT64, task_name STRING>> | No |  |                    |
+| note_id                                             | INT64    | No         | Yes   | Sub with Stable between Data Refreshes |
 
 :  {.hover .responsive .sm}
 
@@ -29,13 +38,49 @@ Clinical Data Table - Whole Slide Imaging
 
 Primary key for the whole slide imaging table.
 
+##### accession_number
+
+Accession number from cross walk linking source_deid_slide_id to accession number provided by Roxanna's Lab, where it also exists in the order_rad_acc_num table and can be linked to the same patient.
+
+##### specimen
+
+Specimen identifier associated with the slide.
+
+##### block
+
+Block identifier associated with the slide.
+
+##### slide
+
+Slide identifier.
+
 ##### person_id (FK)
 
 OMOP person_id associated with the slide.
 
-##### accession_number
+##### acquisition_date
 
-Accession number from cross walk linking source_deid_slide_id to accession number provided by Roxanna's Lab, where it also exists in the order_rad_acc_num table and can be linked to the same patient.
+Date and time when the slide image was acquired.
+
+##### procedure_start_time
+
+Date and time when the procedure started from the clarity order_proc table.
+
+##### specimen_received_date
+
+Date and time when the specimen was received.
+
+##### brand
+
+Brand of the scanner used to digitize the slide.
+
+##### scanner
+
+Scanner model used to digitize the slide.
+
+##### mpp
+
+Microns per pixel resolution of the digitized slide image.
 
 ##### json_uri
 
@@ -45,25 +90,25 @@ GCS URI to JSON metadata for the slide.
 
 GCS URI to TIFF image for the slide.
 
-##### spec_source_c
+##### specimen_source_category_value
 
 Category value for the specimen source.
 
-##### specimen_source_name
+##### specimen_source
 
 Specimen source from the clarity spec_db_main table.
 
-##### specimen_type_c
+##### specimen_type_category_value
 
 Category value for the specimen type.
 
-##### specimen_type_name
+##### specimen_type
 
 Specimen type from the clarity spec_db_main table.
 
-##### procedure_start_time
+##### spec_task_list
 
-Date and time when the procedure started from the clarity order_proc table.
+Array of specimen task entries, each containing a task category value and task name.
 
 ##### note_id (FK)
 

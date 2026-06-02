@@ -1,0 +1,16 @@
+---
+title: "OMOP CDM 5.4.2 Data Dictionary"
+---
+
+The following OMOP-CDM 5.4.2 tables are available:
+
+| Category | Table Name |
+|:---------|:-----------|
+| Clinical Data | [condition_occurrence](condition_occurrence.qmd), [drug_exposure](drug_exposure.qmd), [device_exposure](device_exposure.qmd), [measurement](measurement.qmd), [observation](observation.qmd), [procedure_occurrence](procedure_occurrence.qmd), [image_occurrence](image_occurrence.qmd), [visit_occurrence](visit_occurrence.qmd), [visit_detail](visit_detail.qmd), [note](note.qmd), [note_nlp](note_nlp.qmd), [death](death.qmd), [specimen](specimen.qmd), [whole_slide_imaging](whole_slide_imaging.qmd), [variant_occurrence](variant_occurrence.qmd), [fact_relationship](fact_relationship.qmd) |
+| Standardized Derived Elements | [observation_period](observation_period.qmd), [person](person.qmd) |
+| Clinical Episodes | [episode](episode.qmd), [episode_event](episode_event.qmd) |
+| Vocabularies | [concept](concept.qmd), [concept_ancestor](concept_ancestor.qmd), [concept_class](concept_class.qmd), [concept_relationship](concept_relationship.qmd), [concept_synonym](concept_synonym.qmd), [domain](domain.qmd), [relationship](relationship.qmd), [vocabulary](vocabulary.qmd), [source_to_concept_map](source_to_concept_map.qmd), [drug_strength](drug_strength.qmd), [cohort](cohort.qmd) |
+| Health System Data | [care_site](care_site.qmd), [location](location.qmd), [provider](provider.qmd), [cost](cost.qmd) |
+| Derived Elements | [condition_era](condition_era.qmd), [drug_era](drug_era.qmd), [dose_era](dose_era.qmd) |
+| Health Economics | [payer_plan_period](payer_plan_period.qmd) |
+| Metadata | [cdm_source](cdm_source.qmd), [metadata](metadata.qmd) |

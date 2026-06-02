@@ -1,0 +1,355 @@
+---
+title: "OMOP Episode Table Metrics"
+execute:
+  echo: false
+---
+```{r setup, include=FALSE}
+# Your existing initialization
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2026/sql_params.yml"
+```
+
+```{r episode sql, message=FALSE, warning=FALSE, results='hide'}
+library(forcats)
+library(dplyr)
+library(tidyr)
+library(DT)
+library(plotly)
+library(ggplot2)
+
+
+# Define unified color palette
+color_palette <- c('#80CBC4', '#FFCC80', '#CE93D8', '#A5D6A7', '#90CAF9', '#F48FB1')
+
+sql_epis <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/n_cnt_epis.sql"
+res_epis <- fetch_data_from_sql_file(sql_epis, yaml_file_path, release = "may_2026")
+res_epis <- res_epis %>%
+  mutate(metric = recode(metric,
+                         'total_episodes' = "Total Episodes",
+                         'unique_persons' = "Unique Persons",
+                         'unique_episode_ids' = "Unique Episode IDs"
+                     ))
+
+sql_date_range <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_duration.sql"
+res_date_range <- fetch_data_from_sql_file(sql_date_range, yaml_file_path, release = "may_2026")
+res_date_range <- res_date_range %>%
+  mutate(metric = recode(metric,
+                         'min_episode_start_date' = "Minimum Episode Start Date",
+                         'max_episode_start_date' = "Maximum Episode Start Date",
+                         'min_episode_end_date' = "Minimum Episode End Date",
+                         'max_episode_end_date' = "Maximum Episode End Date",
+                         'episodes_with_end_date' = "Episodes with End Date",
+                         'episodes_without_end_date' = "Episodes without End Date"
+                     ))
+```
+
+### Summary
+
+The **`Episode`** table in OMOP Common Data Model (CDM) captures detailed information about clinical episodes representing treatment plans for patients in the oncology cohort. This table enables analysis of care trajectories and treatment patterns by providing granular episode-level data including episode start and end dates, episode types, and associated clinical events.
+
+As of May 2026, this table includes **`r format(res_epis %>% filter(metric == 'Unique Persons') %>% pull(counts), big.mark = ",")`** unique patients with **`r format(res_epis %>% filter(metric == 'Total Episodes') %>% pull(counts), big.mark = ",")`** episodes IDs. Episodes span from **`r res_date_range %>% filter(metric == 'Minimum Episode Start Date') %>% pull(counts)`** to **`r res_date_range %>% filter(metric == 'Maximum Episode Start Date') %>% pull(counts)`**.
+
+Please note that episode records are more prevalent in recent years, which may reflect improvements in data capture and recording practices over time. 
+
+
+```{r episode Treatment Plan Type, message=FALSE, warning=FALSE, results='hide'}
+sql_plan <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_by_plan_type.sql"
+res_plan <- fetch_data_from_sql_file(sql_plan, yaml_file_path, release = "may_2026")
+
+sql_plan_protocol <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_by_plan_protocol.sql"
+res_plan_protocol <- fetch_data_from_sql_file(sql_plan_protocol, yaml_file_path, release = "may_2026")
+```
+
+### Treatment Plan Type Distribution 
+
+::: {.panel-tabset}
+
+## Bar Chart
+
+```{r Treatment Plan Type bar, message=FALSE, warning=FALSE}
+total_persons <- res_epis %>% filter(metric == 'Unique Persons') %>% pull(counts)
+
+plan_bar_data <- res_plan %>%
+  filter(!is.na(plan_type)) %>% filter (n_unique_persons > 500) %>%
+  arrange(desc(n_unique_persons)) %>%
+  mutate(
+    pct_persons = round(n_unique_persons / total_persons * 100, 1),
+    plan_type = factor(plan_type, levels = rev(plan_type))
+  )
+
+plot_ly(
+  plan_bar_data,
+  x = ~n_unique_persons,
+  y = ~plan_type,
+  type = "bar",
+  orientation = "h",
+  marker = list(color = '#80CBC4'),
+  text = ~paste0(pct_persons, "%"),
+  textposition = "outside",
+  hovertemplate = "<b>%{y}</b><br>Patients: %{x:,}<br>% Patients: %{text}<extra></extra>"
+) %>%
+  layout(
+    title = list(text = "Unique Patients by Treatment Plan Type", x = 0.05),
+    xaxis = list(title = "Unique Patients"),
+    yaxis = list(title = "", tickfont = list(size = 10)),
+    margin = list(l = 200, t = 50, r = 20, b = 50)
+  )
+```
+
+## Summary Table
+
+```{r Treatment Plan Type table, message=FALSE, warning=FALSE}
+res_plan %>%
+  arrange(desc(total)) %>% filter(!is.na(plan_type)) %>%
+  filter (n_unique_persons > 100) %>%
+  mutate(pct_persons = round(n_unique_persons / total_persons * 100, 1)) %>%
+  datatable(
+    colnames = c("Treatment Plan Type", "Unique Persons", "Total Episodes", "% Patients"),
+    options = list(pageLength = 15, dom = 'ftp'),
+    rownames = FALSE
+  )
+```
+
+:::
+
+### Treatment Plan Type & Treatment Protocol 
+::: {.panel-tabset}
+
+
+## Sunburst Chart
+The following  sunburst chart is used to visualize the hierarchical relationship between treatment plan types and treatment protocols, with segment sizes representing the number of unique patients. The table below provides a detailed breakdown of patient counts and episode totals for each Treatment Plan Type and treatment protocol combination.
+
+```{r plan protocol chart, message=FALSE, warning=FALSE}
+sunburst_data <- res_plan_protocol %>%
+  filter(!is.na(plan_type)) %>% filter(!is.na(treatment_protocol)) %>% filter(n_unique_persons > 500) %>%
+  mutate(
+    treatment_protocol = ifelse(is.na(treatment_protocol), "(No Protocol)", treatment_protocol)
+  ) %>%
+  group_by(plan_type) %>%
+  arrange(desc(total)) %>%
+  slice_head(n = 10) %>%
+  ungroup()
+
+# Child rows: treatment protocols
+children_df <- sunburst_data %>%
+  transmute(
+    ids = paste0(plan_type, " - ", treatment_protocol),
+    labels = treatment_protocol,
+    parents = plan_type,
+    values = n_unique_persons
+  )
+
+# Parent rows: use patient counts summed from filtered children only
+parents_df <- children_df %>%
+  group_by(parents) %>%
+  summarise(values = sum(values), .groups = "drop") %>%
+  transmute(ids = parents, labels = parents, parents = "", values = values)
+
+# Define shared color map for plan types (used by sunburst + bar charts)
+plan_type_colors <- c('#80CBC4', '#FFCC80', '#CE93D8', '#A5D6A7', '#90CAF9',
+                      '#F48FB1', '#FFF176', '#f4b8a6', '#80DEEA', '#B0BEC5',
+                      '#C5E1A5', '#FFCCBC', '#B39DDB', '#FFE082', '#81D4FA')
+plan_color_map <- setNames(plan_type_colors[seq_along(parents_df$ids)], parents_df$ids)
+
+all_data <- bind_rows(parents_df, children_df) %>%
+  mutate(display_text = ifelse(parents == "", labels, ""))
+
+plot_ly(
+  all_data,
+  type = "sunburst",
+  ids = ~ids,
+  labels = ~labels,
+  parents = ~parents,
+  values = ~values,
+  branchvalues = "total",
+  text = ~display_text,
+  texttemplate = "%{text}",
+  marker = list(colors = ~ids,
+                line = list(color = "#FFFFFF", width = 2),
+                colorway = c('#80CBC4', '#FFCC80', '#CE93D8', '#A5D6A7', '#90CAF9',
+                             '#F48FB1', '#FFF176', '#f4b8a6', '#80DEEA', '#B0BEC5',
+                             '#C5E1A5', '#FFCCBC', '#B39DDB', '#FFE082', '#81D4FA')),
+  hovertemplate = "<b>%{label}</b><br>Patients: %{value:,}<br>%{percentRoot:.1%} of shown<extra></extra>",
+  hoverlabel = list(bgcolor = "#2c3e50", font = list(color = "#ffffff", size = 13), bordercolor = "#2c3e50")
+) %>%
+  layout(
+    title = list(text = " Treatment Plan Type & Treatment Protocol", x = 0.05),
+    margin = list(t = 50, l = 10, r = 10, b = 40),
+    colorway = c('#80CBC4', '#FFCC80', '#CE93D8', '#A5D6A7', '#90CAF9',
+                 '#F48FB1', '#FFF176', '#f4b8a6', '#80DEEA', '#B0BEC5',
+                 '#C5E1A5', '#FFCCBC', '#B39DDB', '#FFE082', '#81D4FA'),
+    annotations = list(
+      list(
+        text = "\U0001F50D Hover for details \u2022 Click a segment to zoom in \u2022 Click center to zoom out",
+        x = 0.5, y = -0.05, xref = "paper", yref = "paper",
+        showarrow = FALSE,
+        font = list(size = 12, color = "#888888"),
+        xanchor = "center"
+      )
+    )
+  )
+```
+
+## Summary Table
+The following table provides a detailed breakdown of patient counts and episode totals for each Treatment Plan Type and treatment protocol combination, filtered to include only those with more than 500 unique patients to focus on the most prevalent treatment patterns.
+
+```{r plan protocol table, message=FALSE, warning=FALSE}
+res_plan_protocol %>%
+  arrange(desc(total)) %>% 
+  filter (!is.na(plan_type)) %>% filter(!is.na(treatment_protocol)) %>% filter(n_unique_persons > 500) %>%
+  mutate(pct_persons = round(n_unique_persons / total_persons * 100, 1)) %>%
+  datatable(
+    colnames = c("Treatment Plan Type", "Treatment Protocol", "Unique Persons", "Total Episodes", "% Patients"),
+    options = list(pageLength = 15, dom = 'ftp'),
+    rownames = FALSE
+  )
+```
+
+:::
+
+### Thoracic Tumor Board Cohort
+
+```{r thoracic tb data, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_thoracic_tb_overlap.sql"
+res_tb_overlap <- tryCatch(
+  fetch_data_from_sql_file(sql_tb_overlap, yaml_file_path, release = "may_2026"),
+  error = function(e) NULL
+)
+
+sql_tb_plan <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_thoracic_tb_by_plan_type.sql"
+res_tb_plan <- tryCatch(
+  fetch_data_from_sql_file(sql_tb_plan, yaml_file_path, release = "may_2026"),
+  error = function(e) NULL
+)
+
+sql_tb_protocol <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_thoracic_tb_by_plan_protocol.sql"
+res_tb_protocol <- tryCatch(
+  fetch_data_from_sql_file(sql_tb_protocol, yaml_file_path, release = "may_2026"),
+  error = function(e) NULL
+)
+
+tb_data_available <- !is.null(res_tb_overlap) && !is.null(res_tb_plan) && !is.null(res_tb_protocol)
+```
+
+`r if(tb_data_available) paste0("Of **", format(res_tb_overlap$thoracic_tb_total, big.mark = ","), "** thoracic tumor board patients, **", format(res_tb_overlap$thoracic_tb_with_episodes, big.mark = ","), "** (**", round(res_tb_overlap$thoracic_tb_with_episodes / res_tb_overlap$thoracic_tb_total * 100, 1), "%**) have episode records.") else "*Data unavailable — SQL query returned no results.*"`
+
+::: {.panel-tabset}
+
+## Bar Chart
+
+```{r tb Treatment Plan Type bar, message=FALSE, warning=FALSE, eval=tb_data_available}
+tb_plan_data <- res_tb_plan %>%
+  filter(!is.na(plan_type)) %>%
+  arrange(desc(n_unique_persons)) %>%
+  mutate(
+    pct_persons = round(n_unique_persons / res_tb_overlap$thoracic_tb_with_episodes * 100, 1),
+    plan_type = factor(plan_type, levels = rev(plan_type))
+  )
+
+plot_ly(
+  tb_plan_data,
+  x = ~n_unique_persons,
+  y = ~plan_type,
+  type = "bar",
+  orientation = "h",
+  marker = list(color = '#A5D6A7'),
+  text = ~paste0(pct_persons, "%"),
+  textposition = "outside",
+  hovertemplate = "<b>%{y}</b><br>Patients: %{x:,}<br>% Patients: %{text}<extra></extra>"
+) %>%
+  layout(
+    title = list(text = "Thoracic TB: Unique Patients by Treatment Plan Type", x = 0.05),
+    xaxis = list(title = "Unique Patients"),
+    yaxis = list(title = "", tickfont = list(size = 10)),
+    margin = list(l = 200, t = 50, r = 50, b = 50)
+  )
+```
+
+## Summary Table
+
+```{r tb Treatment Plan Type table, message=FALSE, warning=FALSE, eval=tb_data_available}
+res_tb_plan %>%
+  filter(!is.na(plan_type)) %>%
+  arrange(desc(total)) %>% filter(n_unique_persons > 10) %>%
+  mutate(pct_persons = round(n_unique_persons / res_tb_overlap$thoracic_tb_with_episodes * 100, 1)) %>%
+  datatable(
+    colnames = c("Treatment Plan Type", "Unique Persons", "Total Episodes", "% Patients"),
+    options = list(pageLength = 15, dom = 'ftp'),
+    rownames = FALSE
+  )
+```
+
+:::
+
+#### Thoracic TB: Treatment Plan Type & Treatment Protocol
+
+::: {.panel-tabset}
+
+## Bar Chart
+
+```{r tb protocol bar, message=FALSE, warning=FALSE, eval=tb_data_available}
+# plan_color_map defined in sunburst chunk above
+
+tb_bar_data <- res_tb_protocol %>%
+  filter(!is.na(plan_type), !is.na(treatment_protocol)) %>%
+  arrange(desc(n_unique_persons)) %>%
+  head(20) %>%
+  mutate(
+    pct_persons = round(n_unique_persons / res_tb_overlap$thoracic_tb_with_episodes * 100, 1),
+    bar_color = plan_color_map[plan_type],
+    treatment_protocol = factor(treatment_protocol, levels = rev(unique(treatment_protocol)))
+  )
+
+p <- plot_ly() 
+
+# Add one trace per plan_type for proper legend
+for (pt in unique(tb_bar_data$plan_type)) {
+  d <- tb_bar_data %>% filter(plan_type == pt)
+  p <- p %>% add_bars(
+    data = d,
+    x = ~n_unique_persons,
+    y = ~treatment_protocol,
+    orientation = "h",
+    marker = list(color = unique(d$bar_color)),
+    name = pt,
+    text = ~paste0(pct_persons, "%"),
+    textposition = "outside",
+    hovertemplate = paste0("<b>%{y}</b><br>Plan Type: ", pt, "<br>Patients: %{x:,}<extra></extra>")
+  )
+}
+
+p %>%
+  layout(
+    title = list(text = "Thoracic TB: Top 20 Treatment Protocols", x = 0.05),
+    xaxis = list(title = "", showticklabels = FALSE, showgrid = FALSE, zeroline = FALSE),
+    yaxis = list(title = "", tickfont = list(size = 9), categoryorder = "total ascending"),
+    barmode = "stack",
+    margin = list(l = 300, t = 50, r = 50, b = 80),
+    legend = list(title = list(text = "Treatment Plan Type"), orientation = "h", x = 0.3, y = -0.15)
+  )
+```
+
+## Summary Table
+
+```{r tb protocol table, message=FALSE, warning=FALSE, eval=tb_data_available}
+res_tb_protocol %>%
+  filter(!is.na(plan_type), !is.na(treatment_protocol)) %>%
+  arrange(desc(total)) %>% filter(n_unique_persons > 50) %>%
+  mutate(pct_persons = round(n_unique_persons / res_tb_overlap$thoracic_tb_with_episodes * 100, 1)) %>%
+  datatable(
+    colnames = c("Treatment Plan Type", "Treatment Protocol", "Unique Persons", "Total Episodes", "% Patients"),
+    options = list(pageLength = 15, dom = 'ftp'),
+    rownames = FALSE
+  )
+```
+
+:::
+
+::: {.callout-note}
+Treatment plans shown here are not exclusively oncology-related and may include other clinical specialties. Additionally, each patient may have multiple treatment plans and protocols, so patient counts across categories are not mutually exclusive.
+:::
+
+### Source Code
+The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/deid_may_2026/episode_table.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/episode).
+

@@ -16,11 +16,13 @@ project:
    - aug_2025/*
    - nov_2025/*
    - feb_2026/*
+   - may_2026/*
    - deid_aug_2025/*
    - deid_nov_2025/*
    - deid_feb_2026/*
    - deid_may_2025/*
    - deid_feb_2025/*
+   - deid_may_2026/*
    - cap_forms_data_dict/*
    - dicom_data_dict/*
    - epic_media_server_dict/*
@@ -68,34 +70,46 @@ website:
             contents:
               - text: "Released Datasets"
                 href: feb_2026/released_datasets.qmd
+          - section: "May 2026"
+            contents:
+              - text: "Released Datasets"
+                href: may_2026/released_datasets.qmd
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
           - section: "OMOP-CDM"
             contents: 
               - section: "OMOP CDM 5.4.2"
+                href: omop_data_dict/omop_data_dict_5.4/index.qmd
                 contents: omop_data_dict/omop_data_dict_5.4/*
               - section: "OMOP CDM 5.3.1"
+                href: omop_data_dict/omop_data_dict_5.3/index.qmd
                 contents: omop_data_dict/omop_data_dict_5.3/*
           - section: "NeuralFrame"
+            href: neuralframe_data_dict/index.qmd
             contents: neuralframe_data_dict/*
           - section: "Philips ISPM"
+            href: philips_ispm_data_dict/index.qmd
             contents: philips_ispm_data_dict/*
           - section: "STAMP Add-On Data"
+            href: stamp_add_on_data_dict/stamp_addon_data.qmd
             contents: 
               - text: "STAMP Add-On"
                 href: stamp_add_on_data_dict/stamp_addon_data.qmd
           - section: "Epic Media Server Documents"
+            href: epic_media_server_dict/epic_media_server.qmd
             contents: 
               - text: "Epic Media Server Documents"
                 href: epic_media_server_dict/epic_media_server.qmd
           - section: "HIPPO Benchmark"
+            href: hippo_data_dict/phi_dataset.qmd
             contents: 
               - text: "Gold Standard Full Text"
                 href: hippo_data_dict/phi_dataset.qmd#full-text
               - text: "Gold Standard Spans"
                 href: hippo_data_dict/phi_dataset.qmd#spans
           - section: "Lung Resection CAP Forms"
+            href: cap_forms_data_dict/index.qmd
             contents: cap_forms_data_dict/* 
       - section: "Metadata"
         href: metadata.qmd
@@ -138,9 +152,9 @@ website:
         href: data_evolution_overview.qmd
         contents: 
           - text: "PHI Data Coverage Trends"
-            href: feb_2026/data_coverage_trends.qmd
+            href: may_2026/data_coverage_trends.qmd
           - text: "PHI Scrubbed Data Coverage Trends"
-            href: deid_feb_2026/deid_data_coverage_trends.qmd
+            href: deid_may_2026/deid_data_coverage_trends.qmd
       - section: "Data Metrics"
         contents:
           - section: "PHI Data Metrics"
@@ -196,6 +210,23 @@ website:
                     href: feb_2026/whole_slide_imaging.qmd
                   - text: "Genetic Variants"
                     href: feb_2026/variant_occ.qmd
+              - section: "May 2026"
+                href: may_2026/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: may_2026/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: may_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: may_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: may_2026/tumor_board_updated.qmd
+                  - text: "Whole Slide Imaging"
+                    href: may_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: may_2026/variant_occ.qmd
+                  - text: "Episode Table"
+                    href: may_2026/episode_table.qmd
           - section: "PHI Scrubbed Data Metrics"
             href: deid_data_metrics.qmd
             contents:
@@ -249,6 +280,23 @@ website:
                     href: deid_feb_2026/whole_slide_imaging.qmd
                   - text: "Genetic Variants"
                     href: deid_feb_2026/variant_occ.qmd
+              - section: "May 2026"
+                href: deid_may_2026/metrics_clinical.qmd
+                contents:
+                  - text: "Neural Frame"
+                    href: deid_may_2026/neural_frame.qmd
+                  - text: "Image Occurrence"
+                    href: deid_may_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: deid_may_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: deid_may_2026/tumor_board_updated.qmd
+                  - text: "Whole Slide Imaging"
+                    href: deid_may_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: deid_may_2026/variant_occ.qmd
+                  - text: "Episode Table"
+                    href: deid_may_2026/episode_table.qmd
       - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:

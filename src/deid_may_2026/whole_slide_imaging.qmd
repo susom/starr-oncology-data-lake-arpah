@@ -1,0 +1,622 @@
+---
+title: "OMOP Whole Slide Imaging"
+execute:
+  echo: false
+---
+
+```{r setup, include=FALSE}
+rm(list=ls())
+library(DT)
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/deid_may_2026/sql_params.yml"
+```
+
+### Summary:
+
+The OMOP **`_whole_slide_imaging`** table contains records of digitized pathology slides, including structured metadata, access paths to whole slide image files, **and links to structured EHR data. This table serves as a proof of concept demonstrating how whole slide imaging files can be integrated and analyzed within the OMOP framework alongside clinical data**.
+
+::: {.callout-note}
+The WSI data pull is limited to **thoracic cancer patients only** within the overall patient pool.
+:::
+
+Each record represents a single whole slide image with associated metadata including:
+
+- Patient identifier (person_id)
+- Accession number linking to clinical specimens
+- URIs to both JSON metadata and TIFF image files
+- Specimen source and type classifications
+- Procedure timing information
+- Links to clinical notes
+
+Currently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. The May 2026 release includes approximately 35,000 whole slide images in the OMOP table.
+
+Please note that the whole slide imaging dataset is in an early stage of development, and will continue to evolve as we work towards integrating more comprehensive imaging datasets in the future releases.
+
+```{r basic_counts, message=FALSE, warning=FALSE, results='hide'}
+# Fetch basic counts
+sql_basic <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_basic_counts.sql"
+basic_counts <- fetch_data_from_sql_file(sql_basic, yaml_file_path, release = "may_2026")
+
+total_images <- as.numeric(basic_counts$counts[basic_counts$metric == "total_images"])
+unique_patients <- as.numeric(basic_counts$counts[basic_counts$metric == "unique_patients"])
+unique_accessions <- as.numeric(basic_counts$counts[basic_counts$metric == "unique_accessions"])
+with_json <- as.numeric(basic_counts$counts[basic_counts$metric == "with_json"])
+with_tiff <- as.numeric(basic_counts$counts[basic_counts$metric == "with_tiff"])
+```
+
+::: {.columns}
+
+::: {.column width="50%"}
+### 📊 Dataset Overview
+- **Total WSI Files:** `r format(total_images, big.mark = ",")`
+- **Unique Patients:** `r format(unique_patients, big.mark = ",")`
+- **Unique Accessions:** `r format(unique_accessions, big.mark = ",")`
+:::
+
+::: {.column width="50%"}
+### 📁 File Availability
+- **Metadata of the WSI Files in JSON Format:** `r format(with_json, big.mark = ",")` (`r round(with_json/total_images*100, 1)`%)
+- **Metadata of the WSI Files in TIFF Format:** `r format(with_tiff, big.mark = ",")` (`r round(with_tiff/total_images*100, 1)`%)
+:::
+
+:::
+```{r temporal_trends, message=FALSE, warning=FALSE, results='hide'}
+## Temporal Trends
+
+sql_temporal <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_temporal_trends.sql"
+temporal_data <- fetch_data_from_sql_file(sql_temporal, yaml_file_path, release = "may_2026")
+
+# Create a date column for plotting
+temporal_data <- temporal_data %>%
+  mutate(date = as.Date(paste(year, month, "01", sep = "-")))
+
+date_min <- format(min(temporal_data$date), "%B %Y")
+date_max <- format(max(temporal_data$date), "%B %Y")
+```
+
+### Temporal Trends
+
+The WSI files in this dataset span procedures from **`r date_min`** to **`r date_max`**.
+
+```{r temporal_trends_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
+library(plotly)
+
+# Consolidate all months before 2023 into a single "Pre-2023" bar
+pre_2023 <- temporal_data %>%
+  filter(date < as.Date("2023-01-01")) %>%
+  summarise(
+    image_count = sum(image_count),
+    patient_count = sum(patient_count),
+    .groups = "drop"
+  ) %>%
+  mutate(date = as.Date("2023-01-01"), label = "Pre-2023")
+
+post_2023 <- temporal_data %>%
+  filter(date >= as.Date("2024-01-01")) %>%
+  mutate(label = format(date, "%b %Y"))
+
+plot_data_temporal <- bind_rows(pre_2023, post_2023) %>%
+  arrange(date) %>%
+  mutate(label = factor(label, levels = label))
+
+plot_ly(plot_data_temporal, x = ~label) %>%
+  add_bars(
+    y = ~image_count,
+    name = "WSI Files",
+    marker = list(color = "#BAE1FF", line = list(color = "#89C4E8", width = 0.5)),
+    hovertext = ~paste0(
+      label, "<br>",
+      "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+      "Patients: ", format(patient_count, big.mark = ",")
+    ),
+    hoverinfo = "text"
+  ) %>%
+  add_lines(
+    y = ~patient_count,
+    name = "Patients",
+    yaxis = "y2",
+    line = list(color = "#FF6B6B", width = 3),
+    marker = list(color = "#FF6B6B", size = 4),
+    hoverinfo = "skip"
+  ) %>%
+  layout(
+    title = list(text = "WSI Files and Patients Over Time", font = list(size = 16)),
+    xaxis = list(title = "", tickangle = -45, tickfont = list(size = 10)),
+    yaxis = list(title = "Number of WSI Files", tickformat = ","),
+    yaxis2 = list(
+      title = "Number of Patients",
+      overlaying = "y",
+      side = "right",
+      tickformat = ","
+    ),
+    legend = list(orientation = "h", x = 0.3, y = -0.2),
+    margin = list(b = 100),
+    hoverlabel = list(bgcolor = "white", font = list(size = 12))
+  )
+```
+
+```{r specimen_types, message=FALSE, warning=FALSE, results='hide'}
+#### Specimen Type Distribution
+
+sql_spec_types <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_types.sql"
+specimen_types <- fetch_data_from_sql_file(sql_spec_types, yaml_file_path, release = "may_2026")
+```
+
+```{r specimen_types_table, message=FALSE, warning=FALSE, include=FALSE}
+labels <- c(
+  "specimen_type" = "Specimen Type",
+  "image_count" = "Number of WSI Files",
+  "patient_count" = "Number of Patients",
+  "percentage" = "Percentage (%)"
+)
+
+create_gt_table_v1(
+  data = specimen_types,
+  columns = c("specimen_type", "image_count", "patient_count", "percentage"),
+  labels = labels,
+  footnote_text = "Distribution of whole slide image files by specimen type"
+)
+```
+
+
+```{r specimen_sources, message=FALSE, warning=FALSE, results='hide'}
+sql_spec_sources <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_sources.sql"
+specimen_sources <- fetch_data_from_sql_file(sql_spec_sources, yaml_file_path, release = "may_2026")
+```
+
+
+
+## Specimen / Block / Slide Distribution
+
+In pathology, each record in the WSI table corresponds to a single digitized glass slide. Understanding the hierarchy above each slide is important for interpreting the data:
+
+- **Accession**: represents a single clinical event (a patient visit or referral that triggers laboratory processing). Each accession contains one or more specimens.
+- **Specimen**: a distinct tissue sample taken from a specific anatomical site during that clinical event.
+- **Block**: a paraffin-embedded tissue section cut from a specimen, preserving the tissue for long-term storage and repeated sectioning.
+- **Slide**: a thin tissue section cut from a block and stained (typically H&E) for diagnostic assessment. Each slide is digitized as a whole slide image (WSI).
+
+The chart and table below show how the data fans out at each level of the hierarchy, aggregated per accession.
+
+
+### Summary by Hierarchy Level 
+::: {.panel-tabset}
+
+
+```{r wsi_specimen_block_slide_data, message=FALSE, warning=FALSE, results='hide'}
+sql_sbs <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_block_slide_counts.sql"
+sbs_data <- fetch_data_from_sql_file(sql_sbs, yaml_file_path, release = "may_2026")
+```
+
+### Summary
+
+```{r wsi_specimen_block_slide, message=FALSE, warning=FALSE}
+# --- Summary: median and total at each hierarchy level ---
+hierarchy_summary <- data.frame(
+  Level = c("Accessions", "Specimens", "Blocks", "Slides", "Files"),
+  Total = c(
+    nrow(sbs_data),
+    sum(sbs_data$specimens),
+    sum(sbs_data$blocks),
+    sum(sbs_data$slides),
+    sum(sbs_data$files)
+  )
+)
+hierarchy_summary$`Median per Accession` <- c(
+  1,
+  median(sbs_data$specimens),
+  median(sbs_data$blocks),
+  median(sbs_data$slides),
+  median(sbs_data$files)
+)
+
+plot_ly(hierarchy_summary,
+        x = ~factor(Level, levels = Level),
+        y = ~Total,
+        type = "bar",
+        text = ~format(Total, big.mark = ","),
+        textposition = "outside",
+        marker = list(color = "#BAE1FF", line = list(color = "#89C4E8", width = 0.5))) %>%
+  layout(
+    title = list(text = "Total Counts by Hierarchy Level", font = list(size = 16)),
+    xaxis = list(title = ""),
+    yaxis = list(title = "Count", tickformat = ","),
+    margin = list(b = 80)
+  )
+```
+
+
+
+### By Specimen
+
+```{r wsi_specimen_dist, message=FALSE, warning=FALSE, results='hide'}
+sql_spec <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_specimen_distribution.sql"
+spec_data <- fetch_data_from_sql_file(sql_spec, yaml_file_path, release = "may_2026")
+```
+
+```{r wsi_specimen_bar, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+library(ggplot2)
+
+# Top specimen labels by frequency
+top_specimens <- spec_data %>%
+  count(specimen, sort = TRUE) %>%
+  head(9) %>%
+  pull(specimen)
+
+facet_data <- spec_data %>%
+  filter(specimen %in% top_specimens) %>%
+  mutate(specimen = factor(specimen, levels = rev(top_specimens)))
+
+# Compute summary stats per specimen for annotation
+stats <- facet_data %>%
+  group_by(specimen) %>%
+  summarise(
+    n = n(),
+    med = median(num_slides_per_specimen),
+    .groups = "drop"
+  )
+
+ggplot(facet_data, aes(x = specimen, y = num_slides_per_specimen)) +
+  geom_violin(fill = "#FFD6BA", color = "#D4845A", alpha = 0.8, scale = "width", trim = TRUE) +
+  stat_summary(fun = median, geom = "point", shape = 18, size = 3, color = "#E74C3C") +
+  geom_text(data = stats,
+            aes(x = specimen, y = med,
+                label = paste0("n=", format(n, big.mark = ","), "  med=", med)),
+            hjust = -0.15, size = 4.5, color = "grey30") +
+  coord_flip() +
+  labs(
+    title = "Distribution of Slides per Specimen — by Specimen Label",
+    x = NULL,
+    y = "Number of Slides per Specimen"
+  ) +
+  scale_y_continuous(labels = scales::comma) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(size = 15, face = "bold"),
+    panel.grid.major.y = element_blank()
+  )
+```
+
+
+:::
+
+#### Specimen Source Distribution
+
+Each WSI record includes a `specimen_source` field describing the anatomical origin of the tissue (e.g., "lung, right upper lobe", "breast, left, 2 o'clock"). The raw field contains over 200 granular categories, making direct visualization impractical. To summarize, records are grouped by extracting the **first word** of the specimen source and converting it to title case — for example, all entries starting with "lung" are grouped as **Lung**, all starting with "breast" as **Breast**, etc. 
+
+Sources that don't match a recognized keyword are collected under **Other**. The **Distribution** tab shows the top groups, **Subgroups** provides an interactive sunburst drill-down into the original values within each group, and the **Summary Table** lists all groups and subgroups with counts.
+
+::: {.panel-tabset}
+
+```{r specimen_sources_grouped, message=FALSE, warning=FALSE, results='hide'}
+library(dplyr)
+library(stringr)
+
+specimen_sources_grouped <- specimen_sources %>%
+  mutate(source_group = str_extract(specimen_source, "^\\w+") %>% str_to_title()) %>%
+  mutate(source_group = ifelse(is.na(source_group), "Other", source_group)) %>%
+  group_by(source_group) %>%
+  summarise(
+    image_count = sum(image_count),
+    patient_count = sum(patient_count),
+    .groups = "drop"
+  ) %>%
+  mutate(percentage = round(image_count * 100 / sum(image_count), 1)) %>%
+  arrange(desc(image_count))
+```
+
+
+
+##### Distribution
+
+```{r specimen_sources_bar, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
+library(plotly)
+
+# Filter to groups above 1% and order by image_count for display
+plot_data <- specimen_sources_grouped %>%
+  filter(percentage > 1) %>%
+  arrange(image_count) %>%
+  mutate(source_group = factor(source_group, levels = source_group))
+
+plot_ly(plot_data,
+        y = ~source_group,
+        x = ~image_count,
+        type = "bar",
+        orientation = "h",
+        marker = list(
+          color = "#BAE1FF",
+          line = list(color = "#89C4E8", width = 0.5)
+        ),
+        text = ~paste0(percentage, "%"),
+        textposition = "outside",
+        textfont = list(size = 11, color = "grey40"),
+        hovertext = ~paste0(
+          "<b>", source_group, "</b><br>",
+          "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+          "Patients: ", format(patient_count, big.mark = ","), "<br>",
+          "Percentage: ", percentage, "%"
+        ),
+        hoverinfo = "text") %>%
+  layout(
+    title = list(text = "WSI Files by Anatomical Source", font = list(size = 16)),
+    xaxis = list(title = "Number of WSI Files", tickformat = ","),
+    yaxis = list(title = "", tickfont = list(size = 11)),
+    margin = list(l = 160, r = 60),
+    hoverlabel = list(bgcolor = "white", font = list(size = 12))
+  )
+```
+
+##### Subgroups
+
+```{r specimen_sources_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=8}
+
+# Prepare subgroup data with source_group
+plot_subgroup <- specimen_sources %>%
+  mutate(source_group = str_extract(specimen_source, "^\\w+") %>% str_to_title()) %>%
+  mutate(source_group = ifelse(is.na(source_group), "Other", source_group))
+
+# Keep only groups above 1%
+top_groups <- specimen_sources_grouped %>% filter(percentage > 1) %>% pull(source_group)
+plot_subgroup <- plot_subgroup %>%
+  filter(source_group %in% top_groups)
+
+# Build sunburst data: parent rows (groups) + child rows (individual sources)
+group_totals <- plot_subgroup %>%
+  group_by(source_group) %>%
+  summarise(image_count = sum(image_count), patient_count = sum(patient_count), .groups = "drop") %>%
+  arrange(desc(image_count))
+
+# Assign a pastel color to each group
+pastel_palette <- c(
+  "#BAE1FF", "#BAFFC9", "#FFD6BA", "#E8BAFF", "#FFFFBA",
+  "#FFC8DD", "#BDE0FE", "#C9F2C7", "#FFDAB9", "#D4C5F9",
+  "#FFF3B0", "#FFB7C5", "#A8D8EA", "#B5EAD7", "#FFDAC1"
+)
+group_colors <- setNames(
+  pastel_palette[seq_len(nrow(group_totals))],
+  group_totals$source_group
+)
+
+sunburst_parents <- group_totals %>%
+  transmute(
+    ids = source_group,
+    labels = source_group,
+    parents = "",
+    values = image_count,
+    hover = paste0("<b>", source_group, "</b><br>",
+                   "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+                   "Patients: ", format(patient_count, big.mark = ",")),
+    color = group_colors[source_group]
+  )
+
+sunburst_children <- plot_subgroup %>%
+  transmute(
+    ids = paste0(source_group, " - ", specimen_source),
+    labels = specimen_source,
+    parents = source_group,
+    values = image_count,
+    hover = paste0("<b>", specimen_source, "</b><br>",
+                   "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+                   "Patients: ", format(patient_count, big.mark = ",")),
+    color = group_colors[source_group]
+  )
+
+sunburst_data <- bind_rows(sunburst_parents, sunburst_children)
+
+plot_ly(
+  sunburst_data,
+  type = "sunburst",
+  ids = ~ids,
+  labels = ~labels,
+  parents = ~parents,
+  values = ~values,
+  branchvalues = "total",
+  hovertext = ~hover,
+  hoverinfo = "text",
+  insidetextorientation = "radial",
+  marker = list(colors = ~color)
+) %>%
+  layout(
+    title = list(text = "WSI Files by Anatomical Source", font = list(size = 16)),
+    margin = list(l = 20, r = 20, t = 60, b = 40),
+    annotations = list(
+      list(
+        text = "\U0001F50D Hover for details \u2022 Click a segment to zoom in \u2022 Click center to zoom out",
+        x = 0.5, y = -0.02, xref = "paper", yref = "paper",
+        showarrow = FALSE, font = list(size = 11, color = "grey50")
+      )
+    )
+  )
+```
+
+##### Summary Table
+
+```{r specimen_sources_grouped_table, message=FALSE, warning=FALSE}
+# Build a table with group and subgroup rows
+source_detail <- specimen_sources %>%
+  mutate(source_group = str_extract(specimen_source, "^\\w+") %>% str_to_title()) %>%
+  mutate(source_group = ifelse(is.na(source_group), "Other", source_group)) %>%
+  arrange(source_group, desc(image_count))
+
+# Merge group totals with individual rows
+table_data <- source_detail %>%
+  group_by(source_group) %>%
+  group_modify(~ {
+    group_total <- summarise(.x,
+      specimen_source = paste0(.y$source_group, " (Total)"),
+      image_count = sum(image_count),
+      patient_count = sum(patient_count)
+    )
+    bind_rows(group_total, .x)
+  }) %>%
+  ungroup() %>%
+  mutate(percentage = round(image_count * 100 / sum(specimen_sources$image_count), 2)) %>%
+  select(source_group, specimen_source, image_count, patient_count, percentage)
+
+datatable(
+  table_data,
+  colnames = c("Group", "Specimen Source", "WSI Files", "Patients", "% of Total"),
+  filter = "top",
+  options = list(
+    pageLength = 25,
+    order = list(list(2, "desc")),
+    rowCallback = DT::JS(
+      "function(row, data) {
+        if (data[1] && data[1].indexOf('(Total)') > -1) {
+          $(row).css('font-weight', 'bold');
+          $(row).css('background-color', '#f0f8ff');
+        }
+      }"
+    )
+  ),
+  rownames = FALSE
+)
+```
+
+
+
+
+:::
+
+
+## Thoracic Tumor Board Patients
+
+Thoracic tumor board patients are identified by cross-referencing visit records containing "tumor board" with patients who have a thoracic cancer diagnosis (lung, bronchus, or thymus) in the Stanford Cancer Registry (NeuralFrame). This section examines the overlap between these patients and the whole slide imaging dataset.
+
+```{r thoracic_tb_overlap, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_overlap <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_thoracic_tb_overlap.sql"
+tb_overlap <- fetch_data_from_sql_file(sql_tb_overlap, yaml_file_path, release = "may_2026")
+
+thoracic_tb_total <- as.numeric(tb_overlap$thoracic_tb_total)
+wsi_total <- as.numeric(tb_overlap$wsi_total)
+thoracic_tb_with_wsi <- as.numeric(tb_overlap$thoracic_tb_with_wsi)
+```
+
+Of the **`r format(thoracic_tb_total, big.mark = ",")`** thoracic tumor board patients, **`r format(thoracic_tb_with_wsi, big.mark = ",")`** (**`r round(thoracic_tb_with_wsi / thoracic_tb_total * 100, 1)`%**) have associated WSI files.
+
+```{r thoracic_tb_sources, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_sources <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_thoracic_tb_sources.sql"
+tb_sources <- fetch_data_from_sql_file(sql_tb_sources, yaml_file_path, release = "may_2026")
+```
+
+```{r thoracic_tb_grouped, message=FALSE, warning=FALSE, results='hide'}
+tb_sources_top10 <- tb_sources %>%
+  mutate(percentage = round(image_count * 100 / sum(image_count), 1)) %>%
+  arrange(desc(image_count)) %>%
+  slice_head(n = 10)
+```
+
+::: {.panel-tabset}
+
+##### Distribution
+
+```{r thoracic_tb_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+library(plotly)
+
+plot_data_tb <- tb_sources_top10 %>%
+  arrange(image_count) %>%
+  mutate(specimen_source = factor(specimen_source, levels = specimen_source))
+
+plot_ly(plot_data_tb,
+        y = ~specimen_source,
+        x = ~image_count,
+        type = "bar",
+        orientation = "h",
+        marker = list(
+          color = "#BAFFC9",
+          line = list(color = "#8AD4A0", width = 0.5)
+        ),
+        text = ~paste0(percentage, "%"),
+        textposition = "outside",
+        textfont = list(size = 11, color = "grey40"),
+        hovertext = ~paste0(
+          "<b>", specimen_source, "</b><br>",
+          "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+          "Patients: ", format(patient_count, big.mark = ","), "<br>",
+          "Percentage: ", percentage, "%"
+        ),
+        hoverinfo = "text") %>%
+  layout(
+    title = list(
+      text = "Top 10 Specimen Sources — Thoracic Tumor Board Patients",
+      font = list(size = 16)
+    ),
+    xaxis = list(
+      title = "Number of WSI Files",
+      tickformat = ","
+    ),
+    yaxis = list(
+      title = "",
+      tickfont = list(size = 11)
+    ),
+    margin = list(l = 160, r = 60),
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 12)
+    )
+  )
+```
+
+
+##### Specimen Type
+
+```{r thoracic_tb_spec_types, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_spec_types <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_thoracic_tb_specimen_types.sql"
+tb_spec_types <- fetch_data_from_sql_file(sql_tb_spec_types, yaml_file_path, release = "may_2026")
+tb_spec_types$percentage <- round(as.numeric(tb_spec_types$percentage), 1)
+```
+
+```{r thoracic_tb_spec_types_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
+library(plotly)
+
+plot_data_tb_st <- tb_spec_types %>%
+  arrange(image_count) %>%
+  mutate(specimen_type = factor(specimen_type, levels = specimen_type))
+
+plot_ly(plot_data_tb_st,
+        y = ~specimen_type,
+        x = ~image_count,
+        type = "bar",
+        orientation = "h",
+        marker = list(
+          color = "#BAFFC9",
+          line = list(color = "#8AD4A0", width = 0.5)
+        ),
+        text = ~paste0(percentage, "%"),
+        textposition = "outside",
+        textfont = list(size = 11, color = "grey40"),
+        hovertext = ~paste0(
+          "<b>", specimen_type, "</b><br>",
+          "WSI Files: ", format(image_count, big.mark = ","), "<br>",
+          "Patients: ", format(patient_count, big.mark = ","), "<br>",
+          "Percentage: ", percentage, "%"
+        ),
+        hoverinfo = "text") %>%
+  layout(
+    title = list(
+      text = "WSI Files by Specimen Type — Thoracic TB Patients",
+      font = list(size = 16)
+    ),
+    xaxis = list(
+      title = "Number of WSI Files",
+      tickformat = ","
+    ),
+    yaxis = list(
+      title = "",
+      tickfont = list(size = 11)
+    ),
+    margin = list(l = 180, r = 60),
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 12)
+    )
+  )
+```
+
+:::
+
+
+### Source Codes:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/deid_may_2026/whole_slide_imaging.qmd), and the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/feb26).
+
+
+

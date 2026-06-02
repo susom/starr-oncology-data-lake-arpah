@@ -172,9 +172,10 @@ ggplot(temporal_data, aes(x = date, y = image_count)) +
   scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.1))) +
   scale_x_date(date_labels = "%b %Y", date_breaks = "3 months")
 
-
-  ### Source Codes:
-##The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/feb_2026/whole_slide_imaging.qmd), and ##the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/feb_2026/sql_std/omop/wsi/##feb26).
+```
+  
+### Source Codes:
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/deid_feb_2026/whole_slide_imaging.qmd), and ##the SQL queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/##feb26).
 ```
 
 

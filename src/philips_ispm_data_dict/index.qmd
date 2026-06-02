@@ -1,0 +1,9 @@
+---
+title: "Philips ISPM Data Dictionary"
+---
+
+The following Philips IntelliSpace Precision Medicine (ISPM) genomics tables are available:
+
+| Category | Table Name |
+|:---------|:-----------|
+| Genomics | [aberrations](aberrations.qmd), [pat_diag_orders](pat_diag_orders.qmd), [specimen_data](specimen_data.qmd) |
