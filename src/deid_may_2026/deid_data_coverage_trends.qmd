@@ -1157,7 +1157,7 @@ The VISTA Oncology Data Lake integrates comprehensive molecular testing data fro
 
 **Research Applications**: This integration supports studies of actionable mutations, variant frequencies, treatment selection based on genomic profiles, and longitudinal tracking of molecular testing patterns in cancer care.
 
-**Transition to OMOP Variant Occurrence**: As of October 2025, Philips ISPM was discontinued. Genomic variant data is now captured in the OMOP `_variant_occurrence` table starting from August 2025, creating an overlap period (August-October 2025) where both systems contain data. The new OMOP table currently includes STAMP simple variants only. 
+**Transition to OMOP Variant Occurrence**: As of October 2025, Philips ISPM was discontinued. Genomic variant data is now captured in the OMOP `_variant_occurrence` table starting from August 2025, creating an overlap period (August-October 2025) where both systems contain data. The new OMOP table includes STAMP simple variants starting February 2026 and Heme-STAMP variants starting May 2026. 
 
 ::: {.panel-tabset}
 

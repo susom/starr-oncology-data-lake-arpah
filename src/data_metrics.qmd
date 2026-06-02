@@ -47,6 +47,8 @@ The February 2026 release is the fifth release of the dataset which includes upd
 The May 2026 release is the sixth release of the dataset which includes updated data sources such as OMOP 5.4, image occurrence, Stanford cancer registry, whole slide imaging, genetic variants, episode table, and additional metrics. You can find detailed information about this release by following the link below:
 
 - [May 2026 Metrics](may_2026/metrics_clinical.qmd)
+
+
 ## Future Releases
 
 Future releases will include additional metrics and updates to the existing ones.

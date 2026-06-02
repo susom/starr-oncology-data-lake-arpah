@@ -359,7 +359,7 @@ plot_ly(
     margin = list(r = 150),
     annotations = list(
       list(
-        text = "* Feb 2026 Philips ISPM includes OMOP variant_occurrence data",
+        text = "* Feb 2026 & May 2026 Philips ISPM includes OMOP variant_occurrence data",
         xref = "paper",
         yref = "paper",
         x = 0,
@@ -375,9 +375,9 @@ plot_ly(
 
 **Note<sup>†</sup>:** 
 
-- The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May 2025 to February2026 releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
+- The Tumor Board definition was updated in May 2025. February 2025 data uses the original definition based on encounter type, while May 2025 to May 2026 releases use an enhanced definition based on the OMOP visit_occurrence table, where the source value for the visit contains the phrase 'tumor board'.
 
-- Feb 2026 Philips ISPM/Genomic Data includes patients from OMOP _variant_occurrence table combined with Philips ISPM data.
+- Feb 2026 and May 2026 Philips ISPM/Genomic Data includes patients from OMOP _variant_occurrence table combined with Philips ISPM data.
 
 
 ### OMOP Clinical Metrics 
@@ -868,7 +868,7 @@ plot_ly(
 
 The VISTA Oncology Data Lake integrates comprehensive medical imaging data, linking diagnostic images to patient clinical records through the OMOP image occurrence table. This integration enables research connecting imaging studies with clinical outcomes, treatments, and genomic profiles.
 
-**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93k patients in February 2025 to over 199k patients by February 2026, representing a substantial increase in multi-modal data availability for cancer research.
+**Imaging Coverage Growth**: The imaging dataset has expanded dramatically from approximately 93k patients in February 2025 to over 200k patients by May 2026, representing a substantial increase in multi-modal data availability for cancer research.
 
 **Image Series and Studies**: The platform captures detailed imaging metadata including study identifiers, series information, anatomic regions, and imaging modalities (CT, MRI, PET, etc.), supporting comprehensive radiomics and image-based research.
 
@@ -1158,7 +1158,7 @@ The VISTA Oncology Data Lake integrates comprehensive molecular testing data fro
 
 **Research Applications**: This integration supports studies of actionable mutations, variant frequencies, treatment selection based on genomic profiles, and longitudinal tracking of molecular testing patterns in cancer care.
 
-**Transition to OMOP Variant Occurrence**: As of October 2025, Philips ISPM was discontinued. Genomic variant data is now captured in the OMOP `_variant_occurrence` table starting from August 2025, creating an overlap period (August-October 2025) where both systems contain data. The new OMOP table currently includes STAMP simple variants only. 
+**Transition to OMOP Variant Occurrence**: As of October 2025, Philips ISPM was discontinued. Genomic variant data is now captured in the OMOP `_variant_occurrence` table starting from August 2025, creating an overlap period (August-October 2025) where both systems contain data. The new OMOP table includes STAMP simple variants starting February 2026 and Heme-STAMP variants starting May 2026. 
 
 ::: {.panel-tabset}
 
