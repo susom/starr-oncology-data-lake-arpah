@@ -45,7 +45,6 @@ The May 2026 PHI scrubbed release includes updated data sources such as OMOP 5.4
 
 - [May 2026 PHI Scrubbed Metrics](deid_may_2026/metrics_clinical.qmd)
 
-
 ## Future Releases
 
 Future releases will include additional PHI scrubbed metrics and updates to the existing ones.
