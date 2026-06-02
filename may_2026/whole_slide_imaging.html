@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>OMOP Whole Slide Imaging</title>
+<title>OMOP Whole Slide Imaging – VISTA Oncology Data Lake</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,41 +23,1727 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="whole_slide_imaging_files/libs/clipboard/clipboard.min.js"></script>
-<script src="whole_slide_imaging_files/libs/quarto-html/quarto.js"></script>
-<script src="whole_slide_imaging_files/libs/quarto-html/popper.min.js"></script>
-<script src="whole_slide_imaging_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="whole_slide_imaging_files/libs/quarto-html/anchor.min.js"></script>
-<link href="whole_slide_imaging_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="whole_slide_imaging_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="whole_slide_imaging_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="whole_slide_imaging_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="whole_slide_imaging_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<link href="whole_slide_imaging_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
-<script src="whole_slide_imaging_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<script src="whole_slide_imaging_files/libs/plotly-binding-4.10.4/plotly.js"></script>
-<script src="whole_slide_imaging_files/libs/typedarray-0.1/typedarray.min.js"></script>
-<script src="whole_slide_imaging_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-<link href="whole_slide_imaging_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
-<script src="whole_slide_imaging_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
-<link href="whole_slide_imaging_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="whole_slide_imaging_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
-<link href="whole_slide_imaging_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="whole_slide_imaging_files/libs/datatables-binding-0.33/datatables.js"></script>
-<link href="whole_slide_imaging_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="whole_slide_imaging_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
-<script src="whole_slide_imaging_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../may_2026/variant_occ.html" rel="next">
+<link href="../may_2026/tumor_board_updated.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="../site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="../site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="../site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="../site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="../site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="../site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="../site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="../site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="../site_libs/datatables-binding-0.33/datatables.js"></script>
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="../site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="../site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="../site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="../site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="../site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="../site_libs/selectize-0.12.0/selectize.min.js"></script>
 
 
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="OMOP Whole Slide Imaging – VISTA Oncology Data Lake">
+<meta property="og:description" content="">
+<meta property="og:site_name" content="VISTA Oncology Data Lake">
 </head>
 
-<body class="fullcontent">
+<body class="nav-sidebar floating nav-fixed">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">VISTA Oncology Data Lake</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../about.html" aria-current="page"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_dictionary.html"> 
+<span class="menu-text">Data Dictionary</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_evolution_overview.html"> 
+<span class="menu-text">Data Evolution Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_metrics.html"> 
+<span class="menu-text">Data Metrics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../deid_data_metrics.html"> 
+<span class="menu-text">PHI Scrubbed Data Metrics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../data_labeling.html"> 
+<span class="menu-text">Data Labeling and Modeling</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../metadata.html"> 
+<span class="menu-text">Metadata</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/susom/starr-oncology-data-lake-arpah" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_metrics.html">Data Metrics</a></li><li class="breadcrumb-item"><a href="../data_metrics.html">PHI Data Metrics</a></li><li class="breadcrumb-item"><a href="../may_2026/metrics_clinical.html">May 2026</a></li><li class="breadcrumb-item"><a href="../may_2026/whole_slide_imaging.html">Whole Slide Imaging</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">November 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2026/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/released_datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Released Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Dictionary</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">OMOP-CDM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../omop_data_dict/omop_data_dict_5.4/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">OMOP CDM 5.4.2</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/cohort.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cohort</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/cost.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cost</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/dose_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">dose_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/episode.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">episode</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/episode_event.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">episode_event</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/note_nlp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note_nlp</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/source_to_concept_map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">source_to_concept_map</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/specimen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">specimen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/variant_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">_variant_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.4/whole_slide_imaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">_whole_slide_imaging</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../omop_data_dict/omop_data_dict_5.3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">OMOP CDM 5.3.1</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-11" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/attribute_definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">attribute_definition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/care_site.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">care_site</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/cdm_source.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cdm_source</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/cohort_definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cohort_definition</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_ancestor.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_ancestor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_class</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/concept_synonym.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">concept_synonym</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/condition_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/condition_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">condition_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/cost.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cost</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/death.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">death</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/device_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">device_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/domain.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">domain</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/dose_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">dose_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/drug_era.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_era</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/drug_exposure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_exposure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/drug_strength.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">drug_strength</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/fact_relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">fact_relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/image_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">image_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">location</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">measurement</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">metadata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/note.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/note_nlp.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">note_nlp</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/observation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/observation_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">observation_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/payer_plan_period.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">payer_plan_period</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/person.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">person</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/procedure_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">procedure_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/provider.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">provider</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/relationship.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">relationship</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/source_to_concept_map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">source_to_concept_map</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/specimen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">specimen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/visit_detail.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_detail</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/visit_occurrence.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">visit_occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../omop_data_dict/omop_data_dict_5.3/vocabulary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vocabulary</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../neuralframe_data_dict/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-12" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_diagnoses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Diagnoses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_misc_details.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Miscellaneous Details</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_outcomes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../neuralframe_data_dict/case_treatments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">NeuralFrame Case Treatments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../philips_ispm_data_dict/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-13" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-13" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/aberrations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Aberration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/pat_diag_orders.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Orders</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../philips_ispm_data_dict/specimen_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM Specimen</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../stamp_add_on_data_dict/stamp_addon_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP Add-On Data</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-14" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-14" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_add_on_data_dict/stamp_addon_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP Add-On</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../epic_media_server_dict/epic_media_server.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Epic Media Server Documents</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-15" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-15" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../epic_media_server_dict/epic_media_server.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Epic Media Server Documents</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../hippo_data_dict/phi_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HIPPO Benchmark</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-16" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-16" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hippo_data_dict/phi_dataset.html#full-text" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gold Standard Full Text</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../hippo_data_dict/phi_dataset.html#spans" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gold Standard Spans</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../cap_forms_data_dict/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lung Resection CAP Forms</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-17" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-17" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap_forms_data_dict/clarity_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Clarity Tables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap_forms_data_dict/processed_tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cap Forms Processed tables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap_forms_data_dict/qa_dataset.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CAP Forms QA cleaned dataset</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../metadata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Metadata</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-18" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-18" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../dicom_data_dict/dicom_data_dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">DICOM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-19" role="navigation" aria-expanded="false">
+ <span class="menu-text">Genetic</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-19" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-19" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-20" role="navigation" aria-expanded="false">
+ <span class="menu-text">STAMP All Versions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-20" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-20" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/stamp_all_versions.html#stamp-v1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#stamp-v2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#stamp-v3" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#stamp-v4" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">STAMP-V4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-21" role="navigation" aria-expanded="false">
+ <span class="menu-text">HEME-STAMP All Versions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-21" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-21" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#heme-stamp-v1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HEME-STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#heme-stamp-v2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HEME-STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#heme-stamp-v4" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">HEME-STAMP-V4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-22" role="navigation" aria-expanded="false">
+ <span class="menu-text">BED Files All Versions</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-22" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-22" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/bed_files_all_versions.html#Bed-HEME-STAMP-V1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF HEME-STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/bed_files_all_versions.html#Bed-HEME-STAMP-V2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF HEME-STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#bed-stamp-v1" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF STAMP-V1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#bed-stamp-v2" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF STAMP-V2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stamp_metadata/heme_stamp_all_versions.html#bed-stamp-v3" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">BF STAMP-V3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_evolution_overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Evolution Overview</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/data_coverage_trends.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PHI Data Coverage Trends</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/deid_data_coverage_trends.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PHI Scrubbed Data Coverage Trends</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-23" role="navigation" aria-expanded="true">
+ <span class="menu-text">Data Metrics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-23" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-23" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PHI Data Metrics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-24" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-24" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/demographic_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">February 2025</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../may_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-25" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-25" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../aug_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-26" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-26" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../nov_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">November 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-27" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-27" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../feb_2026/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">February 2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-28" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-28" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2026/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2026/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2026/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2026/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2026/whole_slide_imaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Whole Slide Imaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2026/variant_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genetic Variants</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../may_2026/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">May 2026</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-29" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-29" class="collapse list-unstyled sidebar-section depth3 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/whole_slide_imaging.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Whole Slide Imaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/variant_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genetic Variants</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2026/episode_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Episode Table</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../deid_data_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PHI Scrubbed Data Metrics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-30" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-30" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_feb_2025/demographic_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">February 2025</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../deid_may_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-31" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-31" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../deid_aug_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-32" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-32" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_aug_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_aug_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_aug_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_aug_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../deid_nov_2025/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">November 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-33" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-33" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_nov_2025/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_nov_2025/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_nov_2025/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_nov_2025/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../deid_feb_2026/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">February 2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-34" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-34" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_feb_2026/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_feb_2026/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_feb_2026/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_feb_2026/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_feb_2026/whole_slide_imaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Whole Slide Imaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_feb_2026/variant_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genetic Variants</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../deid_may_2026/metrics_clinical.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">May 2026</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-35" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-35" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/neural_frame.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Neural Frame</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/image_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Image Occurrence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/philips_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Philips ISPM</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/tumor_board_updated.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tumor Board</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/whole_slide_imaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Whole Slide Imaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/variant_occ.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genetic Variants</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../deid_may_2026/episode_table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Episode Table</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../data_labeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Labeling and Modeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-36" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-36" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-37" role="navigation" aria-expanded="false">
+ <span class="menu-text">February 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-37" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-37" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-38" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI Labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-38" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-38" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_guidelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Guidelines</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../feb_2025/phi_labeling_process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Process</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-39" role="navigation" aria-expanded="false">
+ <span class="menu-text">May 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-39" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-39" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-40" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-40" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-40" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/cap_forms_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods and Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-41" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI labeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-41" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-41" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../may_2025/phi_labeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-42" role="navigation" aria-expanded="false">
+ <span class="menu-text">August 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-42" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-42" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-43" role="navigation" aria-expanded="false">
+ <span class="menu-text">AI for Automatic Synoptic Reporting</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-43" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-43" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/cap_forms_methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods and Results</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-44" role="navigation" aria-expanded="false">
+ <span class="menu-text">PHI labeling and Modeling</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-44" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-44" class="collapse list-unstyled sidebar-section depth3 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../aug_2025/phi_labeling_modeling_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Labeling and Modeling Report</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-45" role="navigation" aria-expanded="false">
+ <span class="menu-text">November 2025</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-45" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-45" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../nov_2025/tide20_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tide 2.0 Evaluation and Reporting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary:</a></li>
+  <li><a href="#temporal-trends" id="toc-temporal-trends" class="nav-link" data-scroll-target="#temporal-trends">Temporal Trends</a></li>
+  <li><a href="#specimen-block-slide-distribution" id="toc-specimen-block-slide-distribution" class="nav-link" data-scroll-target="#specimen-block-slide-distribution">Specimen / Block / Slide Distribution</a>
+  <ul>
+  <li><a href="#summary-by-hierarchy-level" id="toc-summary-by-hierarchy-level" class="nav-link" data-scroll-target="#summary-by-hierarchy-level">Summary by Hierarchy Level</a>
+  <ul>
+  <li><a href="#specimen-source-distribution" id="toc-specimen-source-distribution" class="nav-link" data-scroll-target="#specimen-source-distribution">Specimen Source Distribution</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#thoracic-tumor-board-patients" id="toc-thoracic-tumor-board-patients" class="nav-link" data-scroll-target="#thoracic-tumor-board-patients">Thoracic Tumor Board Patients</a>
+  <ul>
+  <li><a href="#source-codes" id="toc-source-codes" class="nav-link" data-scroll-target="#source-codes">Source Codes:</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../data_metrics.html">Data Metrics</a></li><li class="breadcrumb-item"><a href="../data_metrics.html">PHI Data Metrics</a></li><li class="breadcrumb-item"><a href="../may_2026/metrics_clinical.html">May 2026</a></li><li class="breadcrumb-item"><a href="../may_2026/whole_slide_imaging.html">Whole Slide Imaging</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">OMOP Whole Slide Imaging</h1>
 </div>
@@ -79,6 +1765,19 @@ ul.task-list li input[type="checkbox"] {
 <section id="summary" class="level3">
 <h3 class="anchored" data-anchor-id="summary">Summary:</h3>
 <p>The OMOP <strong><code>_whole_slide_imaging</code></strong> table contains records of digitized pathology slides, including structured metadata, access paths to whole slide image files, <strong>and links to structured EHR data. This table serves as a proof of concept demonstrating how whole slide imaging files can be integrated and analyzed within the OMOP framework alongside clinical data</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The WSI data pull is limited to <strong>thoracic cancer patients only</strong> within the overall patient pool.</p>
+</div>
+</div>
 <p>Each record represents a single whole slide image with associated metadata including:</p>
 <ul>
 <li>Patient identifier (person_id)</li>
@@ -111,1279 +1810,108 @@ ul.task-list li input[type="checkbox"] {
 </section>
 </div>
 </div>
+<section id="temporal-trends" class="level3">
+<h3 class="anchored" data-anchor-id="temporal-trends">Temporal Trends</h3>
 <p>The WSI files in this dataset span procedures from <strong>March 2021</strong> to <strong>July 2025</strong>.</p>
-<section id="specimen-source-distribution" class="level4">
-<h4 class="anchored" data-anchor-id="specimen-source-distribution">Specimen Source Distribution</h4>
-<p>The original specimen source field contains over 200 granular anatomical categories. To provide a clearer overview, these have been consolidated into the following groups:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 41%">
-<col style="width: 58%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Group</th>
-<th>Includes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Lung/Thorax</strong></td>
-<td>All lung lobes and lateralities, transbronchial biopsy, trachea, bronchus, pleura, chest wall, mediastinum, paratracheal</td>
-</tr>
-<tr class="even">
-<td><strong>Gastrointestinal</strong></td>
-<td>Esophagus, stomach, intestine (small and large), colon (all segments), rectum, cecum, anus, gallbladder, pancreas, ampulla, bile duct</td>
-</tr>
-<tr class="odd">
-<td><strong>Lymph Node</strong></td>
-<td>Lymph node biopsies, dissections, and sentinel nodes (all locations)</td>
-</tr>
-<tr class="even">
-<td><strong>Breast</strong></td>
-<td>Breast tissue (all lateralities and quadrants)</td>
-</tr>
-<tr class="odd">
-<td><strong>Head &amp; Neck</strong></td>
-<td>Oral cavity, tongue, nasopharynx, oropharynx, pharynx, larynx, salivary glands, sinuses, ear, nasal cavity, eye, eyelid, mandible, neck, scalp, cheek, tonsil</td>
-</tr>
-<tr class="even">
-<td><strong>Brain/CNS</strong></td>
-<td>Brain (all lobes), brainstem, cerebellum, spinal cord, pituitary gland</td>
-</tr>
-<tr class="odd">
-<td><strong>Bone/Joint</strong></td>
-<td>Femur, tibia, rib, vertebra, skull, humerus, scapula, sternum, sacrum, coccyx, pelvic bone, iliac crest, joints, cartilage</td>
-</tr>
-<tr class="even">
-<td><strong>Cardiovascular</strong></td>
-<td>Heart (chambers and valves), aorta, arteries, veins, pericardium, thrombus</td>
-</tr>
-<tr class="odd">
-<td><strong>Prostate</strong></td>
-<td>Prostate (all lateralities and biopsy types), periprostatic tissue</td>
-</tr>
-<tr class="even">
-<td><strong>Gynecologic</strong></td>
-<td>Ovary, fallopian tube, uterus, cervix, vulva, vagina, endometrial biopsies, leiomyoma</td>
-</tr>
-<tr class="odd">
-<td><strong>Kidney</strong></td>
-<td>Kidney (all lateralities, native and transplant), renal pelvis</td>
-</tr>
-<tr class="even">
-<td><strong>Liver</strong></td>
-<td>Liver (native, transplant, core biopsies)</td>
-</tr>
-<tr class="odd">
-<td><strong>Thyroid/Parathyroid</strong></td>
-<td>Thyroid gland (all lateralities), parathyroid</td>
-</tr>
-<tr class="even">
-<td><strong>Slides/Blocks/Other</strong></td>
-<td>Pre-existing slides, blocks, and other prepared specimens</td>
-</tr>
-<tr class="odd">
-<td><strong>Other</strong></td>
-<td>Adrenal, bladder, ureter, urethra, skin, soft tissue, muscle, fascia, spleen, omentum, peritoneum, tissue NOS, body fluid, and remaining unclassified sources</td>
-</tr>
-</tbody>
-</table>
+<div class="cell">
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-372ca0dc0feba0468aea" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-372ca0dc0feba0468aea">{"x":{"visdat":{"173dd3533de8d":["function () ","plotlyVisDat"]},"cur_data":"173dd3533de8d","attrs":{"173dd3533de8d":{"x":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"y":{},"type":"bar","name":"WSI Files","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"hovertext":{},"hoverinfo":"text","inherit":true},"173dd3533de8d.1":{"x":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"y":{},"type":"scatter","mode":"lines","name":"Patients","yaxis":"y2","line":{"color":"#FF6B6B","width":3},"marker":{"color":"#FF6B6B","size":4},"hoverinfo":"skip","inherit":true}},"layout":{"margin":{"b":100,"l":60,"t":25,"r":10},"title":{"text":"WSI Files and Patients Over Time","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"","tickangle":-45,"tickfont":{"size":10},"type":"category","categoryorder":"array","categoryarray":["Pre-2023","Jan 2024","Feb 2024","Mar 2024","Apr 2024","May 2024","Jun 2024","Jul 2024","Aug 2024","Sep 2024","Oct 2024","Nov 2024","Dec 2024","Jan 2025","Feb 2025","Mar 2025","Apr 2025","May 2025","Jun 2025","Jul 2025"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis2":{"title":"Number of Patients","overlaying":"y","side":"right","tickformat":","},"legend":{"orientation":"h","x":0.29999999999999999,"y":-0.20000000000000001},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["Pre-2023","Jan 2024","Feb 2024","Mar 2024","Apr 2024","May 2024","Jun 2024","Jul 2024","Aug 2024","Sep 2024","Oct 2024","Nov 2024","Dec 2024","Jan 2025","Feb 2025","Mar 2025","Apr 2025","May 2025","Jun 2025","Jul 2025"],"y":[119,1123,985,1142,1438,1272,978,1020,1200,1413,1605,1256,1659,1253,1123,1559,1049,1266,984,153],"type":"bar","name":"WSI Files","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"hovertext":["Pre-2023<br>WSI Files:   119<br>Patients:   9","Jan 2024<br>WSI Files: 1,123<br>Patients:  91","Feb 2024<br>WSI Files:   985<br>Patients:  88","Mar 2024<br>WSI Files: 1,142<br>Patients:  85","Apr 2024<br>WSI Files: 1,438<br>Patients:  97","May 2024<br>WSI Files: 1,272<br>Patients:  90","Jun 2024<br>WSI Files:   978<br>Patients:  78","Jul 2024<br>WSI Files: 1,020<br>Patients:  79","Aug 2024<br>WSI Files: 1,200<br>Patients: 109","Sep 2024<br>WSI Files: 1,413<br>Patients: 107","Oct 2024<br>WSI Files: 1,605<br>Patients: 124","Nov 2024<br>WSI Files: 1,256<br>Patients:  92","Dec 2024<br>WSI Files: 1,659<br>Patients: 106","Jan 2025<br>WSI Files: 1,253<br>Patients: 128","Feb 2025<br>WSI Files: 1,123<br>Patients:  97","Mar 2025<br>WSI Files: 1,559<br>Patients: 102","Apr 2025<br>WSI Files: 1,049<br>Patients:  86","May 2025<br>WSI Files: 1,266<br>Patients:  98","Jun 2025<br>WSI Files:   984<br>Patients:  76","Jul 2025<br>WSI Files:   153<br>Patients:  18"],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["Pre-2023","Jan 2024","Feb 2024","Mar 2024","Apr 2024","May 2024","Jun 2024","Jul 2024","Aug 2024","Sep 2024","Oct 2024","Nov 2024","Dec 2024","Jan 2025","Feb 2025","Mar 2025","Apr 2025","May 2025","Jun 2025","Jul 2025"],"y":[9,91,88,85,97,90,78,79,109,107,124,92,106,128,97,102,86,98,76,18],"type":"scatter","mode":"lines+markers","name":"Patients","yaxis":"y2","line":{"color":"#FF6B6B","width":3},"marker":{"color":"#FF6B6B","size":4,"line":{"color":"rgba(255,127,14,1)"}},"hoverinfo":["skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip","skip"],"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="specimen-block-slide-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="specimen-block-slide-distribution">Specimen / Block / Slide Distribution</h2>
+<p>In pathology, each record in the WSI table corresponds to a single digitized glass slide. Understanding the hierarchy above each slide is important for interpreting the data:</p>
+<ul>
+<li><strong>Accession</strong>: represents a single clinical event (a patient visit or referral that triggers laboratory processing). Each accession contains one or more specimens.</li>
+<li><strong>Specimen</strong>: a distinct tissue sample taken from a specific anatomical site during that clinical event.</li>
+<li><strong>Block</strong>: a paraffin-embedded tissue section cut from a specimen, preserving the tissue for long-term storage and repeated sectioning.</li>
+<li><strong>Slide</strong>: a thin tissue section cut from a block and stained (typically H&amp;E) for diagnostic assessment. Each slide is digitized as a whole slide image (WSI).</li>
+</ul>
+<p>The chart and table below show how the data fans out at each level of the hierarchy, aggregated per accession.</p>
+<section id="summary-by-hierarchy-level" class="level3">
+<h3 class="anchored" data-anchor-id="summary-by-hierarchy-level">Summary by Hierarchy Level</h3>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Summary Table</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Summary</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">By Specimen</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-7a0ce2f21fef7471df60" style="width:100%;height:520px;"></div>
-<script type="application/json" data-for="htmlwidget-7a0ce2f21fef7471df60">{"x":{"visdat":{"17a5c4a8218be":["function () ","plotlyVisDat"]},"cur_data":"17a5c4a8218be","attrs":{"17a5c4a8218be":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":160,"t":25,"r":60},"title":{"text":"Whole Slide Image Files by Anatomical Source","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Head & Neck","Prostate","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Head & Neck","Prostate","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"],"x":[502,534,597,1496,1881,3101,3650,9021,12557],"orientation":"h","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":["1.4%","1.5%","1.7%","4.3%","5.4%","8.9%","10.4%","25.8%","35.9%"],"textposition":["outside","outside","outside","outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Head & Neck<\/b><br>WSI Files:    502<br>Patients:    77<br>Percentage: 1.4%","<b>Prostate<\/b><br>WSI Files:    534<br>Patients:    45<br>Percentage: 1.5%","<b>Bone/Joint<\/b><br>WSI Files:    597<br>Patients:    96<br>Percentage: 1.7%","<b>Breast<\/b><br>WSI Files:  1,496<br>Patients:    62<br>Percentage: 4.3%","<b>Other<\/b><br>WSI Files:  1,881<br>Patients:   191<br>Percentage: 5.4%","<b>Gastrointestinal<\/b><br>WSI Files:  3,101<br>Patients:   989<br>Percentage: 8.9%","<b>Lymph Node<\/b><br>WSI Files:  3,650<br>Patients:   483<br>Percentage: 10.4%","<b>Slides/Blocks/Other<\/b><br>WSI Files:  9,021<br>Patients:   595<br>Percentage: 25.8%","<b>Lung/Thorax<\/b><br>WSI Files: 12,557<br>Patients: 1,114<br>Percentage: 35.9%"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-e88124884a7593d55d9e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-e88124884a7593d55d9e">{"x":{"visdat":{"173dd2a42f5aa":["function () ","plotlyVisDat"]},"cur_data":"173dd2a42f5aa","attrs":{"173dd2a42f5aa":{"x":{},"y":{},"text":{},"textposition":"outside","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":80,"l":60,"t":25,"r":10},"title":{"text":"Total Counts by Hierarchy Level","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"","type":"category","categoryorder":"array","categoryarray":["Accessions","Specimens","Blocks","Slides","Files"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Count","tickformat":","},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["Accessions","Specimens","Blocks","Slides","Files"],"y":[2780,6969,14881,33308,34963],"text":[" 2,780"," 6,969","14,881","33,308","34,963"],"textposition":["outside","outside","outside","outside","outside"],"marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
 <div class="cell-output-display">
-<div id="mcspuraefx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mcspuraefx table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#mcspuraefx thead, #mcspuraefx tbody, #mcspuraefx tfoot, #mcspuraefx tr, #mcspuraefx td, #mcspuraefx th {
-  border-style: none;
-}
-
-#mcspuraefx p {
-  margin: 0;
-  padding: 0;
-}
-
-#mcspuraefx .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: 0;
-  margin-right: auto;
-  color: #333333;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #8B0000;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#mcspuraefx .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#mcspuraefx .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#mcspuraefx .gt_heading {
-  background-color: #FFFFFF;
-  text-align: left;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#mcspuraefx .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#mcspuraefx .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#mcspuraefx .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#mcspuraefx .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#mcspuraefx .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#mcspuraefx .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#mcspuraefx .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#mcspuraefx .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#mcspuraefx .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#mcspuraefx .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#mcspuraefx .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mcspuraefx .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#mcspuraefx .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#mcspuraefx .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#mcspuraefx .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mcspuraefx .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#mcspuraefx .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mcspuraefx .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#mcspuraefx .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mcspuraefx .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#mcspuraefx .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#mcspuraefx .gt_left {
-  text-align: left;
-}
-
-#mcspuraefx .gt_center {
-  text-align: center;
-}
-
-#mcspuraefx .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#mcspuraefx .gt_font_normal {
-  font-weight: normal;
-}
-
-#mcspuraefx .gt_font_bold {
-  font-weight: bold;
-}
-
-#mcspuraefx .gt_font_italic {
-  font-style: italic;
-}
-
-#mcspuraefx .gt_super {
-  font-size: 65%;
-}
-
-#mcspuraefx .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#mcspuraefx .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#mcspuraefx .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#mcspuraefx .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#mcspuraefx .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#mcspuraefx .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#mcspuraefx .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#mcspuraefx .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#mcspuraefx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="header gt_heading">
-<th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
-</tr>
-<tr class="odd gt_col_headings">
-<th id="source_group" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Specimen Source (Grouped)</th>
-<th id="image_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of WSI Files</th>
-<th id="patient_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of Patients</th>
-<th id="percentage" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Percentage (%)</th>
-</tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Lung/Thorax</td>
-<td class="gt_row gt_right" headers="image_count">12,557</td>
-<td class="gt_row gt_right" headers="patient_count">1,114</td>
-<td class="gt_row gt_right" headers="percentage">36</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Slides/Blocks/Other</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">9,021</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">595</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">26</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Lymph Node</td>
-<td class="gt_row gt_right" headers="image_count">3,650</td>
-<td class="gt_row gt_right" headers="patient_count">483</td>
-<td class="gt_row gt_right" headers="percentage">10</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Gastrointestinal</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">3,101</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">989</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">9</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Other</td>
-<td class="gt_row gt_right" headers="image_count">1,881</td>
-<td class="gt_row gt_right" headers="patient_count">191</td>
-<td class="gt_row gt_right" headers="percentage">5</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Breast</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">1,496</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">62</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">4</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Bone/Joint</td>
-<td class="gt_row gt_right" headers="image_count">597</td>
-<td class="gt_row gt_right" headers="patient_count">96</td>
-<td class="gt_row gt_right" headers="percentage">2</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Prostate</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">534</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">45</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">2</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Head &amp; Neck</td>
-<td class="gt_row gt_right" headers="image_count">502</td>
-<td class="gt_row gt_right" headers="patient_count">77</td>
-<td class="gt_row gt_right" headers="percentage">1</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Kidney</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">348</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">27</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Brain/CNS</td>
-<td class="gt_row gt_right" headers="image_count">336</td>
-<td class="gt_row gt_right" headers="patient_count">42</td>
-<td class="gt_row gt_right" headers="percentage">1</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Gynecologic</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">325</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">46</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Liver</td>
-<td class="gt_row gt_right" headers="image_count">266</td>
-<td class="gt_row gt_right" headers="patient_count">23</td>
-<td class="gt_row gt_right" headers="percentage">1</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Thyroid/Parathyroid</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">197</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">13</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Cardiovascular</td>
-<td class="gt_row gt_right" headers="image_count">152</td>
-<td class="gt_row gt_right" headers="patient_count">33</td>
-<td class="gt_row gt_right" headers="percentage">0</td>
-</tr>
-</tbody><tfoot class="gt_footnotes">
-<tr class="odd">
-<td colspan="4" class="gt_footnote">Distribution of whole slide image files by specimen source (grouped by anatomical region)</td>
-</tr>
-</tfoot>
-
-</table>
-
+<div>
+<figure class="figure">
+<p><img src="whole_slide_imaging_files/figure-html/wsi_specimen_bar-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-</section>
-<section id="slides-per-specimen-distribution" class="level4">
-<h4 class="anchored" data-anchor-id="slides-per-specimen-distribution">Slides per Specimen Distribution</h4>
-<p>There are <strong>4,195</strong> unique specimens (accessions) across <strong>1,834</strong> patients, with a median of <strong>6</strong> slides per specimen.</p>
+<section id="specimen-source-distribution" class="level4">
+<h4 class="anchored" data-anchor-id="specimen-source-distribution">Specimen Source Distribution</h4>
+<p>Each WSI record includes a <code>specimen_source</code> field describing the anatomical origin of the tissue (e.g., “lung, right upper lobe”, “breast, left, 2 o’clock”). The raw field contains over 200 granular categories, making direct visualization impractical. To summarize, records are grouped by extracting the <strong>first word</strong> of the specimen source and converting it to title case — for example, all entries starting with “lung” are grouped as <strong>Lung</strong>, all starting with “breast” as <strong>Breast</strong>, etc.</p>
+<p>Sources that don’t match a recognized keyword are collected under <strong>Other</strong>. The <strong>Distribution</strong> tab shows the top groups, <strong>Subgroups</strong> provides an interactive sunburst drill-down into the original values within each group, and the <strong>Summary Table</strong> lists all groups and subgroups with counts.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Summary Table</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Subgroups</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Summary Table</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-e4a557d47a04e026e4af" style="width:100%;height:325px;"></div>
-<script type="application/json" data-for="htmlwidget-e4a557d47a04e026e4af">{"x":{"visdat":{"17a5c4c549903":["function () ","plotlyVisDat"]},"cur_data":"17a5c4c549903","attrs":{"17a5c4c549903":{"x":{},"y":{},"marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","name":"Specimens","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"},"17a5c4c549903.1":{"x":{},"y":{},"marker":{"color":"#89C4E8","line":{"color":"#89C4E8","width":0.5},"size":6},"text":"","textposition":"none","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"skip","name":"Trend","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","mode":"lines+markers","line":{"color":"#89C4E8","width":2},"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":{"text":"Distribution of Slides per Specimen","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of Slides per Specimen","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Specimens","tickformat":","},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"],"y":[561,1397,1189,716,310,22],"marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":["13.4%","33.3%","28.3%","17.1%","7.4%","0.5%"],"textposition":["outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>1 slide<\/b><br>Specimens:   561<br>Patients: 313<br>Percentage: 13.4%","<b>2-5 slides<\/b><br>Specimens: 1,397<br>Patients: 843<br>Percentage: 33.3%","<b>6-10 slides<\/b><br>Specimens: 1,189<br>Patients: 900<br>Percentage: 28.3%","<b>11-20 slides<\/b><br>Specimens:   716<br>Patients: 583<br>Percentage: 17.1%","<b>21-50 slides<\/b><br>Specimens:   310<br>Patients: 285<br>Percentage: 7.4%","<b>50+ slides<\/b><br>Specimens:    22<br>Patients:  22<br>Percentage: 0.5%"],"hoverinfo":["text","text","text","text","text","text"],"name":"Specimens","type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"],"y":[561,1397,1189,716,310,22],"marker":{"color":"#89C4E8","line":{"color":"#89C4E8","width":0.5},"size":6},"text":["","","","","",""],"textposition":["none","none","none","none","none","none"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>1 slide<\/b><br>Specimens:   561<br>Patients: 313<br>Percentage: 13.4%","<b>2-5 slides<\/b><br>Specimens: 1,397<br>Patients: 843<br>Percentage: 33.3%","<b>6-10 slides<\/b><br>Specimens: 1,189<br>Patients: 900<br>Percentage: 28.3%","<b>11-20 slides<\/b><br>Specimens:   716<br>Patients: 583<br>Percentage: 17.1%","<b>21-50 slides<\/b><br>Specimens:   310<br>Patients: 285<br>Percentage: 7.4%","<b>50+ slides<\/b><br>Specimens:    22<br>Patients:  22<br>Percentage: 0.5%"],"hoverinfo":["skip","skip","skip","skip","skip","skip"],"name":"Trend","type":"scatter","mode":"lines+markers+text","line":{"color":"#89C4E8","width":2},"error_y":{"color":"rgba(255,127,14,1)"},"error_x":{"color":"rgba(255,127,14,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-bbe3582abc1e8f10c0e5" style="width:100%;height:520px;"></div>
+<script type="application/json" data-for="htmlwidget-bbe3582abc1e8f10c0e5">{"x":{"visdat":{"173dd6f2a935b":["function () ","plotlyVisDat"]},"cur_data":"173dd6f2a935b","attrs":{"173dd6f2a935b":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":160,"t":25,"r":60},"title":{"text":"WSI Files by Anatomical Source","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Esophagus","Prostate","Tissue","Stomach","Intestine","Breast","Lymph","Slides","Lung"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Esophagus","Prostate","Tissue","Stomach","Intestine","Breast","Lymph","Slides","Lung"],"x":[465,529,608,714,1399,1496,3650,9021,12113],"orientation":"h","marker":{"color":"#BAE1FF","line":{"color":"#89C4E8","width":0.5}},"text":["1.3%","1.5%","1.7%","2%","4%","4.3%","10.4%","25.8%","34.6%"],"textposition":["outside","outside","outside","outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Esophagus<\/b><br>WSI Files:    465<br>Patients:   165<br>Percentage: 1.3%","<b>Prostate<\/b><br>WSI Files:    529<br>Patients:    43<br>Percentage: 1.5%","<b>Tissue<\/b><br>WSI Files:    608<br>Patients:    45<br>Percentage: 1.7%","<b>Stomach<\/b><br>WSI Files:    714<br>Patients:   259<br>Percentage: 2%","<b>Intestine<\/b><br>WSI Files:  1,399<br>Patients:   497<br>Percentage: 4%","<b>Breast<\/b><br>WSI Files:  1,496<br>Patients:    62<br>Percentage: 4.3%","<b>Lymph<\/b><br>WSI Files:  3,650<br>Patients:   483<br>Percentage: 10.4%","<b>Slides<\/b><br>WSI Files:  9,021<br>Patients:   595<br>Percentage: 25.8%","<b>Lung<\/b><br>WSI Files: 12,113<br>Patients: 1,060<br>Percentage: 34.6%"],"hoverinfo":["text","text","text","text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-37adbd3bba31d8ef9a78" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-37adbd3bba31d8ef9a78">{"x":{"filter":"none","vertical":false,"data":[["1 slide","2-5 slides","6-10 slides","11-20 slides","21-50 slides","50+ slides"],[561,1397,1189,716,310,22],[313,843,900,583,285,22],[13.4,33.3,28.3,17.1,7.4,0.5]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Slides per Specimen<\/th>\n      <th>Number of Specimens<\/th>\n      <th>Number of Patients<\/th>\n      <th>Percentage (%)<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"dom":"t","columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"name":"slide_range","targets":0},{"name":"specimen_count","targets":1},{"name":"patient_count","targets":2},{"name":"percentage","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-f79b855cc5316b37cb87" style="width:100%;height:520px;"></div>
+<script type="application/json" data-for="htmlwidget-f79b855cc5316b37cb87">{"x":{"visdat":{"173dd245e71e8":["function () ","plotlyVisDat"]},"cur_data":"173dd245e71e8","attrs":{"173dd245e71e8":{"ids":{},"labels":{},"parents":{},"values":{},"branchvalues":"total","hovertext":{},"hoverinfo":"text","insidetextorientation":"radial","marker":{"colors":{}},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"sunburst"}},"layout":{"margin":{"b":40,"l":20,"t":60,"r":20},"title":{"text":"WSI Files by Anatomical Source","font":{"size":16}},"annotations":[{"text":"🔍 Hover for details • Click a segment to zoom in • Click center to zoom out","x":0.5,"y":-0.02,"xref":"paper","yref":"paper","showarrow":false,"font":{"size":11,"color":"grey50"}}],"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"ids":["Lung","Slides","Lymph","Breast","Intestine","Stomach","Tissue","Prostate","Esophagus","Slides - Slides/blocks/other","Lymph - Lymph Node (specify location)","Lung - Lung, Right, Upper Lobe","Lung - Lung, Left, Upper Lobe","Lung - Lung, Right, Lower Lobe","Lung - Lung, Left, Lower Lobe","Lung - Lung, Right","Lung - Lung, Left","Lung - Lung, Right, Middle Lobe","Breast - Breast, Right","Breast - Breast, Left","Tissue - Tissue","Stomach - Stomach","Lung - Lung, Transbronchial Biopsy","Esophagus - Esophagus (specify location)","Prostate - Prostate","Intestine - Intestine, Colon, Sigmoid","Intestine - Intestine, Colon, Ascending","Lung - Lung, Left, Lingula","Intestine - Intestine, Colon, Transverse","Intestine - Intestine, Duodenum","Lymph - Lymph Node, Dissection (specify location)","Intestine - Intestine, Rectum","Intestine - Intestine, Cecum","Lymph - Lymph Node, Sentinel (specify location)","Esophagus - Esophagus, Distal","Stomach - Stomach, Antrum","Intestine - Intestine, Colon: Various locations in one jar","Prostate - Prostate, Right","Intestine - Intestine, Colon, Descending","Prostate - Prostate, Left","Stomach - Stomach, Body","Prostate - Prostate, Total","Esophagus - Esophagus, Proximal","Intestine - Intestine, Colon, Right","Intestine - Intestine, Small","Intestine - Intestine, Colon, biopsy @ cm","Lung - Lung, Resection Segmental","Intestine - Intestine, Colon, Left","Lung - Lung, Bronchus","Stomach - Stomach, Incisura","Lung - Lung, Resection Lobe","Prostate - Prostate, BxBoard","Stomach - Stomach, Fundus","Esophagus - Esophagus, Mid","Stomach - Stomach, Cardia","Intestine - Intestine, Appendix","Intestine - Intestine, Ileum","Lymph - Lymph node, Non-sentinel","Intestine - Intestine, Colon, Hepatic Flexure","Breast - Breast, Left Lower Inner","Intestine - Intestine, Colon, Splenic Flexure","Stomach - Stomach, Lesser Curvature","Stomach - Stomach, Greater Curvature","Breast - Breast, Left Upper Outer","Intestine - Intestine, Jejunum","Stomach - Stomach, Pylorus"],"labels":["Lung","Slides","Lymph","Breast","Intestine","Stomach","Tissue","Prostate","Esophagus","Slides/blocks/other","Lymph Node (specify location)","Lung, Right, Upper Lobe","Lung, Left, Upper Lobe","Lung, Right, Lower Lobe","Lung, Left, Lower Lobe","Lung, Right","Lung, Left","Lung, Right, Middle Lobe","Breast, Right","Breast, Left","Tissue","Stomach","Lung, Transbronchial Biopsy","Esophagus (specify location)","Prostate","Intestine, Colon, Sigmoid","Intestine, Colon, Ascending","Lung, Left, Lingula","Intestine, Colon, Transverse","Intestine, Duodenum","Lymph Node, Dissection (specify location)","Intestine, Rectum","Intestine, Cecum","Lymph Node, Sentinel (specify location)","Esophagus, Distal","Stomach, Antrum","Intestine, Colon: Various locations in one jar","Prostate, Right","Intestine, Colon, Descending","Prostate, Left","Stomach, Body","Prostate, Total","Esophagus, Proximal","Intestine, Colon, Right","Intestine, Small","Intestine, Colon, biopsy @ cm","Lung, Resection Segmental","Intestine, Colon, Left","Lung, Bronchus","Stomach, Incisura","Lung, Resection Lobe","Prostate, BxBoard","Stomach, Fundus","Esophagus, Mid","Stomach, Cardia","Intestine, Appendix","Intestine, Ileum","Lymph node, Non-sentinel","Intestine, Colon, Hepatic Flexure","Breast, Left Lower Inner","Intestine, Colon, Splenic Flexure","Stomach, Lesser Curvature","Stomach, Greater Curvature","Breast, Left Upper Outer","Intestine, Jejunum","Stomach, Pylorus"],"parents":["","","","","","","","","","Slides","Lymph","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Breast","Breast","Tissue","Stomach","Lung","Esophagus","Prostate","Intestine","Intestine","Lung","Intestine","Intestine","Lymph","Intestine","Intestine","Lymph","Esophagus","Stomach","Intestine","Prostate","Intestine","Prostate","Stomach","Prostate","Esophagus","Intestine","Intestine","Intestine","Lung","Intestine","Lung","Stomach","Lung","Prostate","Stomach","Esophagus","Stomach","Intestine","Intestine","Lymph","Intestine","Breast","Intestine","Stomach","Stomach","Breast","Intestine","Stomach"],"values":[12113,9021,3650,1496,1399,714,608,529,465,9021,3377,2617,1871,1766,1602,1549,1089,897,848,637,608,486,480,283,273,237,207,187,183,177,155,124,113,108,98,95,92,91,88,77,76,72,71,49,44,24,21,19,18,17,16,16,15,13,12,12,11,10,9,8,8,6,5,3,2,2],"branchvalues":"total","hovertext":["<b>Lung<\/b><br>WSI Files: 12,113<br>Patients: 1,060","<b>Slides<\/b><br>WSI Files:  9,021<br>Patients:   595","<b>Lymph<\/b><br>WSI Files:  3,650<br>Patients:   483","<b>Breast<\/b><br>WSI Files:  1,496<br>Patients:    62","<b>Intestine<\/b><br>WSI Files:  1,399<br>Patients:   497","<b>Stomach<\/b><br>WSI Files:    714<br>Patients:   259","<b>Tissue<\/b><br>WSI Files:    608<br>Patients:    45","<b>Prostate<\/b><br>WSI Files:    529<br>Patients:    43","<b>Esophagus<\/b><br>WSI Files:    465<br>Patients:   165","<b>Slides/blocks/other<\/b><br>WSI Files: 9,021<br>Patients: 595","<b>Lymph Node (specify location)<\/b><br>WSI Files: 3,377<br>Patients: 438","<b>Lung, Right, Upper Lobe<\/b><br>WSI Files: 2,617<br>Patients: 214","<b>Lung, Left, Upper Lobe<\/b><br>WSI Files: 1,871<br>Patients: 180","<b>Lung, Right, Lower Lobe<\/b><br>WSI Files: 1,766<br>Patients: 161","<b>Lung, Left, Lower Lobe<\/b><br>WSI Files: 1,602<br>Patients: 133","<b>Lung, Right<\/b><br>WSI Files: 1,549<br>Patients: 121","<b>Lung, Left<\/b><br>WSI Files: 1,089<br>Patients:  79","<b>Lung, Right, Middle Lobe<\/b><br>WSI Files:   897<br>Patients:  86","<b>Breast, Right<\/b><br>WSI Files:   848<br>Patients:  32","<b>Breast, Left<\/b><br>WSI Files:   637<br>Patients:  28","<b>Tissue<\/b><br>WSI Files:   608<br>Patients:  45","<b>Stomach<\/b><br>WSI Files:   486<br>Patients: 160","<b>Lung, Transbronchial Biopsy<\/b><br>WSI Files:   480<br>Patients:  58","<b>Esophagus (specify location)<\/b><br>WSI Files:   283<br>Patients:  62","<b>Prostate<\/b><br>WSI Files:   273<br>Patients:  15","<b>Intestine, Colon, Sigmoid<\/b><br>WSI Files:   237<br>Patients:  70","<b>Intestine, Colon, Ascending<\/b><br>WSI Files:   207<br>Patients:  65","<b>Lung, Left, Lingula<\/b><br>WSI Files:   187<br>Patients:  22","<b>Intestine, Colon, Transverse<\/b><br>WSI Files:   183<br>Patients:  60","<b>Intestine, Duodenum<\/b><br>WSI Files:   177<br>Patients:  80","<b>Lymph Node, Dissection (specify location)<\/b><br>WSI Files:   155<br>Patients:  34","<b>Intestine, Rectum<\/b><br>WSI Files:   124<br>Patients:  34","<b>Intestine, Cecum<\/b><br>WSI Files:   113<br>Patients:  49","<b>Lymph Node, Sentinel (specify location)<\/b><br>WSI Files:   108<br>Patients:  10","<b>Esophagus, Distal<\/b><br>WSI Files:    98<br>Patients:  56","<b>Stomach, Antrum<\/b><br>WSI Files:    95<br>Patients:  44","<b>Intestine, Colon: Various locations in one jar<\/b><br>WSI Files:    92<br>Patients:  27","<b>Prostate, Right<\/b><br>WSI Files:    91<br>Patients:  10","<b>Intestine, Colon, Descending<\/b><br>WSI Files:    88<br>Patients:  40","<b>Prostate, Left<\/b><br>WSI Files:    77<br>Patients:   9","<b>Stomach, Body<\/b><br>WSI Files:    76<br>Patients:  29","<b>Prostate, Total<\/b><br>WSI Files:    72<br>Patients:   7","<b>Esophagus, Proximal<\/b><br>WSI Files:    71<br>Patients:  39","<b>Intestine, Colon, Right<\/b><br>WSI Files:    49<br>Patients:  22","<b>Intestine, Small<\/b><br>WSI Files:    44<br>Patients:   7","<b>Intestine, Colon, biopsy @ cm<\/b><br>WSI Files:    24<br>Patients:   6","<b>Lung, Resection Segmental<\/b><br>WSI Files:    21<br>Patients:   1","<b>Intestine, Colon, Left<\/b><br>WSI Files:    19<br>Patients:  15","<b>Lung, Bronchus<\/b><br>WSI Files:    18<br>Patients:   4","<b>Stomach, Incisura<\/b><br>WSI Files:    17<br>Patients:   8","<b>Lung, Resection Lobe<\/b><br>WSI Files:    16<br>Patients:   1","<b>Prostate, BxBoard<\/b><br>WSI Files:    16<br>Patients:   2","<b>Stomach, Fundus<\/b><br>WSI Files:    15<br>Patients:   6","<b>Esophagus, Mid<\/b><br>WSI Files:    13<br>Patients:   8","<b>Stomach, Cardia<\/b><br>WSI Files:    12<br>Patients:   5","<b>Intestine, Appendix<\/b><br>WSI Files:    12<br>Patients:   5","<b>Intestine, Ileum<\/b><br>WSI Files:    11<br>Patients:   9","<b>Lymph node, Non-sentinel<\/b><br>WSI Files:    10<br>Patients:   1","<b>Intestine, Colon, Hepatic Flexure<\/b><br>WSI Files:     9<br>Patients:   4","<b>Breast, Left Lower Inner<\/b><br>WSI Files:     8<br>Patients:   1","<b>Intestine, Colon, Splenic Flexure<\/b><br>WSI Files:     8<br>Patients:   3","<b>Stomach, Lesser Curvature<\/b><br>WSI Files:     6<br>Patients:   3","<b>Stomach, Greater Curvature<\/b><br>WSI Files:     5<br>Patients:   3","<b>Breast, Left Upper Outer<\/b><br>WSI Files:     3<br>Patients:   1","<b>Intestine, Jejunum<\/b><br>WSI Files:     2<br>Patients:   1","<b>Stomach, Pylorus<\/b><br>WSI Files:     2<br>Patients:   1"],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"insidetextorientation":"radial","marker":{"color":"rgba(31,119,180,1)","colors":["#BAE1FF","#BAFFC9","#FFD6BA","#E8BAFF","#FFFFBA","#FFC8DD","#BDE0FE","#C9F2C7","#FFDAB9","#BAFFC9","#FFD6BA","#BAE1FF","#BAE1FF","#BAE1FF","#BAE1FF","#BAE1FF","#BAE1FF","#BAE1FF","#E8BAFF","#E8BAFF","#BDE0FE","#FFC8DD","#BAE1FF","#FFDAB9","#C9F2C7","#FFFFBA","#FFFFBA","#BAE1FF","#FFFFBA","#FFFFBA","#FFD6BA","#FFFFBA","#FFFFBA","#FFD6BA","#FFDAB9","#FFC8DD","#FFFFBA","#C9F2C7","#FFFFBA","#C9F2C7","#FFC8DD","#C9F2C7","#FFDAB9","#FFFFBA","#FFFFBA","#FFFFBA","#BAE1FF","#FFFFBA","#BAE1FF","#FFC8DD","#BAE1FF","#C9F2C7","#FFC8DD","#FFDAB9","#FFC8DD","#FFFFBA","#FFFFBA","#FFD6BA","#FFFFBA","#E8BAFF","#FFFFBA","#FFC8DD","#FFC8DD","#E8BAFF","#FFFFBA","#FFC8DD"],"line":{"color":"rgba(255,255,255,1)"}},"type":"sunburst","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-a7b1f6338ac94090a7de" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a7b1f6338ac94090a7de">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1\" data-max=\"12113\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1\" data-max=\"1060\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"34.65\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Abdomen","Abdomen","Adrenal","Adrenal","Adrenal","Ampulla","Ampulla","Anus","Anus","Aorta","Aorta","Arm","Arm","Arm","Artery","Artery","Artery","Axilla","Axilla","Axilla","Back","Back","Back","Back","Bile","Bile","Bladder","Bladder","Body","Body","Bone","Bone","Bone","Brain","Brain","Brain","Brain","Brain","Brain","Brain","Brain","Brain","Brain","Brainstem","Brainstem","Breast","Breast","Breast","Breast","Breast","Cartilage","Cartilage","Cheek","Cheek","Cheek","Chest","Chest","Clavicle","Clavicle","Coccyx","Coccyx","Colon","Colon","Colon","Conjunctiva","Conjunctiva","Ear","Ear","Ear","Ear","Endometrial","Endometrial","Endometrial","Esophagus","Esophagus","Esophagus","Esophagus","Esophagus","Eye","Eye","Eye","Eyelid","Eyelid","Eyelid","Eyelid","Fascia","Fascia","Femoral","Femoral","Femoral","Femur","Femur","Femur","Finger","Finger","Finger","Foot","Foot","Forearm","Forearm","Gallbladder","Gallbladder","Groin","Groin","Groin","Hand","Hand","Hand","Heart","Heart","Heart","Heart","Heart","Heart","Hernia","Hernia","Hernia","Hernia","Humerus","Humerus","Humerus","Ileostomy","Ileostomy","Iliac","Iliac","Iliac","Intervertebral","Intervertebral","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Intestine","Joint","Joint","Joint","Joint","Kidney","Kidney","Kidney","Kidney","Kidney","Larynx","Larynx","Larynx","Leg","Leg","Leg","Leiomyoma","Leiomyoma","Liver","Liver","Liver","Liver","Liver","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Lung","Lymph","Lymph","Lymph","Lymph","Lymph","Mandible","Mandible","Mandible","Mandible","Mastoid","Mastoid","Mediastinum","Mediastinum","Muscle","Muscle","Muscle","Muscle","Nasal","Nasal","Nasal","Nasal","Nasopharynx","Nasopharynx","Neck","Neck","Neck","Nerve","Nerve","Nose","Nose","Omentum","Omentum","Oral","Oral","Oral","Orbit","Orbit","Oropharynx","Oropharynx","Other","Other","Other","Other","Ovary","Ovary","Ovary","Pancreas","Pancreas","Parapharyngeal","Parapharyngeal","Parathyroid","Parathyroid","Parathyroid","Paratracheal","Paratracheal","Pelvic","Pelvic","Pelvic","Periaorta","Periaorta","Pericardial","Pericardial","Pericardium","Pericardium","Periprostatic","Periprostatic","Peritoneum","Peritoneum","Pharynx","Pharynx","Pituitary","Pituitary","Pleura","Pleura","Pleura","Pleura","Prostate","Prostate","Prostate","Prostate","Prostate","Prostate","Rectum","Rectum","Renal","Renal","Rib","Rib","Rib","Rib","Sacrum","Sacrum","Salivary","Salivary","Salivary","Scalp","Scalp","Scapula","Scapula","Shoulder","Shoulder","Sinus","Sinus","Sinus","Sinus","Skin","Skin","Skin","Skin","Skull","Skull","Slides","Slides","Soft","Soft","Spinal","Spinal","Spleen","Spleen","Sternum","Sternum","Stomach","Stomach","Stomach","Stomach","Stomach","Stomach","Stomach","Stomach","Stomach","Stomach","Thigh","Thigh","Thigh","Thrombus","Thrombus","Thymus","Thymus","Thyroid","Thyroid","Thyroid","Thyroid","Thyroid","Tibia","Tibia","Tissue","Tissue","Toe","Toe","Tongue","Tongue","Tonsil","Tonsil","Trachea","Trachea","Ulcer","Ulcer","Unknown","Unknown","Ureter","Ureter","Ureter","Ureter","Urethra","Urethra","Uterine","Uterine","Uterus","Uterus","Uterus","Uterus","Uterus","Vagina","Vagina","Vein","Vein","Vertebra","Vertebra","Vocal","Vocal","Vulva","Vulva","Vulva","Vulva","Wrist","Wrist"],["Abdomen (Total)","Abdomen","Adrenal (Total)","Adrenal, Left","Adrenal, Right","Ampulla (Total)","Ampulla","Anus (Total)","Anus","Aorta (Total)","Aorta","Arm (Total)","Arm, Left","Arm, Right","Artery (Total)","Artery (specify location and laterality)","Artery, Temporal, Left","Axilla (Total)","Axilla, Right","Axilla, Left","Back (Total)","Back, Middle","Back, Upper","Back, Lower","Bile (Total)","Bile Duct","Bladder (Total)","Bladder","Body (Total)","Body Fluid (Specify Fluid)","Bone (Total)","Bone Marrow, Core (for Biopsy)","Bone","Brain (Total)","Brain, frontal lobe, left","Brain, frontal lobe, right","Brain, parietal lobe, right","Brain, parietal lobe, left","Brain, occipital lobe, left","Brain, temporal lobe, right","Brain, cerebellum","Brain, occipital lobe, right","Brain","Brainstem (Total)","Brainstem (Specify location)","Breast (Total)","Breast, Right","Breast, Left","Breast, Left Lower Inner","Breast, Left Upper Outer","Cartilage (Total)","Cartilage","Cheek (Total)","Cheek, Right","Cheek, Left","Chest (Total)","Chest","Clavicle (Total)","Clavicle, Left","Coccyx (Total)","Coccyx","Colon (Total)","Colon Polyp","Colon","Conjunctiva (Total)","Conjunctiva","Ear (Total)","Ear, External, Left","Ear, Canal, Left","Ear, Middle Ear, Left","Endometrial (Total)","Endometrial Biopsy","Endometrial Curettage","Esophagus (Total)","Esophagus (specify location)","Esophagus, Distal","Esophagus, Proximal","Esophagus, Mid","Eye (Total)","Eye, Right","Eye, Left","Eyelid (Total)","Eyelid, Lower, Right","Eyelid, Upper, Right","Eyelid, Lower, Left","Fascia (Total)","Fascia, Abdomen","Femoral (Total)","Femoral Head, Left","Femoral Head, Right","Femur (Total)","Femur, Right","Femur, Left","Finger (Total)","Finger, First, Left","Finger, First, Right","Foot (Total)","Foot, Right","Forearm (Total)","Forearm, Left","Gallbladder (Total)","Gallbladder","Groin (Total)","Groin, Right","Groin, Left","Hand (Total)","Hand, Palm, Left","Hand, Left","Heart (Total)","Heart","Heart, Native","Heart, Aortic Valve","Heart, Left Atrium","Heart, Mitral Valve","Hernia (Total)","Hernia, Diaphragmatic","Hernia, Inguinal, Left","Hernia, Abdominal","Humerus (Total)","Humerus, Left","Humerus, Right","Ileostomy (Total)","Ileostomy","Iliac (Total)","Iliac Crest, Left","Iliac Crest, Right","Intervertebral (Total)","Intervertebral Disc (specify location)","Intestine (Total)","Intestine, Colon, Sigmoid","Intestine, Colon, Ascending","Intestine, Colon, Transverse","Intestine, Duodenum","Intestine, Rectum","Intestine, Cecum","Intestine, Colon: Various locations in one jar","Intestine, Colon, Descending","Intestine, Colon, Right","Intestine, Small","Intestine, Colon, biopsy @ cm","Intestine, Colon, Left","Intestine, Appendix","Intestine, Ileum","Intestine, Colon, Hepatic Flexure","Intestine, Colon, Splenic Flexure","Intestine, Jejunum","Joint (Total)","Joint, Shoulder, Right","Joint, Hip, Left","Joint, Hip, Right","Kidney (Total)","Kidney, Left","Kidney, Left, Native","Kidney, Right","Kidney, Right, Native","Larynx (Total)","Larynx, Vocal Cord, Right","Larynx (specify location)","Leg (Total)","Leg, Upper Left","Leg, Lower Left","Leiomyoma (Total)","Leiomyoma, Myomectomy (Without Uterus)","Liver (Total)","Liver","Liver, Native","Liver, Transplant","Liver Core","Lung (Total)","Lung, Right, Upper Lobe","Lung, Left, Upper Lobe","Lung, Right, Lower Lobe","Lung, Left, Lower Lobe","Lung, Right","Lung, Left","Lung, Right, Middle Lobe","Lung, Transbronchial Biopsy","Lung, Left, Lingula","Lung, Resection Segmental","Lung, Bronchus","Lung, Resection Lobe","Lymph (Total)","Lymph Node (specify location)","Lymph Node, Dissection (specify location)","Lymph Node, Sentinel (specify location)","Lymph node, Non-sentinel","Mandible (Total)","Mandible, Right","Mandible, Left","Mandible","Mastoid (Total)","Mastoid, Left","Mediastinum (Total)","Mediastinum (specify location)","Muscle (Total)","Muscle, Trapezius, Left","Muscle, Internal Intercostal Muscle, Right","Muscle, Thoracic Diaphragm, Right Dome","Nasal (Total)","Nasal Cavity, Right","Nasal Cavity, Bilateral","Nasal Cavity, Left","Nasopharynx (Total)","Nasopharynx","Neck (Total)","Neck, Left","Neck, Right","Nerve (Total)","Nerve (specify location and laterality)","Nose (Total)","Nose","Omentum (Total)","Omentum","Oral (Total)","Oral Cavity","Oral Mucosa DIF","Orbit (Total)","Orbit, Right","Oropharynx (Total)","Oropharynx","Other (Total)",".Lung, Laterality Not Provided (or Mixed Lavage)","Other","**Ear, Internal, Left**","Ovary (Total)","Ovary and Fallopian Tube, Right","Ovary and Fallopian Tube, Left","Pancreas (Total)","Pancreas","Parapharyngeal (Total)","Parapharyngeal","Parathyroid (Total)","Parathyroid","Parathyroid, Right","Paratracheal (Total)","Paratracheal","Pelvic (Total)","Pelvic Bone, Right","Pelvic Bone, Left","Periaorta (Total)","Periaorta","Pericardial (Total)","Pericardial Cavity","Pericardium (Total)","Pericardium","Periprostatic (Total)","Periprostatic","Peritoneum (Total)","Peritoneum","Pharynx (Total)","Pharynx","Pituitary (Total)","Pituitary Gland","Pleura (Total)","Pleura, Right","Pleura","Pleura, Left","Prostate (Total)","Prostate","Prostate, Right","Prostate, Left","Prostate, Total","Prostate, BxBoard","Rectum (Total)","Rectum","Renal (Total)","Renal Pelvis, Left","Rib (Total)","Rib, Right","Rib, Left","Rib","Sacrum (Total)","Sacrum","Salivary (Total)","Salivary Gland, Parotid, Left","Salivary Gland, Parotid, Right","Scalp (Total)","Scalp (Specify location)","Scapula (Total)","Scapula, Left","Shoulder (Total)","Shoulder, Right","Sinus (Total)","Sinus, Right","Sinus, Left","Sinus, Bilateral","Skin (Total)","Skin, Other","Skin, Cyst/Tag/Debridement","Skin (specify location)","Skull (Total)","Skull (specify location)","Slides (Total)","Slides/blocks/other","Soft (Total)","Soft Tissue (Not Organ, Not Muscle, Not Bone, Not Skin; specify location)","Spinal (Total)","Spinal Cord (specify location)","Spleen (Total)","Spleen","Sternum (Total)","Sternum","Stomach (Total)","Stomach","Stomach, Antrum","Stomach, Body","Stomach, Incisura","Stomach, Fundus","Stomach, Cardia","Stomach, Lesser Curvature","Stomach, Greater Curvature","Stomach, Pylorus","Thigh (Total)","Thigh, Right","Thigh, Left","Thrombus (Total)","Thrombus (specify location)","Thymus (Total)","Thymus","Thyroid (Total)","Thyroid Gland, Left","Thyroid","Thyroid Gland, Total","Thyroid Gland, Right","Tibia (Total)","Tibia, Right","Tissue (Total)","Tissue","Toe (Total)","Toe, Left, First","Tongue (Total)","Tongue","Tonsil (Total)","Tonsil, Left","Trachea (Total)","Trachea","Ulcer (Total)","Ulcer","Unknown (Total)","Unknown","Ureter (Total)","Ureter","Ureter, Right","Ureter, Left","Urethra (Total)","Urethra","Uterine (Total)","Uterine Cervix","Uterus (Total)","Uterus, Endometrium","Uterus, Tubes and Ovaries","Uterus and Cervix","Uterus, Endocervix","Vagina (Total)","Vagina","Vein (Total)","Vein (specify location)","Vertebra (Total)","Vertebra (specify location)","Vocal (Total)","Vocal Cord","Vulva (Total)","Vulva, Left","Vulva, Right","Vulva","Wrist (Total)","Wrist, Left (non-joint)"],[9,9,19,10,9,24,24,16,16,27,27,23,19,4,32,18,14,125,66,59,44,22,14,8,3,3,128,128,9,9,31,18,13,289,61,43,35,34,33,29,28,18,8,7,7,1496,848,637,8,3,6,6,7,4,3,136,136,10,10,1,1,96,50,46,2,2,52,44,7,1,20,18,2,465,283,98,71,13,27,23,4,43,29,8,6,11,11,32,20,12,97,64,33,11,8,3,8,8,1,1,25,25,11,7,4,9,5,4,39,18,9,5,4,3,18,16,1,1,26,19,7,1,1,14,9,5,1,1,1399,237,207,183,177,124,113,92,88,49,44,24,19,12,11,9,8,2,22,11,9,2,327,187,117,19,4,27,16,11,17,9,8,10,10,266,219,31,11,5,12113,2617,1871,1766,1602,1549,1089,897,480,187,21,18,16,3650,3377,155,108,10,13,11,1,1,15,15,83,83,19,14,3,2,46,32,12,2,44,44,57,46,11,10,10,8,8,7,7,19,15,4,2,2,11,11,286,230,53,3,124,64,60,354,354,20,20,4,3,1,5,5,17,13,4,2,2,4,4,37,37,5,5,73,73,1,1,5,5,156,121,18,17,529,273,91,77,72,16,4,4,2,2,68,49,14,5,23,23,30,17,13,6,6,30,30,9,9,18,9,6,3,18,9,6,3,67,67,9021,9021,33,33,35,35,4,4,3,3,714,486,95,76,17,15,12,6,5,2,42,39,3,7,7,311,311,193,106,38,29,20,11,11,608,608,5,5,55,55,4,4,48,48,2,2,11,11,31,15,14,2,1,1,47,47,83,47,30,4,2,23,23,4,4,123,123,10,10,18,8,5,5,3,3],[4,4,2,1,1,3,3,2,2,5,5,2,1,1,4,2,2,12,6,6,9,5,1,3,1,1,14,14,1,1,5,2,3,35,7,7,3,5,2,2,4,3,2,1,1,62,32,28,1,1,1,1,2,1,1,10,10,1,1,1,1,25,12,13,1,1,5,3,1,1,6,5,1,165,62,56,39,8,7,5,2,6,3,1,2,1,1,2,1,1,8,5,3,2,1,1,1,1,1,1,21,21,2,1,1,2,1,1,10,3,1,3,1,2,3,1,1,1,2,1,1,1,1,3,2,1,1,1,497,70,65,60,80,34,49,27,40,22,7,6,15,5,9,4,3,1,3,1,1,1,24,12,9,2,1,4,2,2,3,1,2,1,1,23,18,3,1,1,1060,214,180,161,133,121,79,86,58,22,1,4,1,483,438,34,10,1,5,3,1,1,1,1,11,11,3,1,1,1,3,1,1,1,6,6,5,4,1,2,2,1,1,4,4,5,4,1,1,1,2,2,31,24,6,1,10,5,5,13,13,1,1,3,2,1,2,2,2,1,1,1,1,1,1,8,8,2,2,2,2,1,1,1,1,24,17,2,5,43,15,10,9,7,2,2,2,1,1,41,23,13,5,1,1,3,2,1,1,1,1,1,2,2,9,4,3,2,3,1,1,1,4,4,595,595,7,7,5,5,1,1,1,1,259,160,44,29,8,6,5,3,3,1,4,3,1,2,2,18,18,10,4,1,2,3,1,1,45,45,1,1,6,6,2,2,6,6,1,1,3,3,6,1,4,1,1,1,4,4,17,14,1,1,1,3,3,2,2,17,17,1,1,5,2,1,2,1,1],[0.03,0.03,0.05,0.03,0.03,0.07000000000000001,0.07000000000000001,0.05,0.05,0.08,0.08,0.07000000000000001,0.05,0.01,0.09,0.05,0.04,0.36,0.19,0.17,0.13,0.06,0.04,0.02,0.01,0.01,0.37,0.37,0.03,0.03,0.09,0.05,0.04,0.83,0.17,0.12,0.1,0.1,0.09,0.08,0.08,0.05,0.02,0.02,0.02,4.28,2.43,1.82,0.02,0.01,0.02,0.02,0.02,0.01,0.01,0.39,0.39,0.03,0.03,0,0,0.27,0.14,0.13,0.01,0.01,0.15,0.13,0.02,0,0.06,0.05,0.01,1.33,0.8100000000000001,0.28,0.2,0.04,0.08,0.07000000000000001,0.01,0.12,0.08,0.02,0.02,0.03,0.03,0.09,0.06,0.03,0.28,0.18,0.09,0.03,0.02,0.01,0.02,0.02,0,0,0.07000000000000001,0.07000000000000001,0.03,0.02,0.01,0.03,0.01,0.01,0.11,0.05,0.03,0.01,0.01,0.01,0.05,0.05,0,0,0.07000000000000001,0.05,0.02,0,0,0.04,0.03,0.01,0,0,4,0.68,0.59,0.52,0.51,0.35,0.32,0.26,0.25,0.14,0.13,0.07000000000000001,0.05,0.03,0.03,0.03,0.02,0.01,0.06,0.03,0.03,0.01,0.9399999999999999,0.53,0.33,0.05,0.01,0.08,0.05,0.03,0.05,0.03,0.02,0.03,0.03,0.76,0.63,0.09,0.03,0.01,34.65,7.49,5.35,5.05,4.58,4.43,3.11,2.57,1.37,0.53,0.06,0.05,0.05,10.44,9.66,0.44,0.31,0.03,0.04,0.03,0,0,0.04,0.04,0.24,0.24,0.05,0.04,0.01,0.01,0.13,0.09,0.03,0.01,0.13,0.13,0.16,0.13,0.03,0.03,0.03,0.02,0.02,0.02,0.02,0.05,0.04,0.01,0.01,0.01,0.03,0.03,0.82,0.66,0.15,0.01,0.35,0.18,0.17,1.01,1.01,0.06,0.06,0.01,0.01,0,0.01,0.01,0.05,0.04,0.01,0.01,0.01,0.01,0.01,0.11,0.11,0.01,0.01,0.21,0.21,0,0,0.01,0.01,0.45,0.35,0.05,0.05,1.51,0.78,0.26,0.22,0.21,0.05,0.01,0.01,0.01,0.01,0.19,0.14,0.04,0.01,0.07000000000000001,0.07000000000000001,0.09,0.05,0.04,0.02,0.02,0.09,0.09,0.03,0.03,0.05,0.03,0.02,0.01,0.05,0.03,0.02,0.01,0.19,0.19,25.8,25.8,0.09,0.09,0.1,0.1,0.01,0.01,0.01,0.01,2.04,1.39,0.27,0.22,0.05,0.04,0.03,0.02,0.01,0.01,0.12,0.11,0.01,0.02,0.02,0.89,0.89,0.55,0.3,0.11,0.08,0.06,0.03,0.03,1.74,1.74,0.01,0.01,0.16,0.16,0.01,0.01,0.14,0.14,0.01,0.01,0.03,0.03,0.09,0.04,0.04,0.01,0,0,0.13,0.13,0.24,0.13,0.09,0.01,0.01,0.07000000000000001,0.07000000000000001,0.01,0.01,0.35,0.35,0.03,0.03,0.05,0.02,0.01,0.01,0.01,0.01]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Group<\/th>\n      <th>Specimen Source<\/th>\n      <th>WSI Files<\/th>\n      <th>Patients<\/th>\n      <th>% of Total<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":25,"order":[[2,"desc"]],"rowCallback":"function(row, data) {\n        if (data[1] && data[1].indexOf('(Total)') > -1) {\n          $(row).css('font-weight', 'bold');\n          $(row).css('background-color', '#f0f8ff');\n        }\n      }","columnDefs":[{"className":"dt-right","targets":[2,3,4]},{"name":"source_group","targets":0},{"name":"specimen_source","targets":1},{"name":"image_count","targets":2},{"name":"patient_count","targets":3},{"name":"percentage","targets":4}],"autoWidth":false,"orderClasses":false,"orderCellsTop":true}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
 </div>
 </div>
 </section>
+</section>
+</section>
 <section id="thoracic-tumor-board-patients" class="level2">
 <h2 class="anchored" data-anchor-id="thoracic-tumor-board-patients">Thoracic Tumor Board Patients</h2>
 <p>Thoracic tumor board patients are identified by cross-referencing visit records containing “tumor board” with patients who have a thoracic cancer diagnosis (lung, bronchus, or thymus) in the Stanford Cancer Registry (NeuralFrame). This section examines the overlap between these patients and the whole slide imaging dataset.</p>
 <p>Of the <strong>3,013</strong> thoracic tumor board patients, <strong>730</strong> (<strong>24.2%</strong>) have associated WSI files.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true" href="">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false" href="">Summary Table</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false" href="">Specimen Type</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Distribution</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Specimen Type</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <div class="cell">
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-70582cfd8ff3fd62913d" style="width:100%;height:390px;"></div>
-<script type="application/json" data-for="htmlwidget-70582cfd8ff3fd62913d">{"x":{"visdat":{"17a5c7ec49d28":["function () ","plotlyVisDat"]},"cur_data":"17a5c7ec49d28","attrs":{"17a5c7ec49d28":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":160,"t":25,"r":60},"title":{"text":"WSI Files by Source — Thoracic Tumor Board Patients","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Thyroid/Parathyroid","Cardiovascular","Brain/CNS","Gynecologic","Liver","Prostate","Kidney","Head & Neck","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Thyroid/Parathyroid","Cardiovascular","Brain/CNS","Gynecologic","Liver","Prostate","Kidney","Head & Neck","Bone/Joint","Breast","Other","Gastrointestinal","Lymph Node","Slides/Blocks/Other","Lung/Thorax"],"x":[59,79,156,184,187,204,208,277,326,397,967,1383,1477,3803,4940],"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":["0.4%","0.5%","1.1%","1.3%","1.3%","1.4%","1.4%","1.9%","2.2%","2.7%","6.6%","9.4%","10.1%","26%","33.7%"],"textposition":["outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Thyroid/Parathyroid<\/b><br>WSI Files:    59<br>Patients:   7<br>Percentage: 0.4%","<b>Cardiovascular<\/b><br>WSI Files:    79<br>Patients:  16<br>Percentage: 0.5%","<b>Brain/CNS<\/b><br>WSI Files:   156<br>Patients:  18<br>Percentage: 1.1%","<b>Gynecologic<\/b><br>WSI Files:   184<br>Patients:  27<br>Percentage: 1.3%","<b>Liver<\/b><br>WSI Files:   187<br>Patients:  15<br>Percentage: 1.3%","<b>Prostate<\/b><br>WSI Files:   204<br>Patients:  19<br>Percentage: 1.4%","<b>Kidney<\/b><br>WSI Files:   208<br>Patients:  16<br>Percentage: 1.4%","<b>Head & Neck<\/b><br>WSI Files:   277<br>Patients:  40<br>Percentage: 1.9%","<b>Bone/Joint<\/b><br>WSI Files:   326<br>Patients:  54<br>Percentage: 2.2%","<b>Breast<\/b><br>WSI Files:   397<br>Patients:  16<br>Percentage: 2.7%","<b>Other<\/b><br>WSI Files:   967<br>Patients:  95<br>Percentage: 6.6%","<b>Gastrointestinal<\/b><br>WSI Files: 1,383<br>Patients: 419<br>Percentage: 9.4%","<b>Lymph Node<\/b><br>WSI Files: 1,477<br>Patients: 170<br>Percentage: 10.1%","<b>Slides/Blocks/Other<\/b><br>WSI Files: 3,803<br>Patients: 247<br>Percentage: 26%","<b>Lung/Thorax<\/b><br>WSI Files: 4,940<br>Patients: 448<br>Percentage: 33.7%"],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-a2268b90e4cd25a87dcf" style="width:100%;height:390px;"></div>
+<script type="application/json" data-for="htmlwidget-a2268b90e4cd25a87dcf">{"x":{"visdat":{"173dd3b28a9a9":["function () ","plotlyVisDat"]},"cur_data":"173dd3b28a9a9","attrs":{"173dd3b28a9a9":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":160,"t":25,"r":60},"title":{"text":"Top 10 Specimen Sources — Thoracic Tumor Board Patients","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Tissue","Lung, Right, Middle Lobe","Lung, Left","Lung, Right","Lung, Left, Upper Lobe","Lung, Left, Lower Lobe","Lung, Right, Lower Lobe","Lung, Right, Upper Lobe","Lymph Node (specify location)","Slides/blocks/other"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Tissue","Lung, Right, Middle Lobe","Lung, Left","Lung, Right","Lung, Left, Upper Lobe","Lung, Left, Lower Lobe","Lung, Right, Lower Lobe","Lung, Right, Upper Lobe","Lymph Node (specify location)","Slides/blocks/other"],"x":[309,386,423,552,640,640,779,897,1364,3803],"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":["2.1%","2.6%","2.9%","3.8%","4.4%","4.4%","5.3%","6.1%","9.3%","26%"],"textposition":["outside","outside","outside","outside","outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Tissue<\/b><br>WSI Files:   309<br>Patients:  23<br>Percentage: 2.1%","<b>Lung, Right, Middle Lobe<\/b><br>WSI Files:   386<br>Patients:  41<br>Percentage: 2.6%","<b>Lung, Left<\/b><br>WSI Files:   423<br>Patients:  30<br>Percentage: 2.9%","<b>Lung, Right<\/b><br>WSI Files:   552<br>Patients:  46<br>Percentage: 3.8%","<b>Lung, Left, Upper Lobe<\/b><br>WSI Files:   640<br>Patients:  68<br>Percentage: 4.4%","<b>Lung, Left, Lower Lobe<\/b><br>WSI Files:   640<br>Patients:  57<br>Percentage: 4.4%","<b>Lung, Right, Lower Lobe<\/b><br>WSI Files:   779<br>Patients:  65<br>Percentage: 5.3%","<b>Lung, Right, Upper Lobe<\/b><br>WSI Files:   897<br>Patients:  71<br>Percentage: 6.1%","<b>Lymph Node (specify location)<\/b><br>WSI Files: 1,364<br>Patients: 153<br>Percentage: 9.3%","<b>Slides/blocks/other<\/b><br>WSI Files: 3,803<br>Patients: 247<br>Percentage: 26%"],"hoverinfo":["text","text","text","text","text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
 <div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="cell">
 <div class="cell-output-display">
-<div id="ueagepxnry" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ueagepxnry table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#ueagepxnry thead, #ueagepxnry tbody, #ueagepxnry tfoot, #ueagepxnry tr, #ueagepxnry td, #ueagepxnry th {
-  border-style: none;
-}
-
-#ueagepxnry p {
-  margin: 0;
-  padding: 0;
-}
-
-#ueagepxnry .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: 0;
-  margin-right: auto;
-  color: #333333;
-  font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #8B0000;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#ueagepxnry .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#ueagepxnry .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#ueagepxnry .gt_heading {
-  background-color: #FFFFFF;
-  text-align: left;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#ueagepxnry .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#ueagepxnry .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#ueagepxnry .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#ueagepxnry .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#ueagepxnry .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#ueagepxnry .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#ueagepxnry .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#ueagepxnry .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#ueagepxnry .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#ueagepxnry .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#ueagepxnry .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ueagepxnry .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#ueagepxnry .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#ueagepxnry .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#ueagepxnry .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ueagepxnry .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#ueagepxnry .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ueagepxnry .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#ueagepxnry .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ueagepxnry .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#ueagepxnry .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#ueagepxnry .gt_left {
-  text-align: left;
-}
-
-#ueagepxnry .gt_center {
-  text-align: center;
-}
-
-#ueagepxnry .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#ueagepxnry .gt_font_normal {
-  font-weight: normal;
-}
-
-#ueagepxnry .gt_font_bold {
-  font-weight: bold;
-}
-
-#ueagepxnry .gt_font_italic {
-  font-style: italic;
-}
-
-#ueagepxnry .gt_super {
-  font-size: 65%;
-}
-
-#ueagepxnry .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#ueagepxnry .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#ueagepxnry .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#ueagepxnry .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#ueagepxnry .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#ueagepxnry .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#ueagepxnry .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#ueagepxnry .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#ueagepxnry div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-
-<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="header gt_heading">
-<th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border"></th>
-</tr>
-<tr class="odd gt_col_headings">
-<th id="source_group" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Specimen Source (Grouped)</th>
-<th id="image_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of WSI Files</th>
-<th id="patient_count" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Number of Patients</th>
-<th id="percentage" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold; font-size: 16px" scope="col">Percentage (%)</th>
-</tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Lung/Thorax</td>
-<td class="gt_row gt_right" headers="image_count">4,940</td>
-<td class="gt_row gt_right" headers="patient_count">448</td>
-<td class="gt_row gt_right" headers="percentage">34</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Slides/Blocks/Other</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">3,803</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">247</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">26</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Lymph Node</td>
-<td class="gt_row gt_right" headers="image_count">1,477</td>
-<td class="gt_row gt_right" headers="patient_count">170</td>
-<td class="gt_row gt_right" headers="percentage">10</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Gastrointestinal</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">1,383</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">419</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">9</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Other</td>
-<td class="gt_row gt_right" headers="image_count">967</td>
-<td class="gt_row gt_right" headers="patient_count">95</td>
-<td class="gt_row gt_right" headers="percentage">7</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Breast</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">397</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">16</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">3</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Bone/Joint</td>
-<td class="gt_row gt_right" headers="image_count">326</td>
-<td class="gt_row gt_right" headers="patient_count">54</td>
-<td class="gt_row gt_right" headers="percentage">2</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Head &amp; Neck</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">277</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">40</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">2</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Kidney</td>
-<td class="gt_row gt_right" headers="image_count">208</td>
-<td class="gt_row gt_right" headers="patient_count">16</td>
-<td class="gt_row gt_right" headers="percentage">1</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Prostate</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">204</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">19</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Liver</td>
-<td class="gt_row gt_right" headers="image_count">187</td>
-<td class="gt_row gt_right" headers="patient_count">15</td>
-<td class="gt_row gt_right" headers="percentage">1</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Gynecologic</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">184</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">27</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">1</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Brain/CNS</td>
-<td class="gt_row gt_right" headers="image_count">156</td>
-<td class="gt_row gt_right" headers="patient_count">18</td>
-<td class="gt_row gt_right" headers="percentage">1</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left gt_striped" headers="source_group">Cardiovascular</td>
-<td class="gt_row gt_right gt_striped" headers="image_count">79</td>
-<td class="gt_row gt_right gt_striped" headers="patient_count">16</td>
-<td class="gt_row gt_right gt_striped" headers="percentage">0</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="source_group">Thyroid/Parathyroid</td>
-<td class="gt_row gt_right" headers="image_count">59</td>
-<td class="gt_row gt_right" headers="patient_count">7</td>
-<td class="gt_row gt_right" headers="percentage">0</td>
-</tr>
-</tbody><tfoot class="gt_footnotes">
-<tr class="odd">
-<td colspan="4" class="gt_footnote">WSI file distribution for thoracic tumor board patients by specimen source</td>
-</tr>
-</tfoot>
-
-</table>
-
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-011ba08e0d49f086ae6c" style="width:100%;height:325px;"></div>
-<script type="application/json" data-for="htmlwidget-011ba08e0d49f086ae6c">{"x":{"visdat":{"17a5c5335e816":["function () ","plotlyVisDat"]},"cur_data":"17a5c5335e816","attrs":{"17a5c5335e816":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":180,"t":25,"r":60},"title":{"text":"WSI Files by Specimen Type — Thoracic TB Patients","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Bone","Unknown","Other (Legacy Ordering only)","Tissue/Bone - Excision/Resection","Existing Patient Material","Tissue/Bone - Biopsy"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Bone","Unknown","Other (Legacy Ordering only)","Tissue/Bone - Excision/Resection","Existing Patient Material","Tissue/Bone - Biopsy"],"x":[23,48,1164,1801,2647,8964],"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":["0.2%","0.3%","7.9%","12.3%","18.1%","61.2%"],"textposition":["outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Bone<\/b><br>WSI Files:    23<br>Patients:   6<br>Percentage: 0.2%","<b>Unknown<\/b><br>WSI Files:    48<br>Patients:   5<br>Percentage: 0.3%","<b>Other (Legacy Ordering only)<\/b><br>WSI Files: 1,164<br>Patients:  79<br>Percentage: 7.9%","<b>Tissue/Bone - Excision/Resection<\/b><br>WSI Files: 1,801<br>Patients: 128<br>Percentage: 12.3%","<b>Existing Patient Material<\/b><br>WSI Files: 2,647<br>Patients: 172<br>Percentage: 18.1%","<b>Tissue/Bone - Biopsy<\/b><br>WSI Files: 8,964<br>Patients: 533<br>Percentage: 61.2%"],"hoverinfo":["text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-bac30f1d50fc7be97524" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-bac30f1d50fc7be97524">{"x":{"visdat":{"173dd60e4f499":["function () ","plotlyVisDat"]},"cur_data":"173dd60e4f499","attrs":{"173dd60e4f499":{"y":{},"x":{},"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":{},"textposition":"outside","textfont":{"size":11,"color":"grey40"},"hovertext":{},"hoverinfo":"text","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":180,"t":25,"r":60},"title":{"text":"WSI Files by Specimen Type — Thoracic TB Patients","font":{"size":16}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of WSI Files","tickformat":","},"yaxis":{"domain":[0,1],"automargin":true,"title":"","tickfont":{"size":11},"type":"category","categoryorder":"array","categoryarray":["Bone","Unknown","Other (Legacy Ordering only)","Tissue/Bone - Excision/Resection","Existing Patient Material","Tissue/Bone - Biopsy"]},"hoverlabel":{"bgcolor":"white","font":{"size":12}},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"y":["Bone","Unknown","Other (Legacy Ordering only)","Tissue/Bone - Excision/Resection","Existing Patient Material","Tissue/Bone - Biopsy"],"x":[23,48,1164,1801,2647,8964],"orientation":"h","marker":{"color":"#BAFFC9","line":{"color":"#8AD4A0","width":0.5}},"text":["0.2%","0.3%","7.9%","12.3%","18.1%","61.2%"],"textposition":["outside","outside","outside","outside","outside","outside"],"textfont":{"size":11,"color":"grey40"},"hovertext":["<b>Bone<\/b><br>WSI Files:    23<br>Patients:   6<br>Percentage: 0.2%","<b>Unknown<\/b><br>WSI Files:    48<br>Patients:   5<br>Percentage: 0.3%","<b>Other (Legacy Ordering only)<\/b><br>WSI Files: 1,164<br>Patients:  79<br>Percentage: 7.9%","<b>Tissue/Bone - Excision/Resection<\/b><br>WSI Files: 1,801<br>Patients: 128<br>Percentage: 12.3%","<b>Existing Patient Material<\/b><br>WSI Files: 2,647<br>Patients: 172<br>Percentage: 18.1%","<b>Tissue/Bone - Biopsy<\/b><br>WSI Files: 8,964<br>Patients: 533<br>Percentage: 61.2%"],"hoverinfo":["text","text","text","text","text","text"],"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
@@ -1392,11 +1920,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="source-codes" class="level3">
 <h3 class="anchored" data-anchor-id="source-codes">Source Codes:</h3>
 <p>The source codes for this page can be found <a href="https://github.com/susom/starr-oncology-data-lake-arpah/blob/main/src/may_2026/whole_slide_imaging.qmd">here</a>, and the SQL queries that support the metrics can be found <a href="https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/wsi/feb26">here</a>.</p>
+
+
 </section>
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1489,7 +2018,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/susom\.github\.io\/starr-oncology-data-lake-arpah\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -1817,9 +2346,53 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../may_2026/tumor_board_updated.html" class="pagination-link" aria-label="Tumor Board">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tumor Board</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../may_2026/variant_occ.html" class="pagination-link" aria-label="Genetic Variants">
+        <span class="nav-page-text">Genetic Variants</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+<p>About</p>
+</a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://github.com/susom/starr-oncology-data-lake-arpah/issues/new?title=Documentation%20Issue">
+<p>Report Issue</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 
 
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
