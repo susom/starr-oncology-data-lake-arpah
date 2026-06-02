@@ -1,0 +1,29 @@
+name: Check GitHub Pages URLs
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 9 * * *'
+
+jobs:
+  check-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check URLs
+        run: |
+          URLS=(
+            "https://susom.github.io/about/about.html"
+            "https://susom.github.io/contact.html"
+            "https://susom.github.io/index.html"
+          )
+
+          for url in "${URLS[@]}"; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" $url)
+            if [ "$STATUS" -eq 404 ]; then
+              echo "⚠️ 404 detected at $url"
+              exit 1
+            else
+              echo "✅ $url is OK ($STATUS)"
+            fi
+          done
