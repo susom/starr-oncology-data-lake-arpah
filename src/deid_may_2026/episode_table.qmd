@@ -120,6 +120,10 @@ res_plan %>%
 ## Sunburst Chart
 The following  sunburst chart is used to visualize the hierarchical relationship between treatment plan types and treatment protocols, with segment sizes representing the number of unique patients. The table below provides a detailed breakdown of patient counts and episode totals for each Treatment Plan Type and treatment protocol combination.
 
+::: {.callout-tip}
+This visualization is limited to the top 10 treatment protocols per plan type with more than 500 unique patients due to the high number of categories. Patients may appear under multiple protocols, so protocol-level counts are not mutually exclusive. Percentages shown on hover (% of shown) are relative to the total across displayed categories only, not the full dataset.
+:::
+
 ```{r plan protocol chart, message=FALSE, warning=FALSE}
 sunburst_data <- res_plan_protocol %>%
   filter(!is.na(plan_type)) %>% filter(!is.na(treatment_protocol)) %>% filter(n_unique_persons > 500) %>%
@@ -140,7 +144,7 @@ children_df <- sunburst_data %>%
     values = n_unique_persons
   )
 
-# Parent rows: use patient counts summed from filtered children only
+# Parent rows: sum of shown children (required by branchvalues = "total")
 parents_df <- children_df %>%
   group_by(parents) %>%
   summarise(values = sum(values), .groups = "drop") %>%
@@ -298,18 +302,18 @@ tb_bar_data <- res_tb_protocol %>%
   mutate(
     pct_persons = round(n_unique_persons / res_tb_overlap$thoracic_tb_with_episodes * 100, 1),
     bar_color = plan_color_map[plan_type],
-    treatment_protocol = factor(treatment_protocol, levels = rev(unique(treatment_protocol)))
+    label = treatment_protocol,
+    label = factor(label, levels = rev(unique(label)))
   )
 
-p <- plot_ly() 
+p <- plot_ly()
 
-# Add one trace per plan_type for proper legend
 for (pt in unique(tb_bar_data$plan_type)) {
   d <- tb_bar_data %>% filter(plan_type == pt)
   p <- p %>% add_bars(
     data = d,
     x = ~n_unique_persons,
-    y = ~treatment_protocol,
+    y = ~label,
     orientation = "h",
     marker = list(color = unique(d$bar_color)),
     name = pt,
@@ -323,10 +327,10 @@ p %>%
   layout(
     title = list(text = "Thoracic TB: Top 20 Treatment Protocols", x = 0.05),
     xaxis = list(title = "", showticklabels = FALSE, showgrid = FALSE, zeroline = FALSE),
-    yaxis = list(title = "", tickfont = list(size = 9), categoryorder = "total ascending"),
+    yaxis = list(title = "", tickfont = list(size = 9)),
     barmode = "stack",
-    margin = list(l = 300, t = 50, r = 50, b = 80),
-    legend = list(title = list(text = "Treatment Plan Type"), orientation = "h", x = 0.3, y = -0.15)
+    margin = list(l = 350, t = 50, r = 100, b = 80),
+    legend = list(title = list(text = "Treatment Plan Type"), orientation = "h", x = 0.5, xanchor = "center", y = -0.15)
   )
 ```
 
@@ -346,7 +350,7 @@ res_tb_protocol %>%
 
 :::
 
-::: {.callout-note}
+::: {.callout-tip}
 Treatment plans shown here are not exclusively oncology-related and may include other clinical specialties. Additionally, each patient may have multiple treatment plans and protocols, so patient counts across categories are not mutually exclusive.
 :::
 
