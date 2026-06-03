@@ -66,12 +66,8 @@ with_tiff <- as.numeric(basic_counts$counts[basic_counts$metric == "with_tiff"])
 sql_temporal <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_temporal_trends.sql"
 temporal_data <- fetch_data_from_sql_file(sql_temporal, yaml_file_path, release = "may_2026")
 
-# Create a date column for plotting
-temporal_data <- temporal_data %>%
-  mutate(date = as.Date(paste(year, month, "01", sep = "-")))
-
-date_min <- format(min(temporal_data$date), "%B %Y")
-date_max <- format(max(temporal_data$date), "%B %Y")
+date_min <- min(temporal_data$year)
+date_max <- max(temporal_data$year)
 ```
 
 ### Temporal Trends
@@ -81,22 +77,21 @@ The WSI files in this dataset span procedures from **`r date_min`** to **`r date
 ```{r temporal_trends_chart, message=FALSE, warning=FALSE, fig.width=10, fig.height=5}
 library(plotly)
 
-# Consolidate all months before 2023 into a single "Pre-2023" bar
 pre_2023 <- temporal_data %>%
-  filter(date < as.Date("2023-01-01")) %>%
+  filter(year < 2023) %>%
   summarise(
     image_count = sum(image_count),
     patient_count = sum(patient_count),
     .groups = "drop"
   ) %>%
-  mutate(date = as.Date("2023-01-01"), label = "Pre-2023")
+  mutate(year = 2022, label = "Pre-2023")
 
-post_2023 <- temporal_data %>%
-  filter(date >= as.Date("2024-01-01")) %>%
-  mutate(label = format(date, "%b %Y"))
+post_2022 <- temporal_data %>%
+  filter(year >= 2023) %>%
+  mutate(label = as.character(year))
 
-plot_data_temporal <- bind_rows(pre_2023, post_2023) %>%
-  arrange(date) %>%
+plot_data_temporal <- bind_rows(pre_2023, post_2022) %>%
+  arrange(year) %>%
   mutate(label = factor(label, levels = label))
 
 plot_ly(plot_data_temporal, x = ~label) %>%
@@ -134,6 +129,10 @@ plot_ly(plot_data_temporal, x = ~label) %>%
     hoverlabel = list(bgcolor = "white", font = list(size = 12))
   )
 ```
+
+::: {.callout-note}
+Patient counts are computed as distinct patients per time period. A patient with procedures in multiple years appears in each, so yearly totals may exceed the overall unique patient count.
+:::
 
 ```{r specimen_types, message=FALSE, warning=FALSE, results='hide'}
 #### Specimen Type Distribution
@@ -257,6 +256,7 @@ stats <- facet_data %>%
 
 ggplot(facet_data, aes(x = specimen, y = num_slides_per_specimen)) +
   geom_violin(fill = "#FFD6BA", color = "#D4845A", alpha = 0.8, scale = "width", trim = TRUE) +
+  geom_boxplot(width = 0.1, fill = "white", color = "#D4845A", alpha = 0.6, outlier.shape = NA) +
   stat_summary(fun = median, geom = "point", shape = 18, size = 3, color = "#E74C3C") +
   geom_text(data = stats,
             aes(x = specimen, y = med,
@@ -264,7 +264,8 @@ ggplot(facet_data, aes(x = specimen, y = num_slides_per_specimen)) +
             hjust = -0.15, size = 4.5, color = "grey30") +
   coord_flip() +
   labs(
-    title = "Distribution of Slides per Specimen — by Specimen Label",
+    title = "Distribution of Slides per Specimen \u2014 by Specimen Label",
+    subtitle = "n = number of specimens; med = median slides per specimen",
     x = NULL,
     y = "Number of Slides per Specimen"
   ) +
@@ -272,6 +273,7 @@ ggplot(facet_data, aes(x = specimen, y = num_slides_per_specimen)) +
   theme_minimal(base_size = 14) +
   theme(
     plot.title = element_text(size = 15, face = "bold"),
+    plot.subtitle = element_text(size = 11, color = "grey40"),
     panel.grid.major.y = element_blank()
   )
 ```
