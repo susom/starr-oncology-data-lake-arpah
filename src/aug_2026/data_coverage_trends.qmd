@@ -11,6 +11,45 @@ execute:
 
 **Interactive Visualizations:** All plots in this analysis are interactive. Click on legend items to show/hide data series for better exploration.
 
+## Data Coverage Summary
+
+This longitudinal analysis tracks the growth and evolution of the VISTA Oncology Data Lake across seven data releases from February 2025 through August 2026. The dashboard monitors key metrics including:
+
+### Data Completeness & Growth
+- **Patient Population Growth**: Tracks unique patient enrollment across releases
+- **Case Volume Trends**: Monitors the accumulation of cancer cases in the registry
+- **Event Capture**: Measures the collection of clinical events (treatments, diagnoses, outcomes)
+- **Data Maturation**: Shows how data completeness improves over time
+
+### Data Platform Coverage
+- **Cancer Registry (NeuralFrame)**: Case status, vital status, and clinical event tracking
+- **Genomic Data (Philips ISPM)**: Molecular test results and variant occurrence patterns
+- **Imaging Data (DICOM)**: Whole slide imaging and radiological image metadata
+- **Clinical Data (OMOP)**: Observation records and standardized clinical concepts
+
+### Key Metrics by Data Domain
+The following sections present longitudinal trends across the three major data platforms, demonstrating data acquisition, quality, and utilization patterns over the 18-month analysis period.
+
+#### 📊 Data Growth Trajectories
+- **Denominator Trends**: Patient and case population growth
+- **Vital Status Capture**: Follow-up and vital status documentation
+- **Event Recording**: Clinical event documentation patterns
+- **Recurrence Tracking**: Cancer recurrence and progression monitoring
+
+#### 🔬 Genomic Data Evolution
+- **Test Volume Growth**: Molecular and pathology test trends
+- **Variant Discovery**: Oncology-relevant genetic variant patterns
+- **Platform Adoption**: Usage trends for different genomic platforms
+
+#### 🖼️ Imaging Data Accumulation  
+- **Whole Slide Image Collection**: Digital pathology image repository growth
+- **Image Metadata**: Associated clinical and pathological data
+
+#### 📈 Quarterly and Temporal Patterns
+- **Monthly Enrollment Rates**: Patient acquisition patterns
+- **Case Processing Velocity**: Registry abstraction rates
+- **Data Entry Timeliness**: Time-to-completion metrics for case documentation
+
 
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 # Load required libraries
@@ -590,7 +629,7 @@ datatable(
 )
 ```
 
-```{r death_source_overlap_table, message=FALSE, warning=FALSE}
+```{r death_source_overlap_table, message=FALSE, warning=FALSE, include = FALSE}
 # Mutually exclusive combination counts from overlap query
 overlap_combos <- death_overlap_res %>%
   filter(!death_source %in% c("OMOP death", "NeuralFrame death", "External death")) %>%
@@ -638,32 +677,36 @@ plot_ly(
   )
 ```
 
-```{r death_overlap_combo_plot, message=FALSE, warning=FALSE}
+### Mutually Exclusive External Death Source Combinations
+
+```{r death_ext_sources, message=FALSE, warning=FALSE}
 library(plotly)
 library(dplyr)
 
-# Stacked / grouped bar of mutually exclusive combinations
-combo_data <- death_overlap_res %>%
-  filter(!death_source %in% c("OMOP death", "NeuralFrame death", "External death")) %>%
-  arrange(desc(n_total))
+# Fetch mutually exclusive patient counts by external death source combination
+ext_death_exclusive_res <- fetch_data_from_sql_file(
+  "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/ext_death/ext_death_person_exclusive.sql",
+  yaml_file_path,
+  release = "aug_2026"
+)
 
 plot_ly(
-  data = combo_data,
-  x    = ~reorder(death_source, n_total),
-  y    = ~n_total,
-  type = 'bar',
-  marker = list(color = '#80b1d3'),
+  data = ext_death_exclusive_res,
+  y    = ~reorder(source_combination, n_unique_patients),
+  x    = ~n_unique_patients,
+  type = "bar",
+  marker = list(color = "#8dd3c7"),
   text = ~paste0(
-    death_source,
-    "<br>Patients: ", scales::comma(n_total),
-    "<br>% of total: ", pct_overlap_with_ext_death, "%"
+    
+    "<br> ", scales::comma(n_unique_patients),
+    "<br>", pct_unique_patients, "%"
   ),
   hoverinfo = "text"
 ) %>%
   layout(
-    title  = "Mutually Exclusive Death Source Combinations (August 2026)",
-    xaxis  = list(title = "", tickangle = -30),
-    yaxis  = list(title = "Unique Patients", tickformat = ","),
+    title  = "Unique Patients by Mutually Exclusive External Death Source Combination (August 2026)",
+    xaxis  = list(title = "Unique Pts", tickangle = -30),
+    yaxis  = list(title = "", tickformat = ","),
     showlegend = FALSE,
     margin = list(b = 160)
   )

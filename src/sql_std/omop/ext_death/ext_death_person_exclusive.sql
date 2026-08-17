@@ -25,7 +25,7 @@ WITH patient_sources AS (
       END
     ) AS has_dmf
 
-  FROM @oncology_prod.@oncology_omop._death_external_death_records
+  FROM @oncology_prod.@oncology_omop._external_death_records
 
 
   GROUP BY person_id
