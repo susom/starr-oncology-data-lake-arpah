@@ -64,6 +64,9 @@ variant_phenotype_class <- fetch_data_from_sql_file(sql_phenotype_class, yaml_fi
 
 sql_comutation <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_comutation.sql"
 comutation_data <- fetch_data_from_sql_file(sql_comutation, yaml_file_path, release = "aug_2026")
+
+sql_test_family <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_by_test_family.sql"
+test_family_data <- fetch_data_from_sql_file(sql_test_family, yaml_file_path, release = "aug_2026")
 ```
 
 
@@ -73,7 +76,95 @@ comutation_data <- fetch_data_from_sql_file(sql_comutation, yaml_file_path, rele
 
 The **`_variant_occurrence`** table is a custom extension to the OMOP Common Data Model (CDM) that captures detailed genetic variant information identified in patients through genomic testing. This table enables precision oncology research by providing granular variant-level data including genomic coordinates, variant types, molecular consequences, and clinical interpretations.
 
-Currently, the table contains variants identified via the **Stanford Actionable Mutation Panel for Solid Tumors (STAMP)** test, sourced from the Epic Genomics Suite. STAMP tests processed through Epic Genomics Suite starting in August 2025 are included in this table.
+Currently, the table contains variants identified via a range of Stanford-affiliated genomic tests, sourced from the Epic Genomics Suite starting in August 2025. The following tests are included:
+
+- **Solid tumor STAMP (SHC)**
+    - `STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS`
+- **Heme-STAMP NGS (Next Generation Sequencing) (SHC)**
+    - `HEME-STAMP NGS PANEL, BM/TISSUE/FLUID`
+    - `HEME-STAMP NGS, BLOOD`
+- **Heme-STAMP MRD (Minimal Residual Disease) (SHC)**
+    - `HEME-STAMP MRD, BONE MARROW`
+    - `HEME-STAMP MRD, BLOOD`
+- **POLE**
+    - `POLE, FFPE`
+- **Guardant360**
+    - `GUARDANT360`
+    - `GUARDANT360 CDX`
+    - `GUARDANT360 TISSUENEXT`
+    - `GUARDANT360 RESPONSE`
+- **Pharmacogenomics Panel (Stanford)**
+    - `PHARMACOGENOMICS PANEL (STANFORD)`
+
+
+#### Test Coverage Summary
+
+The table below summarizes the number of ordered tests, unique patients, and variants captured for each test family and individual assay.
+
+```{r test family summary, message=FALSE, warning=FALSE}
+test_family_summary <- test_family_data %>%
+  group_by(test_family) %>%
+  summarise(
+    n_tests = sum(n_tests),
+    n_patients = sum(n_patients),
+    n_variants = sum(n_variants),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(n_tests))
+
+test_family_totals <- test_family_summary %>%
+  summarise(
+    test_family = "Overall",
+    n_tests = sum(n_tests),
+    n_patients = sum(n_patients),
+    n_variants = sum(n_variants)
+  )
+
+DT::datatable(
+  bind_rows(test_family_summary, test_family_totals) %>%
+    rename(
+      "Test Family" = test_family,
+      "Ordered Tests" = n_tests,
+      "Patients" = n_patients,
+      "Variants" = n_variants
+    ),
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    pageLength = 20
+  ),
+  rownames = FALSE
+) %>%
+  formatRound(columns = c("Ordered Tests", "Patients", "Variants"), digits = 0, mark = ",")
+```
+
+**Note:** Ordered tests are counted as unique `procedure_occurrence_id` values. A single patient may appear in multiple test families, so summing patients across families exceeds the overall unique-patient count reported at the top of this page.
+
+<details>
+<summary><strong>Show breakdown by individual test name</strong></summary>
+
+```{r test name breakdown, message=FALSE, warning=FALSE}
+DT::datatable(
+  test_family_data %>%
+    arrange(test_family, desc(n_tests)) %>%
+    rename(
+      "Test Family" = test_family,
+      "Test Name" = test_name,
+      "Ordered Tests" = n_tests,
+      "Patients" = n_patients,
+      "Variants" = n_variants
+    ),
+  options = list(
+    dom = 'tp',
+    ordering = TRUE,
+    pageLength = 15
+  ),
+  rownames = FALSE
+) %>%
+  formatRound(columns = c("Ordered Tests", "Patients", "Variants"), digits = 0, mark = ",")
+```
+
+</details>
 
 
 Each record in the **`_variant_occurrence`** table includes:

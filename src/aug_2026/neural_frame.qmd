@@ -911,15 +911,14 @@ create_gt_table_v1(
   labels = labels, 
    subtitle_text = "",
   footnote_text = "Note: sum of sungroups exceeds the denominator due to multiple responses by patients")
+
 ```
-
-
-
 :::
 
-## Neural Frame Event Table {.tabset}
+## Neural Frame Event Table 
 
 The Neural Frame Event table captures detailed clinical events and treatment information for cancer patients, including chemotherapy, radiation, surgery, clinical protocols, and various treatment outcomes. This comprehensive event-level data enables in-depth analysis of treatment patterns, clinical course, and patient outcomes.
+
 
 ```{r nf event table summary, message=FALSE, warning=FALSE, results='hide'}
 sql_event_summary <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_event_summary.sql"
@@ -953,263 +952,30 @@ sql_diagnostics <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/commo
 diagnostics_data <- fetch_data_from_sql_file(sql_diagnostics, yaml_file_path, release = "aug_2026")
 ```
 
-### Treatment Modalities
 
-This section provides a comprehensive overview of treatment patterns in the Neural Frame Event data, including chemotherapy, radiation, surgery, and other therapeutic interventions.
-
-#### Treatment Overview
 ```{r treatment overview summary, message=FALSE, warning=FALSE}
 treatment_overview <- event_summary %>%
   mutate(
+    `Unique Patients` = format(total_patients, big.mark = ","),
     `Total Cases` = format(total_cases, big.mark = ","),
     `Total Events` = format(total_events, big.mark = ","),
-    `Unique Event Types` = unique_event_types,
-    `Date Range` = paste0(format(earliest_event_date, "%Y-%m-%d"), " to ", format(latest_event_date, "%Y-%m-%d"))
+    `Unique Event Types` = unique_event_types
   ) %>%
-  select(`Total Cases`, `Total Events`, `Unique Event Types`, `Date Range`)
+  select(`Unique Patients`, `Total Cases`, `Total Events`, `Unique Event Types`)
 
 create_gt_table_v1(
   data = treatment_overview,
-  columns = c("Total Cases", "Total Events", "Unique Event Types", "Date Range"),
+  columns = c("Unique Patients", "Total Cases", "Total Events", "Unique Event Types"),
   labels = c(
+    "Unique Patients" = "Patients",
     "Total Cases" = "Cases",
     "Total Events" = "Events",
-    "Unique Event Types" = "Event Types",
-    "Date Range" = "Coverage Period"
+    "Unique Event Types" = "Event Types"
   ),
   subtitle_text = "Neural Frame Event Table Summary Statistics"
 )
 ```
 
-#### Treatment Modalities Distribution
-```{r treatment modalities table, message=FALSE, warning=FALSE}
-treatment_table <- treatment_summary %>%
-  arrange(desc(case_count)) %>%
-  mutate(
-    `Treatment Modality` = treatment_modality,
-    `Cases` = format(case_count, big.mark = ","),
-    `Patients` = format(patient_count, big.mark = ","),
-    `% of Cases` = paste0(round(100 * case_count / sum(case_count), 1), "%")
-  ) %>%
-  select(`Treatment Modality`, `Cases`, `Patients`, `% of Cases`)
-
-create_gt_table_v1(
-  data = treatment_table,
-  columns = c("Treatment Modality", "Cases", "Patients", "% of Cases"),
-  labels = c(
-    "Treatment Modality" = "Modality",
-    "Cases" = "Number of Cases",
-    "Patients" = "Number of Patients",
-    "% of Cases" = "Percentage"
-  ),
-  subtitle_text = "Distribution of Primary Treatment Modalities"
-)
-```
-
-#### Treatment Modalities Visualization
-```{r treatment modalities plot, message=FALSE, warning=FALSE}
-plot_ly(
-  data = treatment_summary %>% arrange(desc(case_count)),
-  x = ~reorder(treatment_modality, -case_count),
-  y = ~case_count,
-  type = 'bar',
-  marker = list(color = c('#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00')),
-  hovertemplate = ~paste0(
-    "<b>", treatment_modality, "</b>",
-    "<br>Cases: ", scales::comma(case_count),
-    "<br>Patients: ", scales::comma(patient_count),
-    "<extra></extra>"
-  )
-) %>%
-  layout(
-    title = "Treatment Modalities Distribution",
-    xaxis = list(title = "Treatment Type"),
-    yaxis = list(title = "Number of Cases", tickformat = ","),
-    showlegend = FALSE,
-    hovermode = 'x unified',
-    margin = list(b = 100)
-  )
-```
-
-#### Radiation Therapy Details
-```{r radiation therapy table, message=FALSE, warning=FALSE}
-rad_table <- radiation_details %>%
-  arrange(desc(cases_with_radiation)) %>%
-  head(10) %>%
-  mutate(
-    `Modality` = eventphaseradiationtreatmentmodalitydescription,
-    `Cases` = format(cases_with_radiation, big.mark = ","),
-    `Avg Total Dose (Gy)` = round(avg_total_dose_gy, 2),
-    `Avg Dose/Fraction (Gy)` = round(avg_dose_per_fraction_gy, 2),
-    `Avg Fractions` = round(avg_number_of_fractions, 1)
-  ) %>%
-  select(`Modality`, `Cases`, `Avg Total Dose (Gy)`, `Avg Dose/Fraction (Gy)`, `Avg Fractions`)
-
-create_gt_table_v1(
-  data = rad_table,
-  columns = c("Modality", "Cases", "Avg Total Dose (Gy)", "Avg Dose/Fraction (Gy)", "Avg Fractions"),
-  subtitle_text = "Top 10 Radiation Therapy Modalities with Dosimetry Data"
-)
-```
-
-#### Chemotherapy Courses
-```{r chemotherapy courses table, message=FALSE, warning=FALSE}
-chemo_table <- chemo_courses %>%
-  arrange(eventcoursenumber) %>%
-  mutate(
-    `Course` = eventcoursenumberdescription,
-    `Cases` = format(cases_receiving_chemo, big.mark = ","),
-    `Patients` = format(patients_receiving_chemo, big.mark = ","),
-    `Events` = format(chemo_events, big.mark = ",")
-  ) %>%
-  select(`Course`, `Cases`, `Patients`, `Events`)
-
-create_gt_table_v1(
-  data = chemo_table,
-  columns = c("Course", "Cases", "Patients", "Events"),
-  subtitle_text = "Chemotherapy Course Distribution"
-)
-```
-
-### Clinical Outcomes
-
-This section covers treatment outcomes including completion status, recurrence patterns, and clinical follow-up.
-
-#### Treatment Completion Status
-```{r completion status table, message=FALSE, warning=FALSE}
-completion_table <- completion_status %>%
-  arrange(desc(case_count)) %>%
-  mutate(
-    `Chemotherapy Status` = ifelse(is.na(eventchemotherapycompletionstatus), "Not Available", eventchemotherapycompletionstatus),
-    `Radiation Status` = ifelse(is.na(eventradiationcompletionstatus), "Not Available", eventradiationcompletionstatus),
-    `Cases` = format(case_count, big.mark = ","),
-    `% of Total` = paste0(round(percent_of_cases, 1), "%")
-  ) %>%
-  select(`Chemotherapy Status`, `Radiation Status`, `Cases`, `% of Total`)
-
-create_gt_table_v1(
-  data = completion_table,
-  columns = c("Chemotherapy Status", "Radiation Status", "Cases", "% of Total"),
-  subtitle_text = "Treatment Completion Status Summary"
-)
-```
-
-#### Recurrence Patterns
-```{r recurrence table, message=FALSE, warning=FALSE}
-recurrence_table <- recurrence_data %>%
-  arrange(desc(cases_with_recurrence)) %>%
-  head(15) %>%
-  mutate(
-    `Recurrence Type` = eventtypeofrecurrencedescription,
-    `Primary Site` = eventrecurrencesite1,
-    `Cases` = format(cases_with_recurrence, big.mark = ","),
-    `Patients` = format(patients_with_recurrence, big.mark = ",")
-  ) %>%
-  select(`Recurrence Type`, `Primary Site`, `Cases`, `Patients`)
-
-create_gt_table_v1(
-  data = recurrence_table,
-  columns = c("Recurrence Type", "Primary Site", "Cases", "Patients"),
-  subtitle_text = "Top 15 Recurrence Patterns"
-)
-```
-
-#### Recurrence Distribution Visualization
-```{r recurrence plot, message=FALSE, warning=FALSE}
-recurrence_plot_data <- recurrence_data %>%
-  arrange(desc(cases_with_recurrence)) %>%
-  head(10) %>%
-  mutate(recurrence_label = ifelse(is.na(eventtypeofrecurrencedescription), 
-                                    "Unspecified", 
-                                    eventtypeofrecurrencedescription))
-
-plot_ly(
-  data = recurrence_plot_data,
-  x = ~reorder(recurrence_label, -cases_with_recurrence),
-  y = ~cases_with_recurrence,
-  type = 'bar',
-  marker = list(color = '#d62728'),
-  hovertemplate = ~paste0(
-    "<b>", recurrence_label, "</b>",
-    "<br>Cases: ", scales::comma(cases_with_recurrence),
-    "<br>Patients: ", scales::comma(patients_with_recurrence),
-    "<extra></extra>"
-  )
-) %>%
-  layout(
-    title = "Top 10 Recurrence Patterns",
-    xaxis = list(title = "Recurrence Type"),
-    yaxis = list(title = "Number of Cases", tickformat = ","),
-    showlegend = FALSE,
-    hovermode = 'x unified',
-    margin = list(b = 120)
-  )
-```
-
-### Procedures & Protocols
-
-This section details diagnostic procedures, clinical trials, and other protocol-related events.
-
-#### Diagnostic and Pathology Procedures
-```{r diagnostic procedures table, message=FALSE, warning=FALSE}
-diag_table <- diagnostics_data %>%
-  arrange(desc(cases_with_procedure)) %>%
-  head(15) %>%
-  mutate(
-    `Procedure` = eventdiagnosticproceduredescription,
-    `Cases` = format(cases_with_procedure, big.mark = ","),
-    `Patients` = format(patients_with_procedure, big.mark = ","),
-    `Events` = format(procedure_events, big.mark = ",")
-  ) %>%
-  select(`Procedure`, `Cases`, `Patients`, `Events`)
-
-create_gt_table_v1(
-  data = diag_table,
-  columns = c("Procedure", "Cases", "Patients", "Events"),
-  subtitle_text = "Top 15 Diagnostic and Pathology Procedures"
-)
-```
-
-#### Protocol Participation Analysis
-```{r protocol participation table, message=FALSE, warning=FALSE}
-protocol_table <- protocol_analysis %>%
-  arrange(desc(enrolled_patients)) %>%
-  mutate(
-    `Participation` = ifelse(is.na(eventprotocolparticipation), "Not Specified", eventprotocolparticipation),
-    `Trial Type` = ifelse(is.na(eventprotocoltrialtype), "Not Specified", eventprotocoltrialtype),
-    `Eligibility Status` = ifelse(is.na(eventprotocoleligibilitystatus), "Not Specified", eventprotocoleligibilitystatus),
-    `Protocols` = format(unique_protocols, big.mark = ","),
-    `Cases` = format(enrolled_cases, big.mark = ","),
-    `Patients` = format(enrolled_patients, big.mark = ",")
-  ) %>%
-  select(`Participation`, `Trial Type`, `Eligibility Status`, `Protocols`, `Cases`, `Patients`)
-
-create_gt_table_v1(
-  data = protocol_table,
-  columns = c("Participation", "Trial Type", "Eligibility Status", "Protocols", "Cases", "Patients"),
-  subtitle_text = "Clinical Trial Participation and Enrollment"
-)
-```
-
-#### Surgical Procedures Summary
-```{r surgical procedures table, message=FALSE, warning=FALSE}
-surgery_table <- surgery_details %>%
-  arrange(desc(cases_with_surgery)) %>%
-  head(12) %>%
-  mutate(
-    `Primary Site` = eventrxsummsurgprimsitedescription,
-    `Approach` = eventrxsummsurgicalapprochdescription,
-    `Cases` = format(cases_with_surgery, big.mark = ","),
-    `Events` = format(surgical_events, big.mark = ",")
-  ) %>%
-  select(`Primary Site`, `Approach`, `Cases`, `Events`)
-
-create_gt_table_v1(
-  data = surgery_table,
-  columns = c("Primary Site", "Approach", "Cases", "Events"),
-  subtitle_text = "Top 12 Surgical Procedures by Primary Site and Approach"
-)
-```
 
 #### Event Type Distribution Overview
 ```{r event types visualization, message=FALSE, warning=FALSE}
@@ -1244,9 +1010,128 @@ plot_ly(
   )
 ```
 
+This section provides a comprehensive overview of treatment patterns in the Neural Frame Event data, including chemotherapy, radiation, surgery, and other therapeutic interventions.
 
+
+::: {.panel-tabset}
+
+### Treatment Modalities
+```{r treatment modalities table, message=FALSE, warning=FALSE}
+treatment_table <- treatment_summary %>%
+  arrange(desc(case_count)) %>%
+  mutate(
+    `Treatment Modality` = treatment_modality,
+    `Cases` = format(case_count, big.mark = ","),
+    `Patients` = format(patient_count, big.mark = ","),
+    `% of Cases` = paste0(round(100 * case_count / sum(case_count), 1), "%")
+  ) %>%
+  select(`Treatment Modality`, `Cases`, `Patients`, `% of Cases`)
+
+create_gt_table_v1(
+  data = treatment_table,
+  columns = c("Treatment Modality", "Cases", "Patients", "% of Cases"),
+  labels = c(
+    "Treatment Modality" = "Modality",
+    "Cases" = "Number of Cases",
+    "Patients" = "Number of Patients",
+    "% of Cases" = "Percentage"
+  ),
+  subtitle_text = "Distribution of Primary Treatment Modalities"
+)
+```
+
+#### Treatment Modalities Visualization
+```{r treatment modalities plot, message=FALSE, warning=FALSE}
+plot_ly(
+  data = treatment_summary %>% arrange(desc(case_count)),
+  x = ~reorder(treatment_modality, -case_count),
+  y = ~case_count,
+  type = 'bar',
+  marker = list(color = brewer.pal(max(3, nrow(treatment_summary)), "Set3")),
+  hovertemplate = ~paste0(
+    "<b>", treatment_modality, "</b>",
+    "<br>Cases: ", scales::comma(case_count),
+    "<br>Patients: ", scales::comma(patient_count),
+    "<extra></extra>"
+  )
+) %>%
+  layout(
+    title = "Treatment Modalities Distribution",
+    xaxis = list(title = "Treatment Type"),
+    yaxis = list(title = "Number of Cases", tickformat = ","),
+    showlegend = FALSE,
+    hovermode = 'x unified',
+    margin = list(b = 100)
+  )
+```
+
+
+### Chemotherapy Courses
+```{r chemotherapy courses table, message=FALSE, warning=FALSE}
+chemo_table <- chemo_courses %>%
+  arrange(eventcoursenumber) %>%
+  mutate(
+    `Course` = eventcoursenumberdescription,
+    `Cases` = format(cases_receiving_chemo, big.mark = ","),
+    `Patients` = format(patients_receiving_chemo, big.mark = ","),
+    `Events` = format(chemo_events, big.mark = ",")
+  ) %>%
+  select(`Course`, `Cases`, `Patients`, `Events`)
+
+create_gt_table_v1(
+  data = chemo_table,
+  columns = c("Course", "Cases", "Patients", "Events"),
+  labels = c(
+    "Course" = "Course",
+    "Cases" = "Cases",
+    "Patients" = "Patients",
+    "Events" = "Events"
+  ),
+  subtitle_text = "Chemotherapy Course Distribution"
+)
+```
+
+
+## Procedures & Protocols
+
+This section details diagnostic procedures, clinical trials, and other protocol-related events.
+
+### Diagnostic and Pathology Procedures
+```{r diagnostic procedures table, message=FALSE, warning=FALSE}
+diag_table <- diagnostics_data %>%
+  arrange(desc(cases_with_procedure)) %>%
+  head(15) %>%
+  mutate(
+    `Procedure` = eventdiagnosticproceduredescription,
+    `Cases` = format(cases_with_procedure, big.mark = ","),
+    `Patients` = format(patients_with_procedure, big.mark = ","),
+    `Events` = format(procedure_events, big.mark = ",")
+  ) %>%
+  select(`Procedure`, `Cases`, `Patients`, `Events`)
+
+create_gt_table_v1(
+  data = diag_table,
+  columns = c("Procedure", "Cases", "Patients", "Events"),
+  labels = c(
+    "Procedure" = "Procedure",
+    "Cases" = "Cases",
+    "Patients" = "Patients",
+    "Events" = "Events"
+  ),
+  subtitle_text = "Top 15 Diagnostic and Pathology Procedures"
+)
+```
+
+
+
+
+
+
+:::
 
 ### Source Codes:
 
 The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2026/neural_frame.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/neural_frame). 
 The queries regarding thoracic cancer can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/thoracic/feb26/nf_thoracic).
+
+
