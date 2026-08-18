@@ -533,7 +533,7 @@ The VISTA Oncology Data Lake captures mortality information from multiple source
 
 ::: {.panel-tabset}
 
-### Death Counts Over Time (OMOP + NeuralFrame)
+### Death Counts Over Time 
 
 ```{r death_metrics, message=FALSE, warning=FALSE, results='hide'}
 # Define death metrics SQL paths per release (May-November only)
@@ -592,125 +592,6 @@ DT::datatable(
 
 The mortality tracking shows the cumulative count of patients with death records from either OMOP clinical data (death_date) or the Stanford Cancer Registry (vital status = "Dead"). 
 
-### External Death Source 
-
-```{r death_source_overlap, message=FALSE, warning=FALSE, results='hide'}
-# External death records only available in aug_2026
-death_overlap_res <- fetch_data_from_sql_file(
-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/ext_death/death_source_overlap.sql",
-  yaml_file_path,
-  release = "aug_2026"
-)
-
-death_counts_res <- fetch_data_from_sql_file(
-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/ext_death/death_source_counts.sql",
-  yaml_file_path,
-  release = "aug_2026"
-)
-```
-
-```{r death_source_summary_table, message=FALSE, warning=FALSE}
-library(DT)
-library(dplyr)
-
-# Summary table: total + per-source counts
-death_counts_table <- death_counts_res %>%
-  mutate(n_unique_patients = scales::comma(n_unique_patients)) %>%
-  rename(
-    "Death Source"     = death_source,
-    "Unique Patients"  = n_unique_patients
-  )
-
-datatable(
-  death_counts_table,
-  caption = "Unique Patient Counts by Death Source (August 2026)",
-  options = list(dom = 't', ordering = FALSE, pageLength = 10),
-  rownames = FALSE
-)
-```
-
-```{r death_source_overlap_table, message=FALSE, warning=FALSE, include = FALSE}
-# Mutually exclusive combination counts from overlap query
-overlap_combos <- death_overlap_res %>%
-  filter(!death_source %in% c("OMOP death", "NeuralFrame death", "External death")) %>%
-  arrange(desc(n_total)) %>%
-  mutate(
-    n_total    = scales::comma(n_total),
-    pct        = paste0(pct_overlap_with_ext_death, "%")
-  ) %>%
-  select("Source Combination" = death_source,
-         "Unique Patients"    = n_total,
-         "% of Total"         = pct)
-
-datatable(
-  overlap_combos,
-  caption = "Death Source Overlap Combinations (August 2026)",
-  options = list(dom = 't', ordering = FALSE, pageLength = 10),
-  rownames = FALSE
-)
-```
-
-```{r death_source_bar_plot, message=FALSE, warning=FALSE}
-library(plotly)
-library(dplyr)
-
-# Bar chart of per-source totals (exclude the combined total row)
-bar_data <- death_counts_res %>%
-  filter(death_source != "All death sources (combined)") %>%
-  arrange(desc(n_unique_patients))
-
-plot_ly(
-  data = bar_data,
-  x    = ~reorder(death_source, n_unique_patients),
-  y    = ~n_unique_patients,
-  type = 'bar',
-  marker = list(color = c('#fb8072', '#8dd3c7', '#bebada')),
-  text = ~paste0(death_source, "<br>Patients: ", scales::comma(n_unique_patients)),
-  hoverinfo = "text"
-) %>%
-  layout(
-    title  = "Unique Patients by Death Source (August 2026)",
-    xaxis  = list(title = ""),
-    yaxis  = list(title = "Unique Patients", tickformat = ","),
-    showlegend = FALSE,
-    margin = list(b = 80)
-  )
-```
-
-### Mutually Exclusive External Death Source Combinations
-
-```{r death_ext_sources, message=FALSE, warning=FALSE}
-library(plotly)
-library(dplyr)
-
-# Fetch mutually exclusive patient counts by external death source combination
-ext_death_exclusive_res <- fetch_data_from_sql_file(
-  "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/ext_death/ext_death_person_exclusive.sql",
-  yaml_file_path,
-  release = "aug_2026"
-)
-
-plot_ly(
-  data = ext_death_exclusive_res,
-  y    = ~reorder(source_combination, n_unique_patients),
-  x    = ~n_unique_patients,
-  type = "bar",
-  marker = list(color = "#8dd3c7"),
-  text = ~paste0(
-    
-    "<br> ", scales::comma(n_unique_patients),
-    "<br>", pct_unique_patients, "%"
-  ),
-  hoverinfo = "text"
-) %>%
-  layout(
-    title  = "Unique Patients by Mutually Exclusive External Death Source Combination (August 2026)",
-    xaxis  = list(title = "Unique Pts", tickangle = -30),
-    yaxis  = list(title = "", tickformat = ","),
-    showlegend = FALSE,
-    margin = list(b = 160)
-  )
-```
 
 :::
 

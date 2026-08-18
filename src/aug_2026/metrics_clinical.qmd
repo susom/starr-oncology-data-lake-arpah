@@ -4,7 +4,7 @@ execute:
   echo: false
 ---
 
-*Release Version: May 2026 (IRB76049)*
+*Release Version: August 2026 (IRB76049)*
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}
 rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
@@ -48,7 +48,10 @@ As of the August 2026 OMOP population, `r format( den_res$counts_pts[den_res$dat
   - **OMOP Episode Table:** The OMOP episode table captures records of clinical episodes, which are defined as clusters of healthcare events related to a specific condition or treatment course. Episode table is currently populated only with episodes representing treatment plans for patients in the oncology cohort. 
     - [Episode Table Metrics](episode_table.qmd)
 
-  - **Data Coverage Trends:** Longitudinal view of data evolution across all platforms from February 2025 to May 2026.
+  - **External Death Records:** The external death records table captures records of deaths reported from external sources, such as state death registries or other healthcare institutions. This table is designed to complement the standard OMOP death table, which contains only deaths confirmed within the EHR (Epic). 
+    - [External Death Records Metrics](external_death_records.qmd)
+
+  - **Data Coverage Trends:** Longitudinal view of data evolution across all platforms from February 2025 to August 2026.
     - [Data Coverage Trends](data_coverage_trends.qmd)
  
 ```{r table1, message=FALSE, warning=FALSE}

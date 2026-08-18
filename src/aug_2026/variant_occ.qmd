@@ -80,10 +80,10 @@ Currently, the table contains variants identified via a range of Stanford-affili
 
 - **Solid tumor STAMP (SHC)**
     - `STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS`
-- **Heme-STAMP NGS (Next Generation Sequencing) (SHC)**
+- **Heme-STAMP NGS (Next Generation Sequencing)**
     - `HEME-STAMP NGS PANEL, BM/TISSUE/FLUID`
     - `HEME-STAMP NGS, BLOOD`
-- **Heme-STAMP MRD (Minimal Residual Disease) (SHC)**
+- **Heme-STAMP MRD (Minimal Residual Disease)**
     - `HEME-STAMP MRD, BONE MARROW`
     - `HEME-STAMP MRD, BLOOD`
 - **POLE**
@@ -96,6 +96,39 @@ Currently, the table contains variants identified via a range of Stanford-affili
 - **Pharmacogenomics Panel (Stanford)**
     - `PHARMACOGENOMICS PANEL (STANFORD)`
 
+
+Each record in the **`_variant_occurrence`** table includes:
+
+- Genomic information (chromosome, position, DNA/amino acid changes)
+- Variant classification (type, molecular consequence)
+- Clinical interpretation and assessment (tier classification)
+- Test metadata (test name, specimen information)
+- Linkage to clinical context (visit, procedure, provider)
+
+As of August 2026, this table includes **`r format(n_pts$n_patients, big.mark = ",")`** patients with **`r format(n_pts$n_variants, big.mark = ",")`** genetic variants.
+
+
+### Key Considerations
+
+- Only simple variants detected in STAMP tests are present in the source data; fusion variants and copy number variants are not currently reported. We expect that additional variant types will be incorporated in future releases as the dataset continues to evolve.
+
+- The OMOP variant occurrence table does not currently contain Foundation One tests or certain types of variants detected by STAMP (both of which were previously present in the Philips data). 
+
+
+::: {.columns}
+
+::: {.column width="40%"}
+### 📊 Data Volume 
+- **Patient Count:** `r format(n_pts$n_patients, big.mark = ",")`
+- **Ordered Tests Count:** `r format(ordered_tests_counts$n_unique_tests, big.mark = ",")`
+- **Variant Count:** `r format(n_pts$n_variants, big.mark = ",")`
+:::
+
+::: {.column width="60%"}
+### 🧬 Data Components 
+- **Unique Genes:** `r format(nrow(variant_genes), big.mark = ",")`
+- **Molecular Consequences:** `r format(nrow(variant_consequence), big.mark = ",")`
+:::
 
 #### Test Coverage Summary
 
@@ -166,39 +199,6 @@ DT::datatable(
 
 </details>
 
-
-Each record in the **`_variant_occurrence`** table includes:
-
-- Genomic information (chromosome, position, DNA/amino acid changes)
-- Variant classification (type, molecular consequence)
-- Clinical interpretation and assessment (tier classification)
-- Test metadata (test name, specimen information)
-- Linkage to clinical context (visit, procedure, provider)
-
-As of August 2026, this table includes **`r format(n_pts$n_patients, big.mark = ",")`** patients with **`r format(n_pts$n_variants, big.mark = ",")`** genetic variants.
-
-
-### Key Considerations
-
-- Only simple variants detected in STAMP tests are present in the source data; fusion variants and copy number variants are not currently reported. We expect that additional variant types will be incorporated in future releases as the dataset continues to evolve.
-
-- The OMOP variant occurrence table does not currently contain Foundation One tests or certain types of variants detected by STAMP (both of which were previously present in the Philips data). We expect that additional STAMP-detected variant types will be available later this year.
-
-
-::: {.columns}
-
-::: {.column width="40%"}
-### 📊 Data Volume 
-- **Patient Count:** `r format(n_pts$n_patients, big.mark = ",")`
-- **Ordered Tests Count:** `r format(ordered_tests_counts$n_unique_tests, big.mark = ",")`
-- **Variant Count:** `r format(n_pts$n_variants, big.mark = ",")`
-:::
-
-::: {.column width="60%"}
-### 🧬 Data Components 
-- **Unique Genes:** `r format(nrow(variant_genes), big.mark = ",")`
-- **Molecular Consequences:** `r format(nrow(variant_consequence), big.mark = ",")`
-:::
 
 
 ## Variant Occurrence Metrics {.tabset}
