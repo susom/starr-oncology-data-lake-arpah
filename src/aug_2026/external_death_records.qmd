@@ -1,5 +1,5 @@
 ---
-title: "OMOP External Death Records Metrics"
+title: "OMOP External Death Table"
 execute:
   echo: false
 ---
@@ -28,18 +28,22 @@ color_palette <- c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fcd7
 **Summary**:
 
 In this release, death data were restructured to separate EHR-confirmed deaths from externally reported deaths. The standard OMOP death table now contains only deaths confirmed within the EHR (Epic), each with a valid, non-null death_date. All externally reported deaths were moved to a new companion table, `_external_death_records`, which stores one row per external death report per person, with the reporting source recorded on each record. 
+
 The goal of this restructuring is to provide as much transparency as possible into the available death information for each patient, including the source of each reported death, while allowing downstream studies to determine how best to interpret and use these records based on their specific use case. This approach avoids imposing a single interpretation or hierarchy on externally reported death records, which may vary in source and confidence.
 
 External death records are drawn from multiple sources:  
-Epic Clarity's external Death reports, which contains data from:
-California’s Public Use Death File (CDPH): Death records are imported when a death date is not already available in the EHR (OMOP Death Table)
-External organization (e.g. Sutter, Kaiser, etc.): Death records received through Care Everywhere 
-Social Security Limited Access Death Master File (LADMF): A dataset updated monthly in GCP. Death records occurring less than 3 years before the EHR pipeline data cut date are excluded (i.e. if the current EHR data is from 2026-07-19, then death dates more recent than 2023-07-19 are removed from the dataset). 
+- `Epic Clarity's external Death reports`, which contains data from:
+    - `California’s Public Use Death File (CDPH)`: Death records are imported when a death date is not already available in the EHR (OMOP Death Table)
+    - `External organization (e.g. Sutter, Kaiser, etc.)`: Death records received through Care Everywhere 
+- `Social Security Limited Access Death Master File (LADMF)`: A dataset updated monthly in GCP. Death records occurring less than 3 years before the EHR pipeline data cut date are excluded (i.e. if the current EHR data is from 2026-07-19, then death dates more recent than 2023-07-19 are removed from the dataset). 
+
 
 Please note that there could be multiple rows in _external_death_records per person since a person can have distinct reports from multiple sources (e.g., CDPH and LADMF both reporting a death, possibly with different dates), and even distinct reports from within a single source in a small number of cases. Any comparison against this table should aggregate or explicitly reason over this one-to-many structure rather than joining naively, as a direct join will fan out and inflate counts.
 
+![Death Data Sources and Hierarchy in the VISTA Oncology Data Lake OMOP CDM](png_files/death_data_figure.png)
 
-```{r death_source_overlap, message=FALSE, warning=FALSE, results='hide'}
+
+```{r death_source_overlap, message=FALSE, warning=FALSE, results='hide', include=FALSE}
 # External death records only available in aug_2026
 death_overlap_res <- fetch_data_from_sql_file(
   "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/omop/ext_death/death_source_overlap.sql",
@@ -60,6 +64,7 @@ library(dplyr)
 
 # Summary table: total + per-source counts
 death_counts_table <- death_counts_res %>%
+filter(death_source != "NeuralFrame death") %>%
   mutate(n_unique_patients = scales::comma(n_unique_patients)) %>%
   rename(
     "Death Source"     = death_source,
@@ -77,7 +82,7 @@ datatable(
 ```{r death_source_overlap_table, message=FALSE, warning=FALSE, include = FALSE}
 # Mutually exclusive combination counts from overlap query
 overlap_combos <- death_overlap_res %>%
-  filter(!death_source %in% c("OMOP death", "NeuralFrame death", "External death")) %>%
+  filter(!death_source %in% c("OMOP death", "External death")) %>%
   arrange(desc(n_total)) %>%
   mutate(
     n_total    = scales::comma(n_total),
@@ -160,17 +165,10 @@ plot_ly(
 
 
 
-### Summary
-
-Th
-
-**Note:** Ordered tests are counted as unique `procedure_occurrence_id` values. A single patient may appear in multiple test families, so summing patients across families exceeds the overall unique-patient count reported at the top of this page.
-
-
 
 
 :::
 
 ### Source Code
-The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2026/variant_occ.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/omop/variant_occ/feb26).
+The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2026/external_death_records.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/omop/ext_death).
 
