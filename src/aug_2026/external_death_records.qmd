@@ -31,11 +31,12 @@ In this release, death data were restructured to separate EHR-confirmed deaths f
 
 The goal of this restructuring is to provide as much transparency as possible into the available death information for each patient, including the source of each reported death, while allowing downstream studies to determine how best to interpret and use these records based on their specific use case. This approach avoids imposing a single interpretation or hierarchy on externally reported death records, which may vary in source and confidence.
 
-External death records are drawn from multiple sources:  
-- `Epic Clarity's external Death reports`, which contains data from:
+External death records are drawn from multiple sources:
+
+- **Epic Clarity's external Death reports**, which contains data from:
     - `California’s Public Use Death File (CDPH)`: Death records are imported when a death date is not already available in the EHR (OMOP Death Table)
     - `External organization (e.g. Sutter, Kaiser, etc.)`: Death records received through Care Everywhere 
-- `Social Security Limited Access Death Master File (LADMF)`: A dataset updated monthly in GCP. Death records occurring less than 3 years before the EHR pipeline data cut date are excluded (i.e. if the current EHR data is from 2026-07-19, then death dates more recent than 2023-07-19 are removed from the dataset). 
+- **Social Security Limited Access Death Master File (LADMF)**: A dataset updated monthly in GCP. Death records occurring less than 3 years before the EHR pipeline data cut date are excluded (i.e. if the current EHR data is from 2026-07-19, then death dates more recent than 2023-07-19 are removed from the dataset). 
 
 
 Please note that there could be multiple rows in _external_death_records per person since a person can have distinct reports from multiple sources (e.g., CDPH and LADMF both reporting a death, possibly with different dates), and even distinct reports from within a single source in a small number of cases. Any comparison against this table should aggregate or explicitly reason over this one-to-many structure rather than joining naively, as a direct join will fan out and inflate counts.
@@ -127,9 +128,9 @@ plot_ly(
   )
 ```
 
-### Mutually Exclusive External Death Source Combinations
+### Mutually Exclusive External Death Source 
 
-```{r death_ext_sources, message=FALSE, warning=FALSE}
+```{r death_ext_sources, message=FALSE, warning=FALSE, include=FALSE}
 library(plotly)
 library(dplyr)
 
@@ -139,7 +140,11 @@ ext_death_exclusive_res <- fetch_data_from_sql_file(
   yaml_file_path,
   release = "aug_2026"
 )
+```
 
+```{r death_ext_sources_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
 plot_ly(
   data = ext_death_exclusive_res,
   y    = ~reorder(source_combination, n_unique_patients),
@@ -154,7 +159,7 @@ plot_ly(
   hoverinfo = "text"
 ) %>%
   layout(
-    title  = "Unique Patients by Mutually Exclusive External Death Source Combination (August 2026)",
+    title  = "Unique Patients by Mutually Exclusive External Death Source August",
     xaxis  = list(title = "Unique Pts", tickangle = -30),
     yaxis  = list(title = "", tickformat = ","),
     showlegend = FALSE,
@@ -164,10 +169,6 @@ plot_ly(
 
 
 
-
-
-
-:::
 
 ### Source Code
 The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2026/external_death_records.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/omop/ext_death).

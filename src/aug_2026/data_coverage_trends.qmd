@@ -529,7 +529,7 @@ if (nrow(ctsa_res) == 0) {
 
 ## **Mortality Tracking** ##
 
-The VISTA Oncology Data Lake captures mortality information from multiple sources to support survival analysis and outcomes research. Death records are consolidated from both the OMOP Clinical Data Warehouse (structured clinical death dates) and the Stanford Cancer Registry via NeuralFrame (vital status descriptions). This dual-source approach ensures comprehensive mortality tracking across the oncology cohort.
+The VISTA Oncology Data Lake captures mortality information from multiple sources to support survival analysis and outcomes research. Death records are consolidated from OMOP Clinical Data Warehouse (structured clinical death dates), Stanford Cancer Registry via NeuralFrame (vital status descriptions), and Epic Clarity's external Death reports. This multi-source approach ensures comprehensive mortality tracking across the oncology cohort.
 
 ::: {.panel-tabset}
 
@@ -590,7 +590,7 @@ DT::datatable(
 )
 ```
 
-The mortality tracking shows the cumulative count of patients with death records from either OMOP clinical data (death_date) or the Stanford Cancer Registry (vital status = "Dead"). 
+The mortality tracking shows the cumulative count of patients with death records from either OMOP clinical data (death_date), the Stanford Cancer Registry (vital status = "Dead"), or Epic Clarity's external Death reports.
 
 
 :::
