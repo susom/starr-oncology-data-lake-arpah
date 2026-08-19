@@ -13,16 +13,13 @@ This page provides an overview of the VISTA Oncology Data Lake's evolution acros
 
 ## Release Overview
 
-The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through August 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduced a major OMOP 5.4 upgrade with modernized vocabularies and enhanced ETL pipelines. The February 2026 release added whole slide imaging (WSI) and a custom variant occurrence table for granular genomic data. The May 2026 release expanded WSI coverage, introduced the OMOP episode table for treatment plan analysis, and added Heme-STAMP variants to the variant occurrence table. The August 2026 release introduces several new sources — external death records, Neural Frame event data, and an expanded set of genetic variant tests (Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel) while continuing to refresh existing sources, marking continued advancements in multi-modal data integration and research capabilities.
+The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through August 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduced a major OMOP 5.4 upgrade with modernized vocabularies and enhanced ETL pipelines. The February 2026 release added whole slide imaging (WSI) and a custom variant occurrence table for granular genomic data. The May 2026 release expanded WSI coverage, introduced the OMOP episode table for treatment plan analysis, and added Heme-STAMP variants to the variant occurrence table. The August 2026 release introduces several new sources including external death records, Neural Frame event data, and an expanded set of genetic variant tests (Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel) while continuing to refresh existing sources, marking continued advancements in multi-modal data integration and research capabilities.
 
 ![VISTA Oncology Data Lake](png_files/Feb_Vista.png)
 
 ### Data Source Timeline
 
 The following chart shows when each major data source became available in the data lake. Bars are grouped by category and colored using a soft pastel palette matching other pages on this site. Hover over any bar for details.
-
-- **Solid bar** — active in the current release
-- **Faded, dotted bar** — superseded (upgraded to a newer version) or discontinued
 
 ```{r timeline_plot, message=FALSE, warning=FALSE}
 library(plotly)
@@ -44,7 +41,7 @@ timeline <- tribble(
   "NeuralFrame Registry",             "NeuralFrame",  "2025-02-01",   "2026-08-31",   "Active",
   "NeuralFrame Event Data",           "NeuralFrame",  "2026-08-01",   "2026-08-31",   "Active",
   # Molecular (external sources)
-  "Philips ISPM",                     "Molecular",    "2025-05-01",   "2026-05-01",   "Discontinued",
+  "Philips ISPM",                     "Molecular",    "2025-05-01",   "2025-11-01",   "Discontinued",
   "STAMP Add-On Metadata",            "Molecular",    "2025-08-01",   "2026-08-31",   "Active",
   # Specialized Datasets
   "HIPPO Benchmark",                  "Specialized",  "2025-08-01",   "2026-08-31",   "Active",
@@ -148,7 +145,9 @@ fig %>% layout(
   yaxis = list(
     title = "",
     tickfont = list(size = 11, color = "#333333"),
-    automargin = TRUE
+    automargin = TRUE,
+    categoryorder = "array",
+    categoryarray = levels(timeline$Source)
   ),
   shapes = band_shapes,
   legend = list(
@@ -396,7 +395,7 @@ identifier_keys <- tibble::tribble(
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
-  "stanford_patient_uid, person_id",
+  "Discontinued coverage",
   "Discontinued coverage",
   "Discontinued coverage",
 

@@ -590,7 +590,7 @@ DT::datatable(
 )
 ```
 
-The mortality tracking shows the cumulative count of patients with death records from either OMOP clinical data (death_date), the Stanford Cancer Registry (vital status = "Dead"), or Epic Clarity's external Death reports.
+
 
 
 :::
@@ -665,7 +665,7 @@ thoracic_tb_sql_paths <- list(
   nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/nov25/tumor_board_thoracic_person_metrics.sql",
   feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_person_metrics.sql",
   may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_person_metrics.sql",
-  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/aug26/tumor_board_thoracic_person_metrics.sql"
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_person_metrics.sql"
 )
 
 # Run thoracic tumor board analysis across releases
@@ -688,7 +688,7 @@ thoracic_tb_nf_sql_paths <- list(
   nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/nov25/tumor_board_thoracic_neuralframe_metrics.sql",
   feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_neuralframe_metrics.sql",
   may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_neuralframe_metrics.sql", 
-  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/aug26/tumor_board_thoracic_neuralframe_metrics.sql"
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_thoracic_neuralframe_metrics.sql"
 )
 
 # Run thoracic TB Neural Frame analysis across all releases
@@ -751,7 +751,7 @@ plot_ly(data = thoracic_combined, x = ~month_label, y = ~patients,
     xaxis = list(
       title = "",
       categoryorder = "array",
-      categoryarray = c("February", "May", "August", "November")
+      categoryarray = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026", "Aug 2026")
     ),
     yaxis = list(
       title = "Number of Patients",
@@ -810,7 +810,7 @@ if (nrow(thoracic_tb_nf_res) > 0) {
     thoracic_tb_summary,
     colnames = c(
       "Metric",
-      "May 2025\nN (%)", "Aug 2025\nN (%)", "Nov 2025\nN (%)", "Feb 2026\nN (%)", "May 2026\nN (%)"
+      "May 2025\nN (%)", "Aug 2025\nN (%)", "Nov 2025\nN (%)", "Feb 2026\nN (%)", "May 2026\nN (%)", "Aug 2026\nN (%)"
     ),
     caption = "Thoracic Cancer Tumor Board Patients: Neural Frame Coverage Summary",
     options = list(
@@ -837,7 +837,7 @@ tb_overlap_sql_paths <- list(
   nov_2025 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/nov25/tumor_board_overlap.sql",
   feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_overlap.sql",
   may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_overlap.sql",
-  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/aug26/tumor_board_overlap.sql"
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/tumor_board/feb26/tumor_board_overlap.sql"
 )
 
 # Run tumor board overlap analysis across releases
@@ -1262,14 +1262,30 @@ aug26_acc <- fetch_data_from_sql_file(acc_sql, yaml_file_path, release = "aug_20
 
 # Add accession numbers to the data
 # For May-Nov: n_acc already in philips_variant_all
-# For Feb 2026 and May 2026: use the separate accession query results
+# For Feb/May/Aug 2026: use the separate accession query results
+# Force numeric conversion to avoid integer64 type issues from BigQuery
+# Safely extract scalar values (default to NA if query returned NULL/empty)
+safe_extract <- function(df, col = "counts_pts") {
+
+  val <- tryCatch(as.numeric(df[[col]][1]), error = function(e) NA_real_)
+  if (is.null(val) || length(val) == 0) NA_real_ else val
+}
+feb26_acc_val <- safe_extract(feb26_acc)
+may26_acc_val <- safe_extract(may26_acc)
+aug26_acc_val <- safe_extract(aug26_acc)
+
+if (!"n_acc" %in% names(philips_variant_all)) {
+  philips_variant_all$n_acc <- NA_real_
+}
 philips_variant_all <- philips_variant_all %>%
   mutate(
+    counts_pts = as.numeric(counts_pts),
+    n_acc = as.numeric(n_acc),
     n_acc = case_when(
-      release == "feb_2026" ~ as.numeric(feb26_acc$counts_pts),
-      release == "may_2026" ~ as.numeric(may26_acc$counts_pts),
-      release == "aug_2026" ~ as.numeric(aug26_acc$counts_pts),
-      TRUE ~ as.numeric(n_acc)
+      release == "feb_2026" ~ feb26_acc_val,
+      release == "may_2026" ~ may26_acc_val,
+      release == "aug_2026" ~ aug26_acc_val,
+      TRUE ~ n_acc
     )
   )
 
@@ -1311,7 +1327,7 @@ library(tidyr)
 philips_data_long <- philips_variant_all %>%
   mutate(
     month_label = factor(month, levels = c("May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026", "Aug 2026")),
-    is_combined = release %in% c("feb_2026", "may_2026")
+    is_combined = release %in% c("feb_2026", "may_2026", "aug_2026")
   ) %>%
   select(month_label, counts_pts, n_acc, release, is_combined) %>%
   pivot_longer(
@@ -1319,6 +1335,7 @@ philips_data_long <- philips_variant_all %>%
     names_to = "metric",
     values_to = "count"
   ) %>%
+  filter(!is.na(count)) %>%
   mutate(
     metric_label = case_when(
       metric == "counts_pts" ~ "Unique Patients",
@@ -1349,6 +1366,7 @@ p <- plot_ly() %>%
     mode = 'lines+markers',
     name = "Unique Patients",
     line = list(color = '#fb8072', width = 3),
+    connectgaps = TRUE,
     marker = list(
       size = ~ifelse(is_combined, 15, 12),
       color = '#fb8072',
@@ -1373,6 +1391,7 @@ p <- plot_ly() %>%
     mode = 'lines+markers',
     name = "Accession Numbers",
     line = list(color = '#8dd3c7', width = 3),
+    connectgaps = TRUE,
     marker = list(
       size = ~ifelse(is_combined, 15, 12),
       color = '#8dd3c7',
@@ -1493,6 +1512,7 @@ philips_denom <- run_monthly_metrics(
   release_to_month = release_to_month
 )
 ```
+
 
 ```{r philips_tests, message=FALSE, warning=FALSE, results='hide'}
 # Define Philips tests ordered SQL paths per release (discontinued after Nov 2025)
