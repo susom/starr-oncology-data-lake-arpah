@@ -5,9 +5,10 @@
 with
 event_data as (
   select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_events`
+  where lower(eventtypedescription) like '%radiation%'
 )
 select 
-  nfpatientsetid,
+  nfcaseentityid,
   person_id,
   eventtype,
   eventtypedescription,
@@ -19,4 +20,4 @@ select
 from event_data
 where eventdate is not null
   and (eventradiationdateended is not null or eventrxdatesurgicaldisch is not null)
-order by nfpatientsetid, eventdate
+order by nfcaseentityid, eventdate

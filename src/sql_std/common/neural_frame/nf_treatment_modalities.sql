@@ -1,23 +1,38 @@
 --------------------------------------------------------------------------
--- Treatment Modalities Summary
+-- Treatment Modalities Summary (non-exclusive: patients can appear in multiple)
 --------------------------------------------------------------------------
 
 with
 event_data as (
   select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_events`
+  where lower(eventtypedescription) like '%radiation%'
+    and eventdate is not null
+),
+modalities as (
+  select 'Chemotherapy' as treatment_modality,
+    count(distinct nfcaseentityid) as case_count,
+    count(distinct person_id) as patient_count
+  from event_data where eventrxsummchemo is not null
+  union all
+  select 'Radiation',
+    count(distinct nfcaseentityid),
+    count(distinct person_id)
+  from event_data
+  union all
+  select 'Surgery',
+    count(distinct nfcaseentityid),
+    count(distinct person_id)
+  from event_data where eventrxsummsurgprimsite is not null
+  union all
+  select 'Hormone Therapy',
+    count(distinct nfcaseentityid),
+    count(distinct person_id)
+  from event_data where eventrxsummhormone is not null
+  union all
+  select 'Biologic Response Modifier',
+    count(distinct nfcaseentityid),
+    count(distinct person_id)
+  from event_data where eventrxsummbrm is not null
 )
-select 
-  case 
-    when eventrxsummchemo is not null then 'Chemotherapy'
-    when eventphaseradiationtreatmentmodality is not null then 'Radiation'
-    when eventrxsummsurgprimsite is not null then 'Surgery'
-    when eventrxsummhormone is not null then 'Hormone Therapy'
-    when eventrxsummbrm is not null then 'Biologic Response Modifier'
-    else 'Other'
-  end as treatment_modality,
-  count(distinct nfpatientsetid) as case_count,
-  count(distinct person_id) as patient_count
-from event_data
-where eventdate is not null
-group by treatment_modality
+select * from modalities
 order by case_count desc

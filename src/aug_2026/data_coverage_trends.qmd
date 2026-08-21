@@ -1776,3 +1776,307 @@ plot_ly(
 
 :::
 
+## **OMOP Variant Occurrence** ##
+
+The OMOP `_variant_occurrence` table captures structured genomic variant data from molecular testing platforms. Starting February 2026, STAMP (Stanford Actionable Mutation Panel for Solid Tumors) simple variants are included, with Heme-STAMP variants added beginning May 2026. This table provides a standardized, longitudinal view of genomic profiling results across the oncology cohort.
+
+::: {.panel-tabset}
+
+### Variant Counts Over Time
+
+```{r variant_counts, message=FALSE, warning=FALSE, results='hide'}
+variant_counts_sql_paths <- list(
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_patient_counts.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_patient_counts.sql",
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_patient_counts.sql"
+)
+
+variant_counts_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month[c("feb_2026", "may_2026", "aug_2026")],
+  sql_file_paths = variant_counts_sql_paths,
+  release_to_month = release_to_month
+)
+```
+
+```{r variant_counts_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+library(tidyr)
+
+variant_long <- variant_counts_res %>%
+  mutate(month_label = factor(month, levels = c("Feb 2026", "May 2026", "Aug 2026"))) %>%
+  pivot_longer(cols = c(n_patients, n_variants), names_to = "metric", values_to = "count") %>%
+  mutate(
+    count = as.numeric(count),
+    metric_label = recode(metric,
+      "n_patients" = "Unique Patients",
+      "n_variants" = "Total Variants"
+    )
+  )
+
+plot_ly(
+  data = variant_long,
+  x = ~month_label,
+  y = ~count,
+  color = ~metric_label,
+  colors = c('#fb8072', '#8dd3c7'),
+  type = 'scatter',
+  mode = 'lines+markers',
+  text = ~paste0(metric_label, "<br>", month_label, "<br>Count: ", scales::comma(count)),
+  hoverinfo = "text",
+  line = list(width = 3),
+  marker = list(size = 10)
+) %>%
+  layout(
+    title = "OMOP Variant Occurrence: Patients & Variants Over Time",
+    xaxis = list(
+      title = "",
+      categoryorder = "array",
+      categoryarray = c("Feb 2026", "May 2026", "Aug 2026")
+    ),
+    yaxis = list(title = "Count", tickformat = ","),
+    legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.2),
+    hovermode = 'closest',
+    margin = list(b = 100)
+  )
+```
+
+### Test Family Breakdown
+
+```{r variant_test_family, message=FALSE, warning=FALSE, results='hide'}
+variant_test_sql_paths <- list(
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_by_test_family.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_by_test_family.sql",
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/variant_occ/feb26/variant_by_test_family.sql"
+)
+
+variant_test_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month[c("feb_2026", "may_2026", "aug_2026")],
+  sql_file_paths = variant_test_sql_paths,
+  release_to_month = release_to_month
+)
+```
+
+```{r variant_test_family_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+variant_test_plot <- variant_test_res %>%
+  mutate(
+    month_label = factor(month, levels = c("Feb 2026", "May 2026", "Aug 2026")),
+    n_patients = as.numeric(n_patients)
+  )
+
+plot_ly(
+  data = variant_test_plot,
+  x = ~month_label,
+  y = ~n_patients,
+  color = ~test_family,
+  colors = c('#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#b3de69', '#fccde5'),
+  type = 'bar',
+  text = ~paste0(test_family, "<br>", month_label, "<br>Patients: ", scales::comma(n_patients)),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Unique Patients by Test Family Across Releases",
+    xaxis = list(
+      title = "",
+      categoryorder = "array",
+      categoryarray = c("Feb 2026", "May 2026", "Aug 2026")
+    ),
+    yaxis = list(title = "Number of Patients", tickformat = ","),
+    barmode = 'group',
+    legend = list(
+      title = list(text = "Test Family"),
+      orientation = "h", x = 0.5, xanchor = "center", y = -0.2
+    ),
+    hovermode = 'closest',
+    margin = list(b = 100)
+  )
+```
+
+:::
+
+## **Episode Table** ##
+
+The OMOP `episode` table captures treatment episodes extracted from structured clinical data, including chemotherapy regimens, treatment protocols, and care plans. Each episode encodes the plan type and treatment protocol via JSON-structured source values, supporting longitudinal analysis of treatment patterns across the oncology cohort.
+
+::: {.panel-tabset}
+
+### Episode Counts Over Time
+
+```{r episode_counts, message=FALSE, warning=FALSE, results='hide'}
+episode_counts_sql_paths <- list(
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/n_cnt_epis.sql",
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/n_cnt_epis.sql"
+)
+
+episode_counts_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month[c("may_2026", "aug_2026")],
+  sql_file_paths = episode_counts_sql_paths,
+  release_to_month = release_to_month
+)
+```
+
+```{r episode_counts_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+episode_plot <- episode_counts_res %>%
+  mutate(
+    month_label = factor(month, levels = c("May 2026", "Aug 2026")),
+    counts = as.numeric(counts),
+    metric_label = recode(metric,
+      "total_episodes" = "Total Episodes",
+      "unique_persons" = "Unique Patients",
+      "unique_episode_ids" = "Unique Episode IDs"
+    )
+  )
+
+plot_ly(
+  data = episode_plot,
+  x = ~month_label,
+  y = ~counts,
+  color = ~metric_label,
+  colors = c('#8dd3c7', '#fb8072', '#bebada'),
+  type = 'bar',
+  text = ~paste0(metric_label, "<br>", month_label, "<br>Count: ", scales::comma(counts)),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Episode Table Metrics Across Releases",
+    xaxis = list(
+      title = "",
+      categoryorder = "array",
+      categoryarray = c("May 2026", "Aug 2026")
+    ),
+    yaxis = list(title = "Count", tickformat = ","),
+    barmode = 'group',
+    legend = list(
+      title = list(text = "Metric"),
+      orientation = "h", x = 0.5, xanchor = "center", y = -0.2
+    ),
+    hovermode = 'closest',
+    margin = list(b = 100)
+  )
+```
+
+### Plan Type Distribution
+
+```{r episode_plan_type, message=FALSE, warning=FALSE, results='hide'}
+episode_plan_sql_paths <- list(
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_by_plan_type.sql",
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/episode/epis_by_plan_type.sql"
+)
+
+episode_plan_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month[c("may_2026", "aug_2026")],
+  sql_file_paths = episode_plan_sql_paths,
+  release_to_month = release_to_month
+)
+```
+
+```{r episode_plan_type_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+episode_plan_plot <- episode_plan_res %>%
+  mutate(
+    month_label = factor(month, levels = c("May 2026", "Aug 2026")),
+    n_unique_persons = as.numeric(n_unique_persons),
+    plan_type = ifelse(is.na(plan_type) | plan_type == "", "Not Specified", plan_type)
+  )
+
+plot_ly(
+  data = episode_plan_plot,
+  x = ~n_unique_persons,
+  y = ~reorder(plan_type, n_unique_persons),
+  color = ~month_label,
+  colors = c('#8dd3c7', '#fb8072'),
+  type = 'bar',
+  orientation = 'h',
+  text = ~paste0(plan_type, "<br>", month_label, "<br>Patients: ", scales::comma(n_unique_persons)),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Unique Patients by Treatment Plan Type",
+    xaxis = list(title = "Number of Patients", tickformat = ","),
+    yaxis = list(title = ""),
+    barmode = 'group',
+    legend = list(orientation = "h", x = 0.5, xanchor = "center", y = -0.15),
+    hovermode = 'closest',
+    margin = list(l = 200, b = 80)
+  )
+```
+
+:::
+
+## **Whole Slide Imaging** ##
+
+The OMOP `_whole_slide_imaging` table captures digital pathology images linked to patient records, supporting computational pathology and image-based research. The dataset includes image metadata such as specimen types, accession numbers, and file formats (JSON/TIFF), enabling integration of histopathology imaging with clinical and genomic data.
+
+::: {.panel-tabset}
+
+### WSI Counts Over Time
+
+```{r wsi_counts, message=FALSE, warning=FALSE, results='hide'}
+wsi_counts_sql_paths <- list(
+  feb_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_basic_counts.sql",
+  may_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_basic_counts.sql",
+  aug_2026 = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/omop/wsi/feb26/wsi_basic_counts.sql"
+)
+
+wsi_counts_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month[c("feb_2026", "may_2026", "aug_2026")],
+  sql_file_paths = wsi_counts_sql_paths,
+  release_to_month = release_to_month
+)
+```
+
+```{r wsi_counts_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+wsi_plot <- wsi_counts_res %>%
+  mutate(
+    month_label = factor(month, levels = c("Feb 2026", "May 2026", "Aug 2026")),
+    counts = as.numeric(counts),
+    metric_label = recode(metric,
+      "total_images" = "Total Images",
+      "unique_patients" = "Unique Patients",
+      "unique_accessions" = "Unique Accessions"
+    )
+  ) %>%
+  filter(!metric %in% c("with_json", "with_tiff"))
+
+plot_ly(
+  data = wsi_plot,
+  x = ~month_label,
+  y = ~counts,
+  color = ~metric_label,
+  colors = c('#8dd3c7', '#bebada', '#fb8072'),
+  type = 'bar',
+  text = ~paste0( "<br>", month_label, "<br>Count: ", scales::comma(counts)),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "Whole Slide Imaging Metrics Across Releases",
+    xaxis = list(
+      title = "",
+      categoryorder = "array",
+      categoryarray = c("Feb 2026", "May 2026", "Aug 2026")
+    ),
+    yaxis = list(title = "Count", tickformat = ","),
+    barmode = 'stack',
+    legend = list(
+      title = list(text = "Metric"),
+      orientation = "h", x = 0.5, xanchor = "center", y = -0.2
+    ),
+    hovermode = 'closest',
+    margin = list(b = 100)
+  )
+```
+
+
+:::
+

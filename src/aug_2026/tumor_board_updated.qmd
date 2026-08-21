@@ -68,6 +68,40 @@ dt_long <- dt %>%
   )
 
 ```
+```{r extra data, message=FALSE, warning=FALSE, include=FALSE}
+library(bigrquery)
+library(dplyr)
+
+# Authenticate (opens browser first time, then caches)
+bq_auth()
+
+project_id <- "som-rit-phi-oncology-dev"
+
+sql <- "
+SELECT *
+FROM `som-rit-phi-oncology-dev.Tumor_Board_Email.PatientList_from TB_emails`
+"
+
+tb_data <- bq_project_query(project_id, sql) %>%
+  bq_table_download()
+
+tb_data <- tb_data %>%
+  mutate(source = "tb_emails")
+
+tb_email_summary <- tb_data %>%
+  group_by(tb_year) %>%       # adjust to your actual date/year column name
+  summarise(
+    total_patients  = n_distinct(person_id),   # adjust to your actual patient ID column
+    .groups = "drop"
+  ) %>%
+  mutate(
+    data  = "tb_emails"  , year=tb_year,
+     n_tb_encounters = NA_real_,   # no encounter data for this source
+    ratio = NA_real_
+  )
+
+tb_email_summary=tb_email_summary %>% filter(tb_year<2018)
+```
 
 ## Tumor Board Encounter ##
 
@@ -77,39 +111,52 @@ dt=dt %>% filter(year>2011)
 dt$ratio=round(dt$ratio, 1)
 dt$data=dt$flag
 
-# Convert to plotly for interactivity
-p <- ggplot(dt, aes(x = year, y = n_tb_encounters, color = data, group = data)) +
+dt_combined <- bind_rows(dt, tb_email_summary)
+
+dt_combined <- dt_combined %>%
+  mutate(y_value = if_else(data == "tb_emails", total_patients, n_tb_encounters))
+
+# Keep all point shapes the same except tb_emails, which gets a distinct marker.
+shape_values <- setNames(rep(16, length(unique(dt_combined$data))), unique(dt_combined$data))
+shape_values["tb_emails"] <- 17
+
+p <- ggplot(dt_combined, aes(x = year, y = y_value, color = data, shape = data, group = data)) +
   geom_point(aes(
     text = paste0(
       "Year: ", year,
-      "<br>n_encounters: ", n_tb_encounters,
       "<br>n_patients: ", total_patients,
-      "<br>ratio: ", round(ratio, 3)
+      if_else(!is.na(ratio), paste0("<br>ratio: ", round(ratio, 3)), "")
     )
   ), size = 3) +
-  ##geom_smooth(method = "loess", linewidth = 0.5, alpha = 0.7, se = FALSE) +
-    geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +  
-
+  geom_vline(xintercept = 2018, linetype = "dashed", color = "grey", size = 0.5) +
+  scale_shape_manual(values = shape_values) +
   theme_bw() +
   labs(
     title = "Tumor Board Encounters Over Time",
     x = "Year",
-    y = "Number of Encounters",
-    color = NULL  # <-- This removes the legend title
+    y = "Number of Encounters / Patients",  # updated to reflect mixed metric
+    color = NULL
   ) +
-  theme(legend.position = "bottom",  # Move legend below the plot
+  theme(
+    legend.position = "bottom",
     legend.title = element_blank(),
     strip.text = element_text(size = 12, face = "bold"),
     strip.background = element_rect(fill = "white", color = "gray80")
   )
 
-# Convert to interactive plot with hover
-# Convert to interactive plot with hover
 plotly::ggplotly(p, tooltip = "text")
+
+
 
 
 ```
 Please note that starting in 2018, Stanford Cancer Center standardized and rationalized the tagging of tumor boards in the EHR.
+
+**Update: Added TB Emails patient source to Tumor Board encounters plot**
+
+This release adds a new data source to the "Tumor Board Encounters Over Time" plot: patients identified through dark-mining analysis of oncologist emails. This method surfaces Tumor Board patients not captured by the current structured-data definition.
+Note that the number of encounters can be viewed by hovering on the datapoint for the other series, but this information is not available for the `tb_emails` series.
+
 
 ## Data Sources Across Tumor Board ##
 

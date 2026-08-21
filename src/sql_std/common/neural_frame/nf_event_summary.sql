@@ -5,10 +5,11 @@
 with
 event_data as (
   select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_events`
+  where lower(eventtypedescription) like '%radiation%'
 )
 select 
   count(distinct person_id) as total_patients,
-  count(distinct nfpatientsetid) as total_cases,
+  count(distinct nfcaseentityid) as total_cases,
   count(distinct nfpatienteventid) as total_events,
   count(distinct eventtype) as unique_event_types,
   min(eventdate) as earliest_event_date,
