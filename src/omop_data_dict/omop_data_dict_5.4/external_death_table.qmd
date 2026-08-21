@@ -1,0 +1,40 @@
+---
+title: "_external_death_table"
+---
+
+External Clinical Data Table
+
+### Table Columns
+
+| field                                                      | type   | required   | phi   | phi scrubbing operation   |
+|:-----------------------------------------------------------|:-------|:-----------|:------|:--------------------------|
+| external_death_record_id                                   |        | Yes        | Yes   | Offset |
+| person_id                                                  |        | Yes        | Yes   | Stable between refreshes |
+| death_date                                                 |        | Yes        | Yes   | Jitter |
+| death_datetime                                             |        | No         | Yes   | Jitter |
+| external_death_record_source                               |        | Yes        |       |                           |
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+
+##### person_id
+
+A foreign key identifier to the deceased person. The demographic details of that person are stored in the person table.
+
+##### external_death_record_id
+
+Record-level identifier for external death data. This value is de-identified using a random offset operation.
+
+##### death_date
+
+Date of death from the external source.
+
+##### death_datetime
+
+Date-time of death from the external source.
+
+##### external_death_record_source
+
+Source system indicator for the external death record. This field is not de-identified.

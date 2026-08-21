@@ -1,0 +1,400 @@
+---
+title: "NeuralFrame Case Events"
+---
+
+The table `onc_neuralframe_case_events` contains details about the events recorded for each patient, including radiation, chemotherapy courses, treatments, and any relevant clinical observations.
+
+### Table Columns
+
+| column name                                        | type    | phi   | phi-scrubbing operation       | naaccr number                                                                                                 |
+|:---------------------------------------------------|:--------|:------|:------------------------------|:--------------------------------------------------------------------------------------------------------------|
+| person_id                                           | INT64   | Yes   | Stable Between Data Refreshes |                                                                                                               |
+| stanford_patient_uid                                | STRING  | Yes   | Del                           |                                                                                                               |
+| nfpatientsetid                                      | STRING  | Yes   | Del                           |                                                                                                               |
+| nfcaseentityid                                      | STRING  | Yes   | Hash                          |                                                                                                               |
+| nfpatienteventid                                    | STRING  | Yes   | Hash                          |                                                                                                               |
+| eventchemotherapycompletionstatus                   | STRING  |       |                               |                                                                                                               |
+| eventcontactlocation                                | STRING  |       |                               |                                                                                                               |
+| eventcontactlocationdescription                     | STRING  |       |                               |                                                                                                               |
+| eventcontactlocationlegacyvendor                    | STRING  |       |                               |                                                                                                               |
+| eventcontactperson                                  | STRING  |       |                               |                                                                                                               |
+| eventcontactpersondescription                       | STRING  |       |                               |                                                                                                               |
+| eventcontactpersonlegacyvendor                      | STRING  |       |                               |                                                                                                               |
+| eventcoursenumber                                   | STRING  |       |                               |                                                                                                               |
+| eventcoursenumberdescription                        | STRING  |       |                               |                                                                                                               |
+| eventdiagnosticprocedure                            | STRING  |       |                               |                                                                                                               |
+| eventdiagnosticproceduredescription                 | STRING  |       |                               |                                                                                                               |
+| eventnotes                                          | STRING  |       |                               |                                                                                                               |
+| eventothertreatment                                 | STRING  |       |                               |                                                                                                               |
+| eventothertreatmentdescription                      | STRING  |       |                               |                                                                                                               |
+| eventphasedoseperfraction                           | STRING  |       |                               |                                                                                                               |
+| eventphasenumberoffractions                         | STRING  |       |                               |                                                                                                               |
+| eventphaseradiationdraininglymphnodes              | STRING  |       |                               |                                                                                                               |
+| eventphaseradiationdraininglymphnodesdescription   | STRING  |       |                               |                                                                                                               |
+| eventphaseradiationexternalbeamplanningtech         | STRING  |       |                               |                                                                                                               |
+| eventphaseradiationexternalbeamplanningtechdescription | STRING |       |                               |                                                                                                               |
+| eventphaseradiationtreatmentmodality                | STRING  |       |                               |                                                                                                               |
+| eventphaseradiationtreatmentmodalitydescription     | STRING  |       |                               |                                                                                                               |
+| eventphaseradiationtreatmentvolume                  | STRING  |       |                               |                                                                                                               |
+| eventphaseradiationtreatmentvolumedescription       | STRING  |       |                               |                                                                                                               |
+| eventphasetotaldose                                 | STRING  |       |                               |                                                                                                               |
+| eventprotocoleligibilitystatus                      | STRING  |       |                               |                                                                                                               |
+| eventprotocolnumber                                 | STRING  |       |                               |                                                                                                               |
+| eventprotocolparticipation                          | STRING  |       |                               |                                                                                                               |
+| eventprotocoltrialtype                              | STRING  |       |                               |                                                                                                               |
+| eventradiationcompletionstatus                      | STRING  |       |                               |                                                                                                               |
+| eventradiationphase                                 | STRING  |       |                               |                                                                                                               |
+| eventradiationphasedescription                      | STRING  |       |                               |                                                                                                               |
+| eventrecurrencesite1                                | STRING  |       |                               |                                                                                                               |
+| eventrecurrencesite2                                | STRING  |       |                               |                                                                                                               |
+| eventrecurrencesite3                                | STRING  |       |                               |                                                                                                               |
+| eventrxsummbrm                                      | STRING  |       |                               |                                                                                                               |
+| eventrxsummbrmdescription                           | STRING  |       |                               |                                                                                                               |
+| eventrxsummchemo                                    | STRING  |       |                               |                                                                                                               |
+| eventrxsummchemodescription                         | STRING  |       |                               |                                                                                                               |
+| eventrxsummhormone                                  | STRING  |       |                               |                                                                                                               |
+| eventrxsummhormonedescription                       | STRING  |       |                               |                                                                                                               |
+| eventrxsummpalliativeproc                           | STRING  |       |                               |                                                                                                               |
+| eventrxsummpalliativeprocdescription                | STRING  |       |                               |                                                                                                               |
+| eventrxsummscopereglnsur                            | STRING  |       |                               |                                                                                                               |
+| eventrxsummscopereglnsurdescription                 | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgothregdis                            | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgothregdisdescription                 | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgprimsite                             | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgprimsitedescription                  | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgprimsite2023                         | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgprimsite2023description              | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgicalapproch                          | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgicalapprochdescription               | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgicalmargins                          | STRING  |       |                               |                                                                                                               |
+| eventrxsummsurgicalmarginsdescription               | STRING  |       |                               |                                                                                                               |
+| eventrxsummtransplntendocr                          | STRING  |       |                               |                                                                                                               |
+| eventrxsummtransplntendocrdescription               | STRING  |       |                               |                                                                                                               |
+| eventsentinellymphnodesexamined                     | STRING  |       |                               |                                                                                                               |
+| eventsentinellymphnodespositive                     | STRING  |       |                               |                                                                                                               |
+| eventstanfordrouteofadministrationchemo             | STRING  |       |                               |                                                                                                               |
+| eventsublocation                                     | STRING  |       |                               |                                                                                                               |
+| eventtype                                            | STRING  |       |                               |                                                                                                               |
+| eventtypedescription                                 | STRING  |       |                               |                                                                                                               |
+| eventtypeofrecurrence                                | STRING  |       |                               |                                                                                                               |
+| eventtypeofrecurrencedescription                     | STRING  |       |                               |                                                                                                               |
+| eventdate                                            | STRING  | Yes   | Jitter                        |                                                                                                               |
+| eventdateprotocolended                               | STRING  | Yes   | Jitter                        |                                                                                                               |
+| eventrlndate                                         | STRING  | Yes   | Jitter                        |                                                                                                               |
+| eventrxdatesurgicaldisch                             | STRING  | Yes   | Jitter                        |                                                                                                               |
+| eventradiationdateended                              | STRING  | Yes   | Jitter                        |                                                                                                               |
+| nfcreatedat                                          | STRING  | Yes   | Jitter                        |                                                                                                               |
+| nfupdatedat                                          | STRING  | Yes   | Jitter                        |                                                                                                               |
+
+
+:  {.hover .responsive .sm}
+
+### Columns Description
+
+##### person_id
+
+OMOP person identifier for the patient.
+
+##### stanford_patient_uid
+
+Internal Stanford tracking ID for NeuralFrame.
+
+##### nfpatientsetid
+
+NeuralFrame patient-set identifier used to group related patient records.
+
+##### nfcaseentityid
+
+Unique identifier for each NeuralFrame case entity.
+
+##### nfpatienteventid
+
+Unique identifier for each NeuralFrame patient event record.
+
+##### eventchemotherapycompletionstatus
+
+Completion status for chemotherapy associated with the event.
+
+##### eventcontactlocation
+
+Coded location where the event contact occurred.
+
+##### eventcontactlocationdescription
+
+Human-readable description of the event contact location code.
+
+##### eventcontactlocationlegacyvendor
+
+Legacy vendor/source value for event contact location.
+
+##### eventcontactperson
+
+Coded role or type of person contacted for the event.
+
+##### eventcontactpersondescription
+
+Human-readable description of the event contact person code.
+
+##### eventcontactpersonlegacyvendor
+
+Legacy vendor/source value for event contact person.
+
+##### eventcoursenumber
+
+Treatment course number associated with the event.
+
+##### eventcoursenumberdescription
+
+Human-readable description of the event course number.
+
+##### eventdiagnosticprocedure
+
+Coded diagnostic procedure captured for the event.
+
+##### eventdiagnosticproceduredescription
+
+Human-readable description of the event diagnostic procedure code.
+
+##### eventnotes
+
+Free-text notes associated with the event.
+
+##### eventothertreatment
+
+Coded value for other treatment related to the event.
+
+##### eventothertreatmentdescription
+
+Human-readable description of the event other-treatment code.
+
+##### eventphasedoseperfraction
+
+Radiation phase dose per fraction for the event.
+
+##### eventphasenumberoffractions
+
+Number of radiation fractions in the event phase.
+
+##### eventphaseradiationdraininglymphnodes
+
+Coded indicator for radiation to draining lymph nodes in the phase.
+
+##### eventphaseradiationdraininglymphnodesdescription
+
+Human-readable description of phase radiation to draining lymph nodes.
+
+##### eventphaseradiationexternalbeamplanningtech
+
+Coded external beam planning technique for the radiation phase.
+
+##### eventphaseradiationexternalbeamplanningtechdescription
+
+Human-readable description of the external beam planning technique code.
+
+##### eventphaseradiationtreatmentmodality
+
+Coded radiation treatment modality for the phase.
+
+##### eventphaseradiationtreatmentmodalitydescription
+
+Human-readable description of the radiation treatment modality code.
+
+##### eventphaseradiationtreatmentvolume
+
+Coded radiation treatment volume for the phase.
+
+##### eventphaseradiationtreatmentvolumedescription
+
+Human-readable description of the radiation treatment volume code.
+
+##### eventphasetotaldose
+
+Total radiation dose delivered in the event phase.
+
+##### eventprotocoleligibilitystatus
+
+Protocol eligibility status recorded for the event.
+
+##### eventprotocolnumber
+
+Protocol or trial number linked to the event.
+
+##### eventprotocolparticipation
+
+Protocol participation indicator or status for the event.
+
+##### eventprotocoltrialtype
+
+Type of protocol or clinical trial associated with the event.
+
+##### eventradiationcompletionstatus
+
+Completion status of radiation treatment for the event.
+
+##### eventradiationphase
+
+Coded radiation phase captured for the event.
+
+##### eventradiationphasedescription
+
+Human-readable description of the radiation phase code.
+
+##### eventrecurrencesite1
+
+Primary coded recurrence site associated with the event.
+
+##### eventrecurrencesite2
+
+Secondary coded recurrence site associated with the event.
+
+##### eventrecurrencesite3
+
+Tertiary coded recurrence site associated with the event.
+
+##### eventrxsummbrm
+
+Event-level code for first-course BRM/immunotherapy summary.
+
+##### eventrxsummbrmdescription
+
+Human-readable description of the event BRM summary code.
+
+##### eventrxsummchemo
+
+Event-level code for first-course chemotherapy summary.
+
+##### eventrxsummchemodescription
+
+Human-readable description of the event chemotherapy summary code.
+
+##### eventrxsummhormone
+
+Event-level code for first-course hormone therapy summary.
+
+##### eventrxsummhormonedescription
+
+Human-readable description of the event hormone summary code.
+
+##### eventrxsummpalliativeproc
+
+Event-level code for first-course palliative procedure summary.
+
+##### eventrxsummpalliativeprocdescription
+
+Human-readable description of the event palliative procedure summary code.
+
+##### eventrxsummscopereglnsur
+
+Event-level code for scope of regional lymph node surgery summary.
+
+##### eventrxsummscopereglnsurdescription
+
+Human-readable description of the event scope-of-node-surgery code.
+
+##### eventrxsummsurgothregdis
+
+Event-level code for surgery of other regional/distant sites summary.
+
+##### eventrxsummsurgothregdisdescription
+
+Human-readable description of the event surgery-other-site summary code.
+
+##### eventrxsummsurgprimsite
+
+Event-level code for surgery of primary site summary.
+
+##### eventrxsummsurgprimsitedescription
+
+Human-readable description of the event surgery-primary-site summary code.
+
+##### eventrxsummsurgprimsite2023
+
+2023 coding version for event surgery of primary site summary.
+
+##### eventrxsummsurgprimsite2023description
+
+Human-readable description of the 2023 surgery-primary-site summary code.
+
+##### eventrxsummsurgicalapproch
+
+Event-level code for surgical approach summary.
+
+##### eventrxsummsurgicalapprochdescription
+
+Human-readable description of the event surgical approach summary code.
+
+##### eventrxsummsurgicalmargins
+
+Event-level code for surgical margins summary.
+
+##### eventrxsummsurgicalmarginsdescription
+
+Human-readable description of the event surgical margins summary code.
+
+##### eventrxsummtransplntendocr
+
+Event-level code for transplant/endocrine procedures summary.
+
+##### eventrxsummtransplntendocrdescription
+
+Human-readable description of the event transplant/endocrine summary code.
+
+##### eventsentinellymphnodesexamined
+
+Number/code indicating sentinel lymph nodes examined for the event.
+
+##### eventsentinellymphnodespositive
+
+Number/code indicating positive sentinel lymph nodes for the event.
+
+##### eventstanfordrouteofadministrationchemo
+
+Stanford-specific route of chemotherapy administration for the event.
+
+##### eventsublocation
+
+Sub-location detail for where the event occurred.
+
+##### eventtype
+
+Coded event type.
+
+##### eventtypedescription
+
+Human-readable description of the event type code.
+
+##### eventtypeofrecurrence
+
+Coded type of recurrence associated with the event.
+
+##### eventtypeofrecurrencedescription
+
+Human-readable description of the recurrence-type code.
+
+##### eventdate
+
+Date of the event.
+
+##### eventdateprotocolended
+
+Date the associated protocol ended for the event.
+
+##### eventrlndate
+
+Date related to regional lymph node activity for the event.
+
+##### eventrxdatesurgicaldisch
+
+Date of surgical discharge associated with the event.
+
+##### eventradiationdateended
+
+Date radiation treatment ended for the event.
+
+##### nfcreatedat
+
+Record creation timestamp in NeuralFrame.
+
+##### nfupdatedat
+
+Record last-update timestamp in NeuralFrame.

@@ -124,6 +124,7 @@ p <- ggplot(dt_combined, aes(x = year, y = y_value, color = data, shape = data, 
   geom_point(aes(
     text = paste0(
       "Year: ", year,
+      "<br>n_encounters: ", if_else(is.na(n_tb_encounters), "NA", format(round(n_tb_encounters, 0), big.mark = ",")),
       "<br>n_patients: ", total_patients,
       if_else(!is.na(ratio), paste0("<br>ratio: ", round(ratio, 3)), "")
     )
@@ -154,7 +155,7 @@ Please note that starting in 2018, Stanford Cancer Center standardized and ratio
 
 **Update: Added TB Emails patient source to Tumor Board encounters plot**
 
-This release adds a new data source to the "Tumor Board Encounters Over Time" plot: patients identified through dark-mining analysis of oncologist emails. This method surfaces Tumor Board patients not captured by the current structured-data definition.
+This release adds a new data source to the "Tumor Board Encounters Over Time" plot: patients identified from internal Thoracic Tumor Board communications and dark-mining analysis of oncologist emails. This method surfaces Tumor Board patients not captured by the current structured-data definition.
 Note that the number of encounters can be viewed by hovering on the datapoint for the other series, but this information is not available for the `tb_emails` series.
 
 
