@@ -79,7 +79,7 @@ project_id <- "som-rit-phi-oncology-dev"
 
 sql <- "
 SELECT *
-FROM `som-rit-phi-oncology-dev.Tumor_Board_Email.PatientList_from TB_emails`
+FROM `som-rit-phi-oncology-dev.Tumor_Board_Email.PatientList_from_TB_emails`
 "
 
 tb_data <- bq_project_query(project_id, sql) %>%
