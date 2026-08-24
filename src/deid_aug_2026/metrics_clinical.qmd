@@ -56,7 +56,11 @@ As of the August 2026 OMOP population, `r format( den_res$counts_pts[den_res$dat
     - [Episode Table Metrics](episode_table.qmd)
 
 
-  - **Data Coverage Trends:** Longitudinal view of data evolution across all platforms from February 2025 to May 2026.
+  - **External Death Records:** The external death records table captures records of deaths reported from external sources, such as state death registries or other healthcare institutions. This table is designed to complement the standard OMOP death table, which contains only deaths confirmed within the EHR (Epic).
+    - [External Death Records Metrics](external_death_records.qmd)
+
+
+  - **Data Coverage Trends:** Longitudinal view of data evolution across all platforms from February 2025 to August 2026.
     - [Data Coverage Trends](deid_data_coverage_trends.qmd)
  
 ```{r table1, message=FALSE, warning=FALSE}
