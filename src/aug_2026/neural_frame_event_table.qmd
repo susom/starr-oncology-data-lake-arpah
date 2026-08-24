@@ -1,0 +1,288 @@
+---
+title: "Neural Frame Event Table"
+execute:
+  echo: false
+---
+
+```{r load functions, message=FALSE, warning=FALSE, results='hide'}
+#| context: global
+
+rm(list=ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2026/sql_params.yml"
+library(RColorBrewer)
+```
+
+## Neural Frame Event Table
+
+The Neural Frame Event table captures detailed clinical events and treatment information for cancer patients, including chemotherapy, radiation, surgery, clinical protocols, and various treatment outcomes. This comprehensive event-level data enables in-depth analysis of treatment patterns, clinical course, and patient outcomes.
+
+```{r nf event table summary, message=FALSE, warning=FALSE, results='hide'}
+sql_event_summary <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_event_summary.sql"
+event_summary <- fetch_data_from_sql_file(sql_event_summary, yaml_file_path, release = "aug_2026")
+
+sql_event_types <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_event_types.sql"
+event_types_data <- fetch_data_from_sql_file(sql_event_types, yaml_file_path, release = "aug_2026")
+
+sql_radiation_details <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_radiation_therapy.sql"
+radiation_details <- fetch_data_from_sql_file(sql_radiation_details, yaml_file_path, release = "aug_2026")
+
+sql_chemo_courses <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_chemotherapy_courses.sql"
+chemo_courses <- fetch_data_from_sql_file(sql_chemo_courses, yaml_file_path, release = "aug_2026")
+
+sql_surgery_details <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_surgical_procedures.sql"
+surgery_details <- fetch_data_from_sql_file(sql_surgery_details, yaml_file_path, release = "aug_2026")
+
+sql_completion_status <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_completion_status.sql"
+completion_status <- fetch_data_from_sql_file(sql_completion_status, yaml_file_path, release = "aug_2026")
+
+sql_recurrence <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_recurrence_analysis.sql"
+recurrence_data <- fetch_data_from_sql_file(sql_recurrence, yaml_file_path, release = "aug_2026")
+
+sql_temporal <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_event_temporal_trends.sql"
+temporal_data <- fetch_data_from_sql_file(sql_temporal, yaml_file_path, release = "aug_2026")
+```
+
+```{r treatment overview summary, message=FALSE, warning=FALSE}
+treatment_overview <- event_summary %>%
+  mutate(
+    `Unique Patients` = format(total_patients, big.mark = ","),
+    `Total Cases` = format(total_cases, big.mark = ","),
+    `Total Events` = format(total_events, big.mark = ","),
+    `Unique Event Types` = unique_event_types
+  ) %>%
+  select(`Unique Patients`, `Total Cases`, `Total Events`, `Unique Event Types`)
+
+create_gt_table_v1(
+  data = treatment_overview,
+  columns = c("Unique Patients", "Total Cases", "Total Events", "Unique Event Types"),
+  labels = c(
+    "Unique Patients" = "Patients",
+    "Total Cases" = "Cases",
+    "Total Events" = "Events",
+    "Unique Event Types" = "Event Types"
+  ),
+  subtitle_text = "Neural Frame Event Table Summary Statistics"
+)
+```
+
+#### Event Type Distribution Overview
+```{r event types visualization, message=FALSE, warning=FALSE}
+event_type_plot <- event_types_data %>%
+  arrange(desc(event_count)) %>%
+  head(12) %>%
+  mutate(event_label = ifelse(nchar(eventtypedescription) > 20,
+                               substr(eventtypedescription, 1, 20),
+                               eventtypedescription))
+
+plot_ly(
+  data = event_type_plot,
+  x = ~reorder(event_label, -event_count),
+  y = ~event_count,
+  type = 'bar',
+  marker = list(color = '#1f77b4'),
+  hovertemplate = ~paste0(
+    "<b>", eventtypedescription, "</b>",
+    "<br>Events: ", scales::comma(event_count),
+    "<br>Cases: ", scales::comma(case_count),
+    "<br>Patients: ", scales::comma(patient_count),
+    "<extra></extra>"
+  )
+) %>%
+  layout(
+    title = "Top 12 Event Types in Neural Frame",
+    xaxis = list(title = "Event Type"),
+    yaxis = list(title = "Number of Events", tickformat = ","),
+    showlegend = FALSE,
+    hovermode = 'x unified',
+    margin = list(b = 120)
+  )
+```
+
+#### Event Temporal Trends
+```{r event temporal trends, message=FALSE, warning=FALSE}
+temporal_plot <- temporal_data %>%
+  mutate(year = as.numeric(year)) %>%
+  filter(year >= 1950 & year <= 2026)
+
+plot_ly(data = temporal_plot) %>%
+  add_trace(
+    x = ~year, y = ~distinct_patients,
+    type = 'bar',
+    name = 'Patients',
+    marker = list(color = '#89cbad'),
+    hovertemplate = ~paste0(
+      "<b>Year: ", year, "</b>",
+      "<br>Patients: ", scales::comma(distinct_patients),
+      "<br>Events: ", scales::comma(total_events),
+      "<extra></extra>"
+    )
+  ) %>%
+  add_trace(
+    x = ~year, y = ~total_events,
+    type = 'scatter', mode = 'lines+markers',
+    name = 'Events',
+    yaxis = 'y2',
+    line = list(color = '#f09090'),
+    marker = list(color = '#d62728', size = 4),
+    hovertemplate = ~paste0(
+      "<b>Year: ", year, "</b>",
+      "<br>Events: ", scales::comma(total_events),
+      "<extra></extra>"
+    )
+  ) %>%
+  layout(
+    title = "Neural Frame Events and Patients Over Time",
+    xaxis = list(title = "Year"),
+    yaxis = list(title = "Distinct Patients", tickformat = ","),
+    yaxis2 = list(title = "Total Events", overlaying = "y", side = "right", tickformat = ","),
+    legend = list(x = 0.01, y = 0.99),
+    hovermode = 'x unified'
+  )
+```
+
+This section provides a comprehensive overview of treatment patterns in the Neural Frame Event data, including chemotherapy, radiation, surgery, and other therapeutic interventions.
+
+::: {.panel-tabset}
+
+### ARIA Radiation
+
+ARIA (Radiation Oncology Information System) provides per-phase radiation treatment logistics that are not available from general NF abstracting. These include target volumes, lymph node involvement, daily/total dosing, fraction counts, and treatment end dates.
+
+```{r aria phase summary, message=FALSE, warning=FALSE, results='hide'}
+sql_aria_summary <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_aria_phase_summary.sql"
+aria_summary <- fetch_data_from_sql_file(sql_aria_summary, yaml_file_path, release = "aug_2026")
+
+sql_aria_detail <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_aria_phase_detail.sql"
+aria_detail <- fetch_data_from_sql_file(sql_aria_detail, yaml_file_path, release = "aug_2026")
+```
+
+```{r aria summary table, message=FALSE, warning=FALSE}
+aria_overview <- aria_summary %>%
+  mutate(
+    `Patients` = format(patients_with_aria_phase_data, big.mark = ","),
+    `Cases` = format(cases_with_aria_phase_data, big.mark = ","),
+    `Events` = format(events_with_aria_phase_data, big.mark = ",")
+  ) %>%
+  select(`Patients`, `Cases`, `Events`)
+
+create_gt_table_v1(
+  data = aria_overview,
+  columns = c("Patients", "Cases", "Events"),
+  labels = c(
+    "Patients" = "Number of Patients",
+    "Cases" = "Number of Cases",
+    "Events" = "Number of Events"
+  ),
+  subtitle_text = ""
+)
+```
+
+#### ARIA Field Coverage
+The following table shows how many patients and cases have data for each ARIA-specific field:
+
+```{r aria detail table, message=FALSE, warning=FALSE}
+aria_detail_table <- aria_detail %>%
+  arrange(desc(patients)) %>%
+  mutate(
+    `Field` = aria_field,
+    `Patients` = format(patients, big.mark = ","),
+    `Cases` = format(cases, big.mark = ",")
+  ) %>%
+  select(`Field`, `Patients`, `Cases`)
+
+create_gt_table_v1(
+  data = aria_detail_table,
+  columns = c("Field", "Patients", "Cases"),
+  labels = c(
+    "Field" = "ARIA Field",
+    "Patients" = "Patients",
+    "Cases" = "Cases"
+  ),
+  subtitle_text = "Coverage by ARIA Phase-Level Field"
+)
+```
+
+### Event Table
+
+::: {.panel-tabset}
+
+### Chemotherapy Courses
+```{r chemotherapy courses table, message=FALSE, warning=FALSE}
+chemo_table <- chemo_courses %>%
+  arrange(eventcoursenumber) %>% filter(patients_receiving_chemo > 5) %>%
+  mutate(
+    `Course` = eventcoursenumberdescription,
+    `Cases` = format(cases_receiving_chemo, big.mark = ","),
+    `Patients` = format(patients_receiving_chemo, big.mark = ","),
+    `Events` = format(chemo_events, big.mark = ",")
+  ) %>%
+  select(`Course`, `Cases`, `Patients`, `Events`)
+
+create_gt_table_v1(
+  data = chemo_table,
+  columns = c("Course", "Cases", "Patients", "Events"),
+  labels = c(
+    "Course" = "Course",
+    "Cases" = "Cases",
+    "Patients" = "Patients",
+    "Events" = "Events"
+  ),
+  subtitle_text = "Chemotherapy Course Distribution"
+)
+```
+
+### Surgical Procedures
+```{r surgical procedures table, message=FALSE, warning=FALSE}
+surg_table <- surgery_details %>%
+  arrange(desc(cases_with_surgery)) %>%
+  head(15) %>%
+  mutate(
+    `Procedure` = surgery_type,
+    `Cases` = format(cases_with_surgery, big.mark = ","),
+    `Patients` = format(patients_with_surgery, big.mark = ",")
+  ) %>%
+  select(`Procedure`, `Cases`, `Patients`)
+
+create_gt_table_v1(
+  data = surg_table,
+  columns = c("Procedure", "Cases", "Patients"),
+  labels = c(
+    "Procedure" = "Surgery Type",
+    "Cases" = "Cases",
+    "Patients" = "Patients"
+  ),
+  subtitle_text = "Top 15 Surgical Procedures"
+)
+```
+
+### Recurrence
+```{r recurrence table, message=FALSE, warning=FALSE}
+rec_table <- recurrence_data %>%
+  arrange(desc(cases_with_recurrence)) %>%
+  mutate(
+    `Recurrence Type` = recurrence_type,
+    `Cases` = format(cases_with_recurrence, big.mark = ","),
+    `Patients` = format(patients_with_recurrence, big.mark = ",")
+  ) %>%
+  select(`Recurrence Type`, `Cases`, `Patients`)
+
+create_gt_table_v1(
+  data = rec_table,
+  columns = c("Recurrence Type", "Cases", "Patients"),
+  labels = c(
+    "Recurrence Type" = "Recurrence Type",
+    "Cases" = "Cases",
+    "Patients" = "Patients"
+  ),
+  subtitle_text = "Recurrence Type Distribution"
+)
+```
+
+:::
+
+:::
+
+### Source Codes:
+
+The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/aug_2026/neural_frame_event_table.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/common/neural_frame).

@@ -15,40 +15,13 @@ execute:
 
 This longitudinal analysis tracks the growth and evolution of the VISTA Oncology Data Lake across seven data releases from February 2025 through August 2026. The dashboard monitors key metrics including:
 
-### Data Completeness & Growth
-- **Patient Population Growth**: Tracks unique patient enrollment across releases
-- **Case Volume Trends**: Monitors the accumulation of cancer cases in the registry
-- **Event Capture**: Measures the collection of clinical events (treatments, diagnoses, outcomes)
-- **Data Maturation**: Shows how data completeness improves over time
+### Data Completeness, Growth, and Platform Coverage
+This report summarizes how the data lake expands and matures across releases, including changes in unique patient counts, case volume, and capture of key clinical events. It also highlights data completeness indicators such as follow-up, recurrence, and documentation depth over time.
 
-### Data Platform Coverage
-- **Cancer Registry (NeuralFrame)**: Case status, vital status, and clinical event tracking
-- **Genomic Data (Philips ISPM)**: Molecular test results and variant occurrence patterns
-- **Imaging Data (DICOM)**: Whole slide imaging and radiological image metadata
-- **Clinical Data (OMOP)**: Observation records and standardized clinical concepts
+Coverage is assessed across Cancer Registry (NeuralFrame), Genomic data (Philips ISPM and OMOP variant_occurrence), Imaging data (DICOM/OMOP image occurrence and WSI), and core OMOP clinical domains to show how multi-modal data availability evolves through each release.
 
-### Key Metrics by Data Domain
-The following sections present longitudinal trends across the three major data platforms, demonstrating data acquisition, quality, and utilization patterns over the 18-month analysis period.
-
-#### 📊 Data Growth Trajectories
-- **Denominator Trends**: Patient and case population growth
-- **Vital Status Capture**: Follow-up and vital status documentation
-- **Event Recording**: Clinical event documentation patterns
-- **Recurrence Tracking**: Cancer recurrence and progression monitoring
-
-#### 🔬 Genomic Data Evolution
-- **Test Volume Growth**: Molecular and pathology test trends
-- **Variant Discovery**: Oncology-relevant genetic variant patterns
-- **Platform Adoption**: Usage trends for different genomic platforms
-
-#### 🖼️ Imaging Data Accumulation  
-- **Whole Slide Image Collection**: Digital pathology image repository growth
-- **Image Metadata**: Associated clinical and pathological data
-
-#### 📈 Quarterly and Temporal Patterns
-- **Monthly Enrollment Rates**: Patient acquisition patterns
-- **Case Processing Velocity**: Registry abstraction rates
-- **Data Entry Timeliness**: Time-to-completion metrics for case documentation
+### Key Metrics Tracked Over Time
+The sections below focus on longitudinal trends in denominator growth, vital status and event recording, genomic testing and variant patterns, imaging accumulation, and release-over-release operational cadence. Together, these metrics provide a consolidated view of data acquisition, quality, and research readiness from February 2025 through August 2026.
 
 
 ```{r setup, message=FALSE, warning=FALSE, results='hide'}

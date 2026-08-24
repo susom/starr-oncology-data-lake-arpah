@@ -51,9 +51,9 @@ The May 2026 release is the sixth release of the dataset which includes updated 
 ### August 2026
 The August 2026 release is the seventh release of the dataset. It refreshes existing data sources — OMOP 5.4, image occurrence, Stanford Cancer Registry, whole slide imaging, genetic variants, and the episode table — and adds several new sources:
 
-- **`_external_death_records`** — external death data
-- **Neural Frame event data** — treatment and follow-up events from the Neural Frame cancer registry system
-- **Additional genetic variants** — expanded coverage beyond Solid tumor STAMP, including Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel
+- **`_external_death_records`** which includes external death records from the California Department of Public Health (CDPH), Care Everywhere, and Social Security (LADMF)
+- **Neural Frame event data** with structured treatment and timeline details, including radiation therapy records, chemotherapy courses, event categories, and event dates
+- **Additional genetic variants** expanded coverage beyond Solid tumor STAMP, including Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel
 
 You can find detailed information about this release by following the link below:
 

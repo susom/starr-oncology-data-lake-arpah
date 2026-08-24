@@ -5,7 +5,6 @@
 with
 event_data as (
   select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_events`
-  where lower(eventtypedescription) like '%radiation%'
 )
 select 
   eventtypeofrecurrencedescription as recurrence_type,

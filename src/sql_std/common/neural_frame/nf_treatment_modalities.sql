@@ -5,8 +5,7 @@
 with
 event_data as (
   select * from `@oncology_prod.@oncology_neuralframe.onc_neuralframe_case_events`
-  where lower(eventtypedescription) like '%radiation%'
-    and eventdate is not null
+  where eventdate is not null
 ),
 modalities as (
   select 'Chemotherapy' as treatment_modality,

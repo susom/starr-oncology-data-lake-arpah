@@ -236,8 +236,11 @@ website:
               - section: "August 2026"
                 href: aug_2026/metrics_clinical.qmd
                 contents:
-                  - text: "Neural Frame"
+                  - section: "Neural Frame"
                     href: aug_2026/neural_frame.qmd
+                    contents:
+                      - text: "Event Table"
+                        href: aug_2026/neural_frame_event_table.qmd
                   - text: "Image Occurrence"
                     href: aug_2026/image_occ.qmd
                   - text: "Philips ISPM"
@@ -323,8 +326,11 @@ website:
               - section: "August 2026"
                 href: deid_aug_2026/metrics_clinical.qmd
                 contents:
-                  - text: "Neural Frame"
+                  - section: "Neural Frame"
                     href: deid_aug_2026/neural_frame.qmd
+                    contents:
+                      - text: "Event Table"
+                        href: deid_aug_2026/neural_frame_event_table.qmd
                   - text: "Image Occurrence"
                     href: deid_aug_2026/image_occ.qmd
                   - text: "Philips ISPM"
