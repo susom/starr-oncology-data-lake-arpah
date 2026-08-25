@@ -1,6 +1,6 @@
 ---
 title: "DICOM Metadata"
-jupyter: "starr-oncology-data-lake-arpah"
+jupyter: python3
 execute:
   echo: false
 ---
