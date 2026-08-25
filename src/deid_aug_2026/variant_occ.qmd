@@ -78,7 +78,7 @@ The **`_variant_occurrence`** table is a custom extension to the OMOP Common Dat
 
 Currently, the table contains variants identified via a range of Stanford-affiliated genomic tests, sourced from the Epic Genomics Suite starting in August 2025. The following tests are included:
 
-- **Solid tumor STAMP (SHC)**
+- **Solid tumor STAMP**
   - `STANFORD ACTIONABLE MUTATION PANEL FOR SOLID TUMORS`
 - **Heme-STAMP NGS (Next Generation Sequencing)**
   - `HEME-STAMP NGS PANEL, BM/TISSUE/FLUID`

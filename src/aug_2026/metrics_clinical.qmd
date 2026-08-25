@@ -29,6 +29,7 @@ As of the August 2026 OMOP population, `r format( den_res$counts_pts[den_res$dat
 
   - **Neural Frame:** Defined as research-eligible patients with case records in Neural Frame (aka Stanford Cancer Registry).
     - [Neural Frame Metrics](neural_frame.qmd)
+    - [Neural Frame Event Metrics](neural_frame_event_table.qmd)
 
   - **Tumor Board encounter:** These encounters are defined using the EPIC patient encounter data tables.
     - [Tumor Board Metrics](tumor_board_updated.qmd)

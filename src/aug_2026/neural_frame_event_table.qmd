@@ -11,9 +11,9 @@ rm(list=ls())
 source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
 yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/aug_2026/sql_params.yml"
 library(RColorBrewer)
+library(plotly)
 ```
 
-## Neural Frame Event Table
 
 The Neural Frame Event table captures detailed clinical events and treatment information for cancer patients, including chemotherapy, radiation, surgery, clinical protocols, and various treatment outcomes. This comprehensive event-level data enables in-depth analysis of treatment patterns, clinical course, and patient outcomes.
 
@@ -102,38 +102,54 @@ plot_ly(
 #### Event Temporal Trends
 ```{r event temporal trends, message=FALSE, warning=FALSE}
 temporal_plot <- temporal_data %>%
-  mutate(year = as.numeric(year)) %>%
-  filter(year >= 1950 & year <= 2026)
+  mutate(year_num = suppressWarnings(as.numeric(year))) %>%
+  filter(!is.na(year_num), year_num <= 2026) %>%
+  mutate(
+    year_display = ifelse(year_num < 2000, "<2000", as.character(year_num)),
+    year_sort = ifelse(year_num < 2000, 1999, year_num)
+  ) %>%
+  group_by(year_sort, year_display) %>%
+  summarise(
+    distinct_patients = sum(distinct_patients),
+    total_events = sum(total_events),
+    .groups = "drop"
+  ) %>%
+  arrange(year_sort)
 
 plot_ly(data = temporal_plot) %>%
   add_trace(
-    x = ~year, y = ~distinct_patients,
+    x = ~year_sort, y = ~distinct_patients,
     type = 'bar',
     name = 'Patients',
     marker = list(color = '#89cbad'),
     hovertemplate = ~paste0(
-      "<b>Year: ", year, "</b>",
+      "<b>Year: ", year_display, "</b>",
       "<br>Patients: ", scales::comma(distinct_patients),
       "<br>Events: ", scales::comma(total_events),
       "<extra></extra>"
     )
   ) %>%
   add_trace(
-    x = ~year, y = ~total_events,
+    x = ~year_sort, y = ~total_events,
     type = 'scatter', mode = 'lines+markers',
     name = 'Events',
     yaxis = 'y2',
     line = list(color = '#f09090'),
     marker = list(color = '#d62728', size = 4),
     hovertemplate = ~paste0(
-      "<b>Year: ", year, "</b>",
+      "<b>Year: ", year_display, "</b>",
       "<br>Events: ", scales::comma(total_events),
       "<extra></extra>"
     )
   ) %>%
   layout(
     title = "Neural Frame Events and Patients Over Time",
-    xaxis = list(title = "Year"),
+    xaxis = list(
+      title = "Year",
+      tickmode = "array",
+      tickvals = temporal_plot$year_sort,
+      ticktext = temporal_plot$year_display
+    ),
     yaxis = list(title = "Distinct Patients", tickformat = ","),
     yaxis2 = list(title = "Total Events", overlaying = "y", side = "right", tickformat = ","),
     legend = list(x = 0.01, y = 0.99),
@@ -200,6 +216,35 @@ create_gt_table_v1(
     "Cases" = "Cases"
   ),
   subtitle_text = "Coverage by ARIA Phase-Level Field"
+)
+```
+
+#### Thoracic Tumor Board: ARIA Metrics 
+
+The following ARIA metrics are restricted to thoracic tumor board patients with radiation events only:
+
+```{r thoracic tumor board aria table, message=FALSE, warning=FALSE, results='hide'}
+sql_tb_aria <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_aria_thoracic_tumor_board.sql"
+tb_aria_table <- fetch_data_from_sql_file(sql_tb_aria, yaml_file_path, release = "aug_2026") %>%
+  arrange(desc(patients)) %>%
+  mutate(
+    `Field` = aria_field,
+    `Patients` = format(patients, big.mark = ","),
+    `Cases` = format(cases, big.mark = ",")
+  ) %>%
+  select(`Field`, `Patients`, `Cases`)
+```
+
+```{r thoracic tumor board aria table output, message=FALSE, warning=FALSE}
+create_gt_table_v1(
+  data = tb_aria_table,
+  columns = c("Field", "Patients", "Cases"),
+  labels = c(
+    "Field" = "ARIA Field",
+    "Patients" = "Patients",
+    "Cases" = "Cases"
+  ),
+  subtitle_text = "Thoracic Tumor Board ARIA Metrics"
 )
 ```
 

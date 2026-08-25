@@ -11,7 +11,6 @@ execute:
 
 
 import re
-import yaml
 import pandas as pd
 import pydicom
 from pydicom.datadict import dictionary_has_tag, keyword_for_tag, dictionary_description
@@ -21,36 +20,26 @@ from IPython.display import HTML
 
 def extract_dicom_tags_from_content(content):
     """Extract DICOM tags from the provided content."""
-    # Pattern to match <e en="T" t="tag_number" ...>
     pattern = r'<e\s+en="T"\s+t="([0-9A-Fa-f]{8})"'
-    
-    # Find all matches
     matches = re.findall(pattern, content)
-    
-    # Remove duplicates while preserving order
     unique_tags = []
     seen = set()
     for tag in matches:
         if tag not in seen:
             unique_tags.append(tag)
             seen.add(tag)
-    
     return unique_tags
 
 
 def get_tag_info(tag_string):
     """Get DICOM tag information using pydicom."""
     try:
-        # Convert string to Tag object
         group = int(tag_string[:4], 16)
         element = int(tag_string[4:], 16)
         tag = Tag(group, element)
-        
-        # Check if tag exists in dictionary
         if dictionary_has_tag(tag):
             keyword = keyword_for_tag(tag)
             description = dictionary_description(tag)
-            
             return {
                 'tag_number': f"({group:04X},{element:04X})",
                 'tag_hex': tag_string.upper(),
@@ -64,7 +53,6 @@ def get_tag_info(tag_string):
                 'keyword': 'Unknown',
                 'description': 'Tag not found in DICOM dictionary'
             }
-            
     except Exception as e:
         return {
             'tag_number': tag_string,
@@ -74,12 +62,9 @@ def get_tag_info(tag_string):
         }
 
 
-# Extract tags
-
-provided_content = open("metadata.xml", "r").read()  # Replace with your actual content source
+provided_content = open("metadata.xml", "r").read()
 tag_strings = extract_dicom_tags_from_content(provided_content)
 
-# Process each tag
 results = []
 for tag_string in tag_strings:
     tag_info = get_tag_info(tag_string)
@@ -89,9 +74,591 @@ for tag_string in tag_strings:
         'DICOM_Tag_Description': tag_info['description']
     })
 
-# Create DataFrame
 df = pd.DataFrame(results)
-
-# Convert DataFrame to HTML and display
 HTML(df.to_html(escape=False, table_id="df", index=False))
 ```
+
+## Preserved Private Tags
+
+These private elements are preserved verbatim during de-identification, keyed on the private-creator string. All other private elements are removed.
+
+Source: [`dicom-dre` default profile (commit 58cd116)](https://github.com/susom/dicom-dre/blob/58cd11694610f7e9a228906bb9c451bb6b94e0d5/src/dicom_dre/profiles/default.py)
+
+::: {.panel-tabset}
+
+### GEMS_ACQU_01 (Group 0019)
+
+```{python}
+#| output: asis
+#| echo: false
+
+gems_acqu = [
+    ("0x0F", "DS", "HorizFrameOfRef"),
+    ("0x11", "SS", "SeriesContrast"),
+    ("0x12", "SS", "LastPseq"),
+    ("0x17", "SS", "SeriesPlane"),
+    ("0x18", "LO", "FirstScanRas"),
+    ("0x19", "DS", "FirstScanLocation"),
+    ("0x1A", "LO", "LastScanRas"),
+    ("0x1B", "DS", "LastScanLoc"),
+    ("0x1E", "DS", "DisplayFieldOfView"),
+    ("0x5A", "FL", "AcquisitionDuration"),
+    ("0x7D", "DS", "SecondEcho"),
+    ("0x7E", "SS", "NumberOfEchoes"),
+    ("0x7F", "DS", "TableDelta"),
+    ("0x81", "SS", "Contiguous"),
+    ("0x84", "DS", "PeakSAR"),
+    ("0x87", "DS", "CardiacRepetitionTime"),
+    ("0x88", "SS", "ImagesPerCardiacCycle"),
+    ("0x8A", "SS", "ActualReceiveGainAnalog"),
+    ("0x8B", "SS", "ActualReceiveGainDigital"),
+    ("0x8D", "DS", "DelayAfterTrigger"),
+    ("0x8F", "SS", "Swappf"),
+    ("0x90", "SS", "PauseInterval"),
+    ("0x91", "DS", "PauseTime"),
+    ("0x93", "DS", "AutoPrescanCenterFrequency"),
+    ("0x94", "SS", "AutoPrescanTransmitGain"),
+    ("0x95", "SS", "AutoPrescanAnalogReceiverGain"),
+    ("0x96", "SS", "AutoPrescanDigitalReceiverGain"),
+    ("0x97", "SL", "BitmapdefiningCVs"),
+    ("0x9B", "SS", "PulseSequenceMode"),
+    ("0x9C", "LO", "PulseSequenceName"),
+    ("0x9D", "DT", "PulseSequenceDate (jittered)"),
+    ("0x9E", "LO", "SequenceName / InternalPulseSequenceName"),
+    ("0x9F", "SS", "TransmittingCoilType"),
+    ("0xA2", "SL", "RawDataRunNumber"),
+    ("0xA3", "UL", "CalibratedFieldStrength"),
+    ("0xA4", "SS", "SATFatWaterBone"),
+    ("0xA7", "DS", "UserData0"),
+    ("0xA8", "DS", "UserData1"),
+    ("0xA9", "DS", "UserData2"),
+    ("0xAA", "DS", "UserData3"),
+    ("0xAB", "DS", "UserData4"),
+    ("0xAC", "DS", "UserData5"),
+    ("0xAD", "DS", "UserData6"),
+    ("0xAE", "DS", "UserData7"),
+    ("0xAF", "DS", "UserData8"),
+    ("0xB0", "DS", "UserData9"),
+    ("0xB1", "DS", "UserData10"),
+    ("0xB2", "DS", "UserData11"),
+    ("0xB3", "DS", "UserData12"),
+    ("0xB4", "DS", "UserData13"),
+    ("0xB5", "DS", "UserData14"),
+    ("0xB6", "DS", "UserData15"),
+    ("0xB7", "DS", "UserData16"),
+    ("0xB8", "DS", "UserData17"),
+    ("0xB9", "DS", "UserData18"),
+    ("0xBA", "DS", "UserData19"),
+    ("0xBB", "DS", "DiffusionDirectionX / UserData20"),
+    ("0xBC", "DS", "DiffusionDirectionY / UserData21"),
+    ("0xBD", "DS", "DiffusionDirectionZ / UserData22"),
+    ("0xBE", "DS", "ProjectionAngle"),
+    ("0xC0", "SS", "SaturationPlanes"),
+    ("0xC2", "SS", "SATlocationR"),
+    ("0xC3", "SS", "SATlocationL"),
+    ("0xC4", "SS", "SATlocationA"),
+    ("0xC5", "SS", "SATlocationP"),
+    ("0xC6", "SS", "SATlocationH"),
+    ("0xC7", "SS", "SATlocationF"),
+    ("0xC8", "SS", "SATThicknessRL"),
+    ("0xC9", "SS", "SATThicknessAP"),
+    ("0xCA", "SS", "SATThicknessHF"),
+    ("0xCB", "SS", "PhaseContrastFlowAxis"),
+    ("0xCC", "SS", "VelocityEncoding"),
+    ("0xCD", "SS", "ThicknessDisclaimer"),
+    ("0xCE", "SS", "PrescanType"),
+    ("0xCF", "SS", "PrescanStatus"),
+    ("0xD2", "SS", "ProjectionAlgorithm"),
+    ("0xD5", "SS", "FractionalEcho"),
+    ("0xD8", "SS", "VariableEchoflag"),
+    ("0xD9", "DS", "ConcatenatedSAT"),
+    ("0xDF", "DS", "UserData23"),
+    ("0xE0", "DS", "NumberOfDiffusionDirection / UserData24"),
+    ("0xE2", "DS", "VelocityEncodeScale"),
+    ("0xF2", "SS", "FastPhases"),
+    ("0xF9", "DS", "TransmitGain"),
+]
+
+df_acqu = pd.DataFrame(gems_acqu, columns=["Offset", "VR", "Name"])
+df_acqu.insert(0, "Group", "0019")
+df_acqu.insert(1, "Creator", "GEMS_ACQU_01")
+HTML(df_acqu.to_html(escape=False, table_id="gems_acqu_01", index=False))
+```
+
+### GEMS_PARM_01 (Group 0043)
+
+```{python}
+#| output: asis
+#| echo: false
+
+gems_parm = [
+    ("0x01", "SS", "BitmapOfPrescanOptions"),
+    ("0x02", "SS", "GradientOffsetInX"),
+    ("0x03", "SS", "GradientOffsetInY"),
+    ("0x04", "SS", "GradientOffsetInZ"),
+    ("0x06", "SS", "NumberOfEPIShots"),
+    ("0x07", "SS", "ViewsPerSegment"),
+    ("0x08", "SS", "RespiratoryRate"),
+    ("0x09", "SS", "RespiratoryTriggerPoint"),
+    ("0x0A", "SS", "TypeOfReceiverUsed"),
+    ("0x0B", "DS", "DB_dtPeakRateOfChangeOfGradientField"),
+    ("0x0C", "DS", "dB_dtLimitsInUnitsOfPercent"),
+    ("0x0D", "DS", "PSDEstimatedLimit"),
+    ("0x0E", "DS", "PSDEstimatedLimitInTeslaPerSecond"),
+    ("0x29", "OB", "HistogramTables"),
+    ("0x2C", "SS", "EffectiveEchoSpacing"),
+    ("0x2D", "SH", "FilterMode"),
+    ("0x2F", "SS", "PrivateImageType"),
+    ("0x30", "SS", "VasCollapseFlag"),
+    ("0x32", "SS", "VasFlags"),
+    ("0x33", "FL", "Neg_scanspacing"),
+    ("0x34", "IS", "OffsetFrequency"),
+    ("0x35", "UL", "User_usage_tag"),
+    ("0x36", "UL", "User_fill_map_MSW"),
+    ("0x37", "UL", "User_fill_map_LSW"),
+    ("0x38", "FL", "UserData_25_48"),
+    ("0x39", "IS", "SlopInt_6_9"),
+    ("0x60", "IS", "SlopInt_10_17"),
+    ("0x7D", "US", "ReconModeFlagWord"),
+    ("0x80", "LO", "CoilIDData"),
+    ("0x81", "LO", "GECoilName"),
+    ("0x83", "DS", "AssetRFactors"),
+    ("0x84", "LO", "AdditionalAssetData"),
+    ("0x89", "LO", "GoverningBodydB_dtAndSARDefinition"),
+    ("0x8A", "CS", "InPlanePhaseEncodingDirection"),
+    ("0x90", "LO", "SARDefinition"),
+    ("0x91", "DS", "SARValue"),
+    ("0x97", "LO", "ImageFilteringParameters"),
+    ("0x9A", "IS", "RxStackIdentification"),
+]
+
+df_parm = pd.DataFrame(gems_parm, columns=["Offset", "VR", "Name"])
+df_parm.insert(0, "Group", "0043")
+df_parm.insert(1, "Creator", "GEMS_PARM_01")
+HTML(df_parm.to_html(escape=False, table_id="gems_parm_01", index=False))
+```
+
+### GEMS_IMAG_01 (Group 0027)
+
+```{python}
+#| output: asis
+#| echo: false
+
+gems_imag = [
+    ("0x31", "SS", "ImagingMode"),
+    ("0x32", "SS", "PulseSequence"),
+    ("0x33", "UL", "ImagingOptions"),
+    ("0x35", "SS", "PlaneType"),
+    ("0x40", "SH", "RASletterOfImageLocation"),
+    ("0x41", "FL", "ImageLocation"),
+    ("0x60", "FL", "ImageDimensionX"),
+    ("0x61", "FL", "ImageDimensionY"),
+    ("0x62", "FL", "NumberOfExcitations"),
+]
+
+df_imag = pd.DataFrame(gems_imag, columns=["Offset", "VR", "Name"])
+df_imag.insert(0, "Group", "0027")
+df_imag.insert(1, "Creator", "GEMS_IMAG_01")
+HTML(df_imag.to_html(escape=False, table_id="gems_imag_01", index=False))
+```
+
+:::
+
+## Strict Profile Tags
+
+Tags defined in the [`dicom-dre` strict profile](https://github.com/susom/dicom-dre/blob/main/src/dicom_dre/profiles/strict.py). This profile removes all unspecified elements and strips dates entirely (no jitter). UIDs are re-hashed without a study-ID salt.
+
+::: {.panel-tabset}
+
+### Keep Tags (326)
+
+```{python}
+#| output: asis
+#| echo: false
+
+strict_keep = [
+    ("0008,0005", "SpecificCharacterSet"),
+    ("0008,0008", "ImageType"),
+    ("0008,0013", "InstanceCreationTime"),
+    ("0008,0016", "SOPClassUID"),
+    ("0008,0030", "StudyTime"),
+    ("0008,0031", "SeriesTime"),
+    ("0008,0032", "AcquisitionTime"),
+    ("0008,0033", "ContentTime"),
+    ("0008,0034", "OverlayTime"),
+    ("0008,0035", "CurveTime"),
+    ("0008,0060", "Modality"),
+    ("0008,0070", "Manufacturer"),
+    ("0008,1090", "ManufacturerModelName"),
+    ("0008,2111", "DerivationDescription"),
+    ("0008,2130", "EventElapsedTime"),
+    ("0008,3010", "IrradiationEventUID"),
+    ("0008,9092", "ReferencedImageEvidenceSequence"),
+    ("0010,0040", "PatientSex"),
+    ("0018,0010", "ContrastBolusAgent"),
+    ("0018,0015", "BodyPartExamined"),
+    ("0018,0020", "ScanningSequence"),
+    ("0018,0021", "SequenceVariant"),
+    ("0018,0022", "ScanOptions"),
+    ("0018,0023", "MRAcquisitionType"),
+    ("0018,0026", "InterventionDrugInformationSequence"),
+    ("0018,0027", "InterventionDrugStopTime"),
+    ("0018,0031", "Radiopharmaceutical"),
+    ("0018,0032", "EnergyWindowCenterline"),
+    ("0018,0035", "InterventionDrugStartTime"),
+    ("0018,0040", "CineRate"),
+    ("0018,0050", "SliceThickness"),
+    ("0018,0060", "KVP"),
+    ("0018,0070", "CountsAccumulated"),
+    ("0018,0071", "AcquisitionTerminationCondition"),
+    ("0018,0073", "AcquisitionStartCondition"),
+    ("0018,0075", "AcquisitionTerminationConditionData"),
+    ("0018,0080", "RepetitionTime"),
+    ("0018,0081", "EchoTime"),
+    ("0018,0082", "InversionTime"),
+    ("0018,0083", "NumberOfAverages"),
+    ("0018,0084", "ImagingFrequency"),
+    ("0018,0085", "ImagedNucleus"),
+    ("0018,0086", "EchoNumbers"),
+    ("0018,0087", "MagneticFieldStrength"),
+    ("0018,0088", "SpacingBetweenSlices"),
+    ("0018,0090", "DataCollectionDiameter"),
+    ("0018,0091", "EchoTrainLength"),
+    ("0018,0095", "PixelBandwidth"),
+    ("0018,1000", "DeviceSerialNumber"),
+    ("0018,1020", "SoftwareVersions"),
+    ("0018,1040", "ContrastBolusRoute"),
+    ("0018,1041", "ContrastBolusVolume"),
+    ("0018,1042", "ContrastBolusStartTime"),
+    ("0018,1043", "ContrastBolusStopTime"),
+    ("0018,1050", "SpatialResolution"),
+    ("0018,1060", "TriggerTime"),
+    ("0018,1063", "FrameTime"),
+    ("0018,1065", "FrameTimeVector"),
+    ("0018,1066", "FrameDelay"),
+    ("0018,106E", "TriggerSamplePosition"),
+    ("0018,1072", "RadiopharmaceuticalStartTime"),
+    ("0018,1073", "RadiopharmaceuticalStopTime"),
+    ("0018,1074", "RadionuclideTotalDose"),
+    ("0018,1075", "RadionuclideHalfLife"),
+    ("0018,1088", "HeartRate"),
+    ("0018,1090", "CardiacNumberOfImages"),
+    ("0018,1100", "ReconstructionDiameter"),
+    ("0018,1110", "DistanceSourceToDetector"),
+    ("0018,1111", "DistanceSourceToPatient"),
+    ("0018,1114", "EstimatedRadiographicMagnificationFactor"),
+    ("0018,1120", "GantryDetectorTilt"),
+    ("0018,1130", "TableHeight"),
+    ("0018,1140", "RotationDirection"),
+    ("0018,1147", "FieldOfViewShape"),
+    ("0018,1149", "FieldOfViewDimensions"),
+    ("0018,1150", "ExposureTime"),
+    ("0018,1151", "XRayTubeCurrent"),
+    ("0018,1152", "Exposure"),
+    ("0018,1153", "ExposureInuAs"),
+    ("0018,1155", "RadiationSetting"),
+    ("0018,1160", "FilterType"),
+    ("0018,1164", "ImagerPixelSpacing"),
+    ("0018,1166", "Grid"),
+    ("0018,1170", "GeneratorPower"),
+    ("0018,1180", "CollimatorGridName"),
+    ("0018,1190", "FocalSpots"),
+    ("0018,1191", "AnodeTargetMaterial"),
+    ("0018,1201", "TimeOfLastCalibration"),
+    ("0018,1210", "ConvolutionKernel"),
+    ("0018,1242", "ActualFrameDuration"),
+    ("0018,1243", "CountRate"),
+    ("0018,1250", "ReceiveCoilName"),
+    ("0018,1300", "ScanVelocity"),
+    ("0018,1301", "WholeBodyTechnique"),
+    ("0018,1302", "ScanLength"),
+    ("0018,1310", "AcquisitionMatrix"),
+    ("0018,1312", "InPlanePhaseEncodingDirection"),
+    ("0018,1314", "FlipAngle"),
+    ("0018,1320", "B1rms"),
+    ("0018,1400", "AcquisitionDeviceProcessingDescription"),
+    ("0018,1401", "AcquisitionDeviceProcessingCode"),
+    ("0018,1405", "RelativeXRayExposure"),
+    ("0018,1450", "ColumnAngulation"),
+    ("0018,1470", "TomoAngle"),
+    ("0018,1480", "TomoTime"),
+    ("0018,1500", "PositionerMotion"),
+    ("0018,1508", "PositionerType"),
+    ("0018,1510", "PositionerPrimaryAngle"),
+    ("0018,1511", "PositionerSecondaryAngle"),
+    ("0018,1530", "DetectorPrimaryAngle"),
+    ("0018,1531", "DetectorSecondaryAngle"),
+    ("0018,1600", "ShutterShape"),
+    ("0018,1620", "VerticesOfThePolygonalShutter"),
+    ("0018,1622", "ShutterPresentationValue"),
+    ("0018,1624", "ShutterPresentationColorCIELabValue"),
+    ("0018,1700", "CollimatorShape"),
+    ("0018,1702", "CollimatorLeftVerticalEdge"),
+    ("0018,1704", "CollimatorRightVerticalEdge"),
+    ("0018,1710", "CenterOfCircularCollimator"),
+    ("0018,1720", "VerticesOfThePolygonalCollimator"),
+    ("0018,2001", "PageNumberVector"),
+    ("0018,5010", "TransducerData"),
+    ("0018,5012", "FocusDepth"),
+    ("0018,5020", "ProcessingFunction"),
+    ("0018,5021", "PostprocessingFunction"),
+    ("0018,5022", "MechanicalIndex"),
+    ("0018,5024", "BoneThermalIndex"),
+    ("0018,5026", "CranialThermalIndex"),
+    ("0018,5027", "SoftTissueThermalIndex"),
+    ("0018,5028", "SoftTissueFocusThermalIndex"),
+    ("0018,5029", "SoftTissueSurfaceThermalIndex"),
+    ("0018,5030", "DynamicRange"),
+    ("0018,5040", "TotalGain"),
+    ("0018,5050", "DepthOfScanField"),
+    ("0018,5100", "PatientPosition"),
+    ("0018,6000", "Sensitivity"),
+    ("0018,6011", "SequenceOfUltrasoundRegions"),
+    ("0018,6020", "ReferencePixelX0"),
+    ("0018,6031", "TransducerType"),
+    ("0018,6032", "PulseRepetitionFrequency"),
+    ("0018,6040", "TMLinePositionX1Retired"),
+    ("0018,7000", "DetectorConditionsNominalFlag"),
+    ("0018,7001", "DetectorTemperature"),
+    ("0018,7004", "DetectorType"),
+    ("0018,7014", "DetectorActiveTime"),
+    ("0018,7020", "DetectorElementPhysicalSize"),
+    ("0018,7022", "DetectorElementSpacing"),
+    ("0018,7030", "FieldOfViewOrigin"),
+    ("0018,7032", "FieldOfViewRotation"),
+    ("0018,7034", "FieldOfViewHorizontalFlip"),
+    ("0018,7040", "GridAbsorbingMaterial"),
+    ("0018,7041", "GridSpacingMaterial"),
+    ("0018,7042", "GridThickness"),
+    ("0018,7044", "GridPitch"),
+    ("0018,7046", "GridAspectRatio"),
+    ("0018,7050", "FilterMaterial"),
+    ("0018,7052", "FilterThicknessMinimum"),
+    ("0018,7054", "FilterThicknessMaximum"),
+    ("0018,7060", "ExposureControlMode"),
+    ("0018,7062", "ExposureControlModeDescription"),
+    ("0018,9005", "PulseSequenceName"),
+    ("0018,9070", "CardiacRRIntervalSpecified"),
+    ("0018,9073", "AcquisitionDuration"),
+    ("0018,9075", "DiffusionDirectionality"),
+    ("0018,9076", "DiffusionGradientDirectionSequence"),
+    ("0018,9077", "ParallelAcquisition"),
+    ("0018,9082", "EffectiveEchoTime"),
+    ("0018,9087", "DiffusionBValue"),
+    ("0018,9371", "XRayDetectorID"),
+    ("0018,9417", "FrameAcquisitionSequence"),
+    ("0018,9434", "ExposureControlSensingRegionsSequence"),
+    ("0018,9435", "ExposureControlSensingRegionShape"),
+    ("0018,9436", "ExposureControlSensingRegionLeftVerticalEdge"),
+    ("0018,9438", "ExposureControlSensingRegionUpperHorizontalEdge"),
+    ("0018,9461", "FieldOfViewDimensionsInFloat"),
+    ("0018,9462", "IsocenterReferenceSystemSequence"),
+    ("0018,9476", "XRayGeometrySequence"),
+    ("0018,9477", "IrradiationEventIdentificationSequence"),
+    ("0018,9504", "XRay3DFrameTypeSequence"),
+    ("0018,9506", "ContributingSourcesSequence"),
+    ("0018,9507", "XRay3DAcquisitionSequence"),
+    ("0018,9508", "PrimaryPositionerScanArc"),
+    ("0018,9528", "AlgorithmDescription"),
+    ("0018,9530", "XRay3DReconstructionSequence"),
+    ("0018,9531", "ReconstructionDescription"),
+    ("0018,9538", "PerProjectionAcquisitionSequence"),
+    ("0018,9732", "PETFrameAcquisitionSequence"),
+    ("0018,9733", "PETDetectorMotionDetailsSequence"),
+    ("0018,9736", "PETFrameCorrectionFactorsSequence"),
+    ("0018,9737", "RadiopharmaceuticalUsageSequence"),
+    ("0018,9738", "AttenuationCorrectionSource"),
+    ("0018,9749", "PETReconstructionSequence"),
+    ("0018,9751", "PETFrameTypeSequence"),
+    ("0018,9810", "ZeroVelocityPixelValue"),
+    ("0020,0011", "SeriesNumber"),
+    ("0020,0012", "AcquisitionNumber"),
+    ("0020,0013", "InstanceNumber"),
+    ("0020,0020", "PatientOrientation"),
+    ("0020,0032", "ImagePositionPatient"),
+    ("0020,0037", "ImageOrientationPatient"),
+    ("0020,0060", "Laterality"),
+    ("0020,0062", "ImageLaterality"),
+    ("0020,1002", "ImagesInAcquisition"),
+    ("0020,1040", "PositionReferenceIndicator"),
+    ("0020,1041", "SliceLocation"),
+    ("0020,9056", "StackID"),
+    ("0020,9057", "InStackPositionNumber"),
+    ("0020,9111", "FrameContentSequence"),
+    ("0020,9113", "PlanePositionSequence"),
+    ("0020,9116", "PlaneOrientationSequence"),
+    ("0020,9128", "TemporalPositionIndex"),
+    ("0020,9153", "TriggerDelayTime"),
+    ("0020,9157", "DimensionIndexValues"),
+    ("0020,9165", "DimensionIndexPointer"),
+    ("0020,9167", "FunctionalGroupPointer"),
+    ("0020,9221", "DimensionOrganizationSequence"),
+    ("0020,9222", "DimensionIndexSequence"),
+    ("0020,9311", "DimensionOrganizationType"),
+    ("0022,0001", "LightPathFilterPassThroughWavelength"),
+    ("0022,0002", "LightPathFilterPassBand"),
+    ("0022,0003", "ImagePathFilterPassThroughWavelength"),
+    ("0022,0005", "PatientEyeMovementCommanded"),
+    ("0022,0006", "PatientEyeMovementCommandCodeSequence"),
+    ("0022,0007", "SphericalLensPower"),
+    ("0022,0008", "CylinderLensPower"),
+    ("0022,0009", "CylinderAxis"),
+    ("0022,1007", "OphthalmicAxialMeasurementsRightEyeSequence"),
+    ("0022,1019", "OphthalmicAxialLength"),
+    ("0022,1050", "OphthalmicAxialLengthMeasurementsSequence"),
+    ("0028,0002", "SamplesPerPixel"),
+    ("0028,0004", "PhotometricInterpretation"),
+    ("0028,0006", "PlanarConfiguration"),
+    ("0028,0008", "NumberOfFrames"),
+    ("0028,0009", "FrameIncrementPointer"),
+    ("0028,000A", "FrameDimensionPointer"),
+    ("0028,0010", "Rows"),
+    ("0028,0011", "Columns"),
+    ("0028,0012", "Planes"),
+    ("0028,0030", "PixelSpacing"),
+    ("0028,0034", "PixelAspectRatio"),
+    ("0028,0100", "BitsAllocated"),
+    ("0028,0101", "BitsStored"),
+    ("0028,0102", "HighBit"),
+    ("0028,0103", "PixelRepresentation"),
+    ("0028,0106", "SmallestImagePixelValue"),
+    ("0028,0107", "LargestImagePixelValue"),
+    ("0028,0120", "PixelPaddingValue"),
+    ("0028,0121", "PixelPaddingRangeLimit"),
+    ("0028,0200", "ImageLocation"),
+    ("0028,0300", "QualityControlImage"),
+    ("0028,0A02", "PixelSpacingCalibrationType"),
+    ("0028,0A04", "PixelSpacingCalibrationDescription"),
+    ("0028,1050", "WindowCenter"),
+    ("0028,1051", "WindowWidth"),
+    ("0028,1052", "RescaleIntercept"),
+    ("0028,1053", "RescaleSlope"),
+    ("0028,1054", "RescaleType"),
+    ("0028,1055", "WindowCenterWidthExplanation"),
+    ("0028,1056", "VOILUTFunction"),
+    ("0028,1090", "RecommendedViewingMode"),
+    ("0028,1101", "RedPaletteColorLookupTableDescriptor"),
+    ("0028,1102", "GreenPaletteColorLookupTableDescriptor"),
+    ("0028,1103", "BluePaletteColorLookupTableDescriptor"),
+    ("0028,1201", "RedPaletteColorLookupTableData"),
+    ("0028,1202", "GreenPaletteColorLookupTableData"),
+    ("0028,1203", "BluePaletteColorLookupTableData"),
+    ("0028,2000", "ICCProfile"),
+    ("0028,2110", "LossyImageCompression"),
+    ("0028,2112", "LossyImageCompressionRatio"),
+    ("0028,2114", "LossyImageCompressionMethod"),
+    ("0028,6010", "RepresentativeFrameNumber"),
+    ("0028,9001", "DataPointRows"),
+    ("0028,9002", "DataPointColumns"),
+    ("0028,9108", "DataRepresentation"),
+    ("0032,0033", "StudyVerifiedTime"),
+    ("0032,0035", "StudyReadTime"),
+    ("0032,1001", "ScheduledStudyStartTime"),
+    ("0032,1011", "ScheduledStudyStopTime"),
+    ("0032,1041", "StudyArrivalTime"),
+    ("0032,1051", "StudyCompletionTime"),
+    ("0038,001B", "ScheduledAdmissionTime"),
+    ("0038,001D", "ScheduledDischargeTime"),
+    ("0038,0021", "AdmittingTime"),
+    ("0038,0032", "DischargeTime"),
+    ("0040,0003", "SPSStartTime"),
+    ("0040,0005", "SPSEndTime"),
+    ("0040,0245", "PPSStartTime"),
+    ("0040,0251", "PPSEndTime"),
+    ("0040,0318", "OrganExposed"),
+    ("0040,8302", "EntranceDoseInmGy"),
+    ("0040,A122", "Time"),
+    ("0040,A193", "TrialObservationTime"),
+    ("0054,0010", "EnergyWindowVector"),
+    ("0054,0011", "NumberOfEnergyWindows"),
+    ("0054,0016", "RadiopharmaceuticalInformationSequence"),
+    ("0054,0020", "DetectorVector"),
+    ("0054,0021", "NumberOfDetectors"),
+    ("0054,0022", "DetectorInformationSequence"),
+    ("0054,0030", "PhaseVector"),
+    ("0054,0031", "NumberOfPhases"),
+    ("0054,0050", "RotationVector"),
+    ("0054,0051", "NumberOfRotations"),
+    ("0054,0060", "RRIntervalVector"),
+    ("0054,0061", "NumberOfRRIntervals"),
+    ("0054,0070", "TimeSlotVector"),
+    ("0054,0071", "NumberOfTimeSlots"),
+    ("0054,0080", "SliceVector"),
+    ("0054,0081", "NumberOfSlices"),
+    ("0054,0090", "AngularViewVector"),
+    ("0054,0100", "TimeSliceVector"),
+    ("0054,0202", "TypeOfDetectorMotion"),
+    ("0054,0300", "RadionuclideCodeSequence"),
+    ("0054,1000", "SeriesType"),
+    ("0054,1001", "Units"),
+    ("0054,1006", "SUVType"),
+    ("0054,1102", "DecayCorrection"),
+    ("0054,1300", "FrameReferenceTime"),
+    ("0054,1323", "ScatterFractionFactor"),
+    ("0054,1330", "ImageIndex"),
+    ("0054,1400", "CountsIncluded"),
+    ("0054,1401", "DeadTimeCorrectionFlag"),
+    ("0062,0002", "SegmentSequence"),
+    ("2050,0020", "PresentationLUTShape"),
+    ("5200,9229", "SharedFunctionalGroupsSequence"),
+    ("5200,9230", "PerFrameFunctionalGroupsSequence"),
+    ("7FE0,0010", "PixelData"),
+]
+
+df_keep = pd.DataFrame(strict_keep, columns=["Tag", "Name"])
+HTML(df_keep.to_html(escape=False, table_id="strict_keep", index=False))
+```
+
+### UID Tags (16)
+
+```{python}
+#| output: asis
+#| echo: false
+
+strict_uid = [
+    ("0002,0003", "MediaStorageSOPInstanceUID"),
+    ("0008,0018", "SOPInstanceUID"),
+    ("0008,1155", "ReferencedSOPInstanceUID"),
+    ("0020,000D", "StudyInstanceUID"),
+    ("0020,000E", "SeriesInstanceUID"),
+    ("0020,0052", "FrameOfReferenceUID"),
+    ("0020,0200", "SynchronizationFrameOfReferenceUID"),
+    ("0020,9164", "DimensionOrganizationUID"),
+    ("0028,1199", "PaletteColorLookupTableUID"),
+    ("0028,1214", "LargePaletteColorLookupTableUID"),
+    ("0040,A124", "UID"),
+    ("0070,1101", "PresentationDisplayCollectionUID"),
+    ("0070,1102", "PresentationSequenceCollectionUID"),
+    ("0088,0140", "StorageMediaFileSetUID"),
+    ("3006,0024", "ReferencedFrameOfReferenceUID"),
+    ("3006,00C2", "RelatedFrameOfReferenceUID"),
+]
+
+df_uid = pd.DataFrame(strict_uid, columns=["Tag", "Name"])
+HTML(df_uid.to_html(escape=False, table_id="strict_uid", index=False))
+```
+
+### Content Root Tags (10)
+
+```{python}
+#| output: asis
+#| echo: false
+
+strict_content = [
+    ("0008,1115", "ReferencedSeriesSequence"),
+    ("0008,2218", "AnatomicRegionSequence"),
+    ("0040,A043", "ConceptNameCodeSequence"),
+    ("0040,A370", "ReferencedRequestSequence"),
+    ("0040,A375", "CurrentRequestedProcedureEvidenceSequence"),
+    ("0040,A525", "IdenticalDocumentsSequence"),
+    ("0040,A730", "ContentSequence"),
+    ("0070,0001", "GraphicAnnotationSequence"),
+    ("0070,005A", "DisplayedAreaSelectionSequence"),
+    ("0070,0060", "GraphicLayerSequence"),
+]
+
+df_content = pd.DataFrame(strict_content, columns=["Tag", "Name"])
+HTML(df_content.to_html(escape=False, table_id="strict_content", index=False))
+```
+
+:::

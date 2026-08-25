@@ -304,7 +304,7 @@ library(dplyr)
 # For Feb 2026 & May 2026: replace Philips ISPM counts from denominators query
 # with combined Philips + OMOP variant_occurrence counts (deduplicated)
 overlap_plot_data <- overlap_res %>%
-  filter(!(release %in% c("feb_2026", "may_2026") & data_set == "Philips ISPM")) %>%
+  filter(!(release %in% c("feb_2026", "may_2026", "aug_2026") & data_set == "Philips ISPM")) %>%
   bind_rows(
     tibble(
       release = "feb_2026",
@@ -563,7 +563,84 @@ DT::datatable(
 )
 ```
 
+### NeuralFrame Death Counts
 
+```{r nf_death_metrics, message=FALSE, warning=FALSE, results='hide'}
+# Run NeuralFrame vital status query across releases
+nf_death_res <- run_monthly_metrics(
+  datasets_by_month = datasets_by_month,
+  sql_file_path = "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/neural_frame/nf_vital_status.sql",
+  release_to_month = release_to_month
+)
+```
+
+```{r nf_death_table, message=FALSE, warning=FALSE}
+library(DT)
+library(dplyr)
+library(tidyr)
+
+# Filter to Dead status and build summary table
+nf_death_summary <- nf_death_res %>%
+  filter(vitalstatusdescription == "Dead") %>%
+  mutate(
+    month_label = month,
+    n_pts_formatted = scales::comma(n_pts)
+  ) %>%
+  select(month_label, n_pts_formatted) %>%
+  rename(
+    "Release" = month_label,
+    "Deceased Patients (NeuralFrame)" = n_pts_formatted
+  )
+
+datatable(
+  nf_death_summary,
+  caption = "NeuralFrame Cancer Registry: Patients with Vital Status 'Dead'",
+  options = list(
+    dom = 't',
+    ordering = FALSE,
+    pageLength = 10
+  ),
+  rownames = FALSE
+)
+```
+
+```{r nf_death_plot, message=FALSE, warning=FALSE, include=FALSE}
+library(plotly)
+library(dplyr)
+
+nf_death_plot_data <- nf_death_res %>%
+  filter(vitalstatusdescription == "Dead") %>%
+  mutate(
+    month_label = factor(month, levels = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026", "Aug 2026")),
+    n_pts = as.numeric(n_pts)
+  )
+
+plot_ly(
+  data = nf_death_plot_data,
+  x = ~month_label,
+  y = ~n_pts,
+  type = 'scatter',
+  mode = 'lines+markers',
+  line = list(color = '#fb8072', width = 3),
+  marker = list(size = 10, color = '#fb8072'),
+  text = ~paste0("Release: ", month_label, "<br>Deceased Patients: ", scales::comma(n_pts)),
+  hoverinfo = "text"
+) %>%
+  layout(
+    title = "NeuralFrame Cancer Registry: Deceased Patient Counts Over Time",
+    xaxis = list(
+      title = "",
+      categoryorder = "array",
+      categoryarray = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026", "Aug 2026")
+    ),
+    yaxis = list(
+      title = "Number of Deceased Patients",
+      tickformat = ","
+    ),
+    hovermode = 'closest',
+    margin = list(b = 80)
+  )
+```
 
 
 :::

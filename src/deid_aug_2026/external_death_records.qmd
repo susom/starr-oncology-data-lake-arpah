@@ -41,7 +41,7 @@ External death records are drawn from multiple sources:
 
 Please note that there could be multiple rows in _external_death_records per person since a person can have distinct reports from multiple sources (e.g., CDPH and LADMF both reporting a death, possibly with different dates), and even distinct reports from within a single source in a small number of cases. Any comparison against this table should aggregate or explicitly reason over this one-to-many structure rather than joining naively, as a direct join will fan out and inflate counts.
 
-![Death Data Sources and Hierarchy in the VISTA Oncology Data Lake OMOP CDM](png_files/death_data_figure.png)
+![Death Data Sources and Hierarchy in the VISTA Oncology Data Lake OMOP CDM](png_files/death_data_graph.png)
 
 
 ```{r death_source_overlap, message=FALSE, warning=FALSE, results='hide', include=FALSE}
