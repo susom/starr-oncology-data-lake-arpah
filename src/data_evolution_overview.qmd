@@ -4,13 +4,170 @@ execute:
   echo: false
 ---
 
-This page provides an overview of the VISTA Oncology Data Lake's evolution across multiple releases, showcasing the progressive expansion and maturation of our comprehensive cancer research platform. The data lake has grown substantially from February 2025 through May 2026, with significant increases in patient coverage, data source integration, and analytical capabilities, including the addition of whole slide imaging and detailed genomic variant data.
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+library(DT)
+library(dplyr)
+```
+
+This page provides an overview of the VISTA Oncology Data Lake's evolution across multiple releases, showcasing the progressive expansion and maturation of our comprehensive cancer research platform. The data lake has grown substantially from February 2025 through August 2026, with significant increases in patient coverage, data source integration, and analytical capabilities, including the addition of whole slide imaging, detailed genomic variant data, external death records, and Neural Frame event data.
 
 ## Release Overview
 
-The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through May 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduces a major OMOP 5.4 upgrade with modernized vocabularies and enhanced ETL pipelines. The February 2026 release adds whole slide imaging and a custom variant occurrence table for granular genomic data. The May 2026 release expands WSI coverage and introduces the OMOP episode table for treatment plan analysis, along with Heme-STAMP variants, marking continued advancements in multi-modal data integration and research capabilities.
+The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through August 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduced a major OMOP 5.4 upgrade with modernized vocabularies and enhanced ETL pipelines. The February 2026 release added whole slide imaging (WSI) and a custom variant occurrence table for granular genomic data. The May 2026 release expanded WSI coverage, introduced the OMOP episode table for treatment plan analysis, and added Heme-STAMP variants to the variant occurrence table. The August 2026 release introduces several new sources including external death records, Neural Frame event data, and an expanded set of genetic variant tests (Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel) while continuing to refresh existing sources, marking continued advancements in multi-modal data integration and research capabilities.
 
-![VISTA Oncology Data Lake](png_files/Feb_Vista.png)
+![VISTA Oncology Data Lake](png_files/vista_plot.png)
+
+### Data Source Timeline
+
+The following chart shows when each major data source became available in the data lake. Bars are grouped by category and colored using a soft pastel palette matching other pages on this site. Hover over any bar for details.
+
+```{r timeline_plot, message=FALSE, warning=FALSE}
+library(plotly)
+library(dplyr)
+
+timeline <- tribble(
+  ~Source,                            ~Category,      ~Start,         ~End,           ~Status,
+  # OMOP CDM and custom OMOP extensions
+  "OMOP CDM 5.3.1",                   "OMOP",         "2025-02-01",   "2025-11-01",   "Superseded",
+  "OMOP CDM 5.4.2",                   "OMOP",         "2025-11-01",   "2026-08-31",   "Active",
+  "OMOP Image Occurrence",            "OMOP",         "2025-05-01",   "2026-08-31",   "Active",
+  "Episode Table",                    "OMOP",         "2026-05-01",   "2026-08-31",   "Active",
+  "External Death Records",           "OMOP",         "2026-08-01",   "2026-08-31",   "Active",
+  "Whole Slide Imaging (WSI)",        "OMOP",         "2026-02-01",   "2026-08-31",   "Active",
+  "Variant Occurrence (STAMP)",       "OMOP",         "2026-02-01",   "2026-08-31",   "Active",
+  "Variant Occurrence (Heme-STAMP)",  "OMOP",         "2026-05-01",   "2026-08-31",   "Active",
+  "Variant Occurrence (Multi-panel)", "OMOP",         "2026-08-01",   "2026-08-31",   "Active",
+  # NeuralFrame Registry
+  "NeuralFrame Registry",             "NeuralFrame",  "2025-02-01",   "2026-08-31",   "Active",
+  "NeuralFrame Event Data",           "NeuralFrame",  "2026-08-01",   "2026-08-31",   "Active",
+  # Molecular (external sources)
+  "Philips ISPM",                     "Molecular",    "2025-05-01",   "2025-11-01",   "Discontinued",
+  "STAMP Add-On Metadata",            "Molecular",    "2025-08-01",   "2026-08-31",   "Active",
+  # Specialized Datasets
+  "HIPPO Benchmark",                  "Specialized",  "2025-08-01",   "2026-08-31",   "Active",
+  "CAP Forms",                        "Specialized",  "2025-08-01",   "2026-08-31",   "Active",
+  "Epic Media Server PDFs",           "Specialized",  "2025-08-01",   "2026-08-31",   "Active"
+) %>%
+  mutate(
+    Start = as.Date(Start),
+    End   = as.Date(End),
+    # keep tribble order top-to-bottom (reverse for plotly's bottom-up y-axis)
+    Source = factor(Source, levels = rev(unique(Source))),
+    Category = factor(Category, levels = c("OMOP", "NeuralFrame", "Molecular", "Specialized"))
+  )
+
+# Pastel Set3-inspired palette
+category_colors <- c(
+  "OMOP"        = "#80b1d3",  # sky blue
+  "NeuralFrame" = "#fdb462",  # warm orange
+  "Molecular"   = "#bc80bd",  # mauve
+  "Specialized" = "#8dd3c7"   # mint
+)
+
+# Subtle background bands per category to visually group related rows
+n <- nrow(timeline)
+band_shapes <- lapply(levels(timeline$Category), function(cat) {
+  rows <- which(timeline$Category == cat)
+  if (!length(rows)) return(NULL)
+  # y-axis is reversed, so compute row positions from the end
+  y_top    <- n - min(rows) + 1 + 0.5
+  y_bottom <- n - max(rows) + 1 - 0.5
+  list(
+    type = "rect", xref = "paper", yref = "y",
+    x0 = 0, x1 = 1, y0 = y_bottom, y1 = y_top,
+    fillcolor = category_colors[cat], opacity = 0.08,
+    line = list(width = 0), layer = "below"
+  )
+})
+band_shapes <- Filter(Negate(is.null), band_shapes)
+
+fig <- plot_ly()
+
+for (i in seq_len(nrow(timeline))) {
+  row   <- timeline[i, ]
+  color <- category_colors[as.character(row$Category)]
+  is_active <- row$Status == "Active"
+
+  fig <- fig %>% add_trace(
+    type   = "scatter",
+    mode   = "lines",
+    x      = c(row$Start, row$End),
+    y      = c(as.character(row$Source), as.character(row$Source)),
+    line   = list(
+      color = color,
+      width = 22,
+      dash  = if (is_active) "solid" else "dot"
+    ),
+    opacity = if (is_active) 1 else 0.5,
+    name   = as.character(row$Category),
+    legendgroup = as.character(row$Category),
+    showlegend  = (i == match(row$Category, timeline$Category)),
+    hoverlabel = list(
+      bgcolor = color,
+      bordercolor = "white",
+      font = list(color = "white", size = 13, family = "Arial")
+    ),
+    hovertemplate = paste0(
+      "<b>", row$Source, "</b><br>",
+      "Category: ", row$Category, "<br>",
+      "Status: <b>", row$Status, "</b><br>",
+      "From: ", format(row$Start, "%b %Y"),
+      " \u2192 ", ifelse(is_active, "Present", format(row$End, "%b %Y")),
+      "<extra></extra>"
+    )
+  )
+}
+
+fig %>% layout(
+  title = list(
+    text = "<b>VISTA Oncology Data Lake \u2014 Data Source Timeline</b>",
+    x = 0.02, xanchor = "left",
+    font = list(size = 15)
+  ),
+  xaxis = list(
+    title = "",
+    type  = "date",
+    tickmode = "array",
+    tickvals = c("2025-02-01", "2025-05-01", "2025-08-01",
+                 "2025-11-01", "2026-02-01", "2026-05-01", "2026-08-01"),
+    ticktext = c("<b>Feb 2025</b>", "<b>May 2025</b>", "<b>Aug 2025</b>",
+                 "<b>Nov 2025</b>", "<b>Feb 2026</b>", "<b>May 2026</b>", "<b>Aug 2026</b>"),
+    tickangle  = -45,
+    tickfont = list(size = 11, color = "#333333"),
+    range = list("2025-01-01", "2026-11-01"),
+    showgrid = TRUE,
+    gridcolor = "#e2e2e2",
+    gridwidth = 1,
+    ticks = "outside",
+    ticklen = 6,
+    tickcolor = "#888888"
+  ),
+  yaxis = list(
+    title = "",
+    tickfont = list(size = 11, color = "#333333"),
+    automargin = TRUE,
+    categoryorder = "array",
+    categoryarray = levels(timeline$Source)
+  ),
+  shapes = band_shapes,
+  legend = list(
+    title = list(text = "<b>Category</b>"),
+    orientation = "h",
+    x = 0, y = -0.18,
+    bgcolor = "rgba(255,255,255,0)"
+  ),
+  hoverlabel = list(
+    bgcolor = "white",
+    bordercolor = "#333333",
+    font = list(color = "#111111", size = 13, family = "Arial")
+  ),
+  hovermode  = "closest",
+  plot_bgcolor  = "white",
+  paper_bgcolor = "white",
+  margin     = list(l = 210, r = 30, t = 60, b = 90),
+  height     = 560
+)
+```
 
 ### February 2025 - Foundation Release
 
@@ -28,7 +185,7 @@ This release prioritized data quality and standardization, establishing the stru
 
 The May 2025 release marked a significant evolution with the integration of multiple specialized data sources:
 
-- **NeuralFrame Integration**: Addition of Stanford Cancer Registry data, providing comprehensive cancer case information including miscellaneous, treatments, and outcomes
+- **NeuralFrame Integration**: Addition of Stanford Cancer Registry data, providing comprehensive cancer case information including diagnoses, treatments, outcomes, and miscellaneous case attributes
 - **Imaging Data**: Integration of OMOP image occurrence data, linking patients to their diagnostic imaging studies
 - **Philips ISPM**: Introduction of molecular testing data including STAMP, Heme-STAMP, and FoundationOne results
 - **Enhanced Coverage**: Substantial increase in patient coverage across multiple data domains
@@ -64,7 +221,7 @@ This release modernizes the technical infrastructure while maintaining backward 
 The February 2026 release expands the data lake with whole slide imaging and detailed genomic variant data:
 
 - **Whole Slide Imaging (WSI)**: Integration of manually scanned, deidentified histopathology slides stored as TIFF image files with corresponding JSON metadata. Dataset includes only slides with order_proc_ids that can be linked to Epic Clarity to ensure appropriate patient cohort inclusion and data quality
-- **Variant Occurrence Table**: Custom STARR-OMOP table containing detailed genetic variant information from genomic testing. Currently includes variants from STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests processed through Epic Genomics Suite starting August 2025, with plans to expand to additional test types and variant classes in future releases
+- **Variant Occurrence Table**: Custom STARR-OMOP table containing detailed genetic variant information from genomic testing. At initial release, this table included variants from STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests processed through Epic Genomics Suite starting August 2025. Coverage was later expanded in the May 2026 and August 2026 releases — see those sections for the current scope.
 
 This release significantly expands pathology imaging capabilities and provides granular genomic variant data for translational research applications.
 
@@ -76,15 +233,19 @@ The May 2026 release further expands the data lake with additional whole slide i
 - **Episode Table Introduction**: Addition of a custom STARR-OMOP episode table capturing clinical episodes representing treatment plans for patients in the oncology cohort, enabling analysis of care trajectories and treatment patterns
 - **Heme-STAMP Variants**: Expanded the variant occurrence table to include Heme-STAMP test results alongside existing STAMP variants
 
+### August 2026 - External Death Records, Neural Frame Event Data, and Expanded Genetic Variants
+
+The August 2026 release introduces several new data sources and expands existing ones:
+
+- **External Death Records**: Integration of `_external_death_records` table capturing deaths reported outside the EHR.
+- **Neural Frame Event Data**: Addition of treatment and follow-up events from the Neural Frame cancer registry system.
+- **Expanded Genetic Variants**: Broadened coverage beyond Solid tumor STAMP, including Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel.
 
 ## Release Summary Table
 
 The following table provides a comprehensive overview of data and schema changes across all releases:
 
 ```{r release_summary_table, message=FALSE, warning=FALSE}
-library(DT)
-library(dplyr)
-
 # Create release summary data
 release_summary <- tibble::tribble(
   ~Release, ~OMOP_Version, ~NeuralFrame, ~Philips_ISPM, ~Key_Data_Additions, ~Schema_Changes, ~Special_Datasets,
@@ -101,7 +262,7 @@ release_summary <- tibble::tribble(
   "Continued coverage",
   "Continued coverage + Full registry (diagnoses, treatments, outcomes, miscellaneous)",
   "Initial release (STAMP, Heme-STAMP, FoundationOne)",
-  "<b>Full NeuralFrame registry, Image occurrence data, Philips ISPM <b>",
+  "<b>Full NeuralFrame registry, Image occurrence data, Philips ISPM</b>",
   "Added person_id to all datasets for improved linkage; Updated tumor board definition; Added note_id to image occurrence",
   "N/A",
   
@@ -109,33 +270,41 @@ release_summary <- tibble::tribble(
   "Continued coverage",
   "Continued coverage",
   "Continued coverage + STAMP Add-On metadata",
-  "<b>STAMP Add-On metadata, Epic Media Server PDFs<b>",
+  "<b>STAMP Add-On metadata, Epic Media Server PDFs</b>",
   "No schema changes; continued data enrichment",
-  "<b>HIPPO Benchmark, CAP Forms (lung resection pathology)<b>",
+  "<b>HIPPO Benchmark, CAP Forms (lung resection pathology)</b>",
   
   "November 2025",
-  "<b>OMOP CDM 5.4.2<b>",
+  "<b>OMOP CDM 5.4.2</b>",
   "Continued coverage",
   "Continued coverage + Expanded genomic testing coverage",
-  "<b>Expanded genomic testing, Agentic Tide integration<b>",
+  "<b>Expanded genomic testing, Agentic Tide integration</b>",
   "Major upgrade: Updated vocab, enhanced field linking, JSON-formatted source values",
   "Enhanced ETL pipeline with updated vocabulary",
   
   "February 2026",
-  "Continued coverage + <b>WSI + Variant Occurrence<b>",
+  "Continued coverage + <b>WSI + Variant Occurrence</b>",
   "Continued coverage",
   "Discontinued coverage",
-  "<b>Whole Slide Imaging (WSI), Variant Occurrence table<b>",
+  "<b>Whole Slide Imaging (WSI), Variant Occurrence table</b>",
   "Added custom variant_occurrence table for genomic variants; Added _whole_slide_imaging table",
   "WSI TIFF/JSON files",
 
   "May 2026",
-  "Continued coverage + <b>Episode Table + Expanded WSI + Heme-STAMP Variants<b>",
+  "Continued coverage + <b>Episode Table + Expanded WSI + Heme-STAMP Variants</b>",
   "Continued coverage",
   "Discontinued coverage",
-  "<b>Episode Table (OMOP), Expanded WSI, Heme-STAMP variants added to Variant Occurrence<b>",
-  "Added episode table to OMOP schema; Expanded WSI with new fields<b>",
-  "Expanded WSI TIFF/JSON files"  
+  "<b>Episode Table (OMOP), Expanded WSI, Heme-STAMP variants added to Variant Occurrence</b>",
+  "Added episode table to OMOP schema; Expanded WSI with new fields",
+  "Expanded WSI TIFF/JSON files",
+
+  "August 2026",
+  "Continued coverage + <b>External Death Records + Expanded Genetic Variants</b>",
+  "Continued coverage + Neural Frame Event Data",
+  "Discontinued coverage",
+  "<b>External Death Records, Neural Frame Event Data, Expanded Genetic Variants (Heme-STAMP NGS/MRD, POLE, Guardant360, Stanford Pharmacogenomics Panel)</b>",
+  "Added _external_death_records table; Added Neural Frame event data; Expanded variant occurrence table with new genetic tests",
+  "N/A"
 )
 
 # Format the table with improved styling
@@ -181,13 +350,10 @@ datatable(
 The following table shows the key identifier fields used in each dataset across releases, reflecting the evolution toward standardized patient linkage:
 
 ```{r identifier_keys_table, message=FALSE, warning=FALSE}
-library(DT)
-library(dplyr)
-
 # Create identifier keys data
 identifier_keys <- tibble::tribble(
-  ~Dataset, ~February_2025, ~May_2025, ~August_2025, ~November_2025, ~February_2026, ~May_2026,
-  
+  ~Dataset, ~February_2025, ~May_2025, ~August_2025, ~November_2025, ~February_2026, ~May_2026, ~August_2026,
+
   "OMOP Clinical",
   "person_id, person_source_value",
   "person_id, person_source_value",
@@ -195,7 +361,8 @@ identifier_keys <- tibble::tribble(
   "person_id, <b>person_source_value<sup>†</sup></b>",
   "person_id, <b>person_source_value<sup>†</sup></b>",
   "person_id, <b>person_source_value<sup>†</sup></b>",
-  
+  "person_id, <b>person_source_value<sup>†</sup></b>",
+
   "NeuralFrame Registry",
   "MRN, DOB",
   "stanford_patient_uid",
@@ -203,7 +370,17 @@ identifier_keys <- tibble::tribble(
   "stanford_patient_uid",
   "stanford_patient_uid",
   "stanford_patient_uid",
-  
+  "stanford_patient_uid",
+
+  "Neural Frame Event Data",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
+  "stanford_patient_uid",
+
   "Image Occurrence",
   "person_id",
   "person_id",
@@ -211,15 +388,17 @@ identifier_keys <- tibble::tribble(
   "person_id",
   "person_id",
   "person_id",
-  
+  "person_id",
+
   "Philips ISPM",
   "Not available",
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
   "stanford_patient_uid, person_id",
-  "stanford_patient_uid, person_id",
-  "stanford_patient_uid, person_id",
-  
+  "Discontinued coverage",
+  "Discontinued coverage",
+  "Discontinued coverage",
+
   "Tumor Board",
   "MRN, DOB",
   "person_id",
@@ -227,7 +406,8 @@ identifier_keys <- tibble::tribble(
   "person_id",
   "person_id",
   "person_id",
-  
+  "person_id",
+
   "Whole Slide Imaging",
   "Not available",
   "Not available",
@@ -235,7 +415,8 @@ identifier_keys <- tibble::tribble(
   "Not available",
   "person_id",
   "person_id",
-  
+  "person_id",
+
   "Variant Occurrence",
   "Not available",
   "Not available",
@@ -243,15 +424,25 @@ identifier_keys <- tibble::tribble(
   "Not available",
   "person_id",
   "person_id",
-  
+  "person_id",
+
   "Episode",
   "Not available",
   "Not available",
   "Not available",
   "Not available",
   "Not available",
+  "person_id",
+  "person_id",
+
+  "External Death Records",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
+  "Not available",
   "person_id"
-  
 )
 
 # Format the table
@@ -264,7 +455,8 @@ datatable(
     "August 2025",
     "November 2025",
     "February 2026",
-    "May 2026"
+    "May 2026",
+    "August 2026"
   ),
   caption = "Patient Identifier Keys Evolution by Dataset and Release",
   options = list(
@@ -272,9 +464,9 @@ datatable(
     dom = 't',
     columnDefs = list(
       list(width = '16%', targets = 0),
-      list(width = '14%', targets = 1:6),
+      list(width = '12%', targets = 1:7),
       list(className = 'dt-left', targets = 0),
-      list(className = 'dt-center', targets = 1:6)
+      list(className = 'dt-center', targets = 1:7)
     ),
     scrollX = TRUE
   ),
@@ -283,14 +475,14 @@ datatable(
   class = 'cell-border stripe'
 ) %>%
   formatStyle(
-    columns = 0:6,
+    columns = 0:7,
     fontSize = '12px'
   ) %>%
   formatStyle(
-    columns = 1:6,
+    columns = 1:7,
     backgroundColor = styleEqual(
-      c("Not available"),
-      c('#f0f0f0')
+      c("Not available", "Discontinued coverage"),
+      c('#f0f0f0', '#f9f7f7')
     )
   )
 ```
@@ -315,6 +507,10 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 
 - Episode includes **person_id** for linking clinical episodes to patients in the oncology cohort
 
+- Neural Frame Event Data uses **stanford_patient_uid** for patient linkage, along with **nfpatientsetid** (case-level identifier) and **nfpatienteventid** (event-level identifier) for linking events to specific cases
+
+- External Death Records uses **person_id** for patient linkage, with a `death_date` field for temporal analysis of deaths reported outside the EHR
+
 **<sup>†</sup>November 2025 OMOP 5.4 Update:** In the November 2025 release, `person_source_value` is JSON-formatted. To join with `stanford_patient_uid`, extract the field using: `JSON_VALUE(person_source_value, '$.stanford_patient_uid')`
 
 
@@ -323,7 +519,7 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](may_2026/data_coverage_trends.qmd) page.
 For PHI Scrubbed data coverage trends, see the [PHI Scrubbed Data Coverage Trends](deid_may_2026/deid_data_coverage_trends.qmd) page.
 
-For each data release (February 2025 to May 2026), we examine:
+For each data release (February 2025 to August 2026), we examine:
 
 - Demographic characteristics (cohort size, age distribution, gender, race)
 - Data source coverage across integrated systems (NeuralFrame, Philips ISPM, Imaging, Tumor Board)

@@ -17,12 +17,14 @@ project:
    - nov_2025/*
    - feb_2026/*
    - may_2026/*
+   - aug_2026/*
    - deid_aug_2025/*
    - deid_nov_2025/*
    - deid_feb_2026/*
    - deid_may_2025/*
    - deid_feb_2025/*
    - deid_may_2026/*
+   - deid_aug_2026/*
    - cap_forms_data_dict/*
    - dicom_data_dict/*
    - epic_media_server_dict/*
@@ -74,6 +76,10 @@ website:
             contents:
               - text: "Released Datasets"
                 href: may_2026/released_datasets.qmd
+          - section: "August 2026"
+            contents:
+              - text: "Released Datasets"
+                href: aug_2026/released_datasets.qmd
       - section: "Data Dictionary"
         href: data_dictionary.qmd
         contents:
@@ -152,9 +158,9 @@ website:
         href: data_evolution_overview.qmd
         contents: 
           - text: "PHI Data Coverage Trends"
-            href: may_2026/data_coverage_trends.qmd
+            href: aug_2026/data_coverage_trends.qmd
           - text: "PHI Scrubbed Data Coverage Trends"
-            href: deid_may_2026/deid_data_coverage_trends.qmd
+            href: deid_aug_2026/deid_data_coverage_trends.qmd
       - section: "Data Metrics"
         contents:
           - section: "PHI Data Metrics"
@@ -227,6 +233,26 @@ website:
                     href: may_2026/variant_occ.qmd
                   - text: "Episode Table"
                     href: may_2026/episode_table.qmd
+              - section: "August 2026"
+                href: aug_2026/metrics_clinical.qmd
+                contents:
+                  - section: "Neural Frame"
+                    href: aug_2026/neural_frame.qmd
+                    contents:
+                      - text: "Event Table"
+                        href: aug_2026/neural_frame_event_table.qmd
+                  - text: "Image Occurrence"
+                    href: aug_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: aug_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: aug_2026/tumor_board_updated.qmd
+                  - text: "Whole Slide Imaging"
+                    href: aug_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: aug_2026/variant_occ.qmd
+                  - text: "Episode Table"
+                    href: aug_2026/episode_table.qmd
           - section: "PHI Scrubbed Data Metrics"
             href: deid_data_metrics.qmd
             contents:
@@ -297,6 +323,28 @@ website:
                     href: deid_may_2026/variant_occ.qmd
                   - text: "Episode Table"
                     href: deid_may_2026/episode_table.qmd
+              - section: "August 2026"
+                href: deid_aug_2026/metrics_clinical.qmd
+                contents:
+                  - section: "Neural Frame"
+                    href: deid_aug_2026/neural_frame.qmd
+                    contents:
+                      - text: "Event Table"
+                        href: deid_aug_2026/neural_frame_event_table.qmd
+                  - text: "Image Occurrence"
+                    href: deid_aug_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: deid_aug_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: deid_aug_2026/tumor_board_updated.qmd
+                  - text: "Whole Slide Imaging"
+                    href: deid_aug_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: deid_aug_2026/variant_occ.qmd
+                  - text: "Episode Table"
+                    href: deid_aug_2026/episode_table.qmd
+                  - text: "External Death Records"
+                    href: deid_aug_2026/external_death_records.qmd
       - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:
