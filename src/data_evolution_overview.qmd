@@ -19,7 +19,7 @@ The VISTA Oncology Data Lake represents a multi-institutional effort to create a
 
 ### Data Source Timeline
 
-The following chart shows when each major data source became available in the data lake. Bars are grouped by category and colored using a soft pastel palette matching other pages on this site. Hover over any bar for details.
+The following chart shows when each major data source became available in the data lake. Hover over any bar for details.
 
 ```{r timeline_plot, message=FALSE, warning=FALSE}
 library(plotly)

@@ -5,6 +5,10 @@ execute:
   echo: false
 ---
 
+::: {.panel-tabset}
+
+## Tags
+
 ```{python message=FALSE, warning=FALSE}
 #| output: asis
 #| echo: false
@@ -78,11 +82,11 @@ df = pd.DataFrame(results)
 HTML(df.to_html(escape=False, table_id="df", index=False))
 ```
 
-## Preserved Private Tags
+## Preserved Tags
 
 These private elements are preserved verbatim during de-identification, keyed on the private-creator string. All other private elements are removed.
 
-Source: [`dicom-dre` default profile (commit 58cd116)](https://github.com/susom/dicom-dre/blob/58cd11694610f7e9a228906bb9c451bb6b94e0d5/src/dicom_dre/profiles/default.py)
+
 
 ::: {.panel-tabset}
 
@@ -265,8 +269,6 @@ HTML(df_imag.to_html(escape=False, table_id="gems_imag_01", index=False))
 :::
 
 ## Strict Profile Tags
-
-Tags defined in the [`dicom-dre` strict profile](https://github.com/susom/dicom-dre/blob/main/src/dicom_dre/profiles/strict.py). This profile removes all unspecified elements and strips dates entirely (no jitter). UIDs are re-hashed without a study-ID salt.
 
 ::: {.panel-tabset}
 
@@ -660,5 +662,7 @@ strict_content = [
 df_content = pd.DataFrame(strict_content, columns=["Tag", "Name"])
 HTML(df_content.to_html(escape=False, table_id="strict_content", index=False))
 ```
+
+:::
 
 :::

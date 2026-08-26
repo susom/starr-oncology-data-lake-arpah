@@ -6,4 +6,4 @@ The following NeuralFrame tumor registry tables are available:
 
 | Category | Table Name |
 |:---------|:-----------|
-| Tumor Registry | [case_diagnoses](case_diagnoses.qmd), [case_misc_details](case_misc_details.qmd), [case_outcomes](case_outcomes.qmd), [case_treatments](case_treatments.qmd) | [case_events](case_events.qmd) 
+| Tumor Registry | [case_diagnoses](case_diagnoses.qmd), [case_misc_details](case_misc_details.qmd), [case_outcomes](case_outcomes.qmd), [case_treatments](case_treatments.qmd), [case_events](case_events.qmd) 
