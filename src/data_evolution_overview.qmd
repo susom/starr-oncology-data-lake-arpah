@@ -30,23 +30,23 @@ timeline <- tribble(
   # OMOP CDM and custom OMOP extensions
   "OMOP CDM 5.3.1",                   "OMOP",         "2025-02-01",   "2025-11-01",   "Superseded",
   "OMOP CDM 5.4.2",                   "OMOP",         "2025-11-01",   "2026-08-31",   "Active",
-  "OMOP Image Occurrence",            "OMOP",         "2025-05-01",   "2026-08-31",   "Active",
+  "OMOP Image Occurrence",            "OMOP",         "2025-02-01",   "2026-08-31",   "Active",
   "Episode Table",                    "OMOP",         "2026-05-01",   "2026-08-31",   "Active",
   "External Death Records",           "OMOP",         "2026-08-01",   "2026-08-31",   "Active",
   "Whole Slide Imaging (WSI)",        "OMOP",         "2026-02-01",   "2026-08-31",   "Active",
   "Variant Occurrence (STAMP)",       "OMOP",         "2026-02-01",   "2026-08-31",   "Active",
   "Variant Occurrence (Heme-STAMP)",  "OMOP",         "2026-05-01",   "2026-08-31",   "Active",
-  "Variant Occurrence (Multi-panel)", "OMOP",         "2026-08-01",   "2026-08-31",   "Active",
+  "Variant Occurrence (Expanded Panels)", "OMOP",      "2026-08-01",   "2026-08-31",   "Active",
   # NeuralFrame Registry
   "NeuralFrame Registry",             "NeuralFrame",  "2025-02-01",   "2026-08-31",   "Active",
   "NeuralFrame Event Data",           "NeuralFrame",  "2026-08-01",   "2026-08-31",   "Active",
   # Molecular (external sources)
-  "Philips ISPM",                     "Molecular",    "2025-05-01",   "2025-11-01",   "Discontinued",
-  "STAMP Add-On Metadata",            "Molecular",    "2025-08-01",   "2026-08-31",   "Active",
+  "Philips ISPM",                     "Molecular",    "2025-05-01",   "2026-02-01",   "Discontinued",
+  "STAMP Add-On Metadata",            "Molecular",    "2025-08-01",   "2025-10-31",   "Active",
   # Specialized Datasets
-  "HIPPO Benchmark",                  "Specialized",  "2025-08-01",   "2026-08-31",   "Active",
-  "CAP Forms",                        "Specialized",  "2025-08-01",   "2026-08-31",   "Active",
-  "Epic Media Server PDFs",           "Specialized",  "2025-08-01",   "2026-08-31",   "Active"
+  "HIPPO Benchmark",                  "Specialized",  "2025-08-01",   "2025-10-31",   "Active",
+  "CAP Forms",                        "Specialized",  "2025-08-01",   "2025-10-31",   "Active",
+  "Epic Media Server PDFs",           "Specialized",  "2025-08-01",   "2025-10-31",   "Active"
 ) %>%
   mutate(
     Start = as.Date(Start),
@@ -55,6 +55,34 @@ timeline <- tribble(
     Source = factor(Source, levels = rev(unique(Source))),
     Category = factor(Category, levels = c("OMOP", "NeuralFrame", "Molecular", "Specialized"))
   )
+
+# One row per release window; sources are split into per-release blocks
+release_periods <- data.frame(
+  Release = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026", "Aug 2026"),
+  RStart  = as.Date(c("2025-02-01", "2025-05-01", "2025-08-01",
+                       "2025-11-01", "2026-02-01", "2026-05-01", "2026-08-01")),
+  REnd    = as.Date(c("2025-05-01", "2025-08-01", "2025-11-01",
+                       "2026-02-01", "2026-05-01", "2026-08-01", "2026-08-31")),
+  stringsAsFactors = FALSE
+)
+
+gap_days <- 4  # inset from each release boundary to create visible gaps between blocks
+
+segments <- do.call(rbind, lapply(seq_len(nrow(timeline)), function(i) {
+  row <- timeline[i, ]
+  overlaps <- release_periods[
+    release_periods$REnd > row$Start & release_periods$RStart < row$End, ]
+  if (nrow(overlaps) == 0) return(NULL)
+  data.frame(
+    Source   = as.character(row$Source),
+    Category = as.character(row$Category),
+    Status   = as.character(row$Status),
+    Release  = overlaps$Release,
+    SegStart = pmax(overlaps$RStart, row$Start) + gap_days,
+    SegEnd   = pmin(overlaps$REnd,   row$End)   - gap_days,
+    stringsAsFactors = FALSE
+  )
+}))
 
 # Pastel Set3-inspired palette
 category_colors <- c(
@@ -83,36 +111,39 @@ band_shapes <- Filter(Negate(is.null), band_shapes)
 
 fig <- plot_ly()
 
-for (i in seq_len(nrow(timeline))) {
-  row   <- timeline[i, ]
-  color <- category_colors[as.character(row$Category)]
-  is_active <- row$Status == "Active"
+shown_categories <- character(0)
+
+for (i in seq_len(nrow(segments))) {
+  seg   <- segments[i, ]
+  color <- category_colors[seg$Category]
+  is_active   <- seg$Status == "Active"
+  show_legend <- !(seg$Category %in% shown_categories)
+  if (show_legend) shown_categories <- c(shown_categories, seg$Category)
 
   fig <- fig %>% add_trace(
     type   = "scatter",
     mode   = "lines",
-    x      = c(row$Start, row$End),
-    y      = c(as.character(row$Source), as.character(row$Source)),
+    x      = c(seg$SegStart, seg$SegEnd),
+    y      = c(seg$Source, seg$Source),
     line   = list(
       color = color,
       width = 22,
-      dash  = if (is_active) "solid" else "dot"
+      dash  = "solid"
     ),
-    opacity = if (is_active) 1 else 0.5,
-    name   = as.character(row$Category),
-    legendgroup = as.character(row$Category),
-    showlegend  = (i == match(row$Category, timeline$Category)),
+    opacity = if (is_active) 1 else 0.4,
+    name        = seg$Category,
+    legendgroup = seg$Category,
+    showlegend  = show_legend,
     hoverlabel = list(
-      bgcolor = color,
+      bgcolor     = color,
       bordercolor = "white",
       font = list(color = "white", size = 13, family = "Arial")
     ),
     hovertemplate = paste0(
-      "<b>", row$Source, "</b><br>",
-      "Category: ", row$Category, "<br>",
-      "Status: <b>", row$Status, "</b><br>",
-      "From: ", format(row$Start, "%b %Y"),
-      " \u2192 ", ifelse(is_active, "Present", format(row$End, "%b %Y")),
+      "<b>", seg$Source, "</b><br>",
+      "Category: ", seg$Category, "<br>",
+      "Release: <b>", seg$Release, "</b><br>",
+      "Status: <b>", seg$Status, "</b><br>",
       "<extra></extra>"
     )
   )
@@ -157,7 +188,7 @@ fig %>% layout(
     bgcolor = "rgba(255,255,255,0)"
   ),
   hoverlabel = list(
-    bgcolor = "white",
+    bgcolor     = "white",
     bordercolor = "#333333",
     font = list(color = "#111111", size = 13, family = "Arial")
   ),
@@ -168,6 +199,8 @@ fig %>% layout(
   height     = 560
 )
 ```
+
+^[**Expanded Panels** (Aug 2026): Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel.]
 
 ### February 2025 - Foundation Release
 
