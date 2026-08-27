@@ -13,7 +13,7 @@ The clinical applications for non-Epic sources, such as the Radiology DICOMs, th
 
 The Stanford Cancer Registry is a shared system across the hospital ecosystems. The data is managed on a vendor platform, Neuralframe KACI. NeuralFrame sends monthly snapshots of the database to Research Technology. 
 
-The VISTA dataset has ~222K patients. Approximately 12% of the SCR patients have a Tumor Board encounter.  
+The VISTA dataset has ~230K patients. Approximately 12% of the SCR patients have a Tumor Board encounter.  
 
 ### VISTA Cohort: Patient Inclusion Criteria
 All patients included in VISTA must be present in **STARR-OMOP**, Stanford’s research-standard representation of the electronic health record (EHR), **and** have documented evidence of cancer-related care or review within the Stanford health system, defined by at least one of the following: 
@@ -50,7 +50,7 @@ The datasets are PHI scrubbed using Safe Harbor approaches. Specifically, we rep
 
 The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence. 
 
-Our EHR data was initially standardized using OMOP CDM version 5.3.1 and subsequently upgraded to OMOP CDM version 5.4.2 to leverage the latest data model enhancements. For more details about the November 2025 upgrade and data evolution across releases, see the [Data Evolution Overview](data_evolution_overview.qmd) page.
+Our EHR data was initially standardized using OMOP CDM version 5.3.1 and subsequently upgraded to OMOP CDM version 5.4.2 to leverage the latest data model enhancements. For more details about the recent updates and data evolution across releases, see the [Data Evolution Overview](data_evolution_overview.qmd) page.
 
 The identified dataset is created using EPIC Clarity tables, which include patient and encounter data permissible for research. The tables in the OMOP-CDM common data model that are part of this dataset are listed in the [Data Dictionary](data_dictionary.qmd) page, along with information on whether they contain PHI and a brief description of each table.
 
@@ -66,6 +66,8 @@ NeuralFrame data encompasses research-eligible patients who have case records in
 - **Treatment**: This category outlines the various treatments administered to patients, including surgical interventions, chemotherapy, radiation therapy, and other therapeutic approaches.
 
 - **Miscellaneous**: This section includes additional data that may not fit into the other categories, such as demographic information, patient-reported outcomes, and other relevant clinical data.
+
+- **Event**: This table contains information about radiation, chemotherapy, and other treatment-related events for patients, including the timing, type, and details of each event.
 
 #### Philips ISPM
 
@@ -142,6 +144,8 @@ We periodically release updated versions of our datasets to ensure that research
 * [November 2025](nov_2025/released_datasets.qmd)
 * [February 2026](feb_2026/released_datasets.qmd)
 * [May 2026](may_2026/released_datasets.qmd)
+* [August 2026](aug_2026/released_datasets.qmd)
+
 
 ## Data Privacy and Security
 

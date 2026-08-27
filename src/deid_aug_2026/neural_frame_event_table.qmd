@@ -255,7 +255,9 @@ create_gt_table_v1(
 ### Chemotherapy Courses
 ```{r chemotherapy courses table, message=FALSE, warning=FALSE}
 chemo_table <- chemo_courses %>%
-  arrange(eventcoursenumber) %>% filter(patients_receiving_chemo > 5) %>%
+  arrange(eventcoursenumber) %>%
+  filter(patients_receiving_chemo > 5,
+         eventcoursenumberdescription != "Non-treatment related") %>%
   mutate(
     `Course` = eventcoursenumberdescription,
     `Cases` = format(cases_receiving_chemo, big.mark = ","),
@@ -304,6 +306,7 @@ create_gt_table_v1(
 ### Recurrence
 ```{r recurrence table, message=FALSE, warning=FALSE}
 rec_table <- recurrence_data %>%
+  filter(patients_with_recurrence >= 10) %>%
   arrange(desc(cases_with_recurrence)) %>%
   mutate(
     `Recurrence Type` = recurrence_type,

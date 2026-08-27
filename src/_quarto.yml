@@ -253,6 +253,8 @@ website:
                     href: aug_2026/variant_occ.qmd
                   - text: "Episode Table"
                     href: aug_2026/episode_table.qmd
+                  - text: "External Death Records"
+                    href: aug_2026/external_death_records.qmd
           - section: "PHI Scrubbed Data Metrics"
             href: deid_data_metrics.qmd
             contents:

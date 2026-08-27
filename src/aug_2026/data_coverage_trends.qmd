@@ -504,9 +504,11 @@ if (nrow(ctsa_res) == 0) {
 
 The VISTA Oncology Data Lake captures mortality information from multiple sources to support survival analysis and outcomes research. Death records are consolidated from OMOP Clinical Data Warehouse (structured clinical death dates), Stanford Cancer Registry via NeuralFrame (vital status descriptions), and Epic Clarity's external Death reports. This multi-source approach ensures comprehensive mortality tracking across the oncology cohort.
 
+For detailed metrics on the external death records, see the [OMOP External Death Table](external_death_records.qmd) page.
+
 ::: {.panel-tabset}
 
-### Death Counts Over Time 
+### OMOP Death Counts Over Time 
 
 ```{r death_metrics, message=FALSE, warning=FALSE, results='hide'}
 # Define death metrics SQL paths per release (May-November only)
@@ -2035,7 +2037,8 @@ episode_plan_plot <- episode_plan_res %>%
     month_label = factor(month, levels = c("May 2026", "Aug 2026")),
     n_unique_persons = as.numeric(n_unique_persons),
     plan_type = ifelse(is.na(plan_type) | plan_type == "", "Not Specified", plan_type)
-  )
+  ) %>%
+  filter(n_unique_persons >= 10)
 
 plot_ly(
   data = episode_plan_plot,

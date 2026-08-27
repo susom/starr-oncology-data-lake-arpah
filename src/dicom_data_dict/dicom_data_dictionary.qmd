@@ -5,6 +5,10 @@ execute:
   echo: false
 ---
 
+::: {.panel-tabset}
+
+## Tags
+
 ```{python message=FALSE, warning=FALSE}
 #| output: asis
 #| echo: false
@@ -74,15 +78,65 @@ for tag_string in tag_strings:
         'DICOM_Tag_Description': tag_info['description']
     })
 
+# Merge tags kept verbatim by the strict de-identification profile
+_strict = (
+    "00080005 00080008 00080013 00080016 00080030 00080031 00080032 00080033 00080034 00080035 "
+    "00080060 00080070 00081090 00082111 00082130 00083010 00089092 00100040 00180010 00180015 "
+    "00180020 00180021 00180022 00180023 00180026 00180027 00180031 00180032 00180035 00180040 "
+    "00180050 00180060 00180070 00180071 00180073 00180075 00180080 00180081 00180082 00180083 "
+    "00180084 00180085 00180086 00180087 00180088 00180090 00180091 00180095 00181000 00181020 "
+    "00181040 00181041 00181042 00181043 00181050 00181060 00181063 00181065 00181066 0018106E "
+    "00181072 00181073 00181074 00181075 00181088 00181090 00181100 00181110 00181111 00181114 "
+    "00181120 00181130 00181140 00181147 00181149 00181150 00181151 00181152 00181153 00181155 "
+    "00181160 00181164 00181166 00181170 00181180 00181190 00181191 00181201 00181210 00181242 "
+    "00181243 00181250 00181300 00181301 00181302 00181310 00181312 00181314 00181320 00181400 "
+    "00181401 00181405 00181450 00181470 00181480 00181500 00181508 00181510 00181511 00181530 "
+    "00181531 00181600 00181620 00181622 00181624 00181700 00181702 00181704 00181710 00181720 "
+    "00182001 00185010 00185012 00185020 00185021 00185022 00185024 00185026 00185027 00185028 "
+    "00185029 00185030 00185040 00185050 00185100 00186000 00186011 00186020 00186031 00186032 "
+    "00186040 00187000 00187001 00187004 00187014 00187020 00187022 00187030 00187032 00187034 "
+    "00187040 00187041 00187042 00187044 00187046 00187050 00187052 00187054 00187060 00187062 "
+    "00189005 00189070 00189073 00189075 00189076 00189077 00189082 00189087 00189371 00189417 "
+    "00189434 00189435 00189436 00189438 00189461 00189462 00189476 00189477 00189504 00189506 "
+    "00189507 00189508 00189528 00189530 00189531 00189538 00189732 00189733 00189736 00189737 "
+    "00189738 00189749 00189751 00189810 00200011 00200012 00200013 00200020 00200032 00200037 "
+    "00200060 00200062 00201002 00201040 00201041 00209056 00209057 00209111 00209113 00209116 "
+    "00209128 00209153 00209157 00209165 00209167 00209221 00209222 00209311 00220001 00220002 "
+    "00220003 00220005 00220006 00220007 00220008 00220009 00221007 00221019 00221050 00280002 "
+    "00280004 00280006 00280008 00280009 0028000A 00280010 00280011 00280012 00280030 00280034 "
+    "00280100 00280101 00280102 00280103 00280106 00280107 00280120 00280121 00280200 00280300 "
+    "00280A02 00280A04 00281050 00281051 00281052 00281053 00281054 00281055 00281056 00281090 "
+    "00281101 00281102 00281103 00281201 00281202 00281203 00282000 00282110 00282112 00282114 "
+    "00286010 00289001 00289002 00289108 00320033 00320035 00321001 00321011 00321041 00321051 "
+    "0038001B 0038001D 00380021 00380032 00400003 00400005 00400245 00400251 00400318 00408302 "
+    "0040A122 0040A193 00540010 00540011 00540016 00540020 00540021 00540022 00540030 00540031 "
+    "00540050 00540051 00540060 00540061 00540070 00540071 00540080 00540081 00540090 00540100 "
+    "00540202 00540300 00541000 00541001 00541006 00541102 00541300 00541323 00541330 00541400 "
+    "00541401 00620002 20500020 52009229 52009230 7FE00010 "
+    "00020003 00080018 00081155 0020000D 0020000E 00200052 00200200 00209164 "
+    "00281199 00281214 0040A124 00701101 00701102 00880140 30060024 300600C2 "
+    "00081115 00082218 0040A043 0040A370 0040A375 0040A525 0040A730 00700001 0070005A 00700060"
+).split()
+seen = {r['DICOM_Tag_Number'] for r in results}
+for h in _strict:
+    info = get_tag_info(h)
+    if info['tag_number'] not in seen:
+        results.append({
+            'DICOM_Tag_Number': info['tag_number'],
+            'DICOM_Tag_Name': info['keyword'],
+            'DICOM_Tag_Description': info['description']
+        })
+        seen.add(info['tag_number'])
+
 df = pd.DataFrame(results)
 HTML(df.to_html(escape=False, table_id="df", index=False))
 ```
 
-## Preserved Private Tags
+## Preserved Tags
 
 These private elements are preserved verbatim during de-identification, keyed on the private-creator string. All other private elements are removed.
 
-Source: [`dicom-dre` default profile (commit 58cd116)](https://github.com/susom/dicom-dre/blob/58cd11694610f7e9a228906bb9c451bb6b94e0d5/src/dicom_dre/profiles/default.py)
+
 
 ::: {.panel-tabset}
 
@@ -264,17 +318,8 @@ HTML(df_imag.to_html(escape=False, table_id="gems_imag_01", index=False))
 
 :::
 
-## Strict Profile Tags
-
-Tags defined in the [`dicom-dre` strict profile](https://github.com/susom/dicom-dre/blob/main/src/dicom_dre/profiles/strict.py). This profile removes all unspecified elements and strips dates entirely (no jitter). UIDs are re-hashed without a study-ID salt.
-
-::: {.panel-tabset}
-
-### Keep Tags (326)
-
 ```{python}
-#| output: asis
-#| echo: false
+#| include: false
 
 strict_keep = [
     ("0008,0005", "SpecificCharacterSet"),
@@ -605,60 +650,6 @@ strict_keep = [
     ("7FE0,0010", "PixelData"),
 ]
 
-df_keep = pd.DataFrame(strict_keep, columns=["Tag", "Name"])
-HTML(df_keep.to_html(escape=False, table_id="strict_keep", index=False))
-```
-
-### UID Tags (16)
-
-```{python}
-#| output: asis
-#| echo: false
-
-strict_uid = [
-    ("0002,0003", "MediaStorageSOPInstanceUID"),
-    ("0008,0018", "SOPInstanceUID"),
-    ("0008,1155", "ReferencedSOPInstanceUID"),
-    ("0020,000D", "StudyInstanceUID"),
-    ("0020,000E", "SeriesInstanceUID"),
-    ("0020,0052", "FrameOfReferenceUID"),
-    ("0020,0200", "SynchronizationFrameOfReferenceUID"),
-    ("0020,9164", "DimensionOrganizationUID"),
-    ("0028,1199", "PaletteColorLookupTableUID"),
-    ("0028,1214", "LargePaletteColorLookupTableUID"),
-    ("0040,A124", "UID"),
-    ("0070,1101", "PresentationDisplayCollectionUID"),
-    ("0070,1102", "PresentationSequenceCollectionUID"),
-    ("0088,0140", "StorageMediaFileSetUID"),
-    ("3006,0024", "ReferencedFrameOfReferenceUID"),
-    ("3006,00C2", "RelatedFrameOfReferenceUID"),
-]
-
-df_uid = pd.DataFrame(strict_uid, columns=["Tag", "Name"])
-HTML(df_uid.to_html(escape=False, table_id="strict_uid", index=False))
-```
-
-### Content Root Tags (10)
-
-```{python}
-#| output: asis
-#| echo: false
-
-strict_content = [
-    ("0008,1115", "ReferencedSeriesSequence"),
-    ("0008,2218", "AnatomicRegionSequence"),
-    ("0040,A043", "ConceptNameCodeSequence"),
-    ("0040,A370", "ReferencedRequestSequence"),
-    ("0040,A375", "CurrentRequestedProcedureEvidenceSequence"),
-    ("0040,A525", "IdenticalDocumentsSequence"),
-    ("0040,A730", "ContentSequence"),
-    ("0070,0001", "GraphicAnnotationSequence"),
-    ("0070,005A", "DisplayedAreaSelectionSequence"),
-    ("0070,0060", "GraphicLayerSequence"),
-]
-
-df_content = pd.DataFrame(strict_content, columns=["Tag", "Name"])
-HTML(df_content.to_html(escape=False, table_id="strict_content", index=False))
 ```
 
 :::

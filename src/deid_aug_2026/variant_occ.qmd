@@ -243,7 +243,6 @@ DT::datatable(
 The following visualization shows the monthly trend of genomic test orders over time with cumulative totals.
 
 ```{r test trend, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
-# Format data for visualization - aggregate daily data to monthly
 library(lubridate)
 df_trend <- ordered_tests_trend %>%
   mutate(order_date = as.Date(order_date),
@@ -254,36 +253,59 @@ df_trend <- ordered_tests_trend %>%
     n_patients = sum(n_patients),
     n_variants = sum(n_variants),
     .groups = "drop"
-  ) %>%
+  )
+
+# Collapse all months before Jan 2025 into one bar
+cutoff <- as.Date("2025-01-01")
+pre_jan25 <- df_trend %>% filter(year_month < cutoff)
+post_jan25 <- df_trend %>% filter(year_month >= cutoff)
+
+pre_row <- if (nrow(pre_jan25) > 0) {
+  pre_jan25 %>% summarise(
+    year_month_label = "< Jan 2025",
+    n_tests = sum(n_tests),
+    n_patients = sum(n_patients),
+    n_variants = sum(n_variants)
+  )
+} else {
+  tibble(year_month_label = character(), n_tests = integer(), n_patients = integer(), n_variants = integer())
+}
+
+df_plot <- bind_rows(
+  pre_row,
+  post_jan25 %>% mutate(year_month_label = format(year_month, "%b %Y")) %>%
+    select(year_month_label, n_tests, n_patients, n_variants)
+) %>%
   mutate(
+    year_month_label = factor(year_month_label, levels = year_month_label),
     cumulative_tests = cumsum(n_tests),
     cumulative_variants = cumsum(n_variants)
   )
 
 # Create plot with monthly and cumulative trends
-plot_ly(df_trend) %>%
+plot_ly(df_plot) %>%
   # Add monthly tests as bars
   add_bars(
-    x = ~year_month, 
+    x = ~year_month_label,
     y = ~n_tests,
     name = "Monthly Tests",
     marker = list(color = color_palette[1], opacity = 0.7),
     hovertemplate = paste(
-      "<b>%{x|%B %Y}</b><br>",
+      "<b>%{x}</b><br>",
       "Monthly Tests: %{y:,.0f}<br>",
       "<extra></extra>"
     )
   ) %>%
   # Add cumulative tests as line on secondary axis
   add_lines(
-    x = ~year_month,
+    x = ~year_month_label,
     y = ~cumulative_tests,
     yaxis = "y2",
     name = "Cumulative Tests",
     line = list(color = color_palette[4], width = 3),
     marker = list(size = 8, color = color_palette[4]),
     hovertemplate = paste(
-      "<b>%{x|%B %Y}</b><br>",
+      "<b>%{x}</b><br>",
       "Total Tests: %{y:,.0f}<br>",
       "<extra></extra>"
     )
@@ -308,9 +330,9 @@ plot_ly(df_trend) %>%
       orientation = "h",
       x = 0.5,
       xanchor = "center",
-      y = -0.15
+      y = -0.25
     ),
-    margin = list(b = 100, r = 80)
+    margin = list(b = 140, r = 80)
   )
 ```
 
