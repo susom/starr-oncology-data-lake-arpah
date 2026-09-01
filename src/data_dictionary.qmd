@@ -12,7 +12,7 @@ In this data dictionary, you will find detailed descriptions of each table and i
 
 **Version History**: The data lake has evolved from OMOP CDM 5.3.1 (used in February-August 2025 releases) to OMOP CDM 5.4.2 (November 2025 release). The November 2025 upgrade includes new tables, enhanced field linking capabilities, updated naming conventions, and vocabulary modernization from January 2023 to August 2025. For detailed information about CDM changes, see the [OHDSI CDM 5.4 Changes](https://ohdsi.github.io/CommonDataModel/cdm54Changes.html).
 
-February 2026 release includes additional clinical tables such as `_whole_slide_imaging` and `_variant_occurrence` that are not part of the standard OMOP CDM 5.4.2 but have been added to support the oncology use case. These tables are described in the data dictionary section for the February 2026 release.
+The February 2026 release includes additional clinical tables, such as `_whole_slide_imaging` and `_variant_occurrence`, that are not part of the standard OMOP CDM 5.4.2 but were added to support the oncology use case. The August 2026 release additionally includes `_external_death_table`. These tables are described in the corresponding release sections of the data dictionary.
 
 ::: {.panel-tabset}
 
@@ -46,6 +46,10 @@ The following OMOP-CDM 5.3.1 tables were available in the February, May, and Aug
 | Metadata            | [cdm_source](omop_data_dict/omop_data_dict_5.3/cdm_source.qmd), [metadata](omop_data_dict/omop_data_dict_5.3/metadata.qmd) |
 :  {.hover .responsive .sm}
 
+:::
+
+::: {.callout-note}
+**Please Note:** The current ETL pipeline does not populate the following tables, which are empty for each release: `cost`, `dose_era`, `cohort_definition`, `specimen`, `source_to_concept_map`, `note_nlp`, `episode_event`, `condition_era`, and `cohort`. These tables remain part of the OMOP schema for standardization and future compatibility, but no source data is currently mapped or loaded into them for this release.
 :::
 
 
