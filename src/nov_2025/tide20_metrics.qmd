@@ -78,7 +78,7 @@ The system builds on TiDE 1.0's operational foundation while integrating transfo
 
 ### Dataset
 
-Tide 2.0 was evaluated on the same gold-standard corpus described in [Dataset Used for Evaluation](../feb_2025/phi_labeling_report.qmd). This corpus comprises clinical notes sampled via a random-plus-diversity strategy from STARR-OMOP, pre-labeled by an LLM, independently reviewed by dual annotators, and adjudicated to retain only 100% agreement or resolved notes. The evaluation spans structured PHI categories (DATE, PHONE, ID) and contextual categories (PATIENT, DOCTOR, LOCATION), enabling assessment of both pattern-based and semantic recognition capabilities.
+Tide 2.0 was evaluated on the same gold-standard corpus described in [Dataset Used for Evaluation](../feb_2025/phi_labeling_report.qmd). This corpus comprises clinical notes sampled via a random-plus-diversity strategy from STARR-OMOP, pre-labeled by an LLM, independently reviewed by dual annotators, and adjudicated to retain only 100% agreement or resolved notes. The evaluation spans structured PHI categories (DATE, PHONE, ID) and contextual categories (PATIENT, DOCTOR, LOCATION), enabling assessment of both pattern-based and semantic recognition capabilities; see [SHIELD (arXiv:2605.03301)](https://arxiv.org/abs/2605.03301).
 
 ### Methods
 
@@ -242,3 +242,4 @@ Ongoing development focuses on integration with agentic AI workflows. Planned ca
 - Stanford AIMI de-identifier v1: https://huggingface.co/StanfordAIMI/stanford-deidentifier-base
 - "Automated deidentification of radiology reports combining transformer and 'hide in plain sight' rule-based methods," JAMIA 2022 (PMCID: PMC9846681): https://pmc.ncbi.nlm.nih.gov/articles/PMC9846681/
 - TiDE clinical text Safe Harbor — https://starr.stanford.edu/methods/tide-clinical-text-safe-harbor
+- "SHIELD: A Diverse Clinical Note Dataset and Distilled Small Language Models for Enterprise-Scale De-identification," arXiv 2026: https://arxiv.org/abs/2605.03301
