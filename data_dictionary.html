@@ -1916,7 +1916,7 @@ ul.task-list li input[type="checkbox"] {
 <p>This document provides a comprehensive overview of the OMOP Common Data Model (CDM) tables available in the dataset. The OMOP-CDM is a standardized data model designed to facilitate the analysis and sharing of healthcare data across different institutions and studies. By using a common structure and terminology, the OMOP-CDM enables researchers to perform large-scale observational research and generate real-world evidence.</p>
 <p>In this data dictionary, you will find detailed descriptions of each table and its columns, including data types, requirements, and any specific operations applied to the data. This information is crucial for understanding the structure and content of the dataset, ensuring accurate and meaningful analysis.</p>
 <p><strong>Version History</strong>: The data lake has evolved from OMOP CDM 5.3.1 (used in February-August 2025 releases) to OMOP CDM 5.4.2 (November 2025 release). The November 2025 upgrade includes new tables, enhanced field linking capabilities, updated naming conventions, and vocabulary modernization from January 2023 to August 2025. For detailed information about CDM changes, see the <a href="https://ohdsi.github.io/CommonDataModel/cdm54Changes.html">OHDSI CDM 5.4 Changes</a>.</p>
-<p>February 2026 release includes additional clinical tables such as <code>_whole_slide_imaging</code> and <code>_variant_occurrence</code> that are not part of the standard OMOP CDM 5.4.2 but have been added to support the oncology use case. These tables are described in the data dictionary section for the February 2026 release.</p>
+<p>The February 2026 release includes additional clinical tables, such as <code>_whole_slide_imaging</code> and <code>_variant_occurrence</code>, that are not part of the standard OMOP CDM 5.4.2 but were added to support the oncology use case. The August 2026 release additionally includes <code>_external_death_table</code>. These tables are described in the corresponding release sections of the data dictionary.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">OMOP CDM 5.4.2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">OMOP CDM 5.3.1</a></li></ul>
 <div class="tab-content">
@@ -2006,6 +2006,19 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Please Note:</strong> The current ETL pipeline does not populate the following tables, which are empty for each release: <code>cost</code>, <code>dose_era</code>, <code>cohort_definition</code>, <code>specimen</code>, <code>source_to_concept_map</code>, <code>note_nlp</code>, <code>episode_event</code>, <code>condition_era</code>, and <code>cohort</code>. These tables remain part of the OMOP schema for standardization and future compatibility, but no source data is currently mapped or loaded into them for this release.</p>
 </div>
 </div>
 </section>
