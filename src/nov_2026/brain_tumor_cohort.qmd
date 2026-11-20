@@ -1,0 +1,146 @@
+---
+title: "Pediatric Brain Tumor Cohort"
+execute:
+  echo: false
+---
+```{r setup, include=FALSE}
+rm(list = ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+source("/workspaces/starr-oncology-data-lake-arpah/src/nov_2026/_brain_tumor_metrics.R")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2026/sql_params.yml"
+sql_directory <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/common/brain_tumor"
+```
+
+```{r cohort sql, message=FALSE, warning=FALSE, results='hide'}
+library(dplyr)
+library(DT)
+library(plotly)
+
+# Unified color palette
+color_palette <- c('#80CBC4', '#FFCC80', '#CE93D8', '#A5D6A7', '#90CAF9', '#F48FB1')
+
+res_summary <- fetch_data_from_sql_file(file.path(sql_directory, "cohort_summary.sql"), yaml_file_path, release = "nov_2026")
+res_demo <- fetch_data_from_sql_file(file.path(sql_directory, "demographics.sql"), yaml_file_path, release = "nov_2026")
+note_coverage <- brain_tumor_coverage("Clinical Notes", yaml_file_path)
+
+summary_count <- function(order) {
+  res_summary %>% filter(display_order == order) %>% pull(patient_count)
+}
+summary_pct <- function(order) {
+  res_summary %>% filter(display_order == order) %>% pull(percentage)
+}
+
+age_levels <- c("0-4", "5-9", "10-14", "15-18")
+
+```
+
+### Summary
+
+The **Pediatric Brain Tumor Cohort** identifies patients in the November 2026 oncology OMOP dataset (IRB76049) who were diagnosed with a brain tumor between birth and 18 years of age. This cohort supports analysis of the demographics, diagnoses, and available data sources for pediatric neuro-oncology patients.
+
+### Cohort Definition
+
+The cohort includes patients with a qualifying condition represented by one of the following OMOP concept IDs or its descendants. The index date is the earliest qualifying condition start date, and patients must be between 0 and 18 years old (inclusive) at the index date.
+
+| OMOP Concept ID | OMOP Concept Name | Vocabulary |
+|---:|---|---|
+| 373724 | Neoplasm of brain | SNOMED |
+| 4239871 | Benign neoplasm of central nervous system | SNOMED |
+| 4247822 | Primary malignant neoplasm of central nervous system | SNOMED |
+| 36558882 | Teratoma, benign of overlapping lesion of brain and central nervous system | ICD-O |
+
+### Patient Summary
+
+As of November 2026, the cohort includes **`r format(summary_count(1), big.mark = ",")`** unique patients. Of these, **`r format(summary_count(4), big.mark = ",")`** (**`r summary_pct(4)`%**) have a *Primary malignant neoplasm of central nervous system* (4247822) diagnosis, **`r format(summary_count(3), big.mark = ",")`** (**`r summary_pct(3)`%**) have a *Benign neoplasm of central nervous system* (4239871) diagnosis, and **`r format(summary_count(2), big.mark = ",")`** (**`r summary_pct(2)`%**) have a *Neoplasm of brain* (373724) diagnosis. Each diagnosis includes its OMOP descendant concepts.
+
+```{r cohort summary table, message=FALSE, warning=FALSE}
+res_summary %>%
+  arrange(display_order) %>%
+  select(metric, patient_count, percentage) %>%
+  datatable(
+    colnames = c("Patient Summary", "Unique Patients", "% Patients"),
+    options = list(dom = 't'),
+    rownames = FALSE
+  )
+```
+
+::: {.callout-tip}
+Patients are counted once using `person_id`. The OMOP concept categories are not mutually exclusive, so a patient may be counted in more than one category. Percentages use the total pediatric brain tumor cohort as the denominator.
+:::
+
+### Demographic Summary
+
+The demographic summaries use the pediatric brain tumor cohort as the denominator, with one row per patient within each characteristic.
+
+::: {.panel-tabset}
+
+## Age at Index
+
+```{r demo age, message=FALSE, warning=FALSE}
+age_data <- res_demo %>% filter(characteristic == "Age at index")
+patient_bar_chart(age_data, "category", "Unique Patients by Age at Index", color_palette[1],
+                  order_levels = age_levels)
+```
+
+## Sex
+
+```{r demo sex, message=FALSE, warning=FALSE}
+patient_bar_chart(res_demo %>% filter(characteristic == "Sex"), "category",
+                  "Unique Patients by Sex", color_palette[2])
+```
+
+## Race
+
+```{r demo race, message=FALSE, warning=FALSE}
+patient_bar_chart(res_demo %>% filter(characteristic == "Race"), "category",
+                  "Unique Patients by Race", color_palette[3])
+```
+
+## Ethnicity
+
+```{r demo ethnicity, message=FALSE, warning=FALSE}
+patient_bar_chart(res_demo %>% filter(characteristic == "Ethnicity"), "category",
+                  "Unique Patients by Ethnicity", color_palette[4])
+```
+
+## Summary Table
+
+```{r demo table, message=FALSE, warning=FALSE}
+res_demo %>%
+  select(characteristic, category, patient_count, percentage) %>%
+  datatable(
+    colnames = c("Characteristic", "Category", "Unique Patients", "% Patients"),
+    options = list(pageLength = 15, dom = 'ftp'),
+    rownames = FALSE
+  )
+```
+
+:::
+
+### Data Availability
+
+Clinical note coverage is shown below. See [imaging by modality](image_occ.qmd#pediatric-brain-tumor) and [genomic testing by test name](variant_occ.qmd#pediatric-brain-tumor) for the corresponding cohort metrics. A patient can have both radiology and pathology notes.
+
+::: {.panel-tabset}
+
+## Clinical Notes
+
+```{r coverage notes, message=FALSE, warning=FALSE}
+patient_bar_chart(note_coverage, "data_source",
+                  "Unique Patients with Radiology or Pathology Notes", color_palette[6], record_label = "Notes")
+```
+
+## Summary Table
+
+```{r coverage table, message=FALSE, warning=FALSE}
+coverage_table(note_coverage, "Note Source", "Notes")
+```
+
+:::
+
+::: {.callout-tip}
+Percentages are relative to the total pediatric brain tumor cohort. Results contain PHI and are subject to the access and reporting controls required for PHI-containing data.
+:::
+
+### Source Code
+The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2026/brain_tumor_cohort.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/common/brain_tumor).

@@ -31,5 +31,6 @@
   },
   "[quarto]": {
     "editor.defaultFormatter": "quarto.quarto"
-  }
+  },
+  "r.sessionWatcher": false
 }

@@ -9,11 +9,11 @@ library(DT)
 library(dplyr)
 ```
 
-This page provides an overview of the VISTA Oncology Data Lake's evolution across multiple releases, showcasing the progressive expansion and maturation of our comprehensive cancer research platform. The data lake has grown substantially from February 2025 through August 2026, with significant increases in patient coverage, data source integration, and analytical capabilities, including the addition of whole slide imaging, detailed genomic variant data, external death records, and Neural Frame event data.
+This page tracks eight VISTA Oncology Data Lake releases from February 2025 through November 2026. It shows when data sources were added, how patient records can be linked across sources, and which cohorts are available for focused analyses.
 
 ## Release Overview
 
-The VISTA Oncology Data Lake represents a multi-institutional effort to create a comprehensive, longitudinal cancer research resource. Through systematic data releases from February 2025 through August 2026, the platform has grown from approximately 200,000 to over 220,000 patients, progressively integrating clinical OMOP data, NeuralFrame registry records, medical imaging, and molecular testing from Philips ISPM. This evolution includes specialized datasets such as the HIPPO benchmark corpus and CAP pathology forms, alongside the development of disease-specific sub-cohorts for focused research applications. The November 2025 release introduced a major OMOP 5.4 upgrade with modernized vocabularies and enhanced ETL pipelines. The February 2026 release added whole slide imaging (WSI) and a custom variant occurrence table for granular genomic data. The May 2026 release expanded WSI coverage, introduced the OMOP episode table for treatment plan analysis, and added Heme-STAMP variants to the variant occurrence table. The August 2026 release introduces several new sources including external death records, Neural Frame event data, and an expanded set of genetic variant tests (Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel) while continuing to refresh existing sources, marking continued advancements in multi-modal data integration and research capabilities.
+VISTA has grown from approximately 200,000 to over 220,000 patients. Early releases linked OMOP clinical records with the NeuralFrame cancer registry, medical imaging, and Philips ISPM molecular testing, and added resources such as the HIPPO benchmark and CAP pathology forms. The November 2025 release upgraded OMOP to version 5.4. The February and May 2026 releases added whole slide imaging, genomic variant records, and treatment episodes. August 2026 added external death records, NeuralFrame event data, and additional genetic tests. November 2026 added three more test families to the variant occurrence table, refreshed the clinical and registry data, and introduced a report on the Pediatric Brain Tumor Cohort.
 
 ![VISTA Oncology Data Lake](png_files/vista_plot.png)
 
@@ -25,28 +25,31 @@ The following chart shows when each major data source became available in the da
 library(plotly)
 library(dplyr)
 
+latest_end <- "2026-11-30"
 timeline <- tribble(
   ~Source,                            ~Category,      ~Start,         ~End,           ~Status,
   # OMOP CDM and custom OMOP extensions
   "OMOP CDM 5.3.1",                   "OMOP",         "2025-02-01",   "2025-11-01",   "Superseded",
-  "OMOP CDM 5.4.2",                   "OMOP",         "2025-11-01",   "2026-08-31",   "Active",
-  "OMOP Image Occurrence",            "OMOP",         "2025-02-01",   "2026-08-31",   "Active",
-  "Episode Table",                    "OMOP",         "2026-05-01",   "2026-08-31",   "Active",
-  "External Death Records",           "OMOP",         "2026-08-01",   "2026-08-31",   "Active",
-  "Whole Slide Imaging (WSI)",        "OMOP",         "2026-02-01",   "2026-08-31",   "Active",
-  "Variant Occurrence (STAMP)",       "OMOP",         "2026-02-01",   "2026-08-31",   "Active",
-  "Variant Occurrence (Heme-STAMP)",  "OMOP",         "2026-05-01",   "2026-08-31",   "Active",
-  "Variant Occurrence (Expanded Panels)", "OMOP",      "2026-08-01",   "2026-08-31",   "Active",
+  "OMOP CDM 5.4",                     "OMOP",         "2025-11-01",   latest_end,     "Active",
+  "OMOP Image Occurrence",            "OMOP",         "2025-02-01",   latest_end,     "Active",
+  "Episode Table",                    "OMOP",         "2026-05-01",   latest_end,     "Active",
+  "External Death Records",           "OMOP",         "2026-08-01",   latest_end,     "Active",
+  "Whole Slide Imaging (WSI)",        "OMOP",         "2026-02-01",   latest_end,     "Active",
+  "Variant Occurrence (STAMP)",       "OMOP",         "2026-02-01",   latest_end,     "Active",
+  "Variant Occurrence (Heme-STAMP)",  "OMOP",         "2026-05-01",   latest_end,     "Active",
+  "Variant Occurrence (Expanded Panels)", "OMOP",      "2026-08-01",   latest_end,     "Active",
+  "Variant Occurrence (Nov 2026 tests)", "OMOP",       "2026-11-01",   latest_end,     "Active",
   # NeuralFrame Registry
-  "NeuralFrame Registry",             "NeuralFrame",  "2025-02-01",   "2026-08-31",   "Active",
-  "NeuralFrame Event Data",           "NeuralFrame",  "2026-08-01",   "2026-08-31",   "Active",
+  "NeuralFrame Registry",             "NeuralFrame",  "2025-02-01",   latest_end,     "Active",
+  "NeuralFrame Event Data",           "NeuralFrame",  "2026-08-01",   latest_end,     "Active",
   # Molecular (external sources)
   "Philips ISPM",                     "Molecular",    "2025-05-01",   "2026-02-01",   "Discontinued",
   "STAMP Add-On Metadata",            "Molecular",    "2025-08-01",   "2025-10-31",   "Active",
   # Specialized Datasets
   "HIPPO Benchmark",                  "Specialized",  "2025-08-01",   "2025-10-31",   "Active",
   "CAP Forms",                        "Specialized",  "2025-08-01",   "2025-10-31",   "Active",
-  "Epic Media Server PDFs",           "Specialized",  "2025-08-01",   "2025-10-31",   "Active"
+  "Epic Media Server PDFs",           "Specialized",  "2025-08-01",   "2025-10-31",   "Active",
+  "Pediatric Brain Tumor Cohort report", "Specialized", "2026-11-01", latest_end,     "Active"
 ) %>%
   mutate(
     Start = as.Date(Start),
@@ -58,11 +61,11 @@ timeline <- tribble(
 
 # One row per release window; sources are split into per-release blocks
 release_periods <- data.frame(
-  Release = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026", "Aug 2026"),
+  Release = c("Feb 2025", "May 2025", "Aug 2025", "Nov 2025", "Feb 2026", "May 2026", "Aug 2026", "Nov 2026"),
   RStart  = as.Date(c("2025-02-01", "2025-05-01", "2025-08-01",
-                       "2025-11-01", "2026-02-01", "2026-05-01", "2026-08-01")),
+                       "2025-11-01", "2026-02-01", "2026-05-01", "2026-08-01", "2026-11-01")),
   REnd    = as.Date(c("2025-05-01", "2025-08-01", "2025-11-01",
-                       "2026-02-01", "2026-05-01", "2026-08-01", "2026-08-31")),
+                       "2026-02-01", "2026-05-01", "2026-08-01", "2026-11-01", latest_end)),
   stringsAsFactors = FALSE
 )
 
@@ -159,13 +162,11 @@ fig %>% layout(
     title = "",
     type  = "date",
     tickmode = "array",
-    tickvals = c("2025-02-01", "2025-05-01", "2025-08-01",
-                 "2025-11-01", "2026-02-01", "2026-05-01", "2026-08-01"),
-    ticktext = c("<b>Feb 2025</b>", "<b>May 2025</b>", "<b>Aug 2025</b>",
-                 "<b>Nov 2025</b>", "<b>Feb 2026</b>", "<b>May 2026</b>", "<b>Aug 2026</b>"),
+    tickvals = as.character(release_periods$RStart),
+    ticktext = paste0("<b>", release_periods$Release, "</b>"),
     tickangle  = -45,
     tickfont = list(size = 11, color = "#333333"),
-    range = list("2025-01-01", "2026-11-01"),
+    range = list("2025-01-01", latest_end),
     showgrid = TRUE,
     gridcolor = "#e2e2e2",
     gridwidth = 1,
@@ -200,7 +201,7 @@ fig %>% layout(
 )
 ```
 
-^[**Expanded Panels** (Aug 2026): Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel.]
+^[**Expanded Panels** (Aug 2026): Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel. **Nov 2026 tests**: JAK2 V617F quantitative PCR, Invitae germline panels, and Empower BRCA panels.]
 
 ### February 2025 - Foundation Release
 
@@ -254,7 +255,7 @@ This release modernizes the technical infrastructure while maintaining backward 
 The February 2026 release expands the data lake with whole slide imaging and detailed genomic variant data:
 
 - **Whole Slide Imaging (WSI)**: Integration of manually scanned, deidentified histopathology slides stored as TIFF image files with corresponding JSON metadata. Dataset includes only slides with order_proc_ids that can be linked to Epic Clarity to ensure appropriate patient cohort inclusion and data quality
-- **Variant Occurrence Table**: Custom STARR-OMOP table containing detailed genetic variant information from genomic testing. At initial release, this table included variants from STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests processed through Epic Genomics Suite starting August 2025. Coverage was later expanded in the May 2026 and August 2026 releases — see those sections for the current scope.
+- **Variant Occurrence Table**: Custom STARR-OMOP table containing detailed genetic variant information from genomic testing. At initial release, this table included variants from STAMP (Stanford Actionable Mutation Panel for Solid Tumors) tests processed through Epic Genomics Suite starting August 2025. The May, August, and November 2026 releases expanded test coverage.
 
 This release significantly expands pathology imaging capabilities and provides granular genomic variant data for translational research applications.
 
@@ -273,6 +274,12 @@ The August 2026 release introduces several new data sources and expands existing
 - **External Death Records**: Integration of `_external_death_records` table capturing deaths reported outside the EHR.
 - **Neural Frame Event Data**: Addition of treatment and follow-up events from the Neural Frame cancer registry system.
 - **Expanded Genetic Variants**: Broadened coverage beyond Solid tumor STAMP, including Heme-STAMP NGS/MRD, POLE, Guardant360, and the Stanford Pharmacogenomics Panel.
+
+### November 2026 - Pediatric Brain Tumor Cohort and Additional Variant Tests
+
+The [November 2026 release](nov_2026/released_datasets.qmd) refreshes the OMOP clinical and NeuralFrame registry datasets. The new Pediatric Brain Tumor Cohort report uses existing OMOP records to identify patients aged 0 through 18 at their first recorded qualifying brain or central nervous system tumor diagnosis. It summarizes patient demographics, diagnoses, and the availability of genomic data, imaging, and clinical notes. See the [cohort report](nov_2026/brain_tumor_cohort.qmd) or its [PHI-scrubbed counterpart](deid_nov_2026/brain_tumor_cohort.qmd).
+
+The `_variant_occurrence` table now includes results from **JAK2 V617F quantitative PCR**, **Invitae germline panels**, and **Empower BRCA panels**. The [November variant occurrence report](nov_2026/variant_occ.qmd) lists the individual tests in each family.
 
 ## Release Summary Table
 
@@ -337,7 +344,15 @@ release_summary <- tibble::tribble(
   "Discontinued coverage",
   "<b>External Death Records, Neural Frame Event Data, Expanded Genetic Variants (Heme-STAMP NGS/MRD, POLE, Guardant360, Stanford Pharmacogenomics Panel)</b>",
   "Added _external_death_records table; Added Neural Frame event data; Expanded variant occurrence table with new genetic tests",
-  "N/A"
+  "N/A",
+
+  "November 2026",
+  "OMOP CDM 5.4 (refreshed)",
+  "Refreshed registry and event data",
+  "November 2025 snapshot; no new data",
+  "Updated clinical and registry records; added JAK2 V617F quantitative PCR, Invitae germline, and Empower BRCA results to variant occurrence",
+  "No new schema required for the cohort report",
+  "<b>Pediatric Brain Tumor Cohort report</b>"
 )
 
 # Format the table with improved styling
@@ -354,7 +369,7 @@ datatable(
   ),
   caption = "Data Lake Evolution: Release Comparison Summary",
   options = list(
-    pageLength = 7,
+    paging = FALSE,
     dom = 't',
     ordering = FALSE,
     columnDefs = list(
@@ -476,7 +491,7 @@ identifier_keys <- tibble::tribble(
   "Not available",
   "Not available",
   "person_id"
-)
+) %>% mutate(November_2026 = August_2026)
 
 # Format the table
 datatable(
@@ -489,7 +504,8 @@ datatable(
     "November 2025",
     "February 2026",
     "May 2026",
-    "August 2026"
+    "August 2026",
+    "November 2026"
   ),
   caption = "Patient Identifier Keys Evolution by Dataset and Release",
   options = list(
@@ -497,9 +513,9 @@ datatable(
     dom = 't',
     columnDefs = list(
       list(width = '16%', targets = 0),
-      list(width = '12%', targets = 1:7),
+      list(width = '10.5%', targets = 1:8),
       list(className = 'dt-left', targets = 0),
-      list(className = 'dt-center', targets = 1:7)
+      list(className = 'dt-center', targets = 1:8)
     ),
     scrollX = TRUE
   ),
@@ -508,11 +524,11 @@ datatable(
   class = 'cell-border stripe'
 ) %>%
   formatStyle(
-    columns = 0:7,
+    columns = 0:8,
     fontSize = '12px'
   ) %>%
   formatStyle(
-    columns = 1:7,
+    columns = 1:8,
     backgroundColor = styleEqual(
       c("Not available", "Discontinued coverage"),
       c('#f0f0f0', '#f9f7f7')
@@ -549,10 +565,9 @@ The transition from MRN/DOB combinations to standardized identifiers (person_id,
 
 ## Multi-Release Statistical Overview
 
-For detailed statistical analysis and interactive visualizations of data coverage trends across all releases, see the [Data Coverage Trends](may_2026/data_coverage_trends.qmd) page.
-For PHI Scrubbed data coverage trends, see the [PHI Scrubbed Data Coverage Trends](deid_may_2026/deid_data_coverage_trends.qmd) page.
+For trends across all eight releases, see [Data Coverage Trends](nov_2026/data_coverage_trends.qmd) or [PHI-Scrubbed Data Coverage Trends](deid_nov_2026/deid_data_coverage_trends.qmd).
 
-For each data release (February 2025 to August 2026), we examine:
+For each data release (February 2025 to November 2026), we examine:
 
 - Demographic characteristics (cohort size, age distribution, gender, race)
 - Data source coverage across integrated systems (NeuralFrame, Philips ISPM, Imaging, Tumor Board)
