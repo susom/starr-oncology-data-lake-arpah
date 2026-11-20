@@ -34,6 +34,17 @@ Stanford’s Cancer Registry (SCR), currently managed by Neuralframe KACI, inclu
 
 *Not all EHR data is allowed for research- for more details, see the [STARR Electronic Health Record documentation](https://starr.stanford.edu/data-types/electronic-health-record).
 
+### PCx: Pediatric Brain Tumor Cohort
+
+The PCx cohort includes VISTA patients who were 0 to 18 years old (inclusive) on the first recorded date of a qualifying brain or central nervous system tumor diagnosis in the oncology OMOP dataset. Qualifying diagnoses include both benign and malignant tumors and are identified using four OMOP concepts and their descendants.
+
+| OMOP Concept ID | OMOP Concept Name | Vocabulary |
+|---:|---|---|
+| 373724 | Neoplasm of brain | SNOMED |
+| 4239871 | Benign neoplasm of central nervous system | SNOMED |
+| 4247822 | Primary malignant neoplasm of central nervous system | SNOMED |
+| 36558882 | Teratoma, benign of overlapping lesion of brain and central nervous system | ICD-O |
+
 ### Data Architecture, Privacy and Security
 
 The VISTA data lake uses Google Cloud Platform to develop and deliver the assets. The datasets are made available as BigQuery datasets. Google BigQuery is a fully managed, serverless, HIPAA-compliant enterprise data platform optimized for high-performance analytics on massive, multimodal biomedical datasets. Using a decoupled storage-and-compute architecture, enables investigators to execute complex SQL queries in seconds.

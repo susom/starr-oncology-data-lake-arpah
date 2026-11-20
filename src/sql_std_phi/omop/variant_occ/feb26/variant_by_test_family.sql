@@ -1,7 +1,8 @@
 --------------------------------------------------------------------
 -- Variant, patient, and test counts by test name, grouped into
 -- higher-level test families (Solid tumor STAMP, Heme-STAMP NGS,
--- Heme-STAMP MRD, POLE, Guardant360, Pharmacogenomics Panel).
+-- Heme-STAMP MRD, POLE, Guardant360, Pharmacogenomics Panel,
+-- JAK2 V617F PCR, Invitae Germline, Empower BRCA).
 --------------------------------------------------------------------
 
 SELECT
@@ -26,6 +27,12 @@ SELECT
     ) THEN 'Guardant360'
     WHEN UPPER(test_name) = 'PHARMACOGENOMICS PANEL (STANFORD)'
       THEN 'Pharmacogenomics Panel (Stanford)'
+    WHEN UPPER(test_name) LIKE 'JAK2 V617F%'
+      THEN 'JAK2 V617F PCR'
+    WHEN UPPER(test_name) LIKE 'INVITAE%'
+      THEN 'Invitae Germline'
+    WHEN UPPER(test_name) LIKE 'EMPOWER BRCA%'
+      THEN 'Empower BRCA'
     ELSE 'Other / Unmapped'
   END AS test_family,
   test_name,
