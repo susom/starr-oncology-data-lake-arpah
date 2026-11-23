@@ -409,5 +409,19 @@ plot_ly(res_bar,
 ```
 :::
 
+## Pediatric Brain Tumor
+
+```{r pediatric-brain-tumor-board, include=FALSE}
+brain_sql_dir <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std/common/brain_tumor"
+brain_tb <- fetch_data_from_sql_file(
+  file.path(brain_sql_dir, "tumor_board_encounters.sql"), yaml_file_path,
+  release = "nov_2026", cohort_sql_file = file.path(brain_sql_dir, "cohort_definition.sql")
+)
+```
+
+In the November 2026 [pediatric brain tumor cohort](brain_tumor_cohort.qmd), **`r format(brain_tb$tumor_board_patients, big.mark = ",")` of `r format(brain_tb$cohort_patients, big.mark = ",")` patients** had at least one tumor board encounter, across **`r format(brain_tb$tumor_board_encounters, big.mark = ",")` distinct encounters**.
+
+Patients were aged 0 through 18 at their first qualifying diagnosis. Encounters are counted at any age when `visit_source_value` in OMOP `visit_occurrence` contains “tumor board” (case-insensitive). This identifies a recorded tumor board visit, not necessarily a brain tumor-specific board.
+
 ### Source Codes:
 The source codes for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/deid_nov_2026/tumor_board_updated.qmd), and the sql queries that support the metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/tumor_board). 

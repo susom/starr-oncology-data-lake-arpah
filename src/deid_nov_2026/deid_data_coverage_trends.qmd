@@ -665,6 +665,7 @@ plot_ly(
 
 :::
 
+
 ## **Tumor Board and Thoracic Cancer Cohorts** ##
 
 The VISTA Oncology Data Lake includes specialized sub-cohorts for tumor board patients and thoracic cancer cases, enabling focused research on multidisciplinary care coordination and disease-specific outcomes. These curated cohorts demonstrate the platform's capability to support both population-level analyses and targeted clinical investigations.

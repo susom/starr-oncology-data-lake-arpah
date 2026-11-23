@@ -117,30 +117,6 @@ res_demo %>%
 
 :::
 
-### Data Availability
-
-Clinical note coverage is shown below. See [imaging by modality](image_occ.qmd#pediatric-brain-tumor) and [genomic testing by test name](variant_occ.qmd#pediatric-brain-tumor) for the corresponding cohort metrics. A patient can have both radiology and pathology notes.
-
-::: {.panel-tabset}
-
-## Clinical Notes
-
-```{r coverage notes, message=FALSE, warning=FALSE}
-patient_bar_chart(note_coverage, "data_source",
-                  "Unique Patients with Radiology or Pathology Notes", color_palette[6], record_label = "Notes")
-```
-
-## Summary Table
-
-```{r coverage table, message=FALSE, warning=FALSE}
-coverage_table(note_coverage, "Note Source", "Notes")
-```
-
-:::
-
-::: {.callout-tip}
-Percentages are relative to the total pediatric brain tumor cohort. Results contain PHI and are subject to the access and reporting controls required for PHI-containing data.
-:::
 
 ### Source Code
 The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/nov_2026/brain_tumor_cohort.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std_phi/common/brain_tumor).

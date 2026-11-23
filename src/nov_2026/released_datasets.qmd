@@ -11,7 +11,6 @@ This document provides a list of datasets as part of the November 2026 release. 
 | `som-rit-phi-oncology-prod.oncology_omop54_phi_irb76049_nov2026`| Oncology OMOP-CDM v5.4.1 dataset with PHI|
 | `som-rit-phi-oncology-prod.oncology_omop54_confidential_irb76049_nov2026`| Oncology OMOP-CDM v5.4.1 dataset with PHI Scrubbed|
 
-
 ### NeuralFrame Datasets
 | Dataset Name | Description |
 |:------------|:------------|
