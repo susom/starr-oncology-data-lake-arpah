@@ -58,7 +58,7 @@ fetch_data_from_sql <- function(sql) {
 }
 ```
 
-```{r, message=FALSE, warning=FALSE, results='hide'}
+```{r, message=FALSE, warning=FALSE, results='hide', eval=FALSE}
 sql <- "
 with identifiers as (
           select distinct stanford_patient_uid, 
@@ -121,7 +121,7 @@ FROM
 df_demographics <- fetch_data_from_sql(sql)
 ```
 
-```{r,message=FALSE, warning=FALSE}
+```{r,message=FALSE, warning=FALSE, eval=FALSE}
 library(table1)  
 table1(~ Age + Race + Ethnicity | Sex , df_demographics)
 ```

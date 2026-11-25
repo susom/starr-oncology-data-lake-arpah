@@ -20,14 +20,7 @@ color_palette <- c('#80CBC4', '#FFCC80', '#CE93D8', '#A5D6A7', '#90CAF9', '#F48F
 
 res_summary <- fetch_data_from_sql_file(file.path(sql_directory, "cohort_summary.sql"), yaml_file_path, release = "nov_2026")
 res_demo <- fetch_data_from_sql_file(file.path(sql_directory, "demographics.sql"), yaml_file_path, release = "nov_2026")
-res_coverage <- fetch_data_from_sql_file(file.path(sql_directory, "data_source_coverage.sql"), yaml_file_path, release = "nov_2026")
-
-summary_count <- function(order) {
-  res_summary %>% filter(display_order == order) %>% pull(patient_count)
-}
-summary_pct <- function(order) {
-  res_summary %>% filter(display_order == order) %>% pull(percentage)
-}
+cohort_size <- res_summary %>% filter(display_order == 1) %>% pull(patient_count)
 
 age_levels <- c("0-4", "5-9", "10-14", "15-18")
 
@@ -75,37 +68,7 @@ patient_bar_chart <- function(data, label_col, title, color, top_n = 20, order_l
 
 ### Summary
 
-The **Pediatric Brain Tumor Cohort** identifies patients in the November 2026 oncology OMOP dataset (IRB76049) who were diagnosed with a brain tumor between birth and 18 years of age. This cohort supports analysis of the demographics, diagnoses, and available data sources for pediatric neuro-oncology patients.
-
-### Cohort Definition
-
-The cohort includes patients with a qualifying condition represented by one of the following OMOP concept IDs or its descendants. The index date is the earliest qualifying condition start date, and patients must be between 0 and 18 years old (inclusive) at the index date.
-
-| OMOP Concept ID | OMOP Concept Name | Vocabulary |
-|---:|---|---|
-| 373724 | Neoplasm of brain | SNOMED |
-| 4239871 | Benign neoplasm of central nervous system | SNOMED |
-| 4247822 | Primary malignant neoplasm of central nervous system | SNOMED |
-| 36558882 | Teratoma, benign of overlapping lesion of brain and central nervous system | ICD-O |
-
-### Patient Summary
-
-As of November 2026, the cohort includes **`r format(summary_count(1), big.mark = ",")`** unique patients. Of these, **`r format(summary_count(4), big.mark = ",")`** (**`r summary_pct(4)`%**) have a *Primary malignant neoplasm of central nervous system* (4247822) diagnosis, **`r format(summary_count(3), big.mark = ",")`** (**`r summary_pct(3)`%**) have a *Benign neoplasm of central nervous system* (4239871) diagnosis, and **`r format(summary_count(2), big.mark = ",")`** (**`r summary_pct(2)`%**) have a *Neoplasm of brain* (373724) diagnosis. Each diagnosis includes its OMOP descendant concepts.
-
-```{r cohort summary table, message=FALSE, warning=FALSE}
-res_summary %>%
-  arrange(display_order) %>%
-  select(metric, patient_count, percentage) %>%
-  datatable(
-    colnames = c("Patient Summary", "Unique Patients", "% Patients"),
-    options = list(dom = 't'),
-    rownames = FALSE
-  )
-```
-
-::: {.callout-tip}
-Patients are counted once using `person_id`. The OMOP concept categories are not mutually exclusive, so a patient may be counted in more than one category. Percentages use the total pediatric brain tumor cohort as the denominator.
-:::
+The November 2026 oncology OMOP dataset (IRB76049) includes **`r format(cohort_size, big.mark = ",")`** unique patients who were 0 to 18 years old at their first qualifying brain tumor diagnosis (the index date).
 
 ### Demographic Summary
 
@@ -156,50 +119,3 @@ res_demo %>%
 
 :::
 
-### Data Availability
-
-The following summaries link the pediatric brain tumor cohort to genomic, imaging, and clinical note data in the OMOP tables. A patient may have more than one test, modality, or note source, so counts across categories are not mutually exclusive.
-
-::: {.panel-tabset}
-
-## Genomic Testing
-
-```{r coverage genomic, message=FALSE, warning=FALSE}
-patient_bar_chart(res_coverage %>% filter(coverage_type == "Genomic Testing"), "data_source",
-                  "Unique Patients by Genomic Test", color_palette[1], record_label = "Tests")
-```
-
-## Imaging Modality
-
-```{r coverage imaging, message=FALSE, warning=FALSE}
-patient_bar_chart(res_coverage %>% filter(coverage_type == "Imaging Modality"), "data_source",
-                  "Unique Patients by Imaging Modality", color_palette[5], record_label = "Images")
-```
-
-## Clinical Notes
-
-```{r coverage notes, message=FALSE, warning=FALSE}
-patient_bar_chart(res_coverage %>% filter(coverage_type == "Clinical Notes"), "data_source",
-                  "Unique Patients with Radiology or Pathology Notes", color_palette[6], record_label = "Notes")
-```
-
-## Summary Table
-
-```{r coverage table, message=FALSE, warning=FALSE}
-res_coverage %>%
-  select(coverage_type, data_source, patient_count, record_count, percentage) %>%
-  datatable(
-    colnames = c("Coverage Type", "Data Source", "Unique Patients", "Records (Tests / Images / Notes)", "% Patients"),
-    options = list(pageLength = 15, dom = 'ftp'),
-    rownames = FALSE
-  )
-```
-
-:::
-
-::: {.callout-tip}
-Percentages are relative to the total pediatric brain tumor cohort. Results are PHI-scrubbed and aggregated.
-:::
-
-### Source Code
-The source code for this page can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/deid_nov_2026/brain_tumor_cohort.qmd), and the SQL queries that support these metrics can be found [here](https://github.com/susom/starr-oncology-data-lake-arpah/tree/main/src/sql_std/common/brain_tumor).

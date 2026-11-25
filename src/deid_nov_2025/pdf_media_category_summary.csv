@@ -1,0 +1,17 @@
+"document_category","total_documents","unique_subtypes","max_patients_reached","avg_docs_per_patient","max_coverage_pct"
+"Clinical Notes & Documentation",1634488,12,119578,2.51,100
+"Consent & Legal Documents",416795,15,74421,1.49,62.24
+"Attachments & Uploads",319984,4,57911,3.03,48.43
+"Laboratory & Genetic Testing",300215,26,55864,1.54,46.72
+"Research & Studies",271720,4,47097,2.26,39.39
+"Radiology & Imaging",250359,30,17401,1.6,14.55
+"Other/Miscellaneous",236642,34,18393,1.7,15.38
+"Emergency & Urgent Care",171187,4,29782,2.53,24.91
+"External/Outside Records",117630,46,34328,1.39,28.71
+"Surgery & Procedures",28252,4,16106,1.49,13.47
+"Administrative Documents",19014,24,3108,1.41,2.6
+"Orders & Prescriptions",1201,8,574,2.09,0.48
+"Patient Education & Instructions",957,3,604,4.42,0.51
+"Correspondence & Communication",225,5,160,1.67,0.13
+"Clinical Photography",164,11,37,1.66,0.03
+"Transplant Related",45,3,28,1.05,0.02
