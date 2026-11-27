@@ -18,6 +18,7 @@ project:
    - feb_2026/*
    - may_2026/*
    - aug_2026/*
+   - nov_2026/*
    - deid_aug_2025/*
    - deid_nov_2025/*
    - deid_feb_2026/*
@@ -25,6 +26,7 @@ project:
    - deid_feb_2025/*
    - deid_may_2026/*
    - deid_aug_2026/*
+   - deid_nov_2026/*
    - cap_forms_data_dict/*
    - dicom_data_dict/*
    - epic_media_server_dict/*
@@ -255,6 +257,30 @@ website:
                     href: aug_2026/episode_table.qmd
                   - text: "External Death Records"
                     href: aug_2026/external_death_records.qmd
+              - section: "November 2026"
+                href: nov_2026/metrics_clinical.qmd
+                contents:
+                  - section: "Neural Frame"
+                    href: nov_2026/neural_frame.qmd
+                    contents:
+                      - text: "Event Table"
+                        href: nov_2026/neural_frame_event_table.qmd
+                  - text: "Image Occurrence"
+                    href: nov_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: nov_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: nov_2026/tumor_board_updated.qmd
+                  - text: "Pediatric Brain Tumor Cohort"
+                    href: nov_2026/brain_tumor_cohort.qmd
+                  - text: "Whole Slide Imaging"
+                    href: nov_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: nov_2026/variant_occ.qmd
+                  - text: "Episode Table"
+                    href: nov_2026/episode_table.qmd
+                  - text: "External Death Records"
+                    href: nov_2026/external_death_records.qmd
           - section: "PHI Scrubbed Data Metrics"
             href: deid_data_metrics.qmd
             contents:
@@ -347,6 +373,28 @@ website:
                     href: deid_aug_2026/episode_table.qmd
                   - text: "External Death Records"
                     href: deid_aug_2026/external_death_records.qmd
+              - section: "November 2026"
+                href: deid_nov_2026/metrics_clinical.qmd
+                contents:
+                  - section: "Neural Frame"
+                    href: deid_nov_2026/neural_frame.qmd
+                    contents:
+                      - text: "Event Table"
+                        href: deid_nov_2026/neural_frame_event_table.qmd
+                  - text: "Image Occurrence"
+                    href: deid_nov_2026/image_occ.qmd
+                  - text: "Philips ISPM"
+                    href: deid_nov_2026/philips_metrics.qmd
+                  - text: "Tumor Board"
+                    href: deid_nov_2026/tumor_board_updated.qmd
+                  - text: "Whole Slide Imaging"
+                    href: deid_nov_2026/whole_slide_imaging.qmd
+                  - text: "Genetic Variants"
+                    href: deid_nov_2026/variant_occ.qmd
+                  - text: "Episode Table"
+                    href: deid_nov_2026/episode_table.qmd
+                  - text: "External Death Records"
+                    href: deid_nov_2026/external_death_records.qmd
       - section: "Data Labeling and Modeling"
         href: data_labeling.qmd
         contents:
@@ -425,4 +473,5 @@ format:
     smooth-scroll: true
 
 execute:
+  freeze: true
   lib-dir: /home/rstudio/renv/library/linux-ubuntu-noble/R-4.4/aarch64-unknown-linux-gnu

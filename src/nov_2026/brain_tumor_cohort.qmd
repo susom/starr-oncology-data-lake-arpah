@@ -1,0 +1,83 @@
+---
+title: "Pediatric Brain Tumor Cohort"
+execute:
+  echo: false
+---
+```{r setup, include=FALSE}
+rm(list = ls())
+source("/workspaces/starr-oncology-data-lake-arpah/src/R/all_function.R", encoding = "UTF-8")
+source("/workspaces/starr-oncology-data-lake-arpah/src/nov_2026/_brain_tumor_metrics.R")
+yaml_file_path <- "/workspaces/starr-oncology-data-lake-arpah/src/nov_2026/sql_params.yml"
+sql_directory <- "/workspaces/starr-oncology-data-lake-arpah/src/sql_std_phi/common/brain_tumor"
+```
+
+```{r cohort sql, message=FALSE, warning=FALSE, results='hide'}
+library(dplyr)
+library(DT)
+library(plotly)
+
+# Unified color palette
+color_palette <- c('#80CBC4', '#FFCC80', '#CE93D8', '#A5D6A7', '#90CAF9', '#F48FB1')
+
+res_summary <- fetch_data_from_sql_file(file.path(sql_directory, "cohort_summary.sql"), yaml_file_path, release = "nov_2026")
+res_demo <- fetch_data_from_sql_file(file.path(sql_directory, "demographics.sql"), yaml_file_path, release = "nov_2026")
+cohort_size <- res_summary %>% filter(display_order == 1) %>% pull(patient_count)
+
+age_levels <- c("0-4", "5-9", "10-14", "15-18")
+
+```
+
+### Summary
+
+The November 2026 oncology OMOP dataset (IRB76049) includes **`r format(cohort_size, big.mark = ",")`** unique patients who were 0 to 18 years old at their first qualifying brain tumor diagnosis (the index date).
+
+### Demographic Summary
+
+The demographic summaries use the pediatric brain tumor cohort as the denominator, with one row per patient within each characteristic.
+
+::: {.panel-tabset}
+
+## Age at Index
+
+```{r demo age, message=FALSE, warning=FALSE}
+age_data <- res_demo %>% filter(characteristic == "Age at index")
+patient_bar_chart(age_data, "category", "Unique Patients by Age at Index", color_palette[1],
+                  order_levels = age_levels)
+```
+
+## Sex
+
+```{r demo sex, message=FALSE, warning=FALSE}
+patient_bar_chart(res_demo %>% filter(characteristic == "Sex"), "category",
+                  "Unique Patients by Sex", color_palette[2])
+```
+
+## Race
+
+```{r demo race, message=FALSE, warning=FALSE}
+patient_bar_chart(res_demo %>% filter(characteristic == "Race"), "category",
+                  "Unique Patients by Race", color_palette[3])
+```
+
+## Ethnicity
+
+```{r demo ethnicity, message=FALSE, warning=FALSE}
+patient_bar_chart(res_demo %>% filter(characteristic == "Ethnicity"), "category",
+                  "Unique Patients by Ethnicity", color_palette[4])
+```
+
+## Summary Table
+
+```{r demo table, message=FALSE, warning=FALSE}
+res_demo %>%
+  select(characteristic, category, patient_count, percentage) %>%
+  datatable(
+    colnames = c("Characteristic", "Category", "Unique Patients", "% Patients"),
+    options = list(pageLength = 15, dom = 'ftp'),
+    rownames = FALSE
+  )
+```
+
+:::
+
+

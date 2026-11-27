@@ -54,6 +54,12 @@ The August 2026 release is the seventh release of the dataset. It refreshes exis
 
 - [August 2026 PHI Scrubbed Metrics](deid_aug_2026/metrics_clinical.qmd)
 
+### November 2026
+
+The November 2026 PHI-scrubbed release updates the VISTA oncology data lake and introduces a Pediatric Brain Tumor Cohort page summarizing demographics and data availability (genomic, imaging, and clinical notes) for patients diagnosed with a brain tumor between birth and 18 years of age.
+
+- [November 2026 PHI Scrubbed Metrics](deid_nov_2026/metrics_clinical.qmd)
+- [November 2026 Pediatric Brain Tumor Cohort](deid_nov_2026/brain_tumor_cohort.qmd)
 
 ## Future Releases
 

@@ -293,7 +293,7 @@ library(yaml)
 library(glue)
 library(stringr)
 
-fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = NULL) {
+fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = NULL, cohort_sql_file = NULL) {
 
   credentials_path <- "/home/rstudio/.config/gcloud/application_default_credentials.json"
 
@@ -339,6 +339,10 @@ fetch_data_from_sql_file <- function(sql_file_path, yaml_file_path, release = NU
 
   # Read and process SQL file
   sql_query <- readLines(sql_file_path, warn = FALSE) %>% paste(collapse = "\n")
+  if (!is.null(cohort_sql_file)) {
+    cohort_query <- paste(readLines(cohort_sql_file, warn = FALSE), collapse = "\n")
+    sql_query <- paste0("WITH cohort AS (\n", sub(";\\s*$", "", cohort_query), "\n)\n", sql_query)
+  }
   sql_query <- replace_placeholders(sql_query, sql_params)
 
   print(glue("\n🔍 Final SQL Query:\n{sql_query}\n"))

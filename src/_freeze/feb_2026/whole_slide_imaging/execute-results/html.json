@@ -1,0 +1,17 @@
+{
+  "hash": "b8f2186f6f703abb911c0613b4a62022",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"OMOP Whole Slide Imaging\"\nexecute:\n  echo: false\n---\n\n\n\n\n\n\n### Summary:\n\nThe OMOP **`_whole_slide_imaging`** table contains records of digitized pathology slides, including structured metadata, access paths to whole slide image files, **and links to structured EHR data. This table serves as a proof of concept demonstrating how whole slide imaging files can be integrated and analyzed within the OMOP framework alongside clinical data**.\n\nEach record represents a single whole slide image with associated metadata including:\n\n- Patient identifier (person_id)\n- Accession number linking to clinical specimens\n- URIs to both JSON metadata and TIFF image files\n- Specimen source and type classifications\n- Procedure timing information\n- Links to clinical notes\n\nCurrently, the table contains manually scanned slides that have been deidentified and converted into TIFF and JSON file formats. Only slides with order_proc_ids that can be linked to Epic Clarity are included to ensure data quality and patient eligibility. The February 2026 release includes approximately 50 whole slide images in the OMOP table, with an additional 35,000 images available in a standalone ad-hoc table that are not yet integrated into OMOP. Future releases are expected to include images from additional sources and further integration of the ad-hoc dataset.\n\nPlease note that the whole slide imaging dataset is in an early stage of development, and will continue to evolve as we work towards integrating more comprehensive imaging datasets in the future releases.\n\n\n\n\n::: {.cell}\n\n:::\n\n\n\n\n::: {.columns}\n\n::: {.column width=\"50%\"}\n### 📊 Dataset Overview\n- **Total Images:** 50\n- **Unique Patients:** 5\n- **Unique Accessions:** 5\n:::\n\n::: {.column width=\"50%\"}\n### 📁 File Availability\n- **Metadata of the WSI Files in JSON Format:** 50 (100%)\n- **Metadata of the WSI Files in TIFF Format:** 50 (100%)\n:::\n\n:::\n\n\n\n\n\n::: {.cell}\n\n:::\n\n\n\n\n\n\n\n::: {.cell}\n\n:::\n\n\n\n\n\n\n",
+    "supporting": [
+      "whole_slide_imaging_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

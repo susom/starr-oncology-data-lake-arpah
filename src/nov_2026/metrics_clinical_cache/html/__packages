@@ -1,0 +1,12 @@
+DBI
+bigrquery
+readr
+stringr
+gt
+dplyr
+purrr
+glue
+yaml
+tidyr
+ComplexUpset
+ggplot2

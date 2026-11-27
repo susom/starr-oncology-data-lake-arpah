@@ -59,6 +59,13 @@ You can find detailed information about this release by following the link below
 
 - [August 2026 Metrics](aug_2026/metrics_clinical.qmd)
 
+### November 2026
+
+The November 2026 release updates the VISTA oncology data lake and introduces a Pediatric Brain Tumor Cohort page summarizing demographics and data availability (genomic, imaging, and clinical notes) for patients diagnosed with a brain tumor between birth and 18 years of age.
+
+- [November 2026 Metrics](nov_2026/metrics_clinical.qmd)
+- [November 2026 Pediatric Brain Tumor Cohort](nov_2026/brain_tumor_cohort.qmd)
+
 ## Future Releases
 
 Future releases will include additional metrics and updates to the existing ones.
